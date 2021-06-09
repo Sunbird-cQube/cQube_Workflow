@@ -28,6 +28,6 @@ if [ -e /etc/ansible/ansible.cfg ]; then
 fi
 ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml"
 if [ $? = 0 ]; then
-echo "cQube upgraded successfully!!"
+echo "cQube Workflow upgraded successfully!!"
 fi
 

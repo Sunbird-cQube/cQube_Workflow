@@ -50,5 +50,5 @@ base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 #ansible-playbook create_base.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml"
 ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml"
 if [ $? = 0 ]; then
-echo "cQube installed successfully!!"
+echo "cQube Workflow installed successfully!!"
 fi
