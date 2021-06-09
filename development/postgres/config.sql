@@ -7238,10 +7238,10 @@ left join
  (select a.school_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by a.school_id )as b
  on d.school_id=b.school_id;
@@ -7357,10 +7357,10 @@ left join
  (select c.cluster_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.cluster_id )as b
  on  d.cluster_id=b.cluster_id;
@@ -7476,10 +7476,10 @@ left join
  (select c.block_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.block_id )as b
  on  d.block_id=b.block_id;
@@ -7533,13 +7533,13 @@ left join
  (select c.district_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.district_id )as b
- on d.district_id=b.district_id;
+ on d.district_id=b.district_id; 
 
 /* periodic exam district last 30 days*/
 
@@ -9070,10 +9070,10 @@ left join
  (select a.school_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
-from semester_exam_result_trans where school_id in (select school_id from semester_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from semester_exam_stud_grade_count where school_id in (select school_id from semester_exam_school_result)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by a.school_id )as b
  on d.school_id=b.school_id;
@@ -9189,10 +9189,10 @@ left join
  (select c.cluster_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
+(select exam_code,school_id,student_uid
 from semester_exam_result_trans where school_id in (select school_id from semester_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_id=b.exam_id
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.cluster_id )as b
  on  d.cluster_id=b.cluster_id;
@@ -9308,10 +9308,10 @@ left join
  (select c.block_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
-from semester_exam_result_trans where school_id in (select school_id from semester_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from semester_exam_stud_grade_count where school_id in (select school_id from semester_exam_school_result)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.block_id )as b
  on  d.block_id=b.block_id;
@@ -9365,10 +9365,10 @@ left join
  (select c.district_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
 from
-(select exam_id,school_id,student_uid
-from semester_exam_result_trans where school_id in (select school_id from semester_exam_school_result)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from semester_exam_stud_grade_count where school_id in (select school_id from semester_exam_school_result)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.district_id )as b
  on d.district_id=b.district_id;
@@ -11324,16 +11324,16 @@ $$  LANGUAGE plpgsql;
 /* Pat year and month */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS stud_count_school_mgmt_year_month as
-	(select a.school_id,c.cluster_id,c.block_id,c.district_id,b.assessment_year as academic_year,b.month,school_management_type,
-		count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
-	from
-	(select exam_id,school_id,student_uid
-	from periodic_exam_result_trans where exam_code in (select exam_code from latest_data_to_be_processed_pat) or 
-								   substring(exam_code,10,6) in (select substring(exam_code,10,6) from latest_data_to_be_processed_pat)
-	group by exam_id,school_id,student_uid) as a
-	left join (select exam_id,assessment_year, trim(TO_CHAR(TO_DATE(date_part('month',exam_date)::text, 'MM'), 'Month')) AS month from periodic_exam_mst) as b on a.exam_id=b.exam_id
-	left join school_hierarchy_details as c on a.school_id=c.school_id
-	group by a.school_id,b.assessment_year,month ,school_management_type,cluster_id,block_id,district_id) WITH NO DATA ;
+(select a.school_id,c.cluster_id,c.block_id,c.district_id,b.assessment_year as academic_year,b.month,school_management_type,
+    count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools
+from
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where exam_code in (select exam_code from latest_data_to_be_processed_pat) or 
+                                substring(exam_code,10,6) in (select substring(exam_code,10,6) from latest_data_to_be_processed_pat)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,assessment_year, trim(TO_CHAR(TO_DATE(date_part('month',exam_date)::text, 'MM'), 'Month')) AS month from periodic_exam_mst) as b on a.exam_code=b.exam_code
+left join school_hierarchy_details as c on a.school_id=c.school_id
+group by a.school_id,b.assessment_year,month ,school_management_type,cluster_id,block_id,district_id) WITH NO DATA ;
 
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS stud_count_school_grade_mgmt_year_month as
@@ -11342,11 +11342,10 @@ case when month in (6,7,8,9,10,11,12) then
  (year ||'-'|| substring(cast((year+1) as text),3,2)) else ((year-1) || '-' || substring(cast(year as text),3,2)) end as academic_year,count(distinct school_id) as total_schools from (
 select concat('Grade ',studying_class) as grade,cast (substring (exam_code,10,2) as integer) as month ,  
 cast (right(exam_code,4)as integer) as year,pert.school_id,cluster_id,block_id,district_id,
-school_management_type,student_uid from periodic_exam_result_trans pert  join school_hierarchy_details shd on pert.school_id=shd.school_id 
+school_management_type,student_uid from periodic_exam_stud_grade_count pert  join school_hierarchy_details shd on pert.school_id=shd.school_id 
 where exam_code in (select exam_code from latest_data_to_be_processed_pat) or 
 								   substring(exam_code,10,6) in (select substring(exam_code,10,6) from latest_data_to_be_processed_pat)) as a
 group by school_id,grade,month,academic_year,school_management_type,cluster_id,block_id,district_id) WITH NO DATA;
-
 
 /* District */
 
@@ -17510,14 +17509,14 @@ left join
  (select a.school_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools,school_management_type
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result where  school_management_type is not null)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result where  school_management_type is not null)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by a.school_id ,school_management_type)as b
  on d.school_id=b.school_id and d.school_management_type=b.school_management_type;
-
+ 
 /* hc periodic cluster last 30 days */
 
 create or replace view hc_periodic_exam_cluster_mgmt_last30 as
@@ -17629,10 +17628,10 @@ left join
  (select c.cluster_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools,school_management_type
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result where school_management_type is not null)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result where school_management_type is not null)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.cluster_id ,school_management_type)as b
  on  d.cluster_id=b.cluster_id and d.school_management_type=b.school_management_type;
@@ -17746,10 +17745,10 @@ left join
  (select c.block_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools,school_management_type
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result where school_management_type is not null)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result where school_management_type is not null)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.block_id ,school_management_type)as b
  on  d.block_id=b.block_id and d.school_management_type=b.school_management_type;
@@ -17802,10 +17801,10 @@ left join
  (select c.district_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools,school_management_type
 from
-(select exam_id,school_id,student_uid
-from periodic_exam_result_trans where school_id in (select school_id from periodic_exam_school_result where school_management_type is not null)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from periodic_exam_stud_grade_count where school_id in (select school_id from periodic_exam_school_result where school_management_type is not null)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from periodic_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.district_id,school_management_type )as b
  on d.district_id=b.district_id and d.school_management_type=b.school_management_type;
@@ -20628,10 +20627,10 @@ left join
  (select a.school_id,
 	count(distinct(student_uid)) as students_count,count(distinct(a.school_id)) as total_schools,school_management_type
 from
-(select exam_id,school_id,student_uid
-from semester_exam_result_trans where school_id in (select school_id from semester_exam_school_result where  school_management_type is not null)
-group by exam_id,school_id,student_uid) as a
-left join (select exam_id,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_id=b.exam_id
+(select exam_code,school_id,student_uid
+from semester_exam_stud_grade_count where school_id in (select school_id from semester_exam_school_result where  school_management_type is not null)
+group by exam_code,school_id,student_uid) as a
+left join (select exam_code,date_part('year',exam_date)::text as assessment_year from semester_exam_mst) as b on a.exam_code=b.exam_code
 left join school_hierarchy_details as c on a.school_id=c.school_id
 group by a.school_id ,school_management_type)as b
  on d.school_id=b.school_id and d.school_management_type=b.school_management_type;
@@ -21805,3 +21804,113 @@ END IF;
 end;
 $body$
 language plpgsql;
+
+/* Data Retention */
+CREATE OR REPLACE FUNCTION pat_del_data_ret(p_data_source text)
+RETURNS text AS
+$$
+DECLARE
+error_msg text;
+v_exam_code text;
+BEGIN
+IF p_data_source='periodic_assessment_test' THEN
+FOR v_exam_code in select exam_code from periodic_exam_mst where 
+to_date(substr(exam_code,8,14),'ddmmyyyy')<(now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval)::date
+except
+select exam_code from periodic_exam_mst 
+where exam_code in 
+(select unnest(string_to_array(regexp_replace(exam_code,'[^a-zA-Z0-9,]','','g'),',')) as exam_code 
+from data_replay_meta where created_on>now()-'5days'::interval 
+and cqube_process_status='SUCCESS' and data_source='periodic_assessment_test') 
+LOOP
+    execute 'delete from periodic_exam_result_trans where exam_code = '''||v_exam_code||'''';
+END LOOP;
+END IF;
+return 0;
+END;
+$$  LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION semester_del_data_ret(p_data_source text)
+RETURNS text AS
+$$
+DECLARE
+error_msg text;
+v_exam_code text;
+BEGIN
+IF p_data_source='semester_assessment_test' THEN
+FOR v_exam_code in select exam_code from semester_exam_mst sem where 
+to_date(substr(sem.exam_code,8,14),'ddmmyyyy')<(now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval)::date
+except
+select distinct exam_code from semester_exam_mst sem 
+join (select distinct unnest(string_to_array(regexp_replace(semesters,'[^0-9,]','','g'),',')) as semesters,
+academic_year from data_replay_meta where created_on>now()-'5days'::interval 
+and cqube_process_status='SUCCESS' and data_source=p_data_source) dsem 
+on sem.semester=dsem.semesters::int and sem.assessment_year=dsem.academic_year
+LOOP
+    execute 'delete from semester_exam_result_trans where exam_code = '''||v_exam_code||'''';
+END LOOP;
+END IF;
+return 0;
+END;
+$$  LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION diksha_summary_rollup_del_data_ret(p_data_source text)
+RETURNS text AS
+$$
+DECLARE
+error_msg text;
+v_date date;
+BEGIN
+IF p_data_source='diksha_summary_rollup' THEN
+FOR v_date in select distinct content_view_date from diksha_content_trans 
+    where content_view_date < (now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') 
+    from data_replay_meta)::interval)::date and content_view_date not between 
+(select min(from_date) from data_replay_meta where created_on>now()-'5days'::interval and data_source='diksha_summary_rollup' )
+and (select max(to_date) from data_replay_meta where created_on>now()-'5days'::interval and data_source='diksha_summary_rollup')
+LOOP
+raise notice '%',v_date;
+execute 'delete from diksha_content_trans where content_view_date ='''||v_date||'''::date';
+END LOOP;
+END IF;
+return 0;
+END;
+$$  LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION del_data_ret(p_data_source text,p_year int default null,VARIADIC p_month int[] default null)
+RETURNS text AS
+$$
+DECLARE
+error_msg text;
+v_month int;
+t_name text;
+v_my record;
+BEGIN
+
+IF p_data_source='student_attendance' THEN
+FOR v_my in (select distinct month,year from student_attendance_trans where to_date(year||'-'||month||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='student_attendance' and created_on >now()-'5days'::interval)
+LOOP
+     execute 'delete from student_attendance_trans where year='||v_my.year||' and  month='||v_my.month;
+END LOOP;
+END IF;
+
+IF p_data_source='teacher_attendance' THEN
+FOR v_my in (select distinct month,year from teacher_attendance_trans where to_date(year||'-'||month||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='teacher_attendance' and created_on >now()-'5days'::interval)
+LOOP
+     execute 'delete from teacher_attendance_trans where year='||v_my.year||' and  month='||v_my.month;
+END LOOP;
+END IF;
+
+IF p_data_source='crc' THEN
+FOR v_my in (select distinct month,year from crc_location_trans where to_date(year||'-'||month||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='crc' and created_on >now()-'5days'::interval)
+LOOP
+    execute 'delete from crc_location_trans where month='||v_my.month||' and year='||v_my.year;
+END LOOP;
+FOR v_my in (select distinct extract(month from visit_date) as month,extract(year from visit_date) as year from crc_inspection_trans where visit_date is not null and to_date(extract(year from visit_date)||'-'||extract(month from visit_date)||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='crc' and created_on >now()-'5days'::interval)
+LOOP
+    execute 'delete from crc_inspection_trans where extract(month from visit_date)='||v_my.month||' and extract(year from visit_date)='||v_my.year;
+END LOOP;
+END IF;
+
+return 0;
+END;
+$$  LANGUAGE plpgsql;
