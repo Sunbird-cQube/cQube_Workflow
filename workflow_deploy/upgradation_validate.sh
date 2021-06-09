@@ -317,7 +317,7 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("diksha_columns" "state_code" "static_datasource" "management"  "base_dir" "session_timeout")
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management"  "session_timeout")
 
 # Create and empty array which will store the key and value pair from config file
 declare -A vals

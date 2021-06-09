@@ -13,6 +13,35 @@ if [[ $state_found == 0 ]] ; then
 fi
 }
 
+check_timeout()
+{
+  if [[ $2 =~ ^[0-9]+[M|D]$  ]] ; then
+        raw_value="$( echo "$2" | sed -e 's/[M|D]$//' )"
+        if [[ ! $raw_value == 0 ]]; then
+		    if [[ $2 =~ M$ ]] ; then
+		    	if [[ $raw_value -ge 30 && $raw_value -le 5256000 ]]; then 
+		    		timeout_value=$(($raw_value*60))
+		    	else
+		    		echo "Error - Minutes should be between 30 and 5256000"; fail=1
+		    	fi
+		    fi
+		    if [[ $2 =~ D$ ]] ; then
+		    	if [[ $raw_value -ge 1 && $raw_value -le 3650 ]]; then 
+		    		timeout_value=$(($raw_value*24*60*60))
+		    	else
+		    		echo "Error - Days should be between 1 and 3650"; fail=1
+		    	fi
+		    fi
+		else
+			echo "Error - Timeout should not be 0"; fail=1
+	    fi
+    else
+        echo "Error - please enter proper value as mentioned in comments"; fail=1
+    fi
+sed -i '/session_timeout_in_seconds:/d' ansible/roles/keycloak/vars/main.yml
+echo "session_timeout_in_seconds: $timeout_value" >> ansible/roles/keycloak/vars/main.yml
+}
+
 check_static_datasource(){
 if ! [[ $2 == "udise" || $2 == "state" ]]; then
     echo "Error - Please enter either udise or state for $1"; fail=1
@@ -113,7 +142,7 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("diksha_columns" "state_code" "static_datasource" "management" "base_dir") 
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout") 
 
 # Create and empty array which will store the key and value pair from config file
 declare -A vals
@@ -166,6 +195,13 @@ case $key in
           echo "Error - in $key. Unable to get the value. Please check."; fail=1
        else
           check_base_dir $key $value
+       fi
+       ;;
+   session_timeout)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_timeout $key $value
        fi
        ;;
    *)
