@@ -1,0 +1,2 @@
+- include_tasks: nifi_infra.yml
+  tags: [ install, update ]

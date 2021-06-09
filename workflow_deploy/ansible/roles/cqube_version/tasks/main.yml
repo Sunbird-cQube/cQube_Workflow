@@ -1,0 +1,38 @@
+---
+- name: Creating config file
+  file:
+    path: "{{ base_dir }}/cqube/.cqube_config"
+    state: touch
+    mode: u+rw,g+rw,o+rw
+  tags: install
+
+- name: Removing the CQUBE_STATE_CODE
+  lineinfile:
+    regex: '^CQUBE_STATE_CODE='
+    path: "{{ base_dir }}/cqube/.cqube_config"
+    state: absent
+  tags: update
+
+- name: Removing the CQUBE_STATIC_DATASOURCE
+  lineinfile:
+    regex: '^CQUBE_STATIC_DATASOURCE='
+    path: "{{ base_dir }}/cqube/.cqube_config"
+    state: absent
+  tags: update
+     
+- name: Loading required data inside config file
+  blockinfile:
+        path: "{{ base_dir }}/cqube/.cqube_config"
+        marker: "# workflow MARKER"
+        block: |
+               CQUBE_WORKFLOW_VERSION={{ cqube_workflow_version }}
+               CQUBE_STATE_CODE={{ state_code }}
+               CQUBE_STATIC_DATASOURCE={{ static_datasource }}
+  tags: [install, update]
+
+- name: Updating the CQUBE_VERSION
+  lineinfile: 
+    regex: '^CQUBE_WORKFLOW_VERSION='
+    line: CQUBE_WORKFLOW_VERSION={{ cqube_workflow_version }}
+    path: "{{ base_dir }}/cqube/.cqube_config"
+  tags: update

@@ -1,0 +1,19 @@
+---
+
+- name: Copying python files
+  shell: cp -R ../../development/python {{ base_dir }}/cqube/emission_app/
+  tags: [ install, update ]
+
+- name: Delete env.py
+  file:
+    path: "{{ base_dir }}/cqube/emission_app/python/env.py"
+    state: absent
+  tags: update
+
+- name: Updating env.py
+  template:
+    src: env.py.j2
+    dest: "{{ base_dir }}/cqube/emission_app/python/env.py"
+    mode: "0644"
+  tags: [ install, update ]
+

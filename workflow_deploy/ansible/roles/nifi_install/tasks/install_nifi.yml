@@ -1,0 +1,53 @@
+---
+- name: Creates a directory
+  file:
+    path: nifi_json_files
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+    mode: '1755'
+    state: directory
+  tags: [ install , update ]
+
+- name: Creating nifi_queries directory
+  file:
+    path: "{{ base_dir }}/cqube/nifi/nifi_queries"
+    state: directory
+  tags: install
+    
+- name: Copying the query files to nifi directory
+  copy: 
+    src: ../../development/nifi/reports_queries/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
+    - crc_queries.json
+    - student_attendance_queries.json
+    - student_assessment_queries.json
+    - diksha_summary_rollup_queries_all.json
+    - diksha_summary_rollup_queries_less.json
+    - diksha_tpd_queries.json
+    - composite_queries.json
+    - pat_queries.json
+    - udise_queries.json
+    - health_card_queries.json
+    - teacher_attendance_queries.json
+    - data_replay_queries.json
+    - sat_queries.json
+  tags: [ install, update ]
+
+- name: Touch a file
+  file:
+    path: "{{ base_dir }}/cqube/emission_app/python/nifi_env_db.py"
+    state: touch
+    mode: u+rw,g+rw,o+rw
+  tags: install
+
+- name: Loading required data inside nifi_env_db.py file
+  blockinfile:
+        path: "{{ base_dir }}/cqube/emission_app/python/nifi_env_db.py"
+        block: |
+               db_name= "{{ db_name }}"
+               db_user= "{{ db_user }}"
+               db_pwd= "{{ db_password }}"
+               nifi_port= "{{ nifi_port }}" 
+  tags: install
