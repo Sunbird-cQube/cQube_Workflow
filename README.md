@@ -144,8 +144,9 @@ Open https://<domain_name> from the browser and login with admin credentials
 
 ## Uploading data to S3 Emission bucket:
 - Create cqube_emission directory and place the data files as shown in file structure below inside the cqube_emission folder.
-Master Files:
 
+Master Files:
+```
 cqube_emission
 |
 ├── block_master
@@ -199,8 +200,10 @@ cqube_emission
 ├── pat
 │   └── periodic_exam_grade_details.zip
 │       └── periodic_exam_grade_details.csv
-Transactional Files:
+```
 
+Transactional Files:
+```
 cqube_emission
 |
 ├── student_attendance
@@ -227,6 +230,7 @@ cqube_emission
 ├── sat
 │   └── semester_exam_result_trans.zip
 │       └── semester_exam_result_trans.csv
+```
 - For udise data file structure, please refer the operational document.
 
 - After creating the emission user, Update the emission user details mentioned below in cQube/development/python/client/config.py.
