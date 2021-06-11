@@ -23,7 +23,7 @@
 - name: Loading required data inside config file
   blockinfile:
         path: "{{ base_dir }}/cqube/.cqube_config"
-        marker: "# workflow MARKER"
+        marker: "# {mark} workflow MARKER"
         block: |
                CQUBE_WORKFLOW_VERSION={{ cqube_workflow_version }}
                CQUBE_STATE_CODE={{ state_code }}

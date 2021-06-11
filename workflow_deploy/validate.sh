@@ -100,6 +100,35 @@ if ! [[ $2 == "true" || $2 == "false" ]]; then
 fi
 }
 
+check_mem(){
+mem_total_kb=`grep MemTotal /proc/meminfo | awk '{print $2}'`
+mem_total=$(($mem_total_kb/1024))
+if [ $(( $mem_total / 1024 )) -ge 30 ] && [ $(($mem_total / 1024)) -le 60 ] ; then
+  min_shared_mem=$(echo $mem_total*13/100 | bc)
+  min_work_mem=$(echo $mem_total*2/100 | bc)
+  min_java_arg_2=$(echo $mem_total*13/100 | bc)
+  min_java_arg_3=$(echo $mem_total*65/100 | bc)
+  echo """---
+shared_buffers: ${min_shared_mem}MB
+work_mem: ${min_work_mem}MB
+java_arg_2: -Xms${min_java_arg_2}m
+java_arg_3: -Xmx${min_java_arg_3}m""" > memory_config.yml
+
+elif [ $(( $mem_total / 1024 )) -gt 60 ]; then
+  max_shared_mem=$(echo $mem_total*13/100 | bc)
+  max_work_mem=$(echo $mem_total*2/100 | bc)
+  max_java_arg_2=$(echo $mem_total*7/100 | bc)
+  max_java_arg_3=$(echo $mem_total*65/100 | bc)
+  echo """---
+shared_buffers: ${max_shared_mem}MB
+work_mem: ${max_work_mem}MB
+java_arg_2: -Xms${max_java_arg_2}m
+java_arg_3: -Xmx${max_java_arg_3}m""" > memory_config.yml
+else
+  echo "Error - Minimum Memory requirement to install cQube is 32GB. Please increase the RAM size."; 
+  exit 1
+fi
+}
 
 check_postgres(){
 echo "Checking for Postgres ..."
@@ -150,7 +179,8 @@ declare -A vals
 
 # Getting base_dir
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
-
+check_mem
+check_version 
 
 # Iterate the array and retrieve values for mandatory fields from config file
 for i in ${arr[@]}
