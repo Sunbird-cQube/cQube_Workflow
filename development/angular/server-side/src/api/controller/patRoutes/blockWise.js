@@ -85,20 +85,41 @@ router.post('/allBlockWise', auth.authController, async (req, res) => {
         }
         blockData = await s3File.readS3File(fileName);
         var footer;
+        var allSubjects = [];
         if (period != 'all') {
-            if (subject)
+            if (subject){
                 footerData = await s3File.readS3File(footerFile);
+                subjects();
+            }
             if (grade && !subject || !grade && !subject) {
                 footer = blockData['AllBlocksFooter'];
+                if (grade) {
+                    subjects();
+                }
             } else {
                 footerData.map(foot => {
                     footer = foot.subjects[`${subject}`]
                 })
             }
+        } else {
+            if (grade) {
+                subjects();
+            }
+        }
+        function subjects(){
+            blockData.data.forEach(item => {
+                var sub = Object.keys(item.Subjects);
+                var index = sub.indexOf('Grade Performance');
+                sub.splice(index, 1);
+                sub.forEach(a => {
+                    allSubjects.push(a)
+                })
+            });
+            allSubjects = [...new Set(allSubjects)];
         }
         var mydata = blockData.data;
         logger.info('--- blocks PAT api response sent---');
-        res.status(200).send({ data: mydata, footer: footer });
+        res.status(200).send({ data: mydata, subjects: allSubjects, footer: footer });
 
     } catch (e) {
         logger.error(`Error :: ${e}`);

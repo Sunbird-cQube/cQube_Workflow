@@ -1,0 +1,5 @@
+*/nifi_json_files
+*/datasource.csv
+*/*.tar
+config.yml
+upgradation_config.yml

@@ -1,0 +1,2 @@
+- include_tasks: nifi_crc.yml
+  tags: [ install, update ]
