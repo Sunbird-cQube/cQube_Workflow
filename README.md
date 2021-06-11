@@ -227,6 +227,6 @@ cd cQube_Workflow/work_deploy
 Start the upgradation by running upgrade.sh shell script file as mentioned below:
   sudo ./upgrade.sh
 
-Configuration filled in upgradation_config.yml will be validated first. If there is any error during validation, you will be prompted with the appropriate error message and the upgradation will be aborted. Refer the error message and solve the errors appropriately. Restart the upgradation processsudo ./upgrade.sh
+Configuration filled in upgradation_config.yml will be validated first. If there is any error during validation, you will be prompted with the appropriate error message and the upgradation will be aborted. Refer the error message and solve the errors appropriately. Restart the upgradation process `sudo ./upgrade.sh`
 
 Once upgradation is completed without any errors, you will be prompted the following message. CQube upgraded successfully!!
