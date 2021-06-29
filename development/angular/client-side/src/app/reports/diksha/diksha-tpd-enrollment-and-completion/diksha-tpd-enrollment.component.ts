@@ -123,7 +123,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.collectionNames = [];
     this.commonService.errMsg();
     this.level = "district"
-    this.collectionName = '';
+    //this.collectionName = '';
     this.footer = '';
     this.fileName = `${this.reportName}_${this.type}_all_district_${this.timePeriod}_${this.commonService.dateAndTime}`;
     this.result = [];
@@ -150,7 +150,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   listCollectionNames() {
     this.commonService.errMsg();
-    this.collectionName = '';
+    //this.collectionName = '';
     this.service.tpdgetCollection({ timePeriod: this.timePeriod, level: this.level, id: this.globalId }).subscribe(async (res) => {
       this.collectionNames = [];
       this.collectionNames = res['allCollections'];

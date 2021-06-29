@@ -54,6 +54,7 @@ export class DataReplayComponent implements OnInit {
   @ViewChild('multiSelect1') multiSelect1: MultiSelectComponent;
   @ViewChild('multiSelect2') multiSelect2: MultiSelectComponent;
   @ViewChild('multiSelect3') multiSelect3: MultiSelectComponent;
+  err: string;
 
   constructor(private service: DataReplayService, public router: Router) { }
   getMonthYears1: any;
@@ -77,6 +78,9 @@ export class DataReplayComponent implements OnInit {
       years.forEach(year => {
         this.years1.push({ value: year, selected: year == "Select Year" ? true : false })
       })
+      this.err = undefined;
+    }, err=>{
+      this.err = "No data found"
     })
     this.service.getMonthYear({ report: 'tar' }).subscribe(res => {
       this.getMonthYears2 = res;
@@ -85,6 +89,9 @@ export class DataReplayComponent implements OnInit {
       years.forEach(year => {
         this.years2.push({ value: year, selected: year == "Select Year" ? true : false })
       })
+      this.err = undefined;
+    }, err=>{
+      this.err = "No data found"
     })
     this.service.getMonthYear({ report: 'crc' }).subscribe(res => {
       this.getMonthYears3 = res;
@@ -93,7 +100,10 @@ export class DataReplayComponent implements OnInit {
       years.forEach(year => {
         this.years3.push({ value: year, selected: year == "Select Year" ? true : false })
       })
+      this.err = undefined;
       document.getElementById('spinner').style.display = 'none';
+    }, err=>{
+      this.err = "No data found"
     })
 
     this.service.getBatchIds().subscribe((res: any) => {
@@ -102,6 +112,9 @@ export class DataReplayComponent implements OnInit {
         this.batchIds.push({ id: element.batch_id, name: element.batch_id });
         i++;
       });
+      this.err = undefined;
+    }, err=>{
+      this.err = "No data found"
     });
 
     this.service.getExamCode().subscribe((res: any) => {
@@ -110,6 +123,9 @@ export class DataReplayComponent implements OnInit {
         this.examCodes.push({ id: element.exam_code, name: element.exam_code });
         i++;
       });
+      this.err = undefined;
+    }, err=>{
+      this.err = "No data found"
     })
 
     this.service.getSemesters().subscribe((res: any) => {
@@ -118,6 +134,9 @@ export class DataReplayComponent implements OnInit {
         this.academic_years.push(element.academic_year);
       });
       this.academic_years.unshift('Select Academic Year');
+      this.err = undefined;
+    }, err=>{
+      this.err = "No data found"
     })
     // this.service.getDataSources().subscribe(res => {
     data.map(item => {

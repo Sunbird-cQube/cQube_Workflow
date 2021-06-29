@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../src/environments/environment';
 import { KeycloakSecurityService } from './keycloak-security.service';
-import * as data from '../assets/states_for_cQube.json';
 import * as config from '../assets/config.json';
 import * as L from 'leaflet';
 import { ExportToCsv } from 'export-to-csv';
@@ -101,32 +100,34 @@ export class AppServiceComponent {
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        applyCountryBorder(globalMap);
-        function applyCountryBorder(map) {
-            L.geoJSON(data.default[`${environment.stateName}`]['features'], {
-                color: "#6e6d6d",
-                weight: 2,
-                fillOpacity: 0,
-                fontWeight: "bold"
-            }).addTo(map);
-        }
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-            {
-                // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-                // id: 'mapbox.streets',
-                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                // minZoom: this.mapCenterLatlng.zoomLevel,
-                maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+        return this.http.post(`${this.baseUrl}/maps`, { stateName: environment.stateName }).subscribe(res => {
+            applyCountryBorder(globalMap);
+            function applyCountryBorder(map) {
+                L.geoJSON(res['features'], {
+                    color: "#6e6d6d",
+                    weight: 2,
+                    fillOpacity: 0,
+                    fontWeight: "bold"
+                }).addTo(map);
             }
-        ).addTo(globalMap);
-        // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
-        // {
-        //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-        //     id: 'mapbox.streets',
-        //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-        //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
-        // }
-        // ).addTo(globalMap);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+                {
+                    // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+                    // id: 'mapbox.streets',
+                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                    // minZoom: this.mapCenterLatlng.zoomLevel,
+                    maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+                }
+            ).addTo(globalMap);
+            // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
+            // {
+            //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+            //     id: 'mapbox.streets',
+            //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+            // }
+            // ).addTo(globalMap);
+        })
     }
     //https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png   //http://tile.stamen.com/toner/{z}/{x}/{y}.png
     restrictZoom(globalMap) {
@@ -501,6 +502,13 @@ export class AppServiceComponent {
             }
         });
         let uniqueItems = [...new Set(values)];
+        uniqueItems = uniqueItems.map(a => {
+            if (typeof (a) == 'object') {
+                return a['percentage']
+            } else {
+                return a;
+            }
+        })
         uniqueItems = uniqueItems.sort(function (a, b) { return filter.report != 'exception' ? parseFloat(a) - parseFloat(b) : parseFloat(b) - parseFloat(a) });
         var colorsArr = uniqueItems.length == 1 ? (filter.report != 'exception' ? ['#00FF00'] : ['red']) : this.exceptionColor().generateGradient('#FF0000', '#00FF00', uniqueItems.length, 'rgb');
         var colors = {};
@@ -551,10 +559,7 @@ export class AppServiceComponent {
 
         this.telemetryData.push(obj);
 
-        this.telemetry(dateObj).subscribe(res => {
-        }, err => {
-            console.log(err);
-        });
+        this.telemetry(dateObj).subscribe(res => { }, err => { console.log(err) });
     }
 
     public colors = {
