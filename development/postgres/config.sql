@@ -24,6 +24,7 @@ drop view if exists hc_crc_school cascade;
 drop view if exists hc_crc_cluster cascade;
 drop view if exists hc_crc_block cascade;
 drop view if exists hc_crc_district cascade;
+drop view if exists crc_school_mgmt_all cascade;
 
 drop view if exists hc_periodic_exam_school_last30 cascade;
 drop view if exists hc_periodic_exam_school_all cascade;
@@ -12197,8 +12198,8 @@ coalesce(round(spd.schools_3_5*100/spd.total_schools,1),0) as schools_3_5,
 coalesce(round(spd.schools_6_10*100/spd.total_schools,1),0) as schools_6_10,
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
 from (
 select s.district_id,s.district_name,s.block_id,s.block_name,s.cluster_id,s.cluster_name,s.school_id,s.school_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10 from
@@ -12239,8 +12240,8 @@ coalesce(round(spd.schools_1_2*100/spd.total_schools,1),0) as schools_1_2,coales
 coalesce(round(spd.schools_6_10*100/spd.total_schools,1),0) as schools_6_10,
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
 from (select s.district_id,s.district_name,s.block_id,s.block_name,s.cluster_id,s.cluster_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10,t.schools_0 from
 (select district_id,district_name,block_id,block_name,cluster_id,cluster_name,count(distinct school_id) as total_schools,
@@ -12275,8 +12276,8 @@ coalesce(round(spd.schools_1_2*100/spd.total_schools,1),0) as schools_1_2,coales
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,
 COALESCE(1-round(spd.schools_0 ::numeric / spd.total_schools::numeric, 1), 0::numeric) AS state_level_score,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
 from (select s.district_id,s.district_name,s.block_id,s.block_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10,t.schools_0 from
 (select district_id,district_name,block_id,block_name,count(distinct school_id) as total_schools,
@@ -12311,8 +12312,8 @@ coalesce(round(spd.schools_1_2*100/spd.total_schools,1),0) as schools_1_2,coales
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,
 COALESCE(1-round(spd.schools_0 ::numeric / spd.total_schools::numeric, 1), 0::numeric) AS state_level_score,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
  from 
 (select s.district_id,s.district_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10,t.schools_0 from
