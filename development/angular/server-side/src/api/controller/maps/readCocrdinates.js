@@ -1,10 +1,9 @@
 const router = require('express').Router();
 const { logger } = require('../../lib/logger');
-const auth = require('../../middleware/check-auth');
 const fs = require('fs')
 var baseDir = `${process.env.BASE_DIR}/cqube/dashboard/maps`;
 
-router.post('/', auth.authController, async function (req, res) {
+router.post('/', async function (req, res) {
     try {
         logger.info('--- map coordinates api ---');
         var stateName = req.body.stateName
