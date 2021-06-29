@@ -152,7 +152,6 @@ export class PATReportComponent implements OnInit {
     this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
     this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("patMap", [[this.lat, this.lng]]);
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
@@ -164,6 +163,8 @@ export class PATReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
+    this.commonService.initMap("patMap", [[this.lat, this.lng]]);
+    
     this.service.getMonthYear().subscribe((res) => {
       this.getMonthYear = res;
       this.getMonthYear.map((item) => {

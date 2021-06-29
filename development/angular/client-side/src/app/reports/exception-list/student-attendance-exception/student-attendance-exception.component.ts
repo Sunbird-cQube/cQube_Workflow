@@ -145,7 +145,6 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.lat = this.commonService.mapCenterLatlng.lat;
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("sarExpMap", [[this.lat, this.lng]]);
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -155,6 +154,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
+    this.commonService.initMap("sarExpMap", [[this.lat, this.lng]]);
+
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.skul = true;
