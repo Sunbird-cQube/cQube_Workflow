@@ -1254,7 +1254,8 @@ select b.district_id,b.district_latitude,b.district_longitude,Initcap(b.district
 	   a.collection_board,
 	   a.collection_type,a.collection_medium,a.collection_gradelevel,a.collection_subject,a.collection_created_for,a.total_count,a.total_time_spent,a.dimensions_mode,a.dimensions_type
         from (select derived_loc_district as district_name,
-content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,
+content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,
+case when content_medium like ''[%'' then ''Multi Medium'' else initcap(ltrim(rtrim(content_medium))) end as content_medium,
 case when content_gradelevel like ''[%'' then ''Multi Grade'' else initcap(ltrim(rtrim(content_gradelevel))) end as content_gradelevel,
 case when content_subject like ''[%'' then ''Multi Subject'' when initcap(ltrim(rtrim(content_subject)))=''Maths'' then ''Mathematics''
 else initcap(ltrim(rtrim(content_subject))) end as content_subject,
