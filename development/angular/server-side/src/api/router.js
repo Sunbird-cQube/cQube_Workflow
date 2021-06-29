@@ -278,4 +278,7 @@ router.use('/management-category-meta', management_category_meta);
 const getDefault = require('./lib/management_category_config');
 router.use('/getDefault', getDefault);
 
+const mapData = require('../../src/api/controller/maps/readCocrdinates');
+router.use('/maps', mapData);
+
 module.exports = router;

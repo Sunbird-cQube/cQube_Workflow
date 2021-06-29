@@ -151,6 +151,9 @@ export class DashboardComponent implements OnInit {
     } else {
       this.hiddenPass = true;
     }
+
+    //calling function to show telemetry views..................
+    
     this.callOnInterval();
     setInterval(() => {
       this.callOnInterval();
