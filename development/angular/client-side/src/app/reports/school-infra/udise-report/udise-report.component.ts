@@ -120,6 +120,7 @@ export class UdiseReportComponent implements OnInit {
     this.lat = this.commonService.mapCenterLatlng.lat;
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
+    this.commonService.initMap("udisemap", [[this.lat, this.lng]]);
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
@@ -129,8 +130,7 @@ export class UdiseReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.commonService.initMap("udisemap", [[this.lat, this.lng]]);
-    
+
     if (params && params.level) {
       let data = params.data;
       if (params.level === "district") {

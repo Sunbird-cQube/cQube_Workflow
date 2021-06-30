@@ -96,38 +96,37 @@ export class AppServiceComponent {
         document.getElementById('spinner').style.display = 'block';
         document.getElementById('spinner').style.marginTop = '3%';
     }
-
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        return this.http.post(`${this.baseUrl}/maps`, { stateName: environment.stateName }).subscribe(res => {
+        this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
             applyCountryBorder(globalMap);
             function applyCountryBorder(map) {
-                L.geoJSON(res['features'], {
+                L.geoJSON(res[`${environment.stateName}`]['features'], {
                     color: "#6e6d6d",
                     weight: 2,
                     fillOpacity: 0,
                     fontWeight: "bold"
                 }).addTo(map);
             }
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-                {
-                    // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-                    // id: 'mapbox.streets',
-                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                    // minZoom: this.mapCenterLatlng.zoomLevel,
-                    maxZoom: this.mapCenterLatlng.zoomLevel + 10,
-                }
-            ).addTo(globalMap);
-            // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
-            // {
-            //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-            //     id: 'mapbox.streets',
-            //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
-            // }
-            // ).addTo(globalMap);
-        })
+        });
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+            {
+                // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+                // id: 'mapbox.streets',
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                // minZoom: this.mapCenterLatlng.zoomLevel,
+                maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+            }
+        ).addTo(globalMap);
+        // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
+        // {
+        //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+        //     id: 'mapbox.streets',
+        //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+        // }
+        // ).addTo(globalMap);
     }
     //https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png   //http://tile.stamen.com/toner/{z}/{x}/{y}.png
     restrictZoom(globalMap) {
@@ -236,7 +235,6 @@ export class AppServiceComponent {
         var stringLine;
         var selected = '';
         for (var key in object) {
-            // console.log(object[key])
             if (object[key] && typeof object[key] != 'number' && typeof object[key] == 'string' && object[key].includes('%')) {
                 var split = object[key].split("% ");
                 object[`${key}`] = parseFloat(split[0].replace(` `, '')).toFixed(1) + ' % ' + split[1];

@@ -119,14 +119,13 @@ export class PATExceptionComponent implements OnInit {
     this.lat = this.commonService.mapCenterLatlng.lat;
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
+    this.commonService.initMap('patExceMap', [[this.lat, this.lng]]);
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
-    );   
-    this.commonService.initMap('patExceMap', [[this.lat, this.lng]]);
-
+    );
     document.getElementById('homeBtn').style.display = 'block';
     document.getElementById('backBtn').style.display = 'none';
     document.getElementById('spinner').style.display = 'none';
