@@ -13,7 +13,6 @@ declare const $;
     providedIn: 'root'
 })
 export class AppServiceComponent {
-    public latlngs:any;
     public map;
     public baseUrl = environment.apiEndpoint;
     public token;
@@ -30,7 +29,6 @@ export class AppServiceComponent {
     longitude;
 
     constructor(public http: HttpClient, public keyCloakService: KeycloakSecurityService) {
-        this.mapLatLngPreload();
         this.token = keyCloakService.kc.token;
         localStorage.setItem('token', this.token);
         this.dateAndTime = `${("0" + (this.date.getDate())).slice(-2)}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${this.date.getFullYear()}`;
@@ -98,24 +96,20 @@ export class AppServiceComponent {
         document.getElementById('spinner').style.display = 'block';
         document.getElementById('spinner').style.marginTop = '3%';
     }
-    mapLatLngPreload() {
-        return this.http.post(`${this.baseUrl}/maps`, { stateName: environment.stateName }).subscribe(res => {
-            this.latlngs = res;
-        });
-    }
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        console.log(this.latlngs)
-        applyCountryBorder(globalMap);
-        function applyCountryBorder(map) {
-            L.geoJSON(this.latlngs['features'], {
-                color: "#6e6d6d",
-                weight: 2,
-                fillOpacity: 0,
-                fontWeight: "bold"
-            }).addTo(map);
-        }
+        this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
+            applyCountryBorder(globalMap);
+            function applyCountryBorder(map) {
+                L.geoJSON(res[`${environment.stateName}`]['features'], {
+                    color: "#6e6d6d",
+                    weight: 2,
+                    fillOpacity: 0,
+                    fontWeight: "bold"
+                }).addTo(map);
+            }
+        });
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
             {
                 // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
@@ -241,7 +235,6 @@ export class AppServiceComponent {
         var stringLine;
         var selected = '';
         for (var key in object) {
-            // console.log(object[key])
             if (object[key] && typeof object[key] != 'number' && typeof object[key] == 'string' && object[key].includes('%')) {
                 var split = object[key].split("% ");
                 object[`${key}`] = parseFloat(split[0].replace(` `, '')).toFixed(1) + ' % ' + split[1];
