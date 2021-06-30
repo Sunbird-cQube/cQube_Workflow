@@ -101,6 +101,7 @@ export class AppServiceComponent {
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
         return this.http.post(`${this.baseUrl}/maps`, { stateName: environment.stateName }).subscribe(res => {
+            applyCountryBorder(globalMap);
             function applyCountryBorder(map) {
                 L.geoJSON(res['features'], {
                     color: "#6e6d6d",
@@ -126,7 +127,6 @@ export class AppServiceComponent {
             //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
             // }
             // ).addTo(globalMap);
-            applyCountryBorder(globalMap);
         })
     }
     //https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png   //http://tile.stamen.com/toner/{z}/{x}/{y}.png

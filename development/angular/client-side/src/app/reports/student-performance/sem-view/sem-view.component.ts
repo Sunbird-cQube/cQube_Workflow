@@ -127,7 +127,6 @@ export class SemViewComponent implements OnInit, OnDestroy {
     this.lat = this.commonService.mapCenterLatlng.lat;
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.commonService.zoomLevel = this.commonService.mapCenterLatlng.zoomLevel;
-    this.commonService.initMap("semMap", [[this.lat, this.lng]]);
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -200,6 +199,7 @@ export class SemViewComponent implements OnInit, OnDestroy {
         this.commonService.loaderAndErr(this.semesters);
       }
     );
+    this.commonService.initMap("semMap", [[this.lat, this.lng]]);
   }
 
   getDistricts(): void {

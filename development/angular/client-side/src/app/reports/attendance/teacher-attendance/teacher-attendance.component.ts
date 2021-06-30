@@ -126,7 +126,6 @@ export class TeacherAttendanceComponent implements OnInit {
     this.lat = this.commonService.mapCenterLatlng.lat;
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("mapContainer", [[this.lat, this.lng]]);
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.skul = true;
@@ -139,6 +138,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
+    this.commonService.initMap("mapContainer", [[this.lat, this.lng]]);
 
     this.service.getDateRange().subscribe(
       (res) => {
