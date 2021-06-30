@@ -119,6 +119,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
     this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
+    this.commonService.initMap("infraMap", [[this.lat, this.lng]]);
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -126,7 +127,6 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.commonService.initMap("infraMap", [[this.lat, this.lng]]);
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
     if (params && params.level) {
       let data = params.data;

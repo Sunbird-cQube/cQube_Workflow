@@ -143,6 +143,7 @@ export class SatReportComponent implements OnInit {
     this.lat = this.commonService.mapCenterLatlng.lat;
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
+    this.commonService.initMap("satMap", [[this.lat, this.lng]]);
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
@@ -152,8 +153,7 @@ export class SatReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.commonService.initMap("satMap", [[this.lat, this.lng]]);
-    
+
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
       }`;

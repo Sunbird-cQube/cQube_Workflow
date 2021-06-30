@@ -13,6 +13,7 @@ declare const $;
     providedIn: 'root'
 })
 export class AppServiceComponent {
+    public latlngs:any;
     public map;
     public baseUrl = environment.apiEndpoint;
     public token;
@@ -29,6 +30,7 @@ export class AppServiceComponent {
     longitude;
 
     constructor(public http: HttpClient, public keyCloakService: KeycloakSecurityService) {
+        this.mapLatLngPreload();
         this.token = keyCloakService.kc.token;
         localStorage.setItem('token', this.token);
         this.dateAndTime = `${("0" + (this.date.getDate())).slice(-2)}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${this.date.getFullYear()}`;
@@ -96,38 +98,41 @@ export class AppServiceComponent {
         document.getElementById('spinner').style.display = 'block';
         document.getElementById('spinner').style.marginTop = '3%';
     }
-
+    mapLatLngPreload() {
+        return this.http.post(`${this.baseUrl}/maps`, { stateName: environment.stateName }).subscribe(res => {
+            this.latlngs = res;
+        });
+    }
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        return this.http.post(`${this.baseUrl}/maps`, { stateName: environment.stateName }).subscribe(res => {
-            applyCountryBorder(globalMap);
-            function applyCountryBorder(map) {
-                L.geoJSON(res['features'], {
-                    color: "#6e6d6d",
-                    weight: 2,
-                    fillOpacity: 0,
-                    fontWeight: "bold"
-                }).addTo(map);
+        console.log(this.latlngs)
+        applyCountryBorder(globalMap);
+        function applyCountryBorder(map) {
+            L.geoJSON(this.latlngs['features'], {
+                color: "#6e6d6d",
+                weight: 2,
+                fillOpacity: 0,
+                fontWeight: "bold"
+            }).addTo(map);
+        }
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+            {
+                // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+                // id: 'mapbox.streets',
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                // minZoom: this.mapCenterLatlng.zoomLevel,
+                maxZoom: this.mapCenterLatlng.zoomLevel + 10,
             }
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-                {
-                    // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-                    // id: 'mapbox.streets',
-                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                    // minZoom: this.mapCenterLatlng.zoomLevel,
-                    maxZoom: this.mapCenterLatlng.zoomLevel + 10,
-                }
-            ).addTo(globalMap);
-            // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
-            // {
-            //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-            //     id: 'mapbox.streets',
-            //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
-            // }
-            // ).addTo(globalMap);
-        })
+        ).addTo(globalMap);
+        // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
+        // {
+        //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+        //     id: 'mapbox.streets',
+        //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+        // }
+        // ).addTo(globalMap);
     }
     //https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png   //http://tile.stamen.com/toner/{z}/{x}/{y}.png
     restrictZoom(globalMap) {
