@@ -130,6 +130,7 @@ export class PATExceptionComponent implements OnInit {
     document.getElementById('backBtn').style.display = 'none';
     document.getElementById('spinner').style.display = 'none';
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
+    this.changeDetection.detectChanges();
     this.onResize();
   }
 

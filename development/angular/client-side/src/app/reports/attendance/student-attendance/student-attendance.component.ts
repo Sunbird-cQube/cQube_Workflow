@@ -185,6 +185,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.myBlock = Number(data.blockId);
               this.myCluster = data.id;
             }
+            this.changeDetection.detectChanges();
             this.getDistricts();
           } else {
             this.levelWiseFilter();

@@ -159,6 +159,7 @@ export class SatReportComponent implements OnInit {
       }`;
 
     if (params) {
+      this.changeDetection.detectChanges();
       if (params.timePeriod == "overall") {
         params.timePeriod = "all";
       }
