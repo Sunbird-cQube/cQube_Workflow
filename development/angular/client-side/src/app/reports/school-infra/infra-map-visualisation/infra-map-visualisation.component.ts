@@ -176,6 +176,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.getClusters(data.districtId, data.blockId, data.id);
       }
     } else {
+      this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
   }

@@ -167,6 +167,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         this.getMonthYear = res;
         this.years = Object.keys(this.getMonthYear);
         if (this.years && this.years.length > 0) {
+          this.changeDetection.detectChanges();
           this.year = this.years[this.years.length - 1];
           var allMonths = [];
           allMonths = this.getMonthYear[`${this.year}`];
