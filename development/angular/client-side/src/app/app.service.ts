@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../src/environments/environment';
 import { KeycloakSecurityService } from './keycloak-security.service';
 import * as config from '../assets/config.json';
+import * as mapData from '../assets/map.json';
 import * as L from 'leaflet';
 import { ExportToCsv } from 'export-to-csv';
 
@@ -32,6 +33,9 @@ export class AppServiceComponent {
         this.token = keyCloakService.kc.token;
         localStorage.setItem('token', this.token);
         this.dateAndTime = `${("0" + (this.date.getDate())).slice(-2)}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${this.date.getFullYear()}`;
+        // this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
+        //     this.mapData = res;
+        // })
     }
 
     width = window.innerWidth;
@@ -99,17 +103,31 @@ export class AppServiceComponent {
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
-            function applyCountryBorder(map) {
-                L.geoJSON(res[`${environment.stateName}`]['features'], {
-                    color: "#6e6d6d",
-                    weight: 2,
-                    fillOpacity: 0,
-                    fontWeight: "bold"
-                }).addTo(map);
-            }
-            applyCountryBorder(globalMap);
-        })
+        //if (this.mapData) {
+        var data = mapData.default;
+        function applyCountryBorder(map) {
+            L.geoJSON(data[`${environment.stateName}`]['features'], {
+                color: "#6e6d6d",
+                weight: 2,
+                fillOpacity: 0,
+                fontWeight: "bold"
+            }).addTo(map);
+        }
+        applyCountryBorder(globalMap);
+        // } else {
+        //     this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
+        //         this.mapData = res;
+        //         function applyCountryBorder(map) {
+        //             L.geoJSON(res[`${environment.stateName}`]['features'], {
+        //                 color: "#6e6d6d",
+        //                 weight: 2,
+        //                 fillOpacity: 0,
+        //                 fontWeight: "bold"
+        //             }).addTo(map);
+        //         }
+        //         applyCountryBorder(globalMap);
+        //     })
+        // }
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
             {
                 subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
