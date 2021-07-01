@@ -13,7 +13,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
-// import { MatPaginatorModule, MatSortModule } from '@angular/material';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { KeycloakSecurityService } from './keycloak-security.service';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -31,7 +30,7 @@ import { DikshaTPDContentProgressComponent } from './reports/diksha/tpd/diksha-t
 import { DikshaTPDTeachersPercentageComponent } from './reports/diksha/tpd/diksha-tpd-teachers-percentage/diksha-tpd-teachers-percentage.component';
 import { StudentAttendanceChartComponent } from './reports/attendance/student-attendance-chart/student-attendance-chart.component';
 import { LineChartComponent } from './common/line-chart/line-chart.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -63,8 +62,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    // MatPaginatorModule,
-    // MatSortModule,
+    FontAwesomeModule,
     HttpClientModule,
     FormsModule,
     ChartsModule,

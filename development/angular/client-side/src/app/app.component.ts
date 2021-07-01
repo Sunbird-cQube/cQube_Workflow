@@ -1,21 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { KeycloakSecurityService } from './keycloak-security.service';
-import { Router } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  constructor(public keyclockService: KeycloakSecurityService, public router: Router) { }
-
-  ngOnInit() {
-
-  }
-
+export class AppComponent implements OnDestroy {
   ngOnDestroy() {
     sessionStorage.clear();
   }
-
 }

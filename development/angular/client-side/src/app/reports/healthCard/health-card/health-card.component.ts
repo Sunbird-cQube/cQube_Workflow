@@ -616,13 +616,19 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.tooltipSemKeys.push(myKey);
       });
       if (healthCardData['student_semester']['grade_wise_performance']) {
+        const ordered = Object.keys(healthCardData['student_semester']['grade_wise_performance']).sort().reduce(
+          (obj, key) => {
+            obj[key] = healthCardData['student_semester']['grade_wise_performance'][key];
+            return obj;
+          },
+          {}
+        );
+        healthCardData['student_semester']['grade_wise_performance'] = ordered;
         this.semPerformTooltip = Object.keys(healthCardData['student_semester']['grade_wise_performance']);
         this.semPerformTooltip.filter(key => {
           myKey = this.stringConverter(key);
           this.semPerformTooltipKeys.push(myKey);
         });
-        /* let i = this.tooltimSem.indexOf('grade_wise_performance');
-        this.tooltimSem.splice(i, 1); */
       }
       this.semColor = this.service.colorGredient(healthCardData['student_semester']['performance']);
       this.semRankMatrixValue = healthCardData['student_semester']['state_level_score'] * 10;

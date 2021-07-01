@@ -124,7 +124,6 @@ export class UdiseReportComponent implements OnInit {
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
-
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
@@ -132,6 +131,7 @@ export class UdiseReportComponent implements OnInit {
     );
 
     if (params && params.level) {
+      this.changeDetection.detectChanges();
       let data = params.data;
       if (params.level === "district") {
         this.districtHierarchy = {
@@ -179,6 +179,7 @@ export class UdiseReportComponent implements OnInit {
         this.getClusters(data.districtId, data.blockId, data.id);
       }
     } else {
+      this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
   }

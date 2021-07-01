@@ -183,6 +183,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
             month: null,
             year: null,
           };
+          this.changeDetection.detectChanges();
           this.onResize();
         }
       },

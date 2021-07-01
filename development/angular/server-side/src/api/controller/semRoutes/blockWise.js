@@ -1,5 +1,4 @@
 const router = require('express').Router();
-var const_data = require('../../lib/config'); // Log Variables
 const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 const s3File = require('../../lib/reads3File');
@@ -8,7 +7,7 @@ router.post('/allBlockWise', auth.authController, async (req, res) => {
     try {
         logger.info('--- all blocks sem api ---');
         let fileName = `semester/block_sem_opt_json_${req.body.sem}.json`
-        var myData = await s3File.readS3File(fileName);
+        var myData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
 
         let blockData = myData.data;
         blockData = blockData.filter(function (el) {
@@ -59,7 +58,7 @@ router.post('/allBlockWise', auth.authController, async (req, res) => {
         res.status(200).send(resultObj);
 
     } catch (e) {
-        console.log(e);
+        console.error(e);
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
     }
 })
@@ -69,7 +68,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
         var filterData = '';
         logger.info('--- block per district sem api ---');
         let fileName = `semester/block_sem_opt_json_${req.body.sem}.json`
-        var myData = await s3File.readS3File(fileName);
+        var myData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
 
         let blockData = myData.data;
         let distId = req.params.distId
