@@ -31,6 +31,7 @@ import { DikshaTPDTeachersPercentageComponent } from './reports/diksha/tpd/diksh
 import { StudentAttendanceChartComponent } from './reports/attendance/student-attendance-chart/student-attendance-chart.component';
 import { LineChartComponent } from './common/line-chart/line-chart.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DashboardCloneComponent } from './dashboard-clone/dashboard-clone.component';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -52,7 +53,8 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     DikshaTPDContentProgressComponent,
     DikshaTPDTeachersPercentageComponent,
     StudentAttendanceChartComponent,
-    LineChartComponent
+    LineChartComponent,
+    DashboardCloneComponent
   ],
   imports: [
     BrowserModule,
