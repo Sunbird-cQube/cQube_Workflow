@@ -194,8 +194,11 @@ table.dataTable.nowrap td {
     white-space: unset !important; 
 }
 
-
 /*//////////////////////////////////////////////////////////////////*/
+.tooltip-inner{
+    font-size: 12px;
+    max-width: 350px !important;
+}
 
 #footer {
     width: 100%;
@@ -409,6 +412,10 @@ table.dataTable.nowrap td {
 
 
 @media screen and (min-width: 2560px) {
+    .tooltip-inner{
+        font-size: 18px !important;
+        max-width: 500px !important;
+    }
     #footer {
         width: 100%;
         background-color: rgb(152, 160, 163);
@@ -563,6 +570,10 @@ table.dataTable.nowrap td {
 }
 
 @media screen and (min-width: 3820px) {
+    .tooltip-inner{
+        font-size: 24px !important;
+        max-width: 600px !important;
+    }
     #footer {
         width: 100%;
         background-color: rgb(152, 160, 163);
