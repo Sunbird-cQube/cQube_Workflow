@@ -6151,3 +6151,49 @@ create table if not exists periodic_exam_stud_grade_count(exam_code varchar(100)
 create table if not exists semester_exam_stud_grade_count(exam_code varchar(100),student_uid bigint,school_id bigint,studying_class bigint,primary key(exam_code,student_uid,school_id));
 
 alter table data_replay_meta add column if not exists retention_period integer;
+
+create or replace function drop_mv()
+returns int as
+$body$
+begin
+
+	drop materialized view  if exists semester_exam_school_ind_result cascade;
+  return 0;
+
+    exception 
+    when others then
+        return 0;
+
+end;
+$body$
+language plpgsql;
+
+select drop_mv();
+
+create table if not exists semester_exam_school_ind_result
+(id  serial,
+academic_year  varchar(50),
+exam_code varchar(100),
+exam_date  date,
+school_id  bigint,
+grade  smallint,
+school_name  varchar(200),
+district_id  bigint,
+district_name  varchar(100),
+block_id  bigint,
+block_name  varchar(100),
+cluster_id  bigint,
+cluster_name  varchar(100),
+subject  text,
+indicator	text,
+obtained_marks  numeric,
+total_marks  numeric,
+students_attended   int,
+total_students int,
+school_management_type varchar(100),
+school_category varchar(100),
+created_on  timestamp,
+updated_on  timestamp,
+primary key(academic_year,exam_code,school_id,indicator)
+);
+
