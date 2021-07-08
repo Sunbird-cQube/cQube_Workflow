@@ -9,31 +9,25 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   data: boolean;
   constructor(private router: Router) { }
   public role = localStorage.getItem('roleName');
+  public useCase = localStorage.getItem('usecase');
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // this.data = (localStorage.getItem('token') == null && window.location.href !== "http://localhost:4200/#/user-view");
-    // let expectedRoleArray = next.data.roles[0];
-    // console.log(expectedRoleArray);
-
-    if (this.data) {
-      // this.router.navigate(['/home']);
-      return false;
-    } else {
+    var data = Object.values(next.data);
+    if (data.includes(this.role) && data.includes(this.useCase)) {
       return true;
     }
-
+    this.router.navigate(['/**']);
+    return false;
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // this.data = (localStorage.getItem('token') == null && window.location.href !== "http://localhost:4200/#/user-view");
-    if (!this.data) {
-      // this.router.navigate(['/login']);
-      return false;
-
-    } else {
+    var data = Object.values(next.data);
+    if (data.includes(this.role) && data.includes(this.useCase)) {
       return true;
     }
+    this.router.navigate(['/**']);
+    return false;
   }
 }
