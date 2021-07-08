@@ -359,10 +359,10 @@ export class HeatChartComponent implements OnInit {
 
     var yAxisLabel;
     if (this.grade != "all") {
-      yAxisLabel = yLabel.map(a => {
-        var res = a.split("/");
-        return res[res.length - 1].substring(0, 30)
-      })
+      yAxisLabel = yLabel
+        .map(a => {
+          return a.substring(1, 30)
+        })
     } else {
       yAxisLabel = yLabel;
     }
