@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { AppServiceComponent } from "../app.service";
-import { KeycloakSecurityService } from "../keycloak-security.service";
-import { environment } from "../../environments/environment";
+import { AppServiceComponent } from "../../app.service";
+import { KeycloakSecurityService } from "../../keycloak-security.service";
+import { environment } from "../../../environments/environment";
+import { dashboardConfig } from "../dashboard.config";
 
 @Component({
   selector: 'app-dashboard-clone',
@@ -11,6 +12,8 @@ import { environment } from "../../environments/environment";
 export class DashboardCloneComponent implements OnInit {
   state;
   semester = true;
+  dashboard:any;
+  testCases: any;
   //tooltip texts::::::::::::::
   imrTooltip;
   crTooltip;
@@ -100,6 +103,7 @@ export class DashboardCloneComponent implements OnInit {
     public keyCloakService: KeycloakSecurityService,
     private changeDetection: ChangeDetectorRef,
   ) {
+    this.dashboard = dashboardConfig;
     service.logoutOnTokenExpire();
     this.changeDataSourceStatus();
   }
