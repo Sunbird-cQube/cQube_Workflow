@@ -39,12 +39,11 @@ const generalFun = (grade, data, level, viewBy) => {
 
                 Promise.all(data.map(item => {
                     let date = item.exam_date.split('-')
-                    let label = "Grade" + item.grade + "/"
+                    let label = grade == "" ? "Grade" + item.grade + "/"
                         + date[0] + "-" + date[1] + "/"
-                        + item.subject_name
+                        + item.subject_name:"";
 
                     label += grade != "" ? viewBy == "indicator" ? "/" + item.indicator : "/" + item.question_id : ''
-
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                     let label1 = []
                     if (item.students_attended) {
