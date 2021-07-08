@@ -21710,13 +21710,14 @@ from periodic_exam_school_qst_result where students_attended > 0
 group by academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,school_management_type,school_category
 with no data;
 
-create materialized view if not exists semester_exam_school_ind_result as
+
+/*create materialized view if not exists semester_exam_school_ind_result as
 select academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,
 avg(obtained_marks)::numeric as obtained_marks,avg(total_marks)::numeric as total_marks,max(students_attended) as students_attended,max(total_students) as total_students,
 school_management_type,school_category
 from semester_exam_school_qst_result where students_attended > 0
 group by academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,school_management_type,school_category
-with no data;
+with no data;*/
 
 
 /*Month wise refresh */
