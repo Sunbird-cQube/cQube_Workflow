@@ -11,7 +11,7 @@ export const environment = {
   realm: "cQube",
   clientId: "cQube_Application",
   stateName: "GJ",
-  useCase :"uc1_edu"
+  useCase :"uc2_edu"
 };
 
 /*

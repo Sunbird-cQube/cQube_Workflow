@@ -24,36 +24,36 @@ switch (useCase) {
         path: '', redirectTo: `home`, pathMatch: 'full'
       },
       {
-        path: 'home', component: HomePageComponent, canActivate: [AuthGuard], data: ['admin', 'viewer', 'all']
+        path: 'home', component: HomePageComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
       },
       {
-        path: '', component: HomeComponent, canActivate: [AuthGuard], data: ['admin', 'viewer', 'all'], children: [
+        path: '', component: HomeComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], children: [
           {
-            path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all']
+            path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
           },
           {
-            path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all']
+            path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
           },
           {
-            path: 'progressCard', component: HealthCardComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all']
+            path: 'progressCard', component: HealthCardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
           },
           {
-            path: 'diksha', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/diksha/diksha.module').then(m => m.DikshaModule)
+            path: 'diksha', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/diksha/diksha.module').then(m => m.DikshaModule)
           },
           {
-            path: 'attendance', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/attendance/attendance.module').then(m => m.AttendancModule)
+            path: 'attendance', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/attendance/attendance.module').then(m => m.AttendancModule)
           },
           {
-            path: 'exception', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/exception-list/exception.module').then(m => m.ExceptionModule)
+            path: 'exception', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/exception-list/exception.module').then(m => m.ExceptionModule)
           },
           {
-            path: 'infrastructure', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/school-infra/infrastructure.module').then(m => m.InfrastructureModule)
+            path: 'infrastructure', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/school-infra/infrastructure.module').then(m => m.InfrastructureModule)
           },
           {
-            path: 'student-performance', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/student-performance/student-performance.module').then(m => m.StudentPerformanceModule)
+            path: 'student-performance', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/student-performance/student-performance.module').then(m => m.StudentPerformanceModule)
           },
           {
-            path: '', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
+            path: '', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
           }
         ]
       },
@@ -157,36 +157,36 @@ switch (useCase) {
         path: '', redirectTo: `home`, pathMatch: 'full'
       },
       {
-        path: 'home', component: HomePageComponent, canActivate: [AuthGuard], data: ['admin', 'viewer', 'all']
+        path: 'home', component: HomePageComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
       },
       {
-        path: '', component: HomeComponent, canActivate: [AuthGuard], data: ['admin', 'viewer', 'all'], children: [
+        path: '', component: HomeComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], children: [
           {
-            path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all']
+            path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
           },
           {
-            path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all']
+            path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
           },
           {
-            path: 'progressCard', component: HealthCardComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all']
+            path: 'progressCard', component: HealthCardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all']
           },
           {
-            path: 'diksha', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/diksha/diksha.module').then(m => m.DikshaModule)
+            path: 'diksha', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/diksha/diksha.module').then(m => m.DikshaModule)
           },
           {
-            path: 'attendance', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/attendance/attendance.module').then(m => m.AttendancModule)
+            path: 'attendance', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/attendance/attendance.module').then(m => m.AttendancModule)
           },
           {
-            path: 'exception', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/exception-list/exception.module').then(m => m.ExceptionModule)
+            path: 'exception', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/exception-list/exception.module').then(m => m.ExceptionModule)
           },
           {
-            path: 'infrastructure', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/school-infra/infrastructure.module').then(m => m.InfrastructureModule)
+            path: 'infrastructure', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/school-infra/infrastructure.module').then(m => m.InfrastructureModule)
           },
           {
-            path: 'student-performance', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/student-performance/student-performance.module').then(m => m.StudentPerformanceModule)
+            path: 'student-performance', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/student-performance/student-performance.module').then(m => m.StudentPerformanceModule)
           },
           {
-            path: '', canActivateChild: [AuthGuard], data: ['admin', 'viewer', 'all'], loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
+            path: '', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer	', 'all'], loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
           }
         ]
       },
