@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { KeycloakSecurityService } from '../keycloak-security.service';
-import { AppServiceComponent } from '../app.service';
-import { environment } from '../../environments/environment';
+import { KeycloakSecurityService } from '../../keycloak-security.service';
+import { AppServiceComponent } from '../../app.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-home-usecase-two',
+  templateUrl: './home-usecase-two.component.html',
+  styleUrls: ['./home-usecase-two.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeUsecaseTwoComponent implements OnInit {
   edate: Date;
   semester = true;
-
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService) { }
   email: any;
   role: any;
@@ -132,7 +131,7 @@ export class HomeComponent implements OnInit {
     sessionStorage.clear();
   }
 
-  onBackClick(){
+  onBackClick() {
     localStorage.removeItem('management');
     localStorage.removeItem('category');
   }
