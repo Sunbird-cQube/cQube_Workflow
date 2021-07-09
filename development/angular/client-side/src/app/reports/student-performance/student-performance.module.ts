@@ -15,22 +15,22 @@ const performRoute: Routes = [
   {
     path: '', canActivate: [AuthGuard], children: [
       {
-        path: 'semester-report', component: SemViewComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'semester-report', component: SemViewComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'pat-report', component: PATReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'pat-report', component: PATReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'heat-chart', component: HeatChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'heat-chart', component: HeatChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'PAT-LO-table', component: PATLOTableComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'PAT-LO-table', component: PATLOTableComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'sat-report', component: SatReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'sat-report', component: SatReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'sat-heat-chart', component: SatHeatChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'sat-heat-chart', component: SatHeatChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }

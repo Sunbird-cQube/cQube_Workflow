@@ -20,10 +20,10 @@ export var routes: Routes = routes = [
     {
         path: '', component: HomeComponent, canActivate: [AuthGuard], children: [
             {
-                path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+                path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
             },
             {
-                path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+                path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
             },
             {
                 path: 'progressCard', component: HealthCardComponent

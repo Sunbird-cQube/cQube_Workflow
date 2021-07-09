@@ -12,7 +12,7 @@ const otherRoutes = [
   {
     path: 'crc', canActivate: [AuthGuard], children: [
       {
-        path: 'crc-report', component: CrcReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'crc-report', component: CrcReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }]
   },
   {
@@ -24,13 +24,13 @@ const otherRoutes = [
   {
     path: '', canActivate: [AuthGuard], children: [
       {
-        path: 'telemetry', component: TelemetryDataComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'telemetry', component: TelemetryDataComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }]
   },
   {
     path: 'composite', canActivate: [AuthGuard], children: [
       {
-        path: 'composite-report', component: CompositReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'viewer']
+        path: 'composite-report', component: CompositReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }
