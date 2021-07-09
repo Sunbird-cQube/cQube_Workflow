@@ -57,7 +57,7 @@ switch (useCase) {
           }
         ]
       },
-      { path: "**", component: PageNotFoundComponent }
+      // { path: "**", component: PageNotFoundComponent }
     ];
     break;
   case "uc2_edu":
@@ -82,7 +82,7 @@ switch (useCase) {
           }
         ]
       },
-      { path: "**", component: PageNotFoundComponent }
+      // { path: "**", component: PageNotFoundComponent }
     ];
     break;
   case "uc3_edu":
@@ -116,7 +116,7 @@ switch (useCase) {
           }
         ]
       },
-      { path: "**", component: PageNotFoundComponent }
+      // { path: "**", component: PageNotFoundComponent }
     ];
     break;
   case "uc3_edu":
@@ -147,7 +147,7 @@ switch (useCase) {
           }
         ]
       },
-      { path: "**", component: PageNotFoundComponent }
+      // { path: "**", component: PageNotFoundComponent }
     ];
     break;
   default:
@@ -190,7 +190,7 @@ switch (useCase) {
           }
         ]
       },
-      { path: "**", component: PageNotFoundComponent }
+      // { path: "**", component: PageNotFoundComponent }
     ];
 }
 

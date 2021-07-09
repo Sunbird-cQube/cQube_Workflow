@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (data.includes(this.role) && data.includes(this.useCase)) {
       return true;
     }
-    this.router.navigate(['/**']);
+    //this.router.navigate(['/**']);
     return false;
   }
   canActivateChild(
@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (data.includes(this.role) && data.includes(this.useCase)) {
       return true;
     }
-    this.router.navigate(['/**']);
+    //this.router.navigate(['/**']);
     return false;
   }
 }
