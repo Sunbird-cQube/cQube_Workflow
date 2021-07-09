@@ -176,6 +176,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.getClusters(data.districtId, data.blockId, data.id);
       }
     } else {
+      this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
   }
@@ -184,6 +185,13 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.service.infraMapDistWise({ management: this.management, category: this.category }).subscribe((res) => {
       this.data = res["data"];
       this.districtMarkers = this.data;
+      this.districtMarkers.sort((a, b) =>
+        a.details.district_name > b.details.district_name
+          ? 1
+          : b.details.district_name > a.details.district_name
+            ? -1
+            : 0
+      );
     });
   }
 
@@ -191,6 +199,13 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.service.infraMapBlockWise(distId, { management: this.management, category: this.category }).subscribe((res) => {
       this.data = res["data"];
       this.blockMarkers = this.data;
+      this.blockMarkers.sort((a, b) =>
+        a.details.block_name > b.details.block_name
+          ? 1
+          : b.details.block_name > a.details.block_name
+            ? -1
+            : 0
+      );
       if (blockId) this.onBlockSelect(blockId);
     });
   }
@@ -199,10 +214,17 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.service.infraMapClusterWise(distId, blockId, { management: this.management, category: this.category }).subscribe((res) => {
       this.data = res["data"];
       this.clusterMarkers = this.data;
+      this.clusterMarkers.sort((a, b) =>
+        a.details.cluster_name > b.details.cluster_name
+          ? 1
+          : b.details.cluster_name > a.details.cluster_name
+            ? -1
+            : 0
+      );
       this.onClusterSelect(clusterId);
     });
   }
-  clickHome(){
+  clickHome() {
     this.infraData = "infrastructure_score";
     this.districtWise();
   }

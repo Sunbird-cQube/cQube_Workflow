@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../src/environments/environment';
 import { KeycloakSecurityService } from './keycloak-security.service';
-import * as data from '../assets/states_for_cQube.json';
 import * as config from '../assets/config.json';
+import * as mapData from '../assets/map.json';
 import * as L from 'leaflet';
 import { ExportToCsv } from 'export-to-csv';
 
@@ -33,6 +33,9 @@ export class AppServiceComponent {
         this.token = keyCloakService.kc.token;
         localStorage.setItem('token', this.token);
         this.dateAndTime = `${("0" + (this.date.getDate())).slice(-2)}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${this.date.getFullYear()}`;
+        // this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
+        //     this.mapData = res;
+        // })
     }
 
     width = window.innerWidth;
@@ -97,42 +100,52 @@ export class AppServiceComponent {
         document.getElementById('spinner').style.display = 'block';
         document.getElementById('spinner').style.marginTop = '3%';
     }
-
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        applyCountryBorder(globalMap);
+        //if (this.mapData) {
+        var data = mapData.default;
         function applyCountryBorder(map) {
-            L.geoJSON(data.default[`${environment.stateName}`]['features'], {
+            L.geoJSON(data[`${environment.stateName}`]['features'], {
                 color: "#6e6d6d",
                 weight: 2,
                 fillOpacity: 0,
                 fontWeight: "bold"
             }).addTo(map);
         }
+        applyCountryBorder(globalMap);
+        // } else {
+        //     this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
+        //         this.mapData = res;
+        //         function applyCountryBorder(map) {
+        //             L.geoJSON(res[`${environment.stateName}`]['features'], {
+        //                 color: "#6e6d6d",
+        //                 weight: 2,
+        //                 fillOpacity: 0,
+        //                 fontWeight: "bold"
+        //             }).addTo(map);
+        //         }
+        //         applyCountryBorder(globalMap);
+        //     })
+        // }
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
             {
-                // token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-                // id: 'mapbox.streets',
                 subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                // minZoom: this.mapCenterLatlng.zoomLevel,
                 maxZoom: this.mapCenterLatlng.zoomLevel + 10,
             }
         ).addTo(globalMap);
-        // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
-        // {
-        //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-        //     id: 'mapbox.streets',
-        //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-        //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
-        // }
-        // ).addTo(globalMap);
     }
     //https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png   //http://tile.stamen.com/toner/{z}/{x}/{y}.png
+    // L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}?access_token={token}',
+    // {
+    //     token: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+    //     id: 'mapbox.streets',
+    //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    //     maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+    // }
+    // ).addTo(globalMap);
     restrictZoom(globalMap) {
         globalMap.touchZoom.disable();
-        // globalMap.doubleClickZoom.disable();
-        // globalMap.scrollWheelZoom.disable();
         globalMap.boxZoom.disable();
         globalMap.keyboard.disable();
     }
@@ -235,7 +248,6 @@ export class AppServiceComponent {
         var stringLine;
         var selected = '';
         for (var key in object) {
-            // console.log(object[key])
             if (object[key] && typeof object[key] != 'number' && typeof object[key] == 'string' && object[key].includes('%')) {
                 var split = object[key].split("% ");
                 object[`${key}`] = parseFloat(split[0].replace(` `, '')).toFixed(1) + ' % ' + split[1];
@@ -501,10 +513,10 @@ export class AppServiceComponent {
             }
         });
         let uniqueItems = [...new Set(values)];
-        uniqueItems = uniqueItems.map(a=>{
-            if(typeof(a) == 'object'){
+        uniqueItems = uniqueItems.map(a => {
+            if (typeof (a) == 'object') {
                 return a['percentage']
-            }else{
+            } else {
                 return a;
             }
         })
@@ -558,10 +570,7 @@ export class AppServiceComponent {
 
         this.telemetryData.push(obj);
 
-        this.telemetry(dateObj).subscribe(res => {
-        }, err => {
-            console.log(err);
-        });
+        this.telemetry(dateObj).subscribe(res => { }, err => { console.log(err) });
     }
 
     public colors = {

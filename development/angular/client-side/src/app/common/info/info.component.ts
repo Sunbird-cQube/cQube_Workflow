@@ -14,14 +14,12 @@ export class InfoComponent implements OnInit {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip().on('inserted.bs.tooltip', function () {
         $("body div.tooltip-inner").css({
-          "max-width": "350px",
           "padding": "3%",
           "text-align": "center",
           "border-radius": "20px",
           "background-color": "black",
           "color": "white",
-          "font-family": "Arial",
-          "font-size": "12px"
+          "font-family": "Arial"
         });
       });
       $('[data-toggle="tooltip"]').click(function () {

@@ -193,6 +193,7 @@ export class PATReportComponent implements OnInit {
       }
 
       if (params) {
+        this.changeDetection.detectChanges();
         if (params.timePeriod == "overall") {
           params.timePeriod = "all";
         }
@@ -246,6 +247,7 @@ export class PATReportComponent implements OnInit {
           this.getClusters(data.districtId, data.blockId, data.id);
         }
       } else {
+        this.changeDetection.detectChanges();
         this.levelWiseFilter();
       }
     }, err => {

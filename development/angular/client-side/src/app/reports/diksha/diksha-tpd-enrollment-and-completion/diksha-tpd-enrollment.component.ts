@@ -123,7 +123,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.collectionNames = [];
     this.commonService.errMsg();
     this.level = "district"
-    this.collectionName = '';
+    //this.collectionName = '';
     this.footer = '';
     this.fileName = `${this.reportName}_${this.type}_all_district_${this.timePeriod}_${this.commonService.dateAndTime}`;
     this.result = [];
@@ -150,7 +150,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   listCollectionNames() {
     this.commonService.errMsg();
-    this.collectionName = '';
+    //this.collectionName = '';
     this.service.tpdgetCollection({ timePeriod: this.timePeriod, level: this.level, id: this.globalId }).subscribe(async (res) => {
       this.collectionNames = [];
       this.collectionNames = res['allCollections'];
@@ -218,7 +218,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.chartData.push(Number(element[`${this.type}`]));
       if (this.type != 'completion') {
         this.completion.push(Number(element[`completion`]));
-      }else{
+      } else {
         this.completion.push(Number(element[`enrollment`]));
       }
     });
@@ -227,6 +227,10 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
   }
 
+  distLinkClick(districtId) {
+    this.onDistSelect(districtId);
+    this.collectionName = '';
+  }
   onDistSelect(districtId) {
     this.emptyChart();
     document.getElementById('home').style.display = "block";
@@ -263,6 +267,10 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     });
   }
 
+  blockLinkClick(blockId) {
+    this.onBlockSelect(blockId);
+    this.collectionName = '';
+  }
   onBlockSelect(blockId) {
     this.emptyChart();
     document.getElementById('home').style.display = "block";
@@ -299,6 +307,10 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     });
   }
 
+  clusterLinkClick(clusterId) {
+    this.onClusterSelect(clusterId);
+    this.collectionName = '';
+  }
   onClusterSelect(clusterId) {
     this.emptyChart();
     document.getElementById('home').style.display = "block";

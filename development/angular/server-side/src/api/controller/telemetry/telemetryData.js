@@ -22,8 +22,9 @@ router.post('/', auth.authController, async (req, res) => {
             Bucket: const_data['getParams1']['Bucket'],
             Key: `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`
         };
+        
         const_data['s3'].headObject(params, function (err, metadata) {
-            if (err && err.code === 'NotFound') {
+            if (err) {
                 //=====================Upload new files..........
                 jsonexport(req.body.telemetryData, function (error, csv) {
                     if (error) return console.error(error);
@@ -132,7 +133,7 @@ router.post('/data', async (req, res) => {
         logger.info('---get telemetry api ---');
         var period = req.body.period;
         let fileName = `cqube_telemetry_views/${period}/telemetry_views_data.json`;
-        var telemetryData = await s3File.readS3File(fileName);
+        var telemetryData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
 
         logger.info('--- get telemetry api response sent ---');
         res.status(200).send({ telemetryData });
