@@ -24,6 +24,7 @@ drop view if exists hc_crc_school cascade;
 drop view if exists hc_crc_cluster cascade;
 drop view if exists hc_crc_block cascade;
 drop view if exists hc_crc_district cascade;
+drop view if exists crc_school_mgmt_all cascade;
 
 drop view if exists hc_periodic_exam_school_last30 cascade;
 drop view if exists hc_periodic_exam_school_all cascade;
@@ -1254,7 +1255,8 @@ select b.district_id,b.district_latitude,b.district_longitude,Initcap(b.district
 	   a.collection_board,
 	   a.collection_type,a.collection_medium,a.collection_gradelevel,a.collection_subject,a.collection_created_for,a.total_count,a.total_time_spent,a.dimensions_mode,a.dimensions_type
         from (select derived_loc_district as district_name,
-content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,
+content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,
+case when content_medium like ''[%'' then ''Multi Medium'' else initcap(ltrim(rtrim(content_medium))) end as content_medium,
 case when content_gradelevel like ''[%'' then ''Multi Grade'' else initcap(ltrim(rtrim(content_gradelevel))) end as content_gradelevel,
 case when content_subject like ''[%'' then ''Multi Subject'' when initcap(ltrim(rtrim(content_subject)))=''Maths'' then ''Mathematics''
 else initcap(ltrim(rtrim(content_subject))) end as content_subject,
@@ -12196,8 +12198,8 @@ coalesce(round(spd.schools_3_5*100/spd.total_schools,1),0) as schools_3_5,
 coalesce(round(spd.schools_6_10*100/spd.total_schools,1),0) as schools_6_10,
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
 from (
 select s.district_id,s.district_name,s.block_id,s.block_name,s.cluster_id,s.cluster_name,s.school_id,s.school_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10 from
@@ -12238,8 +12240,8 @@ coalesce(round(spd.schools_1_2*100/spd.total_schools,1),0) as schools_1_2,coales
 coalesce(round(spd.schools_6_10*100/spd.total_schools,1),0) as schools_6_10,
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
 from (select s.district_id,s.district_name,s.block_id,s.block_name,s.cluster_id,s.cluster_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10,t.schools_0 from
 (select district_id,district_name,block_id,block_name,cluster_id,cluster_name,count(distinct school_id) as total_schools,
@@ -12274,8 +12276,8 @@ coalesce(round(spd.schools_1_2*100/spd.total_schools,1),0) as schools_1_2,coales
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,
 COALESCE(1-round(spd.schools_0 ::numeric / spd.total_schools::numeric, 1), 0::numeric) AS state_level_score,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
 from (select s.district_id,s.district_name,s.block_id,s.block_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10,t.schools_0 from
 (select district_id,district_name,block_id,block_name,count(distinct school_id) as total_schools,
@@ -12310,8 +12312,8 @@ coalesce(round(spd.schools_1_2*100/spd.total_schools,1),0) as schools_1_2,coales
 coalesce(round(spd.schools_10*100/spd.total_schools,1),0) as schools_10,spd.no_of_schools_per_crc,
 coalesce(round(cast(cast(spd.total_visits as float)/cast(spd.total_schools as float) as numeric),1),0) as visit_percent_per_school,
 COALESCE(1-round(spd.schools_0 ::numeric / spd.total_schools::numeric, 1), 0::numeric) AS state_level_score,spd.school_management_type,
-(select (min(concat(year, '-', month))||'-01')::date as monthyear from crc_visits_frequency) as data_from_date,
-(select (((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date as monthyear from crc_visits_frequency) as data_upto_date
+(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date
  from 
 (select s.district_id,s.district_name,s.total_schools,s.no_of_schools_per_crc,s.school_management_type,
 t.total_visits,t.schools_1_2,t.schools_3_5,t.schools_6_10,t.schools_10,t.schools_0 from
@@ -21708,14 +21710,6 @@ from periodic_exam_school_qst_result where students_attended > 0
 group by academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,school_management_type,school_category
 with no data;
 
-create materialized view if not exists semester_exam_school_ind_result as
-select academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,
-avg(obtained_marks)::numeric as obtained_marks,avg(total_marks)::numeric as total_marks,max(students_attended) as students_attended,max(total_students) as total_students,
-school_management_type,school_category
-from semester_exam_school_qst_result where students_attended > 0
-group by academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,school_management_type,school_category
-with no data;
-
 
 /*Month wise refresh */
 
@@ -21862,3 +21856,22 @@ END IF;
 return 0;
 END;
 $$  LANGUAGE plpgsql;
+
+/* SAT MV */
+
+create materialized view if not exists sat_mgmt_lo_p1_indicator_all as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, district_id,district_name,indicator, sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students,school_management_type from semester_exam_school_ind_result  where school_management_type is not null group by academic_year,grade,subject,exam_date,district_id,district_name,indicator,school_management_type) with no data; 
+
+create materialized view if not exists sat_mgmt_lo_p1_indicator_district as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, block_id,block_name,district_id,district_name,indicator, sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students,school_management_type from semester_exam_school_ind_result  where school_management_type is not null group by academic_year,grade,subject,exam_date,block_id,block_name,district_id,district_name,indicator,school_management_type) with no data;
+
+create materialized view if not exists sat_mgmt_lo_p1_indicator_block as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, block_id,block_name,cluster_id,cluster_name,district_id,district_name,indicator, sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students,school_management_type from semester_exam_school_ind_result  where school_management_type is not null group by academic_year,grade,subject,exam_date,block_id,block_name,cluster_id,cluster_name,school_management_type, district_id,district_name,indicator) with no data ;
+
+create materialized view if not exists sat_mgmt_lo_p1_indicator_cluster as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, block_id,block_name,cluster_id,cluster_name,school_id,school_name,district_id,district_name,indicator,sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students,school_management_type from semester_exam_school_ind_result  where school_management_type is not null group by academic_year,grade,subject,exam_date,block_id,block_name,cluster_id,cluster_name,school_id,school_name,school_management_type, district_id,district_name,indicator ) with no data;
+
+create materialized view if not exists sat_lo_p1_indicator_all as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, district_id,district_name,indicator, sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students from semester_exam_school_ind_result group by academic_year,grade,subject,exam_date,district_id,district_name,indicator) with no data ;
+
+create materialized view if not exists sat_lo_p1_indicator_district as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, block_id,block_name,district_id,district_name,indicator, sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students from semester_exam_school_ind_result group by academic_year,grade,subject,exam_date,block_id,block_name,district_id,district_name,indicator) with no data;
+
+create materialized view if not exists sat_lo_p1_indicator_block as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, block_id,block_name,cluster_id,cluster_name,district_id,district_name,indicator, sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students from semester_exam_school_ind_result group by academic_year,grade,subject,exam_date,block_id,block_name,cluster_id,cluster_name, district_id,district_name,indicator) with no data;
+
+create materialized view if not exists sat_lo_p1_indicator_cluster as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, block_id,block_name,cluster_id,cluster_name,school_id,school_name,district_id,district_name,indicator,sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(students_attended),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students from semester_exam_school_ind_result group by academic_year,grade,subject,exam_date,block_id,block_name,cluster_id,cluster_name,school_id,school_name, district_id,district_name,indicator) with no data;
+
