@@ -1274,7 +1274,16 @@ REFRESH MATERIALIZED VIEW semester_grade_school_last7;
 REFRESH MATERIALIZED VIEW semester_grade_district_mgmt_last7;
 REFRESH MATERIALIZED VIEW semester_grade_block_mgmt_last7;
 REFRESH MATERIALIZED VIEW semester_grade_cluster_mgmt_last7;
-REFRESH MATERIALIZED VIEW semester_grade_school_mgmt_last7;""",
+REFRESH MATERIALIZED VIEW semester_grade_school_mgmt_last7;
+
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_all;
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_district;
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_block;
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_cluster;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_all;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_district;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_block;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_cluster;""",
 "semester_exam_subject_details_count_null":"""(select
 SUM(CASE when subject_id IS NULL THEN 1 ELSE 0 END) AS count_null_subject_id,
 SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
