@@ -4766,15 +4766,11 @@ infra_atf_cols text;
 infra_atf text;
 create_state_view text;
 
-
-select_query_state text:='select string_agg(col,'' '') from (select concat(select_query)as col from health_card_config where status=''true'' and category=''state'' and time_period=''overall''  order by id)as d';   
+select_query_state text:='select string_agg(col,'' '') from (select concat(select_query)as col from health_card_config where status=''true'' and category=''state_mgmt'' and time_period=''overall''  order by id)as d';   
 select_cols_state text;
 
-
 BEGIN
-
 Execute udise_query into udise_cols;
-
 
 if EXISTS (select split_part(lower(template),'_',2) from nifi_template_info where status=true and template='nifi_infra' )  then
 Execute infra_query into infra_cols;
