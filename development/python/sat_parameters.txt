@@ -345,7 +345,7 @@ select data.school_id,data.exam_code,data.exam_date,data.grade,data.total_marks,
 		a.studying_class as grade,b.question_id,b.indicator,b.question_marks*sum(students_attended) as total_marks,sum(a.obtained_marks)as obtained_marks,b.exam_id
 	from
 	(select exam_id,school_id,exam_code,studying_class,question_id,sum(obtained_marks)as obtained_marks,count(distinct(student_uid)) as students_attended
-	from semester_exam_result_trans sem where to_date(substr(sem.exam_code,8,14),'ddmmyyyy')>(now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval)::date and exam_code not in (select exam_code from semester_exam_mst sem join (select distinct unnest(string_to_array(regexp_replace(semesters,'[^0-9,]','','g'),',')) as semesters,academic_year from data_replay_meta where created_on>now()-'5days'::interval and cqube_process_status='SUCCESS' and data_source='semester_assessment_test') dsem on sem.semester=dsem.semesters::int and sem.assessment_year=dsem.academic_year)
+	from semester_exam_result_trans sem where to_date(substr(sem.exam_code,8,14),'ddmmyyyy')>(now() -(select concat(trim(max(retention_period)::text),'days') from data_replay_meta)::interval)::date and exam_code not in (select exam_code from semester_exam_mst sem join (select distinct unnest(string_to_array(regexp_replace(semesters,'[^0-9,]','','g'),',')) as semesters,academic_year from data_replay_meta where created_on>now()-'5days'::interval and cqube_process_status='SUCCESS' and data_source='semester_assessment_test') dsem on sem.semester=dsem.semesters::int and sem.assessment_year=dsem.academic_year)
 	group by exam_id,school_id,exam_code,studying_class,question_id)as a
 	left join (select exam_id,question_id,indicator,question_marks from semester_exam_qst_mst group by exam_id,question_id,indicator,question_marks) as b 
 	on a.exam_id=b.exam_id and a.question_id=b.question_id
@@ -1148,6 +1148,22 @@ and total_marks IS NOT  NULL""",
 "sat_filter_same_record_semester_exam_qst_mst_qry":"""select question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks from (select question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks,
 row_number() over (partition by question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks) as rn from flowfile) sq Where rn =1""",
 "semester_exam_result_staging_1_tb_name":"""semester_exam_result_staging_1""",
+"sat_insert_semester_exam_school_ind_result":"""insert into semester_exam_school_ind_result(academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,
+	obtained_marks,total_marks,students_attended,total_students,school_management_type,school_category,created_on,updated_on)
+	select data.academic_year,data.exam_code,data.exam_date,data.school_id,data.grade,data.school_name,data.district_id,data.district_name,data.block_id,data.block_name,data.cluster_id,data.cluster_name,
+	data.subject,data.indicator,data.obtained_marks,data.total_marks,data.students_attended,data.total_students,data.school_management_type,data.school_category,now(),now()
+	from (select academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,
+	round(avg(obtained_marks)::numeric,2) as obtained_marks,round(avg(total_marks)::numeric,2) as total_marks,max(students_attended) as students_attended,max(total_students) as total_students,
+	school_management_type,school_category
+	from semester_exam_school_qst_result where students_attended > 0
+	group by academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,school_management_type,school_category)as data
+	on conflict(school_id,exam_code,academic_year,indicator)
+	do update set 
+	school_id=excluded.school_id,exam_code=excluded.exam_code,exam_date=excluded.exam_date,grade=excluded.grade,total_marks=excluded.total_marks,
+	obtained_marks=excluded.obtained_marks,indicator=excluded.indicator,academic_year=excluded.academic_year,subject=excluded.subject,
+	students_attended=excluded.students_attended,school_name=excluded.school_name,total_students=excluded.total_students,
+	cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,block_id=excluded.block_id,block_name=excluded.block_name,
+district_id=excluded.district_id,district_name=excluded.district_name,school_management_type=excluded.school_management_type,school_category=excluded.school_category,updated_on=now();""",
 "semester_exam_result_stg_1_to_stg_2_qry":"""insert into semester_exam_result_staging_2(id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks,ff_uuid)
 select id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks,ff_uuid
 from  semester_exam_result_staging_1""",
@@ -1259,7 +1275,15 @@ REFRESH MATERIALIZED VIEW semester_grade_district_mgmt_last7;
 REFRESH MATERIALIZED VIEW semester_grade_block_mgmt_last7;
 REFRESH MATERIALIZED VIEW semester_grade_cluster_mgmt_last7;
 REFRESH MATERIALIZED VIEW semester_grade_school_mgmt_last7;
-refresh materialized view semester_exam_school_ind_result;""",
+
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_all;
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_district;
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_block;
+REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_cluster;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_all;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_district;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_block;
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_cluster;""",
 "semester_exam_subject_details_count_null":"""(select
 SUM(CASE when subject_id IS NULL THEN 1 ELSE 0 END) AS count_null_subject_id,
 SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
