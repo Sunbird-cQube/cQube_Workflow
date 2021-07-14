@@ -24268,7 +24268,7 @@ WHERE ff_uuid = '${files_uuid}'</value>
                             <config>
 <bulletinLevel>WARN</bulletinLevel>
 <comments></comments>
-<concurrentlySchedulableTaskCount>2</concurrentlySchedulableTaskCount>
+<concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
 <descriptors>
     <entry>
         <key>Database Connection Pooling Service</key>
