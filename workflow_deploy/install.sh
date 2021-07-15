@@ -47,8 +47,14 @@ fi
 # getting the base_config.yml from cqube base_dir
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
+storage_type=$(awk ''/^storage_type:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 #ansible-playbook create_base.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml"
-ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml"
+
+if [[ -f aws_s3_config.yml ]]; then
+ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_aws_s3_installation_config.yml"
+else
+ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml" --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml.template"
+fi
 if [ $? = 0 ]; then
 echo "cQube Workflow installed successfully!!"
 fi

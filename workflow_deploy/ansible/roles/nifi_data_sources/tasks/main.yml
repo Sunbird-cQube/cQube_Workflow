@@ -1,0 +1,58 @@
+---
+- include_tasks: nifi_cqube_data.yml
+  tags: [ install, update ]
+
+- include_tasks: nifi_crc.yml
+  when: nifi_crc
+  tags: [ install, update ]
+
+- include_tasks: nifi_static.yml
+  tags: [ install, update ]
+
+- include_tasks: nifi_attendance.yml
+  when: nifi_attendance
+  tags: [ install, update ]
+
+- include_tasks: nifi_semester.yml
+  when: nifi_semester
+  tags: [ install, update ]
+
+- include_tasks: nifi_infra.yml
+  when: nifi_infra
+  tags: [ install, update ]
+
+- include_tasks: nifi_diksha.yml
+  when: nifi_diksha
+  tags: [ install, update ]
+
+- include_tasks: nifi_telemetry.yml
+  when: nifi_telemetry
+  tags: [ install, update ]
+
+- include_tasks: nifi_udise.yml
+  when: nifi_udise
+  tags: [ install, update ]
+
+- include_tasks: nifi_pat.yml
+  when: nifi_pat
+  tags: [ install, update ]
+
+- include_tasks: nifi_composite.yml
+  when: nifi_composite
+  tags: [ install, update ]
+
+- include_tasks: nifi_healthcard.yml
+  when: nifi_healthcard
+  tags: [ install, update ]
+
+- include_tasks: nifi_teacher_attendance.yml
+  when: nifi_teacher_attendance
+  tags: [ install, update ]
+
+- include_tasks: nifi_data_replay.yml
+  when: nifi_data_replay
+  tags: [ install, update ]
+
+- include_tasks: nifi_sat.yml
+  when: nifi_sat
+  tags: [ install, update ]

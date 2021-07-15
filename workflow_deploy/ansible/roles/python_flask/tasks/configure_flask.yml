@@ -17,6 +17,19 @@
     mode: "0644"
   tags: [ install, update ]
 
+- name: Delete properties_nifi_deploy file 
+  file:
+    path: "{{ base_dir }}/cqube/emission_app/python/properties_nifi_deploy.py"
+    state: absent
+  tags: update
+
+- name: Updating properties_nifi_deploy file
+  template:
+    src: properties_nifi_deploy.py.j2
+    dest: "{{ base_dir }}/cqube/emission_app/python/properties_nifi_deploy.py"
+    mode: "0644"
+  tags: [ install, update ]
+
 - name: Changing the permission of the directory
   file:
     path: "{{ base_dir }}/cqube/emission_app"
