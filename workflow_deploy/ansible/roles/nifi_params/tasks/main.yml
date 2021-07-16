@@ -2,21 +2,20 @@
 - name: creating the parameter json files
   template:
     src: "{{ item }}.json.j2"
-    dest: "{{ base_dir }}/cqube/nifi/nifi_json_files/{{ item }}_parameters.json"
+    dest: "{{ base_dir }}/cqube/nifi/nifi_json_files/{{ item }}.json"
     mode: "0644"
   loop:
-    - crc_transformer
-    - composite_transformer
-    - cqube_telemetry_transformer
-    - data_replay_transformer
-    - diksha_transformer
-    - cQube_data_storage
-    - healthcard_transformer
-    - infra_transformer
-    - pat_transformer
-    - sat_transformer
-    - semester_transformer
-    - static_data_transformer
-    - student_attendance_transformer
-    - teacher_attendance_transformer
-    - udise_transformer
+    - cQube_data_storage_parameters
+    - crc_parameters
+    - static_data_parameters
+    - student_attendance_parameters
+    - infra_parameters
+    - diksha_parameters
+    - cqube_telemetry_parameters
+    - udise_parameters
+    - pat_parameters
+    - composite_parameters
+    - healthcard_parameters
+    - teacher_attendance_parameters
+    - data_replay_parameters
+    - sat_parameters

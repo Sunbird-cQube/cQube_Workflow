@@ -16,17 +16,41 @@ sudo apt update -y
 chmod u+x upgradation_validate.sh
 
 . "upgradation_validate.sh"
-. "$INS_DIR/validation_scripts/datasource_config_validation.sh"
-base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' upgradation_config.yml)
-
-ansible-playbook ansible/create_base.yml --tags "update" --extra-vars "@upgradation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" 
-
-. "$INS_DIR/validation_scripts/backup_postgres.sh"
+. "$INS_DIR/validation_scripts/datasource_config_validation.sh upgrade"
 
 if [ -e /etc/ansible/ansible.cfg ]; then
 	sudo sed -i 's/^#log_path/log_path/g' /etc/ansible/ansible.cfg
 fi
-ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_aws_s3_upgradation_config.yml"
+
+base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' upgradation_config.yml)
+ansible-playbook ansible/create_base.yml --tags "update" --extra-vars "@upgradation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" 
+. "$INS_DIR/validation_scripts/backup_postgres.sh"
+
+usecase_name=$(awk ''/^usecase_name:' /{ if ($2 !~ /#.*/) {print $2}}' upgradation_config.yml)
+
+case $usecase_name in
+   
+   education_usecase)
+        base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' ${usecase_name}_config.yml)
+        ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" \
+                                                              --extra-vars "@${usecase_name}_upgradation_config.yml" \
+                                                              --extra-vars "@${usecase_name}_datasource_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"    
+       ;;
+   test_usecase)
+        base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' ${usecase_name}_upgradation_config.yml)
+        ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" \
+                                                              --extra-vars "@${usecase_name}_upgradation_config.yml" \
+                                                              --extra-vars "@${usecase_name}_datasource_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"
+       ;;
+   *)
+       echo "Error - Please enter the correct value in usecase_name."; fail=1
+       ;;
+esac
+
 if [ $? = 0 ]; then
 echo "cQube Workflow upgraded successfully!!"
 fi
