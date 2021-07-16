@@ -2,13 +2,11 @@ import get_jolt_spec_db as jolt_spec
 from update_nifi_parameters_main import update_parameter_context
 import time
 
-
-if __name__ == "__main__":
+def update_nifi_jolt_params(processor_group):
+    
     '''
     Get the jolt spec from db and update the nifi parameters 
     ''' 
-
-    pgs_params =['composite_parameters','infra_parameters','udise_parameters']
     jolt_params ={
         "composite_parameters":{
             "comp_district_jolt_spec":"composite_jolt_district",
@@ -34,8 +32,8 @@ if __name__ == "__main__":
         }
 }
 
-# updates the parameters 
-for i in pgs_params:
-    for key, value in jolt_params[i].items():
-        update_parameter_context(i,key,jolt_spec.get_jolt_spec(value))
-        time.sleep(2)
+    # updates the parameters 
+    for i in processor_group:
+        for key, value in jolt_params[i].items():
+            update_parameter_context(i,key,jolt_spec.get_jolt_spec(value))
+            time.sleep(2)
