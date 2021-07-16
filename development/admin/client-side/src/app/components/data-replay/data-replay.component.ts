@@ -394,6 +394,9 @@ export class DataReplayComponent implements OnInit {
           this.onCancel();
           document.getElementById('spinner').style.display = 'none';
           alert(res['msg']);
+        },err=>{
+          alert("Something went wrong");
+          document.getElementById('spinner').style.display = 'none';
         })
       }
     } else {
