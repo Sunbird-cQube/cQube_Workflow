@@ -1153,7 +1153,7 @@ row_number() over (partition by question_id,exam_id,indicator_id,indicator_title
 	select data.academic_year,data.exam_code,data.exam_date,data.school_id,data.grade,data.school_name,data.district_id,data.district_name,data.block_id,data.block_name,data.cluster_id,data.cluster_name,
 	data.subject,data.indicator,data.obtained_marks,data.total_marks,data.students_attended,data.total_students,data.school_management_type,data.school_category,now(),now()
 	from (select academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,
-	round(avg(obtained_marks)::numeric,2) as obtained_marks,round(avg(total_marks)::numeric,2) as total_marks,max(students_attended) as students_attended,max(total_students) as total_students,
+	round(sum(obtained_marks)::numeric) as obtained_marks,round(sum(total_marks)::numeric) as total_marks,max(students_attended) as students_attended,max(total_students) as total_students,
 	school_management_type,school_category
 	from semester_exam_school_qst_result where students_attended > 0
 	group by academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,school_management_type,school_category)as data
@@ -1163,7 +1163,8 @@ row_number() over (partition by question_id,exam_id,indicator_id,indicator_title
 	obtained_marks=excluded.obtained_marks,indicator=excluded.indicator,academic_year=excluded.academic_year,subject=excluded.subject,
 	students_attended=excluded.students_attended,school_name=excluded.school_name,total_students=excluded.total_students,
 	cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,block_id=excluded.block_id,block_name=excluded.block_name,
-district_id=excluded.district_id,district_name=excluded.district_name,school_management_type=excluded.school_management_type,school_category=excluded.school_category,updated_on=now();""",
+district_id=excluded.district_id,district_name=excluded.district_name,school_management_type=excluded.school_management_type,school_category=excluded.school_category,updated_on=now();
+""",
 "semester_exam_result_stg_1_to_stg_2_qry":"""insert into semester_exam_result_staging_2(id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks,ff_uuid)
 select id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks,ff_uuid
 from  semester_exam_result_staging_1""",
