@@ -8,16 +8,16 @@ drop view if exists health_card_index_school_last30 cascade;
 drop view if exists health_card_index_cluster_last30 cascade;
 drop view if exists health_card_index_block_last30 cascade;
 drop view if exists health_card_index_district_last30 cascade;
-drop view if exists health_card_index_school_mgmt_overall;
-drop view if exists health_card_index_school_mgmt_last30;
-drop view if exists health_card_index_cluster_mgmt_overall;
-drop view if exists health_card_index_cluster_mgmt_last30;
-drop view if exists health_card_index_block_mgmt_overall;
-drop view if exists health_card_index_block_mgmt_last30;
-drop view if exists health_card_index_district_mgmt_overall;
-drop view if exists health_card_index_district_mgmt_last30;
-drop view if exists health_card_index_state;
-drop view if exists health_card_index_state_last30;
+drop view if exists health_card_index_school_mgmt_overall cascade;
+drop view if exists health_card_index_school_mgmt_last30 cascade;
+drop view if exists health_card_index_cluster_mgmt_overall cascade;
+drop view if exists health_card_index_cluster_mgmt_last30 cascade;
+drop view if exists health_card_index_block_mgmt_overall cascade;
+drop view if exists health_card_index_block_mgmt_last30 cascade;
+drop view if exists health_card_index_district_mgmt_overall cascade;
+drop view if exists health_card_index_district_mgmt_last30 cascade;
+drop view if exists health_card_index_state cascade;
+drop view if exists health_card_index_state_last30 cascade;
 
 
 insert into health_card_config(data_source,select_query,join_query,status,category,time_period) values('basic','select basic.*',

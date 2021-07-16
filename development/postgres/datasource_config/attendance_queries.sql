@@ -8,8 +8,8 @@ drop view if exists teacher_attendance_exception_last_1_day cascade;
 drop view if exists teacher_attendance_exception_last_30_days cascade;
 drop view if exists teacher_attendance_exception_last_7_days cascade;
 drop view if exists teacher_attendance_exception_overall cascade;
-drop view if exists hc_student_attendance_state_mgmt_overall;
-drop view if exists hc_student_attendance_state_mgmt_last30;
+drop view if exists hc_student_attendance_state_mgmt_overall cascade;
+drop view if exists hc_student_attendance_state_mgmt_last30 cascade;
 
 
 create or replace function drop_view_attendance()
