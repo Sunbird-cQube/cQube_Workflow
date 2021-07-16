@@ -14,8 +14,8 @@ drop view if exists hc_periodic_exam_block_last30 cascade;
 drop view if exists hc_periodic_exam_block_all cascade;
 drop view if exists hc_periodic_exam_district_last30 cascade;
 drop view if exists hc_periodic_exam_district_all cascade;
-drop view if exists hc_pat_state_mgmt_overall;
-drop view if exists hc_pat_state_mgmt_last30;
+drop view if exists hc_pat_state_mgmt_overall cascade;
+drop view if exists hc_pat_state_mgmt_last30 cascade;
 
 
 create or replace function drop_view_pat()
