@@ -20,7 +20,8 @@ export class S3FilesDownloadComponent implements OnInit {
   list: any = [];
   err;
   public selectedFile;
-
+  public select1 = "bucket";
+  public isBucket = false;
   constructor(private router: Router, private service: S3DownloadsService) { }
 
   ngOnInit(): void {
@@ -28,7 +29,9 @@ export class S3FilesDownloadComponent implements OnInit {
     document.getElementById('spinner').style.display = 'block';
     this.bucketName = '';
     this.service.listBuckets().subscribe(res => {
-      var bucket = res;
+      var bucket = res['listBuckets'];
+      this.select1 = res['storageType'];
+      this.select1 == "bucket" ? this.isBucket = false : this.isBucket = true;
       this.listBucket[0] = { Name: bucket['input'] };
       this.listBucket[1] = { Name: bucket['output'] };
       this.listBucket[2] = { Name: bucket['emission'] };
@@ -48,7 +51,6 @@ export class S3FilesDownloadComponent implements OnInit {
     var element = <HTMLBodyElement>document.getElementById('btn');
     element['disabled'] = true;
     this.service.listFiles(this.bucketName).subscribe((res: any) => {
-
       var files = []
       res.forEach(element => {
         files.push({ fileName: element });
@@ -59,7 +61,7 @@ export class S3FilesDownloadComponent implements OnInit {
         element['checked'] = false;
       });
       document.getElementById('spinner').style.display = 'none';
-    }, err =>{
+    }, err => {
       document.getElementById('spinner').style.display = 'none';
     })
   }
@@ -73,7 +75,7 @@ export class S3FilesDownloadComponent implements OnInit {
   onSubmit() {
     this.service.downloadFile(this.selectedFile, this.bucketName).subscribe(res => {
       window.open(`${res['downloadUrl']}`, "_blank");
-    }, err=>{
+    }, err => {
       document.getElementById('spinner').style.display = 'none';
     });
   }

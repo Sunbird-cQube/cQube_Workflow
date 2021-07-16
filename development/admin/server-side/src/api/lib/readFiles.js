@@ -50,5 +50,5 @@ const readLocalFile = (fileName) => {
 }
 
 module.exports = {
-    readS3File, readLocalFile, storageType
+    readS3File, readLocalFile, storageType,baseDir
 };

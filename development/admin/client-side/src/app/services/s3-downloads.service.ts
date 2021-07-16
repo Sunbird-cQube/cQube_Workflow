@@ -19,11 +19,11 @@ export class S3DownloadsService {
 
   listFiles(bucketName) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/s3Download/listFiles/${bucketName}`, {});
+    return this.http.post(`${this.baseUrl}/s3Download/listFiles`, { bucketName });
   }
 
   downloadFile(fileName, bucketName) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/s3Download/getDownloadUrl/`, { fileName: fileName, bucketName: bucketName });
+    return this.http.post(`${this.baseUrl}/s3Download/getDownloadUrl`, { fileName: fileName, bucketName: bucketName });
   }
 }

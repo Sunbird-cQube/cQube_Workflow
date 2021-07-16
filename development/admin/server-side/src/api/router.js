@@ -17,7 +17,7 @@ router.use('/getDataSource', dataSource);
 const getMonthAndYear = require('./controller/data-replay/getMonthAndYear');
 router.use('/', getMonthAndYear);
 
-const saveDataToS3 = require('./controller/data-replay/saveDatatoS3');
+const saveDataToS3 = require('./controller/data-replay/saveData');
 router.use('/savetoS3', saveDataToS3);
 
 // user details routes
