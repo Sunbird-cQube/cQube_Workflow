@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>Single template(Both on premise and s3).</description>
+    <description>Single template (Both s3 and on premise).</description>
     <groupId>281dc6f4-0173-1000-6ece-d7cd0acfb411</groupId>
     <name>pat_transformer</name>
     <snippet>
@@ -9948,7 +9948,7 @@ all category vs management</label>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>save-s3-log_summary_output_port</name>
+                    <name>pat_save-s3-log_summary_output_port</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -26683,7 +26683,7 @@ executesql.query.fetchtime =${executesql.query.fetchtime}
                     <config>
                         <bulletinLevel>WARN</bulletinLevel>
                         <comments></comments>
-                        <concurrentlySchedulableTaskCount>2</concurrentlySchedulableTaskCount>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                         <descriptors>
                             <entry>
 <key>Database Connection Pooling Service</key>
@@ -30638,5 +30638,5 @@ same id data validation of file:${filename}, same id records found </value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/13/2021 18:21:49 IST</timestamp>
+    <timestamp>07/15/2021 14:41:57 IST</timestamp>
 </template>

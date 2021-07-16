@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>Single template (Both on premise and s3).</description>
+    <description>Single template (Both s3 and on premise).</description>
     <groupId>281dc6f4-0173-1000-6ece-d7cd0acfb411</groupId>
     <name>sat_transformer</name>
     <snippet>
@@ -9194,7 +9194,7 @@ all category vs management</label>
                     <versionedComponentId>908bcd28-465f-375c-a93d-68e7a6d774ec</versionedComponentId>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>pat_split_file_success</name>
+                    <name>sat_split_file_success</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -9260,7 +9260,7 @@ all category vs management</label>
                     <versionedComponentId>e89304c5-cd5b-3b31-84b8-4b38a9977c0a</versionedComponentId>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>pat_split_wait</name>
+                    <name>sat_split_wait</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -9287,7 +9287,7 @@ all category vs management</label>
                     <versionedComponentId>3335ed15-f9fd-3f68-a384-5a562aa2fea5</versionedComponentId>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>pat_split_file_failure</name>
+                    <name>sat_split_file_failure</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -20955,7 +20955,7 @@ ${filename:startsWith('semester_exam_subject_details')}
                     <config>
                         <bulletinLevel>WARN</bulletinLevel>
                         <comments></comments>
-                        <concurrentlySchedulableTaskCount>2</concurrentlySchedulableTaskCount>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                         <descriptors>
                             <entry>
 <key>Database Connection Pooling Service</key>
@@ -28957,5 +28957,5 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_semester_exa
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/13/2021 20:42:46 IST</timestamp>
+    <timestamp>07/15/2021 14:41:40 IST</timestamp>
 </template>
