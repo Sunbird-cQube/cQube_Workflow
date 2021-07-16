@@ -54,12 +54,16 @@
       PASSWORD= "{{ keycloak_adm_passwd }}"
       GRANT_TYPE= "password"
 
+      INPUT_DIRECTORY= "{{ input_directory }}"
+      OUTPUT_DIRECTORY= "{{ output_directory }}"
+      EMISSION_DIRECTORY= "{{ emission_directory }}"
+
       EMISSION_BUCKET_NAME= {{ s3_emission_bucket }}
       INPUT_BUCKET_NAME= {{ s3_input_bucket }}
       OUTPUT_BUCKET_NAME= {{ s3_output_bucket }} 
       AWS_REGION= "{{ aws_default_region }}"
 
-      NIFI_PROCESSORS= "crc_transformer,semester_transformer,student_attendance_transformer,diksha_transformer,infra_transformer,static_data_transformer,udise_transformer,pat_transformer,composite_transformer,healthcard_transformer,teacher_attendance_transformer"
+      NIFI_PROCESSORS= "crc_transformer,student_attendance_transformer,diksha_transformer,infra_transformer,static_data_transformer,udise_transformer,pat_transformer,composite_transformer,healthcard_transformer,teacher_attendance_transformer"
       NIFI_URL= "http://localhost:8096/nifi-api"
 
       NODE_ENV= "DEVELOPMENT"

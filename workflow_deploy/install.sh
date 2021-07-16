@@ -28,8 +28,7 @@ fi
 
 . "$INS_DIR/validation_scripts/install_aws_cli.sh"
 . "validate.sh"
-. "$INS_DIR/validation_scripts/datasource_config_validation.sh"
-. "$INS_DIR/validation_scripts/validate_static_datasource.sh"
+. "$INS_DIR/validation_scripts/datasource_config_validation.sh install"
 
 sudo apt install ansible -y
 
@@ -44,17 +43,33 @@ tput setaf 1; echo "Error there is a problem installing Ansible"; tput sgr0
 exit
 fi
 
-# getting the base_config.yml from cqube base_dir
-base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+usecase_name=$(awk ''/^usecase_name:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
-storage_type=$(awk ''/^storage_type:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
-#ansible-playbook create_base.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml"
+case $usecase_name in
+   
+   education_usecase)
+        . $INS_DIR/validation_scripts/validate_static_datasource.sh ${usecase_name}_config.yml
+        base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' ${usecase_name}_config.yml)
+        ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml" \
+                                                              --extra-vars "@${usecase_name}_config.yml" \
+                                                              --extra-vars "@${usecase_name}_datasource_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"    
+       ;;
+   test_usecase)
+        . $INS_DIR/validation_scripts/validate_static_datasource.sh ${usecase_name}_config.yml
+        base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' ${usecase_name}_config.yml)
+        ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml" \
+                                                              --extra-vars "@${usecase_name}_config.yml" \
+                                                              --extra-vars "@${usecase_name}_datasource_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"
+       ;;
+   *)
+       echo "Error - Please enter the correct value in usecase_name."; fail=1
+       ;;
+esac
 
-if [[ -f aws_s3_config.yml ]]; then
-ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_aws_s3_installation_config.yml"
-else
-ansible-playbook ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_installation_config.yml" --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml.template"
-fi
 if [ $? = 0 ]; then
 echo "cQube Workflow installed successfully!!"
 fi

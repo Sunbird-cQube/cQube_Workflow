@@ -5,20 +5,30 @@
             "lastModifier": "Admin"
         },
         "component":{
-                "name":"student_assessment_parameters",
+                "name":"cQube_data_storage_parameters",
 
         "parameters":[
             {
+                "parameter":{"name":"s3_emission_bucket",
+                        "value":"{{ s3_emission_bucket }}"
+                            }
+            },
+            {
+                "parameter":{"name":"s3_input_bucket",
+                        "value":"{{ s3_input_bucket }}"
+                            }
+            },
+            {
+                "parameter":{"name":"diksha_columns",
+                        "value":"{% if diksha_columns == True %}true{% endif %}{% if diksha_columns == False %}false{% endif %}"
+                            }
+            },
+	        {
                 "parameter":{"name":"base_dir",
                         "value":"{{ base_dir }}"
                             }
             },
-            {
-                "parameter":{"name":"s3_output_bucket",
-                        "value":"{{ s3_output_bucket }}"
-                            }
-            },
-	    {
+	        {
                 "parameter":{"name":"db_user",
                         "value":"{{ db_user }}"
                             }
@@ -45,70 +55,50 @@
             },
 	    {
                 "parameter":{"name":"s3_access_key",
-                "sensitive": true,
+		"sensitive": true,	
                         "value":"{{ s3_access_key }}"
                             }
             },
-            {
+	    {
                 "parameter":{"name":"s3_secret_key",
                 "sensitive": true,
                         "value":"{{ s3_secret_key }}"
                             }
             },
-            {
+	    {
                 "parameter":{"name":"db_password",
                 "sensitive": true,
                         "value":"{{ db_password }}"
                             }
             },
-	    {
-                "parameter":{"name":"s3_output_bucket",
-                        "value":"{{ s3_output_bucket }}"
+            {
+                "parameter":{"name":"static_datasource",
+                        "value":"{{ static_datasource }}"
                             }
             },
             {
-                "parameter":{"name":"sem_district_wise_completion_list",
-                        "value":""
+                "parameter":{"name":"input_directory",
+                        "value":"{{ input_data }}"
                             }
             },
             {
-                "parameter":{"name":"sem_block_wise_completion_list",
-                        "value":""
+                "parameter":{"name":"output_directory",
+                        "value":"{{ output_data }}"
                             }
             },
             {
-                "parameter":{"name":"sem_cluster_wise_completion_list",
-                        "value":""
+                "parameter":{"name":"emission_directory",
+                        "value":"{{ emission_data }}"
                             }
             },
             {
-                "parameter":{"name":"sem_school_wise_completion_list",
-                        "value":""
-                            }
-            },
-            {
-                "parameter":{"name":"sem_transform_district_wise_completion",
-                        "value":""
-                            }
-            },
-            {
-                "parameter":{"name":"sem_transform_block_wise_completion",
-                        "value":""
-                            }
-            },
-            {
-                "parameter":{"name":"sem_transform_cluster_wise_completion",
-                        "value":""
-                            }
-            },
-            {
-                "parameter":{"name":"sem_transform_school_wise_completion",
-                        "value":""
+                "parameter":{"name":"data_storage_type",
+                        "value":"{{ storage_type }}"
                             }
             }
+
 
         ]
 
 }
 }
-

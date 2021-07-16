@@ -13,10 +13,6 @@
   when: nifi_attendance
   tags: [ install, update ]
 
-- include_tasks: nifi_semester.yml
-  when: nifi_semester
-  tags: [ install, update ]
-
 - include_tasks: nifi_infra.yml
   when: nifi_infra
   tags: [ install, update ]
