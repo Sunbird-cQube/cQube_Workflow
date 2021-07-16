@@ -1,0 +1,5 @@
+- name: Run python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py data_replay_transformer data_replay_transformer_parameters 0"
+
+- name: Run python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage data_replay_transformer"

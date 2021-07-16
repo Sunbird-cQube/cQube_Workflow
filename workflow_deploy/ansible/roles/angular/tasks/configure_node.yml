@@ -53,4 +53,5 @@
       PASSWORD= "{{ keycloak_adm_passwd }}"
       GRANT_TYPE= "password"
       BASE_DIR = "{{ base_dir }}"
+      STORAGE_TYPE = "{{ storage_type }}"
   tags: [ install, update ]

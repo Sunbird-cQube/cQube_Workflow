@@ -44,6 +44,7 @@
       SECRET_ACCESS_KEY  = "{{ s3_secret_key }}"
       OUTPUT_BUCKET = "{{ s3_output_bucket }}"
       BASE_DIR = "{{ base_dir }}"
+      STORAGE_TYPE = "{{ storage_type }}"
       BASEURL = "http://{{ local_ipv4_address}}:5000"
 
       KEYCLOAK_HOST = "https://{{ api_endpoint }}"

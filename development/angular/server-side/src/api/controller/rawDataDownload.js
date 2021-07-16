@@ -3,7 +3,7 @@ const { logger } = require('../lib/logger');
 const auth = require('../middleware/check-auth');
 var const_data = require('../lib/config');
 const readFile = require("../lib/reads3File");
-var baseDir = `${process.env.BASE_DIR}/cqube/nifi/output/`;
+var baseDir = `${process.env.OUTPUT_DIRECTORY}/`;
 
 router.post('/', auth.authController, async function (req, res) {
     try {

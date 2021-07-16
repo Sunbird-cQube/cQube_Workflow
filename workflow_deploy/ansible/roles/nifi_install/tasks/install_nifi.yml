@@ -1,19 +1,38 @@
 ---
-- name: Creates a directory
-  file:
-    path: nifi_json_files
-    owner: "{{ system_user_name }}"
-    group: "{{ system_user_name }}"
-    mode: '1755'
-    state: directory
-  tags: [ install , update ]
-
 - name: Creating nifi_queries directory
   file:
-    path: "{{ base_dir }}/cqube/nifi/nifi_queries"
+    path: "{{ base_dir }}/cqube/nifi/{{ item }}"
     state: directory
+  with_items:
+    - nifi_queries
+    - nifi_templates
+    - nifi_json_files
   tags: install
-    
+   
+- name: Copying the nifi templetes to nifi directory
+  copy:
+    src: ../../development/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - cQube_data_storage.xml
+    - composite_transformer.xml
+    - cqube_telemetry_transformer.xml
+    - crc_transformer.xml
+    - data_replay_transformer.xml
+    - diksha_transformer.xml
+    - healthcard_transformer.xml
+    - infra_transformer.xml
+    - pat_transformer.xml
+    - sat_transformer.xml
+    - semester_transformer.xml
+    - static_data_transformer.xml
+    - student_attendance_transformer.xml
+    - teacher_attendance_transformer.xml
+    - udise_transformer.xml
+  tags: [ install, update ]
+
+
 - name: Copying the query files to nifi directory
   copy: 
     src: ../../development/nifi/reports_queries/{{ item }}

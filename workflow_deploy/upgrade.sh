@@ -19,14 +19,14 @@ chmod u+x upgradation_validate.sh
 . "$INS_DIR/validation_scripts/datasource_config_validation.sh"
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' upgradation_config.yml)
 
-ansible-playbook ansible/create_base.yml --tags "update" --extra-vars "@upgradation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml"
+ansible-playbook ansible/create_base.yml --tags "update" --extra-vars "@upgradation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" 
 
 . "$INS_DIR/validation_scripts/backup_postgres.sh"
 
 if [ -e /etc/ansible/ansible.cfg ]; then
 	sudo sed -i 's/^#log_path/log_path/g' /etc/ansible/ansible.cfg
 fi
-ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml"
+ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" --extra-vars "@$base_dir/cqube/conf/base_aws_s3_upgradation_config.yml"
 if [ $? = 0 ]; then
 echo "cQube Workflow upgraded successfully!!"
 fi

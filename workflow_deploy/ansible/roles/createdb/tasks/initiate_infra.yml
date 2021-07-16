@@ -13,39 +13,121 @@
     owner: postgres
     mode: "0644"
   loop: 
-    - cQube.sql
-    - config.sql
+    - table_definitions
+    - datasource_config
     - infrastructure_master.csv
     - udise_config.csv
     - truncate_tables.sql
   tags: [ install, update ]
 
-- name: Run queries from SQL script
+- name: Run crc table_definitions from SQL script
   become: true
   become_user: postgres
   postgresql_query:
     db: "{{ db_name }}"
-    path_to_script: /tmp/postgres/cQube.sql
+    path_to_script: /tmp/postgres/table_definitions/crc.sql
+  when: nifi_crc
+  tags: [ install, update ]
+
+- name: Run static table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/static_tables.sql
+  tags: [ install, update ]
+
+- name: Run attendance table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/attendance.sql
+  when: nifi_attendance
+  tags: [ install, update ]
+
+- name: Run diksha table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/diksha.sql
+  when: nifi_diksha
+  tags: [ install, update ]
+
+- name: Run pat table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/infra.sql
+  when: nifi_infra
+  tags: [ install, update ]
+
+- name: Run pat table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/pat.sql
+  when: nifi_pat
+  tags: [ install, update ]
+
+- name: Run sat table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/sat.sql
+  when: nifi_sat
+  tags: [ install, update ]
+
+- name: Run udise table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/udise.sql
+  when: nifi_udise
+  tags: [ install, update ]
+
+- name: Run composite table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/composite.sql
+  when: nifi_composite
   tags: [ install, update ]
 
 - name: checking for infra table
   shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "select case when (select count(*) from infrastructure_master)=0 then 0 else 1 end;"
+  when: nifi_infra
   register: output_infra
+  tags: [ install, update ]
+
+- debug:
+     msg: "{{ output_infra.stdout_lines[2].strip() }}"
   tags: [ install, update ]
 
 - name: Copying table structure from csv file
   shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "copy infrastructure_master(infrastructure_name,infrastructure_category,score,status) from '/tmp/postgres/infrastructure_master.csv' delimiter ',' csv header;"
-  when: output_infra.stdout_lines[2].strip() == "0"
+  when: nifi_infra and output_infra.stdout_lines[2].strip() == "0"
   tags: [ install, update ]
 
 - name: checking for udise table
   shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "select case when (select count(*) from udise_config)=0 then 0 else 1 end;"
+  when: nifi_udise
   register: output_udise
   tags: [ install, update ]
 
-- name: Copying table structure from csv file
+- debug:
+     msg: "{{ output_udise.stdout_lines[2].strip() }}"
+  tags: [ install, update ]
+
+- name: Copying table structure from csv file - udise
   shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "copy udise_config(id,description,column_name,type,indice_id,status,score,trans_columns,metric_config,direction) from '/tmp/postgres/udise_config.csv' delimiter '|' csv header;"
-  when: output_udise.stdout_lines[2].strip() == "0"
+  when: nifi_udise and output_udise.stdout_lines[2].strip() == "0"
   tags: [ install, update ]
 
 - name: checking for nifi_template_info table
@@ -58,12 +140,102 @@
   when: output_nifi.stdout_lines[2].strip() == "0"
   tags: [ install, update ]
 
-- name: Run queries from SQL script
+- name: Run crc queries from SQL script
   become: true
   become_user: postgres
   postgresql_query:
     db: "{{ db_name }}"
-    path_to_script: /tmp/postgres/config.sql
+    path_to_script: /tmp/postgres/datasource_config/crc_queries.sql
+  when: nifi_crc
+  tags: [ install, update ]
+
+- name: Run static queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/static_queries.sql
+  tags: [ install, update ]
+
+- name: Run attendance queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/attendance_queries.sql
+  when: nifi_attendance
+  tags: [ install, update ]
+
+- name: Run sat queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/sat_queries.sql
+  when: nifi_sat
+  tags: [ install, update ]
+
+- name: Run infra queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/infra_queries.sql
+  when: nifi_infra
+  tags: [ install, update ]
+
+- name: Run attendance queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/attendance_queries.sql
+  when: nifi_attendance
+  tags: [ install, update ]
+
+- name: Run diksha queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/diksha_queries.sql
+  when: nifi_diksha
+  tags: [ install, update ]
+
+- name: Run pat queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/pat_queries.sql
+  when: nifi_pat
+  tags: [ install, update ]
+
+- name: Run udise queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/udise_queries.sql
+  when: nifi_udise
+  tags: [ install, update ]
+
+- name: Run composite queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/composite_queries.sql
+  when: nifi_composite
+  tags: [ install, update ]
+
+- name: Run healthcard queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/health_card_queries.sql
+  when: nifi_healthcard
   tags: [ install, update ]
 
 - name: Truncating previous tables
