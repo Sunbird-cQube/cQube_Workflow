@@ -1,6 +1,6 @@
 NIFI_IP =                # Nifi url
 NIFI_PORT =              # Nifi Port number
-NIFI_TEMPLATE_PATH =   # Nifi templates local directory path ending with /
+NIFI_TEMPLATE_PATH =     # Nifi templates local directory path ending with /
 NIFI_PARAMETER_DIRECTORY_PATH = # Nifi parameters[created by ansible using config file] local directory path ending with /
 NIFI_STATIC_PARAMETER_DIRECTORY_PATH =
 NIFI_INPUT_OUTPUT_PORTS = {
@@ -80,7 +80,12 @@ NIFI_INPUT_OUTPUT_PORTS = {
                         ],      
        'data_replay_transformer': [{'OUTPUT_PORT': 'data_replay_retention_OP', 'INPUT_PORT': 'data_replay_retention_IP_DS'}
                       
-                        ],      
+                        ],
+       'cqube_telemetry_transformer': [{'OUTPUT_PORT': 'cqube_telemetry_split_wait', 'INPUT_PORT': 'spilt_wait'},
+                                       {'OUTPUT_PORT': 's3_cqube_telemetry_output_port', 'INPUT_PORT': 's3_cqube_telemetry_input_port'},
+                                       {'OUTPUT_PORT': 's3_cqube_telemetry_output_port2', 'INPUT_PORT': 's3_cqube_telemetry_input_port2'},
+                                       {'OUTPUT_PORT': 'save-s3-log_summary_output_port', 'INPUT_PORT': 'save-s3-log_summary_input_port'}
+                        ],            
        
        
     'cQube_data_storage': {'static_data_transformer': [{'OUTPUT_PORT': 'static_files', 'INPUT_PORT': 'static_data_input'}],
@@ -120,6 +125,10 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                               {'OUTPUT_PORT': 'infra_files','INPUT_PORT': 'infra_input'}
                                               ],
                           'data_replay_transformer': [{'OUTPUT_PORT': 'data_replay_retention_files','INPUT_PORT': 'data_replay_retention_input'}
+                                              ],
+                          'cqube_telemetry_transformer': [{'OUTPUT_PORT': 'cqube_telemetry_file','INPUT_PORT': 'cqube_telemetry_input'},
+                                                          {'OUTPUT_PORT': 's3_cqube_telemetry_success_output_port','INPUT_PORT': 's3_cqube_telemetry_success_input_port'},
+                                                          {'OUTPUT_PORT': 's3_cqube_telemetry_success_output_port2','INPUT_PORT': 's3_cqube_telemetry_success_input_port2'}
                                               ]
                            }
     
