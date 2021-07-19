@@ -1,8 +1,8 @@
 NIFI_IP =                # Nifi url
 NIFI_PORT =              # Nifi Port number
-NIFI_TEMPLATE_PATH =     # Nifi templates local directory path ending with /
-NIFI_PARAMETER_DIRECTORY_PATH =   # Nifi parameters[created by ansible using config file] local directory path ending with /
-NIFI_STATIC_PARAMETER_DIRECTORY_PATH =   # Nifi static parameters local directory path ending with /
+NIFI_TEMPLATE_PATH =   # Nifi templates local directory path ending with /
+NIFI_PARAMETER_DIRECTORY_PATH = # Nifi parameters[created by ansible using config file] local directory path ending with /
+NIFI_STATIC_PARAMETER_DIRECTORY_PATH =
 NIFI_INPUT_OUTPUT_PORTS = {
     'static_data_transformer': [
                               {'OUTPUT_PORT': 'static_split_file_wait','INPUT_PORT': 'split_wait'},
