@@ -288,7 +288,7 @@ if __name__ == "__main__":
     dynamic_jolt_params_pg = ['composite_parameters',
                               'infra_parameters', 'udise_parameters']
     if sys.argv[2] in dynamic_jolt_params_pg:
-        update_jolt_params(processor_group_name)
+        update_jolt_params.update_nifi_jolt_params(processor_group_name)
 
     # 4. Link parameter context to processor group
     logging.info("Linking parameter context with processor group")
