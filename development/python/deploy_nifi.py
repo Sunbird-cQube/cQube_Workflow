@@ -269,12 +269,16 @@ if __name__ == "__main__":
         'static_data_parameters': 'static_data_parameters.txt',
         'crc_parameters': 'crc_parameters.txt',
         'student_attendance_parameters': 'student_attendance_parameters.txt',
+        'teacher_attendance_parameters': 'teacher_attendance_parameters.txt',
         'sat_parameters':'sat_parameters.txt',
         'cqube_telemetry_parameters': 'cqube_telemetry_parameters.txt',
         'cQube_data_storage_parameters': 'cQube_data_storage_parameters.txt',
         'udise_parameters': 'udise_parameters.txt',
         'composite_parameters': 'composite_parameters.txt',
-        'pat_parameters': 'pat_parameters.txt'
+        'health_card_parameters':'health_card_parameters.txt',
+        'pat_parameters': 'pat_parameters.txt',
+        'data_replay_parameters':'data_replay_parameters.txt'
+        
     }
     # Load parameters from file to Nifi parameters
     logging.info("Creating static parameters")

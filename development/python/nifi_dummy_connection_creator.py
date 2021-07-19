@@ -78,18 +78,6 @@ def dummy_connection_creator(processor_group_name):
         else:
             return funnel_connect_res.text
     return "Successfully connected invalid ports with funnel"
-
-def start_processor_group(processor_group_name):
-    pg_source = get_processor_group_info(processor_group_name)
-    start_body = {"id":pg_source['component']['id'],"state":"RUNNING","disconnectedNodeAcknowledged":False}
-    start_response =rq.put(f"{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/flow/process-groups/{pg_source['component']['id']}",
-                                     json=start_body, headers=header)
-    if start_response.status_code == 200:
-        logging.info(f"Successfuly scheduled {pg_source['component']['name']}")
-        return True
-    else:
-        return start_response.text
-
     
 # Main.
 if __name__ == "__main__":
@@ -104,6 +92,3 @@ if __name__ == "__main__":
     # create dummy connection for un selection data source
     dummy_connection_creator(processor_group_name)
     logging.info('Successfully completed all the connections between processor groups')
-    
-    # start telemetry processor group = cqube_telemetry_transformer
-    start_processor_group('cqube_telemetry_transformer')
