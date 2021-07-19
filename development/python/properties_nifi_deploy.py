@@ -1,7 +1,9 @@
-NIFI_IP =                # Nifi url
-NIFI_PORT =              # Nifi Port number
-NIFI_TEMPLATE_PATH =     # Nifi templates local directory path ending with /
-NIFI_PARAMETER_DIRECTORY_PATH = # Nifi parameters[created by ansible using config file] local directory path ending with /
+NIFI_IP =   # Nifi url
+NIFI_PORT =            # Nifi Port number
+# Nifi templates local directory path ending with /
+NIFI_TEMPLATE_PATH = 
+# Nifi parameters[created by ansible using config file] local directory path ending with /
+NIFI_PARAMETER_DIRECTORY_PATH = 
 NIFI_STATIC_PARAMETER_DIRECTORY_PATH =
 NIFI_INPUT_OUTPUT_PORTS = {
     'static_data_transformer': [
@@ -84,16 +86,23 @@ NIFI_INPUT_OUTPUT_PORTS = {
        'cqube_telemetry_transformer': [{'OUTPUT_PORT': 'cqube_telemetry_split_wait', 'INPUT_PORT': 'spilt_wait'},
                                        {'OUTPUT_PORT': 's3_cqube_telemetry_output_port', 'INPUT_PORT': 's3_cqube_telemetry_input_port'},
                                        {'OUTPUT_PORT': 's3_cqube_telemetry_output_port2', 'INPUT_PORT': 's3_cqube_telemetry_input_port2'},
-                                       {'OUTPUT_PORT': 'save-s3-log_summary_output_port', 'INPUT_PORT': 'save-s3-log_summary_input_port'}
+                                       {'OUTPUT_PORT': 'save-s3-log_summary_output_port', 'INPUT_PORT': 'save-s3-log_summary_input_port'},                                       
+                                       {'OUTPUT_PORT': 'cqube_telemetry_save-s3-log_summary_output_port', 'INPUT_PORT': 'cqube_telemetry_save-s3-log_summary_input_port'},
+                                       {'OUTPUT_PORT': 'cqube_telemetry_split_failure', 'INPUT_PORT': 'spilt_file_failure'},
+                                       {'OUTPUT_PORT': 'cqube_telemetry_split_success', 'INPUT_PORT': 'split_file_process_success'}
+                        ],
+         
+       'healthcard_transformer': [{'OUTPUT_PORT': 'health_card_save_output_output_port', 'INPUT_PORT': 'health_card_save_output_input_port'}        
+                        ],   
+       'composite_transformer': [{'OUTPUT_PORT': 'comp_save_output_output_port', 'INPUT_PORT': 'comp_save_output_input_port'}
+                                      
                         ],            
        
        
     'cQube_data_storage': {'static_data_transformer': [{'OUTPUT_PORT': 'static_files', 'INPUT_PORT': 'static_data_input'}],
                            'crc_transformer': [{'OUTPUT_PORT': 'crc_zip_output', 'INPUT_PORT': 'crc_zip_wait'},
-                                              {'OUTPUT_PORT': 'crc_files',
-                                                  'INPUT_PORT': 'crc_input_files'},
-                                              {'OUTPUT_PORT': 'crc_output_files_IP_success_DS',
-                                                  'INPUT_PORT': 'udise_output_files_IP_DS'}
+                                              {'OUTPUT_PORT': 'crc_files','INPUT_PORT': 'crc_input_files'},
+                                              {'OUTPUT_PORT': 'crc_output_files_IP_success_DS','INPUT_PORT': 'crc_output_files_IP'}
                                               ],
                            'udise_transformer': [{'OUTPUT_PORT': 'crc_zip_output', 'INPUT_PORT': 'udise_zip_wait_success_in'},
                                               {'OUTPUT_PORT': 'udise_files','INPUT_PORT': 'udise_input'},
