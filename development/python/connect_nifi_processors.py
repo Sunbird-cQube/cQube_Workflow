@@ -13,6 +13,8 @@ def get_processor_group_ports(processor_group_name):
         return pg_details
 
 # create funnel
+
+
 def create_funnel():
     # check funnel exist
     pg_list = rq.get(
@@ -20,10 +22,10 @@ def create_funnel():
     if pg_list.status_code == 200:
         if len(pg_list.json()['processGroupFlow']['flow']['funnels']) == 0:
             # create funnel
+            header = {"Content-Type": "application/json"}
             create_funnel_body = {"revision": {"clientId": "PYTHON", "version": 0},
                                   "disconnectedNodeAcknowledged": False, "component": {"position": {"x": 373.83218347370484, "y": 484.90403183806325}}}
-            create_funnel_res = rq.post(
-                f'{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/process-groups/{get_nifi_root_pg()}/funnels', json=create_funnel_body, headers=header)
+            create_funnel_res = rq.post(f'{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/process-groups/{get_nifi_root_pg()}/funnels', json=create_funnel_body, headers=header)
 
             if create_funnel_res.status_code == 201:
                 pg_list = rq.get(
@@ -33,7 +35,6 @@ def create_funnel():
             else:
                 return False
         return pg_list.json()
-
 
 
 # connect [INPUT/OUTPUT PORT] between process groups
@@ -51,7 +52,7 @@ def connect_output_input_port(source_processor_group, destination_processor_grou
 
     pg_source_details = get_processor_group_ports(source_processor_group)
     pg_dest_details = get_processor_group_ports(destination_processor_group)
-   
+
     connect_port_body = {
         "revision": {
             "clientId": "PYTHON",
@@ -82,13 +83,13 @@ def connect_output_input_port(source_processor_group, destination_processor_grou
             if 'cQube_data_storage' in source_processor_group:
                 params = params[source_processor_group]
                 source_processor_group = destination_processor_group
-                
+
             # iterate over the configured ports from params
             for ports in params[source_processor_group]:
                 # port details of processor group
                 for i in pg_source_details.json()['processGroupFlow']['flow']['outputPorts']:
                     # if output port name match, assign the ID,parentGroupID
-                    if i['component']['name'] == ports['OUTPUT_PORT']:                        
+                    if i['component']['name'] == ports['OUTPUT_PORT']:
                         connect_port_body['component']['source']['id'] = i['component']['id']
                         connect_port_body['component']['source']['groupId'] = i['component']['parentGroupId']
 
@@ -99,7 +100,7 @@ def connect_output_input_port(source_processor_group, destination_processor_grou
                                 connect_port_body['component']['destination']['groupId'] = input_port_name['component']['parentGroupId']
                                 connect_port_res = rq.post(
                                     f"{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/process-groups/{get_nifi_root_pg()}/connections", json=connect_port_body, headers=header)
-                                
+
                                 if connect_port_res.status_code == 201:
                                     logging.info(
                                         f"Successfully Connection done between {i['component']['name']} and {input_port_name['component']['name']} port")
@@ -119,8 +120,8 @@ if __name__ == "__main__":
     destination_processor_group = sys.argv[2]
 
     logging.info('Connection between PORTS started...')
-    res_1 = connect_output_input_port(source_processor_group,destination_processor_group)
-    res_2 = connect_output_input_port(destination_processor_group,source_processor_group)
+    res_1 = connect_output_input_port(
+        source_processor_group, destination_processor_group)
+    res_2 = connect_output_input_port(
+        destination_processor_group, source_processor_group)
     logging.info('Successfully Connection done between PORTS.')
-
-    
