@@ -33,7 +33,7 @@ def update_nifi_jolt_params(processor_group):
 }
 
     # updates the parameters 
-    for i in processor_group:
-        for key, value in jolt_params[i].items():
-            update_parameter_context(i,key,jolt_spec.get_jolt_spec(value))
+    if processor_group in jolt_params:
+        for key, value in jolt_params[processor_group].items():
+            update_parameter_context(processor_group,key,jolt_spec.get_jolt_spec(value))
             time.sleep(2)
