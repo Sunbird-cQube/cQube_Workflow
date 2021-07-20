@@ -12381,6 +12381,7 @@
                         <x>23816.0</x>
                         <y>1064.0</y>
                     </position>
+                    <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                     <name>comp_save_output_input_port</name>
                     <state>STOPPED</state>
@@ -12809,6 +12810,7 @@
                         <x>21232.0</x>
                         <y>1088.0</y>
                     </position>
+                    <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                     <name>health_card_save_output_input_port</name>
                     <state>STOPPED</state>
@@ -13962,23 +13964,6 @@
                         </entry>
                     </style>
                     <width>752.0</width>
-                </labels>
-                <labels>
-                    <id>93407d56-fab7-3cd0-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>9344.0</x>
-                        <y>-2408.0</y>
-                    </position>
-                    <height>264.0</height>
-                    <label>need to check with krishna in pat</label>
-                    <style>
-                        <entry>
-                            <key>font-size</key>
-                            <value>24px</value>
-                        </entry>
-                    </style>
-                    <width>1008.0</width>
                 </labels>
                 <labels>
                     <id>94c16aca-1598-3b26-0000-000000000000</id>
@@ -62929,5 +62914,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/19/2021 19:22:45 IST</timestamp>
+    <timestamp>07/20/2021 09:41:41 IST</timestamp>
 </template>
