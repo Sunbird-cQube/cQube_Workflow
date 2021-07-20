@@ -13,13 +13,13 @@ const infraRoutes: Routes = [
   {
     path: '', canActivate: [AuthGuard], children: [
       {
-        path: 'school-infrastructure', component: SchoolInfrastructureComponent, canActivateChild: [AuthGuard]
+        path: 'school-infrastructure', component: SchoolInfrastructureComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'school-infra-map', component: InfraMapVisualisationComponent, canActivateChild: [AuthGuard]
+        path: 'school-infra-map', component: InfraMapVisualisationComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'udise-report', component: UdiseReportComponent, canActivateChild: [AuthGuard]
+        path: 'udise-report', component: UdiseReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }
