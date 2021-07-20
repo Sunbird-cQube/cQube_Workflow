@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './containers/home/home.component';
 import { AuthGuard } from './auth.guard';
-import { DashboardComponent } from './dashboards/default/dashboard.component';
+import { DashboardComponent } from './dashboards/education_usecase/dashboard.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ComingSoonComponent } from './common/coming-soon/coming-soon.component';
 import { HealthCardComponent } from './reports/healthCard/health-card/health-card.component';
-import { DashboardCloneComponent } from './dashboards/usecase-1/dashboard-clone.component';
+import { DashboardCloneComponent } from './dashboards/test_usecase/dashboard-clone.component';
 import { testCase } from './dashboards/dashboard.config';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 

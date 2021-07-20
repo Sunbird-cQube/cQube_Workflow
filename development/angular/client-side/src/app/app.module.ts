@@ -13,7 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
-import { DashboardComponent } from './dashboards/default/dashboard.component';
+import { DashboardComponent } from './dashboards/education_usecase/dashboard.component';
 import { KeycloakSecurityService } from './keycloak-security.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthInterceptor } from './auth.interceptor';
@@ -31,7 +31,7 @@ import { DikshaTPDTeachersPercentageComponent } from './reports/diksha/tpd/diksh
 import { StudentAttendanceChartComponent } from './reports/attendance/student-attendance-chart/student-attendance-chart.component';
 import { LineChartComponent } from './common/line-chart/line-chart.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DashboardCloneComponent } from './dashboards/usecase-1/dashboard-clone.component';
+import { DashboardCloneComponent } from './dashboards/test_usecase/dashboard-clone.component';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
 import { UsecaseTwoComponent } from './dashboards/usecase-two/usecase-two.component';
