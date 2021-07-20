@@ -76,7 +76,6 @@
 ]""",
 "select_diksha_tpd_files_from_log_db":"""select * from log_summary where filename like '%diksha_tpd%'""",
 "save_to_diksha_total_content_fn":"""select insert_diksha_agg()""",
-"diksha_api_progress_exhaust_tag":"""01269878797503692810""",
 "diksha_summary_rollup_queries_less_filename":"""diksha_summary_rollup_queries_less.json""",
 "diksha_data_summary_less_tmp_to_trans":"""select insert_diksha_trans()""",
 "save_to_diksha_tpd_dup":"""diksha_tpd_dup""",
