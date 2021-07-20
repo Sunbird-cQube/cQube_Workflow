@@ -284,8 +284,7 @@ if __name__ == "__main__":
     logging.info("Creating static parameters")
     for param_name, filename in params.items():
         if param_name == parameter_context_name:
-            update_nifi_params.nifi_params_config(
-                param_name, f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}{filename}')
+            update_nifi_params.nifi_params_config(param_name, f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}{filename}')
 
     # Load dynamic Jolt spec from db to Nifi parameters
     logging.info("Creating dynamic jolt parameters")
