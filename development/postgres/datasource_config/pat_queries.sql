@@ -16,7 +16,7 @@ drop view if exists hc_periodic_exam_district_last30 cascade;
 drop view if exists hc_periodic_exam_district_all cascade;
 drop view if exists hc_pat_state_mgmt_overall cascade;
 drop view if exists hc_pat_state_mgmt_last30 cascade;
-
+drop materialized view if exists periodic_exam_school_ind_result cascade;
 
 create or replace function drop_view_pat()
 returns int as
