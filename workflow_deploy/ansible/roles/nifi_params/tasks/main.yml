@@ -15,7 +15,7 @@
     - udise_parameters
     - pat_parameters
     - composite_parameters
-    - healthcard_parameters
+    - health_card_parameters
     - teacher_attendance_parameters
     - data_replay_parameters
     - sat_parameters
