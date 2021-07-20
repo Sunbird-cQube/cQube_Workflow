@@ -1,4 +1,14 @@
-{"diksha_tpd_jolt_for_log_summary":"""[{
+{diksha_api_progress_exhaust_api_token":''' ''',
+"diksha_api_progress_exhaust_batch_id_list":''' ''',
+"diksha_api_progress_exhaust_dataset":''' ''',
+"diksha_api_progress_exhaust_encryption_key":''' ''',
+"diksha_api_progress_exhaust_x_channel_id":''' ''',
+"diksha_api_summary_roll_up_api_token":''' ''',
+"diksha_api_summary_roll_up_x_channel_id":''' ''',
+"diksha_api_url_progress_exhaust":''' ''',
+"diksha_api_url_summary_roll_up":''' ''',
+  
+  "diksha_tpd_jolt_for_log_summary":"""[{
 		"operation": "shift",
 		"spec": {
 			"*": {
