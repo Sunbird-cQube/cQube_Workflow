@@ -106,10 +106,6 @@
   register: output_infra
   tags: [ install, update ]
 
-- debug:
-     msg: "{{ output_infra.stdout_lines[2].strip() }}"
-  tags: [ install, update ]
-
 - name: Copying table structure from csv file
   shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "copy infrastructure_master(infrastructure_name,infrastructure_category,score,status) from '/tmp/postgres/infrastructure_master.csv' delimiter ',' csv header;"
   when: nifi_infra and output_infra.stdout_lines[2].strip() == "0"
@@ -119,10 +115,6 @@
   shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "select case when (select count(*) from udise_config)=0 then 0 else 1 end;"
   when: nifi_udise
   register: output_udise
-  tags: [ install, update ]
-
-- debug:
-     msg: "{{ output_udise.stdout_lines[2].strip() }}"
   tags: [ install, update ]
 
 - name: Copying table structure from csv file - udise
