@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { AppServiceComponent } from "../app.service";
-import { KeycloakSecurityService } from "../keycloak-security.service";
-import { environment } from "../../environments/environment";
+import { AppServiceComponent } from "../../app.service";
+import { KeycloakSecurityService } from "../../keycloak-security.service";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-dashboard",

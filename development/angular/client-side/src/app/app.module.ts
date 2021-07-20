@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './containers/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboards/education_usecase/dashboard.component';
 import { KeycloakSecurityService } from './keycloak-security.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthInterceptor } from './auth.interceptor';
@@ -31,7 +31,12 @@ import { DikshaTPDTeachersPercentageComponent } from './reports/diksha/tpd/diksh
 import { StudentAttendanceChartComponent } from './reports/attendance/student-attendance-chart/student-attendance-chart.component';
 import { LineChartComponent } from './common/line-chart/line-chart.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DashboardCloneComponent } from './dashboard-clone/dashboard-clone.component';
+import { DashboardCloneComponent } from './dashboards/test_usecase/dashboard-clone.component';
+import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
+import { AuthGuard } from './auth.guard';
+import { UsecaseTwoComponent } from './dashboards/usecase-two/usecase-two.component';
+import { UsecaseThreeComponent } from './dashboards/usecase-three/usecase-three.component';
+import { HomeUsecaseTwoComponent } from './containers/home-usecase-two/home-usecase-two.component';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -54,7 +59,12 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     DikshaTPDTeachersPercentageComponent,
     StudentAttendanceChartComponent,
     LineChartComponent,
-    DashboardCloneComponent
+    DashboardCloneComponent,
+    PageNotFoundComponent,
+    UsecaseTwoComponent,
+    UsecaseThreeComponent,
+    HomeUsecaseTwoComponent,
+    //UsecaseThreeComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +99,8 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    AuthGuard
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
