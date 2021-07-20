@@ -54,7 +54,10 @@ case $usecase_name in
                                                               --extra-vars "@${usecase_name}_config.yml" \
                                                               --extra-vars "@${usecase_name}_datasource_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
-                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"    
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"
+       if [ $? = 0 ]; then
+         echo "cQube Workflow installed successfully!!"
+       fi
        ;;
    test_usecase)
         . $INS_DIR/validation_scripts/validate_static_datasource.sh ${usecase_name}_config.yml
@@ -63,13 +66,14 @@ case $usecase_name in
                                                               --extra-vars "@${usecase_name}_config.yml" \
                                                               --extra-vars "@${usecase_name}_datasource_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
-                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
+				                              --extra-vars "@datasource.yml"			      
+	if [ $? = 0 ]; then
+          echo "cQube Workflow installed successfully!!"
+        fi
        ;;
    *)
-       echo "Error - Please enter the correct value in usecase_name."; fail=1
+       echo "Error - Please enter the correct value in usecase_name.";fail=1
        ;;
 esac
 
-if [ $? = 0 ]; then
-echo "cQube Workflow installed successfully!!"
-fi
