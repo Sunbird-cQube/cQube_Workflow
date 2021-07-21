@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>Single template (Both s3 and on premise).</description>
+    <description></description>
     <groupId>281dc6f4-0173-1000-6ece-d7cd0acfb411</groupId>
     <name>cQube_data_storage</name>
     <snippet>
@@ -31400,7 +31400,7 @@ or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
                             </entry>
                             <entry>
 <key>school</key>
-<value>${filename:startsWith('school_mst')}</value>
+<value>${filename:startsWith('school_')}</value>
                             </entry>
                             <entry>
 <key>school_category</key>
@@ -62914,5 +62914,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/20/2021 09:41:41 IST</timestamp>
+    <timestamp>07/21/2021 11:14:16 IST</timestamp>
 </template>

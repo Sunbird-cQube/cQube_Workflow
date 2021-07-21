@@ -1,4 +1,4 @@
-{diksha_api_progress_exhaust_api_token":''' ''',
+{"diksha_api_progress_exhaust_api_token":''' ''',
 "diksha_api_progress_exhaust_batch_id_list":''' ''',
 "diksha_api_progress_exhaust_dataset":''' ''',
 "diksha_api_progress_exhaust_encryption_key":''' ''',
