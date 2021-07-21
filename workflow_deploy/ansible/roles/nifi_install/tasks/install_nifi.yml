@@ -7,7 +7,7 @@
     - nifi_queries
     - nifi_templates
     - nifi_json_files
-  tags: install
+  tags: [ install, update ]
    
 - name: Copying the nifi templetes to nifi directory
   copy:
