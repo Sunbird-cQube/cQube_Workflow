@@ -27,7 +27,7 @@ fi
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' upgradation_config.yml)
 usecase_name=$(awk ''/^usecase_name:' /{ if ($2 !~ /#.*/) {print $2}}' upgradation_config.yml)
 
-check_usecase $usecase_name $base_dir
+#check_usecase $usecase_name $base_dir
 
 if [[ $usecase_name == "" ]]; then
    echo "Error - in usecase_name. Unable to get the value. Please check."; fail=1

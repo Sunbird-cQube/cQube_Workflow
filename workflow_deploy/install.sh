@@ -67,7 +67,7 @@ case $usecase_name in
                                                               --extra-vars "@${usecase_name}_datasource_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
-				                              --extra-vars "@datasource.yml"			      
+				                                              --extra-vars "@datasource.yml"			      
 	if [ $? = 0 ]; then
           echo "cQube Workflow installed successfully!!"
         fi
