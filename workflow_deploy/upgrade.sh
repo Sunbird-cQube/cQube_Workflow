@@ -37,6 +37,9 @@ case $usecase_name in
                                                               --extra-vars "@${usecase_name}_datasource_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"    
+        if [ $? = 0 ]; then
+            echo "cQube Workflow upgraded successfully!!"
+        fi  
        ;;
    test_usecase)
         base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' ${usecase_name}_upgradation_config.yml)
@@ -45,13 +48,14 @@ case $usecase_name in
                                                               --extra-vars "@${usecase_name}_datasource_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
                                                               --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"
-       ;;
+        if [ $? = 0 ]; then
+           echo "cQube Workflow upgraded successfully!!"
+        fi
+        ;;
    *)
        echo "Error - Please enter the correct value in usecase_name."; fail=1
        ;;
 esac
 
-if [ $? = 0 ]; then
-echo "cQube Workflow upgraded successfully!!"
-fi
+
 

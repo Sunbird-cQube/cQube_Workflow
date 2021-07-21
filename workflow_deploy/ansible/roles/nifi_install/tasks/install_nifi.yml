@@ -126,16 +126,3 @@
     body: '{"component":{"id":"{{ output.json.component.id }}","name":"PrometheusReportingTask","schedulingStrategy":"TIMER_DRIVEN","schedulingPeriod":"30 sec","comments":"","state":"RUNNING","properties":{"prometheus-reporting-task-metrics-send-jvm":"true"}},"revision":{"clientId":"{{ output.json.revision.clientId }}","version":"{{ output.json.revision.version }}"},"disconnectedNodeAcknowledged":false}'
   tags: [ install, update ]  
 
-- name: Triggering the handler
-  shell: "echo 'triggering the handler using shell'"
-  notify:
-    - run python code to create dummy connections
-  tags: [ install, update ]
-
-- name: Triggering the handler
-  shell: "echo 'triggering the handler using shell'"
-  notify:
-    - run python code to create telemetry dummy connections
-  when: nifi_telemetry
-  tags: [ install, update ]
-

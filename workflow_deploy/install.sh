@@ -28,7 +28,7 @@ fi
 
 . "$INS_DIR/validation_scripts/install_aws_cli.sh"
 . "validate.sh"
-. "$INS_DIR/validation_scripts/datasource_config_validation.sh install"
+. "$INS_DIR/validation_scripts/datasource_config_validation.sh" install
 
 sudo apt install ansible -y
 
