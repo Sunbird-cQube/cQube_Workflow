@@ -768,6 +768,20 @@ default_option boolean,
 ff_uuid varchar(255),
 created_on_file_process timestamp default current_timestamp);
 
+create table IF NOT EXISTS school_grade_enrolment(
+  school_id bigint,
+  grade int,
+  students_count int,
+  primary key(school_id,grade)
+);
+
+create table IF NOT EXISTS subject_details(
+  subject_id int,
+  grade int,
+  subject varchar(100),
+  primary key(subject_id,grade)
+);
+
 alter table log_summary add column if not exists school_category_id int,add column if not exists school_category int, add column if not exists school_management_type_id int,
 add column if not exists school_management_type int;
 
