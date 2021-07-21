@@ -399,4 +399,5 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
 "diksha_data_summary_select_less_columns_api":"""select "Date",dimensions_pdata_id,dimensions_pdata_pid,dimensions_mode,dimensions_type,content_name,content_board,content_mimetype,content_medium,content_subject,content_created_for,
 object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,collection_type,
 collection_medium,collection_subject,collection_created_for,total_count,total_timespent  from flowfile""",
+"diksha_summary_rollup_post_agg_qry":"""select insert_diksha_year_month();"""
 }
