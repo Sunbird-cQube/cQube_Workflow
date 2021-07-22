@@ -992,61 +992,67 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
-    this.reportData = [];
-    this.schoolCount = 0;
-    var myData = data["data"];
-    if (myData.length > 0) {
-      this.markers = myData;
-      var colors = this.commonService.getRelativeColors(
-        this.markers,
-        this.infraData
-      );
-      // attach values to markers
-      for (var i = 0; i < this.markers.length; i++) {
-        var color;
-        if (this.selected == "absolute") {
-          color = this.commonService.colorGredient(
-            this.markers[i],
-            this.infraData
+    try {
+      this.reportData = [];
+      this.schoolCount = 0;
+      var myData = data["data"];
+      if (myData.length > 0) {
+        this.markers = myData;
+        var colors = this.commonService.getRelativeColors(
+          this.markers,
+          this.infraData
+        );
+        // attach values to markers
+        for (var i = 0; i < this.markers.length; i++) {
+          var color;
+          if (this.selected == "absolute") {
+            color = this.commonService.colorGredient(
+              this.markers[i],
+              this.infraData
+            );
+          } else {
+            color = this.commonService.relativeColorGredient(
+              this.markers[i],
+              this.infraData,
+              colors
+            );
+          }
+          var markerIcon = this.commonService.initMarkers1(
+            this.markers[i].details.latitude,
+            this.markers[i].details.longitude,
+            color,
+            // options.radius,
+            options.strokeWeight,
+            1,
+            options.level
           );
-        } else {
-          color = this.commonService.relativeColorGredient(
+
+          // data to show on the tooltip for the desired levels
+          this.generateToolTip(
             this.markers[i],
-            this.infraData,
-            colors
+            options.level,
+            markerIcon,
+            "latitude",
+            "longitude"
           );
+
+          // to download the report
+          this.fileName = fileName;
+          this.getDownloadableData(this.markers[i], options.level);
         }
-        var markerIcon = this.commonService.initMarkers1(
-          this.markers[i].details.latitude,
-          this.markers[i].details.longitude,
-          color,
-          // options.radius,
-          options.strokeWeight,
-          1,
-          options.level
-        );
-
-        // data to show on the tooltip for the desired levels
-        this.generateToolTip(
-          this.markers[i],
-          options.level,
-          markerIcon,
-          "latitude",
-          "longitude"
-        );
-
-        // to download the report
-        this.fileName = fileName;
-        this.getDownloadableData(this.markers[i], options.level);
+        this.commonService.loaderAndErr(this.data);
+        this.changeDetection.markForCheck();
       }
+      //schoolCount
+      this.schoolCount = data["footer"];
+      this.schoolCount = this.schoolCount
+        .toString()
+        .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+    } catch (e) {
+      this.data = [];
       this.commonService.loaderAndErr(this.data);
-      this.changeDetection.markForCheck();
     }
-    //schoolCount
-    this.schoolCount = data["footer"];
-    this.schoolCount = this.schoolCount
-      .toString()
-      .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
   }
 
   //infra filters.....
