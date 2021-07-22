@@ -102,7 +102,7 @@ export class AppServiceComponent {
     }
     //Initialisation of Map  
     initMap(map, maxBounds) {
-        globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
+        globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
         //if (this.mapData) {
         var data = mapData.default;
         function applyCountryBorder(map) {

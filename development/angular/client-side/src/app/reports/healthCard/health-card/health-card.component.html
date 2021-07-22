@@ -166,7 +166,7 @@
                                 least 2
                                 characters/digits</label>
                             <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label>
-                            <!-- <p style="line-height: 1em; float: left;">&nbsp;</p> -->
+                            <p *ngIf="allData" style="line-height: 0.8em; float: left;">&nbsp;</p>
                             <input #searchInput id="myInput" class="input-control full-width" type="search"
                                 class="clearable" autocomplete="off" name="districtName" [(ngModel)]="value"
                                 (input)="onChange()" [placeholder]="placeHolder">

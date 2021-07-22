@@ -198,7 +198,7 @@
                     (click)="showSubmenu4 = !showSubmenu4"><span style="margin-left: 50px;">Semester
                       Exception</span></a>
                   <a mat-list-item
-                    [routerLink]="!nifi_semester ? ['/coming-soon'] :['/exception/download-missing-data']"
+                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/download-missing-data']"
                     (click)="sidenav.toggle()" (click)="fetchTelemetry($event,'isdata')" id="cmplnErr"
                     (click)="showSubmenu4 = !showSubmenu4"><span style="margin-left: 50px;">Download Exception
                       List</span></a>
