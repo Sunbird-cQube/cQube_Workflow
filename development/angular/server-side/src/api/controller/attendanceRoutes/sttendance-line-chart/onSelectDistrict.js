@@ -261,7 +261,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
 });
 
 
-router.get('/getDateRange', auth.authController, function (req, res) {
+router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
         const_data['getParams']['Key'] = `attendance/student_attendance_meta.json`;

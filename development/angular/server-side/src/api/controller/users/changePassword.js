@@ -12,7 +12,7 @@ var realm = process.env.KEYCLOAK_REALM;
 var client_id = process.env.KEYCLOAK_CLIENT
 
 
-router.post('/:id', auth.authController, async function (req, res) {
+router.post('/:id', auth.authController, async (req, res) => {
     try {
         logger.info('---change password api ---');
         var userId = req.params.id;

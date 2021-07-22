@@ -33,7 +33,7 @@
                         </tr>
                     </thead>
                     <thead>
-                        <tr *ngFor="let file of fileNames; let i = index">
+                        <tr *ngFor="let file of fileNames; let i = index" style="text-align: left;">
                             <td><input type="radio" [(ngModel)]="selectedFile" value="{{file.fileName}}"
                                     (change)="checkedList()"></td>
                             <td>{{file.fileName}}</td>

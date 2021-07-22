@@ -4,7 +4,7 @@ const auth = require('../middleware/check-auth');
 const fs = require('fs');
 const csv = require('csvtojson')
 
-router.get('/', async function (req, res) {
+router.get('/', async (req, res) => {
     try {
         logger.info('---dataSource api ---');
         var csvFilePath = `${process.env.BASE_DIR}/cqube/datasource.csv`;
