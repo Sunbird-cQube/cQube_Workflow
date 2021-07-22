@@ -229,6 +229,8 @@ export class CrcReportComponent implements OnInit {
         this.onResize();
         // this.districtWise();
       }
+    }, err => {
+      this.commonService.loaderAndErr([]);
     });
   }
 
@@ -265,6 +267,8 @@ export class CrcReportComponent implements OnInit {
         if (level === "district") {
           this.myDistData(this.myDistrict, true);
         }
+      }, err => {
+        this.commonService.loaderAndErr([]);
       });
   }
 
@@ -295,6 +299,8 @@ export class CrcReportComponent implements OnInit {
         );
 
         if (level === "block") this.myBlockData(blockId, true);
+      }, err => {
+        this.commonService.loaderAndErr([]);
       });
   }
 
@@ -333,6 +339,8 @@ export class CrcReportComponent implements OnInit {
         );
 
         this.myClusterData(clusterId, true);
+      }, err => {
+        this.commonService.loaderAndErr([]);
       });
   }
 

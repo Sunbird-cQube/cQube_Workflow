@@ -1558,15 +1558,15 @@
 </value>
                             </entry>
                             <entry>
-<key>data_storage_type</key>
-<value>
-    <name>data_storage_type</name>
-</value>
-                            </entry>
-                            <entry>
 <key>filename</key>
 <value>
     <name>filename</name>
+</value>
+                            </entry>
+                            <entry>
+<key>source</key>
+<value>
+    <name>source</name>
 </value>
                             </entry>
                         </descriptors>
@@ -1589,12 +1589,12 @@
 <value>100</value>
                             </entry>
                             <entry>
-<key>data_storage_type</key>
-<value>${data_storage_type}</value>
-                            </entry>
-                            <entry>
 <key>filename</key>
 <value>#{base_dir}/cqube/nifi/nifi_queries/#{health_card_queries_filename}</value>
+                            </entry>
+                            <entry>
+<key>source</key>
+<value>#{data_storage_type}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -3975,5 +3975,5 @@ file:${filename},Error while partitioning "${query_type
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/19/2021 19:21:59 IST</timestamp>
+    <timestamp>07/22/2021 18:34:50 IST</timestamp>
 </template>

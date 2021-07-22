@@ -997,6 +997,7 @@
                         <x>1688.0</x>
                         <y>1480.0</y>
                     </position>
+                    <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                     <name>comp_save_output_output_port</name>
                     <state>STOPPED</state>
@@ -2830,15 +2831,15 @@ file:${filename},Error while extracting "${query_type}" query.</value>
 </value>
                             </entry>
                             <entry>
-<key>data_storage_type</key>
-<value>
-    <name>data_storage_type</name>
-</value>
-                            </entry>
-                            <entry>
 <key>filename</key>
 <value>
     <name>filename</name>
+</value>
+                            </entry>
+                            <entry>
+<key>source</key>
+<value>
+    <name>source</name>
 </value>
                             </entry>
                         </descriptors>
@@ -2861,12 +2862,12 @@ file:${filename},Error while extracting "${query_type}" query.</value>
 <value>100</value>
                             </entry>
                             <entry>
-<key>data_storage_type</key>
-<value>${data_storage_type}</value>
-                            </entry>
-                            <entry>
 <key>filename</key>
 <value>#{base_dir}/cqube/nifi/nifi_queries/#{comp_queries_filename}</value>
+                            </entry>
+                            <entry>
+<key>source</key>
+<value>#{data_storage_type}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -2891,5 +2892,5 @@ file:${filename},Error while extracting "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/19/2021 19:21:28 IST</timestamp>
+    <timestamp>07/22/2021 18:34:35 IST</timestamp>
 </template>
