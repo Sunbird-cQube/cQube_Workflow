@@ -1,5 +1,235 @@
 /*Health card index*/
 
+/*Semester views*/
+
+/*school_student_subject_total_marks*/
+
+create table if not exists school_student_subject_total_marks
+(
+id  serial,
+year  int,
+semester  smallint,
+school_id  bigint,
+grade int,
+school_name varchar(200),
+school_latitude  double precision,
+school_longitude  double precision,
+district_id  bigint,
+district_name varchar(100),
+district_latitude  double precision,
+district_longitude  double precision,
+block_id  bigint,
+block_name varchar(100),
+brc_name varchar(100),
+block_latitude  double precision,
+block_longitude  double precision,
+cluster_id  bigint,
+cluster_name varchar(100),
+crc_name varchar(100),
+cluster_latitude  double precision,
+cluster_longitude  double precision,
+subject_3_marks_scored  int,
+subject_3_total_marks  int,
+subject_1_marks_scored int,  
+subject_1_total_marks  int,
+subject_2_marks_scored  int,
+subject_2_total_marks  int,
+subject_7_marks_scored  int,
+subject_7_total_marks  int,
+subject_6_marks_scored  int,
+subject_6_total_marks  int,
+subject_4_marks_scored  int,
+subject_4_total_marks  int,
+subject_5_marks_scored  int,
+subject_5_total_marks  int,
+subject_8_marks_scored  int,
+subject_8_total_marks  int,
+students_count bigint,
+created_on  TIMESTAMP without time zone ,
+updated_on  TIMESTAMP without time zone,
+primary key(school_id,semester,grade)
+);
+
+create index if not exists school_student_total_marks_id on school_student_subject_total_marks(semester,school_id,block_id,cluster_id);
+
+drop view if exists district_grade cascade;
+
+create or replace view district_grade as
+SELECT district_id AS x_axis,grade,semester,
+Round(NULLIF(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+	case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+	+case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+	case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+	+case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+	),0)*100.0/
+Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
+	subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
+FROM school_student_subject_total_marks WHERE district_name IS NOT NULL AND block_latitude IS NOT NULL 
+AND block_latitude <> 0 AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 and cluster_name is not null
+AND school_latitude <>0 AND school_latitude IS NOT NULL AND school_name IS NOT NULL 
+GROUP BY district_id,grade,semester
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) <> 0;
+
+drop view if exists district_school cascade;
+
+create or replace view district_school as
+SELECT district_id AS x_axis,school_id,semester,
+Round(NULLIF(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+	case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+	+case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+	case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+	+case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+	),0)*100.0/
+Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
+	subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
+FROM school_student_subject_total_marks WHERE district_name IS NOT NULL AND block_latitude IS NOT NULL 
+AND block_latitude <> 0 AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 and cluster_name is not null
+AND school_latitude <>0 AND school_latitude IS NOT NULL AND school_name IS NOT NULL 
+GROUP BY district_id,school_id,semester
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) <> 0;
+
+drop view if exists block_school cascade;
+
+create or replace view block_school as
+SELECT block_id AS x_axis,school_id,semester,
+Round(NULLIF(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+	case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+	+case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+	case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+	+case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+	),0)*100.0/
+Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
+	subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
+FROM school_student_subject_total_marks WHERE district_name IS NOT NULL AND block_latitude IS NOT NULL 
+AND block_latitude <> 0 AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 AND school_latitude <>0 
+AND school_latitude IS NOT NULL AND school_name IS NOT NULL and cluster_name is not null
+GROUP BY block_id,school_id,semester
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) <> 0;
+
+drop view if exists block_grade cascade;
+
+create or replace view block_grade as
+	SELECT block_id AS x_axis,grade,semester,
+Round(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+	case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+	+case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+	case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+	+case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+	)*100.0/
+Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
+	subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
+FROM school_student_subject_total_marks WHERE district_name IS NOT NULL AND block_latitude IS NOT NULL and cluster_name is not null
+AND block_latitude <> 0 AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 AND school_latitude <>0 
+AND school_latitude IS NOT NULL AND school_name IS NOT NULL
+GROUP BY block_id,grade,semester 
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) <> 0;
+
+drop view if exists cluster_school cascade; 
+
+create or replace view cluster_school as
+SELECT cluster_id AS x_axis,school_id,semester,
+Round(NULLIF(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+	case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+	+case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+	case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+	+case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+	),0)*100.0/
+Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
+	subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
+FROM school_student_subject_total_marks WHERE district_name IS NOT NULL AND block_latitude IS NOT NULL AND block_latitude <> 0 
+AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 AND school_latitude <>0 and cluster_name is not null
+AND school_latitude IS NOT NULL AND school_name IS NOT NULL
+GROUP BY cluster_id,school_id,semester
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) <> 0;
+
+drop view if exists cluster_grade cascade;
+
+create or replace view cluster_grade as
+	SELECT cluster_id AS x_axis,grade,semester,
+Round(NULLIF(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+	case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+	+case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+	case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+	+case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+	),0)*100.0/
+Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
+	subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
+FROM school_student_subject_total_marks WHERE district_name IS NOT NULL AND block_latitude IS NOT NULL 
+AND block_latitude <> 0 AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 AND school_latitude <>0 and cluster_name is not null
+AND school_latitude IS NOT NULL AND school_name IS NOT NULL 
+GROUP BY cluster_id,grade,semester
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) <> 0; 
+
+drop view if exists school_semester_no_data cascade;
+
+create or replace view school_semester_no_data as
+select school_id,semester from school_student_subject_total_marks 
+WHERE district_name IS NOT NULL AND block_latitude IS NOT NULL AND block_latitude <> 0 and cluster_name is not null
+AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 AND school_latitude <>0 AND school_latitude IS NOT NULL AND school_name IS NOT NULL
+group by school_id,semester
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) = 0;
+
+drop view if exists school_grade cascade;
+
+create or replace view school_grade as
+	SELECT school_id AS x_axis,grade,semester,
+Round(NULLIF(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+	case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+	+case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+	case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+	+case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+	),0)*100.0/
+Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
+	subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
+FROM school_student_subject_total_marks WHERE district_name IS NOT NULL 
+AND block_latitude IS NOT NULL AND block_latitude <> 0 AND cluster_latitude IS NOT NULL 
+AND cluster_latitude <> 0 AND school_latitude <>0 AND school_latitude IS NOT NULL AND school_name IS NOT NULL 
+ and cluster_name is not null
+GROUP BY school_id,grade,semester
+having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end + 
+ case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
+ +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
+ case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
+ +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
+ ) <> 0;
+
+/*Health card index*/
+
 /*semester*/
 
 create or replace view hc_semester_performance_district as 
@@ -3232,30 +3462,6 @@ hc_infra_district as infra
 on basic.district_id=infra.district_id;
 
 
-/*Health card state*/
-
-create or replace view hc_semester_performance_state as
-  SELECT grade,semester,
-Round(NULLIF(Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end +
-  case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
-  +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
-  case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
-  +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
-  ),0)*100.0/
-Sum(subject_1_total_marks+subject_3_total_marks+subject_2_total_marks+subject_4_total_marks+subject_5_total_marks+
-  subject_7_total_marks+subject_6_total_marks+subject_8_total_marks),1)AS x_value
-FROM school_student_subject_total_marks WHERE district_name IS NOT NULL
-AND block_latitude IS NOT NULL AND block_latitude <> 0 AND cluster_latitude IS NOT NULL
-AND cluster_latitude <> 0 AND school_latitude <>0 AND school_latitude IS NOT NULL AND school_name IS NOT NULL
- and cluster_name is not null
-GROUP BY grade,semester
-having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_scored end +
- case when subject_3_marks_scored is null then 0 else subject_3_marks_scored end+case when subject_2_marks_scored is null then 0 else subject_2_marks_scored end
- +case when subject_4_marks_scored is null then 0 else subject_4_marks_scored end+
- case when subject_5_marks_scored is null then 0 else subject_5_marks_scored end+case when subject_7_marks_scored is null then 0 else subject_7_marks_scored end
- +case when subject_6_marks_scored is null then 0 else subject_6_marks_scored end+case when subject_8_marks_scored is null then 0 else subject_8_marks_scored end
- ) <> 0;
-
  create or replace view hc_pat_state as
 select d.*,b.total_schools,b.students_count from
 (select a.*,b.grade_wise_performance from
@@ -6269,14 +6475,6 @@ on basic.district_id=crc.district_id and basic.school_management_type=crc.school
 left join
 hc_infra_mgmt_district as infra
 on basic.district_id=infra.district_id and basic.school_management_type=infra.school_management_type;
-
-
-drop view if exists hc_pat_state_mgmt_overall;
-drop view if exists hc_pat_state_mgmt_last30;
-drop view if exists hc_sat_state_mgmt_overall;
-drop view if exists hc_sat_state_mgmt_last30;
-drop view if exists hc_student_attendance_state_mgmt_overall;
-drop view if exists hc_student_attendance_state_mgmt_last30;
 
 
 /* Student attendance management overall */
