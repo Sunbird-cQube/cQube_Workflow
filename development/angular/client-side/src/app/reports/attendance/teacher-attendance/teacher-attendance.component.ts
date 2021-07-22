@@ -126,7 +126,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.lat = this.commonService.mapCenterLatlng.lat;
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("mapContainer", [[this.lat, this.lng]]);
+    this.commonService.initMap("tarMap", [[this.lat, this.lng]]);
     document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.skul = true;
