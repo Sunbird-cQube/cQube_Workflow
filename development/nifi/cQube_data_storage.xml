@@ -15655,7 +15655,7 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>/home/ubuntu/nifi/on_premise/input/${input_directory}${filename}</value>
+<value>#{input_directory}${input_directory}${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -62914,5 +62914,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/21/2021 11:14:16 IST</timestamp>
+    <timestamp>07/22/2021 09:59:29 IST</timestamp>
 </template>
