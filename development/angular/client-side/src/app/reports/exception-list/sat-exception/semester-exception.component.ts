@@ -774,31 +774,36 @@ export class SemesterExceptionComponent implements OnInit {
 
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
-    this.reportData = [];
-    if (data['data'].length > 0) {
-      this.markers = [];
-      this.markers = data['data']
-      var updatedMarkers = this.markers.filter(a => {
-        return a.total_schools_with_missing_data && a.total_schools_with_missing_data != 0;
-      });
-      this.markers = updatedMarkers;
-      this.schoolCount = 0;
-      // generate color gradient
-      this.colors = this.commonService.getRelativeColors(this.markers, { value: 'percentage_schools_with_missing_data', report: 'exception' });
-      // attach values to markers
-      for (let i = 0; i < this.markers.length; i++) {
-        this.schoolCount = this.schoolCount + parseInt(this.markers[i].total_schools_with_missing_data);
-        this.getLatLng(options.level, this.markers[i]);
-        var markerIcon = this.commonService.initMarkers(this.latitude, this.longitude, this.commonService.relativeColorGredient(this.markers[i], { value: 'percentage_schools_with_missing_data', report: 'exception' }, this.colors), options.radius, options.strokeWeight, options.weight, options.level);
-        if (markerIcon)
-          this.generateToolTip(this.markers[i], options.level, markerIcon, this.strLat, this.strLng);
+    try{
+      this.reportData = [];
+      if (data['data'].length > 0) {
+        this.markers = [];
+        this.markers = data['data']
+        var updatedMarkers = this.markers.filter(a => {
+          return a.total_schools_with_missing_data && a.total_schools_with_missing_data != 0;
+        });
+        this.markers = updatedMarkers;
+        this.schoolCount = 0;
+        // generate color gradient
+        this.colors = this.commonService.getRelativeColors(this.markers, { value: 'percentage_schools_with_missing_data', report: 'exception' });
+        // attach values to markers
+        for (let i = 0; i < this.markers.length; i++) {
+          this.schoolCount = this.schoolCount + parseInt(this.markers[i].total_schools_with_missing_data);
+          this.getLatLng(options.level, this.markers[i]);
+          var markerIcon = this.commonService.initMarkers(this.latitude, this.longitude, this.commonService.relativeColorGredient(this.markers[i], { value: 'percentage_schools_with_missing_data', report: 'exception' }, this.colors), options.radius, options.strokeWeight, options.weight, options.level);
+          if (markerIcon)
+            this.generateToolTip(this.markers[i], options.level, markerIcon, this.strLat, this.strLng);
+        }
+  
+        this.fileName = fileName;
+        this.commonService.loaderAndErr(this.data);
+        this.changeDetection.markForCheck();
       }
-
-      this.fileName = fileName;
+      this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+    }catch(e){
+      this.data = [];
       this.commonService.loaderAndErr(this.data);
-      this.changeDetection.markForCheck();
     }
-    this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
   }
 
 

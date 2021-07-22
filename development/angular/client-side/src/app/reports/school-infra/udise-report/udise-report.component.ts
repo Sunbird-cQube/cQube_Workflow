@@ -951,79 +951,84 @@ export class UdiseReportComponent implements OnInit {
 
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
-    this.reportData = [];
-    this.schoolCount = 0;
-    var myData = data["data"];
-    if (myData.length > 0) {
-      this.markers = myData;
-      var colors = this.commonService.getRelativeColors(
-        this.markers,
-        this.indiceData
-      );
+    try{
+      this.reportData = [];
       this.schoolCount = 0;
-      // attach values to markers
-      for (var i = 0; i < this.markers.length; i++) {
-        if (this.selected == "absolute") {
-          this.setColor = this.commonService.colorGredient(
-            this.markers[i],
-            this.indiceData
-          );
-        } else {
-          this.setColor = this.commonService.relativeColorGredient(
-            this.markers[i],
-            this.indiceData,
-            colors
-          );
-        }
-        var markerIcon: any;
-        var markerIcon = this.commonService.initMarkers1(
-          this.markers[i].details.latitude,
-          this.markers[i].details.longitude,
-          this.setColor,
-          // options.radius,
-          options.strokeWeight,
-          1,
-          options.level
+      var myData = data["data"];
+      if (myData.length > 0) {
+        this.markers = myData;
+        var colors = this.commonService.getRelativeColors(
+          this.markers,
+          this.indiceData
         );
-
-        // data to show on the tooltip for the desired levels
-        if (options.level) {
-          // data to show on the tooltip for the desired levels
-          this.generateToolTip(
-            this.markers[i],
-            options.level,
-            markerIcon,
-            "latitude",
-            "longitude"
+        this.schoolCount = 0;
+        // attach values to markers
+        for (var i = 0; i < this.markers.length; i++) {
+          if (this.selected == "absolute") {
+            this.setColor = this.commonService.colorGredient(
+              this.markers[i],
+              this.indiceData
+            );
+          } else {
+            this.setColor = this.commonService.relativeColorGredient(
+              this.markers[i],
+              this.indiceData,
+              colors
+            );
+          }
+          var markerIcon: any;
+          var markerIcon = this.commonService.initMarkers1(
+            this.markers[i].details.latitude,
+            this.markers[i].details.longitude,
+            this.setColor,
+            // options.radius,
+            options.strokeWeight,
+            1,
+            options.level
           );
-
-          this.fileName = fileName;
-          this.getDownloadableData(this.markers[i], options.level);
+  
+          // data to show on the tooltip for the desired levels
+          if (options.level) {
+            // data to show on the tooltip for the desired levels
+            this.generateToolTip(
+              this.markers[i],
+              options.level,
+              markerIcon,
+              "latitude",
+              "longitude"
+            );
+  
+            this.fileName = fileName;
+            this.getDownloadableData(this.markers[i], options.level);
+          }
         }
+  
+        this.loaderAndErr();
+        this.changeDetection.markForCheck();
       }
-
+      //schoolCount
+      this.schoolCount = data["footer"];
+      this.schoolCount = this.schoolCount
+        .toString()
+        .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+  
+      if (this.level == "school") {
+        globalMap.doubleClickZoom.enable();
+        globalMap.scrollWheelZoom.enable();
+        globalMap.setMaxBounds([
+          [options.centerLat - 1.5, options.centerLng - 3],
+          [options.centerLat + 1.5, options.centerLng + 2],
+        ]);
+      } else {
+        this.commonService.restrictZoom(globalMap);
+        globalMap.setMaxBounds([
+          [options.centerLat - 4.5, options.centerLng - 6],
+          [options.centerLat + 3.5, options.centerLng + 6],
+        ]);
+      }
+    }catch(e){
+      this.data = [];
       this.loaderAndErr();
-      this.changeDetection.markForCheck();
-    }
-    //schoolCount
-    this.schoolCount = data["footer"];
-    this.schoolCount = this.schoolCount
-      .toString()
-      .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
-    if (this.level == "school") {
-      globalMap.doubleClickZoom.enable();
-      globalMap.scrollWheelZoom.enable();
-      globalMap.setMaxBounds([
-        [options.centerLat - 1.5, options.centerLng - 3],
-        [options.centerLat + 1.5, options.centerLng + 2],
-      ]);
-    } else {
-      this.commonService.restrictZoom(globalMap);
-      globalMap.setMaxBounds([
-        [options.centerLat - 4.5, options.centerLng - 6],
-        [options.centerLat + 3.5, options.centerLng + 6],
-      ]);
     }
   }
 

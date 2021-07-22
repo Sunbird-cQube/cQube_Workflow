@@ -557,113 +557,118 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   async districtWise() {
-    this.commonAtStateLevel();
-    this.levelWise = "District";
-    if (this.months.length > 0) {
-      var month = this.months.find((a) => a.id === this.month);
-      if (this.month_year.month) {
-        this.fileName = `${this.reportName}_allDistricts_${month.name.trim()}_${this.year
-          }_${this.commonService.dateAndTime}`;
-      } else {
-        this.fileName = `${this.reportName}_allDistricts_${this.period}_${this.commonService.dateAndTime}`;
-      }
-      if (this.myData) {
-        this.myData.unsubscribe();
-      }
-      this.myData = this.service
-        .dist_wise_data({
-          ...this.month_year,
-          ...this.timePeriod,
-          ...{ management: this.management, category: this.category },
-        })
-        .subscribe(
-          (res) => {
-            this.mylatlngData = this.districtData =
-              res["distData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData.sort((a, b) =>
-              a.attendance > b.attendance ? 1 : -1
-            );
+    try {
+      this.commonAtStateLevel();
+      this.levelWise = "District";
+      if (this.months.length > 0) {
+        var month = this.months.find((a) => a.id === this.month);
+        if (this.month_year.month) {
+          this.fileName = `${this.reportName}_allDistricts_${month.name.trim()}_${this.year
+            }_${this.commonService.dateAndTime}`;
+        } else {
+          this.fileName = `${this.reportName}_allDistricts_${this.period}_${this.commonService.dateAndTime}`;
+        }
+        if (this.myData) {
+          this.myData.unsubscribe();
+        }
+        this.myData = this.service
+          .dist_wise_data({
+            ...this.month_year,
+            ...this.timePeriod,
+            ...{ management: this.management, category: this.category },
+          })
+          .subscribe(
+            (res) => {
+              this.mylatlngData = this.districtData =
+                res["distData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                a.attendance > b.attendance ? 1 : -1
+              );
 
-            var distNames = [];
-            this.studentCount = res["studentCount"];
-            this.schoolCount = res["schoolCount"];
+              var distNames = [];
+              this.studentCount = res["studentCount"];
+              this.schoolCount = res["schoolCount"];
 
-            this.reportData = this.markers = sorted;
+              this.reportData = this.markers = sorted;
 
-            // if (!this.valueRange) {
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length > 0) {
-              for (var i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.districtsIds.push(this.markers[i]["district_id"]);
-                distNames.push({
-                  id: this.markers[i]["district_id"],
-                  name: this.markers[i]["district_name"],
-                });
-                var markerIcon = this.commonService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.01,
-                  1,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
+              // if (!this.valueRange) {
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length > 0) {
+                for (var i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.districtsIds.push(this.markers[i]["district_id"]);
+                  distNames.push({
+                    id: this.markers[i]["district_id"],
+                    name: this.markers[i]["district_name"],
+                  });
+                  var markerIcon = this.commonService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
               }
+
+              distNames.sort((a, b) =>
+                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              );
+              this.districtsNames = distNames;
+
+              this.commonService.restrictZoom(globalMap);
+              globalMap.setMaxBounds([
+                [this.lat - 4.5, this.lng - 6],
+                [this.lat + 3.5, this.lng + 6],
+              ]);
+              this.commonService.onResize(this.levelWise);
+              this.schoolCount = this.schoolCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = this.studentCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.commonService.loaderAndErr(this.markers);
+              this.changeDetection.markForCheck();
+              // } else {
+              //   this.filterRangeWiseData(this.valueRange);
+              // }
+            },
+            (err) => {
+              this.dateRange = "";
+              this.changeDetection.detectChanges();
+              this.districtsNames = [];
+              this.markers = [];
+              this.commonService.loaderAndErr(this.markers);
             }
 
-            distNames.sort((a, b) =>
-              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-            );
-            this.districtsNames = distNames;
-
-            this.commonService.restrictZoom(globalMap);
-            globalMap.setMaxBounds([
-              [this.lat - 4.5, this.lng - 6],
-              [this.lat + 3.5, this.lng + 6],
-            ]);
-            this.commonService.onResize(this.levelWise);
-            this.schoolCount = this.schoolCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.studentCount = this.studentCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.markers);
-            this.changeDetection.markForCheck();
-            // } else {
-            //   this.filterRangeWiseData(this.valueRange);
-            // }
-          },
-          (err) => {
-            this.dateRange = "";
-            this.changeDetection.detectChanges();
-            this.districtsNames = [];
-            this.markers = [];
-            this.commonService.loaderAndErr(this.markers);
-          }
-
-        );
-    } else {
+          );
+      } else {
+        this.markers = [];
+        this.commonService.loaderAndErr(this.markers);
+      }
+    } catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
@@ -671,115 +676,120 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   blockWise(event) {
-    if (this.period === "select_month" && !this.month) {
-      alert("Please select month!");
-      return;
-    }
-
-    this.commonAtStateLevel();
-    this.levelWise = "Block";
-    if (this.months.length > 0) {
-      var month = this.months.find((a) => a.id === this.month);
-      if (this.month_year.month) {
-        this.fileName = `${this.reportName}_allBlocks_${month.name.trim()}_${this.year
-          }_${this.commonService.dateAndTime}`;
-      } else {
-        this.fileName = `${this.reportName}_allBlocks_${this.period}_${this.commonService.dateAndTime}`;
+    try {
+      if (this.period === "select_month" && !this.month) {
+        alert("Please select month!");
+        return;
       }
 
-      if (this.myData) {
-        this.myData.unsubscribe();
-      }
-      this.myData = this.service
-        .block_wise_data({
-          ...this.month_year,
-          ...this.timePeriod,
-          ...{ management: this.management, category: this.category },
-        })
-        .subscribe(
-          (res) => {
-            this.mylatlngData = res["blockData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
+      this.commonAtStateLevel();
+      this.levelWise = "Block";
+      if (this.months.length > 0) {
+        var month = this.months.find((a) => a.id === this.month);
+        if (this.month_year.month) {
+          this.fileName = `${this.reportName}_allBlocks_${month.name.trim()}_${this.year
+            }_${this.commonService.dateAndTime}`;
+        } else {
+          this.fileName = `${this.reportName}_allBlocks_${this.period}_${this.commonService.dateAndTime}`;
+        }
 
-            var blockNames = [];
-            this.studentCount = res["studentCount"];
-            this.schoolCount = res["schoolCount"];
+        if (this.myData) {
+          this.myData.unsubscribe();
+        }
+        this.myData = this.service
+          .block_wise_data({
+            ...this.month_year,
+            ...this.timePeriod,
+            ...{ management: this.management, category: this.category },
+          })
+          .subscribe(
+            (res) => {
+              this.mylatlngData = res["blockData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
 
-            this.reportData = this.markers = sorted
-            // if (!this.valueRange) {
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length > 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.blocksIds.push(this.markers[i]["block_id"]);
-                blockNames.push({
-                  id: this.markers[i]["block_id"],
-                  name: this.markers[i]["block_name"],
-                  distId: this.markers[i]["dist"],
-                });
-                var markerIcon = this.commonService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.01,
-                  1,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
+              var blockNames = [];
+              this.studentCount = res["studentCount"];
+              this.schoolCount = res["schoolCount"];
+
+              this.reportData = this.markers = sorted
+              // if (!this.valueRange) {
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length > 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+                  var markerIcon = this.commonService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
               }
-            }
-            blockNames.sort((a, b) =>
-              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-            );
-            this.blocksNames = blockNames;
+              blockNames.sort((a, b) =>
+                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              );
+              this.blocksNames = blockNames;
 
-            this.commonService.restrictZoom(globalMap);
-            globalMap.setMaxBounds([
-              [this.lat - 4.5, this.lng - 6],
-              [this.lat + 3.5, this.lng + 6],
-            ]);
-            this.commonService.onResize(this.levelWise);
-            this.schoolCount = this.schoolCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.studentCount = this.studentCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.markers);
-            this.changeDetection.markForCheck();
-            // } else {
-            //   this.filterRangeWiseData(this.valueRange);
-            // }
-          },
-          (err) => {
-            this.dateRange = "";
-            this.changeDetection.detectChanges();
-            this.markers = [];
-            this.commonService.loaderAndErr(this.markers);
-          }
-        );
-    } else {
+              this.commonService.restrictZoom(globalMap);
+              globalMap.setMaxBounds([
+                [this.lat - 4.5, this.lng - 6],
+                [this.lat + 3.5, this.lng + 6],
+              ]);
+              this.commonService.onResize(this.levelWise);
+              this.schoolCount = this.schoolCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = this.studentCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.commonService.loaderAndErr(this.markers);
+              this.changeDetection.markForCheck();
+              // } else {
+              //   this.filterRangeWiseData(this.valueRange);
+              // }
+            },
+            (err) => {
+              this.dateRange = "";
+              this.changeDetection.detectChanges();
+              this.markers = [];
+              this.commonService.loaderAndErr(this.markers);
+            }
+          );
+      } else {
+        this.markers = [];
+        this.commonService.loaderAndErr(this.markers);
+      }
+    } catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
@@ -788,135 +798,140 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   clusterWise(event) {
-    if (this.period === "select_month" && !this.month) {
-      alert("Please select month!");
-      return;
-    }
-
-    this.commonAtStateLevel();
-    this.levelWise = "Cluster";
-    if (this.months.length > 0) {
-      var month = this.months.find((a) => a.id === this.month);
-      if (this.month_year.month) {
-        this.fileName = `${this.reportName}_allClusters_${month.name.trim()}_${this.year
-          }_${this.commonService.dateAndTime}`;
-      } else {
-        this.fileName = `${this.reportName}_allClusters_${this.period}_${this.commonService.dateAndTime}`;
+    try {
+      if (this.period === "select_month" && !this.month) {
+        alert("Please select month!");
+        return;
       }
 
-      if (this.myData) {
-        this.myData.unsubscribe();
-      }
-      this.myData = this.service
-        .cluster_wise_data({
-          ...this.month_year,
-          ...this.timePeriod,
-          ...{ management: this.management, category: this.category },
-        })
-        .subscribe(
-          (res) => {
-            this.mylatlngData = res["clusterData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
+      this.commonAtStateLevel();
+      this.levelWise = "Cluster";
+      if (this.months.length > 0) {
+        var month = this.months.find((a) => a.id === this.month);
+        if (this.month_year.month) {
+          this.fileName = `${this.reportName}_allClusters_${month.name.trim()}_${this.year
+            }_${this.commonService.dateAndTime}`;
+        } else {
+          this.fileName = `${this.reportName}_allClusters_${this.period}_${this.commonService.dateAndTime}`;
+        }
 
-            var clustNames = [];
-            var blockNames = [];
-            this.studentCount = res["studentCount"];
-            this.schoolCount = res["schoolCount"];
+        if (this.myData) {
+          this.myData.unsubscribe();
+        }
+        this.myData = this.service
+          .cluster_wise_data({
+            ...this.month_year,
+            ...this.timePeriod,
+            ...{ management: this.management, category: this.category },
+          })
+          .subscribe(
+            (res) => {
+              this.mylatlngData = res["clusterData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
 
-            this.reportData = this.markers = sorted;
-            // if (!this.valueRange) {
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length > 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.clusterIds.push(this.markers[i]["cluster_id"]);
-                this.blocksIds.push(this.markers[i]["block_id"]);
-                if (this.markers[i]["cluster_name"] !== null) {
-                  clustNames.push({
-                    id: this.markers[i]["cluster_id"],
-                    name: this.markers[i]["cluster_name"],
-                    blockId: this.markers[i]["block_id"],
+              var clustNames = [];
+              var blockNames = [];
+              this.studentCount = res["studentCount"];
+              this.schoolCount = res["schoolCount"];
+
+              this.reportData = this.markers = sorted;
+              // if (!this.valueRange) {
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length > 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
                   });
-                } else {
-                  clustNames.push({
-                    id: this.markers[i]["cluster_id"],
-                    name: "NO NAME FOUND",
-                    blockId: this.markers[i]["block_id"],
-                  });
+                  var markerIcon = this.commonService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    0.5,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
                 }
-                blockNames.push({
-                  id: this.markers[i]["block_id"],
-                  name: this.markers[i]["block_name"],
-                  distId: this.markers[i]["district_id"],
-                });
-                var markerIcon = this.commonService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.01,
-                  0.5,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
               }
+
+              clustNames.sort((a, b) =>
+                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              );
+              this.clusterNames = clustNames;
+              blockNames.sort((a, b) =>
+                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              );
+              this.blocksNames = blockNames;
+
+              this.commonService.restrictZoom(globalMap);
+              globalMap.setMaxBounds([
+                [this.lat - 4.5, this.lng - 6],
+                [this.lat + 3.5, this.lng + 6],
+              ]);
+              this.commonService.onResize(this.levelWise);
+              this.schoolCount = this.schoolCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = this.studentCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.commonService.loaderAndErr(this.markers);
+              this.changeDetection.markForCheck();
+              // } else {
+              //   this.filterRangeWiseData(this.valueRange);
+              // }
+            },
+            (err) => {
+              this.dateRange = "";
+              this.changeDetection.detectChanges();
+              this.markers = [];
+              this.commonService.loaderAndErr(this.markers);
             }
-
-            clustNames.sort((a, b) =>
-              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-            );
-            this.clusterNames = clustNames;
-            blockNames.sort((a, b) =>
-              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-            );
-            this.blocksNames = blockNames;
-
-            this.commonService.restrictZoom(globalMap);
-            globalMap.setMaxBounds([
-              [this.lat - 4.5, this.lng - 6],
-              [this.lat + 3.5, this.lng + 6],
-            ]);
-            this.commonService.onResize(this.levelWise);
-            this.schoolCount = this.schoolCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.studentCount = this.studentCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.markers);
-            this.changeDetection.markForCheck();
-            // } else {
-            //   this.filterRangeWiseData(this.valueRange);
-            // }
-          },
-          (err) => {
-            this.dateRange = "";
-            this.changeDetection.detectChanges();
-            this.markers = [];
-            this.commonService.loaderAndErr(this.markers);
-          }
-        );
-    } else {
+          );
+      } else {
+        this.markers = [];
+        this.commonService.loaderAndErr(this.markers);
+      }
+    } catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
@@ -926,110 +941,115 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   schoolWise(event) {
-    if (this.period === "select_month" && !this.month || this.month === '') {
-      alert("Please select month!");
-      return;
-    }
-
-    this.commonAtStateLevel();
-    this.levelWise = "School";
-    if (this.months.length > 0) {
-      var month = this.months.find((a) => a.id === this.month);
-      if (this.month_year.month) {
-        this.fileName = `${this.reportName}_allSchools_${month.name.trim()}_${this.year
-          }_${this.commonService.dateAndTime}`;
-      } else {
-        this.fileName = `${this.reportName}_allSchools_${this.period}_${this.commonService.dateAndTime}`;
+    try {
+      if (this.period === "select_month" && !this.month || this.month === '') {
+        alert("Please select month!");
+        return;
       }
 
-      if (this.myData) {
-        this.myData.unsubscribe();
-      }
-      this.myData = this.service
-        .school_wise_data({
-          ...this.month_year,
-          ...this.timePeriod,
-          ...{ management: this.management, category: this.category },
-        })
-        .subscribe(
-          (res) => {
-            this.mylatlngData = res["schoolData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
+      this.commonAtStateLevel();
+      this.levelWise = "School";
+      if (this.months.length > 0) {
+        var month = this.months.find((a) => a.id === this.month);
+        if (this.month_year.month) {
+          this.fileName = `${this.reportName}_allSchools_${month.name.trim()}_${this.year
+            }_${this.commonService.dateAndTime}`;
+        } else {
+          this.fileName = `${this.reportName}_allSchools_${this.period}_${this.commonService.dateAndTime}`;
+        }
 
-            this.studentCount = res["studentCount"];
-            this.schoolCount = res["schoolCount"];
+        if (this.myData) {
+          this.myData.unsubscribe();
+        }
+        this.myData = this.service
+          .school_wise_data({
+            ...this.month_year,
+            ...this.timePeriod,
+            ...{ management: this.management, category: this.category },
+          })
+          .subscribe(
+            (res) => {
+              this.mylatlngData = res["schoolData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
 
-            this.reportData = this.markers = sorted
-            // if (!this.valueRange) {
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length > 0) {
-              let i = 0;
-              while (i < this.markers.length) {
+              this.studentCount = res["studentCount"];
+              this.schoolCount = res["schoolCount"];
 
-                // for (let i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.districtsIds.push(sorted[i]["district_id"]);
-                var markerIcon = this.commonService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0,
-                  0.3,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
-                i++;
+              this.reportData = this.markers = sorted
+              // if (!this.valueRange) {
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length > 0) {
+                let i = 0;
+                while (i < this.markers.length) {
+
+                  // for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.districtsIds.push(sorted[i]["district_id"]);
+                  var markerIcon = this.commonService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0,
+                    0.3,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                  i++;
+                }
               }
-            }
 
-            globalMap.doubleClickZoom.enable();
-            globalMap.scrollWheelZoom.enable();
-            globalMap.setMaxBounds([
-              [this.lat - 4.5, this.lng - 6],
-              [this.lat + 3.5, this.lng + 6],
-            ]);
-            this.commonService.onResize(this.levelWise);
-            this.schoolCount = this.markers.length
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.studentCount = this.studentCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.markers);
-            this.changeDetection.markForCheck();
-            // } else {
-            //   this.filterRangeWiseData(this.valueRange);
-            // }
-          },
-          (err) => {
-            this.dateRange = "";
-            this.changeDetection.detectChanges();
-            this.markers = [];
-            this.commonService.loaderAndErr(this.markers);
-          }
-        );
-    } else {
+              globalMap.doubleClickZoom.enable();
+              globalMap.scrollWheelZoom.enable();
+              globalMap.setMaxBounds([
+                [this.lat - 4.5, this.lng - 6],
+                [this.lat + 3.5, this.lng + 6],
+              ]);
+              this.commonService.onResize(this.levelWise);
+              this.schoolCount = this.markers.length
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = this.studentCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.commonService.loaderAndErr(this.markers);
+              this.changeDetection.markForCheck();
+              // } else {
+              //   this.filterRangeWiseData(this.valueRange);
+              // }
+            },
+            (err) => {
+              this.dateRange = "";
+              this.changeDetection.detectChanges();
+              this.markers = [];
+              this.commonService.loaderAndErr(this.markers);
+            }
+          );
+      } else {
+        this.markers = [];
+        this.commonService.loaderAndErr(this.markers);
+      }
+    } catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
@@ -1183,166 +1203,171 @@ export class StudengtAttendanceComponent implements OnInit {
 
   blockData = [];
   myDistData(data) {
-    if (this.period === "select_month" && !this.month || this.month === '') {
-      alert("Please select month!");
-      this.dist = false;
-      this.myDistrict = '';
-      $('#choose_dist').val('');
-      return;
-    }
-    this.valueRange = undefined;
-    this.selectedIndex = undefined;
-    this.deSelect();
-
-    this.levelWise = "blockPerDistrict";
-    globalMap.removeLayer(this.markersList);
-    this.layerMarkers.clearLayers();
-    this.markers = [];
-    this.reportData = [];
-    this.commonService.errMsg();
-    this.studentCount = 0;
-    this.schoolCount = 0;
-    this.markerData = null;
-
-    this.dist = true;
-    this.blok = false;
-    this.clust = false;
-    this.skul = false;
-    this.blockHidden = false;
-    this.clusterHidden = true;
-    let obj = this.districtsNames.find((o) => o.id == data);
-    this.hierName = "";
-    if (this.months.length > 0) {
-      var month = this.months.find((a) => a.id === this.month);
-      if (this.month_year.month) {
-        this.fileName = `${this.reportName}_${this.levelWise
-          }s_of_district_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
-          }`;
-      } else {
-        this.fileName = `${this.reportName}_${this.levelWise}s_of_district_${data}_${this.period}_${this.commonService.dateAndTime}`;
+    try {
+      if (this.period === "select_month" && !this.month || this.month === '') {
+        alert("Please select month!");
+        this.dist = false;
+        this.myDistrict = '';
+        $('#choose_dist').val('');
+        return;
       }
-      this.distName = { district_id: data, district_name: obj.name };
-      this.hierName = obj.name;
-      localStorage.setItem("dist", obj.name);
-      localStorage.setItem("distId", data);
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
 
-      this.globalId = this.myDistrict = data;
-      this.myBlock = null;
+      this.levelWise = "blockPerDistrict";
+      globalMap.removeLayer(this.markersList);
+      this.layerMarkers.clearLayers();
+      this.markers = [];
+      this.reportData = [];
+      this.commonService.errMsg();
+      this.studentCount = 0;
+      this.schoolCount = 0;
+      this.markerData = null;
 
-      this.month_year["id"] = data;
+      this.dist = true;
+      this.blok = false;
+      this.clust = false;
+      this.skul = false;
+      this.blockHidden = false;
+      this.clusterHidden = true;
+      let obj = this.districtsNames.find((o) => o.id == data);
+      this.hierName = "";
+      if (this.months.length > 0) {
+        var month = this.months.find((a) => a.id === this.month);
+        if (this.month_year.month) {
+          this.fileName = `${this.reportName}_${this.levelWise
+            }s_of_district_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
+            }`;
+        } else {
+          this.fileName = `${this.reportName}_${this.levelWise}s_of_district_${data}_${this.period}_${this.commonService.dateAndTime}`;
+        }
+        this.distName = { district_id: data, district_name: obj.name };
+        this.hierName = obj.name;
+        localStorage.setItem("dist", obj.name);
+        localStorage.setItem("distId", data);
 
-      if (this.myData) {
-        this.myData.unsubscribe();
-      }
-      this.myData = this.service
-        .blockPerDist({
-          ...this.month_year,
-          ...this.timePeriod,
-          ...{ management: this.management, category: this.category },
-        })
-        .subscribe(
-          (res) => {
-            this.mylatlngData = this.blockData =
-              res["blockData"];
-            this.dateRange = res["dateRange"];
-            var uniqueData = this.mylatlngData.reduce(function (
-              previous,
-              current
-            ) {
-              var object = previous.filter(
-                (object) => object["block_id"] === current["block_id"]
+        this.globalId = this.myDistrict = data;
+        this.myBlock = null;
+
+        this.month_year["id"] = data;
+
+        if (this.myData) {
+          this.myData.unsubscribe();
+        }
+        this.myData = this.service
+          .blockPerDist({
+            ...this.month_year,
+            ...this.timePeriod,
+            ...{ management: this.management, category: this.category },
+          })
+          .subscribe(
+            (res) => {
+              this.mylatlngData = this.blockData =
+                res["blockData"];
+              this.dateRange = res["dateRange"];
+              var uniqueData = this.mylatlngData.reduce(function (
+                previous,
+                current
+              ) {
+                var object = previous.filter(
+                  (object) => object["block_id"] === current["block_id"]
+                );
+                if (object.length == 0) previous.push(current);
+                return previous;
+              },
+                []);
+              this.mylatlngData = uniqueData;
+              this.commonService.latitude = this.lat = Number(
+                this.mylatlngData[0]["lat"]
               );
-              if (object.length == 0) previous.push(current);
-              return previous;
-            },
-              []);
-            this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
-              this.mylatlngData[0]["lat"]
-            );
-            this.commonService.longitude = this.lng = Number(
-              this.mylatlngData[0]["lng"]
-            );
+              this.commonService.longitude = this.lng = Number(
+                this.mylatlngData[0]["lng"]
+              );
 
-            var blokName = [];
+              var blokName = [];
 
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
 
-            this.reportData = this.markers = sorted;
-            // if (!this.valueRange) {
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            this.studentCount = res["studentCount"];
-            this.schoolCount = res["schoolCount"];
-            if (this.markers.length > 0) {
-              for (var i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.blocksIds.push(this.markers[i]["block_id"]);
-                blokName.push({
-                  id: this.markers[i]["block_id"],
-                  name: this.markers[i]["block_name"],
-                });
-                var markerIcon = this.commonService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.01,
-                  1,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
+              this.reportData = this.markers = sorted;
+              // if (!this.valueRange) {
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              this.studentCount = res["studentCount"];
+              this.schoolCount = res["schoolCount"];
+              if (this.markers.length > 0) {
+                for (var i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blokName.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                  });
+                  var markerIcon = this.commonService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
               }
-            }
-            blokName.sort((a, b) =>
-              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-            );
-            this.blocksNames = blokName;
+              blokName.sort((a, b) =>
+                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              );
+              this.blocksNames = blokName;
 
-            this.commonService.restrictZoom(globalMap);
-            globalMap.setMaxBounds([
-              [this.lat - 1.5, this.lng - 3],
-              [this.lat + 1.5, this.lng + 2],
-            ]);
-            this.commonService.onResize(this.levelWise);
-            this.schoolCount = this.schoolCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.studentCount = this.studentCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.markers);
-            this.changeDetection.markForCheck();
-            // } else {
-            //   this.filterRangeWiseData(this.valueRange);
-            // }
-          },
-          (err) => {
-            this.dateRange = "";
-            this.changeDetection.detectChanges();
-            this.markers = [];
-            this.commonService.loaderAndErr(this.markers);
-          }
-        );
-    } else {
+              this.commonService.restrictZoom(globalMap);
+              globalMap.setMaxBounds([
+                [this.lat - 1.5, this.lng - 3],
+                [this.lat + 1.5, this.lng + 2],
+              ]);
+              this.commonService.onResize(this.levelWise);
+              this.schoolCount = this.schoolCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = this.studentCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.commonService.loaderAndErr(this.markers);
+              this.changeDetection.markForCheck();
+              // } else {
+              //   this.filterRangeWiseData(this.valueRange);
+              // }
+            },
+            (err) => {
+              this.dateRange = "";
+              this.changeDetection.detectChanges();
+              this.markers = [];
+              this.commonService.loaderAndErr(this.markers);
+            }
+          );
+      } else {
+        this.markers = [];
+        this.commonService.loaderAndErr(this.markers);
+      }
+    } catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
@@ -1368,194 +1393,199 @@ export class StudengtAttendanceComponent implements OnInit {
 
   clusterData = [];
   myBlockData(data) {
-    if (this.period === "select_month" && !this.month || this.month === '') {
-      alert("Please select month!");
-      this.blok = false;
-      this.myBlock = '';
-      $('#choose_block').val('');
-      return;
-    }
-
-    this.valueRange = undefined;
-    this.selectedIndex = undefined;
-    this.deSelect();
-
-    this.levelWise = "clusterPerBlock";
-    globalMap.removeLayer(this.markersList);
-    this.layerMarkers.clearLayers();
-    this.markers = [];
-    this.reportData = [];
-    this.commonService.errMsg();
-    this.markerData = null;
-
-    this.dist = false;
-    this.blok = true;
-    this.clust = false;
-    this.skul = false;
-    this.clusterHidden = false;
-    this.blockHidden = false;
-    if (this.months.length > 0) {
-      var month = this.months.find((a) => a.id === this.month);
-      if (this.month_year.month) {
-        this.fileName = `${this.reportName}_${this.levelWise
-          }s_of_block_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
-          }`;
-      } else {
-        this.fileName = `${this.reportName}_${this.levelWise}s_of_block_${data}_${this.period}_${this.commonService.dateAndTime}`;
+    try {
+      if (this.period === "select_month" && !this.month || this.month === '') {
+        alert("Please select month!");
+        this.blok = false;
+        this.myBlock = '';
+        $('#choose_block').val('');
+        return;
       }
-      var blockNames = [];
-      this.blocksNames.forEach((item) => {
-        if (
-          item.distId &&
-          item.distId === Number(localStorage.getItem("distId"))
-        ) {
-          blockNames.push(item);
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
+      this.levelWise = "clusterPerBlock";
+      globalMap.removeLayer(this.markersList);
+      this.layerMarkers.clearLayers();
+      this.markers = [];
+      this.reportData = [];
+      this.commonService.errMsg();
+      this.markerData = null;
+
+      this.dist = false;
+      this.blok = true;
+      this.clust = false;
+      this.skul = false;
+      this.clusterHidden = false;
+      this.blockHidden = false;
+      if (this.months.length > 0) {
+        var month = this.months.find((a) => a.id === this.month);
+        if (this.month_year.month) {
+          this.fileName = `${this.reportName}_${this.levelWise
+            }s_of_block_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
+            }`;
+        } else {
+          this.fileName = `${this.reportName}_${this.levelWise}s_of_block_${data}_${this.period}_${this.commonService.dateAndTime}`;
         }
-      });
-
-      if (blockNames.length > 1) {
-        this.blocksNames = blockNames;
-      }
-      let obj = this.blocksNames.find((o) => o.id == data);
-      localStorage.setItem("block", obj.name);
-      localStorage.setItem("blockId", data);
-      this.titleName = localStorage.getItem("dist");
-      this.distName = {
-        district_id: Number(localStorage.getItem("distId")),
-        district_name: this.titleName,
-      };
-      this.blockName = { block_id: data, block_name: obj.name };
-      this.hierName = obj.name;
-
-      this.globalId = this.myBlock = data;
-      this.myDistrict = Number(localStorage.getItem("distId"));
-      this.myCluster = null;
-
-      if (this.myData) {
-        this.myData.unsubscribe();
-      }
-      this.month_year["id"] = data;
-      this.myData = this.service
-        .clusterPerBlock({
-          ...this.month_year,
-          ...this.timePeriod,
-          ...{ management: this.management, category: this.category },
-        })
-        .subscribe(
-          (res) => {
-            this.mylatlngData = this.clusterData =
-              res["clusterDetails"];
-            this.dateRange = res["dateRange"];
-            var uniqueData = this.mylatlngData.reduce(function (
-              previous,
-              current
-            ) {
-              var object = previous.filter(
-                (object) => object["cluster_id"] === current["cluster_id"]
-              );
-              if (object.length == 0) previous.push(current);
-              return previous;
-            },
-              []);
-            this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
-              this.mylatlngData[0]["lat"]
-            );
-            this.commonService.longitude = this.lng = Number(
-              this.mylatlngData[0]["lng"]
-            );
-            var clustNames = [];
-
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
-
-            this.markers = [];
-            this.studentCount = res["studentCount"];
-            this.schoolCount = res["schoolCount"];
-            // sorted.pop();
-
-            this.reportData = this.markers = sorted;
-            // if (!this.valueRange) {
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length > 0) {
-              for (var i = 0; i < sorted.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.clusterIds.push(sorted[i]["cluster_id"]);
-                if (sorted[i]["name"] !== null) {
-                  clustNames.push({
-                    id: sorted[i]["cluster_id"],
-                    name: sorted[i]["cluster_name"],
-                    blockId: sorted[i]["block_id"],
-                  });
-                } else {
-                  clustNames.push({
-                    id: sorted[i]["cluster_id"],
-                    name: "NO NAME FOUND",
-                    blockId: sorted[i]["block_id"],
-                  });
-                }
-                var markerIcon = this.commonService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.01,
-                  1,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
-              }
-            }
-
-            clustNames.sort((a, b) =>
-              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-            );
-            this.clusterNames = clustNames;
-
-            this.commonService.restrictZoom(globalMap);
-            globalMap.setMaxBounds([
-              [this.lat - 1.5, this.lng - 3],
-              [this.lat + 1.5, this.lng + 2],
-            ]);
-            this.commonService.onResize(this.levelWise);
-            this.schoolCount = this.schoolCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.studentCount = this.studentCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.markers);
-            this.changeDetection.markForCheck();
-            // } else {
-            //   this.filterRangeWiseData(this.valueRange);
-            // }
-          },
-          (err) => {
-            this.dateRange = "";
-            this.changeDetection.detectChanges();
-            this.markers = [];
-            this.commonService.loaderAndErr(this.markers);
+        var blockNames = [];
+        this.blocksNames.forEach((item) => {
+          if (
+            item.distId &&
+            item.distId === Number(localStorage.getItem("distId"))
+          ) {
+            blockNames.push(item);
           }
-        );
-    } else {
+        });
+
+        if (blockNames.length > 1) {
+          this.blocksNames = blockNames;
+        }
+        let obj = this.blocksNames.find((o) => o.id == data);
+        localStorage.setItem("block", obj.name);
+        localStorage.setItem("blockId", data);
+        this.titleName = localStorage.getItem("dist");
+        this.distName = {
+          district_id: Number(localStorage.getItem("distId")),
+          district_name: this.titleName,
+        };
+        this.blockName = { block_id: data, block_name: obj.name };
+        this.hierName = obj.name;
+
+        this.globalId = this.myBlock = data;
+        this.myDistrict = Number(localStorage.getItem("distId"));
+        this.myCluster = null;
+
+        if (this.myData) {
+          this.myData.unsubscribe();
+        }
+        this.month_year["id"] = data;
+        this.myData = this.service
+          .clusterPerBlock({
+            ...this.month_year,
+            ...this.timePeriod,
+            ...{ management: this.management, category: this.category },
+          })
+          .subscribe(
+            (res) => {
+              this.mylatlngData = this.clusterData =
+                res["clusterDetails"];
+              this.dateRange = res["dateRange"];
+              var uniqueData = this.mylatlngData.reduce(function (
+                previous,
+                current
+              ) {
+                var object = previous.filter(
+                  (object) => object["cluster_id"] === current["cluster_id"]
+                );
+                if (object.length == 0) previous.push(current);
+                return previous;
+              },
+                []);
+              this.mylatlngData = uniqueData;
+              this.commonService.latitude = this.lat = Number(
+                this.mylatlngData[0]["lat"]
+              );
+              this.commonService.longitude = this.lng = Number(
+                this.mylatlngData[0]["lng"]
+              );
+              var clustNames = [];
+
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+
+              this.markers = [];
+              this.studentCount = res["studentCount"];
+              this.schoolCount = res["schoolCount"];
+              // sorted.pop();
+
+              this.reportData = this.markers = sorted;
+              // if (!this.valueRange) {
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length > 0) {
+                for (var i = 0; i < sorted.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.clusterIds.push(sorted[i]["cluster_id"]);
+                  if (sorted[i]["name"] !== null) {
+                    clustNames.push({
+                      id: sorted[i]["cluster_id"],
+                      name: sorted[i]["cluster_name"],
+                      blockId: sorted[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: sorted[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: sorted[i]["block_id"],
+                    });
+                  }
+                  var markerIcon = this.commonService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+              }
+
+              clustNames.sort((a, b) =>
+                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              );
+              this.clusterNames = clustNames;
+
+              this.commonService.restrictZoom(globalMap);
+              globalMap.setMaxBounds([
+                [this.lat - 1.5, this.lng - 3],
+                [this.lat + 1.5, this.lng + 2],
+              ]);
+              this.commonService.onResize(this.levelWise);
+              this.schoolCount = this.schoolCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = this.studentCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.commonService.loaderAndErr(this.markers);
+              this.changeDetection.markForCheck();
+              // } else {
+              //   this.filterRangeWiseData(this.valueRange);
+              // }
+            },
+            (err) => {
+              this.dateRange = "";
+              this.changeDetection.detectChanges();
+              this.markers = [];
+              this.commonService.loaderAndErr(this.markers);
+            }
+          );
+      } else {
+        this.markers = [];
+        this.commonService.loaderAndErr(this.markers);
+      }
+    } catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
@@ -1579,212 +1609,217 @@ export class StudengtAttendanceComponent implements OnInit {
     this.myClusterData(data);
   }
   myClusterData(data) {
-    if (this.period === "select_month" && !this.month || this.month === '') {
-      alert("Please select month!");
-      this.cluster = false;
-      this.myCluster = '';
-      $('#choose_cluster').val('');
-      return;
-    }
-    this.valueRange = undefined;
-    this.selectedIndex = undefined;
-    this.deSelect();
-
-    this.levelWise = "schoolPerCluster";
-    globalMap.removeLayer(this.markersList);
-    this.layerMarkers.clearLayers();
-    this.markers = [];
-    this.reportData = [];
-    this.commonService.errMsg();
-    this.studentCount = 0;
-    this.schoolCount = 0;
-    this.markerData = null;
-
-    this.dist = false;
-    this.blok = false;
-    this.clust = true;
-    this.skul = false;
-
-    this.clusterHidden = false;
-    this.blockHidden = false;
-    if (this.months.length > 0) {
-      var month = this.months.find((a) => a.id === this.month);
-      if (this.month_year.month) {
-        this.fileName = `${this.reportName}_${this.levelWise
-          }s_of_cluster_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
-          }`;
-      } else {
-        this.fileName = `${this.reportName}_${this.levelWise}s_of_cluster_${data}_${this.period}_${this.commonService.dateAndTime}`;
+    try{
+      if (this.period === "select_month" && !this.month || this.month === '') {
+        alert("Please select month!");
+        this.cluster = false;
+        this.myCluster = '';
+        $('#choose_cluster').val('');
+        return;
       }
-
-      let obj = this.clusterNames.find((o) => o.id == data);
-      var blockNames = [];
-      this.blocksNames.forEach((item) => {
-        if (
-          item.distId &&
-          item.distId === Number(localStorage.getItem("distId"))
-        ) {
-          blockNames.push(item);
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+  
+      this.levelWise = "schoolPerCluster";
+      globalMap.removeLayer(this.markersList);
+      this.layerMarkers.clearLayers();
+      this.markers = [];
+      this.reportData = [];
+      this.commonService.errMsg();
+      this.studentCount = 0;
+      this.schoolCount = 0;
+      this.markerData = null;
+  
+      this.dist = false;
+      this.blok = false;
+      this.clust = true;
+      this.skul = false;
+  
+      this.clusterHidden = false;
+      this.blockHidden = false;
+      if (this.months.length > 0) {
+        var month = this.months.find((a) => a.id === this.month);
+        if (this.month_year.month) {
+          this.fileName = `${this.reportName}_${this.levelWise
+            }s_of_cluster_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
+            }`;
+        } else {
+          this.fileName = `${this.reportName}_${this.levelWise}s_of_cluster_${data}_${this.period}_${this.commonService.dateAndTime}`;
         }
-      });
-      var uniqueData;
-      if (blockNames.length > 1) {
-        uniqueData = blockNames.reduce(function (previous, current) {
-          var object = previous.filter(
-            (object) => object["id"] === current["id"]
-          );
-          if (object.length == 0) previous.push(current);
-          return previous;
-        }, []);
-        this.blocksNames = uniqueData;
-      }
-
-      var clustName = [];
-      this.clusterNames.forEach((item) => {
-        if (
-          item.blockId &&
-          item.blockId === Number(localStorage.getItem("blockId"))
-        ) {
-          clustName.push(item);
-        }
-      });
-
-      if (clustName.length > 1) {
-        uniqueData = clustName.reduce(function (previous, current) {
-          var object = previous.filter(
-            (object) => object["id"] === current["id"]
-          );
-          if (object.length == 0) previous.push(current);
-          return previous;
-        }, []);
-        this.clusterNames = uniqueData;
-      }
-
-      this.title = localStorage.getItem("block");
-      this.titleName = localStorage.getItem("dist");
-      var blockId = Number(localStorage.getItem("blockId"));
-      this.distName = {
-        district_id: Number(localStorage.getItem("distId")),
-        district_name: this.titleName,
-      };
-      this.blockName = {
-        block_id: blockId,
-        block_name: this.title,
-        district_id: this.distName.id,
-        district_name: this.distName.name,
-      };
-      this.clustName = { cluster_id: data };
-      this.hierName = obj.name;
-
-      this.globalId = this.myCluster = data;
-      // this.myBlock = this.myBlock;
-      this.myDistrict = Number(localStorage.getItem("distId"));
-
-      if (this.myData) {
-        this.myData.unsubscribe();
-      }
-
-      this.month_year["id"] = data;
-      this.month_year["blockId"] = blockId;
-      this.myData = this.service
-        .schoolsPerCluster({
-          ...this.month_year,
-          ...this.timePeriod,
-          ...{ management: this.management, category: this.category },
-        })
-        .subscribe(
-          (res) => {
-            this.mylatlngData = res["schoolsDetails"];
-            this.dateRange = res["dateRange"];
-            var uniqueData = this.mylatlngData.reduce(function (
-              previous,
-              current
-            ) {
-              var object = previous.filter(
-                (object) => object["school_id"] === current["school_id"]
-              );
-              if (object.length == 0) previous.push(current);
-              return previous;
-            },
-              []);
-            this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
-              this.mylatlngData[0]["lat"]
-            );
-            this.commonService.longitude = this.lng = Number(
-              this.mylatlngData[0]["lng"]
-            );
-
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
-
-            this.markers = [];
-            this.studentCount = res["studentCount"];
-            this.schoolCount = res["schoolCount"];
-
-            this.reportData = this.markers = sorted;
-            // if (!this.valueRange) {
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length > 0) {
-              for (var i = 0; i < sorted.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                var markerIcon = this.commonService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.1,
-                  1,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
-              }
-            }
-            globalMap.doubleClickZoom.enable();
-            globalMap.scrollWheelZoom.enable();
-            globalMap.setMaxBounds([
-              [this.lat - 1.5, this.lng - 3],
-              [this.lat + 1.5, this.lng + 2],
-            ]);
-            this.commonService.onResize(this.levelWise);
-            this.schoolCount = this.markers.length
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.studentCount = this.studentCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.markers);
-            this.changeDetection.markForCheck();
-            // } else {
-            //   this.filterRangeWiseData(this.valueRange);
-            // }
-          },
-          (err) => {
-            this.dateRange = "";
-            this.changeDetection.detectChanges();
-            this.markers = [];
-            this.commonService.loaderAndErr(this.markers);
+  
+        let obj = this.clusterNames.find((o) => o.id == data);
+        var blockNames = [];
+        this.blocksNames.forEach((item) => {
+          if (
+            item.distId &&
+            item.distId === Number(localStorage.getItem("distId"))
+          ) {
+            blockNames.push(item);
           }
-        );
-    } else {
+        });
+        var uniqueData;
+        if (blockNames.length > 1) {
+          uniqueData = blockNames.reduce(function (previous, current) {
+            var object = previous.filter(
+              (object) => object["id"] === current["id"]
+            );
+            if (object.length == 0) previous.push(current);
+            return previous;
+          }, []);
+          this.blocksNames = uniqueData;
+        }
+  
+        var clustName = [];
+        this.clusterNames.forEach((item) => {
+          if (
+            item.blockId &&
+            item.blockId === Number(localStorage.getItem("blockId"))
+          ) {
+            clustName.push(item);
+          }
+        });
+  
+        if (clustName.length > 1) {
+          uniqueData = clustName.reduce(function (previous, current) {
+            var object = previous.filter(
+              (object) => object["id"] === current["id"]
+            );
+            if (object.length == 0) previous.push(current);
+            return previous;
+          }, []);
+          this.clusterNames = uniqueData;
+        }
+  
+        this.title = localStorage.getItem("block");
+        this.titleName = localStorage.getItem("dist");
+        var blockId = Number(localStorage.getItem("blockId"));
+        this.distName = {
+          district_id: Number(localStorage.getItem("distId")),
+          district_name: this.titleName,
+        };
+        this.blockName = {
+          block_id: blockId,
+          block_name: this.title,
+          district_id: this.distName.id,
+          district_name: this.distName.name,
+        };
+        this.clustName = { cluster_id: data };
+        this.hierName = obj.name;
+  
+        this.globalId = this.myCluster = data;
+        // this.myBlock = this.myBlock;
+        this.myDistrict = Number(localStorage.getItem("distId"));
+  
+        if (this.myData) {
+          this.myData.unsubscribe();
+        }
+  
+        this.month_year["id"] = data;
+        this.month_year["blockId"] = blockId;
+        this.myData = this.service
+          .schoolsPerCluster({
+            ...this.month_year,
+            ...this.timePeriod,
+            ...{ management: this.management, category: this.category },
+          })
+          .subscribe(
+            (res) => {
+              this.mylatlngData = res["schoolsDetails"];
+              this.dateRange = res["dateRange"];
+              var uniqueData = this.mylatlngData.reduce(function (
+                previous,
+                current
+              ) {
+                var object = previous.filter(
+                  (object) => object["school_id"] === current["school_id"]
+                );
+                if (object.length == 0) previous.push(current);
+                return previous;
+              },
+                []);
+              this.mylatlngData = uniqueData;
+              this.commonService.latitude = this.lat = Number(
+                this.mylatlngData[0]["lat"]
+              );
+              this.commonService.longitude = this.lng = Number(
+                this.mylatlngData[0]["lng"]
+              );
+  
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+  
+              this.markers = [];
+              this.studentCount = res["studentCount"];
+              this.schoolCount = res["schoolCount"];
+  
+              this.reportData = this.markers = sorted;
+              // if (!this.valueRange) {
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length > 0) {
+                for (var i = 0; i < sorted.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  var markerIcon = this.commonService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.1,
+                    1,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+              }
+              globalMap.doubleClickZoom.enable();
+              globalMap.scrollWheelZoom.enable();
+              globalMap.setMaxBounds([
+                [this.lat - 1.5, this.lng - 3],
+                [this.lat + 1.5, this.lng + 2],
+              ]);
+              this.commonService.onResize(this.levelWise);
+              this.schoolCount = this.markers.length
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = this.studentCount
+                .toString()
+                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.commonService.loaderAndErr(this.markers);
+              this.changeDetection.markForCheck();
+              // } else {
+              //   this.filterRangeWiseData(this.valueRange);
+              // }
+            },
+            (err) => {
+              this.dateRange = "";
+              this.changeDetection.detectChanges();
+              this.markers = [];
+              this.commonService.loaderAndErr(this.markers);
+            }
+          );
+      } else {
+        this.markers = [];
+        this.commonService.loaderAndErr(this.markers);
+      }
+    }catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }

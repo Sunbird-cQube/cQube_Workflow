@@ -1590,114 +1590,118 @@ export class PATReportComponent implements OnInit {
 
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
-    this.reportData = [];
-    this.schoolCount = 0;
-    var myData = data["data"];
-    var color;
-    var colors = [];
-    this.allSubjects.sort();
-    if (myData.length > 0) {
-      this.markers = myData;
-      if (this.grade && this.subject) {
-        var filtererSubData = this.markers.filter(item => {
-          return item.Subjects[`${this.subject}`];
-        })
-        this.markers = filtererSubData;
-      }
-      for (let i = 0; i < this.markers.length; i++) {
-        if (this.period != 'all') {
-          if (this.grade && !this.subject) {
-            this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
-            this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
-            this.markers[i].Details['total_schools'] = this.markers[i].Subjects['Grade Performance']['total_schools'];
-          }
-          if (this.grade && this.subject) {
-            if (this.markers[i].Subjects[`${this.subject}`]) {
-              this.markers[i].Details['total_students'] = this.markers[i].Subjects[`${this.subject}`]['total_students'];
-              this.markers[i].Details['students_attended'] = this.markers[i].Subjects[`${this.subject}`]['students_attended'];
-              this.markers[i].Details['total_schools'] = this.markers[i].Subjects[`${this.subject}`]['total_schools'];
-            } else {
-              let index = this.markers.indexOf(this.markers[i]);
-              this.markers.splice(index, 1);
+    try {
+      this.reportData = [];
+      this.schoolCount = 0;
+      var myData = data["data"];
+      var color;
+      var colors = [];
+      this.allSubjects.sort();
+      if (myData.length > 0) {
+        this.markers = myData;
+        if (this.grade && this.subject) {
+          var filtererSubData = this.markers.filter(item => {
+            return item.Subjects[`${this.subject}`];
+          })
+          this.markers = filtererSubData;
+        }
+        for (let i = 0; i < this.markers.length; i++) {
+          if (this.period != 'all') {
+            if (this.grade && !this.subject) {
+              this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
+              this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
+              this.markers[i].Details['total_schools'] = this.markers[i].Subjects['Grade Performance']['total_schools'];
+            }
+            if (this.grade && this.subject) {
+              if (this.markers[i].Subjects[`${this.subject}`]) {
+                this.markers[i].Details['total_students'] = this.markers[i].Subjects[`${this.subject}`]['total_students'];
+                this.markers[i].Details['students_attended'] = this.markers[i].Subjects[`${this.subject}`]['students_attended'];
+                this.markers[i].Details['total_schools'] = this.markers[i].Subjects[`${this.subject}`]['total_schools'];
+              } else {
+                let index = this.markers.indexOf(this.markers[i]);
+                this.markers.splice(index, 1);
+              }
+            }
+            if (this.grade) {
+              if (this.level != 'block' && this.level != 'cluster' && this.level != 'school') {
+                this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
+                this.allSubjects.map(sub => {
+                  if (this.markers[i].Subjects[`${sub}`])
+                    this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
+                })
+              } else {
+                this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
+                this.allSubjects.map(sub => {
+                  if (this.markers[i].Subjects[`${sub}`])
+                    this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
+                })
+              }
+            } else if (!this.grade && !this.subject) {
+              this.allGrades.map(grade => {
+                var myGrade = grade.grade;
+                if (this.markers[i]['Grade Wise Performance'][`${myGrade}`])
+                  this.markers[i]['Grade Wise Performance'][`${myGrade}`] = this.markers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+              })
             }
           }
-          if (this.grade) {
-            if (this.level != 'block' && this.level != 'cluster' && this.level != 'school') {
-              this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
-              this.allSubjects.map(sub => {
-                if (this.markers[i].Subjects[`${sub}`])
-                  this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
-              })
-            } else {
-              this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
-              this.allSubjects.map(sub => {
-                if (this.markers[i].Subjects[`${sub}`])
-                  this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
-              })
-            }
-          } else if (!this.grade && !this.subject) {
-            this.allGrades.map(grade => {
-              var myGrade = grade.grade;
-              if (this.markers[i]['Grade Wise Performance'][`${myGrade}`])
-                this.markers[i]['Grade Wise Performance'][`${myGrade}`] = this.markers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-            })
+          if (!this.grade && !this.subject) {
+            color = this.commonService.color(
+              this.markers[i].Details,
+              "Performance"
+            );
+          } else if (this.grade && !this.subject) {
+            color = this.commonService.color(
+              this.markers[i].Subjects,
+              "Grade Performance"
+            );
+          } else if (this.grade && this.subject) {
+            color = this.commonService.color(
+              this.markers[i].Subjects,
+              `${this.subject}`
+            );
           }
+          colors.push(color);
         }
-        if (!this.grade && !this.subject) {
-          color = this.commonService.color(
-            this.markers[i].Details,
-            "Performance"
-          );
-        } else if (this.grade && !this.subject) {
-          color = this.commonService.color(
-            this.markers[i].Subjects,
-            "Grade Performance"
-          );
-        } else if (this.grade && this.subject) {
-          color = this.commonService.color(
-            this.markers[i].Subjects,
-            `${this.subject}`
-          );
+
+        if (this.selected != "absolute") {
+          this.colors = this.generateRelativeColors(this.markers)
         }
-        colors.push(color);
-      }
 
-      if (this.selected != "absolute") {
-        this.colors = this.generateRelativeColors(this.markers)
-      }
+        // attach values to markers
+        for (let i = 0; i < this.markers.length; i++) {
+          var markerIcon = this.attachColorsToMarkers(this.markers[i], colors[i], this.colors, options.strokeWeight, 1, options.level);
+          // data to show on the tooltip for the desired levels
+          this.generateToolTip(
+            this.markers[i],
+            options.level,
+            markerIcon,
+            "latitude",
+            "longitude"
+          );
 
-      // attach values to markers
-      for (let i = 0; i < this.markers.length; i++) {
-        var markerIcon = this.attachColorsToMarkers(this.markers[i], colors[i], this.colors, options.strokeWeight, 1, options.level);
-        // data to show on the tooltip for the desired levels
-        this.generateToolTip(
-          this.markers[i],
-          options.level,
-          markerIcon,
-          "latitude",
-          "longitude"
-        );
+          // to download the report
+          this.fileName = fileName;
+          this.getDownloadableData(this.markers[i], options.level);
+        }
+        this.commonService.loaderAndErr(this.data);
 
-        // to download the report
-        this.fileName = fileName;
-        this.getDownloadableData(this.markers[i], options.level);
+        //schoolCount
+        this.schoolCount = data['footer'] ? data['footer'].total_schools : null;
+        if (this.schoolCount != null) {
+          this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        }
+        this.studentCount = data['footer'] ? data['footer'].total_students : null;
+        if (this.studentCount != null) {
+          this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        }
+        this.studentAttended = data['footer'] ? data['footer'].students_attended : null;
+        if (this.studentAttended != null) {
+          this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        }
+        this.changeDetection.detectChanges();
       }
-      this.commonService.loaderAndErr(this.data);
-
-      //schoolCount
-      this.schoolCount = data['footer'] ? data['footer'].total_schools : null;
-      if (this.schoolCount != null) {
-        this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      }
-      this.studentCount = data['footer'] ? data['footer'].total_students : null;
-      if (this.studentCount != null) {
-        this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      }
-      this.studentAttended = data['footer'] ? data['footer'].students_attended : null;
-      if (this.studentAttended != null) {
-        this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      }
-      this.changeDetection.detectChanges();
+    } catch (e) {
+      this.errorHandling();
     }
   }
 
