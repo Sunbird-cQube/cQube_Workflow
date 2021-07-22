@@ -237,7 +237,7 @@
 
 - name: Clearing s3 output bucket data
   shell: aws s3 rm s3://{{ s3_output_bucket }}  --recursive
-  when: datasource_status == "unmatched"
+  when: storage_type == "s3" and datasource_status == "unmatched"
   tags: [ install, update ]
 
 - name: Create database user
