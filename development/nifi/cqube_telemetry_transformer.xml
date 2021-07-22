@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>Single template (Both s3 and on premise).</description>
+    <description></description>
     <groupId>281dc6f4-0173-1000-6ece-d7cd0acfb411</groupId>
     <name>cqube_telemetry_transformer</name>
     <snippet>
@@ -3839,9 +3839,9 @@ ${emission_filename:startsWith('telemetry/telemetry_view'):ifElse(#{telemetry_vi
 </value>
                             </entry>
                             <entry>
-<key>split_id</key>
+<key>fragment.identifier</key>
 <value>
-    <name>split_id</name>
+    <name>fragment.identifier</name>
 </value>
                             </entry>
                         </descriptors>
@@ -3864,7 +3864,7 @@ ${emission_filename:startsWith('telemetry/telemetry_view'):ifElse(#{telemetry_vi
 <value>100</value>
                             </entry>
                             <entry>
-<key>split_id</key>
+<key>fragment.identifier</key>
 <value>${uuid}_split_wait</value>
                             </entry>
                         </properties>
@@ -6260,7 +6260,7 @@ ${emission_filename:startsWith('telemetry/telemetry_view'):ifElse(#{telemetry_vi
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingPeriod>180 min</schedulingPeriod>
                         <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
@@ -6566,5 +6566,5 @@ where ff_uuid= '${zip_identifier}'
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/19/2021 17:59:25 IST</timestamp>
+    <timestamp>07/22/2021 18:59:34 IST</timestamp>
 </template>
