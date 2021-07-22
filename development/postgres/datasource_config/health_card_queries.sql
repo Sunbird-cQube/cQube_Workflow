@@ -6271,14 +6271,6 @@ hc_infra_mgmt_district as infra
 on basic.district_id=infra.district_id and basic.school_management_type=infra.school_management_type;
 
 
-drop view if exists hc_pat_state_mgmt_overall;
-drop view if exists hc_pat_state_mgmt_last30;
-drop view if exists hc_sat_state_mgmt_overall;
-drop view if exists hc_sat_state_mgmt_last30;
-drop view if exists hc_student_attendance_state_mgmt_overall;
-drop view if exists hc_student_attendance_state_mgmt_last30;
-
-
 /* Student attendance management overall */
 
 create or replace view hc_student_attendance_state_mgmt_overall as 
