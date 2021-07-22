@@ -1515,13 +1515,17 @@
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>4072.0</x>
+                        <y>-416.0</y>
+                    </bends>
                     <destination>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>99fa4e29-5fa3-3603-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
@@ -5856,8 +5860,8 @@
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>3952.0</x>
-                        <y>-512.0</y>
+                        <x>5016.0</x>
+                        <y>-592.0</y>
                     </bends>
                     <destination>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
@@ -10249,6 +10253,7 @@
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
                     <selectedRelationships>data_replay_retention</selectedRelationships>
+                    <selectedRelationships>telemetry</selectedRelationships>
                     <source>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>4908e402-3097-3b9d-0000-000000000000</id>
@@ -28679,8 +28684,8 @@ ${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('excep
                     <id>4908e402-3097-3b9d-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>4688.0</x>
-                        <y>-680.0</y>
+                        <x>4856.0</x>
+                        <y>-488.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -28704,6 +28709,12 @@ ${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('excep
     <name>data_replay_retention</name>
 </value>
                             </entry>
+                            <entry>
+<key>telemetry</key>
+<value>
+    <name>telemetry</name>
+</value>
+                            </entry>
                         </descriptors>
                         <executionNode>ALL</executionNode>
                         <lossTolerant>false</lossTolerant>
@@ -28717,6 +28728,10 @@ ${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('excep
 <key>data_replay_retention</key>
 <value>${filename:startsWith('data_retention'):or(${filename:startsWith('data_replay')})}</value>
                             </entry>
+                            <entry>
+<key>telemetry</key>
+<value>${filename:startsWith('telemetry')}</value>
+                            </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
                         <schedulingPeriod>0 sec</schedulingPeriod>
@@ -28724,10 +28739,14 @@ ${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('excep
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>route_files_data_replay_retention</name>
+                    <name>route_files_data_replay_retention_telemetry</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>data_replay_retention</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>telemetry</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -43348,7 +43367,7 @@ ${filename:startsWith('school_management'):ifElse('log_summary_school_management
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
-<value>${filename:startsWith('telemetry/')}</value>
+<value>${filename:startsWith('telemetry')}</value>
                             </entry>
                             <entry>
 <key>data_replay_retention</key>
@@ -62914,5 +62933,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/22/2021 09:59:29 IST</timestamp>
+    <timestamp>07/22/2021 19:00:23 IST</timestamp>
 </template>
