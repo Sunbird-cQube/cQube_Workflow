@@ -15,8 +15,13 @@ if [[ ! -d "$INS_DIR" ]]; then INS_DIR="$PWD"; fi
 sudo apt update -y
 chmod u+x upgradation_validate.sh
 
+if [[ ! -f upgradation_config.yml ]]; then
+    tput setaf 1; echo "ERROR: upgradation_config.yml is not available. Please copy upgradation_config.yml.template as upgradation_config.yml and fill all the details."; tput sgr0
+    exit;
+fi
+
 . "upgradation_validate.sh"
-. "$INS_DIR/validation_scripts/datasource_config_validation.sh upgrade"
+. "$INS_DIR/validation_scripts/datasource_config_validation.sh" upgrade
 
 if [ -e /etc/ansible/ansible.cfg ]; then
 	sudo sed -i 's/^#log_path/log_path/g' /etc/ansible/ansible.cfg
@@ -31,12 +36,12 @@ usecase_name=$(awk ''/^usecase_name:' /{ if ($2 !~ /#.*/) {print $2}}' upgradati
 case $usecase_name in
    
    education_usecase)
-        base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' ${usecase_name}_config.yml)
+        base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' ${usecase_name}_upgradation_config.yml)
         ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" \
                                                               --extra-vars "@${usecase_name}_upgradation_config.yml" \
                                                               --extra-vars "@${usecase_name}_datasource_config.yml" \
-                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
-                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"    
+                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_upgradation_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_upgradation_config.yml"    
         if [ $? = 0 ]; then
             echo "cQube Workflow upgraded successfully!!"
         fi  
@@ -46,8 +51,9 @@ case $usecase_name in
         ansible-playbook ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_upgradation_config.yml" \
                                                               --extra-vars "@${usecase_name}_upgradation_config.yml" \
                                                               --extra-vars "@${usecase_name}_datasource_config.yml" \
-                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
-                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"
+                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_upgradation_config.yml" \
+                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_upgradation_config.yml" \
+                                                              --extra-vars "@datasource.yml"
         if [ $? = 0 ]; then
            echo "cQube Workflow upgraded successfully!!"
         fi
