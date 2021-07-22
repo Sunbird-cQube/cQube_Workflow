@@ -5,7 +5,7 @@ var const_data = require('../lib/config');
 const readFile = require("../lib/reads3File");
 var baseDir = `${process.env.OUTPUT_DIRECTORY}/`;
 
-router.post('/', auth.authController, async function (req, res) {
+router.post('/', auth.authController, async (req, res) => {
     try {
         logger.info(`---raw data download fileName ${req.body.fileName} api ---`);
         if (readFile.storageType == "s3") {

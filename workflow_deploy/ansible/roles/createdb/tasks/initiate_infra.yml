@@ -236,7 +236,7 @@
   tags: [ install, update ]
 
 - name: Clearing s3 output bucket data
-  shell: aws s3 rm s3://{{ s3_output_bucket }}  --recursive
+  shell: AWS_ACCESS_KEY_ID={{ s3_access_key }} AWS_SECRET_ACCESS_KEY={{ s3_secret_key}} aws s3 rm s3://{{ s3_output_bucket }}  --recursive
   when: storage_type == "s3" and datasource_status == "unmatched"
   tags: [ install, update ]
 

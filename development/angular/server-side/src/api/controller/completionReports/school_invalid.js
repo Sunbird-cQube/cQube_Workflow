@@ -3,7 +3,7 @@ const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 var const_data = require('../../lib/config');
 
-router.post('/school_invalid_data', auth.authController, async function (req, res) {
+router.post('/school_invalid_data', auth.authController, async (req, res) => {
     try {
         logger.info(`---school invalid data fileName ${req.body.fileName} api ---`);
         var management = req.body.management;
@@ -12,7 +12,7 @@ router.post('/school_invalid_data', auth.authController, async function (req, re
 
         if (management != 'overall' && category == 'overall') {
             fileName = `exception_list/static/school_management_category/overall_category/${management}/school_invalid_data.csv`;
-        }else{
+        } else {
             fileName = `exception_list/school_invalid_data.csv`;
         }
 
