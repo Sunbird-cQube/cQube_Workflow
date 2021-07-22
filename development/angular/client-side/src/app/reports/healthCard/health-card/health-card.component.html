@@ -165,8 +165,8 @@
                             <label id="warning" class="form-label note" style="text-align: unset;"> Please enter at
                                 least 2
                                 characters/digits</label>
-                            <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label>
-                            <p *ngIf="allData" style="line-height: 0.8em; float: left;">&nbsp;</p>
+                            <!-- <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label> -->
+                            <p *ngIf="value && len>=2" style="line-height: 0.8em; float: left;">&nbsp;</p>
                             <input #searchInput id="myInput" class="input-control full-width" type="search"
                                 class="clearable" autocomplete="off" name="districtName" [(ngModel)]="value"
                                 (input)="onChange()" [placeholder]="placeHolder">

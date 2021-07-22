@@ -506,8 +506,8 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   showData(healthCardData) {
     if (this.level != 'state') {
       if (this.level != 'school')
-        healthCardData['total_schools'] = healthCardData['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      healthCardData['total_students'] = healthCardData['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        healthCardData['total_schools'] = healthCardData['total_schools'] ? healthCardData['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
+      healthCardData['total_students'] = healthCardData['total_students'] ? healthCardData['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
       if (healthCardData['school_management_type'])
         healthCardData['school_management_type'] = this.commonService.changeingStringCases(healthCardData['school_management_type'].replace(/_/g, ' '))
       this.updatedKeys = [];
