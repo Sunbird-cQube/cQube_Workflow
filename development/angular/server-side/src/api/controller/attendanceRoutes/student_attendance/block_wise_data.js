@@ -37,7 +37,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 fileName = `attendance/${year}/${month}/block.json`;
             }
         }
-        var jsonData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        var jsonData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
 
         var blocksAttendanceData = jsonData.data
         var dateRange = `${blocksAttendanceData[0]['data_from_date']} to ${blocksAttendanceData[0]['data_upto_date']}`;

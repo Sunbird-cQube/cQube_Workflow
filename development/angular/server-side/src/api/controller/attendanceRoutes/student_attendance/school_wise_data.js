@@ -3,7 +3,7 @@ const { logger } = require('../../../lib/logger');
 const auth = require('../../../middleware/check-auth');
 const s3File = require('../../../lib/reads3File');
 
-router.post('/schoolWise', auth.authController, async function (req, res) {
+router.post('/schoolWise', auth.authController, async (req, res) => {
     try {
         logger.info('--- Attendance school wise api ---');
         var month = req.body.month;
