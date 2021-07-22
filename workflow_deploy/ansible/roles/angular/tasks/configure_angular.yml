@@ -37,12 +37,12 @@
     state: directory
   tags: [ install, update ]
 
-- name: copying client-side script
-  shell: "cp -R ../../development/angular/client-side/* {{base_dir}}/cqube/dashboard/client_side"
-  tags: [ install, update ]
-  
 - name: copying maps script
   shell: "cp -R ../../development/angular/maps/{{state_code}}.json ../../development/angular/client-side/src/assets/map.json"
+  tags: [ install, update ]
+
+- name: copying client-side script
+  shell: "cp -R ../../development/angular/client-side/* {{base_dir}}/cqube/dashboard/client_side"
   tags: [ install, update ]
 
 - name: Configure the environment.ts
