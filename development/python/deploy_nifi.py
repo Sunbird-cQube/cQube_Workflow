@@ -291,12 +291,11 @@ if __name__ == "__main__":
     dynamic_jolt_params_pg = ['composite_parameters',
                               'infra_parameters', 'udise_parameters']
     if sys.argv[2] in dynamic_jolt_params_pg:
-        update_jolt_params.update_nifi_jolt_params(processor_group_name)
+        update_jolt_params.update_nifi_jolt_params(parameter_context_name)
 
     # 4. Link parameter context to processor group
     logging.info("Linking parameter context with processor group")
-    print(link_parameter_with_processor_group(
-        processor_group_name, parameter_context_name))
+    link_parameter_with_processor_group(processor_group_name, parameter_context_name)
 
     # 5. Create controller services
     if sys.argv[3] != 0:
@@ -330,5 +329,4 @@ if __name__ == "__main__":
     # 7. Enable controller service
     logging.info("Enabling Controller services")
     controller_service_enable(processor_group_name)
-    logging.info(
-        "***Successfully Loaded template and enabled controller services***")
+    logging.info("***Successfully Loaded template and enabled controller services***")
