@@ -9,7 +9,8 @@ export const environment = {
   grafanaEndPoint: "http://localhost:9000",
   keycloakUrl: "http://localhost:8080/auth",
   realm: "cQube",
-  clientId: "cQube_Admin"
+  clientId: "cQube_Admin",
+  storageType: "local"
 };
 
 /*

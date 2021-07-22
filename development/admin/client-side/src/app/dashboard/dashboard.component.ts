@@ -9,8 +9,11 @@ import { AppService } from '../app.service';
 })
 export class DashboardComponent implements OnInit {
   public grafanaUrl = environment.grafanaEndPoint;
+  public storageType = environment.storageType;
+  public listFileName = ""
   constructor(service: AppService) {
     service.logoutOnTokenExpire();
+    this.listFileName = this.storageType == 's3' ? "Download \n S3 Files" : "List \n Local Files"
   }
 
   ngOnInit(): void {
