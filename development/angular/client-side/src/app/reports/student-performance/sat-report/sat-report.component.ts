@@ -167,6 +167,7 @@ export class SatReportComponent implements OnInit {
     }
 
     if (params && params.level) {
+      this.changeDetection.detectChanges();
       let data = params.data;
       if (params.level === "district") {
         this.districtHierarchy = {
@@ -227,6 +228,7 @@ export class SatReportComponent implements OnInit {
 
   semSelect() {
     this.levelWiseFilter();
+    this.changeDetection.detectChanges();
   }
 
   getDistricts(level): void {
