@@ -141,7 +141,7 @@ git checkout release-3.0
 - Copy the upgradation_config.yml.template to upgradation_config.yml `cp upgradation_config.yml.template upgradation_config.yml`
 - If you are opting for education_usecase. usecase_name as education_usecase Copy the education_usecase_upgradation_config.yml.template to education_usecase_upgradation_config.yml `cp education_usecase_upgradation_config.yml.template education_usecase_upgradation_config.yml`
 - If you are opting for test_usecase. usecase_name as test_usecase Copy the test_usecase_upgradation_config.yml.template to test_usecase_upgradation_config.yml `cp test_usecase_upgradation_config.yml.template test_usecase_upgradation_config.yml
-- Edit using nano config.yml`
+- Edit using `nano config.yml`
 
 - This script will update the below cQube components:
 
