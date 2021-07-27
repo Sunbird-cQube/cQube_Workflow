@@ -43,19 +43,15 @@ def upload_nifi_template(template):
 
 
 # create parameter
-def create_parameter(parameter_context):
+def create_parameter(parameter_context,parameter_body):
     """
     create nifi parameter
     """
-    # read the parameter file
-    f = open(f'{prop.NIFI_PARAMETER_DIRECTORY_PATH}{parameter_context}.json', "rb")
-    file = json.loads(f.read())
-
     # create the parameter in nifi
     create_parameter_res = rq.post(
-        f'{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/parameter-contexts', json=file, headers=header)
+        f'{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/parameter-contexts', json=parameter_body, headers=header)
     if create_parameter_res.status_code == 201:
-        logging.info("Successfully Created dynamic parameters ")
+        logging.info("Successfully Created parameter context %s",parameter_context)
     else:
         return create_parameter_res.text
 
@@ -126,14 +122,12 @@ def link_parameter_with_processor_group(processor_group_name, parameter_context)
     """
     # Get the processor group details
     pg_id = get_processor_group_info(
-        processor_group_name)  # remove if possible
+        processor_group_name)  
 
     # Get the parameter context details
     parameter_context = get_parameter_context(parameter_context)
-
-    print(parameter_context)
+    
     # Link parameter context to respective processor group
-
     parameter_link_body = {"revision": {"version": pg_id['revision']['version'], "lastModifier": "Python"}, "component": {
         "id": pg_id['component']['id'], "parameterContext": {"id": parameter_context['id']}}}
 
@@ -149,7 +143,7 @@ def link_parameter_with_processor_group(processor_group_name, parameter_context)
 # create distributed server
 def create_controller_service(processor_group_name, port):
     procesor_group = get_processor_group_info(
-        processor_group_name)  # remove later
+        processor_group_name)
 
     controller_service_body = {"revision": {"clientId": "Python", "version": 0, "lastModifier": "Python"},
                                "component": {"type": "org.apache.nifi.distributed.cache.server.map.DistributedMapCacheServer",
@@ -261,8 +255,6 @@ if __name__ == "__main__":
     instantiate_template(processor_group_name)
 
     #  3. Create parameters
-    logging.info("Creating dynamic parameters")
-    create_parameter(parameter_context_name)
     params = {
         'infra_parameters': 'infra_parameters.txt',
         'diksha_parameters': 'diksha_parameters.txt',
@@ -280,25 +272,30 @@ if __name__ == "__main__":
         'data_replay_parameters':'data_replay_parameters.txt'
         
     }
+    # read the parameter file created by Ansible using configuration
+    logging.info("Reading dynamic parameters from file %s.json",parameter_context_name)
+    f = open(f'{prop.NIFI_PARAMETER_DIRECTORY_PATH}{parameter_context_name}.json', "rb")
+    dynamic_param_file = json.loads(f.read())
+    
     # Load parameters from file to Nifi parameters
-    logging.info("Creating static parameters")
-    for param_name, filename in params.items():
-        if param_name == parameter_context_name:
-            update_nifi_params.nifi_params_config(param_name, f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}{filename}')
+    logging.info("Reading static parameters from file %s.txt",parameter_context_name)
+    if params.get(parameter_context_name):
+        parameter_body=update_nifi_params.nifi_params_config(parameter_context_name, f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}{params.get(parameter_context_name)}',dynamic_param_file)
+        create_parameter(parameter_context_name,parameter_body)
 
     # Load dynamic Jolt spec from db to Nifi parameters
     logging.info("Creating dynamic jolt parameters")
     dynamic_jolt_params_pg = ['composite_parameters',
-                              'infra_parameters', 'udise_parameters']
+                             'infra_parameters', 'udise_parameters']
     if sys.argv[2] in dynamic_jolt_params_pg:
-        update_jolt_params.update_nifi_jolt_params(parameter_context_name)
+       update_jolt_params.update_nifi_jolt_params(parameter_context_name)
 
     # 4. Link parameter context to processor group
     logging.info("Linking parameter context with processor group")
     link_parameter_with_processor_group(processor_group_name, parameter_context_name)
 
     # 5. Create controller services
-    if sys.argv[3] != 0:
+    if int(sys.argv[3]) !=0:
         logging.info("Creating distributed server")
         print(create_controller_service(processor_group_name, sys.argv[3]))
 
@@ -320,11 +317,10 @@ if __name__ == "__main__":
         'data_replay_transformer': ['cQube_s3_data_replay', 'postgres_data_replay'],
         'healthcard_transformer': ['cQube_s3_health_card', 'postgres_health_card']
     }
-    for param_name, controllers in controller_list_all.items():
-        if param_name == processor_group_name:
-            for controller in controllers:
-                print(update_controller_service_property(
-                    processor_group_name, controller))
+    
+    if controller_list_all.get(processor_group_name):
+        for controller in controller_list_all.get(processor_group_name):
+            print(update_controller_service_property(processor_group_name, controller))
 
     # 7. Enable controller service
     logging.info("Enabling Controller services")
