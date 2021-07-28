@@ -4,13 +4,8 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: "http://localhost:3001/api",
-  appUrl: "http://localhost:4200",
-  grafanaEndPoint: "http://localhost:9000",
-  keycloakUrl: "http://localhost:8080/auth",
-  realm: "cQube",
-  clientId: "cQube_Admin",
-  storageType: "s3"
+  apiRoute: "http://localhost:3000/api/attendance/schoolWise",
+  management: "local_body"
 };
 
 /*
