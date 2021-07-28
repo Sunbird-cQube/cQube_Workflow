@@ -50,26 +50,4 @@ def update_parameters(nifi_parameters):
         return update_pr
     else:
         logging.error("Error updating  parameter context details")
-        return  {"Error":"Failed to update parameter context ","error":update_pr.json()}
-
-
-def update_parameter_context(parameter_context,parameter_name,jolt_spec):
-    """
-    Function will update the paramters into NiFi 
-    """
-    # Get parameter context details
-    pc = get_parameter_context(parameter_context)
-    
-    # create parameter
-    par_data = parameter_list_builder(parameter_name,jolt_spec)
-    par_data['revision']['version'] = pc['version']
-    par_data['id'] = pc['id']
-    par_data['component']['id'] = pc['id']
-    par_data['component']['name'] = pc['name']
-    
-    
-    # update the parameter into NiFi
-    up_status=update_parameters(par_data)
-    if up_status.status_code == 200:
-        logging.info("Successfully updated parameter")
-    return par_data     
+        return  {"Error":"Failed to update parameter context ","error":update_pr.json()}  

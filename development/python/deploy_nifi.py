@@ -281,15 +281,15 @@ if __name__ == "__main__":
     logging.info("Reading static parameters from file %s.txt",parameter_context_name)
     if params.get(parameter_context_name):
         parameter_body=update_nifi_params.nifi_params_config(parameter_context_name, f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}{params.get(parameter_context_name)}',dynamic_param_file)
-        create_parameter(parameter_context_name,parameter_body)
 
     # Load dynamic Jolt spec from db to Nifi parameters
     logging.info("Creating dynamic jolt parameters")
     dynamic_jolt_params_pg = ['composite_parameters',
                              'infra_parameters', 'udise_parameters']
     if sys.argv[2] in dynamic_jolt_params_pg:
-       update_jolt_params.update_nifi_jolt_params(parameter_context_name)
-
+       parameter_body=update_jolt_params.update_nifi_jolt_params(parameter_context_name,parameter_body)
+    create_parameter(parameter_context_name,parameter_body)
+    
     # 4. Link parameter context to processor group
     logging.info("Linking parameter context with processor group")
     link_parameter_with_processor_group(processor_group_name, parameter_context_name)
