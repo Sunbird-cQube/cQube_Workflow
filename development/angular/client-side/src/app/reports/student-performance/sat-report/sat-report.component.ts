@@ -1779,9 +1779,18 @@ export class SatReportComponent implements OnInit {
 
       if (level == mylevel) {
         if (this.grade && !this.subject) {
+          ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
+          Object.keys(markers["Subjects"])
+            .sort()
+            .forEach(function (key) {
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
+            });
           yourData = this.commonService
             .getInfoFrom(
-              markers.Subjects,
+              ordered,
               "Performance",
               level,
               "patReport",
@@ -1790,9 +1799,18 @@ export class SatReportComponent implements OnInit {
             )
             .join(" <br>");
         } else if (this.grade && this.subject) {
+          ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
+          Object.keys(markers["Subjects"])
+            .sort()
+            .forEach(function (key) {
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
+            });
           yourData = this.commonService
             .getInfoFrom(
-              markers.Subjects,
+              ordered,
               "Performance",
               level,
               "patReport",
@@ -1821,10 +1839,13 @@ export class SatReportComponent implements OnInit {
       } else {
         if (this.grade && !this.subject) {
           ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
           Object.keys(markers["Subjects"])
             .sort()
             .forEach(function (key) {
-              ordered[key] = markers["Subjects"][key];
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
             });
           yourData = this.commonService
             .getInfoFrom(
@@ -1838,10 +1859,13 @@ export class SatReportComponent implements OnInit {
             .join(" <br>");
         } else if (this.grade && this.subject) {
           ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
           Object.keys(markers["Subjects"])
             .sort()
             .forEach(function (key) {
-              ordered[key] = markers["Subjects"][key];
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
             });
           yourData = this.commonService
             .getInfoFrom(
