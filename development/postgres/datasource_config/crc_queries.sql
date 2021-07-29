@@ -5,6 +5,7 @@ drop view if exists hc_crc_school cascade;
 drop view if exists hc_crc_cluster cascade;
 drop view if exists hc_crc_block cascade;
 drop view if exists hc_crc_district cascade;
+drop view if exists crc_school_mgmt_all cascade;
 
 /*crc*/
 
