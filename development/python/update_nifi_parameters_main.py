@@ -51,3 +51,11 @@ def update_parameters(nifi_parameters):
     else:
         logging.error("Error updating  parameter context details")
         return  {"Error":"Failed to update parameter context ","error":update_pr.json()}  
+
+
+def update_parameter(par_data):
+    # update the parameter into NiFi
+    up_status=update_parameters(par_data)
+    if up_status.status_code == 200:
+        logging.info("Successfully updated parameter")
+    return par_data
