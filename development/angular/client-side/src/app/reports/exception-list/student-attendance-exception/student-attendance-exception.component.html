@@ -1,5 +1,5 @@
 <div class="container-fluid" style="padding-top:15px !important;">
-    <div class="row" (window:resize)="onResize()">
+    <div class="row" (window:resize)="commonService.onResize(level);onResize()">
         <div class="col-sm-8">
             <div *ngIf='skul'>
                 <p id="dist">
@@ -90,12 +90,11 @@
             </select>
 
             <button class="btn btn-secondary" id="blockbtn" name="block"
-                (click)="blockWise($event)">&nbsp;<strong>Blocks</strong>
+                (click)="blockWise()">&nbsp;<strong>Blocks</strong>
             </button>
-            <button class="btn btn-secondary" id="clusterbtn"
-                (click)="clusterWise($event)">&nbsp;<strong>Clusters</strong>
+            <button class="btn btn-secondary" id="clusterbtn" (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
             </button>
-            <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise($event)">&nbsp;<strong>Schools</strong>
+            <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise()">&nbsp;<strong>Schools</strong>
             </button>
 
             <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"
@@ -130,7 +129,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div #mapContainer id="sarExpMap" class="active" style="width: 100%;"
-                [ngStyle]="{height: heigth > 1760 ? '84vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '78vh':'70vh'}">
+                [ngStyle]="{height: width > 3820 ? '83vh': width > 1920 && width < 2500 ? '80vh': width > 1367 && width < 1920 ? '78vh':'70vh'}">
             </div>
         </div>
     </div>

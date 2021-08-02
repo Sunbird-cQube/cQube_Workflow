@@ -168,7 +168,8 @@ export class CrcReportComponent implements OnInit {
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.levelWiseFilter();
+    this.scatterChart.destroy();
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
   ngOnInit() {
@@ -226,7 +227,7 @@ export class CrcReportComponent implements OnInit {
           this.getClusters(data.districtId, data.blockId, data.id);
         }
       } else {
-        this.onResize();
+        this.levelWiseFilter()
         // this.districtWise();
       }
     }, err => {
@@ -389,7 +390,7 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-    this.onResize();
+    this.levelWiseFilter()
   }
   onClockHome() {
     this.period = "overall";
@@ -483,6 +484,8 @@ export class CrcReportComponent implements OnInit {
               xAxis: x_axis.value,
               yAxis: y_axis.value,
             };
+            this.labels = labels;
+            this.obj = obj;
             this.createChart(labels, this.chartData, this.tableHead, obj);
             this.tableData = this.result;
             this.dtOptions = {
@@ -491,14 +494,7 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY:
-                this.height > 1760
-                  ? "64vh"
-                  : this.height > 1180 && this.height < 1760
-                    ? "54vh"
-                    : this.height > 667 && this.height < 1180
-                      ? "44vh"
-                      : "35vh",
+              scrollY: "32vh",
               scrollX: true,
               scrollCollapse: true,
               paging: false,
@@ -753,7 +749,8 @@ export class CrcReportComponent implements OnInit {
               xAxis: x_axis.value,
               yAxis: y_axis.value,
             };
-
+            this.labels = labels;
+            this.obj = obj;
             this.createChart(labels, this.chartData, this.tableHead, obj);
             this.changeDetection.detectChanges();
             this.tableData = this.crcBlocksNames;
@@ -763,14 +760,7 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY:
-                this.height > 1760
-                  ? "64vh"
-                  : this.height > 1180 && this.height < 1760
-                    ? "54vh"
-                    : this.height > 667 && this.height < 1180
-                      ? "44vh"
-                      : "35vh",
+              scrollY: "32vh",
               scrollX: true,
               scrollCollapse: true,
               paging: false,
@@ -907,7 +897,8 @@ export class CrcReportComponent implements OnInit {
             xAxis: x_axis.value,
             yAxis: y_axis.value,
           };
-
+          this.labels = labels;
+          this.obj = obj;
           this.createChart(labels, this.chartData, this.tableHead, obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcClusterNames;
@@ -917,14 +908,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY:
-              this.height > 1760
-                ? "64vh"
-                : this.height > 1180 && this.height < 1760
-                  ? "54vh"
-                  : this.height > 667 && this.height < 1180
-                    ? "44vh"
-                    : "35vh",
+            scrollY: "32vh",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -1063,7 +1047,8 @@ export class CrcReportComponent implements OnInit {
             xAxis: x_axis.value,
             yAxis: y_axis.value,
           };
-
+          this.labels = labels;
+          this.obj = obj;
           this.createChart(labels, this.chartData, this.tableHead, obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcSchoolNames;
@@ -1073,14 +1058,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY:
-              this.height > 1760
-                ? "64vh"
-                : this.height > 1180 && this.height < 1760
-                  ? "54vh"
-                  : this.height > 667 && this.height < 1180
-                    ? "44vh"
-                    : "35vh",
+            scrollY: "32vh",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -1142,18 +1120,21 @@ export class CrcReportComponent implements OnInit {
       .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
   }
 
+  labels: any;
+  obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $("#myChart");
     ctx.attr(
       "height",
       this.height > 1760
-        ? "67vh"
+        ? "64vh"
         : this.height > 1180 && this.height < 1760
-          ? "60vh"
+          ? "63vh"
           : this.height > 667 && this.height < 1180
             ? "52vh"
-            : "46vh"
+            : "44vh"
     );
+    console.log(ctx);
     this.scatterChart = new Chart("myChart", {
       type: "scatter",
       data: {

@@ -83,9 +83,9 @@
     <div class="row">
         <div class="col-sm-12" style="margin-top: 5px;">
             <a class="float-right" href="javascript: void(0)" id="crcHealthcard" (click)="goToHealthCard()"
-                        style="font-weight: bold;right: 15px; bottom: 10px; position: absolute; text-decoration: underline;">Access
-                        Progress
-                        Card</a>
+                style="font-weight: bold;right: 15px; bottom: 10px; position: absolute; text-decoration: underline;">Access
+                Progress
+                Card</a>
         </div>
     </div>
     <div class="row" style="height: 72vh;">
@@ -111,17 +111,17 @@
                         <option *ngFor="let yaxis of yAxisFilter" [(ngValue)]="yaxis.key">
                             {{yaxis.value}}
                         </option>
-                    </select>                   
+                    </select>
                 </div>
             </div>
 
-            <p class="note" style="margin-top: 15px;">
+            <p class="note" style="margin-top: 5px;">
                 <strong> NOTE:</strong> The scatter plot below provides information for the metrics selected in the
                 dropdown below. You can alter the metrics (calculated from the CRC App) to update the scatter plot.
             </p>
             <br>
             <div class="row">
-                <canvas id="myChart" width="100vh"></canvas>
+                <canvas id="myChart" width="100vw" height="200vh"></canvas>
             </div>
         </div>
         <div class="col-sm-6">
@@ -174,11 +174,12 @@
                     </option>
                 </select>
             </div>
-            <p class="note" style="margin-top: 15px;">
+            <p class="note" style="margin-top: 5px;">
                 <strong> NOTE:</strong> The table provides information about the various metrics (calculated from the
                 CRC App). You can sort the entire table based on any metrics available in this table.
             </p>
-            <div class="myDiv">
+            <div class="myDiv"
+                [ngStyle]="{fontSize: height > 1760 ? '34px' : height > 1180 && height < 1760 ? '25px' : height > 667 && height < 1180 ? '14px' : '11px'}">
                 <table #dataTable id="table" class="display responsive cell-border"> </table>
             </div>
         </div>
