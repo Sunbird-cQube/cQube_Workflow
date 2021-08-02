@@ -1,5 +1,5 @@
 <div class="container-fluid" style="padding-top:15px !important;">
-    <div class="row" (window:resize)="onResize()">
+    <div class="row" (window:resize)="commonService.onResize(level);onResize()">
         <div class="col-sm-8">
             <div *ngIf='skul'>
                 <p id="dist">
@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" >
             <p class="note">
                 <strong> About the dashboard:</strong> This dashboard provides information about student's performance
                 in the Periodic Assessment Test Exception. The data has been collated at
@@ -120,8 +120,8 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div id="patExceMap" style="width: 100%;"
-                [ngStyle]="{height: heigth > 1760 ? '83vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '76vh':'70vh'}">
+            <div #mapContainer id="patExceMap" class="active" style="width: 100%;"
+                [ngStyle]="{height: width > 3820 ? '83vh': width > 1920 && width < 2500 ? '80vh': width > 1367 && width < 1920 ? '74vh':'69vh'}">
             </div>
         </div>
     </div>

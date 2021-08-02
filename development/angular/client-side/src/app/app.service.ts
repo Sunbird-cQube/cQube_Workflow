@@ -103,7 +103,6 @@ export class AppServiceComponent {
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        //if (this.mapData) {
         var data = mapData.default;
         function applyCountryBorder(map) {
             L.geoJSON(data[`${environment.stateName}`]['features'], {
@@ -114,20 +113,6 @@ export class AppServiceComponent {
             }).addTo(map);
         }
         applyCountryBorder(globalMap);
-        // } else {
-        //     this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
-        //         this.mapData = res;
-        //         function applyCountryBorder(map) {
-        //             L.geoJSON(res[`${environment.stateName}`]['features'], {
-        //                 color: "#6e6d6d",
-        //                 weight: 2,
-        //                 fillOpacity: 0,
-        //                 fontWeight: "bold"
-        //             }).addTo(map);
-        //         }
-        //         applyCountryBorder(globalMap);
-        //     })
-        // }
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
             {
                 subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
