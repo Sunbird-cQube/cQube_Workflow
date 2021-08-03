@@ -1,10 +1,10 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  ViewEncapsulation,
-} from "@angular/core";
+// This dashboard provides information about student attendance
+// calculated at a monthly level. The data has been collated at various administrative levels (i.e.
+//   District, Block, Cluster and School) and
+//   this dashboard allows you to view and download the data at these various administrative levels. You can
+//   select a different month/year combination to view student attendance for any other time period.
+
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AttendanceReportService } from "../../../services/student.attendance-report.service";
 import { Router } from "@angular/router";
@@ -12,7 +12,6 @@ import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
 import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { AppServiceComponent, globalMap } from "../../../app.service";
-// import {MapLegendsComponent} from '../../../common/map-legends/map-legends.component';
 declare const $;
 
 @Component({
@@ -23,43 +22,66 @@ declare const $;
   encapsulation: ViewEncapsulation.None,
 })
 export class StudengtAttendanceComponent implements OnInit {
+  //variables for telemetry data
   state;
   edate;
   public telemData = {};
-  public disabled = false;
+
+  // to set the hierarchy names
   public title: string = "";
   public titleName: string = "";
+
+  //to store level data
   public districts: any = [];
   public blocks: any = [];
   public cluster: any = [];
   public schools: any = [];
+
+  //to store level wise ids
   public districtsIds: any = [];
   public blocksIds: any = [];
   public clusterIds: any = [];
   public schoolsIds: any = [];
+
+  //to store names for dropdown
   public districtsNames: any = [];
   public blocksNames: any = [];
   public clusterNames: any = [];
   public schoolsNames: any = [];
-  public id: any = "";
+
+  //to show or hide dropdowns
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
+
+  //to store selected level value
   public myDistrict: any;
   public myBlock: any;
   public myCluster: any;
+
+  //to store colors for markers
   public colors: any = [];
+
+  //to store footer values
   public studentCount: any;
   public schoolCount: any;
   public dateRange: any = "";
+
+  //to control hierarchy
   public dist: boolean = false;
   public blok: boolean = false;
   public clust: boolean = false;
   public skul: boolean = false;
+
+  // store level wise heirarchy
   public hierName: any;
   public distName: any;
   public blockName: any;
   public clustName: any;
+
+  //to store all markers
   public markerData;
+
+  // leaflet layer dependencies
   public layerMarkers: any = new L.layerGroup();
   public markersList = new L.FeatureGroup();
   public levelWise: any = "District";
@@ -67,22 +89,23 @@ export class StudengtAttendanceComponent implements OnInit {
   // google maps zoom level
   public zoom: number = 7;
 
-  public labelOptions: any = {};
-
   // initial center position for the map
   public lat: any;
   public lng: any;
 
   public markers: any = [];
   public mylatlngData: any = [];
+
+  //for year and month selection
   public getMonthYear: any;
   public years: any = [];
   public year;
   public months: any = [];
   public month;
-  public element;
-  params: any;
   yearMonth = true;
+
+  params: any;
+
   selected = "absolute";
   reportName = "student_attendance";
 
@@ -91,6 +114,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  //options for timerange dropdown::::::
   timeRange = [
     { key: "overall", value: "Overall" },
     { key: "last_30_days", value: "Last 30 Days" },
@@ -121,9 +145,12 @@ export class StudengtAttendanceComponent implements OnInit {
     this.select(this.selectedIndex);
   }
 
+  //to select management and category
   managementName;
   management;
   category;
+
+  //the order of academic year months to sort options accordingly
   public allMonths: any = ['June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May'];
 
   ngOnInit() {
@@ -138,11 +165,15 @@ export class StudengtAttendanceComponent implements OnInit {
     this.timePeriod = {
       period: "overall",
     };
+
+    //setting management-category values
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
+
+    //setting year-month options:::::
     this.service.getDateRange().subscribe(
       (res) => {
         this.getMonthYear = res;
@@ -206,6 +237,7 @@ export class StudengtAttendanceComponent implements OnInit {
     });
   }
 
+  //This function will be called on select year-month option show year month dropdown:::::
   showYearMonth() {
     document.getElementById("home").style.display = "block";
     this.yearMonth = false;
@@ -219,6 +251,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  //This function will be called on select period dropdown::::
   onPeriodSelect() {
     if (this.period != "overall") {
       document.getElementById("home").style.display = "block";
@@ -236,6 +269,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  //This function is get all district names, on load of page:::::::
   getDistricts(): void {
     this.service.dist_wise_data({
       ...this.month_year,
@@ -282,6 +316,7 @@ export class StudengtAttendanceComponent implements OnInit {
     );
   }
 
+  //This function is to get all blocks of selected district:::::::
   getBlocks(): void {
     this.month_year["id"] = this.myDistrict;
     this.service
@@ -338,6 +373,7 @@ export class StudengtAttendanceComponent implements OnInit {
       );
   }
 
+  //This is to get all clusters based on selected blockID::::::::::
   getClusters(): void {
     this.month_year["id"] = this.myBlock;
     this.service
@@ -403,6 +439,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
   globalId;
 
+  //This function is to download all data which are shown on UI::::
   downloadReport(event) {
     if (this.globalId == this.myDistrict) {
       var distData: any = {};
@@ -496,6 +533,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  //This function will navigate to related level:::::::::
   levelWiseFilter() {
     if (this.skul) {
       if (this.levelWise === "District") {
@@ -540,6 +578,7 @@ export class StudengtAttendanceComponent implements OnInit {
   public myData;
   districtData = [];
 
+  //This function is to show all districts of the state::::::::
   onClickHome() {
     this.yearMonth = true;
     this.academicYear = undefined;
@@ -651,9 +690,6 @@ export class StudengtAttendanceComponent implements OnInit {
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
-              // } else {
-              //   this.filterRangeWiseData(this.valueRange);
-              // }
             },
             (err) => {
               this.dateRange = "";
@@ -675,6 +711,7 @@ export class StudengtAttendanceComponent implements OnInit {
     globalMap.addLayer(this.layerMarkers);
   }
 
+  //this is for showing all blocks of the state::::::::::
   blockWise(event) {
     try {
       if (this.period === "select_month" && !this.month) {
@@ -774,9 +811,6 @@ export class StudengtAttendanceComponent implements OnInit {
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
-              // } else {
-              //   this.filterRangeWiseData(this.valueRange);
-              // }
             },
             (err) => {
               this.dateRange = "";
@@ -797,6 +831,8 @@ export class StudengtAttendanceComponent implements OnInit {
     document.getElementById("home").style.display = "block";
   }
 
+
+  //this is for showing all clusters of the state
   clusterWise(event) {
     try {
       if (this.period === "select_month" && !this.month) {
@@ -916,9 +952,6 @@ export class StudengtAttendanceComponent implements OnInit {
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
-              // } else {
-              //   this.filterRangeWiseData(this.valueRange);
-              // }
             },
             (err) => {
               this.dateRange = "";
@@ -940,6 +973,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.cluster = [];
   }
 
+  //This is for showing all schools of the state::::::::::
   schoolWise(event) {
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {
@@ -979,7 +1013,6 @@ export class StudengtAttendanceComponent implements OnInit {
               this.schoolCount = res["schoolCount"];
 
               this.reportData = this.markers = sorted
-              // if (!this.valueRange) {
               let colors = this.commonService.getRelativeColors(sorted, {
                 value: "attendance",
                 report: "reports",
@@ -987,8 +1020,6 @@ export class StudengtAttendanceComponent implements OnInit {
               if (this.markers.length > 0) {
                 let i = 0;
                 while (i < this.markers.length) {
-
-                  // for (let i = 0; i < this.markers.length; i++) {
                   var color = this.commonService.color(
                     this.markers[i],
                     "attendance"
@@ -1034,9 +1065,6 @@ export class StudengtAttendanceComponent implements OnInit {
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
-              // } else {
-              //   this.filterRangeWiseData(this.valueRange);
-              // }
             },
             (err) => {
               this.dateRange = "";
@@ -1057,6 +1085,7 @@ export class StudengtAttendanceComponent implements OnInit {
     document.getElementById("home").style.display = "block";
   }
 
+  //common options at vrious levels:::::::::::::
   commonAtStateLevel() {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
@@ -1090,6 +1119,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.deSelect();
   }
 
+  //This function will be called when clicked on any marker:::::
   clickedMarker(event, label) {
     var level;
     var obj = {};
@@ -1167,7 +1197,6 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   onClickSchool(event) {
-    // this.levelWise = 'School';
     if (event.latlng) {
       var obj = {
         id: event.target.myJsonData.school_id,
@@ -1202,6 +1231,8 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   blockData = [];
+
+  //This function will be called when district-name will be selected::::::
   myDistData(data) {
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {
@@ -1392,6 +1423,7 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   clusterData = [];
+  //This function will be called when block-name will be selected
   myBlockData(data) {
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {
@@ -1608,8 +1640,10 @@ export class StudengtAttendanceComponent implements OnInit {
     this.getTelemetryData(clustData, event.type, "cluster");
     this.myClusterData(data);
   }
+
+  //this function will be alled after selecting cluster name from cluster dropdown
   myClusterData(data) {
-    try{
+    try {
       if (this.period === "select_month" && !this.month || this.month === '') {
         alert("Please select month!");
         this.cluster = false;
@@ -1620,7 +1654,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.valueRange = undefined;
       this.selectedIndex = undefined;
       this.deSelect();
-  
+
       this.levelWise = "schoolPerCluster";
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
@@ -1630,12 +1664,12 @@ export class StudengtAttendanceComponent implements OnInit {
       this.studentCount = 0;
       this.schoolCount = 0;
       this.markerData = null;
-  
+
       this.dist = false;
       this.blok = false;
       this.clust = true;
       this.skul = false;
-  
+
       this.clusterHidden = false;
       this.blockHidden = false;
       if (this.months.length > 0) {
@@ -1647,7 +1681,7 @@ export class StudengtAttendanceComponent implements OnInit {
         } else {
           this.fileName = `${this.reportName}_${this.levelWise}s_of_cluster_${data}_${this.period}_${this.commonService.dateAndTime}`;
         }
-  
+
         let obj = this.clusterNames.find((o) => o.id == data);
         var blockNames = [];
         this.blocksNames.forEach((item) => {
@@ -1669,7 +1703,7 @@ export class StudengtAttendanceComponent implements OnInit {
           }, []);
           this.blocksNames = uniqueData;
         }
-  
+
         var clustName = [];
         this.clusterNames.forEach((item) => {
           if (
@@ -1679,7 +1713,7 @@ export class StudengtAttendanceComponent implements OnInit {
             clustName.push(item);
           }
         });
-  
+
         if (clustName.length > 1) {
           uniqueData = clustName.reduce(function (previous, current) {
             var object = previous.filter(
@@ -1690,7 +1724,7 @@ export class StudengtAttendanceComponent implements OnInit {
           }, []);
           this.clusterNames = uniqueData;
         }
-  
+
         this.title = localStorage.getItem("block");
         this.titleName = localStorage.getItem("dist");
         var blockId = Number(localStorage.getItem("blockId"));
@@ -1706,15 +1740,15 @@ export class StudengtAttendanceComponent implements OnInit {
         };
         this.clustName = { cluster_id: data };
         this.hierName = obj.name;
-  
+
         this.globalId = this.myCluster = data;
         // this.myBlock = this.myBlock;
         this.myDistrict = Number(localStorage.getItem("distId"));
-  
+
         if (this.myData) {
           this.myData.unsubscribe();
         }
-  
+
         this.month_year["id"] = data;
         this.month_year["blockId"] = blockId;
         this.myData = this.service
@@ -1745,15 +1779,15 @@ export class StudengtAttendanceComponent implements OnInit {
               this.commonService.longitude = this.lng = Number(
                 this.mylatlngData[0]["lng"]
               );
-  
+
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
               );
-  
+
               this.markers = [];
               this.studentCount = res["studentCount"];
               this.schoolCount = res["schoolCount"];
-  
+
               this.reportData = this.markers = sorted;
               // if (!this.valueRange) {
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1819,7 +1853,7 @@ export class StudengtAttendanceComponent implements OnInit {
         this.markers = [];
         this.commonService.loaderAndErr(this.markers);
       }
-    }catch (e) {
+    } catch (e) {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
@@ -1881,6 +1915,7 @@ export class StudengtAttendanceComponent implements OnInit {
     markerIcon.addTo(globalMap).bindPopup(popup);
   }
 
+  // storing telemetry data into variable:::
   getTelemetryData(data, event, level) {
     this.service.telemetryData = [];
     var obj = {};
@@ -1931,9 +1966,9 @@ export class StudengtAttendanceComponent implements OnInit {
     }
   }
 
+// This function is to redirected to correct progress card view:::::
   goToHealthCard(): void {
     let data: any = {};
-
     if (this.levelWise === "blockPerDistrict") {
       data.level = "district";
       data.value = this.myDistrict;
@@ -1953,6 +1988,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this._router.navigate(["/progressCard"]);
   }
 
+  //This function will be called to download raw data files:::::
   downloadRaw() {
     document.getElementById("spinner").style.display = "block";
     var selectedAcademicYear = this.academicYear;
@@ -1971,6 +2007,7 @@ export class StudengtAttendanceComponent implements OnInit {
     );
   }
 
+  // These variables are to set legends for map markers::::::
   public legendColors: any = [
     "#a50026",
     "#d73027",
@@ -1997,17 +2034,14 @@ export class StudengtAttendanceComponent implements OnInit {
   ];
 
   //Filter data based on attendance percentage value range:::::::::::::::::::
-
   public valueRange = undefined;
   public prevRange = undefined;
   selectRange(value) {
     this.valueRange = value;
-    //document.getElementById('spinner').style.display = 'block';
     this.filterRangeWiseData(value);
   }
 
   async filterRangeWiseData(value) {
-    //document.getElementById('spinner').style.display = 'block';
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
@@ -2129,6 +2163,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.clusterNames = clustNames;
     }
     this.commonService.onResize(this.levelWise);
+    this.commonService.loaderAndErr(markers)
     this.changeDetection.detectChanges();
   }
 

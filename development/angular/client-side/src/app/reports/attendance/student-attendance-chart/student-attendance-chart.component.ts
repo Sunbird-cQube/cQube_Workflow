@@ -12,6 +12,8 @@ import { AttendanceReportService } from '../../../services/student.attendance-re
 export class StudentAttendanceChartComponent implements OnInit {
   state;
   level = 'state';
+
+  //For multi-select dropdown options::::::::::::::::::
   counts: any = [];
   districtList: any = [];
   blockList: any = [];
@@ -23,19 +25,25 @@ export class StudentAttendanceChartComponent implements OnInit {
   schoolList: any = [];
   schoolData: any = [];
   selectedSchool: any = [];
-
-  years = [];
-  selectedYear = '';
   selectedDistricts = [];
 
+  //For academic year selection::::::::::::::::::::::::::::::::
+  years = [];
+  selectedYear = '';
+
+  //For management and category
   managementName;
   management;
   category;
 
   data: any = [];
   currentData = [];
+
+  //the order of academic year months to sort options accordingly
   xAxisLabels = ['June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May'];
+  
   height = window.innerHeight;
+
   constructor(public commonService: AppServiceComponent, public service: AttendanceReportService, private changeDetection: ChangeDetectorRef) { }
 
   @ViewChildren(MultiSelectComponent) multiSelect: QueryList<MultiSelectComponent>;
@@ -67,9 +75,10 @@ export class StudentAttendanceChartComponent implements OnInit {
 
   onResize() {
     this.height = window.innerHeight;
-    console.log(this.height)
   }
   districtData = [];
+
+  //on select of year drop down:::::::::::::::::::::::
   onSelectYear() {
     this.commonService.errMsg();
     this.currentColors = [];
@@ -77,6 +86,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     this.onHomeClick(true);
   }
 
+  //this will reset the page content::::::::::::::::::::::::::::
   onHomeClick(defYear) {
     this.commonService.errMsg();
     if (!defYear)
@@ -97,6 +107,8 @@ export class StudentAttendanceChartComponent implements OnInit {
       this.multiSelect1.checkedList = [];
     document.getElementById('home').style.display = 'none';
   }
+
+  //this is to get state level data::::::::::
   getStateData() {
     this.level = 'State';
     this.service.getStateData({ ...{ year: this.selectedYear }, ...{ management: this.management, category: this.category } }).subscribe(res => {
@@ -121,6 +133,8 @@ export class StudentAttendanceChartComponent implements OnInit {
       this.commonService.loaderAndErr(this.data);
     })
   }
+
+  //this is to get district level data:::::::::::::::::::::
   getDistrictData() {
     this.districtList = [];
     this.districtData = [];
@@ -142,6 +156,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     })
   }
 
+  //this is to get block level data
   getBlockData() {
     this.blockList = [];
     this.blockData = [];
@@ -168,6 +183,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     }
   }
 
+  //This is to get cluster level data::::::::::::
   getClusterData() {
     this.clusterList = [];
     this.clusterData = [];
@@ -193,6 +209,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     }
   }
 
+  //This is to get school level data::::::::::
   getSchoolData() {
     this.schoolList = [];
     this.schoolData = [];
@@ -218,6 +235,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     }
   }
 
+  //This is to set line colors::::::::::
   public colors = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850', '#006837'];
   public currentColors = [];
   public dataWithColors = [];
@@ -411,6 +429,8 @@ export class StudentAttendanceChartComponent implements OnInit {
     }
   }
 
+
+  //get selected district data::::::::::::::::
   getCurrentDistData() {
     document.getElementById('spinner').style.display = 'block';
     this.currentData = [];
@@ -440,6 +460,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     document.getElementById('errMsg').style.display = 'none';
   }
 
+  //get selected block data:::::::::::
   getCurrentBlockData() {
     document.getElementById('spinner').style.display = 'block';
     this.currentData = [];
@@ -469,6 +490,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     document.getElementById('errMsg').style.display = 'none';
   }
 
+  //get selected cluster data:::::::::::::::::::::
   getCurrentClusterData() {
     document.getElementById('spinner').style.display = 'block';
     this.currentData = [];
@@ -498,6 +520,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     document.getElementById('errMsg').style.display = 'none';
   }
 
+  //get selected school data:::::::::::::::::::::::::
   getCurrentSchoolData() {
     document.getElementById('spinner').style.display = 'block';
     this.currentData = [];
