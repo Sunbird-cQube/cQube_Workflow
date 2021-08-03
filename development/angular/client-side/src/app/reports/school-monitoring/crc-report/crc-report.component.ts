@@ -10,7 +10,6 @@ import { HttpClient } from "@angular/common/http";
 import { CrcReportService } from "../../../services/crc-report.service";
 import { Router } from "@angular/router";
 import { Chart } from "chart.js";
-import { ExportToCsv } from "export-to-csv";
 import { AppServiceComponent } from "../../../app.service";
 declare const $;
 
@@ -182,7 +181,6 @@ export class CrcReportComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
 
-    this.createChart(["clg"], [], "", {});
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
     this.service.getMonthYear().subscribe((res) => {
       this.getMonthYear = res;
@@ -408,7 +406,9 @@ export class CrcReportComponent implements OnInit {
       $("#table").DataTable().destroy();
       $("#table").empty();
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.changeDetection.detectChanges();
     this.reportData = [];
     this.tableHead = "District Name";
@@ -1149,7 +1149,7 @@ export class CrcReportComponent implements OnInit {
               this.height > 1760
                 ? 16
                 : this.height > 1180 && this.height < 1760
-                  ? 10
+                  ? 12
                   : this.height > 667 && this.height < 1180
                     ? 8
                     : 5,
@@ -1157,7 +1157,7 @@ export class CrcReportComponent implements OnInit {
               this.height > 1760
                 ? 18
                 : this.height > 1180 && this.height < 1760
-                  ? 12
+                  ? 14
                   : this.height > 667 && this.height < 1180
                     ? 9
                     : 6,
@@ -1226,9 +1226,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 30
                     : this.height > 1180 && this.height < 1760
-                      ? 23
+                      ? 25
                       : this.height > 667 && this.height < 1180
-                        ? 13
+                        ? 15
                         : 10,
               },
               scaleLabel: {
@@ -1239,9 +1239,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 32
                     : this.height > 1180 && this.height < 1760
-                      ? 22
+                      ? 24
                       : this.height > 667 && this.height < 1180
-                        ? 12
+                        ? 14
                         : 10,
               },
             },
@@ -1258,9 +1258,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 30
                     : this.height > 1180 && this.height < 1760
-                      ? 23
+                      ? 25
                       : this.height > 667 && this.height < 1180
-                        ? 13
+                        ? 15
                         : 10,
               },
               scaleLabel: {
@@ -1271,9 +1271,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 32
                     : this.height > 1180 && this.height < 1760
-                      ? 22
+                      ? 24
                       : this.height > 667 && this.height < 1180
-                        ? 12
+                        ? 14
                         : 10,
               },
             },

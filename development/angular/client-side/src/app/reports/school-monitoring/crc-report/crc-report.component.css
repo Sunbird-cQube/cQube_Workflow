@@ -81,10 +81,10 @@
   }
 }
 
-@media only screen and (min-width: 1360px) {
+@media only screen and (min-width: 1260px) {
   .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 45vh !important;
-      font-size: 12px !important;
+      max-height: 32vh;
+      font-size: 12px;
   }
 
   .myDiv .dataTables_wrapper .dataTables_scrollHead{
@@ -121,7 +121,7 @@
 
 @media only screen and (min-width: 1920px) {
   .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 46vh !important;
+      max-height: 42vh !important;
       font-size: 18px !important;
   }
 
@@ -159,7 +159,7 @@
 
 @media only screen and (min-width: 2540px) {
   .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 48vh !important;
+      max-height: 45vh !important;
       font-size: 22px !important;
   }
 
@@ -197,7 +197,7 @@
 
 @media only screen and (min-width: 3840px) {
       .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 56vh !important;
+      max-height: 52vh !important;
       font-size: 30px !important;
   }
   .myDiv .dataTables_wrapper .dataTables_scrollHead{
