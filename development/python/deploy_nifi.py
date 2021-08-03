@@ -113,7 +113,7 @@ def get_parameter_context(parameter_context):
         return False
 
 
-# --- connection of processor groups to respective parameter contexts ---
+# Connection of processor groups to respective parameter contexts
 def link_parameter_with_processor_group(processor_group_name, parameter_context):
     """[Link the parameter context with respective processor group]
 
@@ -276,12 +276,12 @@ if __name__ == "__main__":
     # read the parameter file created by Ansible using configuration
     logging.info("Reading dynamic parameters from file %s.json",parameter_context_name)
     f = open(f'{prop.NIFI_PARAMETER_DIRECTORY_PATH}{parameter_context_name}.json', "rb")
-    dynamic_param_file = json.loads(f.read())
+    parameter_body = json.loads(f.read())
     
     # Load parameters from file to Nifi parameters
-    logging.info("Reading static parameters from file %s.txt",parameter_context_name)
-    if params.get(parameter_context_name):
-        parameter_body=update_nifi_params.nifi_params_config(parameter_context_name, f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}{params.get(parameter_context_name)}',dynamic_param_file)
+    if (params.get(parameter_context_name)) and (parameter_context_name !='cQube_data_storage_parameters'):        
+        logging.info("Reading static parameters from file %s.txt",parameter_context_name)
+        parameter_body=update_nifi_params.nifi_params_config(parameter_context_name, f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}{params.get(parameter_context_name)}',parameter_body)
     create_parameter(parameter_context_name,parameter_body)
     
     
