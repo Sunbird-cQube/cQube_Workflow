@@ -1,3 +1,6 @@
+// The dashboard provides information on the total content plays at
+// the content level for Teacher Professional Development courses at the district level.
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
@@ -12,6 +15,7 @@ declare const $;
   encapsulation: ViewEncapsulation.None
 })
 export class DikshaTableComponent implements OnInit {
+  //table data variables:::::::::::::::::
   public result: any = [];
   public districtId: any = '';
   public timePeriod: any = 'all';
@@ -54,6 +58,7 @@ export class DikshaTableComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  //show next page data::::::::::::::
   onChangePage(){
     document.getElementById('spinner').style.display = 'block';
     this.pageChange();
@@ -73,6 +78,7 @@ export class DikshaTableComponent implements OnInit {
   }
 
 
+  //Loader and error message:::::
   loaderAndErr() {
     if (this.result.length !== 0) {
       document.getElementById('spinner').style.display = 'none';
@@ -90,11 +96,13 @@ export class DikshaTableComponent implements OnInit {
     document.getElementById('spinner').style.marginTop = '3%';
   }
 
+  //default page
   default() {
     this.currentPage = 1;
     this.collectionWise();
   }
 
+  //show data based on selected collection:::::::::
   collectionWise() {
     document.getElementById('home').style.display = "none";
     this.errMsg();
@@ -149,7 +157,7 @@ export class DikshaTableComponent implements OnInit {
   }
 
 
-
+//Showing data based on selected district:::::::::::::::::::::::::::::::::::::::::::::::::::
   districtWise(districtId) {
     this.errMsg();
     document.getElementById('home').style.display = "Block";
@@ -200,6 +208,8 @@ export class DikshaTableComponent implements OnInit {
 
   time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
   fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
+
+  //Showing data based on selected time-period:::::::::::::::
   timeRange(timePeriod) {
     this.errMsg();
     this.time = timePeriod == 'all' ? 'overall' : timePeriod;
@@ -245,6 +255,7 @@ export class DikshaTableComponent implements OnInit {
     })
   }
 
+  //download raw file::::::::::
   downloadRawFile() {
     this.service.downloadFile({ fileName: this.fileToDownload }).subscribe(res => {
       window.open(`${res['downloadUrl']}`, "_blank");
@@ -253,6 +264,7 @@ export class DikshaTableComponent implements OnInit {
     })
   }
 
+  //download the data showing on UI::::::::::
   downloadRoport() {
     this.commonService.download(this.fileName, this.reportData);
   }
@@ -266,6 +278,8 @@ export class DikshaTableComponent implements OnInit {
   }
 
   columns;
+  
+  //Initialize table::::::::::::::::::::::
   tableCreation(dataSet) {
     var my_columns = this.commonService.getColumns(dataSet);
     
@@ -333,6 +347,7 @@ export class DikshaTableComponent implements OnInit {
       this.showPagination = true;
   }
 
+  //Search data :::::::::::::::::
   updateFilter(event: any) {
     this.columns = this.commonService.getColumns(this.updatedTable);
     var val = event.target.value.toLowerCase();

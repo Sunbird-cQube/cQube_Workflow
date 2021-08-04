@@ -1,3 +1,6 @@
+// The dashboard provides information on the total content plays at
+// the course level for Teacher Professional Development courses at the district level.
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
@@ -26,11 +29,9 @@ export class DikshaBarChartComponent implements OnInit {
   public hierName: any;
   public dist: boolean = false;
   public all: boolean = false;
-  public timeDetails: any = [{ id: "all", name: "Overall" },{ id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" },  { id: "last_day", name: "Last Day" }];
+  public timeDetails: any = [{ id: "all", name: "Overall" }, { id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" }, { id: "last_day", name: "Last Day" }];
   public districtsDetails: any = '';
   public myChart: Chart;
-  public showAllChart: boolean = false;
-  public allDataNotFound: any;
   public collectioTypes: any = [{ id: "course", type: "Course" }];
   public collectionNames: any = [];
   collectionName = '';
@@ -59,6 +60,7 @@ export class DikshaBarChartComponent implements OnInit {
     this.getAllData();
   }
 
+  //making chart empty
   emptyChart() {
     this.result = [];
     this.chartData = [];
@@ -70,6 +72,8 @@ export class DikshaBarChartComponent implements OnInit {
     this.timePeriod = 'all';
     this.getAllData()
   }
+
+  //getting all chart data to show:::::::::
   getBarChartData() {
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
@@ -118,6 +122,7 @@ export class DikshaBarChartComponent implements OnInit {
 
   }
 
+  //Lsiting all collection  names::::::::::::::::::
   listCollectionNames() {
     this.emptyChart();
     this.commonService.errMsg();
@@ -145,6 +150,7 @@ export class DikshaBarChartComponent implements OnInit {
     })
   }
 
+  //download raw file:::::::::::
   downloadRawFile() {
     this.service.downloadFile({ fileName: this.fileToDownload }).subscribe(res => {
       window.open(`${res['downloadUrl']}`, "_blank");
@@ -153,8 +159,11 @@ export class DikshaBarChartComponent implements OnInit {
     })
   }
 
+
   time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
   fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
+
+  //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
     this.emptyChart();
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
@@ -167,6 +176,7 @@ export class DikshaBarChartComponent implements OnInit {
     document.getElementById('home').style.display = "block";
   }
 
+  //Get data based on selected collection:::::::::::::::
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];

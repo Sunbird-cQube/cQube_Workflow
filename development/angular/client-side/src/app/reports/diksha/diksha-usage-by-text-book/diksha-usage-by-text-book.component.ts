@@ -11,6 +11,7 @@ import { AppServiceComponent } from '../../../app.service';
   encapsulation: ViewEncapsulation.None
 })
 export class DikshaUsageByTextBookComponent implements OnInit {
+  //chart data variabes:::::::::::::
   chart: boolean = false;
   public colors = [];
   header = '';
