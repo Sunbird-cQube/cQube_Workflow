@@ -7,7 +7,8 @@ drop view if exists hc_crc_block cascade;
 drop view if exists hc_crc_district cascade;
 drop view if exists crc_school_mgmt_all cascade;
 
-/*crc*/
+/* overall */
+/*crc - school */
 
 create or replace view hc_crc_school as
 select b.district_id,b.district_name,b.block_id,b.block_name,b.cluster_id,b.cluster_name,b.school_id,b.school_name,b.visit_score,b.state_level_score,
@@ -103,6 +104,7 @@ group by district_id,district_name,block_id,block_name,cluster_id,cluster_name,s
 visited_school_count,not_visited_school_count,schools_0,schools_1_2,schools_3_5,schools_6_10,schools_10 ,no_of_schools_per_crc,visit_percent_per_school,state_level_score,schools_in_cluster,schools_in_block,
 schools_in_district,total_schools_state;
 
+/* crc - cluster */
 
 create or replace view hc_crc_cluster as
 select 
@@ -185,7 +187,7 @@ on res.cluster_id=b.cluster_id) as b   group by district_id,district_name,block_
 visited_school_count,not_visited_school_count,schools_0,schools_1_2,schools_3_5,schools_6_10,schools_10 ,no_of_schools_per_crc,visit_percent_per_school,clusters_in_block,clusters_in_district,
 total_clusters;
 
-
+/* crc - block */
 create or replace view hc_crc_block as
 select b.district_id,b.district_name,b.block_id,b.block_name,b.visit_score,
 (select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
@@ -254,6 +256,7 @@ on res.block_id=b.block_id) as b group by district_id,district_name,block_id,blo
 visited_school_count,not_visited_school_count,schools_0,schools_1_2,schools_3_5,schools_6_10,schools_10 ,no_of_schools_per_crc,visit_percent_per_school,blocks_in_district,
 total_blocks;
 
+/* crc - district */
 
 create or replace view hc_crc_district as
 select b.district_id,b.district_name,b.visit_score,
@@ -329,7 +332,7 @@ select  a.school_id,INITCAP(b.school_name)as school_name,b.district_id,INITCAP(b
   group by a.school_id,b.school_name,b.district_id,b.district_name,b.block_id, b.block_name,b.cluster_id,b.cluster_name,b.crc_name,a.month,a.year,a.visit_date,b.school_management_type,b.school_category
   order by school_id desc ;
 
-
+/* CRC - time selection */
 /* school */
 
 CREATE OR REPLACE FUNCTION crc_time_selection_school(period text)
@@ -754,7 +757,7 @@ left join
     where visit_count>0 and  cluster_name is not null group by district_id,academic_year,month)as scl_v
 on spd.district_id=scl_v.district_id and spd.month=scl_v.month and spd.academic_year=scl_v.academic_year  where spd.district_id!=9999;
 
-/* CRC - Management */
+/* CRC - Management overall*/
 
 /* crc school all*/
 
@@ -908,7 +911,7 @@ left join
  and school_management_type is not null group by district_id,school_management_type)as scl_v
 on spd.district_id=scl_v.district_id and spd.school_management_type=scl_v.school_management_type where spd.district_id!=9999 and spd.school_management_type is not null;
 
-/* Time selection */
+/* Time selection with management */
 /* school */
 
 CREATE OR REPLACE FUNCTION crc_time_selection_school_mgmt(period text)

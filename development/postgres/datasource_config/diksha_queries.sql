@@ -2,7 +2,7 @@
 
 drop view if exists insert_diksha_trans_view;
 
-/*Diksha config script*/
+/* Function to insert data into diksha content trans table */
 
 CREATE OR REPLACE FUNCTION insert_diksha_trans()
 RETURNS text AS
@@ -35,7 +35,7 @@ return 0;
 END;
 $$LANGUAGE plpgsql;
 
-
+/* Function to insert data into diksha total content aggregation table */
 CREATE OR REPLACE FUNCTION insert_diksha_agg()
 RETURNS text AS
 $$
@@ -89,7 +89,7 @@ return 0;
 END;
 $$LANGUAGE plpgsql;
 
-
+/* Funtion to insert data into diksha tpd trans table */
 CREATE OR REPLACE FUNCTION insert_diksha_tpd_trans()
 RETURNS text AS
 $$
@@ -116,6 +116,7 @@ return 0;
 END;
 $$LANGUAGE plpgsql;
 
+/* views for calculating total teachers count and tecahers enrolled */
 drop view if exists school_teachers_count cascade;
 
 create or replace view school_teachers_count as 
@@ -164,7 +165,7 @@ group by collection_id,collection_name,tpd.school_id,cluster_id,block_id,distric
 left join school_teachers_count as cnt on a.school_id=cnt.school_id;
 
 
-/*Month wise refresh */
+/* Month wise refresh aggregation table */
 
 create or replace function insert_diksha_year_month()
 returns int as

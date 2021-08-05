@@ -1,4 +1,4 @@
-/* Day wise logic*/
+/* Day wise logic */
 
 create table IF NOT EXISTS student_attendance_meta
 (
@@ -7,6 +7,7 @@ day_11 boolean,day_12 boolean,day_13 boolean,day_14 boolean,day_15 boolean,day_1
 day_21 boolean,day_22 boolean,day_23 boolean,day_24 boolean,day_25 boolean,day_26 boolean,day_27 boolean,day_28 boolean,day_29 boolean,day_30 boolean,
 day_31 boolean,month int,year int,primary key(month,year)
 );
+
 
 CREATE OR REPLACE FUNCTION student_attendance_refresh(year int,month int)
 RETURNS text AS
@@ -719,8 +720,6 @@ updated_on  TIMESTAMP without time zone
 
 create index if not exists student_attendance_staging2_id on student_attendance_staging_2(school_id,month,student_id);
 
-
-
 /*student_attendance_temp*/
 
 create table if not exists student_attendance_temp
@@ -769,9 +768,6 @@ updated_on  TIMESTAMP without time zone
 );
 
 create index if not exists student_attendance_temp_id on student_attendance_temp(school_id,month,student_id);
-
-
-
 
 /*student_attendance_trans*/
 
@@ -1847,6 +1843,8 @@ us_query := 'UPDATE teacher_attendance_meta sam
 return 0;
 END;
 $$  LANGUAGE plpgsql;
+
+/* Exception tables */
 
 create table if not exists student_attendance_exception_agg
   (

@@ -1,3 +1,5 @@
+/* drop view statements */
+
 drop view if exists student_attendance_exception_data cascade;
 drop view if exists student_attendance_exception_data_lastday cascade;
 drop view if exists student_attendance_exception_data_last7 cascade;
@@ -34,7 +36,7 @@ language plpgsql;
 
 select drop_view_attendance();
 
-/* Student attendance Time series */
+/* Function to calculate Student attendance - Time series */
 
 CREATE OR REPLACE FUNCTION student_attendance_agg_refresh(period text)
 RETURNS text AS
@@ -283,6 +285,7 @@ select student_attendance_agg_refresh('last_1_day');
 select student_attendance_agg_refresh('last_7_days');
 select student_attendance_agg_refresh('last_30_days');
 
+/* Student attendance - overall */
 create materialized view if not exists student_attendance_agg_overall as 
 (select sch_res.school_id,sch_res.total_present,sch_res.total_students,stn_cnt.students_count,
 b.school_name,b.school_latitude,b.school_longitude,b.cluster_id,b.cluster_name,b.cluster_latitude,b.cluster_longitude,
@@ -433,7 +436,7 @@ $$LANGUAGE plpgsql;
 
 select student_attendance_no_schools_timeseries();
 
-/* Teacher attendance Time series */
+/*Function for Teacher attendance Time series */
 
 CREATE OR REPLACE FUNCTION teacher_attendance_agg_refresh(period text)
 RETURNS text AS
@@ -688,6 +691,8 @@ select teacher_attendance_agg_refresh('last_1_day');
 select teacher_attendance_agg_refresh('last_7_days');
 select teacher_attendance_agg_refresh('last_30_days');
 
+/* Teacher attendance overall */
+
 create or replace view teacher_attendance_agg_overall as select tch_res.school_id,cast(tch_res.total_present as numeric),tch_res.total_teachers,tch_cnt.teachers_count,
 b.school_name,b.school_latitude,b.school_longitude,b.cluster_id,b.cluster_name,b.cluster_latitude,b.cluster_longitude,
 b.block_id,b.block_name,b.block_latitude,b.block_longitude,b.district_id,b.district_name,b.district_latitude,b.district_longitude,b.school_management_type,b.school_category
@@ -777,7 +782,8 @@ select teacher_attendance_exception_time_selection('last_30_days');
 select teacher_attendance_exception_time_selection('overall');
 
 
-/* All months data in one Excel sheet at Teacher attendance report */
+/* Download all months data in one Excel sheet at Teacher attendance report */
+
 drop view if exists teacher_attendance_all_months_data_dist cascade;
 drop view if exists teacher_attendance_all_months_data_block cascade;
 drop view if exists teacher_attendance_all_months_data_cluster cascade;
@@ -923,7 +929,7 @@ GROUP BY school_id,school_name,crc_name,school_latitude,school_longitude,year,mo
 ) ) as temp;
 
 
-/* All months data in one Excel sheet at Student attendance report */
+/* Download all months data in one Excel sheet at Student attendance report */
 drop view if exists student_attendance_all_months_data_dist cascade;
 drop view if exists student_attendance_all_months_data_block cascade;
 drop view if exists student_attendance_all_months_data_cluster cascade;
@@ -1164,7 +1170,7 @@ AND school_latitude IS NOT NULL AND school_name IS NOT NULL and cluster_name is 
 GROUP BY district_id,district_latitude,district_longitude,district_name;
 
 /* health card state queries */
-
+/* overall */
 create or replace view hc_student_attendance_state_overall as
 SELECT Round(Sum(total_present)*100.0/Sum(total_students),1)AS Attendance,
 Sum(students_count) AS students_count,Count(DISTINCT(school_id)) AS total_schools,
@@ -1174,7 +1180,7 @@ from (select max(month) as month ,max(year) as year from student_attendance_tran
 FROM student_attendance_agg_overall WHERE district_latitude > 0 AND district_longitude > 0 AND block_latitude > 0 AND block_longitude > 0 AND cluster_latitude > 0 AND cluster_longitude > 0 AND school_latitude >0 AND school_longitude >0 
 AND school_name IS NOT NULL and cluster_name is NOT NULL AND block_name is NOT NULL AND district_name is NOT NULL and total_students>0;
 
-
+/* last 30 days */
 create or replace view hc_student_attendance_state_last30 as
 SELECT Round(Sum(total_present)*100.0/Sum(total_students),1)AS Attendance,
 Sum(students_count) AS students_count,Count(DISTINCT(school_id)) AS total_schools,
@@ -1291,7 +1297,7 @@ block_latitude <> 0 AND cluster_latitude IS NOT NULL AND cluster_latitude <> 0 A
 AND school_latitude IS NOT NULL AND school_name IS NOT NULL and cluster_name is not null and total_students>0
 GROUP BY district_id,district_latitude,district_longitude,district_name,school_management_type;
 
-/* Student attendance management overall */
+/* Health card - Student attendance state management overall */
 
 create or replace view hc_student_attendance_state_mgmt_overall as 
 SELECT round(((sum(total_present) * 100.0) / sum(total_students)), 1) AS attendance,
@@ -1317,7 +1323,7 @@ SELECT round(((sum(total_present) * 100.0) / sum(total_students)), 1) AS attenda
   WHERE district_latitude > 0 AND district_longitude > 0 AND block_latitude > 0 AND block_longitude > 0 AND cluster_latitude > 0 AND cluster_longitude > 0 AND school_latitude > 0 AND school_longitude > 0 AND school_name IS NOT NULL AND cluster_name IS NOT NULL AND block_name IS NOT NULL AND district_name IS NOT NULL AND total_students > 0 AND school_management_type IS NOT NULL
   GROUP BY school_management_type;
   
-  
+/* Health card - Student attendance state management last30 */  
 create or replace view hc_student_attendance_state_mgmt_last30 as 
    SELECT round(((sum(total_present) * 100.0) / sum(total_students)), 1) AS attendance,
     school_management_type,
