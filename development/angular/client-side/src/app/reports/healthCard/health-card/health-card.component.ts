@@ -118,7 +118,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     document.getElementById('backBtn').style.display = 'none';
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('myInput')['disabled'] = true;
     this.state = this.commonService.state;
 

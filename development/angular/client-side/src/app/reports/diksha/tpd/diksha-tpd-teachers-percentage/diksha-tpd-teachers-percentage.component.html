@@ -1,4 +1,4 @@
-<div class="container-fluid" style="padding-top:15px !important;" (window:resize)="getHeight($event)">
+<div class="container-fluid" (window:resize)="getHeight($event)">
     <div class="row">
         <div class="col-sm-10">
             <div *ngIf='skul'>
@@ -127,7 +127,8 @@
             </div>
         </div>
     </div>
-    <div *ngIf="reportData.length == 0 && !chart" style="position: absolute; left: 45%; top: 45%;color: red;">No Data Found</div>
+    <div *ngIf="reportData.length == 0 && !chart" style="position: absolute; left: 45%; top: 45%;color: red;">No Data
+        Found</div>
 </div>
 <div id="spinner">
     <div id="loader" class="loading">Loading&#8230;</div>

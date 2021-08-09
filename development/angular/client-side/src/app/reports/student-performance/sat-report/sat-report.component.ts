@@ -121,7 +121,14 @@ export class SatReportComponent implements OnInit {
     public router: Router,
     private changeDetection: ChangeDetectorRef,
     private readonly _router: Router
-  ) { }
+  ) {
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
+  }
 
   selected = "absolute";
 
@@ -144,7 +151,7 @@ export class SatReportComponent implements OnInit {
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("satMap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
 

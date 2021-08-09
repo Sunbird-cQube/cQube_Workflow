@@ -43,7 +43,7 @@ export class DikshaTableComponent implements OnInit {
   showPagination = false;
   validTransactions: any;
   table: any;
-  updatedTable:any = [];
+  updatedTable: any = [];
 
   constructor(
     public http: HttpClient,
@@ -59,19 +59,19 @@ export class DikshaTableComponent implements OnInit {
   }
 
   //show next page data::::::::::::::
-  onChangePage(){
+  onChangePage() {
     document.getElementById('spinner').style.display = 'block';
     this.pageChange();
   }
 
-  pageChange(){
+  pageChange() {
     this.filteredData = this.result.slice(((this.currentPage - 1) * this.pageSize), ((this.currentPage - 1) * this.pageSize + this.pageSize));
     this.tableCreation(this.filteredData);
   }
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
     this.collectionWise();
     this.onResize();
@@ -132,7 +132,7 @@ export class DikshaTableComponent implements OnInit {
       this.fileName = `${this.reportName}_${this.timePeriod}_${this.commonService.dateAndTime}`;
       this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
       this.fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
-     this.updatedTable = this.result = res;
+      this.updatedTable = this.result = res;
       // this.tableCreation(this.result);
       this.onChangePage();
 
@@ -157,7 +157,7 @@ export class DikshaTableComponent implements OnInit {
   }
 
 
-//Showing data based on selected district:::::::::::::::::::::::::::::::::::::::::::::::::::
+  //Showing data based on selected district:::::::::::::::::::::::::::::::::::::::::::::::::::
   districtWise(districtId) {
     this.errMsg();
     document.getElementById('home').style.display = "Block";
@@ -226,7 +226,7 @@ export class DikshaTableComponent implements OnInit {
     this.result = [];
     this.reportData = [];
     this.service.dikshaTimeRangeTableData({ districtId: this.districtId, timePeriod: myTime, collectionType: this.collectionType }).subscribe(res => {
-      this.updatedTable =  this.result = res;
+      this.updatedTable = this.result = res;
       // this.tableCreation(this.result);
       this.onChangePage();
       if (this.hierName) {
@@ -278,11 +278,11 @@ export class DikshaTableComponent implements OnInit {
   }
 
   columns;
-  
+
   //Initialize table::::::::::::::::::::::
   tableCreation(dataSet) {
     var my_columns = this.commonService.getColumns(dataSet);
-    
+
     this.columns = my_columns;
 
     $(document).ready(function () {
@@ -331,20 +331,19 @@ export class DikshaTableComponent implements OnInit {
           leftColumns: 1
         }
       }
-      if(dataSet.length > 0)
+      if (dataSet.length > 0)
         obj['order'] = [[my_columns.length - 5, "desc"]];
-      
+
       this.table = $(`#table`).DataTable(obj);
-      $(document).ready(function() {
-        
-        $('#table').on( 'page.dt', function () 
-        {
+      $(document).ready(function () {
+
+        $('#table').on('page.dt', function () {
           $('.dataTables_scrollBody').scrollTop(0);
         });
-        }, 300);
-        document.getElementById('spinner').style.display = 'none';
-      });
-      this.showPagination = true;
+      }, 300);
+      document.getElementById('spinner').style.display = 'none';
+    });
+    this.showPagination = true;
   }
 
   //Search data :::::::::::::::::
@@ -353,14 +352,14 @@ export class DikshaTableComponent implements OnInit {
     var val = event.target.value.toLowerCase();
     // filter our data
     let ref = this;
-    let temp:any = [];
+    let temp: any = [];
 
     if (val) {
       temp = this.updatedTable.filter(function (d: any) {
         let found = false;
-  
+
         for (let i = 0; i < ref.columns.length; i++) {
-          let value = d[ref.columns[i].data]; 
+          let value = d[ref.columns[i].data];
           if (typeof value === 'number') {
             value = value.toString()
           }
@@ -376,7 +375,7 @@ export class DikshaTableComponent implements OnInit {
       document.getElementById('spinner').style.display = 'block';
       temp = this.updatedTable;
     }
-        
+
     // update the rows
     this.result = temp;
     this.pageChange();

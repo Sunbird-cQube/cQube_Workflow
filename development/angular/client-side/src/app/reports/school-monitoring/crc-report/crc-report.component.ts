@@ -162,6 +162,12 @@ export class CrcReportComponent implements OnInit {
     private readonly _router: Router
   ) {
     localStorage.removeItem("resData");
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
   }
 
   height = window.innerHeight;
@@ -173,7 +179,7 @@ export class CrcReportComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;

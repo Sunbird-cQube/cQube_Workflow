@@ -97,6 +97,12 @@ export class UdiseReportComponent implements OnInit {
     private readonly _router: Router
   ) {
     commonService.logoutOnTokenExpire();
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
   }
 
   selected = "absolute";
@@ -121,7 +127,7 @@ export class UdiseReportComponent implements OnInit {
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("udisemap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -227,7 +233,7 @@ export class UdiseReportComponent implements OnInit {
     document.getElementById("spinner").style.marginTop = "3%";
   }
 
-  homeClick(){
+  homeClick() {
     this.indiceData = "Infrastructure_Score";
     this.districtWise();
   }
@@ -951,7 +957,7 @@ export class UdiseReportComponent implements OnInit {
 
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
-    try{
+    try {
       this.reportData = [];
       this.schoolCount = 0;
       var myData = data["data"];
@@ -986,7 +992,7 @@ export class UdiseReportComponent implements OnInit {
             1,
             options.level
           );
-  
+
           // data to show on the tooltip for the desired levels
           if (options.level) {
             // data to show on the tooltip for the desired levels
@@ -997,12 +1003,12 @@ export class UdiseReportComponent implements OnInit {
               "latitude",
               "longitude"
             );
-  
+
             this.fileName = fileName;
             this.getDownloadableData(this.markers[i], options.level);
           }
         }
-  
+
         this.loaderAndErr();
         this.changeDetection.markForCheck();
       }
@@ -1011,7 +1017,7 @@ export class UdiseReportComponent implements OnInit {
       this.schoolCount = this.schoolCount
         .toString()
         .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-  
+
       if (this.level == "school") {
         globalMap.doubleClickZoom.enable();
         globalMap.scrollWheelZoom.enable();
@@ -1026,7 +1032,7 @@ export class UdiseReportComponent implements OnInit {
           [options.centerLat + 3.5, options.centerLng + 6],
         ]);
       }
-    }catch(e){
+    } catch (e) {
       this.data = [];
       this.loaderAndErr();
     }

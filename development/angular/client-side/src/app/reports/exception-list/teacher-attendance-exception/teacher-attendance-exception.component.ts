@@ -130,7 +130,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.skul = true;
     this.timePeriod = {

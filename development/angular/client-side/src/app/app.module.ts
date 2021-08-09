@@ -31,12 +31,12 @@ import { DikshaTPDTeachersPercentageComponent } from './reports/diksha/tpd/diksh
 import { StudentAttendanceChartComponent } from './reports/attendance/student-attendance-chart/student-attendance-chart.component';
 import { LineChartComponent } from './common/line-chart/line-chart.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DashboardCloneComponent } from './dashboards/test_usecase/dashboard-clone.component';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
 import { UsecaseTwoComponent } from './dashboards/usecase-two/usecase-two.component';
 import { UsecaseThreeComponent } from './dashboards/usecase-three/usecase-three.component';
 import { HomeUsecaseTwoComponent } from './containers/home-usecase-two/home-usecase-two.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -59,17 +59,16 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     DikshaTPDTeachersPercentageComponent,
     StudentAttendanceChartComponent,
     LineChartComponent,
-    DashboardCloneComponent,
     PageNotFoundComponent,
     UsecaseTwoComponent,
     UsecaseThreeComponent,
     HomeUsecaseTwoComponent,
-    //UsecaseThreeComponent
   ],
   imports: [
     BrowserModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatExpansionModule,
     MatListModule,
     MatButtonModule,
     MatIconModule,
@@ -84,9 +83,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     NgCircleProgressModule.forRoot({})
   ],
   exports: [
-    MatTableModule,
-    // MatPaginatorModule,
-    // MatSortModule
+    MatTableModule
   ],
   providers: [
     {

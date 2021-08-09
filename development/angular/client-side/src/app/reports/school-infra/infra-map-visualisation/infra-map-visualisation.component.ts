@@ -20,6 +20,7 @@ import { AppServiceComponent, globalMap } from "../../../app.service";
   encapsulation: ViewEncapsulation.None,
 })
 export class InfraMapVisualisationComponent implements OnInit {
+
   public title: string = "";
   public titleName: string = "";
   public colors: any;
@@ -94,7 +95,14 @@ export class InfraMapVisualisationComponent implements OnInit {
     public router: Router,
     private changeDetection: ChangeDetectorRef,
     private readonly _router: Router
-  ) { }
+  ) {
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
+  }
 
   selected = "absolute";
 
@@ -120,7 +128,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("infraMap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -1337,7 +1345,6 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   goToHealthCard(): void {
     let data: any = {};
-
     if (this.dist) {
       data.level = "district";
       data.value = this.districtHierarchy.distId;

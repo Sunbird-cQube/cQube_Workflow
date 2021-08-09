@@ -6,6 +6,7 @@ import * as config from '../assets/config.json';
 import * as mapData from '../assets/map.json';
 import * as L from 'leaflet';
 import { ExportToCsv } from 'export-to-csv';
+import { BehaviorSubject } from 'rxjs';
 
 export var globalMap;
 declare const $;
@@ -14,6 +15,9 @@ declare const $;
     providedIn: 'root'
 })
 export class AppServiceComponent {
+    toggleMenu = new BehaviorSubject<any>(false);
+    callProgressCard = new BehaviorSubject<any>(false);
+
     public map;
     public baseUrl = environment.apiEndpoint;
     public token;
@@ -28,15 +32,16 @@ export class AppServiceComponent {
     dateAndTime: string;
     latitude;
     longitude;
+    static state: any;
 
     constructor(public http: HttpClient, public keyCloakService: KeycloakSecurityService) {
         this.token = keyCloakService.kc.token;
         localStorage.setItem('token', this.token);
         this.dateAndTime = `${("0" + (this.date.getDate())).slice(-2)}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${this.date.getFullYear()}`;
-        // this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
-        //     this.mapData = res;
-        // })
+
     }
+
+
 
     width = window.innerWidth;
     onResize(level) {
@@ -519,7 +524,7 @@ export class AppServiceComponent {
             seconds: ("0" + (this.edate.getSeconds())).slice(-2),
         }
         obj = {
-            uid: this.keyCloakService.kc.tokenParsed.sub,
+            // uid: this.keyCloakService.kc.tokenParsed.sub,
             eventType: event,
             reportId: reportId,
             time: dateObj.year + '-' + dateObj.month + '-' + dateObj.date + ' ' + dateObj.hour + ':' + dateObj.minut + ':' + dateObj.seconds
@@ -629,5 +634,12 @@ export class AppServiceComponent {
     getDefault() {
         this.logoutOnTokenExpire();
         return this.http.get(`${this.baseUrl}/getDefault`);
+    }
+
+
+    //
+    setProgressCardValue(status) {
+        this.callProgressCard.next(status);
+
     }
 }

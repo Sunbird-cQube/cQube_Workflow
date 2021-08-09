@@ -1,4 +1,4 @@
-<div class="container-fluid" style="padding-top:15px !important;">
+<div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(level);onResize()">
         <div class="col-sm-8">
             <div *ngIf='skul'>
@@ -102,10 +102,6 @@
                     {{cluster.details.Cluster_Name}}
                 </option>
             </select>
-
-            <a class="float-right mr-0" href="javascript: void(0)" id="udiseHealthcard" (click)="goToHealthCard()"
-                style="font-weight: bold; text-decoration: underline; font-size: 13px; color: #3100cc">Access Progress
-                Card</a>
         </div>
 
     </div>

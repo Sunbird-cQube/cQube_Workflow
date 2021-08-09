@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { KeycloakSecurityService } from '../../keycloak-security.service';
 import { AppServiceComponent } from '../../app.service';
 import { environment } from '../../../environments/environment';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +13,19 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  currentDashboardGroup: any = "/dashboard/infrastructure-dashboard";
   edate: Date;
-  semester = true;
+  showBackBtn = true;
+  showAccesCard = false;
+  @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
+  private _mobileQueryListener: () => void;
 
-  constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService) { }
+  constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
+    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
   email: any;
   role: any;
   showSubmenu1: any = false;
@@ -30,12 +42,14 @@ export class HomeComponent implements OnInit {
   showSubmenu: boolean = false;
   isShowing = false;
   showUser: boolean = true;
+  xpandStatus: boolean = false;
   currentURL;
   public userType = localStorage.getItem('roleName') === "admin";
   public roleName;
+  mobileQuery: MediaQueryList;
 
   // diksha columns
-  diksha_column = 'diksha_columns' in environment ? environment['diksha_columns'] : true
+  diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
   //for coming soon page
   nifi_crc;
@@ -61,7 +75,18 @@ export class HomeComponent implements OnInit {
     } else {
       this.showUser = true;
     }
+  }
 
+  onToggle() {
+    if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
+      this.sidebar.toggle();
+    }
+  }
+
+  closeSidebar() {
+    if (!this.router.url.includes('dashboard') && this.sidebar) {
+      this.sidebar.close();
+    }
   }
 
   changeDataSourceStatus() {
@@ -132,8 +157,16 @@ export class HomeComponent implements OnInit {
     sessionStorage.clear();
   }
 
-  onBackClick(){
+  onBackClick() {
     localStorage.removeItem('management');
     localStorage.removeItem('category');
+  }
+
+  sccessProgressCard() {
+    this.service.setProgressCardValue(true);
+  }
+
+  setCurrentDashboardGroup(route) {
+    this.currentDashboardGroup = route;
   }
 }

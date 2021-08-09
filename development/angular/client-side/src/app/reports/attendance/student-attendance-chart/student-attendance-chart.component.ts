@@ -41,7 +41,7 @@ export class StudentAttendanceChartComponent implements OnInit {
 
   //the order of academic year months to sort options accordingly
   xAxisLabels = ['June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May'];
-  
+
   height = window.innerHeight;
 
   constructor(public commonService: AppServiceComponent, public service: AttendanceReportService, private changeDetection: ChangeDetectorRef) { }
@@ -54,7 +54,7 @@ export class StudentAttendanceChartComponent implements OnInit {
 
   ngOnInit(): void {
     document.getElementById('home').style.display = 'none';
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
     this.state = this.commonService.state;
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;

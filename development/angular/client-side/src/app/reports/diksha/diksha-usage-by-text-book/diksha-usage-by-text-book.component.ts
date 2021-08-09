@@ -27,7 +27,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   public hierName: any;
   public dist: boolean = false;
   public all: boolean = false;
-  public timeDetails: any = [{ id: "all", name: "Overall" },{ id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" },  { id: "last_day", name: "Last Day" }];
+  public timeDetails: any = [{ id: "all", name: "Overall" }, { id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" }, { id: "last_day", name: "Last Day" }];
   public districtsDetails: any = '';
   public myChart: Chart;
   public showAllChart: boolean = false;
@@ -55,7 +55,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('backBtn').style.display = "none";
-    document.getElementById('homeBtn').style.display = "Block";
+    document.getElementById('accessProgressCard').style.display = "none";
     this.getAllData();
   }
 

@@ -6,7 +6,6 @@ import { DashboardComponent } from './dashboards/education_usecase/dashboard.com
 import { HomePageComponent } from './home-page/home-page.component';
 import { ComingSoonComponent } from './common/coming-soon/coming-soon.component';
 import { HealthCardComponent } from './reports/healthCard/health-card/health-card.component';
-import { DashboardCloneComponent } from './dashboards/test_usecase/dashboard-clone.component';
 import { usecase } from './dashboards/dashboard.config';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { UsecaseTwoComponent } from './dashboards/usecase-two/usecase-two.component';
@@ -29,7 +28,7 @@ switch (useCase) {
       {
         path: '', component: HomeComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer', 'all'], children: [
           {
-            path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all']
+            path: 'dashboard', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all'], loadChildren: () => import('./dashboards/group-dashboards/dashboard-module.module').then(m => m.DashboardModule)
           },
           {
             path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all']
@@ -72,7 +71,7 @@ switch (useCase) {
       {
         path: '', component: HomeUsecaseTwoComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer', 'usecase1'], children: [
           {
-            path: 'dashboard', component: DashboardCloneComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'usecase1']
+            path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'usecase1']
           },
           {
             path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'usecase1']

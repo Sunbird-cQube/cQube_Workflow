@@ -134,7 +134,7 @@ export class PATLOTableComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
     this.state = this.commonService.state;
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     // this.onResize();
   }
@@ -683,8 +683,8 @@ export class PATLOTableComponent implements OnInit {
     this.reportData.map(a => {
       var keys = Object.keys(a);
       keys.map(key => {
-        console.log(typeof(a[key]));
-        if (typeof(a[key]) == "object") {
+        console.log(typeof (a[key]));
+        if (typeof (a[key]) == "object") {
           a[key] = a[key]['percentage'];
         }
       })

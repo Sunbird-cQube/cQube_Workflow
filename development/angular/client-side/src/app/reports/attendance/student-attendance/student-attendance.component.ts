@@ -136,7 +136,14 @@ export class StudengtAttendanceComponent implements OnInit {
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
     private readonly _router: Router
-  ) { }
+  ) {
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
+  }
   levelForZoom = "District";
 
   height = window.innerHeight;
@@ -159,7 +166,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("sarMap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.skul = true;
     this.timePeriod = {
@@ -666,7 +673,7 @@ export class StudengtAttendanceComponent implements OnInit {
                   );
                   this.layerMarkers.addLayer(markerIcon);
 
-                  
+
                   //Adding values to tooltip 
                   this.generateToolTip(
                     markerIcon,
@@ -796,7 +803,7 @@ export class StudengtAttendanceComponent implements OnInit {
                     this.levelWise
                   );
                   this.layerMarkers.addLayer(markerIcon);
-                  
+
                   //Adding values to tooltip 
                   this.generateToolTip(
                     markerIcon,
@@ -940,7 +947,7 @@ export class StudengtAttendanceComponent implements OnInit {
                     this.levelWise
                   );
                   this.layerMarkers.addLayer(markerIcon);
-                  
+
                   //Adding values to tooltip 
                   this.generateToolTip(
                     markerIcon,
@@ -1039,7 +1046,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.schoolCount = res["schoolCount"];
 
               this.reportData = this.markers = sorted
-              
+
               //getting relative colors for all markers:::::::::::
               let colors = this.commonService.getRelativeColors(sorted, {
                 value: "attendance",
@@ -1069,7 +1076,7 @@ export class StudengtAttendanceComponent implements OnInit {
                     this.levelWise
                   );
                   this.layerMarkers.addLayer(markerIcon);
-                  
+
                   //Adding values to tooltip 
                   this.generateToolTip(
                     markerIcon,
@@ -1395,7 +1402,7 @@ export class StudengtAttendanceComponent implements OnInit {
                     this.levelWise
                   );
                   this.layerMarkers.addLayer(markerIcon);
-                  
+
                   //Adding values to tooltip 
                   this.generateToolTip(
                     markerIcon,
@@ -1618,7 +1625,7 @@ export class StudengtAttendanceComponent implements OnInit {
                     this.levelWise
                   );
                   this.layerMarkers.addLayer(markerIcon);
-                  
+
                   //Adding values to tooltip 
                   this.generateToolTip(
                     markerIcon,
@@ -1864,7 +1871,7 @@ export class StudengtAttendanceComponent implements OnInit {
                     this.levelWise
                   );
                   this.layerMarkers.addLayer(markerIcon);
-                  
+
                   //Adding values to tooltip 
                   this.generateToolTip(
                     markerIcon,
@@ -2182,7 +2189,7 @@ export class StudengtAttendanceComponent implements OnInit {
           this.levelWise
         );
         this.layerMarkers.addLayer(markerIcon);
-        
+
         //Adding values to tooltip 
         this.generateToolTip(
           markerIcon,

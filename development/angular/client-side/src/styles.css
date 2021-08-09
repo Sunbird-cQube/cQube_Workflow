@@ -2,14 +2,14 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 @import 'material-icons/iconfont/material-icons.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 /* You can add global styles to this file, and also import other style files */
 
 html,body {
     height: 100%;
     margin: 0;
-    font-family: Arial !important;
-    font-size: 20px;
+    font-family: Helvetica Neue Bold;
 }
 
 table {
@@ -73,7 +73,6 @@ leaflet-right {
     content: "";
     display: block;
     position: fixed;
-    /* margin-top: 35px; */
     top: 0;
     left: 0;
     bottom: 0;
@@ -202,16 +201,17 @@ table.dataTable.nowrap td {
 
 #footer {
     width: 100%;
-    background-color: rgb(152, 160, 163);
-    font-size: 13px;
+    border-top: 1px solid #cdccc8;
+    /* background-color: rgb(152, 160, 163); */
+    /* font-size: 13px; */
     font-weight: bold;
-    color: white;
-    margin: 0px 0px 0px 0px;
+    color: #727374;
     padding: 2px 0px 2px 0px;
-    position: fixed;
+    position: relative;
     bottom: 0;
-    left: 0;
+    left: 14px;
     z-index: 999;
+    margin-top: 0.3%;
 }
 
 #outer {
@@ -226,7 +226,7 @@ table.dataTable.nowrap td {
 
 #absolute {
     border-radius: 15px;
-    height: 20.5px;
+    height: 21px;
     width: 50%;
     float: left;
     cursor: pointer;
@@ -234,7 +234,7 @@ table.dataTable.nowrap td {
 
 #relative {
     border-radius: 15px;
-    height: 20.5px;
+    height: 21px;
     width: 50%;
     float: left;
     cursor: pointer;
@@ -358,7 +358,7 @@ table.dataTable.nowrap td {
 }
 
 #legendNote {
-    font-size: 12px;
+    font-size: 10px;
     margin-top: 15px;
 }
 
@@ -418,16 +418,18 @@ table.dataTable.nowrap td {
     }
     #footer {
         width: 100%;
-        background-color: rgb(152, 160, 163);
+        border-top: 1px solid #cdccc8;
+        /* background-color: rgb(152, 160, 163); */
         font-size: 20px !important;
         font-weight: bold;
-        color: white;
-        margin: 0px 0px 0px 0px;
+        color: #727374;
+
         padding: 2px 0px 2px 0px;
-        position: fixed;
+        position: relative;
         bottom: 0;
-        left: 0;
+        left: 14px;
         z-index: 999;
+        margin-top: 0.3%;
     }
     #outer {
         border-radius: 18px;
@@ -439,14 +441,14 @@ table.dataTable.nowrap td {
     }
     #absolute {
         border-radius: 18px;
-        height: 38px !important;
+        height: 40px !important;
         width: 50%;
         float: left;
         cursor: pointer;
     }
     #relative {
         border-radius: 18px;
-        height: 38px !important;
+        height: 40px !important;
         width: 50%;
         float: left;
         cursor: pointer;
@@ -576,16 +578,18 @@ table.dataTable.nowrap td {
     }
     #footer {
         width: 100%;
-        background-color: rgb(152, 160, 163);
+        border-top: 1px solid #cdccc8;
+        /* background-color: rgb(152, 160, 163); */
         font-size: 24px !important;
         font-weight: bold;
-        color: white;
-        margin: 0px 0px 0px 0px;
+        color: #727374;
+
         padding: 2px 0px 2px 0px;
-        position: fixed;
+        position: relative;
         bottom: 0;
-        left: 0;
+        left: 14px;
         z-index: 999;
+        margin-top: 0.3%;
     }
     #outer {
         border-radius: 20px !important;
@@ -597,14 +601,14 @@ table.dataTable.nowrap td {
     }
     #absolute {
         border-radius: 20px !important;
-        height: 45px !important;
+        height: 50px !important;
         width: 50%;
         float: left;
         cursor: pointer;
     }
     #relative {
         border-radius: 20px !important;
-        height: 45px !important;
+        height: 50px !important;
         width: 50%;
         float: left;
         cursor: pointer;
@@ -835,3 +839,63 @@ table.dataTable.nowrap td {
 .dataTableCustom .dataTables_wrapper .dataTables_scrollBody table tbody tr th, .dataTableCustom .dataTables_wrapper .dataTables_scrollBody table table.dataTable tbody tr td {
     padding: 0px 0px !important;
 }
+
+
+
+
+
+/* common css for layout */
+.me-3, .template-demo > .btn-toolbar {
+    margin-right: 1rem !important;
+}
+.main-panel {
+    transition: width 0.25s ease, margin 0.25s ease;
+    width: 100%;
+    min-height: calc(100vh - 97px);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+.content-wrapper {
+    /* background-color: #ffebcc; */
+    /* padding: 1rem; */
+    width: 100%;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+.page-body-wrapper {
+    min-height: calc(100vh - 97px);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    padding-left: 0;
+    padding-right: 0;
+}
+.page-title {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #fecaaf;
+}
+
+.btn-group-sm > .btn, .btn-sm {
+    border-radius: 8px !important;
+}
+.btn-outline-secondary:hover {
+    color: #333 !important;
+}
+
+@media (max-width: 767.98px) {
+    mat-sidenav-container{
+        margin-top: 0px !important;
+    }
+ }
+
+
+ .report-cards {
+    margin-top: 30px;
+  }
+  .report-cards h5,  h5 {
+    margin-bottom: 20px;
+  }

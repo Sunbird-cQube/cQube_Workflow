@@ -77,7 +77,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
     this.getAllData();
   }
@@ -161,7 +161,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
 
   time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
   fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
-  
+
   //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
     document.getElementById('home').style.display = "block";

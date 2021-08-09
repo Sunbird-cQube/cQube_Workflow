@@ -26,7 +26,7 @@ declare const $;
   encapsulation: ViewEncapsulation.None,
 })
 export class TeacherAttendanceComponent implements OnInit {
-    //variables for telemetry data
+  //variables for telemetry data
   state;
   edate;
   public telemData = {};
@@ -47,7 +47,7 @@ export class TeacherAttendanceComponent implements OnInit {
   public clusterIds: any = [];
   public schoolsIds: any = [];
 
-   //to store names for dropdown
+  //to store names for dropdown
   public districtsNames: any = [];
   public blocksNames: any = [];
   public clusterNames: any = [];
@@ -160,7 +160,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("tarMap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
+    document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn").style.display = "none";
     this.skul = true;
     this.timePeriod = {
@@ -607,7 +607,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
-            
+
             //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
@@ -624,7 +624,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   id: this.markers[i]["district_id"],
                   name: this.markers[i]["district_name"],
                 });
-                
+
                 //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
@@ -657,13 +657,13 @@ export class TeacherAttendanceComponent implements OnInit {
             this.districtsNames = distNames;
 
             this.commonService.restrictZoom(globalMap);
-            
+
             //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 4.5, this.lng - 6],
               [this.lat + 3.5, this.lng + 6],
             ]);
-            
+
             //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.schoolCount
@@ -730,7 +730,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
-            
+
             //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
@@ -748,7 +748,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["dist"],
                 });
-                
+
                 //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
@@ -779,13 +779,13 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blocksNames = blockNames;
 
               this.commonService.restrictZoom(globalMap);
-              
+
               //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              
+
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
               this.schoolCount = this.schoolCount
@@ -854,7 +854,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
-            
+
             //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
@@ -886,7 +886,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["district_id"],
                 });
-                
+
                 //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
@@ -922,13 +922,13 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blocksNames = blockNames;
 
               this.commonService.restrictZoom(globalMap);
-              
+
               //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              
+
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
               this.schoolCount = this.schoolCount
@@ -997,7 +997,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
-            
+
             //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
@@ -1010,7 +1010,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   "attendance"
                 );
                 this.districtsIds.push(sorted[i]["district_id"]);
-                
+
                 //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
@@ -1038,13 +1038,13 @@ export class TeacherAttendanceComponent implements OnInit {
 
               globalMap.doubleClickZoom.enable();
               globalMap.scrollWheelZoom.enable();
-              
+
               //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              
+
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
               this.schoolCount = this.markers.length
@@ -1096,7 +1096,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.clustName = "";
     this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
     this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
-    
+
     //Setting map bound for scroll::::::::::::
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
@@ -1303,7 +1303,7 @@ export class TeacherAttendanceComponent implements OnInit {
             );
 
             this.markers = sorted;
-            
+
             //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
@@ -1322,7 +1322,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 id: this.markers[i]["block_id"],
                 name: this.markers[i]["block_name"],
               });
-              
+
               //initialize markers with its latitude and longitude
               var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
@@ -1353,13 +1353,13 @@ export class TeacherAttendanceComponent implements OnInit {
             this.blocksNames = blokName;
 
             this.commonService.restrictZoom(globalMap);
-            
+
             //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            
+
             //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.schoolCount
@@ -1509,7 +1509,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
             // sorted.pop();
             this.markers = sorted;
-            
+
             //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
@@ -1534,7 +1534,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   blockId: sorted[i]["block_id"],
                 });
               }
-              
+
               //initialize markers with its latitude and longitude
               var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
@@ -1566,13 +1566,13 @@ export class TeacherAttendanceComponent implements OnInit {
             this.clusterNames = clustNames;
 
             this.commonService.restrictZoom(globalMap);
-            
+
             //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            
+
             //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.schoolCount
@@ -1758,7 +1758,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
-            
+
             //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
@@ -1769,7 +1769,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.markers[i],
                 "attendance"
               );
-              
+
               //initialize markers with its latitude and longitude
               var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
@@ -1796,13 +1796,13 @@ export class TeacherAttendanceComponent implements OnInit {
             }
             globalMap.doubleClickZoom.enable();
             globalMap.scrollWheelZoom.enable();
-            
+
             //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            
+
             //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.markers.length
