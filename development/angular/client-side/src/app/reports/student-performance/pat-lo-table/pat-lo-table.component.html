@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding-top:15px !important;">
+<div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-sm-9">
+        <div class="col-sm-9 d-flex justify-content-start">
             <div *ngIf='skul'>
                 <p id="dist">
                     Periodic Assessment Test LO Report for: <span (click)="resetToInitPage()"
@@ -58,7 +58,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12" style="margin-bottom: 10px;">
+        <div class="col-md-12 d-flex justify-content-start" style="margin-bottom: 10px;">
             <select id="year" class="select-control" [(ngModel)]="year" (change)="selectedYear()">
                 <option value="" disabled selected="selected">Choose Year</option>
                 <option *ngFor="let year of years let i =index" [(ngValue)]="years[i]">

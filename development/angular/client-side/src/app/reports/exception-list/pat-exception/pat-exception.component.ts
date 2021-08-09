@@ -64,7 +64,7 @@ export class PATExceptionComponent implements OnInit {
   public blockId: any = '';
   public clusterId: any = '';
 
-  public levelWise = 'district';
+  public level = 'District';
 
   public myData;
   state: string;
@@ -98,26 +98,13 @@ export class PATExceptionComponent implements OnInit {
   onResize() {
     this.width = window.innerWidth;
     this.heigth = window.innerHeight;
-    this.commonService.zoomLevel = this.width > 3820 ? this.commonService.mapCenterLatlng.zoomLevel + 2 : this.width < 3820 && this.width >= 2500 ? this.commonService.mapCenterLatlng.zoomLevel + 1 : this.width < 2500 && this.width > 1920 ? this.commonService.mapCenterLatlng.zoomLevel + 1 : this.commonService.mapCenterLatlng.zoomLevel;
-    this.changeDetection.detectChanges();
-    this.levelWiseFilter();
-  }
-  setZoomLevel(lat, lng, globalMap, zoomLevel) {
-    if (lat !== undefined && lng !== undefined)
-      globalMap.setView(new L.LatLng(lat, lng), zoomLevel);
-    globalMap.options.minZoom = this.commonService.zoomLevel;
-    this.changeDetection.detectChanges();
-  }
-
-  getMarkerRadius(rad1, rad2, rad3, rad4) {
-    let radius = this.width > 3820 ? rad1 : this.width > 2500 && this.width < 3820 ? rad2 : this.width < 2500 && this.width > 1920 ? rad3 : rad4;
-    return radius;
   }
 
   ngOnInit() {
+    this.commonService.errMsg();
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap('patExceMap', [[this.lat, this.lng]]);
 
@@ -126,48 +113,47 @@ export class PATExceptionComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    document.getElementById('homeBtn').style.display = 'block';
+    this.skul = true;
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
-    document.getElementById('spinner').style.display = 'none';
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
-    this.onResize();
+    this.changeDetection.detectChanges();
+    this.levelWiseFilter();
   }
 
   onPeriodSelect() {
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   onGradeSelect(data) {
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject ? this.subject : ''}_all_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subject = '';
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   levelWiseFilter() {
-    if (this.skul) {
-      if (this.levelWise === "district") {
-        this.districtWise();
-      }
-      if (this.levelWise === "block") {
-        this.blockWise();
-      }
-      if (this.levelWise === "cluster") {
-        this.clusterWise();
-      }
-      if (this.levelWise === "school") {
-        this.schoolWise();
-      }
-    } else {
-      if (this.dist && this.districtId !== undefined) {
-        this.onDistrictSelect(this.districtId);
-      }
-      if (this.blok && this.blockId !== undefined) {
-        this.onBlockSelect(this.blockId);
-      }
-      if (this.clust && this.clusterId !== undefined) {
-        this.onClusterSelect(this.clusterId);
-      }
+    if (this.level == "District") {
+      this.districtWise();
+    }
+    if (this.level == "Block") {
+      this.blockWise();
+    }
+    if (this.level == "Cluster") {
+      this.clusterWise();
+    }
+    if (this.level == "School") {
+      this.schoolWise();
+    }
+
+    if (this.level == "blockPerDistrict") {
+      this.onDistrictSelect(this.districtId);
+    }
+    if (this.level == "clusterPerBlock") {
+      this.onBlockSelect(this.blockId);
+    }
+    if (this.level == "schoolPerCluster") {
+      this.onClusterSelect(this.clusterId);
     }
     this.changeDetection.detectChanges();
   }
@@ -176,7 +162,7 @@ export class PATExceptionComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.grade = 'all';
     this.period = 'overall';
-    this.levelWise = "district";
+    this.level = "District";
     this.blok = true;
     this.subject = '';
     this.districtWise();
@@ -188,10 +174,13 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.districtId = undefined;
       this.commonService.errMsg();
       this.reportData = [];
       this.schoolCount = '';
+      this.level = "District";
 
       // these are for showing the hierarchy names based on selection
       this.skul = true;
@@ -225,21 +214,23 @@ export class PATExceptionComponent implements OnInit {
           }
           // options to set for markers in the map
           let options = {
-            radius: this.getMarkerRadius(14, 10, 8, 5),
+            radius: this.commonService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
             mapZoom: this.commonService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
-            level: 'district'
+            level: 'District'
           }
 
           this.commonService.restrictZoom(globalMap);
           globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
-          this.setZoomLevel(options.centerLat, options.centerLng, globalMap, options.mapZoom);
           this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allBlocks_${this.commonService.dateAndTime}`;
+
           this.genericFun(this.data, options, this.fileName);
+          this.commonService.onResize(this.level);
+          this.changeDetection.detectChanges();
 
           // sort the districtname alphabetically
           this.districtMarkers.sort((a, b) => (a.district_name > b.district_name) ? 1 : ((b.district_name > a.district_name) ? -1 : 0));
@@ -266,8 +257,10 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.commonService.errMsg();
-      this.levelWise = "block";
+      this.level = "Block";
       this.schoolCount = '';
 
       this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allBlocks_${this.commonService.dateAndTime}`;
@@ -298,14 +291,14 @@ export class PATExceptionComponent implements OnInit {
         this.myData = this.service.patExceptionBlock({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
           this.data = res
           let options = {
-            radius: this.getMarkerRadius(12, 8, 6, 4),
+            radius: this.commonService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
             mapZoom: this.commonService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
-            level: 'block'
+            level: 'Block'
           }
           if (this.data['data'].length > 0) {
             let result = this.data['data']
@@ -322,11 +315,10 @@ export class PATExceptionComponent implements OnInit {
             }
             this.commonService.restrictZoom(globalMap);
             globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
-            this.setZoomLevel(options.centerLat, options.centerLng, globalMap, options.mapZoom);
             this.genericFun(this.data, options, this.fileName);
+            this.commonService.onResize(this.level);
+            this.changeDetection.detectChanges();
 
-            this.commonService.loaderAndErr(this.data);
-            this.changeDetection.markForCheck();
           }
         }, err => {
           this.data = this.districtMarkers = [];
@@ -349,8 +341,10 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.commonService.errMsg();
-      this.levelWise = "cluster";
+      this.level = "Cluster";
       this.schoolCount = '';
 
       this.reportData = [];
@@ -383,14 +377,14 @@ export class PATExceptionComponent implements OnInit {
         this.myData = this.service.patExceptionCluster({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
           this.data = res
           let options = {
-            radius: this.getMarkerRadius(2.5, 1.8, 1.5, 1),
+            radius: this.commonService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
             mapZoom: this.commonService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
-            level: 'cluster'
+            level: 'Cluster'
           }
           if (this.data['data'].length > 0) {
             let result = this.data['data'];
@@ -408,11 +402,11 @@ export class PATExceptionComponent implements OnInit {
             }
             this.commonService.restrictZoom(globalMap);
             globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
-            this.setZoomLevel(options.centerLat, options.centerLng, globalMap, options.mapZoom);
             this.genericFun(this.data, options, this.fileName);
             // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.loaderAndErr(this.data);
-            this.changeDetection.markForCheck();
+            this.commonService.onResize(this.level);
+            this.changeDetection.detectChanges();
+
           }
         }, err => {
           this.data = this.districtMarkers = [];
@@ -435,8 +429,11 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+
       this.commonService.errMsg();
-      this.levelWise = "school";
+      this.level = "School";
       this.schoolCount = '';
       this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allSchools_${this.commonService.dateAndTime}`;
 
@@ -464,14 +461,14 @@ export class PATExceptionComponent implements OnInit {
         this.myData = this.service.patExceptionSchool({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
           this.data = res
           let options = {
-            radius: this.getMarkerRadius(1.5, 1.2, 1, 0),
+            radius: this.commonService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
             mapZoom: this.commonService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
-            level: 'school'
+            level: 'School'
           }
           this.schoolMarkers = [];
           if (this.data['data'].length > 0) {
@@ -488,13 +485,11 @@ export class PATExceptionComponent implements OnInit {
             globalMap.doubleClickZoom.enable();
             globalMap.scrollWheelZoom.enable();
             globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
-            this.setZoomLevel(options.centerLat, options.centerLng, globalMap, options.mapZoom);
             this.genericFun(this.data, options, this.fileName);
             // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.commonService.onResize(this.level);
+            this.changeDetection.detectChanges();
 
-            this.commonService.loaderAndErr(this.data);
-            this.changeDetection.markForCheck();
-            // }
           }
         }, err => {
           this.data = this.districtMarkers = [];
@@ -519,6 +514,7 @@ export class PATExceptionComponent implements OnInit {
     this.commonService.errMsg();
     this.blockId = undefined;
     this.schoolCount = '';
+    this.level = "blockPerDistrict"
     // to show and hide the dropdowns
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -554,21 +550,25 @@ export class PATExceptionComponent implements OnInit {
 
       // options to set for markers in the map
       let options = {
-        radius: this.getMarkerRadius(14, 10, 8, 4),
+        radius: this.commonService.zoomLevel,
         fillOpacity: 1,
         strokeWeight: 0.01,
         weight: 1,
         mapZoom: this.commonService.zoomLevel + 1,
         centerLat: this.data['data'][0].block_latitude,
         centerLng: this.data['data'][0].block_longitude,
-        level: 'block'
+        level: 'blockPerDistrict'
       }
+      this.commonService.latitude = this.lat = options.centerLat;
+      this.commonService.longitude = this.lng = options.centerLng;
 
       this.commonService.restrictZoom(globalMap);
       globalMap.setMaxBounds([[options.centerLat - 1.5, options.centerLng - 3], [options.centerLat + 1.5, options.centerLng + 2]]);
-      this.setZoomLevel(options.centerLat, options.centerLng, globalMap, options.mapZoom);
       this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_${options.level}s_of_district_${districtId}_${this.commonService.dateAndTime}`;
       this.genericFun(this.data, options, this.fileName);
+      this.commonService.onResize(this.level);
+      this.changeDetection.detectChanges();
+
       // sort the blockname alphabetically
       this.blockMarkers.sort((a, b) => (a.block_name > b.block_name) ? 1 : ((b.block_name > a.block_name) ? -1 : 0));
     }, err => {
@@ -587,6 +587,7 @@ export class PATExceptionComponent implements OnInit {
     this.commonService.errMsg();
     this.clusterId = undefined;
     this.schoolCount = '';
+    this.level = "clusterPerBlock"
     // to show and hide the dropdowns
     this.blockHidden = false;
     this.clusterHidden = false;
@@ -631,21 +632,25 @@ export class PATExceptionComponent implements OnInit {
 
       // options to set for markers in the map
       let options = {
-        radius: this.getMarkerRadius(14, 10, 8, 4),
+        radius: this.commonService.zoomLevel,
         fillOpacity: 1,
         strokeWeight: 0.01,
         weight: 1,
         mapZoom: this.commonService.zoomLevel + 3,
         centerLat: this.data['data'][0].cluster_latitude,
         centerLng: this.data['data'][0].cluster_longitude,
-        level: 'cluster'
+        level: 'clusterPerBlock'
       }
+      this.commonService.latitude = this.lat = options.centerLat;
+      this.commonService.longitude = this.lng = options.centerLng;
 
       this.commonService.restrictZoom(globalMap);
       globalMap.setMaxBounds([[options.centerLat - 1.5, options.centerLng - 3], [options.centerLat + 1.5, options.centerLng + 2]]);
-      this.setZoomLevel(options.centerLat, options.centerLng, globalMap, options.mapZoom);
       this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_${options.level}s_of_block_${blockId}_${this.commonService.dateAndTime}`;
       this.genericFun(this.data, options, this.fileName);
+      this.commonService.onResize(this.level);
+      this.changeDetection.detectChanges();
+
       // sort the clusterName alphabetically
       this.clusterMarkers.sort((a, b) => (a.cluster_name > b.cluster_name) ? 1 : ((b.cluster_name > a.cluster_name) ? -1 : 0));
     }, err => {
@@ -663,6 +668,7 @@ export class PATExceptionComponent implements OnInit {
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
     this.schoolCount = '';
+    this.level = "schoolPerCluster"
     this.blockHidden = false;
     this.clusterHidden = false;
     this.reportData = [];
@@ -724,21 +730,25 @@ export class PATExceptionComponent implements OnInit {
 
         // options to set for markers in the map
         let options = {
-          radius: this.getMarkerRadius(14, 10, 8, 4),
+          radius: this.commonService.zoomLevel,
           fillOpacity: 1,
           strokeWeight: 0.01,
           weight: 1,
           mapZoom: this.commonService.zoomLevel + 5,
           centerLat: this.data['data'][0].school_latitude,
           centerLng: this.data['data'][0].school_longitude,
-          level: 'school'
+          level: 'schoolPerCluster'
         }
+        this.commonService.latitude = this.lat = options.centerLat;
+        this.commonService.longitude = this.lng = options.centerLng;
+
         globalMap.doubleClickZoom.enable();
         globalMap.scrollWheelZoom.enable();
         globalMap.setMaxBounds([[options.centerLat - 1.5, options.centerLng - 3], [options.centerLat + 1.5, options.centerLng + 2]]);
-        this.setZoomLevel(options.centerLat, options.centerLng, globalMap, options.mapZoom);
         this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_${options.level}s_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
         this.genericFun(this.data, options, this.fileName);
+        this.commonService.onResize(this.level);
+        this.changeDetection.detectChanges();
       }, err => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
@@ -753,55 +763,60 @@ export class PATExceptionComponent implements OnInit {
 
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
-    this.reportData = [];
-    if (data['data'].length > 0) {
-      this.markers = [];
-      this.markers = data['data'];
-      var updatedMarkers = this.markers.filter(a => {
-        return a.total_schools_with_missing_data && a.total_schools_with_missing_data != 0;
-      });
-      this.markers = updatedMarkers;
-      this.schoolCount = 0;
-      // generate color gradient
-      this.colors = this.commonService.getRelativeColors(this.markers, { value: 'percentage_schools_with_missing_data', report: 'exception' });
-      // attach values to markers
-      for (let i = 0; i < this.markers.length; i++) {
-        this.schoolCount = this.schoolCount + parseInt(this.markers[i].total_schools_with_missing_data);
-        this.getLatLng(options.level, this.markers[i]);
-        var markerIcon = this.commonService.initMarkers(this.latitude, this.longitude, this.commonService.relativeColorGredient(this.markers[i], { value: 'percentage_schools_with_missing_data', report: 'exception' }, this.colors), options.radius, options.strokeWeight, options.weight, options.level);
-        if (markerIcon)
-          this.generateToolTip(this.markers[i], options.level, markerIcon, this.strLat, this.strLng);
-      }
+    try {
+      this.reportData = [];
+      if (data['data'].length > 0) {
+        this.markers = [];
+        this.markers = data['data'];
+        var updatedMarkers = this.markers.filter(a => {
+          return a.total_schools_with_missing_data && a.total_schools_with_missing_data != 0;
+        });
+        this.markers = updatedMarkers;
+        this.schoolCount = 0;
+        // generate color gradient
+        this.colors = this.commonService.getRelativeColors(this.markers, { value: 'percentage_schools_with_missing_data', report: 'exception' });
+        // attach values to markers
+        for (let i = 0; i < this.markers.length; i++) {
+          this.schoolCount = this.schoolCount + parseInt(this.markers[i].total_schools_with_missing_data);
+          this.getLatLng(options.level, this.markers[i]);
+          var markerIcon = this.commonService.initMarkers1(this.latitude, this.longitude, this.commonService.relativeColorGredient(this.markers[i], { value: 'percentage_schools_with_missing_data', report: 'exception' }, this.colors), options.strokeWeight, options.weight, options.level);
+          if (markerIcon)
+            this.generateToolTip(this.markers[i], options.level, markerIcon, this.strLat, this.strLng);
+        }
 
-      this.fileName = fileName;
+        this.fileName = fileName;
+        this.commonService.loaderAndErr(this.data);
+        this.changeDetection.markForCheck();
+      }
+      this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+    } catch (e) {
+      this.data = [];
       this.commonService.loaderAndErr(this.data);
-      this.changeDetection.markForCheck();
     }
-    this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
   }
 
 
   latitude; strLat; longitude; strLng;
   getLatLng(level, marker) {
-    if (level == "district") {
+    if (level == "District") {
       this.latitude = marker.district_latitude;
       this.strLat = "district_latitude";
       this.longitude = marker.district_longitude;
       this.strLng = "district_longitude";
     }
-    if (level == "block") {
+    if (level == "Block" || level == "blockPerDistrict") {
       this.latitude = marker.block_latitude;
       this.strLat = "block_latitude";
       this.longitude = marker.block_longitude;
       this.strLng = "block_longitude";
     }
-    if (level == "cluster") {
+    if (level == "Cluster" || level == "clusterPerBlock") {
       this.latitude = marker.cluster_latitude;
       this.strLat = "cluster_latitude";
       this.longitude = marker.cluster_longitude;
       this.strLng = "cluster_longitude";
     }
-    if (level == "school") {
+    if (level == "School" || level == "schoolPerCluster") {
       this.latitude = marker.school_latitude;
       this.strLat = "school_latitude";
       this.longitude = marker.school_longitude;
@@ -818,7 +833,7 @@ export class PATExceptionComponent implements OnInit {
     });
 
     this.layerMarkers.addLayer(markerIcon);
-    if (level != 'school') {
+    if (level != 'School' || level != 'schoolPerCluster') {
       markerIcon.on('click', this.onClick_Marker, this)
     }
     markerIcon.myJsonData = markers;
@@ -893,7 +908,7 @@ export class PATExceptionComponent implements OnInit {
     });
     var detailSchool = {};
     var yourData;
-    if (level == "school") {
+    if (level == "School" || level == "schoolPerCluster") {
       Object.keys(orgObject).forEach(key => {
         if (key !== "total_schools_with_missing_data") {
           detailSchool[key] = orgObject[key];

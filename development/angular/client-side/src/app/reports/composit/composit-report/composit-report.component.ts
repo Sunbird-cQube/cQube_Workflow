@@ -65,7 +65,8 @@ export class CompositReportComponent implements OnInit {
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.levelWiseFilter();
+    this.scatterChart.destroy();
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
 
@@ -75,14 +76,14 @@ export class CompositReportComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.onResize();
+    this.levelWiseFilter();
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -542,6 +543,8 @@ export class CompositReportComponent implements OnInit {
         xAxis: x_axis.value,
         yAxis: y_axis.value
       }
+      this.labels = labels;
+      this.obj = obj;
       this.createChart(labels, this.chartData, this.tableHead, obj);
     } else {
       if (downloadType == "dist") {
@@ -586,9 +589,11 @@ export class CompositReportComponent implements OnInit {
     }
   }
 
+  labels: any;
+  obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1760 ? '64vh' : this.height > 1180 && this.height < 1760 ? '63vh' : this.height > 667 && this.height < 1180 ? '55vh' : '50vh');
+    ctx.attr('height', this.height > 1760 ? '62vh' : this.height > 1180 && this.height < 1760 ? '63vh' : this.height > 667 && this.height < 1180 ? '55vh' : '50vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
 
@@ -640,13 +645,13 @@ export class CompositReportComponent implements OnInit {
             ticks: {
               fontColor: 'black',
               min: 0,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1180 ? 13 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.xAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1180 ? 12 : 10,
             }
           }],
           yAxes: [{
@@ -656,13 +661,13 @@ export class CompositReportComponent implements OnInit {
             ticks: {
               fontColor: 'black',
               min: 0,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1180 ? 13 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.yAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1180 ? 12 : 10,
             }
           }]
         }

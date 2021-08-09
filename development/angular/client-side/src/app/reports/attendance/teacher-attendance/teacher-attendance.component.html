@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding-top:15px !important;">
+<div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(levelWise);onResize($event)">
-        <div class="col-lg-7 col-md-12 col-sm-12">
+        <div class="col-lg-7 col-md-12 col-sm-12 d-flex justify-content-start">
             <div *ngIf='skul'>
                 <p id="dist">
                     Teacher Attendance Report for: <span id="state" (click)="onClickHome()"
@@ -75,7 +75,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12" style="padding-bottom: 10px !important">
+        <div class="col-sm-12 d-flex justify-content-start" style="padding-bottom: 10px !important">
             <select id="period" [(ngModel)]="period"
                 (change)="period != 'select_month' ? onPeriodSelect() : showYearMonth()">
                 <option [value]="period" disabled selected="selected">Choose TimeRange</option>
@@ -134,15 +134,13 @@
                 </option>
             </select>
 
-            <!-- <a class="float-right" href="javascript: void(0)" id="stdHealthCard" (click)="goToHealthCard()"
-                style="font-weight: bold; text-decoration: underline; font-size: 13px; color: #3100cc">Access Progress
-                Card</a> -->
+            <!--  -->
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <div style="float: left; width: 90%;">
-                <div #mapContainer id="mapContainer" class="active" style="width: 100%;"
+                <div #mapContainer id="tarMap" class="active" style="width: 100%;"
                     [ngStyle]="{height: heigth > 1760 ? '83vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '74vh':'70vh'}">
                 </div>
             </div>

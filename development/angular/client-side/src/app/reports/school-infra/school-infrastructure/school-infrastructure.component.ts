@@ -67,7 +67,7 @@ export class SchoolInfrastructureComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;

@@ -1,0 +1,22 @@
+<div class="page-title">
+    <div class="row">
+        <div class="col-md-6 d-flex justify-content-start">
+            <h4 class="text-dark text-decoration-none">{{reportGroup}}</h4>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <label class="col-sm-5 col-form-label">Select Management</label>
+                <div class="col-sm-7">
+                    <select id="management" [(ngModel)]="management" (change)="onSelectManagement()"
+                        style="background-color: white; color: black;">
+                        <option [value]="management" disabled selected="selected">Choose a Management Name</option>
+                        <option *ngFor="let management of managements,  let i =index" style="width: 100px;"
+                            [(ngValue)]="management.id">
+                            {{management.value}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

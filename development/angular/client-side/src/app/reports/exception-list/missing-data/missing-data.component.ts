@@ -18,10 +18,10 @@ export class MissingDataComponent implements OnInit {
   management;
   category;
 
-  constructor(private router: Router, private service: ExceptionReportService,public commonService: AppServiceComponent) { }
+  constructor(private router: Router, private service: ExceptionReportService, public commonService: AppServiceComponent) { }
 
   ngOnInit(): void {
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;

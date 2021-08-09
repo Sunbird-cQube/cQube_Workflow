@@ -183,8 +183,8 @@ export class HeatChartComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
     this.category = JSON.parse(localStorage.getItem("category")).id;
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "block";
+    //document.getElementById("backBtn").style.display = "none";
   }
 
   onChangePage() {

@@ -1,0 +1,10 @@
+#management{
+    width: 100%;
+}
+#management option{
+    width: 90%;
+}
+
+.col-form-label{
+    margin-top: -7px;
+}

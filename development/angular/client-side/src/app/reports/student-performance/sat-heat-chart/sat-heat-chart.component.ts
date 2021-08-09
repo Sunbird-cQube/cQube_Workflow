@@ -159,7 +159,7 @@ export class SatHeatChartComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
   }
 

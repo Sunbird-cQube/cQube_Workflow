@@ -21,31 +21,31 @@ const dikshaRoutes: Routes = [
   {
     path: '', canActivate: [AuthGuard], children: [
       {
-        path: 'usage-by-user-profile', component: DikshaChartComponent, canActivateChild: [AuthGuard]
+        path: 'usage-by-user-profile', component: DikshaChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'usage-by-course-content', component: DikshaTableComponent, canActivateChild: [AuthGuard]
+        path: 'usage-by-course-content', component: DikshaTableComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'usage-by-course', component: DikshaBarChartComponent, canActivateChild: [AuthGuard]
+        path: 'usage-by-course', component: DikshaBarChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'usage-by-textbook', component: DikshaUsageByTextBookComponent, canActivateChild: [AuthGuard]
+        path: 'usage-by-textbook', component: DikshaUsageByTextBookComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'usage-by-textbook-content', component: UsageByTextbookContentComponent, canActivateChild: [AuthGuard]
+        path: 'usage-by-textbook-content', component: UsageByTextbookContentComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'tpd-course-progress', component: DikshaTPDContentProgressComponent, canActivateChild: [AuthGuard]
+        path: 'tpd-course-progress', component: DikshaTPDContentProgressComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'tpd-teacher-percentage', component: DikshaTPDTeachersPercentageComponent, canActivateChild: [AuthGuard]
+        path: 'tpd-teacher-percentage', component: DikshaTPDTeachersPercentageComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'tpd-enrollment', component: DikshaTpdEnrollmentComponent, canActivateChild: [AuthGuard]
+        path: 'tpd-enrollment', component: DikshaTpdEnrollmentComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'tpd-completion', component: DikshaTpdCompletionComponent, canActivateChild: [AuthGuard]
+        path: 'tpd-completion', component: DikshaTpdCompletionComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }

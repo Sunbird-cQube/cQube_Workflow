@@ -1,0 +1,142 @@
+<div id="spinner">
+    <div class="loading">Loading&#8230;</div>
+</div>
+
+<div class="main-panel container" style="padding-top: 10px !important;">
+    <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector>
+
+    <div class="report-cards">
+        <div class="row">
+            <div class="col-sm-12 col-xl-4">
+                <span id="SemExp" [routerLink]="!nifi_sat ? ['/coming-soon'] :['/exception/sem-exception']"
+                    (click)="fetchTelemetry($event,'SemExp')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{semExpViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Semester Assesment Test Exception</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.semExpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-xl-4">
+                <span id="patExcpt" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/pat-exception']"
+                    (click)="fetchTelemetry($event,'patExcpt')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="ic-equalizer1" src="../../assets/ic_assessment.svg" alt=""
+                                            height="30px" width="30px"></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{patExcptViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Periodic Assesment Test Exception</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.patExcptTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-xl-4">
+                <span id="isdata" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/download-missing-data']"
+                    (click)="fetchTelemetry($event,'isdata')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{isdataViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Download Exception List</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.isdataTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xl-4">
+                <span id="sarExcpt"
+                    [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/exception/student-attendance-exception']"
+                    (click)="fetchTelemetry($event,'sarExcpt')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="ic-equalizer1" src="../../assets/ic_assessment.svg" alt=""
+                                            height="30px" width="30px"></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{sarExcptViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Student Attendance Report Exception </h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.sarExcptTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-xl-4">
+                <span id="tpd-comp" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-completion']"
+                    (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{tpdcompViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>TPD Completion <br> Percentage</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div style="height: 300px !important;"></div>
+
+</div>

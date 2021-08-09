@@ -1,4 +1,4 @@
-<div class="container-fluid" style="background-color: #f5f6fb; letter-spacing: 0; padding-top: 15px !important;">
+<div class="container-fluid" style="background-color: #f5f6fb; letter-spacing: 0; ;">
     <div class="row row flex-column-reverse flex-lg-row" style="padding-bottom: 10px !important; min-height: 100px;">
         <div class="col-lg-7 col-md-12 col-sm-12" (window:resize)="onResize($event)">
             <div *ngIf="showAll" class="regional-detail-card">
@@ -165,8 +165,8 @@
                             <label id="warning" class="form-label note" style="text-align: unset;"> Please enter at
                                 least 2
                                 characters/digits</label>
-                            <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label>
-                            <!-- <p style="line-height: 1em; float: left;">&nbsp;</p> -->
+                            <!-- <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label> -->
+                            <p *ngIf="level && len>=2" style="line-height: 0.7em; float: left;">&nbsp;</p>
                             <input #searchInput id="myInput" class="input-control full-width" type="search"
                                 class="clearable" autocomplete="off" name="districtName" [(ngModel)]="value"
                                 (input)="onChange()" [placeholder]="placeHolder">
@@ -365,7 +365,8 @@
                                                             </tr>
                                                             <tr class="tooltip-values-row" style="font-size: 12px;"
                                                                 *ngFor="let key of semPerformTooltip;let i=index">
-                                                                <ng-container *ngIf="healthCardData['student_semester']['grade_wise_performance'][key]">
+                                                                <ng-container
+                                                                    *ngIf="healthCardData['student_semester']['grade_wise_performance'][key]">
                                                                     <td>
                                                                         {{semPerformTooltipKeys[i]}}</td>
                                                                     <td>
@@ -442,7 +443,8 @@
                                                     {{semPerformanceCategoryKey[i]}}</td>
                                                 <td *ngIf="level != 'school'">:</td>
                                                 <td *ngIf="level != 'school'">
-                                                    {{healthCardData['student_semester'][sem] ? healthCardData['student_semester'][sem] : '-'}}</td>
+                                                    {{healthCardData['student_semester'][sem] ?
+                                                    healthCardData['student_semester'][sem] : '-'}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -583,7 +585,8 @@
                                                     {{semPerformanceCategoryKey[i]}}</td>
                                                 <td *ngIf="level != 'school'">:</td>
                                                 <td *ngIf="level != 'school'">
-                                                    {{healthCardData['pat_performance'][pat] ? healthCardData['pat_performance'][pat] : '-'}}</td>
+                                                    {{healthCardData['pat_performance'][pat] ?
+                                                    healthCardData['pat_performance'][pat] : '-'}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

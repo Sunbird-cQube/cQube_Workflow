@@ -12,13 +12,13 @@ const sttendanceRoutes: Routes = [
   {
     path: '', canActivate: [AuthGuard], children: [
       {
-        path: 'student-attendance', component: StudengtAttendanceComponent, canActivateChild: [AuthGuard]
+        path: 'student-attendance', component: StudengtAttendanceComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'teacher-attendance', component: TeacherAttendanceComponent, canActivateChild: [AuthGuard]
+        path: 'teacher-attendance', component: TeacherAttendanceComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'student-attendance-chart', component: StudentAttendanceChartComponent, canActivateChild: [AuthGuard]
+        path: 'student-attendance-chart', component: StudentAttendanceChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }
