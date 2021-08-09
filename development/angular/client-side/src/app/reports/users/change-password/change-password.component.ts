@@ -24,7 +24,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
   }
 

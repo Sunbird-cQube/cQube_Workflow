@@ -4,19 +4,18 @@
       <app-header></app-header> -->
   <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
     <mat-toolbar color="" class="example-toolbar">
-      <button mat-icon-button (click)="onToggle()">
-        <mat-icon>menu</mat-icon>
+      <button mat-icon-button class="humber-icon-btn" (click)="onToggle()">
+        <mat-icon class="humber-icon">menu</mat-icon>
       </button>
       <a class="navbar-brand brand-logo" [routerLink]="[currentDashboardGroup]">
-        <img src="assets/images/logo.png" alt="logo">
+        <img src="assets/logo.png" alt="logo">
       </a>
 
-      <span id="backBtn" [routerLink]="['/home']"><img src="assets/images/back.svg" alt="back-logo"
+      <span *ngIf="showBackBtn" id="backBtn" [routerLink]="['/home']"><img src="assets/back.svg" alt="back-logo"
           style="margin-bottom: 2px; height: 15px; width: 15px;"><strong
           style="padding: 0px 10px 2px 3px">Back</strong></span>
 
-      <button class="btn btn-primary" id="accessProgressCard"
-        (click)="sccessProgressCard()">Access Progress
+      <button class="btn btn-primary" id="accessProgressCard" (click)="sccessProgressCard()">Access Progress
         Card</button>
 
 
@@ -28,14 +27,13 @@
           <mat-accordion>
             <!-- <mat-expansion-panel [(expanded)]="xpandStatus"> -->
             <mat-expansion-panel expanded>
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header [routerLink]="['/dashboard/infrastructure-dashboard']"
+                (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')">
                 <mat-panel-title>
                   <!-- Cabeceras del submenu -->
-                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center"
-                    [routerLink]="['/dashboard/infrastructure-dashboard']"
-                    (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')">
+                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center">
                     <mat-icon>
-                      <img src="assets/images/menu-icon.svg" alt="">
+                      <img src="assets/menu-icon.svg" alt="">
                     </mat-icon>
                     School Infrastructure
                   </div>
@@ -45,21 +43,27 @@
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Infrastructure Access by Location
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Composite Report
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     UDISE Report
                   </div>
                 </mat-list-item>
@@ -67,12 +71,11 @@
             </mat-expansion-panel>
           </mat-accordion>
 
-          <mat-list-item>
+          <mat-list-item [routerLink]="['/dashboard/composite-dashboard']" class="single-line">
             <!-- Entradas principales -->
-            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu"
-              [routerLink]="['/dashboard/composite-dashboard']">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
               <mat-icon>
-                <img src="assets/images/menu-icon.svg" alt="">
+                <img src="assets/menu-icon.svg" alt="">
               </mat-icon>
               Composite Report across metrics
             </div>
@@ -81,13 +84,12 @@
 
           <mat-accordion>
             <mat-expansion-panel>
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header [routerLink]="['/dashboard/tpd-dashboard']">
                 <mat-panel-title>
                   <!-- Cabeceras del submenu -->
-                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center"
-                    [routerLink]="['/dashboard/tpd-dashboard']">
+                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center">
                     <mat-icon>
-                      <img src="assets/images/menu-icon.svg" alt="">
+                      <img src="assets/menu-icon.svg" alt="">
                     </mat-icon>
                     Teacher Professional Development
                   </div>
@@ -97,35 +99,45 @@
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Usage By Course
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Usage by Course Content
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     TPD Course Progress
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     PTD Total Enrollment/Completion
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     TPD Completion Percentage
                   </div>
                 </mat-list-item>
@@ -136,13 +148,12 @@
 
           <mat-accordion>
             <mat-expansion-panel>
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header [routerLink]="['/dashboard/etb-dashboard']">
                 <mat-panel-title>
                   <!-- Cabeceras del submenu -->
-                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center"
-                    [routerLink]="['/dashboard/etb-dashboard']">
+                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center">
                     <mat-icon>
-                      <img src="assets/images/menu-icon.svg" alt="">
+                      <img src="assets/menu-icon.svg" alt="">
                     </mat-icon>
                     Energise Textbook Usage
                   </div>
@@ -152,21 +163,27 @@
                 <mat-list-item *ngIf="!diksha_column">
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Usage By User Profile
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Usage By Textbook
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Usage By Textbook Content
                   </div>
                 </mat-list-item>
@@ -174,23 +191,21 @@
             </mat-expansion-panel>
           </mat-accordion>
 
-          <mat-list-item>
+          <mat-list-item [routerLink]="['/dashboard/crc-dashboard']" class="single-line">
             <!-- Entradas principales -->
-            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu"
-              [routerLink]="['/dashboard/crc-dashboard']">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
               <mat-icon>
-                <img src="assets/images/menu-icon.svg" alt="">
+                <img src="assets/menu-icon.svg" alt="">
               </mat-icon>
               CRC Visit
             </div>
           </mat-list-item>
 
-          <mat-list-item>
+          <mat-list-item [routerLink]="['/dashboard/prograss-card-dashboard']" class="single-line">
             <!-- Entradas principales -->
-            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu"
-              [routerLink]="['/dashboard/prograss-card-dashboard']">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
               <mat-icon>
-                <img src="assets/images/menu-icon.svg" alt="">
+                <img src="assets/menu-icon.svg" alt="">
               </mat-icon>
               Progress Card
             </div>
@@ -199,13 +214,12 @@
 
           <mat-accordion>
             <mat-expansion-panel>
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header [routerLink]="['/dashboard/std-performance-dashboard']">
                 <mat-panel-title>
                   <!-- Cabeceras del submenu -->
-                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center"
-                    [routerLink]="['/dashboard/std-performance-dashboard']">
+                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center">
                     <mat-icon>
-                      <img src="assets/images/menu-icon.svg" alt="">
+                      <img src="assets/menu-icon.svg" alt="">
                     </mat-icon>
                     Student Performance
                   </div>
@@ -215,35 +229,45 @@
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Semester Assesment Report
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     SAT Heatchart
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Periodic Assesment Report
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     PAT HeatChart
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     PAT LoTable
                   </div>
                 </mat-list-item>
@@ -254,13 +278,12 @@
 
           <mat-accordion>
             <mat-expansion-panel>
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header [routerLink]="['/dashboard/attendance-dashboard']">
                 <mat-panel-title>
                   <!-- Cabeceras del submenu -->
-                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center"
-                    [routerLink]="['/dashboard/attendance-dashboard']">
+                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center">
                     <mat-icon>
-                      <img src="assets/images/menu-icon.svg" alt="">
+                      <img src="assets/menu-icon.svg" alt="">
                     </mat-icon>
                     Attendance
                   </div>
@@ -270,14 +293,18 @@
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Student Attendance
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Teacher Attendance
                   </div>
                 </mat-list-item>
@@ -285,12 +312,11 @@
             </mat-expansion-panel>
           </mat-accordion>
 
-          <mat-list-item>
+          <mat-list-item [routerLink]="['/dashboard/telemetry-dashboard']" class="single-line">
             <!-- Entradas principales -->
-            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu"
-              [routerLink]="['/dashboard/telemetry-dashboard']">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
               <mat-icon>
-                <img src="assets/images/menu-icon.svg" alt="">
+                <img src="assets/menu-icon.svg" alt="">
               </mat-icon>
               Telemetry
             </div>
@@ -298,14 +324,13 @@
 
 
           <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
+            <mat-expansion-panel class="last-list">
+              <mat-expansion-panel-header [routerLink]="['/dashboard/exception-dashboard']">
                 <mat-panel-title>
                   <!-- Cabeceras del submenu -->
-                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center"
-                    [routerLink]="['/dashboard/exception-dashboard']">
+                  <div fxLayout="row" fxLayoutAlign="space-between center d-flex align-items-center">
                     <mat-icon>
-                      <img src="assets/images/menu-icon.svg" alt="">
+                      <img src="assets/menu-icon.svg" alt="">
                     </mat-icon>
                     Exception List
                   </div>
@@ -315,35 +340,45 @@
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Semester Assesment Test Exception
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Periodic Assesment Test Exception
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Download Exception List
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Student Attendance Exception
                   </div>
                 </mat-list-item>
                 <mat-list-item>
                   <!-- Entradas de cada submenú  -->
                   <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <mat-icon></mat-icon>
+                    <mat-icon>
+                      <img src="assets/right-arrow.svg" alt="" class="right-arrow">
+                    </mat-icon>
                     Teacher Attendance Exception
                   </div>
                 </mat-list-item>
@@ -353,24 +388,25 @@
 
         </mat-nav-list>
         <mat-nav-list class="user-bottom">
-          <mat-list-item class="d-flex justify-content-center">
+          <mat-list-item class="">
             <!-- Entradas principales -->
-            <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="">
 
               <div class="user-info border-0 text-center">
+
                 <div class="user-det">
-                  <span>Logged in as</span>
+                  <span style="opacity: 0.5;">Logged in as</span>
                   <h3>{{email}}</h3>
-                  <button type="button" class="my-3 btn btn-labeled btn-primary pe-5 d-block" (click)="logout()">
-                    <span class="btn-label me-4 p-3"><img src="../../../assets/images/logout-icon.png" alt="" height="20px" width="30px"></span>Logout</button>
-                  <span>Change Password</span>
+                  <button type="button" class="my-3 btn btn-labeled btn-primary" (click)="logout()">
+                    <span class="btn-label p-3 log-out"><img src="assets/logout.svg" alt=""></span>Logout</button>
+                  <div class=""><a href="#" class="text-decoration-underline">Change Password</a></div>
 
                 </div>
-                <div>
-                  <span>Version : 3.0</span>
-                  <span>Date : 27/07/2021</span>
+                <div class="row versions">
+                  <span class="col-sm-6" style="opacity:0.5">Version : 2.0</span>
+                  <span class="col-sm-6" style="opacity:0.5">Date : 09/08/2021</span>
                 </div>
-                <div class="user-det-icon"> <i class="lnr lnr-cog"></i></div>
+                <!-- <div class="user-det-icon"> <i class="lnr lnr-cog"></i></div> -->
               </div>
             </div>
           </mat-list-item>
@@ -384,7 +420,6 @@
               <router-outlet></router-outlet>
             </div>
           </div>
-          <!-- <app-footer></app-footer> -->
         </div>
       </mat-sidenav-content>
     </mat-sidenav-container>

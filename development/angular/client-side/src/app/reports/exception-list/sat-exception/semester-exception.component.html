@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding-top:15px !important;">
-    <div class="row" (window:resize)="onResize()">
-        <div class="col-sm-8">
+<div class="container-fluid">
+    <div class="row" (window:resize)="commonService.onResize(level);onResize()">
+        <div class="col-sm-8 d-flex justify-content-start">
             <div *ngIf='skul'>
                 <p id="dist">
                     Semester Assessment Test Exception Report for: <span (click)="homeClick()"
@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12" style="margin-bottom: 10px;">
+        <div class="col-sm-12 d-flex justify-content-start" style="margin-bottom: 10px;">
             <select id="period" [(ngModel)]="period" (change)="onPeriodSelect()">
                 <option [value]="period" disabled selected="selected">Choose TimeRange</option>
                 <option *ngFor="let period of timeRange,  let i =index" [(ngValue)]="period.key">
@@ -127,7 +127,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div id="patExceMap" style="width: 100%;"
-                [ngStyle]="{height: heigth > 1760 ? '83vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '76vh':'70vh'}">
+                [ngStyle]="{height: width > 3820 ? '83vh': width > 1920 && width < 2500 ? '80vh': width > 1367 && width < 1920 ? '74vh':'69vh'}">
             </div>
         </div>
     </div>

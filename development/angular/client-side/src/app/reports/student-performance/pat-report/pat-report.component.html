@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding-top:15px !important;">
+<div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(level);onResize()">
-        <div class="col-sm-8">
+        <div class="col-sm-8 d-flex justify-content-start">
             <div *ngIf='skul'>
                 <p id="dist">
                     Periodic Assessment Test Report for: <span (click)="linkClick()"
@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12" style="padding-bottom: 10px !important">
+        <div class="col-sm-12 d-flex justify-content-start" style="padding-bottom: 10px !important">
             <select id="period" [(ngModel)]="period"
                 (change)="period != 'select_month' ? onPeriodSelect() : showYearMonth()">
                 <option [value]="period" disabled selected="selected">Choose TimeRange</option>
@@ -132,9 +132,6 @@
                     {{cluster.Details.cluster_name}}
                 </option>
             </select>
-            <a class="float-right" href="javascript: void(0)" id="patHealthcard" (click)="goToHealthCard()"
-                style="font-weight: bold; text-decoration: underline; font-size: 13px; color: #3100cc">Access Progress
-                Card</a>
         </div>
     </div>
     <div class="row">

@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding-top:15px !important;">
+<div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-sm-8">
+        <div class="col-sm-8 d-flex justify-content-start" >
             <div *ngIf='skul'>
                 <p id="dist">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
@@ -110,7 +110,7 @@
             </div>
             <div class="row" id="second">
                 <div class="col-lg-9 col-md-12 col-sm-12">
-                    <div style="padding: 0%; margin-top: 25px;">
+                    <div style="padding: 0%; margin-top: 2vh;">
                         <canvas id="myChart" width=" 100%"></canvas>
                     </div>
                 </div>

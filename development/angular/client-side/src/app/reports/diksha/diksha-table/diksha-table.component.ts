@@ -1,3 +1,6 @@
+// The dashboard provides information on the total content plays at
+// the content level for Teacher Professional Development courses at the district level.
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
@@ -12,6 +15,7 @@ declare const $;
   encapsulation: ViewEncapsulation.None
 })
 export class DikshaTableComponent implements OnInit {
+  //table data variables:::::::::::::::::
   public result: any = [];
   public districtId: any = '';
   public timePeriod: any = 'all';
@@ -39,7 +43,7 @@ export class DikshaTableComponent implements OnInit {
   showPagination = false;
   validTransactions: any;
   table: any;
-  updatedTable:any = [];
+  updatedTable: any = [];
 
   constructor(
     public http: HttpClient,
@@ -54,25 +58,27 @@ export class DikshaTableComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
-  onChangePage(){
+  //show next page data::::::::::::::
+  onChangePage() {
     document.getElementById('spinner').style.display = 'block';
     this.pageChange();
   }
 
-  pageChange(){
+  pageChange() {
     this.filteredData = this.result.slice(((this.currentPage - 1) * this.pageSize), ((this.currentPage - 1) * this.pageSize + this.pageSize));
     this.tableCreation(this.filteredData);
   }
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
     this.collectionWise();
     this.onResize();
   }
 
 
+  //Loader and error message:::::
   loaderAndErr() {
     if (this.result.length !== 0) {
       document.getElementById('spinner').style.display = 'none';
@@ -90,11 +96,13 @@ export class DikshaTableComponent implements OnInit {
     document.getElementById('spinner').style.marginTop = '3%';
   }
 
+  //default page
   default() {
     this.currentPage = 1;
     this.collectionWise();
   }
 
+  //show data based on selected collection:::::::::
   collectionWise() {
     document.getElementById('home').style.display = "none";
     this.errMsg();
@@ -124,7 +132,7 @@ export class DikshaTableComponent implements OnInit {
       this.fileName = `${this.reportName}_${this.timePeriod}_${this.commonService.dateAndTime}`;
       this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
       this.fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
-     this.updatedTable = this.result = res;
+      this.updatedTable = this.result = res;
       // this.tableCreation(this.result);
       this.onChangePage();
 
@@ -149,7 +157,7 @@ export class DikshaTableComponent implements OnInit {
   }
 
 
-
+  //Showing data based on selected district:::::::::::::::::::::::::::::::::::::::::::::::::::
   districtWise(districtId) {
     this.errMsg();
     document.getElementById('home').style.display = "Block";
@@ -200,6 +208,8 @@ export class DikshaTableComponent implements OnInit {
 
   time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
   fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
+
+  //Showing data based on selected time-period:::::::::::::::
   timeRange(timePeriod) {
     this.errMsg();
     this.time = timePeriod == 'all' ? 'overall' : timePeriod;
@@ -216,7 +226,7 @@ export class DikshaTableComponent implements OnInit {
     this.result = [];
     this.reportData = [];
     this.service.dikshaTimeRangeTableData({ districtId: this.districtId, timePeriod: myTime, collectionType: this.collectionType }).subscribe(res => {
-      this.updatedTable =  this.result = res;
+      this.updatedTable = this.result = res;
       // this.tableCreation(this.result);
       this.onChangePage();
       if (this.hierName) {
@@ -245,6 +255,7 @@ export class DikshaTableComponent implements OnInit {
     })
   }
 
+  //download raw file::::::::::
   downloadRawFile() {
     this.service.downloadFile({ fileName: this.fileToDownload }).subscribe(res => {
       window.open(`${res['downloadUrl']}`, "_blank");
@@ -253,6 +264,7 @@ export class DikshaTableComponent implements OnInit {
     })
   }
 
+  //download the data showing on UI::::::::::
   downloadRoport() {
     this.commonService.download(this.fileName, this.reportData);
   }
@@ -266,9 +278,11 @@ export class DikshaTableComponent implements OnInit {
   }
 
   columns;
+
+  //Initialize table::::::::::::::::::::::
   tableCreation(dataSet) {
     var my_columns = this.commonService.getColumns(dataSet);
-    
+
     this.columns = my_columns;
 
     $(document).ready(function () {
@@ -317,35 +331,35 @@ export class DikshaTableComponent implements OnInit {
           leftColumns: 1
         }
       }
-      if(dataSet.length > 0)
+      if (dataSet.length > 0)
         obj['order'] = [[my_columns.length - 5, "desc"]];
-      
+
       this.table = $(`#table`).DataTable(obj);
-      $(document).ready(function() {
-        
-        $('#table').on( 'page.dt', function () 
-        {
+      $(document).ready(function () {
+
+        $('#table').on('page.dt', function () {
           $('.dataTables_scrollBody').scrollTop(0);
         });
-        }, 300);
-        document.getElementById('spinner').style.display = 'none';
-      });
-      this.showPagination = true;
+      }, 300);
+      document.getElementById('spinner').style.display = 'none';
+    });
+    this.showPagination = true;
   }
 
+  //Search data :::::::::::::::::
   updateFilter(event: any) {
     this.columns = this.commonService.getColumns(this.updatedTable);
     var val = event.target.value.toLowerCase();
     // filter our data
     let ref = this;
-    let temp:any = [];
+    let temp: any = [];
 
     if (val) {
       temp = this.updatedTable.filter(function (d: any) {
         let found = false;
-  
+
         for (let i = 0; i < ref.columns.length; i++) {
-          let value = d[ref.columns[i].data]; 
+          let value = d[ref.columns[i].data];
           if (typeof value === 'number') {
             value = value.toString()
           }
@@ -361,7 +375,7 @@ export class DikshaTableComponent implements OnInit {
       document.getElementById('spinner').style.display = 'block';
       temp = this.updatedTable;
     }
-        
+
     // update the rows
     this.result = temp;
     this.pageChange();

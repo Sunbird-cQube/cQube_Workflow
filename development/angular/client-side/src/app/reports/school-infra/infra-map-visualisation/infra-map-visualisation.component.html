@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding-top:15px !important;">
+<div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(level); onResize()">
-        <div class="col-lg-9 col-md-9 col-sm-12">
+        <div class="col-lg-9 col-md-9 col-sm-12 d-flex justify-content-start">
             <div *ngIf='skul'>
                 <p id="dist">
                     Report on Infrastructure access by location for: <span (click)="clickHome()"
@@ -61,82 +61,71 @@
             </p>
         </div>
     </div>
-    <div class="row" style="margin-bottom: 10px;">
-        <div class="col-sm-12">
-            <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
-            </button>
-            <button class="btn btn-secondary" id="clusterbtn" (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
-            </button>
-            <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise()">&nbsp;<strong>Schools</strong>
-            </button>
+    <div style="background: #fff; padding: 1%; border-radius: 10px;">
+        <div class="row" style="margin-bottom: 10px; ">
+            <div class="col-sm-12 d-flex justify-content-start">
+                <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                </button>
+                <button class="btn btn-secondary" id="clusterbtn"
+                    (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
+                </button>
+                <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise()">&nbsp;<strong>Schools</strong>
+                </button>
 
-            <select id="choose_infra" [(ngModel)]="infraData" (change)="oninfraSelect(infraData)">
-                <option [value]="infraData" disabled selected="selected">Choose a Infrastructure</option>
-                <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
-                    {{infra.value}}
-                </option>
-            </select>
+                <select id="choose_infra" [(ngModel)]="infraData" (change)="oninfraSelect(infraData)">
+                    <option [value]="infraData" disabled selected="selected">Choose a Infrastructure</option>
+                    <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
+                        {{infra.value}}
+                    </option>
+                </select>
 
-            <select id="choose_dist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
-                <option [value]="districtId" disabled selected="selected">Choose a District</option>
-                <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.details.district_id">
-                    {{dist.details.district_name}}
-                </option>
-            </select>
+                <select id="choose_dist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
+                    <option [value]="districtId" disabled selected="selected">Choose a District</option>
+                    <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.details.district_id">
+                        {{dist.details.district_name}}
+                    </option>
+                </select>
 
-            <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId" (change)="onBlockSelect(blockId)">
-                <option [value]="blockId" disabled selected="selected">Choose a Block</option>
-                <option *ngFor="let block of blockMarkers" [(ngValue)]="block.details.block_id">
-                    {{block.details.block_name}}
-                </option>
-            </select>
+                <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
+                    (change)="onBlockSelect(blockId)">
+                    <option [value]="blockId" disabled selected="selected">Choose a Block</option>
+                    <option *ngFor="let block of blockMarkers" [(ngValue)]="block.details.block_id">
+                        {{block.details.block_name}}
+                    </option>
+                </select>
 
-            <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
-                (change)="onClusterSelect(clusterId)">
-                <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
-                <option *ngFor="let cluster of clusterMarkers" [(ngValue)]="cluster.details.cluster_id"
-                    [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
-                    {{cluster.details.cluster_name}}
-                </option>
-            </select>
-            <a class="float-right" href="javascript: void(0)" id="infraHealthcard" (click)="goToHealthCard()">Access
-                Progress
-                Card</a>
+                <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
+                    (change)="onClusterSelect(clusterId)">
+                    <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
+                    <option *ngFor="let cluster of clusterMarkers" [(ngValue)]="cluster.details.cluster_id"
+                        [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
+                        {{cluster.details.cluster_name}}
+                    </option>
+                </select>
+
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div style="float: left; width: 90%;">
-                <div #mapContainer id="infraMap" class="active" style="width: 100%;"
-                    [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '82vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}">
+        <div class="row">
+            <div class="col-sm-12">
+                <div style="float: left; width: 88%;">
+                    <div #mapContainer id="infraMap" class="active" style="width: 100%;"
+                        [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '82vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}">
+                    </div>
+                </div>
+                <div [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '82vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}"
+                    style="float: left; width: 11%; margin-left: 1%;  padding-left: 1.5%;border-radius: 3%;">
+                    <h5 id="legend" style="margin-left: 20%; padding-top: 1%;">Legend</h5>
+                    <div *ngFor="let value of values; let i = index">
+                        <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
+                            [style.background-color]="legendColors[i]">
+                            {{values[i]}} </span>
+                    </div>
+                    <p id="legendNote"><span style="font-weight: bold; padding-left: 0.5%;">Note: </span>These colors
+                        are applicable for the
+                        absolute selection only</p>
                 </div>
             </div>
-            <div style="float: left; width: 9%; margin-left: 1%;">
-                <h5 id="legend" style="margin-left: 20%;">Legend</h5>
-                <div *ngFor="let value of values; let i = index">
-                    <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
-                        [style.background-color]="legendColors[i]">
-                        {{values[i]}} </span>
-                </div>
-                <p id="legendNote"><span style="font-weight: bold;">Note: </span>These colors are applicable for the
-                    absolute selection only</p>
-            </div>
         </div>
-
-        <!-- <div [ngClass]="selected == 'absolute' ? 'col-sm-11' : 'col-sm-12'">
-            <div #mapContainer id="infraMap" class="active" style="width: 100%;"
-                [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '76vh':'70vh'}">
-            </div>
-        </div>
-        <div class="col-sm-1" *ngIf="selected == 'absolute'">
-            <h5 id="legend">Legend</h5>
-            <p id="legendNote"><span style="font-weight: bold;">Note: </span>These colors are applicable for the absolute
-                selection only</p>
-            <div *ngFor="let value of values; let i = index">
-                <span class="legends" style="float: left;"  [ngStyle]="{color: i> 1 ?'black': 'white'}" [style.background-color]="legendColors[i]">
-                    {{values[i]}} </span>
-            </div>
-        </div> -->
     </div>
     <div class="row" id="footer">
         <div class="col-sm-3">

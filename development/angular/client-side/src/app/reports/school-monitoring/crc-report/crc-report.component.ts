@@ -10,7 +10,6 @@ import { HttpClient } from "@angular/common/http";
 import { CrcReportService } from "../../../services/crc-report.service";
 import { Router } from "@angular/router";
 import { Chart } from "chart.js";
-import { ExportToCsv } from "export-to-csv";
 import { AppServiceComponent } from "../../../app.service";
 declare const $;
 
@@ -163,25 +162,31 @@ export class CrcReportComponent implements OnInit {
     private readonly _router: Router
   ) {
     localStorage.removeItem("resData");
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
   }
 
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.levelWiseFilter();
+    this.scatterChart.destroy();
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
   ngOnInit() {
     this.state = this.commonService.state;
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "block";
+    //document.getElementById("backBtn").style.display = "none";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
 
-    this.createChart(["clg"], [], "", {});
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
     this.service.getMonthYear().subscribe((res) => {
       this.getMonthYear = res;
@@ -226,9 +231,11 @@ export class CrcReportComponent implements OnInit {
           this.getClusters(data.districtId, data.blockId, data.id);
         }
       } else {
-        this.onResize();
+        this.levelWiseFilter()
         // this.districtWise();
       }
+    }, err => {
+      this.commonService.loaderAndErr([]);
     });
   }
 
@@ -265,6 +272,8 @@ export class CrcReportComponent implements OnInit {
         if (level === "district") {
           this.myDistData(this.myDistrict, true);
         }
+      }, err => {
+        this.commonService.loaderAndErr([]);
       });
   }
 
@@ -295,6 +304,8 @@ export class CrcReportComponent implements OnInit {
         );
 
         if (level === "block") this.myBlockData(blockId, true);
+      }, err => {
+        this.commonService.loaderAndErr([]);
       });
   }
 
@@ -333,6 +344,8 @@ export class CrcReportComponent implements OnInit {
         );
 
         this.myClusterData(clusterId, true);
+      }, err => {
+        this.commonService.loaderAndErr([]);
       });
   }
 
@@ -381,7 +394,7 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-    this.onResize();
+    this.levelWiseFilter()
   }
   onClockHome() {
     this.period = "overall";
@@ -399,7 +412,9 @@ export class CrcReportComponent implements OnInit {
       $("#table").DataTable().destroy();
       $("#table").empty();
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.changeDetection.detectChanges();
     this.reportData = [];
     this.tableHead = "District Name";
@@ -475,6 +490,8 @@ export class CrcReportComponent implements OnInit {
               xAxis: x_axis.value,
               yAxis: y_axis.value,
             };
+            this.labels = labels;
+            this.obj = obj;
             this.createChart(labels, this.chartData, this.tableHead, obj);
             this.tableData = this.result;
             this.dtOptions = {
@@ -483,14 +500,7 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY:
-                this.height > 1760
-                  ? "64vh"
-                  : this.height > 1180 && this.height < 1760
-                    ? "54vh"
-                    : this.height > 667 && this.height < 1180
-                      ? "44vh"
-                      : "35vh",
+              scrollY: "32vh",
               scrollX: true,
               scrollCollapse: true,
               paging: false,
@@ -745,7 +755,8 @@ export class CrcReportComponent implements OnInit {
               xAxis: x_axis.value,
               yAxis: y_axis.value,
             };
-
+            this.labels = labels;
+            this.obj = obj;
             this.createChart(labels, this.chartData, this.tableHead, obj);
             this.changeDetection.detectChanges();
             this.tableData = this.crcBlocksNames;
@@ -755,14 +766,7 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY:
-                this.height > 1760
-                  ? "64vh"
-                  : this.height > 1180 && this.height < 1760
-                    ? "54vh"
-                    : this.height > 667 && this.height < 1180
-                      ? "44vh"
-                      : "35vh",
+              scrollY: "32vh",
               scrollX: true,
               scrollCollapse: true,
               paging: false,
@@ -899,7 +903,8 @@ export class CrcReportComponent implements OnInit {
             xAxis: x_axis.value,
             yAxis: y_axis.value,
           };
-
+          this.labels = labels;
+          this.obj = obj;
           this.createChart(labels, this.chartData, this.tableHead, obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcClusterNames;
@@ -909,14 +914,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY:
-              this.height > 1760
-                ? "64vh"
-                : this.height > 1180 && this.height < 1760
-                  ? "54vh"
-                  : this.height > 667 && this.height < 1180
-                    ? "44vh"
-                    : "35vh",
+            scrollY: "32vh",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -1055,7 +1053,8 @@ export class CrcReportComponent implements OnInit {
             xAxis: x_axis.value,
             yAxis: y_axis.value,
           };
-
+          this.labels = labels;
+          this.obj = obj;
           this.createChart(labels, this.chartData, this.tableHead, obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcSchoolNames;
@@ -1065,14 +1064,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY:
-              this.height > 1760
-                ? "64vh"
-                : this.height > 1180 && this.height < 1760
-                  ? "54vh"
-                  : this.height > 667 && this.height < 1180
-                    ? "44vh"
-                    : "35vh",
+            scrollY: "32vh",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -1134,18 +1126,21 @@ export class CrcReportComponent implements OnInit {
       .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
   }
 
+  labels: any;
+  obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $("#myChart");
     ctx.attr(
       "height",
       this.height > 1760
-        ? "67vh"
+        ? "64vh"
         : this.height > 1180 && this.height < 1760
-          ? "60vh"
+          ? "63vh"
           : this.height > 667 && this.height < 1180
             ? "52vh"
-            : "46vh"
+            : "44vh"
     );
+    console.log(ctx);
     this.scatterChart = new Chart("myChart", {
       type: "scatter",
       data: {
@@ -1160,7 +1155,7 @@ export class CrcReportComponent implements OnInit {
               this.height > 1760
                 ? 16
                 : this.height > 1180 && this.height < 1760
-                  ? 10
+                  ? 12
                   : this.height > 667 && this.height < 1180
                     ? 8
                     : 5,
@@ -1168,7 +1163,7 @@ export class CrcReportComponent implements OnInit {
               this.height > 1760
                 ? 18
                 : this.height > 1180 && this.height < 1760
-                  ? 12
+                  ? 14
                   : this.height > 667 && this.height < 1180
                     ? 9
                     : 6,
@@ -1237,9 +1232,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 30
                     : this.height > 1180 && this.height < 1760
-                      ? 23
+                      ? 25
                       : this.height > 667 && this.height < 1180
-                        ? 13
+                        ? 15
                         : 10,
               },
               scaleLabel: {
@@ -1250,9 +1245,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 32
                     : this.height > 1180 && this.height < 1760
-                      ? 22
+                      ? 24
                       : this.height > 667 && this.height < 1180
-                        ? 12
+                        ? 14
                         : 10,
               },
             },
@@ -1269,9 +1264,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 30
                     : this.height > 1180 && this.height < 1760
-                      ? 23
+                      ? 25
                       : this.height > 667 && this.height < 1180
-                        ? 13
+                        ? 15
                         : 10,
               },
               scaleLabel: {
@@ -1282,9 +1277,9 @@ export class CrcReportComponent implements OnInit {
                   this.height > 1760
                     ? 32
                     : this.height > 1180 && this.height < 1760
-                      ? 22
+                      ? 24
                       : this.height > 667 && this.height < 1180
-                        ? 12
+                        ? 14
                         : 10,
               },
             },

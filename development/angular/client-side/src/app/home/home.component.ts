@@ -15,10 +15,10 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   currentDashboardGroup: any = "/dashboard/infrastructure-dashboard";
   edate: Date;
-  showBackBtn = true;
-  showAccesCard = false;
+
   @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
   private _mobileQueryListener: () => void;
+  showBackBtn: boolean = false;
 
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
     private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router) {
@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
+
   email: any;
   role: any;
   showSubmenu1: any = false;
@@ -74,6 +75,9 @@ export class HomeComponent implements OnInit {
       this.showUser = false;
     } else {
       this.showUser = true;
+    }
+    if (this.router.url.includes('dashboard') && this.role == 'admin') {
+      this.showBackBtn = true;
     }
   }
 
@@ -163,7 +167,7 @@ export class HomeComponent implements OnInit {
   }
 
   sccessProgressCard() {
-    //this.service.setProgressCardValue(true);
+    this.service.setProgressCardValue(true);
   }
 
   setCurrentDashboardGroup(route) {

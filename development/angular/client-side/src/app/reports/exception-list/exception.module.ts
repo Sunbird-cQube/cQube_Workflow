@@ -13,19 +13,19 @@ const exceptionRoutes: Routes = [
   {
     path: '', canActivate: [AuthGuard], children: [
       {
-        path: 'sem-exception', component: SemesterExceptionComponent, canActivateChild: [AuthGuard]
+        path: 'sem-exception', component: SemesterExceptionComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'download-missing-data', component: MissingDataComponent, canActivateChild: [AuthGuard]
+        path: 'download-missing-data', component: MissingDataComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'pat-exception', component: PATExceptionComponent, canActivateChild: [AuthGuard]
+        path: 'pat-exception', component: PATExceptionComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'student-attendance-exception', component: StudentAttendanceExceptionComponent, canActivateChild: [AuthGuard]
+        path: 'student-attendance-exception', component: StudentAttendanceExceptionComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       },
       {
-        path: 'teacher-attendance-exception', component: TeacherAttendanceExceptionComponent, canActivateChild: [AuthGuard]
+        path: 'teacher-attendance-exception', component: TeacherAttendanceExceptionComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }

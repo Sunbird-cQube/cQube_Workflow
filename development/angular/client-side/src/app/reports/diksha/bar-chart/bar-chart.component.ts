@@ -9,6 +9,8 @@ import * as Highcharts from 'highcharts/highstock'
 export class BarChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions;
+
+  //chart data variables
   @Input() public category: String[];
   @Input() public data: Number[];
   @Input() public xData: Number[];
@@ -33,6 +35,7 @@ export class BarChartComponent implements OnInit {
     this.onResize();
   }
 
+  //generate bar chart:::::::::::
   createBarChart() {
     var xData = this.xData;
     var name = this.reportName;
@@ -148,6 +151,7 @@ export class BarChartComponent implements OnInit {
     }
     this.Highcharts.chart("container", this.chartOptions);
 
+    //Bar tooltips::::::::::::::::::::::
     function getPointCategoryName(point, reportName, xData, level, type) {
       var obj = '';
       if (reportName == "course") {

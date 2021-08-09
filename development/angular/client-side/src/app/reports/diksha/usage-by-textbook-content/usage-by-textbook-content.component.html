@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding-top:15px !important;">
+<div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-lg-8 col-md-8 col-sm-12">
+        <div class="col-lg-8 col-md-8 col-sm-12 d-flex justify-content-start">
             <div *ngIf='all'>
                 <p id="dist_level">
                     {{header}} Content Usage: <span (click)="default()"
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 5px;">
-        <div class="col-sm-12">
+        <div class="col-sm-12 d-flex justify-content-start">
             <select id="time_range" class="select-control" [(ngModel)]="timePeriod" name="timePeriod"
                 (change)="timeRange(timePeriod)">
                 <option [value]="timePeriod" disabled selected="selected">Choose Time Range

@@ -1,4 +1,4 @@
-import * as config from '../../../assets/config.json';
+import * as config from '../../assets/config.json';
 import { environment } from '../../environments/environment';
 
 let state = config.default[`${environment.stateName}`].name;

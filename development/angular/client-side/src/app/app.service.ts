@@ -6,6 +6,7 @@ import * as data from '../assets/states_for_cQube.json';
 import * as config from '../assets/config.json';
 import * as L from 'leaflet';
 import { ExportToCsv } from 'export-to-csv';
+import { BehaviorSubject } from 'rxjs';
 
 export var globalMap;
 declare const $;
@@ -14,6 +15,8 @@ declare const $;
     providedIn: 'root'
 })
 export class AppServiceComponent {
+    toggleMenu = new BehaviorSubject<any>(false);
+    callProgressCard = new BehaviorSubject<any>(false);
     public map;
     public baseUrl = environment.apiEndpoint;
     public token;
@@ -663,5 +666,10 @@ export class AppServiceComponent {
     getDefault() {
         this.logoutOnTokenExpire();
         return this.http.get(`${this.baseUrl}/getDefault`);
+    }
+
+    //
+    setProgressCardValue(status) {
+        this.callProgressCard.next(status);
     }
 }
