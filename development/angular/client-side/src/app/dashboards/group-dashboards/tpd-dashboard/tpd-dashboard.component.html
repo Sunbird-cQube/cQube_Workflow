@@ -1,0 +1,139 @@
+<div id="spinner">
+    <div class="loading">Loading&#8230;</div>
+</div>
+
+<div class="main-panel container" style="padding-top: 10px !important;">
+    <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector>
+
+    <div class="report-cards">
+        <div class="row">
+            <div class="col-sm-12 col-xl-4">
+                <span id="dcc" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-course']"
+                    (click)="fetchTelemetry($event,'dcc')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{dccViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Usage by Course</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.dccTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-xl-4">
+                <span id="dtr" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
+                    (click)="fetchTelemetry($event,'dtr')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="ic-equalizer1" src="../../assets/images/teacher.png" alt=""
+                                            height="30px" width="30px"></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{dtrViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Usage By <br> Course Content</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.dtrTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-xl-4">
+                <span id="tdp-cp" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
+                    (click)="fetchTelemetry($event,'tpd-cp')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{tpdcpViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>PTD Course Progress</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.tpdcpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xl-4">
+                <span id="tpd-enroll" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
+                    (click)="fetchTelemetry($event,'tpd-enroll')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="ic-equalizer1" src="../../assets/images/teacher.png" alt=""
+                                            height="30px" width="30px"></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{tpdenrollViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>TPD Total <br> Enrollment/Completion </h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.tpdcpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-xl-4">
+                <span id="tpd-comp" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-completion']"
+                    (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
+                    <div class="card my-3">
+                        <div class="card-header bg-pink border-0">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p class="text-white mb-0"><strong>Views :</strong> {{tpdcompViews}}</p>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>TPD Completion <br> Percentage</h6>
+                        </div>
+                        <div class="card-footer bg-light-white-grad-pink border-0">
+                            <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

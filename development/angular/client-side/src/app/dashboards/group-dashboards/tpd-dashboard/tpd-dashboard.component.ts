@@ -1,44 +1,20 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { AppServiceComponent } from "../app.service";
-import { KeycloakSecurityService } from "../keycloak-security.service";
-import { environment } from "../../environments/environment";
+import { AppServiceComponent } from "../../../app.service";
+import { KeycloakSecurityService } from "../../../keycloak-security.service";
+import { environment } from "../../../../environments/environment";
+import { dashboardReportDescriptions } from "../../description.config";
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.css"],
+  selector: 'app-tpd-dashboard',
+  templateUrl: './tpd-dashboard.component.html',
+  styleUrls: ['./tpd-dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class TpdDashboardComponent implements OnInit {
   state;
   semester = true;
+  reportGroup = "Teacher Professional Development"
   //tooltip texts::::::::::::::
-  imrTooltip;
-  crTooltip;
-  udiseTooltip;
-  compositeTooltip;
-  dscTooltip;
-  dccTooltip;
-  utTooltip;
-  dtrTooltip;
-  utcTooltip;
-  crcrTooltip;
-  srTooltip;
-  patTooltip;
-  semExpTooltip;
-  isdataTooltip;
-  sarTooltip;
-  tarTooltip;
-  telemDataTooltip;
-  heatChartTooltip;
-  lotableTooltip;
-  tpdtpTooltip;
-  tpdcpTooltip;
-  healthCardTooltip;
-  patExcptTooltip;
-  sarExcptTooltip;
-  tarExpTooltip;
-  satTooltip;
-  satHeatChartTooltip;
+  toolTip = dashboardReportDescriptions;
 
   hiddenPass = false;
   edate: Date;
@@ -104,42 +80,7 @@ export class DashboardComponent implements OnInit {
     this.changeDataSourceStatus();
   }
 
-  getDefault() {
-    this.service.getDefault().subscribe(res => {
-      this.managementType = res[0]['name'];
-      this.categoryType = res[1]['name'];
-      this.setDefault();
-    });
-  }
 
-  setDefault() {
-    this.changeDetection.detectChanges();
-    if (localStorage.getItem('management') == null) {
-      this.management = this.managementType;
-      this.category = this.categoryType;
-      let obj = {
-        id: this.managementType,
-        value: this.service.changeingStringCases(this.managementType.replace(/_/g, ' '))
-      }
-      localStorage.setItem("management", JSON.stringify(obj));
-      obj = {
-        id: this.categoryType,
-        value: this.service.changeingStringCases(this.categoryType.replace(/_/g, ' '))
-      }
-      localStorage.setItem("category", JSON.stringify(obj));
-    } else {
-      this.management = JSON.parse(localStorage.getItem('management')).id;
-      this.category = JSON.parse(localStorage.getItem('category')).id;
-    }
-    if (this.managementType) {
-      if (this.managements.length <= 0) {
-        this.managements.push({ id: this.managementType, value: this.service.changeingStringCases(this.managementType.replace(/_/g, ' ')) })
-      }
-    } else {
-      this.management = JSON.parse(localStorage.getItem('management')).id;
-      this.category = JSON.parse(localStorage.getItem('category')).id;
-    }
-  }
 
   ngOnInit() {
     sessionStorage.clear();
@@ -151,90 +92,16 @@ export class DashboardComponent implements OnInit {
     } else {
       this.hiddenPass = true;
     }
+
+    //calling function to show telemetry views..................
+
     this.callOnInterval();
     setInterval(() => {
       this.callOnInterval();
     }, 30000);
 
-    this.state = this.service.state;
-    this.imrTooltip = `This geo-location-based dashboard provides insights on school infrastructure access across ${this.state}.`;
-    this.crTooltip = `This dashboard allows users to correlate various available metrics on school infrastructure data using a combined visualisation of the scatter plot and table.`;
-    this.udiseTooltip = `This geo-location dashboard converts data available in UDISE into actionable indices that can be visualised at various administrative levels across ${this.state}`;
-    this.compositeTooltip = `This dashboard brings metrics from other dashboards and allows users to correlate various metrics among each other.`;
-    this.dscTooltip = `This dashboard provides insights on grade and subject-wise consumption of TPD courses broken by user type.`;
-    this.dccTooltip = `This dashboard provides insight on district-wise usage of TPD courses`;
-    this.utTooltip = `This dashboard provides insights on district-wise usage of ETB`;
-    this.dtrTooltip = `This dashboard provides insights on total usage at the course content level.`;
-    this.utcTooltip = `This dashboard provides insights on the total usage at the ETB content level.`;
-    this.crcrTooltip = `This dashboard allows users to correlate various available metrics calculated from the CRC visit data using a combined visualisation of the scatter plot and table.`;
-    this.srTooltip = `This geo-location-based dashboard provides insights on student semester performance across ${this.state}.`;
-    this.patTooltip = `This geo-location-based dashboard provides insights on student Periodic Assessment Test (PAT) performance across ${this.state}.`;
-    this.semExpTooltip = `This geo-location-based dashboard provides insights on those schools that did not upload their semester scores.`;
-    this.isdataTooltip = `This dashboard allows you to download exception reports for the different dashboards available on cQube`;
-    this.sarTooltip = `This geo-location-based dashboard provides insights on Student Attendance across ${this.state}.`;
-    this.tarTooltip = `This geo-location-based dashboard provides insights on Teacher Attendance across ${this.state} `;
-    this.telemDataTooltip = `This dashboard provides insights on usage statistics for cQube`;
-    this.heatChartTooltip = `This dashboard provides insights on student performance at the question level.`;
-    this.lotableTooltip = `This dashboard provides insights on student performance at the learning outcome level.`;
-    this.tpdtpTooltip = `This dashboard provides details on district-wise TPD course enrolment progress broken at the individual course level.`;
-    this.tpdcpTooltip = `This dashboard provides details on district-wise TPD course enrolment progress broken at the individual course level.`;
-    this.healthCardTooltip = `This dashboard brings metrics from other dashboards and allows users to correlate various metrics among each other.`;
-    this.patExcptTooltip = `This geo-location-based dashboard provides insights on those schools that did not upload their periodic assessment scores.`;
-    this.tarExpTooltip = `This geo-location-based dashboard provides insights on those schools that did not upload their teacher attendance data.`;
-    this.sarExcptTooltip = `This geo-location-based dashboard provides insights on those schools that did not upload their student attendance data.`;
-    this.satTooltip = `This geo-location-based dashboard provides insights on student Periodic Assessment Test (SAT) performance across ${this.state}.`;
-    this.satHeatChartTooltip =
-      "This dashboard provides insights on student performance at the question level.";
-
-    this.service.management_category_metaData().subscribe((res) => {
-      this.managements = res["mydata"].management;
-      this.managements.unshift({ id: "overall", value: "Overall" });
-      this.categories = res["mydata"].category;
-      this.categories.unshift({ id: "overall", value: "Overall" });
-      document.getElementById("spinner").style.display = "none";
-    }, err => {
-      let isThere = false;
-      this.managements.map(item => {
-        if (item.id != JSON.parse(localStorage.getItem('management')).id) {
-          isThere = true;
-          return isThere;
-        }
-      });
-      if (isThere) {
-        this.managements.unshift(JSON.parse(localStorage.getItem('management')));
-      }
-      if (JSON.parse(localStorage.getItem('management'))) {
-        var name = this.managements.find(a => { return a.id == JSON.parse(localStorage.getItem('management')).id });
-        if (name && name.value != 'Overall') {
-          this.managements.unshift({ id: "overall", value: "Overall" });
-        }
-      }
-      document.getElementById("spinner").style.display = "none";
-    });
-    this.getDefault();
   }
 
-  //Management and category
-  managements = [];
-  public management;
-  categories = [];
-  public category;
-  onSelectManagement() {
-    var obj = {
-      id: this.management,
-      value: this.service.changeingStringCases(this.management.replace(/_/g, ' '))
-    }
-    localStorage.setItem("management", JSON.stringify(obj));
-    this.changeDetection.detectChanges();
-  }
-  onSelectCategory() {
-    var obj = {
-      id: this.category,
-      value: this.service.changeingStringCases(this.category.replace(/_/g, ' '))
-    }
-    localStorage.setItem("category", JSON.stringify(obj));
-    this.changeDetection.detectChanges();
-  }
 
   changeDataSourceStatus() {
     this.service.getDataSource().subscribe((res: any) => {
@@ -285,7 +152,6 @@ export class DashboardComponent implements OnInit {
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);
-    document.getElementById("homeBtn").style.display = "block";
     document.getElementById("backBtn").style.display = "none";
     this.service.homeControl();
   }
