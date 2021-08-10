@@ -14866,11 +14866,11 @@ Request url = ${invokehttp.request.url}</value>
                         <properties>
                             <entry>
 <key>record-reader</key>
-<value>c298f591-8b66-3f7f-0000-000000000000</value>
+<value>81154114-4567-31f3-0000-000000000000</value>
                             </entry>
                             <entry>
 <key>record-writer</key>
-<value>6757d623-0ab9-3a6c-0000-000000000000</value>
+<value>6e2e2271-2162-3fa7-0000-000000000000</value>
                             </entry>
                             <entry>
 <key>replacement-value-strategy</key>
@@ -15935,7 +15935,7 @@ ${filename:startsWith('diksha_tpd'):ifElse("delete from  diksha_tpd_staging wher
                             </entry>
                             <entry>
 <key>record-writer</key>
-<value>6757d623-0ab9-3a6c-0000-000000000000</value>
+<value>b6c62a3d-d539-35d1-0000-000000000000</value>
                             </entry>
                             <entry>
 <key>include-zero-record-flowfiles</key>
@@ -43544,5 +43544,5 @@ WHERE ff_uuid = '${files_uuid}'</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/21/2021 18:46:10 IST</timestamp>
+    <timestamp>08/10/2021 13:57:58 IST</timestamp>
 </template>
