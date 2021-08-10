@@ -78,6 +78,8 @@ export class HomeComponent implements OnInit {
     }
     if (this.router.url.includes('dashboard') && this.role == 'admin') {
       this.showBackBtn = true;
+    } else {
+      this.showBackBtn = false;
     }
   }
 

@@ -1,7 +1,7 @@
 @import "~leaflet/dist/leaflet.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -876,9 +876,7 @@ table.dataTable.nowrap td {
     padding-top: 15px;
     border-bottom: 1px solid #fecaaf;
 }
-.content {
-    /* background-color: #ffebcc; */
-}
+
 .btn-group-sm > .btn, .btn-sm {
     border-radius: 8px !important;
 }
@@ -903,3 +901,8 @@ table.dataTable.nowrap td {
   .report-cards h5,  h5 {
     margin-bottom: 20px;
   }
+
+  button:focus {
+    outline: 0px dotted !important;
+    outline: 0px auto -webkit-focus-ring-color !important;
+}

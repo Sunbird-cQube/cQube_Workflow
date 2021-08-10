@@ -139,27 +139,31 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     };
     this.service.getDateRange({ report: "tarException" }).subscribe(
       (res) => {
-        this.getMonthYear = res;
-        this.years = Object.keys(this.getMonthYear);
-        this.year = this.years[this.years.length - 1];
-        var allMonths = [];
-        allMonths = this.getMonthYear[`${this.year}`];
-        this.months = [];
-        allMonths.forEach((month) => {
-          var obj = {
-            name: month.month_name,
-            id: month.month,
-          };
-          this.months.push(obj);
-        });
-        this.month = this.months[this.months.length - 1].id;
-        if (this.month) {
-          this.month_year = {
-            month: null,
-            year: null,
-          };
-          this.changeDetection.detectChanges();
-          this.levelWiseFilter();
+        try {
+          this.getMonthYear = res;
+          this.years = Object.keys(this.getMonthYear);
+          this.year = this.years[this.years.length - 1];
+          var allMonths = [];
+          allMonths = this.getMonthYear[`${this.year}`];
+          this.months = [];
+          allMonths.forEach((month) => {
+            var obj = {
+              name: month.month_name,
+              id: month.month,
+            };
+            this.months.push(obj);
+          });
+          this.month = this.months[this.months.length - 1].id;
+          if (this.month) {
+            this.month_year = {
+              month: null,
+              year: null,
+            };
+            this.changeDetection.detectChanges();
+            this.levelWiseFilter();
+          }
+        } catch (e) {
+          this.commonService.loaderAndErr(this.markers);
         }
       },
       (err) => {

@@ -16,9 +16,8 @@
 }
 .card .card-header .card-header-left {
   border-radius: 0 0 0 7px;
-  left: 15px;
-  top: 8px;
-  /* display: inline-block; */
+  left: 10px;
+  top: 2px;
   float: right;
   padding: 8px 0;
   position: absolute;
@@ -26,12 +25,13 @@
 }
 .card .card-header .card-head-text {
   right: 20px;
-  top: 8px;
-  /* display: inline-block; */
+  left: 10px;
+  top: 2px;
   float: right;
   padding: 8px 0;
   position: absolute;
   z-index: 1;
+  text-align: right;
 }
 .card .card-header .card-head-text p {
   font-size: 14px;

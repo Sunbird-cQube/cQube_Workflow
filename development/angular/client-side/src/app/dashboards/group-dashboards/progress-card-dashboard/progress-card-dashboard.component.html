@@ -1,13 +1,9 @@
-<div id="spinner">
-    <div class="loading">Loading&#8230;</div>
-</div>
-
-<div class="main-panel container" style="padding-top: 10px !important;">
+<div class="main-panel" style="padding-top: 10px !important;">
     <app-management-selector [reportGroup]="reportGroup">
     </app-management-selector>
     <div class="report-cards">
         <div class="row">
-            <div class="col-sm-12 col-xl-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="healthCard" [routerLink]="false ? ['/coming-soon'] :['/progressCard']"
                     (click)="fetchTelemetry($event,'healthCard')" class="text-decoration-none">
                     <div class="card my-3">
@@ -18,7 +14,14 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{healthCardViews}}</p>
+                                <p *ngIf="healthCardViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{healthCardViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">

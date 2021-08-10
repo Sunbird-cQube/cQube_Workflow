@@ -83,7 +83,6 @@ export class ExceptionDashboardComponent implements OnInit {
 
   ngOnInit() {
     sessionStorage.clear();
-    document.getElementById("spinner").style.display = "block";
     document.getElementById("accessProgressCard").style.display = "none";
     //document.getElementById("backBtn").style.display = "block";
     if (localStorage.getItem("roleName") == "admin") {

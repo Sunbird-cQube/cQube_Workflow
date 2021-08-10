@@ -79,7 +79,7 @@ export class PATExceptionComponent implements OnInit {
   allSubjects: string[];
   subject = '';
 
-  reportName = 'periodic_assessment_test_exception';
+  reportName = 'periodic_equalizer_test_exception';
   managementName;
   management;
   category;
@@ -115,7 +115,7 @@ export class PATExceptionComponent implements OnInit {
     );
     this.skul = true;
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.changeDetection.detectChanges();
     this.levelWiseFilter();

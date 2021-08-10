@@ -94,7 +94,7 @@ export class PATReportComponent implements OnInit {
   distFilter = [];
   blockFilter = [];
   clusterFilter = [];
-  reportName = "periodic_assessment_test";
+  reportName = "periodic_equalizer_test";
 
   public getMonthYear: any;
   public years: any = [];
