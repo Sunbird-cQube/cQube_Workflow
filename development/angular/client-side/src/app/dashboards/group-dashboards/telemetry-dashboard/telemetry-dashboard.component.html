@@ -1,15 +1,11 @@
-<div id="spinner">
-    <div class="loading">Loading&#8230;</div>
-</div>
-
-<div class="main-panel container" style="padding-top: 10px !important;">
+<div class="main-panel" style="padding-top: 10px !important;">
     <app-management-selector [reportGroup]="reportGroup">
     </app-management-selector>
     <div class="report-cards">
         <div class="row">
-            <div class="col-sm-12 col-xl-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="telemData" [routerLink]="!nifi_telemetry ? ['/coming-soon'] :['/telemetry']"
-                (click)="fetchTelemetry($event,'telemData')" class="text-decoration-none">
+                    (click)="fetchTelemetry($event,'telemData')" class="text-decoration-none">
                     <div class="card my-3">
                         <div class="card-header bg-pink border-0">
                             <div class="card-header-left">

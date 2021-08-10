@@ -91,7 +91,7 @@ export class DikshaTPDTeachersPercentageComponent implements OnInit {
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.service.courseFilter({ timePeriod: 'All' }).subscribe(res => {
       this.scousesTOShow = this.courses = res;
     });

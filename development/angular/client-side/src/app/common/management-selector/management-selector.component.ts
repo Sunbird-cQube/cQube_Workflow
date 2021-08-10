@@ -36,32 +36,39 @@ export class ManagementSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.management_category_metaData().subscribe((res) => {
-      this.managements = res["mydata"].management;
-      this.managements.unshift({ id: "overall", value: "Overall" });
-      this.categories = res["mydata"].category;
-      this.categories.unshift({ id: "overall", value: "Overall" });
-      document.getElementById("spinner").style.display = "none";
-    }, err => {
-      let isThere = false;
-      this.managements.map(item => {
-        if (item.id != JSON.parse(localStorage.getItem('management')).id) {
-          isThere = true;
-          return isThere;
+    this.managements = JSON.parse(localStorage.getItem('managements'))
+    if (!this.managements) {
+      this.service.management_category_metaData().subscribe((res) => {
+        this.managements = res["mydata"].management;
+        this.managements.unshift({ id: "overall", value: "Overall" });
+        this.categories = res["mydata"].category;
+        this.categories.unshift({ id: "overall", value: "Overall" });
+        localStorage.setItem('managements', JSON.stringify(this.managements));
+        document.getElementById("spinner").style.display = "none";
+      }, err => {
+        let isThere = false;
+        this.managements.map(item => {
+          if (item.id != JSON.parse(localStorage.getItem('management')).id) {
+            isThere = true;
+            return isThere;
+          }
+        });
+        if (isThere) {
+          this.managements.unshift(JSON.parse(localStorage.getItem('management')));
         }
+        if (JSON.parse(localStorage.getItem('management'))) {
+          var name = this.managements.find(a => { return a.id == JSON.parse(localStorage.getItem('management')).id });
+          if (name && name.value != 'Overall') {
+            this.managements.unshift({ id: "overall", value: "Overall" });
+          }
+        }
+        document.getElementById("spinner").style.display = "none";
       });
-      if (isThere) {
-        this.managements.unshift(JSON.parse(localStorage.getItem('management')));
-      }
-      if (JSON.parse(localStorage.getItem('management'))) {
-        var name = this.managements.find(a => { return a.id == JSON.parse(localStorage.getItem('management')).id });
-        if (name && name.value != 'Overall') {
-          this.managements.unshift({ id: "overall", value: "Overall" });
-        }
-      }
+      this.getDefault();
+    } else {
+      this.getDefault();
       document.getElementById("spinner").style.display = "none";
-    });
-    this.getDefault();
+    }
   }
 
   getDefault() {
@@ -87,6 +94,7 @@ export class ManagementSelectorComponent implements OnInit {
         value: this.service.changeingStringCases(this.categoryType.replace(/_/g, ' '))
       }
       localStorage.setItem("category", JSON.stringify(obj));
+      this.changeDetection.detectChanges();
     } else {
       this.management = JSON.parse(localStorage.getItem('management')).id;
       this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -98,6 +106,7 @@ export class ManagementSelectorComponent implements OnInit {
     } else {
       this.management = JSON.parse(localStorage.getItem('management')).id;
       this.category = JSON.parse(localStorage.getItem('category')).id;
+      this.changeDetection.detectChanges();
     }
   }
 

@@ -11,7 +11,7 @@ import { dashboardReportDescriptions } from '../../description.config';
 })
 export class CompostieDashboardComponent implements OnInit {
   state;
-  reportGroup = "Composite Report"
+  reportGroup = "Composite Report Across Metrix"
   toolTip = dashboardReportDescriptions;
   //tooltip texts::::::::::::::
 
@@ -81,7 +81,6 @@ export class CompostieDashboardComponent implements OnInit {
 
   ngOnInit() {
     sessionStorage.clear();
-    document.getElementById("spinner").style.display = "block";
     document.getElementById("accessProgressCard").style.display = "none";
     //document.getElementById("backBtn").style.display = "block";
     if (localStorage.getItem("roleName") == "admin") {

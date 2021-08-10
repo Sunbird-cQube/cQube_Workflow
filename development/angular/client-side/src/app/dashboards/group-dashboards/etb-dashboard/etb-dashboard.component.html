@@ -1,22 +1,17 @@
-<div id="spinner">
-    <div class="loading">Loading&#8230;</div>
-</div>
-
-<div class="main-panel container" style="padding-top: 10px !important;">
+<div class="main-panel" style="padding-top: 10px !important;">
     <app-management-selector [reportGroup]="reportGroup">
     </app-management-selector>
 
     <div class="report-cards">
         <div class="row">
-            <div *ngIf="!diksha_column" class="col-sm-12 col-xl-4">
+            <div *ngIf="!diksha_column" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="ut" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
                     (click)="fetchTelemetry($event,'ut')" class="text-decoration-none">
                     <div class="card my-3">
                         <div class="card-header bg-pink border-0">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="ic-equalizer1" src="../../assets/ic_assessment.svg" alt=""
-                                            height="30px" width="30px"></li>
+                                    <li><img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt=""></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -32,15 +27,14 @@
                     </div>
                 </span>
             </div>
-            <div class="col-sm-12 col-xl-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="ut" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
                     (click)="fetchTelemetry($event,'ut')" class="text-decoration-none">
                     <div class="card my-3">
                         <div class="card-header bg-pink border-0">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="ic-equalizer1" src="../../assets/ic_assessment.svg" alt=""
-                                            height="30px" width="30px"></li>
+                                    <li><img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt=""></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -57,7 +51,7 @@
                 </span>
             </div>
 
-            <div class="col-sm-12 col-xl-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="utc" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
                     (click)="fetchTelemetry($event,'utc')" class="text-decoration-none">
                     <div class="card my-3">
@@ -82,6 +76,6 @@
             </div>
         </div>
     </div>
-    <div style="height: 300px !important;"></div>
+    <div style="height: 400px !important;"></div>
 
 </div>

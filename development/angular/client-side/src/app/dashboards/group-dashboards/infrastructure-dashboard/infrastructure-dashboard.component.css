@@ -14,25 +14,25 @@
     border-top-right-radius: 15px;
     position: relative;
   }
-  .card .card-header .card-header-left {
+.card .card-header .card-header-left {
     border-radius: 0 0 0 7px;
-    left: 15px;
-    top: 8px;
-    /* display: inline-block; */
+    left: 10px;
+    top: 2px;
     float: right;
     padding: 8px 0;
     position: absolute;
     z-index: 1;
-  }
-  .card .card-header .card-head-text {
+}
+.card .card-header .card-head-text {
     right: 20px;
-    top: 8px;
-    /* display: inline-block; */
+    left: 10px;
+    top: 2px;
     float: right;
     padding: 8px 0;
     position: absolute;
     z-index: 1;
-  }
+    text-align: right;
+}
   .card .card-header .card-head-text p {
     font-size: 14px;
   }
@@ -102,5 +102,3 @@
   .bg-light-white-grad-green {
     background-color: #2fa28b;
   }
- 
-  

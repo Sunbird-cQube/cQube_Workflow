@@ -51,7 +51,7 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('backBtn').style.display = "none";
+
     document.getElementById('accessProgressCard').style.display = "none";
     this.collectionWise();
     this.onResize();

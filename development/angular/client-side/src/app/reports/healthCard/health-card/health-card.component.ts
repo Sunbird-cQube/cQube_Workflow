@@ -117,7 +117,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   constructor(private cdr: ChangeDetectorRef, public commonService: AppServiceComponent, public service: HealthCardService, private readonly _router: Router, private readonly _cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('myInput')['disabled'] = true;
     this.state = this.commonService.state;
