@@ -177,47 +177,51 @@ export class TeacherAttendanceComponent implements OnInit {
     //setting year-month options:::::
     this.service.getDateRange().subscribe(
       (res) => {
-        this.getMonthYear = res;
-        this.years = Object.keys(this.getMonthYear);
-        this.year = this.years[this.years.length - 1];
-        var allMonths = [];
-        allMonths = this.getMonthYear[`${this.year}`];
-        this.months = [];
-        allMonths.forEach((month) => {
-          var obj = {
-            name: month.month_name,
-            id: month.month,
-          };
-          this.months.push(obj);
-        });
-        this.month = this.months[this.months.length - 1].id;
-        // this.dateRange = `${this.getMonthYear[`${this.year}`][this.months.length - 1].data_from_date} to ${this.getMonthYear[`${this.year}`][this.months.length - 1].data_upto_date}`;
-        if (this.month) {
-          this.month_year = {
-            month: null,
-            year: null,
-          };
+        try {
+          this.getMonthYear = res;
+          this.years = Object.keys(this.getMonthYear);
+          this.year = this.years[this.years.length - 1];
+          var allMonths = [];
+          allMonths = this.getMonthYear[`${this.year}`];
+          this.months = [];
+          allMonths.forEach((month) => {
+            var obj = {
+              name: month.month_name,
+              id: month.month,
+            };
+            this.months.push(obj);
+          });
+          this.month = this.months[this.months.length - 1].id;
+          // this.dateRange = `${this.getMonthYear[`${this.year}`][this.months.length - 1].data_from_date} to ${this.getMonthYear[`${this.year}`][this.months.length - 1].data_upto_date}`;
+          if (this.month) {
+            this.month_year = {
+              month: null,
+              year: null,
+            };
 
-          this.params = JSON.parse(sessionStorage.getItem("report-level-info"));
-          let params = this.params;
+            this.params = JSON.parse(sessionStorage.getItem("report-level-info"));
+            let params = this.params;
 
-          if (params && params.level) {
-            let data = params.data;
-            if (params.level === "district") {
-              this.myDistrict = data.id;
-            } else if (params.level === "block") {
-              this.myDistrict = data.districtId;
-              this.myBlock = data.id;
-            } else if (params.level === "cluster") {
-              this.myDistrict = data.districtId;
-              this.myBlock = Number(data.blockId);
-              this.myCluster = data.id;
+            if (params && params.level) {
+              let data = params.data;
+              if (params.level === "district") {
+                this.myDistrict = data.id;
+              } else if (params.level === "block") {
+                this.myDistrict = data.districtId;
+                this.myBlock = data.id;
+              } else if (params.level === "cluster") {
+                this.myDistrict = data.districtId;
+                this.myBlock = Number(data.blockId);
+                this.myCluster = data.id;
+              }
+              this.changeDetection.detectChanges();
+              this.getDistricts();
+            } else {
+              this.levelWiseFilter();
             }
-            this.changeDetection.detectChanges();
-            this.getDistricts();
-          } else {
-            this.levelWiseFilter();
           }
+        } catch (e) {
+          this.commonService.loaderAndErr(this.markers);
         }
       },
       (err) => {

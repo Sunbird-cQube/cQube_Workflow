@@ -5,7 +5,7 @@ import { AppServiceComponent } from '../app.service';
 import { environment } from '../../environments/environment';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +25,11 @@ export class HomeComponent implements OnInit {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+    this.router.events.subscribe(event=>{
+      if(event instanceof NavigationEnd){
+        this.onToggle();
+      }
+    })
   }
 
   email: any;
@@ -86,10 +91,14 @@ export class HomeComponent implements OnInit {
   onToggle() {
     if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
       this.sidebar.toggle();
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 300);
     }
   }
 
   closeSidebar() {
+    document.body.scrollTop = 0;
     if (!this.router.url.includes('dashboard') && this.sidebar) {
       this.sidebar.close();
     }

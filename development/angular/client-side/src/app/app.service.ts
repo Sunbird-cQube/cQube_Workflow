@@ -504,10 +504,10 @@ export class AppServiceComponent {
             }
         });
         let uniqueItems = [...new Set(values)];
-        uniqueItems = uniqueItems.map(a=>{
-            if(typeof(a) == 'object'){
+        uniqueItems = uniqueItems.map(a => {
+            if (typeof (a) == 'object') {
                 return a['percentage']
-            }else{
+            } else {
                 return a;
             }
         })
@@ -671,5 +671,9 @@ export class AppServiceComponent {
     //
     setProgressCardValue(status) {
         this.callProgressCard.next(status);
+    }
+
+    setToggleMenuValue(status) {
+        this.toggleMenu.next(status);
     }
 }

@@ -7,21 +7,28 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="sar" [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
                     (click)="fetchTelemetry($event,'sar')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><img class="ic-equalizer1" src="../../assets/student-4.svg" alt=""></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{sarViews}}</p>
+                                <p *ngIf="sarViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{sarViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Student Attendance </h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.sarTooltip}}</p>
                         </div>
                     </div>
@@ -32,8 +39,8 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="tar" [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
                     (click)="fetchTelemetry($event,'tar')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><img class="ic-equalizer1" src="../../assets/teacher.png" height="30px"
@@ -41,13 +48,20 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{tarViews}}</p>
+                                <p *ngIf="tarViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{tarViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Teacher Attendance</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.tarTooltip}}</p>
                         </div>
                     </div>
