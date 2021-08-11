@@ -20,65 +20,16 @@
         [opened]="mobileQuery.matches ? 'false' : 'true'" fixedTopGap="56">
 
         <mat-nav-list class="side-menu">
-          <div style="height: 92vh !important; position:relative;">
+          <div style="height: 90vh !important; position:relative;">
             <div style="max-height:100%;overflow:auto;">
               <div style="height:1000px auto;">
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/infrastructure-dashboard']"
                   (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     </mat-icon>
-                    School Infrastructure
-                  </div>
-                </mat-list-item>
-
-                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/composite-dashboard']"
-                  class="single-line">
-                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
-                    Composite Report across metrics
-                  </div>
-                </mat-list-item>
-
-                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/tpd-dashboard']" class="single-line">
-                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
-                    Teacher Professional Development
-                  </div>
-                </mat-list-item>
-
-
-                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/etb-dashboard']" class="single-line">
-                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
-                    Energise Textbook Usage
-                  </div>
-                </mat-list-item>
-
-
-                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/crc-dashboard']" class="single-line">
-                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
-                    CRC Visit
-                  </div>
-                </mat-list-item>
-
-                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/prograss-card-dashboard']"
-                  class="single-line">
-                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
-                    Progress Card
+                    <span class="groups"> School Infrastructure </span>
                   </div>
                 </mat-list-item>
 
@@ -86,9 +37,9 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     </mat-icon>
-                    Student Performance
+                    <span class="groups">Student Performance</span>
                   </div>
                 </mat-list-item>
 
@@ -96,33 +47,83 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     </mat-icon>
-                    Attendance
+                    <span class="groups">Attendance</span>
+                  </div>
+                </mat-list-item>
+
+                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/tpd-dashboard']" class="single-line">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                    <mat-icon>
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
+                    </mat-icon>
+                    <span class="groups">Teacher Professional Development</span>
                   </div>
                 </mat-list-item>
 
 
+                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/etb-dashboard']" class="single-line">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                    <mat-icon>
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
+                    </mat-icon>
+                    <span class="groups">Energise Textbook Usage</span>
+                  </div>
+                </mat-list-item>
 
-                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/telemetry-dashboard']"
+                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/crc-dashboard']" class="single-line">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                    <mat-icon>
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
+                    </mat-icon>
+                    <span class="groups">CRC Visit</span>
+                  </div>
+                </mat-list-item>
+
+
+                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/composite-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     </mat-icon>
-                    Telemetry
+                    <span class="groups">Composite Report across metrics</span>
                   </div>
                 </mat-list-item>
+
+
+                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/prograss-card-dashboard']"
+                  class="single-line">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                    <mat-icon>
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
+                    </mat-icon>
+                    <span class="groups">Progress Card</span>
+                  </div>
+                </mat-list-item>
+
 
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/exception-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <mat-icon>
-                      <img src="assets/menu-icon.svg" alt="">
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     </mat-icon>
-                    Exception List
+                    <span class="groups">Exception List</span>
                   </div>
                 </mat-list-item>
+
+                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/telemetry-dashboard']"
+                  class="single-line">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                    <mat-icon>
+                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
+                    </mat-icon>
+                    <span class="groups">Telemetry</span>
+                  </div>
+                </mat-list-item>
+
 
 
                 <mat-list-item class="user-logout">

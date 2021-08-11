@@ -7,8 +7,8 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="SemExp" [routerLink]="!nifi_sat ? ['/coming-soon'] :['/exception/sem-exception']"
                     (click)="fetchTelemetry($event,'SemExp')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
@@ -28,7 +28,7 @@
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Semester Assesment Test Exception</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.semExpTooltip}}</p>
                         </div>
                     </div>
@@ -39,8 +39,8 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="patExcpt" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/pat-exception']"
                     (click)="fetchTelemetry($event,'patExcpt')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt=""></li>
@@ -60,7 +60,7 @@
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Periodic Assesment Test Exception</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.patExcptTooltip}}</p>
                         </div>
                     </div>
@@ -71,8 +71,8 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="isdata" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/download-missing-data']"
                     (click)="fetchTelemetry($event,'isdata')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
@@ -92,7 +92,7 @@
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Download Exception List</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.isdataTooltip}}</p>
                         </div>
                     </div>
@@ -105,8 +105,8 @@
                 <span id="sarExcpt"
                     [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/exception/student-attendance-exception']"
                     (click)="fetchTelemetry($event,'sarExcpt')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt=""></li>
@@ -126,7 +126,7 @@
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Student Attendance Report Exception </h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.sarExcptTooltip}}</p>
                         </div>
                     </div>
@@ -138,8 +138,8 @@
                 <span id="tarExp"
                     [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
                     (click)="fetchTelemetry($event,'tarExp')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
@@ -159,7 +159,7 @@
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Teacher Attendance Report Exception</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.tarExpTooltip}}</p>
                         </div>
                     </div>
