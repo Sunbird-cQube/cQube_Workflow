@@ -161,7 +161,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.commonService.initMap("tarMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "none";
-    //document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.skul = true;
     this.timePeriod = {
       period: "overall",

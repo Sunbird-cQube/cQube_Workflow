@@ -84,7 +84,7 @@ export class EtbDashboardComponent implements OnInit {
   ngOnInit() {
     sessionStorage.clear();
     document.getElementById("accessProgressCard").style.display = "none";
-    //document.getElementById("backBtn").style.display = "block";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "block" : "";
     if (localStorage.getItem("roleName") == "admin") {
       this.hiddenPass = false;
     } else {
@@ -150,7 +150,7 @@ export class EtbDashboardComponent implements OnInit {
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);
-    //document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.service.homeControl();
   }
 

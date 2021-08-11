@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(level); onResize()">
-        <div class="col-lg-9 col-md-9 col-sm-12 d-flex justify-content-start">
+        <div class="col-lg-9 col-md-9 col-sm-12">
             <div *ngIf='skul'>
                 <p id="dist">
                     Report on Infrastructure access by location for: <span (click)="clickHome()"
@@ -9,7 +9,7 @@
             <div *ngIf='dist'>
                 <p id="block">
                     Report on Infrastructure access by location for: <span (click)="clickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="onDistrictSelect(districtHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{districtHierarchy.districtName}}</span> </p>
@@ -17,10 +17,10 @@
             <div *ngIf="blok">
                 <p id="cluster">
                     Report on Infrastructure access by location for: <span (click)="clickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="onDistrictSelect(blockHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.districtName}}</span><span>/ </span><span
+                        {{blockHierarchy.districtName}}</span><span> | </span><span
                         (click)="onBlockSelect(blockHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{blockHierarchy.blockName}}</span></p>
@@ -29,13 +29,13 @@
             <div *ngIf="clust">
                 <p id="school">
                     Report on Infrastructure access by location for: <span (click)="clickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="onDistrictSelect(clusterHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.districtName}}</span><span>/ </span><span
+                        {{clusterHierarchy.districtName}}</span><span> | </span><span
                         (click)="onBlockSelect(clusterHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.blockName}}</span><span>/ </span><span>
+                        {{clusterHierarchy.blockName}}</span><span> | </span><span>
                         {{clusterHierarchy.clusterName}}</span></p>
             </div>
         </div>
@@ -46,8 +46,8 @@
                     </p>
                 </div>
                 <div class="col-sm-5">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        (click)="downloadReport()"></em>
+                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
+                        id="download" (click)="downloadReport()">
                     <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="clickHome()"></em>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="row" style="margin-bottom: 10px; ">
-            <div class="col-sm-12 d-flex justify-content-start">
+            <div class="col-sm-12">
                 <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                 </button>
                 <button class="btn btn-secondary" id="clusterbtn"
@@ -107,14 +107,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12">
                 <div style="float: left; width: 88%;">
                     <div #mapContainer id="infraMap" class="active" style="width: 100%;"
                         [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '82vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}">
                     </div>
                 </div>
                 <div [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '82vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}"
-                    style="float: left; width: 11%; margin-left: 1%;  padding-left: 1.5%;border-radius: 3%;">
+                    style="float: right; width: 11%; margin-left: 1%;  padding-left: 1.5%;border-radius: 3%;">
                     <h5 id="legend" style="margin-left: 20%; padding-top: 1%;">Legend</h5>
                     <div *ngFor="let value of values; let i = index">
                         <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"

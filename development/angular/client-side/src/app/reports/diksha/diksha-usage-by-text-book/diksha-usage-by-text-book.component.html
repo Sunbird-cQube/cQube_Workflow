@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-9 col-md-9 col-sm-12 d-flex justify-content-start">
+        <div class="col-lg-9 col-md-9 col-sm-12 ">
             <div *ngIf='all'>
                 <p id="dist">
                     {{header}} Content Usage: <span (click)="homeClick()"
@@ -10,7 +10,7 @@
                 <p id="block_level"
                     style=" color: #284d8a;font-size: 18px; line-height: 1.2em; margin-top: 5px;">
                     Diksha Report: <span (click)="getAllData()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="districtWise(districtId)" style="cursor: pointer;text-decoration: underline;">
                         {{hierName}}</span> </p>
             </div> -->
@@ -22,8 +22,8 @@
                     </p>
                 </div>
                 <div class="col-sm-12">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        (click)="downloadRoport()"></em>
+                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
+                        id="download" (click)="downloadReport()">
 
                     <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="homeClick()"></em>
                     <span id="rawDownload" *ngIf="reportData.length > 0"
@@ -45,7 +45,7 @@
     </div>
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-sm-9 d-flex justify-content-start">
+            <div class="col-sm-9 ">
                 <select id="time_range" [(ngModel)]="timePeriod" name="timePeriod" (change)="chooseTimeRange()">
                     <option [value]="timePeriod" disabled selected="selected">Choose Time Range
                     </option>

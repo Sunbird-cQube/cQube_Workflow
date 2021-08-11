@@ -190,7 +190,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
     document.getElementById('errMsg').style.display = 'none';
   }
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
 

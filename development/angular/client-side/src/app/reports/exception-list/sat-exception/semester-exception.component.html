@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(level);onResize()">
-        <div class="col-sm-8 d-flex justify-content-start">
+        <div class="col-sm-8 ">
             <div *ngIf='skul'>
                 <p id="dist">
                     Semester Assessment Test Exception Report for: <span (click)="homeClick()"
@@ -9,7 +9,7 @@
             <div *ngIf='dist'>
                 <p id="block">
                     Semester Assessment Test Exception Report for: <span (click)="homeClick()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="onDistrictSelect(districtHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{districtHierarchy.districtName}}</span> </p>
@@ -17,10 +17,10 @@
             <div *ngIf="blok">
                 <p id="cluster">
                     Semester Assessment Test Exception Report for: <span (click)="homeClick()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="onDistrictSelect(blockHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.districtName}}</span><span>/ </span><span
+                        {{blockHierarchy.districtName}}</span><span> | </span><span
                         (click)="onBlockSelect(blockHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{blockHierarchy.blockName}}</span></p>
@@ -29,13 +29,13 @@
             <div *ngIf="clust">
                 <p id="school">
                     Semester Assessment Test Exception Report for: <span (click)="homeClick()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="onDistrictSelect(clusterHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.districtName}}</span><span>/ </span><span
+                        {{clusterHierarchy.districtName}}</span><span> | </span><span
                         (click)="onBlockSelect(clusterHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.blockName}}</span><span>/ </span><span>
+                        {{clusterHierarchy.blockName}}</span><span> | </span><span>
                         {{clusterHierarchy.clusterName}}</span></p>
             </div>
         </div>
@@ -46,8 +46,8 @@
                     </p>
                 </div>
                 <div class="col-sm-5">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        (click)="downloadReport()"></em>
+                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
+                        id="download" (click)="downloadReport()">
                     <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="homeClick()"></em>
                 </div>
             </div>
@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 d-flex justify-content-start" style="margin-bottom: 10px;">
+        <div class="col-sm-12 " style="margin-bottom: 10px;">
             <select id="period" [(ngModel)]="period" (change)="onPeriodSelect()">
                 <option [value]="period" disabled selected="selected">Choose TimeRange</option>
                 <option *ngFor="let period of timeRange,  let i =index" [(ngValue)]="period.key">

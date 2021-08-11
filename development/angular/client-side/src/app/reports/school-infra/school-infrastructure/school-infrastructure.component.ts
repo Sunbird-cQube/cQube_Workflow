@@ -683,7 +683,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     })
     this.reportData = newData
     if (this.downloadType === 'District Wise' || this.downloadType === 'Block Wise' || this.downloadType === 'Cluster Wise' || this.downloadType === 'School Wise') {
-      this.downloadRoport();
+      this.downloadReport();
     }
   }
 
@@ -702,7 +702,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     }
   }
 
-  downloadRoport() {
+  downloadReport() {
     var position = this.reportName.length;
     this.fileName = [this.fileName.slice(0, position), `_${this.management}`, this.fileName.slice(position)].join('');
     this.commonService.download(this.fileName, this.reportData);

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-8 d-flex justify-content-start">
+        <div class="col-sm-8 ">
             <div *ngIf='all'>
                 <p id="dist_level" style=" color: #284d8a;font-size: 18px; line-height: 1.2em; margin-top: 5px;">
                     Textbook Linked Content Usage: <span (click)="homeClick()"
@@ -9,7 +9,7 @@
             <div *ngIf='dist'>
                 <p id="block_level" style=" color: #284d8a;font-size: 18px; line-height: 1.2em; margin-top: 5px;">
                     Textbook Linked Content Usage: <span (click)="homeClick()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="districtWise(districtId)" style="cursor: pointer;text-decoration: underline;">
                         {{hierName}}</span> </p>
             </div>
@@ -50,7 +50,7 @@
     </div>
 
     <div class="row" style="margin-top: 5px;">
-        <div class="col-sm-9 d-flex justify-content-start">
+        <div class="col-sm-9 ">
             <select id="time_range"
                 style=" margin-right: 10px; padding: 5px; color: white; border-radius: 4px; font-size: 11px; font-weight: bold; background-color: rgb(152, 160, 163)"
                 [(ngModel)]="timePeriod" name="timePeriod" (change)="timeRange(timePeriod)">
