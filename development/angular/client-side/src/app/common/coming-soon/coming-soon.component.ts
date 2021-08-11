@@ -14,7 +14,7 @@ export class ComingSoonComponent implements OnInit {
   ngOnInit(): void {
     //  var value =  this.route.snapshot.params['name'];
     //     this.pageTitle = value;
-    document.getElementById('accessProgressCard').style.display = 'block';
+    document.getElementById('accessProgressCard').style.display = 'none';
     //document.getElementById('backBtn').style.display = 'none';
   }
 

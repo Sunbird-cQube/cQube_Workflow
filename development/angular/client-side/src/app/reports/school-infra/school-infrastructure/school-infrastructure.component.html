@@ -42,8 +42,8 @@
                 </div>
                 <div class="col-sm-7">
                     <div *ngIf="skul; else ng_else" style="float: right; " id="select">
-                        <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
-                            id="download" (click)="downloadReportofState(downloadType)">
+                        <img *ngIf="reportData.length>0" src="../../../../assets/Group 6.svg" alt="Download Report"
+                            title="Download Report" id="download" (click)="downloadReportofState(downloadType)">
                         <select class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
                             <option [value]="downloadType" disabled selected="selected"> Download Report</option>
                             <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
@@ -53,10 +53,10 @@
                     </div>
 
                     <ng-template #ng_else>
-                        <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
-                            id="download" (click)="downloadReport()">
+                        <img *ngIf="reportData.length>0" src="../../../../assets/Group 6.svg" alt="Download Report"
+                            title="Download Report" id="download" (click)="downloadReport()">
                     </ng-template>
-                    <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="districtWise()"></em>
+
                 </div>
             </div>
         </div>

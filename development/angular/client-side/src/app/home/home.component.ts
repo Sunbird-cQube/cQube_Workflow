@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
   currentDashboardGroup: any = "/dashboard/infrastructure-dashboard";
   edate: Date;
 
+  sidenavMode: any = 'side';
+
   @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
   private _mobileQueryListener: () => void;
   showBackBtn: boolean = false;
@@ -25,8 +27,8 @@ export class HomeComponent implements OnInit {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-    this.router.events.subscribe(event=>{
-      if(event instanceof NavigationEnd){
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
         this.onToggle();
       }
     })
@@ -88,12 +90,27 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onToggle() {
+  onClickToggleMenu() {
     if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
       this.sidebar.toggle();
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
-      }, 300);
+      }, 2000);
+    }
+  }
+
+  onToggle() {
+    if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
+      this.sidenavMode = 'over';
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+        if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
+          this.sidebar.close();
+        }
+      }, 2000);
+    } else {
+      this.sidenavMode = 'side';
+      this.sidebar.open();
     }
   }
 

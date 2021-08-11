@@ -17,10 +17,13 @@
 .single-menu{
   margin-left: 20px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .cubeImg{
-  margin-top: 18px !important;
+  margin-right: 6px;
   height: 16px;
   width: 16px;
 }
@@ -42,7 +45,7 @@
   border-bottom-right-radius: 25px;
 }
 
-mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav-container{
+mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
   background-color: #ffebcc;
 }
 
@@ -163,6 +166,13 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav
   width: 110px;
 }
 
+.mat-sidenav-content{
+  margin-top: 45px;
+}
+
+.mat-sidenav{
+  margin-top: 45px;
+}
 
 @media screen and (min-width: 2560px) {
 
@@ -183,7 +193,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav
 }
 
 .cubeImg{
-  margin-top: 18px !important;
+  margin-right: 8px !important;
   height: 30px !important;
   width: 30px !important;
 }
@@ -197,9 +207,18 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav
   width: 550px !important;
 }
 
-.mat-sidenav-content{
+.mat-drawer-side ~ .mat-sidenav-content{
   margin-left: 570px !important;
 }
+
+/* 
+.mat-drawer-opened ~ .mat-sidenav-content{
+  margin-left: 570px !important;
+}
+
+.mat-sidenav-content{
+  margin-left: 0px !important;
+} */
 
 .material-icons{
   font-size: 40px !important;
@@ -211,7 +230,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav
   border-bottom-right-radius: 25px;
 }
 
-mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav-container{
+mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
   background-color: #ffebcc;
 }
 
@@ -335,6 +354,14 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav
     height: 60px !important;
     width: 180px !important;
   }
+
+  .mat-sidenav-content{
+    margin-top: 70px !important;
+  }
+
+  .mat-sidenav{
+    margin-top: 70px;
+  }
   
 }
 
@@ -372,7 +399,7 @@ mat-icon img{
   border-bottom-right-radius: 25px;
 }
 
-mat-sidenav-container.mat-drawer-container.mat-sidenav-container.example-sidenav-container{
+mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
   background-color: #ffebcc;
 }
 
