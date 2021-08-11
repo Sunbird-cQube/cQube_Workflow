@@ -129,7 +129,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.commonService.initMap("infraMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
-    //document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(

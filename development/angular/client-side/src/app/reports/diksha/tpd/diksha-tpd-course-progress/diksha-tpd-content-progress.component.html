@@ -1,6 +1,6 @@
 <div class="container-fluid" (window:resize)="getHeight($event)">
     <div class="row">
-        <div class="col-sm-10 d-flex justify-content-start">
+        <div class="col-sm-10 ">
             <div *ngIf='skul'>
                 <p id="dist">
                     Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
@@ -9,7 +9,7 @@
             <div *ngIf='dist'>
                 <p id="block">
                     Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="selectedDistrict(districtHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{districtHierarchy.districtName}}</span> </p>
@@ -17,10 +17,10 @@
             <div *ngIf="blok">
                 <p id="cluster">
                     Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="selectedDistrict(blockHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.districtName}}</span><span>/ </span><span
+                        {{blockHierarchy.districtName}}</span><span> | </span><span
                         (click)="selectedBlock(blockHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{blockHierarchy.blockName}}</span></p>
@@ -29,13 +29,13 @@
             <div *ngIf="clust">
                 <p id="school">
                     Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="selectedDistrict(clusterHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.districtName}}</span><span>/ </span><span
+                        {{clusterHierarchy.districtName}}</span><span> | </span><span
                         (click)="selectedBlock(clusterHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.blockName}}</span><span>/ </span><span>
+                        {{clusterHierarchy.blockName}}</span><span> | </span><span>
                         {{clusterHierarchy.clusterName}}</span></p>
             </div>
         </div>
@@ -66,7 +66,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 d-flex justify-content-start" style="margin-bottom: 10px;">
+        <div class="col-md-12 " style="margin-bottom: 10px;">
             <select id="timePeriod" class="select-control" style="margin-right: 25px; float: left;"
                 [(ngModel)]="timePeriod" (change)="selectedTimePeriod()">
                 <option [value]="timePeriod" disabled selected="selected">Choose time period</option>

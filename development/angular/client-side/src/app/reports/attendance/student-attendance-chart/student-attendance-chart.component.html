@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-lg-7 col-md-12 col-sm-12 d-flex justify-content-start">
+        <div class="col-lg-7 col-md-12 col-sm-12 ">
             <div>
                 <!--Hierarchy links===========-->
                 <p id="dist">
@@ -35,7 +35,7 @@
 
     <!--Dropdown options===================-->
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-start">
+        <div class="col-lg-12 col-md-12 col-sm-12 ">
             <select id="year" [(ngModel)]="selectedYear" (change)="onSelectYear()" name="year" style="float: left;">
                 <option [value]="selectedYear" disabled selected="selected">Choose Year
                 </option>

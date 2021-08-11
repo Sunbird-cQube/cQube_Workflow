@@ -467,7 +467,7 @@ export class DikshaChartComponent implements OnInit {
               });
               this.reportData.push(obj2);
             });
-            this.downloadRoport();
+            this.downloadReport();
           } else {
             document.getElementById('errMsg').innerHTML = 'No data found for this type';
             document.getElementById('errMsg').style.display = 'block';
@@ -478,7 +478,7 @@ export class DikshaChartComponent implements OnInit {
           if (res[`${this.districtId}`][`${type}`]) {
             this.fileName = `${this.reportName}_${type}_${this.timePeriod}_${this.districtId}_${this.commonService.dateAndTime}`;
             this.reportData = res[`${this.districtId}`][`${type}`];
-            this.downloadRoport();
+            this.downloadReport();
           } else {
             document.getElementById('errMsg').innerHTML = 'No data found for this type';
             document.getElementById('errMsg').style.display = 'block';
@@ -499,7 +499,7 @@ export class DikshaChartComponent implements OnInit {
 
   }
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
 

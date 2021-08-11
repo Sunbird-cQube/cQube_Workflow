@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(level);onResize()">
-        <div class="col-sm-8 d-flex justify-content-start">
+        <div class="col-sm-8 ">
             <div *ngIf='skul'>
                 <p id="dist">
                     Student Attendance Exception Report for: <span id="state" (click)="onClickHome()"
@@ -9,7 +9,7 @@
             <div *ngIf='dist'>
                 <p id="block">
                     Student Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span>
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span>
                     <span id="dist" (click)="clickedMarker($event,distName)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{hierName}}</span>
@@ -18,10 +18,10 @@
             <div *ngIf="blok">
                 <p id="cluster">
                     Student Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         id="dist" (click)="clickedMarker($event,distName)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span>/ </span><span id="block" (click)="clickedMarker($event,blockName)"
+                        {{titleName}}</span><span> | </span><span id="block" (click)="clickedMarker($event,blockName)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{hierName}}</span></p>
             </div>
@@ -29,12 +29,12 @@
             <div *ngIf="clust">
                 <p id="school">
                     Student Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span>
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span>
                     <span id="dist" (click)="clickedMarker($event,distName)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span>/ </span><span id="block" (click)="clickedMarker($event,blockName)"
+                        {{titleName}}</span><span> | </span><span id="block" (click)="clickedMarker($event,blockName)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{title}}</span><span>/ </span><span>
+                        {{title}}</span><span> | </span><span>
                         {{hierName}}</span>
                 </p>
             </div>
@@ -46,8 +46,8 @@
                     </p>
                 </div>
                 <div class="col-sm-5">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        (click)="downloadReport($event)"></em>
+                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
+                        id="download" (click)="downloadReport($event)">
                     <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="onClickHome()"></em>
                 </div>
             </div>
@@ -66,7 +66,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 d-flex justify-content-start" style="padding-bottom: 10px !important">
+        <div class="col-sm-12 " style="padding-bottom: 10px !important">
             <select id="period" [(ngModel)]="period"
                 (change)="period != 'select_month' ? onPeriodSelect() : showYearMonth()">
                 <option [value]="period" disabled selected="selected">Choose TimeRange</option>

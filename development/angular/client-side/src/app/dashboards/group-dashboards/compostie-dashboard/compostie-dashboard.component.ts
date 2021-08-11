@@ -82,7 +82,7 @@ export class CompostieDashboardComponent implements OnInit {
   ngOnInit() {
     sessionStorage.clear();
     document.getElementById("accessProgressCard").style.display = "none";
-    //document.getElementById("backBtn").style.display = "block";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "block" : "";
     if (localStorage.getItem("roleName") == "admin") {
       this.hiddenPass = false;
     } else {
@@ -96,40 +96,40 @@ export class CompostieDashboardComponent implements OnInit {
   }
 
   changeDataSourceStatus() {
-    // this.service.getDataSource().subscribe((res: any) => {
-    // res.forEach((element) => {
-    // if (element.template == "nifi_crc") {
-    this.nifi_crc = true;
-    // }
-    // if (element.template == "nifi_attendance") {
-    this.nifi_attendance = true;
-    // }
-    // if (element.template == "nifi_semester") {
-    this.nifi_semester = true;
-    // }
-    // if (element.template == "nifi_infra") {
-    this.nifi_infra = true;
-    // }
-    // if (element.template == "nifi_diksha") {
-    this.nifi_diksha = true;
-    // }
-    // if (element.template == "nifi_telemetry") {
-    this.nifi_telemetry = true;
-    // }
-    // if (element.template == "nifi_udise") {
-    this.nifi_udise = true;
-    // }
-    // if (element.template == "nifi_pat") {
-    this.nifi_pat = true;
-    // }
-    // if (element.template === "nifi_composite") {
-    this.nifi_composite = true;
-    // }
-    // if (element.template === 'nifi_sat') {
-    this.nifi_sat = true;
-    // }
-    // });
-    // });
+    this.service.getDataSource().subscribe((res: any) => {
+      res.forEach((element) => {
+        if (element.template == "nifi_crc") {
+          this.nifi_crc = element.status;
+        }
+        if (element.template == "nifi_attendance") {
+          this.nifi_attendance = element.status;
+        }
+        if (element.template == "nifi_semester") {
+          this.nifi_semester = element.status;
+        }
+        if (element.template == "nifi_infra") {
+          this.nifi_infra = element.status;
+        }
+        if (element.template == "nifi_diksha") {
+          this.nifi_diksha = element.status;
+        }
+        if (element.template == "nifi_telemetry") {
+          this.nifi_telemetry = element.status;
+        }
+        if (element.template == "nifi_udise") {
+          this.nifi_udise = element.status;
+        }
+        if (element.template == "nifi_pat") {
+          this.nifi_pat = element.status;
+        }
+        if (element.template === "nifi_composite") {
+          this.nifi_composite = element.status;
+        }
+        if (element.template === 'nifi_sat') {
+          this.nifi_sat = element.status;
+        }
+      });
+    });
   }
 
   callOnInterval() {
@@ -144,7 +144,7 @@ export class CompostieDashboardComponent implements OnInit {
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);
-    //document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.service.homeControl();
   }
 

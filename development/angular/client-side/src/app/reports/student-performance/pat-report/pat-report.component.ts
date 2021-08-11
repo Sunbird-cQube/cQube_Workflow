@@ -161,7 +161,7 @@ export class PATReportComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.commonService.initMap("patMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
-    //document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
 
     this.skul = true;

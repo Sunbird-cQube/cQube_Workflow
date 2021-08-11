@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-lg-8 col-md-8 col-sm-12 d-flex justify-content-start">
+        <div class="col-lg-8 col-md-8 col-sm-12 ">
             <div *ngIf='all'>
                 <p id="dist_level">
                     {{header}} Content Usage: <span (click)="default()"
@@ -9,7 +9,7 @@
             <div *ngIf='dist'>
                 <p id="block_level">
                     {{header}} Content Usage: <span (click)="default()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="districtWise(districtId)" style="cursor: pointer;text-decoration: underline;">
                         {{hierName}}</span> </p>
             </div>
@@ -22,9 +22,8 @@
                     </p>
                 </div>
                 <div class="col-sm-9">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        style="cursor: pointer;font-size: 27px; float: right;margin: 5px 0px 0px 8px;color: #3100cc;"
-                        (click)="downloadRoport()"></em>
+                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
+                        id="download" (click)="downloadReport()">
                     <em class="fa fa-home" id="home" title="Home"
                         style="cursor: pointer;font-size: 30px; float: right;margin: 2px 0px 0px 0px; color: #3100cc; display: none;"
                         alt="Home" (click)="default()"></em>
@@ -47,7 +46,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 5px;">
-        <div class="col-sm-12 d-flex justify-content-start">
+        <div class="col-sm-12 ">
             <select id="time_range" class="select-control" [(ngModel)]="timePeriod" name="timePeriod"
                 (change)="timeRange(timePeriod)">
                 <option [value]="timePeriod" disabled selected="selected">Choose Time Range

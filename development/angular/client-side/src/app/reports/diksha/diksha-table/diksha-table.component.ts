@@ -265,7 +265,7 @@ export class DikshaTableComponent implements OnInit {
   }
 
   //download the data showing on UI::::::::::
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
   changeingStringCases(str) {

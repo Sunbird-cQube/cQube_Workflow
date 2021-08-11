@@ -258,10 +258,10 @@ table.dataTable.nowrap td {
 
 #download {
     cursor: pointer;
-    font-size: 27px;
     float: right;
-    margin: 5px 0px 0px 8px;
-    color: #3100cc;
+    margin: .5vh 0px 0px 8px;
+    height: 30px;
+    width: 30px;
 }
 
 #home {
@@ -324,7 +324,6 @@ table.dataTable.nowrap td {
 #academicYear,
 #year,
 #month,
-#downloader,
 #x-axis,
 #y-axis,
 #type,
@@ -365,6 +364,39 @@ table.dataTable.nowrap td {
     line-height: 1.2em;
     font-size: 14px;
     font-weight: bold;
+}
+
+
+#accessProgressCard{
+    float: right;
+    right: 10px;
+    top: 5px;
+    padding: 4px 7px 4px 7px;
+    position: absolute;
+    font-size: 12px;
+    background: #0545a5;
+}
+  
+#backBtn{
+    border:1px solid gainsboro;
+    border-radius: 10px;
+    background: ghostwhite;
+    padding: 0px 6px 0px 10px;
+    color: #1358c0;
+    font-size: 12px;
+    right: 15px;
+    top: 0.8%;
+    position: absolute;
+    cursor: pointer;
+}
+#backBtn:hover{
+    background: #C9DDFF;
+}
+
+#backBtn img{
+    height: 15px;
+    width: 16px;
+    margin-top: -0.3vh;
 }
 
 @media screen and (min-width: 1500px) {
@@ -463,10 +495,10 @@ table.dataTable.nowrap td {
     }
     #download {
         cursor: pointer;
-        font-size: 40px !important;
         float: right;
-        margin: 3px 0px 0px 8px;
-        color: #3100cc;
+        margin: .3vh 0px 0px 8px !important;
+        height: 50px !important;
+        width: 50px !important;
     }
     #home {
         cursor: pointer;
@@ -514,7 +546,6 @@ table.dataTable.nowrap td {
     #academicYear,
     #year,
     #month,
-    #downloader,
     #x-axis,
     #y-axis,
     #type,
@@ -568,6 +599,35 @@ table.dataTable.nowrap td {
         font-size: 24px;
         font-weight: bold;
     }
+
+    #accessProgressCard{
+        float: right;
+        right: 20px !important;
+        top: 8px !important;
+        padding: 6px 9px 6px 9px !important;
+        position: absolute !important;
+        font-size: 20px !important;
+        background: #0545a5;
+    }
+      
+    #backBtn{
+        border:1px solid gainsboro;
+        border-radius: 12px;
+        background: ghostwhite;
+        padding: 7px 10px 7px 10px !important;
+        color: #1358c0;
+        font-size: 24px !important;
+        right: 20px !important;
+        top: 0.8vh !important;
+        position: absolute;
+        cursor: pointer;
+    }
+    #backBtn img{
+        height: 24px !important;
+        width: 26px !important;
+        margin-top: -0.3vh !important;
+    }
+    
 }
 
 @media screen and (min-width: 3820px) {
@@ -623,10 +683,10 @@ table.dataTable.nowrap td {
     }
     #download {
         cursor: pointer;
-        font-size: 44px !important;
         float: right;
-        margin: 3px 0px 0px 8px;
-        color: #3100cc;
+        margin: .2vh 0px 0px 8px !important;
+        height: 70px !important;
+        width: 70px !important;
     }
     #home {
         cursor: pointer;
@@ -674,7 +734,6 @@ table.dataTable.nowrap td {
     #academicYear,
     #year,
     #month,
-    #downloader,
     #x-axis,
     #y-axis,
     #type,
@@ -727,6 +786,34 @@ table.dataTable.nowrap td {
         line-height: 1.6em;
         font-size: 32px;
         font-weight: bold;
+    }
+
+    #accessProgressCard{
+        float: right;
+        right: 30px !important;
+        top: 8px !important;
+        padding: 8px 12px 8px 12px !important;
+        position: absolute !important;
+        font-size: 28px !important;
+        background: #0545a5;
+    }
+      
+    #backBtn{
+        border:1px solid gainsboro;
+        border-radius: 10px;
+        background: ghostwhite;
+        padding: 20px !important;
+        color: #1358c0;
+        font-size: 34px !important;
+        right: 20px !important;
+        top: 0.5vh !important;
+        position: absolute;
+        cursor: pointer;
+    }
+    #backBtn img{
+        height: 32px !important;
+        width: 34px !important;
+        margin-top: -0.3vh !important;
     }
 }
 

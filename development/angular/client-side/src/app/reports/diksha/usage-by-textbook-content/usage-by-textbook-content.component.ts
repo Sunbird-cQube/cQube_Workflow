@@ -252,7 +252,7 @@ export class UsageByTextbookContentComponent implements OnInit {
   }
 
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
   changeingStringCases(str) {

@@ -433,7 +433,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
 
   //download UI data::::::::::::
-  downloadRoport() {
+  downloadReport() {
     this.dataToDownload = [];
     this.reportData.forEach(element => {
       this.newDownload(element);

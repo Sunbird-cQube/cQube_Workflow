@@ -152,7 +152,7 @@ export class SatReportComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.commonService.initMap("satMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
-    //document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;

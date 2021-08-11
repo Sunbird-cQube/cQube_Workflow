@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="commonService.onResize(level);onResize()">
-        <div class="col-sm-8 d-flex justify-content-start">
+        <div class="col-sm-8 ">
             <div>
                 <p id="dist" *ngIf='skul'>
                     Telemetry Data for: District Level
@@ -22,7 +22,7 @@
                 <p id="block"
                 >
                     Semester exception report for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="onDistrictSelect(districtHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{districtHierarchy.districtName}}</span> </p>
@@ -31,10 +31,10 @@
                 <p id="cluster"
                 >
                     Semester exception report for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="onDistrictSelect(blockHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.districtName}}</span><span>/ </span><span
+                        {{blockHierarchy.districtName}}</span><span> | </span><span
                         (click)="onBlockSelect(blockHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
                         {{blockHierarchy.blockName}}</span></p>
@@ -44,13 +44,13 @@
                 <p id="school"
                 >
                     Semester exception report for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="onDistrictSelect(clusterHierarchy.distId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.districtName}}</span><span>/ </span><span
+                        {{clusterHierarchy.districtName}}</span><span> | </span><span
                         (click)="onBlockSelect(clusterHierarchy.blockId)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.blockName}}</span><span>/ </span><span>
+                        {{clusterHierarchy.blockName}}</span><span> | </span><span>
                         {{clusterHierarchy.clusterName}}</span></p>
             </div> -->
         </div>
@@ -61,15 +61,15 @@
                     </p>
                 </div>
                 <div class="col-sm-5">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        (click)="downloadReport()"></em>
+                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
+                        id="download" (click)="downloadReport()">
                     <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="districtWise()"></em>
                 </div>
             </div>
         </div>
     </div>
     <div class="row" style="margin-bottom: 10px;">
-        <div class="col-sm-12 d-flex justify-content-start">
+        <div class="col-sm-12 ">
             <select id="period" [(ngModel)]="timePeriod" name="timePeriod" (change)="getTimePeriod(timePeriod)">
                 <option [value]="timePeriod" disabled selected="selected">Choose Time Period</option>
                 <option *ngFor="let time of timeDetails, let i = index" [(ngValue)]="time.id">

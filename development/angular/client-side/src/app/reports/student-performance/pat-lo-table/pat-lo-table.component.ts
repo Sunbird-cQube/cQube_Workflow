@@ -135,7 +135,7 @@ export class PATLOTableComponent implements OnInit {
     );
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "block";
-    //document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     // this.onResize();
   }
 

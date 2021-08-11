@@ -1,19 +1,15 @@
 <div class="wrapper" (onbeforeunload)="onToggle()">
-  <!-- <div class="page-body-wrapper"> -->
-  <!-- <app-sidebar></app-sidebar>
-      <app-header></app-header> -->
   <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-    <mat-toolbar color="" class="example-toolbar" style="z-index: 9999;">
+    <mat-toolbar color="" class="toolbar" style="z-index: 9999;">
       <button mat-icon-button class="humber-icon-btn" (click)="onToggle()">
         <mat-icon class="humber-icon">menu</mat-icon>
       </button>
-      <a class="navbar-brand brand-logo" (click)="onToggle()" [routerLink]="[currentDashboardGroup]">
+      <a class="logo" (click)="onToggle()" [routerLink]="[currentDashboardGroup]">
         <img src="assets/logo.png" alt="logo">
       </a>
 
-      <span *ngIf="showBackBtn" id="backBtn" [routerLink]="['/home']"><img src="assets/back.svg" alt="back-logo"
-          style="margin-bottom: 2px; height: 15px; width: 15px;"><strong
-          style="padding: 0px 10px 2px 3px">Back</strong></span>
+      <span *ngIf="showBackBtn" id="backBtn" [routerLink]="['/home']"><img src="assets/back.svg" alt="back-logo"><strong
+          style="padding: 0px 0.6vw .1vh 1vw">Back</strong></span>
 
       <button class="btn btn-primary" id="accessProgressCard" (click)="sccessProgressCard()">Access Progress
         Card</button>
@@ -24,9 +20,9 @@
         [opened]="mobileQuery.matches ? 'false' : 'true'" fixedTopGap="56">
 
         <mat-nav-list class="side-menu">
-          <div style="height: 92vh; position:relative;">
+          <div style="height: 92vh !important; position:relative;">
             <div style="max-height:100%;overflow:auto;">
-              <div style="height:1600px auto;">
+              <div style="height:1000px auto;">
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/infrastructure-dashboard']"
                   (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
@@ -131,16 +127,16 @@
 
                 <mat-list-item class="user-logout">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="">
-      
+
                     <div class="user-info border-0 text-center">
-      
+
                       <div class="user-det">
                         <span style="opacity: 0.5;">Logged in as</span>
                         <h3>{{email}}</h3>
                         <button type="button" class="my-3 btn btn-labeled btn-primary" (click)="logout()">
                           <span class="btn-label p-3 log-out"><img src="assets/logout.svg" alt=""></span>Logout</button>
                         <div class=""><a href="#" class="text-decoration-underline">Change Password</a></div>
-      
+
                       </div>
                       <div class="row versions">
                         <span class="col-sm-6" style="opacity:0.5">Version : 2.0</span>
@@ -162,13 +158,13 @@
       </mat-sidenav>
       <mat-sidenav-content
         [style.marginLeft.px]="router.url.includes('dashboard') && !mobileQuery.matches ? '345' : '0'">
-        <div class="content container-fluid">
-          <div class="content-wrapper" style="height: 92vh;">
-            <div class="col-12" (click)="closeSidebar()">
-              <router-outlet (click)="closeSidebar()"></router-outlet>
-            </div>
+        <!-- <div class="content container-fluid"> -->
+        <div class="content-wrapper" style="min-height: 92vh;">
+          <div class="col-12" (click)="closeSidebar()">
+            <router-outlet (click)="closeSidebar()"></router-outlet>
           </div>
         </div>
+        <!-- </div> -->
       </mat-sidenav-content>
     </mat-sidenav-container>
   </div>
