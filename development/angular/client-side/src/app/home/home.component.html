@@ -1,7 +1,7 @@
-<div class="wrapper" (onbeforeunload)="onToggle()">
+<div class="wrapper">
   <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-    <mat-toolbar color="" class="toolbar" style="z-index: 9999;">
-      <button mat-icon-button class="humber-icon-btn" (click)="onToggle()">
+    <mat-toolbar color="" class="toolbar" style="z-index: 9999; position: fixed;">
+      <button mat-icon-button class="humber-icon-btn" (click)="onClickToggleMenu()">
         <mat-icon class="humber-icon">menu</mat-icon>
       </button>
       <a class="logo" (click)="onToggle()" [routerLink]="[currentDashboardGroup]">
@@ -13,10 +13,9 @@
 
       <button class="btn btn-primary" id="accessProgressCard" (click)="sccessProgressCard()">Access Progress
         Card</button>
-
     </mat-toolbar>
-    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-      <mat-sidenav #sidebar [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav #sidebar [mode]="mobileQuery.matches ? 'over' : sidenavMode" [fixedInViewport]="mobileQuery.matches"
         [opened]="mobileQuery.matches ? 'false' : 'true'" fixedTopGap="56">
 
         <mat-nav-list class="side-menu">
@@ -26,9 +25,7 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/infrastructure-dashboard']"
                   (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups"> School Infrastructure </span>
                   </div>
                 </mat-list-item>
@@ -36,9 +33,7 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/std-performance-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Student Performance</span>
                   </div>
                 </mat-list-item>
@@ -46,18 +41,14 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/attendance-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Attendance</span>
                   </div>
                 </mat-list-item>
 
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/tpd-dashboard']" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Teacher Professional Development</span>
                   </div>
                 </mat-list-item>
@@ -65,18 +56,14 @@
 
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/etb-dashboard']" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Energise Textbook Usage</span>
                   </div>
                 </mat-list-item>
 
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/crc-dashboard']" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">CRC Visit</span>
                   </div>
                 </mat-list-item>
@@ -85,9 +72,7 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/composite-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Composite Report across metrics</span>
                   </div>
                 </mat-list-item>
@@ -96,9 +81,7 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/prograss-card-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Progress Card</span>
                   </div>
                 </mat-list-item>
@@ -107,9 +90,7 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/exception-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Exception List</span>
                   </div>
                 </mat-list-item>
@@ -117,9 +98,7 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/telemetry-dashboard']"
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <mat-icon>
-                      <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    </mat-icon>
+                    <img class="cubeImg" src="assets/menu-icon.svg" alt="">
                     <span class="groups">Telemetry</span>
                   </div>
                 </mat-list-item>

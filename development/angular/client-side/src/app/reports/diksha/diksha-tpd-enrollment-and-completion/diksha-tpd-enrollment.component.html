@@ -49,10 +49,10 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
-                        id="download" (click)="downloadReport()">
+                    <img *ngIf="reportData.length>0" src="../../../../assets/Group 6.svg" alt="Download Report"
+                        title="Download Report" id="download" (click)="downloadReport()">
 
-                    <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="homeClick()"></em>
+
                     <span id="rawDownload" *ngIf="reportData.length > 0"
                         style="color: #284d8a;cursor: pointer; float: right; margin: 8px 20px 0px 0px; text-decoration: underline; font-size: 13px;"
                         (click)="downloadRawFile()"><strong>Download Raw

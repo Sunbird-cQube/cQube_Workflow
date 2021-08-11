@@ -57,9 +57,9 @@
                     </p>
                 </div>
                 <div class="col-sm-4">
-                    <img src="../../../../assets/Group 6.svg" alt="Download Report" title="Download Report"
-                        id="download" (click)="downloadReport($event)">
-                    <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="onClickHome()"></em>
+                    <img *ngIf="reportData.length>0" src="../../../../assets/Group 6.svg" alt="Download Report"
+                        title="Download Report" id="download" (click)="downloadReport($event)">
+
                 </div>
             </div>
         </div>
