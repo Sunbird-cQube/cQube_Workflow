@@ -26,7 +26,7 @@
                   (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups"> School Infrastructure </span>
+                    <span id="SchInfra" class="groups"> School Infrastructure </span>
                   </div>
                 </mat-list-item>
 
@@ -34,7 +34,7 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Student Performance</span>
+                    <span id="stdPerformance" class="groups">Student Performance</span>
                   </div>
                 </mat-list-item>
 
@@ -42,14 +42,14 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Attendance</span>
+                    <span id="attendance" class="groups">Attendance</span>
                   </div>
                 </mat-list-item>
 
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/tpd-dashboard']" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Teacher Professional Development</span>
+                    <span id="tpd" class="groups">Teacher Professional Development</span>
                   </div>
                 </mat-list-item>
 
@@ -57,14 +57,14 @@
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/etb-dashboard']" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Energise Textbook Usage</span>
+                    <span id="etb" class="groups">Energise Textbook Usage</span>
                   </div>
                 </mat-list-item>
 
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/crc-dashboard']" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">CRC Visit</span>
+                    <span id="crc" class="groups">CRC Visit</span>
                   </div>
                 </mat-list-item>
 
@@ -73,7 +73,7 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Composite Report across metrics</span>
+                    <span id="composite" class="groups">Composite Report across metrics</span>
                   </div>
                 </mat-list-item>
 
@@ -82,7 +82,7 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Progress Card</span>
+                    <span id="progressCard" class="groups">Progress Card</span>
                   </div>
                 </mat-list-item>
 
@@ -91,7 +91,7 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Exception List</span>
+                    <span id="exceptList" class="groups">Exception List</span>
                   </div>
                 </mat-list-item>
 
@@ -99,7 +99,7 @@
                   class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/menu-icon.svg" alt="">
-                    <span class="groups">Telemetry</span>
+                    <span id="telemetry" class="groups">Telemetry</span>
                   </div>
                 </mat-list-item>
 

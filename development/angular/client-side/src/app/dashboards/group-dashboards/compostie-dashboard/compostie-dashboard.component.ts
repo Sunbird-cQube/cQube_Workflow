@@ -11,7 +11,7 @@ import { dashboardReportDescriptions } from '../../description.config';
 })
 export class CompostieDashboardComponent implements OnInit {
   state;
-  reportGroup = "Composite Report Across Metrix"
+  reportGroup = "Composite Report Across Metrics"
   toolTip = dashboardReportDescriptions;
   //tooltip texts::::::::::::::
 

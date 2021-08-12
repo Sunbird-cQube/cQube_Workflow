@@ -101,7 +101,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
 
   homeClick() {
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.timePeriod = 'overall';
     this.type = 'enrollment';
     this.districtId = undefined;
@@ -118,9 +118,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   async getAllData() {
     this.emptyChart();
     if (this.timePeriod != 'overall') {
-      document.getElementById('home').style.display = "block";
+      //document.getElementById('home').style.display = "block";
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
     }
     this.districts = [];
     this.blocks = [];
@@ -186,7 +186,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     if (this.level == 'district') {
@@ -249,7 +249,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
   onDistSelect(districtId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = districtId;
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -290,7 +290,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
   onBlockSelect(blockId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = blockId;
     this.blockHidden = false;
     this.clusterHidden = false;
@@ -331,7 +331,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
   onClusterSelect(clusterId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = this.blockId;
     this.level = "school"
     this.skul = false;
@@ -367,7 +367,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.commonService.errMsg();
     this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${this.globalId}_${this.commonService.dateAndTime}`;
     this.footer = '';

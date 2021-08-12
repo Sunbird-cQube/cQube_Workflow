@@ -49,6 +49,15 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
   background-color: #ffebcc;
 }
 
+.content-wrapper{
+  background-repeat: no-repeat;
+  background-position: right;
+  top: 10vh;
+  left: 40vh;
+  /* position: absolute; */
+  background-image: url(../../assets/bg-logo.svg);
+}
+
 /*sidebar menu bottom */
 .user-logout{
   cursor: auto;
@@ -102,9 +111,6 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
     width: 3px;
     height: 100%;
     transition: .1s ease;
-}
-.user-profile   {
-    margin-right: 12px;
 }
 
 .user-det {
@@ -286,16 +292,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
     height: 100%;
     transition: .1s ease;
 }
-.user-profile   {
-    margin-right: 12px;
-}
-.user-profile img {
-  width: 40px;
-  height: 40px;
-  -o-object-fit: cover;
-  object-fit: cover;
-  border-radius: 50%;
-}
+
 .user-det {
   white-space: nowrap;
   overflow: hidden;
@@ -455,16 +452,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
     height: 100%;
     transition: .1s ease;
 }
-.user-profile   {
-    margin-right: 12px;
-}
-.user-profile img {
-  width: 40px;
-  height: 40px;
-  -o-object-fit: cover;
-  object-fit: cover;
-  border-radius: 50%;
-}
+
 .user-det {
   white-space: nowrap;
   overflow: hidden;

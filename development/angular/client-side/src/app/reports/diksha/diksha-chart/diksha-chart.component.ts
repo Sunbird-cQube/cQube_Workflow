@@ -143,7 +143,7 @@ export class DikshaChartComponent implements OnInit {
   }
   async getAllData() {
     this.emptyChart();
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.errMsg();
     this.districtId = '';
     this.footer = '';
@@ -211,7 +211,7 @@ export class DikshaChartComponent implements OnInit {
   districtWise(districtId) {
     this.emptyChart();
     this.errMsg();
-    document.getElementById('home').style.display = "Block";
+    //document.getElementById('home').style.display = "Block";
     this.districtId = districtId
     this.hierName = undefined;
     this.footer = '';
@@ -229,7 +229,7 @@ export class DikshaChartComponent implements OnInit {
   timeRange(timePeriod) {
     this.emptyChart();
     this.fileToDownload = `diksha_raw_data/stack_bar_reports/${this.timePeriod}/${this.timePeriod}.csv`;
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.allDataNotFound = undefined;
     this.errMsg();
     // this.hierName = undefined;

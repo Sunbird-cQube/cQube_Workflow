@@ -16,7 +16,7 @@
   height: 35px; 
 }
 
-img{
+.logo{
   height:30px; 
   width:90px;
 }
@@ -54,7 +54,7 @@ img{
     height: 50px; 
   }
   
-  img{
+  .logo{
     height:45px; 
     width:120px;
   }
@@ -93,7 +93,7 @@ img{
     height: 60px; 
   }
   
-  img{
+  .logo{
     height:55px; 
     width:140px;
   }

@@ -94,7 +94,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   }
 
   homeClick() {
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.timePeriod = 'overall';
     this.districtId = undefined;
     this.blockHidden = true;
@@ -108,9 +108,9 @@ export class DikshaTpdCompletionComponent implements OnInit {
   async getAllData() {
     this.emptyChart();
     if (this.timePeriod != 'overall') {
-      document.getElementById('home').style.display = "block";
+      //document.getElementById('home').style.display = "block";
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
     }
     this.commonService.errMsg();
     this.districts = [];
@@ -164,7 +164,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
 
   //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     this.getAllData();
@@ -196,7 +196,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   //Showing district data based on selected id:::::::::::::::::
   onDistSelect(districtId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = districtId;
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -233,7 +233,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   //Showing block data based on selected id:::::::::::::::::
   onBlockSelect(blockId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = blockId;
     this.blockHidden = false;
     this.clusterHidden = false;
@@ -270,7 +270,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   //Showing cluster data based on selected id:::::::::::::::::
   onClusterSelect(clusterId) {
     this.emptyChart()
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = this.blockId;
     this.level = "school"
     this.skul = false;
@@ -306,7 +306,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.commonService.errMsg();
     this.fileName = `${this.reportName}_${this.timePeriod}_${this.globalId}_${this.commonService.dateAndTime}`;
     this.footer = '';
