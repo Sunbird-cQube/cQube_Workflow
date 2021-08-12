@@ -188,7 +188,7 @@ export class SatHeatChartComponent implements OnInit {
     this.commonFunc();
     this.currentPage = 1;
 
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
   }
 
   commonFunc = () => {
@@ -538,7 +538,7 @@ export class SatHeatChartComponent implements OnInit {
 
 
   selectedYear() {
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     this.month = '';
     this.examDate = 'all';
     this.subject = 'all';
@@ -552,7 +552,7 @@ export class SatHeatChartComponent implements OnInit {
     this.grade = 'all';
     this.examDate = 'all';
     this.subject = 'all';
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     this.levelWiseFilter();
   }
   selectedGrade() {
@@ -628,7 +628,7 @@ export class SatHeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = true;
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -680,7 +680,7 @@ export class SatHeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = false;
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -734,7 +734,7 @@ export class SatHeatChartComponent implements OnInit {
       this.currentPage = 1;
       this.level = 'school';
       this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -828,7 +828,7 @@ export class SatHeatChartComponent implements OnInit {
   //level wise filter
   levelWiseFilter() {
     this.currentPage = 1;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.level == 'district') {
       this.commonFunc()
     }

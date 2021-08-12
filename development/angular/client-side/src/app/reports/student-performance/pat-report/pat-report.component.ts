@@ -352,7 +352,7 @@ export class PATReportComponent implements OnInit {
     this.grade = undefined;
     this.subject = undefined;
     this.subjectHidden = true;
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month = this.months[this.months.length - 1];
     this.month_year = {
@@ -386,9 +386,9 @@ export class PATReportComponent implements OnInit {
     this.subject = undefined;
     this.subjectHidden = true;
     if (this.period != "overall") {
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } else {
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     }
     this.yearMonth = true;
     this.month_year = {
@@ -438,7 +438,7 @@ export class PATReportComponent implements OnInit {
   }
 
   linkClick() {
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.yearMonth = true;
     this.grade = undefined;
     this.subject = undefined;
@@ -565,7 +565,7 @@ export class PATReportComponent implements OnInit {
 
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     } catch (e) {
       console.log(e);
     }
@@ -774,7 +774,7 @@ export class PATReportComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -983,7 +983,7 @@ export class PATReportComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -1193,7 +1193,7 @@ export class PATReportComponent implements OnInit {
         );
 
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -1303,7 +1303,7 @@ export class PATReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   onblockLinkClick(blockId) {
@@ -1431,7 +1431,7 @@ export class PATReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   onclusterLinkClick(clusterId) {
@@ -1592,7 +1592,7 @@ export class PATReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // common function for all the data to show in the map

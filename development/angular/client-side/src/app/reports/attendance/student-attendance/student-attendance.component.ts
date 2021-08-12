@@ -233,7 +233,7 @@ export class StudengtAttendanceComponent implements OnInit {
       (err) => {
         this.dateRange = "";
         this.changeDetection.detectChanges();
-        document.getElementById("home").style.display = "none";
+        //document.getElementById("home").style.display = "none";
         this.getMonthYear = {};
         this.commonService.loaderAndErr(this.markers);
       }
@@ -246,7 +246,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
   //This function will be called on select year-month option show year month dropdown:::::
   showYearMonth() {
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month_year = {
       month: this.month,
@@ -261,9 +261,9 @@ export class StudengtAttendanceComponent implements OnInit {
   //This function will be called on select period dropdown::::
   onPeriodSelect() {
     if (this.period != "overall") {
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } else {
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     }
     this.yearMonth = true;
     this.timePeriod = {
@@ -599,7 +599,7 @@ export class StudengtAttendanceComponent implements OnInit {
       period: this.period,
     };
     this.districtWise();
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
   }
 
   async districtWise() {
@@ -853,7 +853,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
 
@@ -1002,7 +1002,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.markersList);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.cluster = [];
   }
 
@@ -1124,7 +1124,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   //common options at vrious levels:::::::::::::
@@ -1451,7 +1451,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     globalMap.addLayer(this.layerMarkers);
   }
 
@@ -1676,7 +1676,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   clusterSelect(event, data) {
@@ -1917,7 +1917,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   popups(markerIcon, markers, onClick_Marker) {

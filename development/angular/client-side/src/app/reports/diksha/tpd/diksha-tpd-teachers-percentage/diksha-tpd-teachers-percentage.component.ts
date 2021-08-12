@@ -138,7 +138,7 @@ export class DikshaTPDTeachersPercentageComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.timePeriod = 'All';
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     this.selectedCourses = [];
     this.courses = this.courses.map(course => {
       course.status = false;
@@ -466,7 +466,7 @@ export class DikshaTPDTeachersPercentageComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = true;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -506,7 +506,7 @@ export class DikshaTPDTeachersPercentageComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = false;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -547,7 +547,7 @@ export class DikshaTPDTeachersPercentageComponent implements OnInit {
   selectedCluster(clusterId) {
     this.level = 'school';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -629,7 +629,7 @@ export class DikshaTPDTeachersPercentageComponent implements OnInit {
 
   //level wise filter
   levelWiseFilter() {
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.level == 'district') {
       this.commonFunc()
     }

@@ -141,11 +141,11 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     if (this.params && this.params.level) {
       this.level = this.params.level;
       if (this.level == 'state') {
-        document.getElementById('home').style.display = "none";
+        //document.getElementById('home').style.display = "none";
         this.stateData();
       }
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
       this.stateData();
     }
   }
@@ -163,7 +163,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
     if (this.params && this.params.level) {
       if (this.params.level != 'state') {
-        document.getElementById('home').style.display = "block";
+        //document.getElementById('home').style.display = "block";
         this.len = 2;
         this.value = this.params.value;
         this.searchInput.nativeElement.value = this.params.value;
@@ -180,9 +180,9 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   stateData() {
     document.getElementById('spinner').style.display = 'block';
     if (this.period != 'overall') {
-      document.getElementById('home').style.display = "block";
+      //document.getElementById('home').style.display = "block";
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
     }
     this.semLength = 2;
     this.udiseLength = -1;
@@ -240,7 +240,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.err = false;
     this.showAll = false;
     this.showLink = true;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     //document.getElementById('download').style.display = 'block';
     document.getElementById('spinner').style.display = 'block';
     this.exist = false;
@@ -733,7 +733,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   len;
   exist = false;
   onChange() {
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     //document.getElementById('download').style.display = 'none';
 
     this.exist = true;
@@ -758,7 +758,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
 
   levels = [{ key: 'district', name: 'District' }, { key: 'block', name: 'Block' }, { key: 'cluster', name: 'Cluster' }, { key: 'school', name: 'School' }];
   selectedLevel(callSubmit = false) {
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     //document.getElementById('download').style.display = 'none';
     this.exist = true;
     this.cdr.detectChanges();

@@ -355,7 +355,7 @@ export class CrcReportComponent implements OnInit {
   reportName = "crc_report";
 
   showYearMonth() {
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month_year = {
       month: this.monthNames.indexOf(this.month.trim()) + 1,
@@ -385,9 +385,9 @@ export class CrcReportComponent implements OnInit {
 
   onPeriodSelect() {
     if (this.period != "overall") {
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } else {
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     }
     this.yearMonth = true;
     this.month_year = {
@@ -403,7 +403,7 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.districtWise();
   }
 
@@ -813,7 +813,7 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   myBlockData(data: any, fromParam = false) {
@@ -961,7 +961,7 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   myClusterData(data: any, fromParam = false) {
@@ -1108,7 +1108,7 @@ export class CrcReportComponent implements OnInit {
           this.commonService.loaderAndErr(this.chartData);
         }
       );
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   countVisitedAndNotVisited(a) {

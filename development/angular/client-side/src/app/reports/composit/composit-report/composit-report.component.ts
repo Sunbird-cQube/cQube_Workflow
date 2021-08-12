@@ -142,7 +142,7 @@ export class CompositReportComponent implements OnInit {
     this.clusterHidden = true;
     this.reportData = [];
 
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
 
     if (this.myData) {
       this.myData.unsubscribe();
@@ -194,7 +194,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = true;
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -251,7 +251,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = false;
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -307,7 +307,7 @@ export class CompositReportComponent implements OnInit {
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -373,7 +373,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.reportData = [];
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -411,7 +411,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.reportData = [];
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -449,7 +449,7 @@ export class CompositReportComponent implements OnInit {
   //   this.blockHidden = true;
   //   this.clusterHidden = true;
   //   this.reportData = [];
-  //   document.getElementById('home').style.display = 'block';
+  //   //document.getElementById('home').style.display = 'block';
   //   if (this.myData) {
   //     this.myData.unsubscribe();
   //   }
