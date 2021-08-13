@@ -17,6 +17,7 @@ drop view if exists hc_periodic_exam_district_all cascade;
 drop view if exists hc_pat_state_mgmt_overall cascade;
 drop view if exists hc_pat_state_mgmt_last30 cascade;
 
+
 create or replace function drop_view_pat()
 returns int as
 $body$
@@ -74,6 +75,7 @@ language plpgsql;
 
 select drop_view_pat();
 
+
 create or replace function drop_mv_pat()
 returns int as
 $body$
@@ -121,7 +123,7 @@ language plpgsql;
 
 select drop_mv_pat();
 
-/*PAT views*/
+/*PAT views */
 
 /*daterange*/
 
@@ -132,6 +134,7 @@ union
 (select exam_code,'last7days' as date_range from periodic_exam_mst where exam_date between 
 (select ((now()::Date)-INTERVAL '7 DAY')::Date) and (select now()::DATE) );
 
+/* Materialized views for calculating total_students */
 /* last 30 days */
 
 /* district - grade */
@@ -142,7 +145,7 @@ where sge.school_id in (select school_id from periodic_exam_school_result where 
  group by district_id,grade)
      WITH NO DATA ;
 
-/*--- block - grade*/
+/* block - grade*/
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_block_last30 AS
 (select sum(students_count) as total_students,block_id,concat('Grade ',grade) as grade from school_grade_enrolment sge join school_hierarchy_details shd on sge.school_id=shd.school_id 
@@ -166,7 +169,7 @@ where sge.school_id in (select school_id from periodic_exam_school_result where 
 	 group by sge.school_id,grade)
      WITH NO DATA ;
 
-/* management views */
+/* Materialized views for calculating total_students based on management*/
 
 /* district */
 
@@ -176,12 +179,15 @@ where sge.school_id in (select school_id from periodic_exam_school_result where 
  group by district_id,grade,school_management_type)
      WITH NO DATA ;
 
+/* block */
+
 CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_block_mgmt_last30 AS
 (select sum(students_count) as total_students,school_management_type,block_id,concat('Grade ',grade) as grade from school_grade_enrolment sge join school_hierarchy_details shd on sge.school_id=shd.school_id 
 where sge.school_id in (select school_id from periodic_exam_school_result where exam_code in  (select exam_code from pat_date_range where date_range='last30days'))
  group by block_id,grade,school_management_type)
      WITH NO DATA ;
 
+/* cluster */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_cluster_mgmt_last30 AS
 (select sum(students_count) as total_students,school_management_type,cluster_id,concat('Grade ',grade) as grade from school_grade_enrolment sge join school_hierarchy_details shd on sge.school_id=shd.school_id 
@@ -189,6 +195,7 @@ where sge.school_id in (select school_id from periodic_exam_school_result where 
  group by cluster_id,grade,school_management_type)
      WITH NO DATA ;
 
+/* school */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_school_mgmt_last30 AS
 (select sum(students_count) as total_students,school_management_type,sge.school_id,concat('Grade ',grade) as grade from school_grade_enrolment sge 
@@ -197,6 +204,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_school_mgmt_last30
  group by sge.school_id,grade,school_management_type)
      WITH NO DATA ;
 
+/* Materialized views for calculating total_students */
 /* last 7 days */
 
 /* district - grade */
@@ -231,7 +239,8 @@ where sge.school_id in (select school_id from periodic_exam_school_result where 
 	 group by sge.school_id,grade)
      WITH NO DATA ;
 
-/* management views */
+/* Materialized views for calculating total_students based on management*/
+/* management views -last 7 days  */
 
 /* district */
 
@@ -247,13 +256,11 @@ where sge.school_id in (select school_id from periodic_exam_school_result where 
  group by block_id,grade,school_management_type)
      WITH NO DATA ;
 
-
 CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_cluster_mgmt_last7 AS
 (select sum(students_count) as total_students,school_management_type,cluster_id,concat('Grade ',grade) as grade from school_grade_enrolment sge join school_hierarchy_details shd on sge.school_id=shd.school_id 
 where sge.school_id in (select school_id from periodic_exam_school_result where exam_code in  (select exam_code from pat_date_range where date_range='last7days'))
  group by cluster_id,grade,school_management_type)
      WITH NO DATA ;
-
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_school_mgmt_last7 AS
 (select sum(students_count) as total_students,school_management_type,sge.school_id,concat('Grade ',grade) as grade from school_grade_enrolment sge 
@@ -262,6 +269,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_school_mgmt_last7 
  group by sge.school_id,grade,school_management_type)
      WITH NO DATA ;
 
+/* Materialized views for calculating total_students */
 /* year month */
 
 /* district - grade */
@@ -327,8 +335,8 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS school_grade_enrolment_school_mgmt AS
  group by sge.school_id,grade,school_management_type)
      WITH NO DATA ;
 
-/*------------------------Over all--------------------------------------------------------------------------------------------------------*/
-/* periodic exam district*/
+/* Overall MVs */
+/*PAT MV to calculate district_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_district_all as
 (select c.*,d.subject_wise_performance from
@@ -368,7 +376,7 @@ group by academic_year,district_id)as d
 on c.academic_year=d.academic_year and c.district_id=d.district_id) WITH NO DATA;
 
 
-/*periodic exam block*/
+/*PAT MV to calculate block_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_block_all as
 (select c.*,d.subject_wise_performance from
@@ -408,7 +416,7 @@ group by academic_year,block_id,grade)as d
 group by academic_year,block_id
 )as d on c.academic_year=d.academic_year and c.block_id=d.block_id) WITH NO DATA;
 
-/*periodic exam cluster*/
+/*PAT MV to calculate cluster_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_cluster_all as
 (select c.*,d.subject_wise_performance from
@@ -449,7 +457,7 @@ group by academic_year,cluster_id,grade)as d
 group by academic_year,cluster_id
 )as d on c.academic_year=d.academic_year and c.cluster_id=d.cluster_id) WITH NO DATA;
 
-/*periodic exam school*/
+/*PAT MV to calculate school_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_school_all as
 (select c.*,d.subject_wise_performance from
@@ -490,9 +498,7 @@ group by academic_year,school_id,grade)as d
 group by academic_year,school_id
 )as d on c.academic_year=d.academic_year and c.school_id=d.school_id) WITH NO DATA;
 
-/*----------------------------------------------------------- PAT grade subject wise*/
-
-/* district - grade */
+/*PAT MV to calculate district_performance, grade performance and subjectwise performance based on grade */
 
 create or replace view periodic_grade_district_all as
 select a.*,b.grade,b.subjects
@@ -516,8 +522,7 @@ district_id order by 3,grade))as a
 group by district_id,grade,academic_year
 order by 1,grade)as b on a.academic_year=b.academic_year and a.district_id=b.district_id;
 
-
-/*--- block - grade*/
+/*PAT MV to calculate block_performance, grade performance and subjectwise performance based on grade */
 
 create or replace view periodic_grade_block_all as
 select a.*,b.grade,b.subjects
@@ -542,7 +547,7 @@ block_id order by 3,grade))as a
 group by block_id,grade,academic_year
 order by 1,grade)as b on a.academic_year=b.academic_year and a.block_id=b.block_id;
 
-/*--- cluster - grade*/
+/*PAT MV to calculate cluster_performance, grade performance and subjectwise performance based on grade */
 
 create or replace view periodic_grade_cluster_all as
 select a.*,b.grade,b.subjects
@@ -567,7 +572,7 @@ cluster_id order by 3,grade))as a
 group by cluster_id,grade,academic_year
 order by 1,grade)as b on a.academic_year=b.academic_year and a.cluster_id=b.cluster_id;
 
-/*--- school - grade*/
+/*PAT MV to calculate school_performance, grade performance and subjectwise performance based on grade */
 
 create or replace view periodic_grade_school_all as
 select a.*,b.grade,b.subjects
@@ -593,7 +598,7 @@ group by school_id,grade,academic_year
 order by 1,grade)as b on a.academic_year=b.academic_year and a.school_id=b.school_id;
 
 /*------------------------last 30 days--------------------------------------------------------------------------------------------------------*/
-/* materialized views */
+/* Materialized view to calculate the count of students_attended  and total schools */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS stud_count_school_mgmt_last30 as
 (select c.school_id,b.assessment_year as academic_year,c.cluster_id,c.block_id,c.district_id,c.school_management_type,
@@ -616,7 +621,7 @@ and pert.exam_code=pem.exam_code
 where pem.exam_code in (select exam_code from pat_date_range where date_range='last30days')) as a
 group by school_id,cluster_id,block_id,district_id,grade,academic_year,school_management_type) WITH NO DATA;
 
-/* periodic exam district */
+/*PAT MV to calculate district_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_district_last30 as
 (select d.*,b.total_schools,b.students_count as students_attended,tot_stud.total_students from
@@ -696,7 +701,7 @@ from stud_count_school_mgmt_last30 group by district_id,academic_year)as b
  where school_id in (select school_id from periodic_exam_school_result where exam_code in  (select exam_code from pat_date_range where date_range='last30days')) group by district_id) tot_stud
 on d.district_id=tot_stud.district_id) WITH NO DATA;
 
-/* periodic exam block */
+/*PAT MV to calculate block_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_block_last30 as
 (select d.*,b.total_schools,b.students_count as students_attended,tot_stud.total_students from
@@ -776,7 +781,7 @@ from stud_count_school_mgmt_last30 group by block_id,academic_year)as b
  where school_id in (select school_id from periodic_exam_school_result where exam_code in  (select exam_code from pat_date_range where date_range='last30days')) group by block_id) tot_stud
 on d.block_id=tot_stud.block_id) WITH NO DATA;
 
-/* periodic exam cluster */
+/*PAT MV to calculate cluster_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_cluster_last30 as
 (select d.*,b.total_schools,b.students_count as students_attended,tot_stud.total_students from
@@ -857,7 +862,7 @@ from stud_count_school_mgmt_last30 group by cluster_id,academic_year)as b
  where school_id in (select school_id from periodic_exam_school_result where exam_code in  (select exam_code from pat_date_range where date_range='last30days')) group by cluster_id) tot_stud
 on d.cluster_id=tot_stud.cluster_id) WITH NO DATA;
 
-/*periodic exam school*/
+/*PAT MV to calculate school_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_school_last30 as
 (select d.*,b.total_schools,b.students_count as students_attended,tot_stud.total_students from
@@ -926,7 +931,7 @@ stud_count_school_mgmt_last30 as b
 where school_id in (select school_id from periodic_exam_school_result where exam_code in  (select exam_code from pat_date_range where date_range='last30days')) ) tot_stud
 on d.school_id=tot_stud.school_id) WITH NO DATA;
 
-/*--- school - grade*/
+/*PAT MV to calculate school_performance, grade performance and subjectwise performance for each grade */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS  periodic_grade_school_last30 as
 (select a.*,b.grade,b.subjects,c.students_attended,tot_stud.total_students,c.total_schools
@@ -968,7 +973,7 @@ join
 school_grade_enrolment_school_last30 tot_stud
 on b.school_id=tot_stud.school_id and b.grade=tot_stud.grade) WITH NO DATA;
 
-/*--- cluster - grade*/
+/*PAT MV to calculate cluster_performance, grade performance and subjectwise performance for each grade */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS  periodic_grade_cluster_last30 as
 (select a.*,b.grade,b.subjects,c.students_attended,tot_stud.total_students,c.total_schools
@@ -1011,7 +1016,7 @@ join
 school_grade_enrolment_cluster_last30 tot_stud
 on b.cluster_id=tot_stud.cluster_id and b.grade=tot_stud.grade) WITH NO DATA;
 
-/*--- block - grade*/
+/*PAT MV to calculate block_performance, grade performance and subjectwise performance for each grade */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS  periodic_grade_block_last30 as
 (select a.*,b.grade,b.subjects,c.students_attended,tot_stud.total_students,c.total_schools
@@ -1054,7 +1059,7 @@ join
 school_grade_enrolment_block_last30 tot_stud
 on b.block_id=tot_stud.block_id and b.grade=tot_stud.grade) WITH NO DATA;
 
-/*--- district - grade*/
+/*PAT MV to calculate district_performance, grade performance and subjectwise performance for each grade */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS  periodic_grade_district_last30 as
 (select a.*,b.grade,b.subjects,c.students_attended,tot_stud.total_students,c.total_schools
@@ -1100,7 +1105,7 @@ on b.district_id=tot_stud.district_id and b.grade=tot_stud.grade) WITH NO DATA;
 
 /*------------------------last 7 days--------------------------------------------------------------------------------------------------------*/
 
-/* materialized views */
+/* Materialized view to calculate the count of students_attended  and total schools */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS stud_count_school_mgmt_last7 as
 (select c.school_id,b.assessment_year as academic_year,c.cluster_id,c.block_id,c.district_id,c.school_management_type,
@@ -1123,7 +1128,7 @@ and pert.exam_code=pem.exam_code
 where pem.exam_code in (select exam_code from pat_date_range where date_range='last7days')) as a
 group by school_id,cluster_id,block_id,district_id,grade,academic_year,school_management_type) WITH NO DATA;
 
-/* periodic exam district */
+/*PAT MV to calculate school_performance, grade_wise performance and subjectwise performance */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS periodic_exam_district_last7 as
 (select d.*,b.total_schools,b.students_count as students_attended,tot_stud.total_students from

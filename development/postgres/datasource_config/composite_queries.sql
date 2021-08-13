@@ -1,3 +1,4 @@
+/* drop view statements */
 drop view if exists composite_mgt_district;
 drop view if exists composite_mgt_block;
 drop view if exists composite_mgt_cluster;
@@ -344,7 +345,7 @@ drop view if exists composite_school;
 
 /*select * from composite_create_views();*/
 
-
+/* composite_jolt_spec */
 create or replace function composite_jolt_spec()
     RETURNS text AS
     $$
@@ -457,8 +458,6 @@ having Sum(case when subject_1_marks_scored is null then 0 else subject_1_marks_
  ) = 0;
 	
 /* Composite Management Queries */
-
-/*Composite reports */
 
 /*insert script for composite dynamic queries*/
 

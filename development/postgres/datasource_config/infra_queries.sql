@@ -1564,6 +1564,7 @@ $$LANGUAGE plpgsql;
 
 select infra_school_mgt_reports('water','toilet');
 
+/* health card infra  queries*/
 /*school - infra*/
 create or replace view hc_infra_school as
 select b.*,atf.areas_to_focus,c.school_level_rank_within_the_state,
@@ -1694,7 +1695,6 @@ ON b.cluster_id = c.cluster_id
 left join infra_cluster_atf as atf on b.cluster_id=atf.cluster_id;
 
 /*block*/
-
 
 create or replace view  hc_infra_block as
 select b.*,atf.areas_to_focus,c.block_level_rank_within_the_state,

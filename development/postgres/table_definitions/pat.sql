@@ -1,5 +1,6 @@
-/* subject_master */
+/* File contains the table definitions for PAT report related tables */
 
+/* subject_master */
 create table if not exists subject_master
 (
 subject_id  bigint primary key not null,
@@ -11,7 +12,6 @@ updated_on  TIMESTAMP without time zone
 
 
 /*school_student_subject_total_marks*/
-
 create table if not exists school_student_subject_total_marks
 (
 id  serial,
@@ -60,7 +60,8 @@ primary key(school_id,semester,grade)
 
 create index if not exists school_student_total_marks_id on school_student_subject_total_marks(semester,school_id,block_id,cluster_id);
 
-/*pat null validation table*/
+
+/* Tables used for null validation by Nifi */
 
 create table if not exists pat_null_col(
 filename varchar(200) ,
@@ -101,6 +102,8 @@ count_null_school_id int,
 count_null_studying_class int,
 count_null_obtained_marks int
 );
+
+/* Tables used for duplicate validation by Nifi */
 
 create table if not exists periodic_exam_mst_dup(
 exam_id	int,
@@ -252,6 +255,22 @@ updated_on  timestamp,
 primary key(exam_code, student_uid, question_id)
 );
 
+
+create table IF NOT EXISTS school_grade_enrolment(
+  school_id bigint,
+  grade int,
+  students_count int,
+  primary key(school_id,grade)
+);
+
+create table IF NOT EXISTS subject_details(
+  subject_id int,
+  grade int,
+  subject varchar(100),
+  primary key(subject_id,grade)
+);
+
+/* PAT aggregation tables */
 create table if not exists periodic_exam_school_result
 (id  serial,
 academic_year  varchar(50),
@@ -312,23 +331,6 @@ updated_on  timestamp,
 primary key(academic_year,exam_code,school_id,question_id)
 );
 
-/* PAT exception tables */
-
-create table IF NOT EXISTS school_grade_enrolment(
-  school_id bigint,
-  grade int,
-  students_count int,
-  primary key(school_id,grade)
-);
-
-create table IF NOT EXISTS subject_details(
-  subject_id int,
-  grade int,
-  subject varchar(100),
-  primary key(subject_id,grade)
-);
-
-
 alter table pat_null_col add column  IF NOT EXISTS count_null_grade int;
 
 create table if not exists pat_subject_details_dup(subject_id int,subject varchar(100),grade smallint,num_of_times int,
@@ -349,12 +351,14 @@ insert into del_data_source_details values('periodic_assessment_test','exam_code
 insert into del_data_source_details values('periodic_assessment_test','exam_code','periodic_exam_school_result',6) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
 insert into del_data_source_details values('periodic_assessment_test','exam_code','periodic_exam_stud_grade_count',7) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
 
+
 alter table periodic_exam_school_qst_result add column if not exists school_management_type varchar(100);
 alter table periodic_exam_school_qst_result add column if not exists school_category varchar(100);
 
 alter table periodic_exam_school_result add column if not exists school_management_type varchar(100);
 alter table periodic_exam_school_result add column if not exists school_category varchar(100);
 
+/* Tables to store the students_attended and total_schools at cluster and grade level */
 create unlogged table if not exists student_att_grade_count (
 cluster_id bigint,
 grade text,
@@ -371,6 +375,8 @@ month text,
 school_management_type varchar(100),
 students_count bigint,
 total_schools bigint);
+
+/* Tables to store pat processing information */
 
 create table if not exists pat_processing_info(
 id text,
