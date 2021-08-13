@@ -4,13 +4,15 @@
     <div class="report-cards">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="healthCard" [routerLink]="false ? ['/coming-soon'] :['/progressCard']"
+                <span id="healthCard"
+                    [routerLink]="!dataSource['nifi_healthcard'] ? ['/coming-soon'] :['/progressCard']"
                     (click)="fetchTelemetry($event,'healthCard')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                    <li><img class="card-icon" src="../../../../assets/ic_trending_up.svg" alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">

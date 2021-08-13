@@ -173,7 +173,9 @@ export class CrcReportComponent implements OnInit {
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
@@ -232,7 +234,6 @@ export class CrcReportComponent implements OnInit {
         }
       } else {
         this.levelWiseFilter()
-        // this.districtWise();
       }
     }, err => {
       this.commonService.loaderAndErr([]);
@@ -240,7 +241,9 @@ export class CrcReportComponent implements OnInit {
   }
 
   getDistricts(level): void {
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.service
       .crcDistWiseData({ ...{ timePeriod: this.period }, ...this.month_year, ...{ management: this.management, category: this.category } })
       .subscribe((res) => {
@@ -492,7 +495,7 @@ export class CrcReportComponent implements OnInit {
             };
             this.labels = labels;
             this.obj = obj;
-            this.createChart(labels, this.chartData, this.tableHead, obj);
+            this.createChart(labels, this.chartData, this.tableHead, this.obj);
             this.tableData = this.result;
             this.dtOptions = {
               data: this.tableData,
@@ -682,7 +685,9 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.modes = [];
     this.downloadType = "";
     this.blockHidden = false;
@@ -757,7 +762,7 @@ export class CrcReportComponent implements OnInit {
             };
             this.labels = labels;
             this.obj = obj;
-            this.createChart(labels, this.chartData, this.tableHead, obj);
+            this.createChart(labels, this.chartData, this.tableHead, this.obj);
             this.changeDetection.detectChanges();
             this.tableData = this.crcBlocksNames;
             this.dtOptions = {
@@ -821,7 +826,9 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.modes = [];
     this.downloadType = "";
     this.clusterHidden = false;
@@ -905,7 +912,7 @@ export class CrcReportComponent implements OnInit {
           };
           this.labels = labels;
           this.obj = obj;
-          this.createChart(labels, this.chartData, this.tableHead, obj);
+          this.createChart(labels, this.chartData, this.tableHead, this.obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcClusterNames;
           this.dtOptions = {
@@ -969,7 +976,9 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.modes = [];
     this.downloadType = "";
     this.tableHead = "School Name";
@@ -1055,7 +1064,7 @@ export class CrcReportComponent implements OnInit {
           };
           this.labels = labels;
           this.obj = obj;
-          this.createChart(labels, this.chartData, this.tableHead, obj);
+          this.createChart(labels, this.chartData, this.tableHead, this.obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcSchoolNames;
           this.dtOptions = {
@@ -1127,7 +1136,7 @@ export class CrcReportComponent implements OnInit {
   }
 
   labels: any;
-  obj: any;
+  obj:any;
   createChart(labels, chartData, name, obj) {
     var ctx = $("#myChart");
     ctx.attr(
@@ -1140,7 +1149,6 @@ export class CrcReportComponent implements OnInit {
             ? "52vh"
             : "44vh"
     );
-    console.log(ctx);
     this.scatterChart = new Chart("myChart", {
       type: "scatter",
       data: {

@@ -1,11 +1,14 @@
  #management{
     width: 100%;
+    Border: none;
+    padding: 8px 10px 8px 8px !important;
 }
 
 .heading{
     font-size: 18px;
     float: left;
     font-weight: bold;
+    padding: 5px 0px 0px 0px;
 }
 
 #mSelect{
@@ -13,25 +16,37 @@
 }
 
 @media screen and (min-width:  2520px){
+    #management{
+        width: 100%;
+        Border: none;
+        padding: 14px 12px 14px 12px !important;
+    }
     .heading{
-        font-size: 28px !important;
+        font-size: 30px !important;
         float: left !important;
         font-weight: bold !important;
+        padding: 8px 0px 0px 0px !important;
     }
     
     #mSelect{
-        font-size: 24px !important;
+        font-size: 26px !important;
     }
 }
 
 @media screen and (min-width:  3820px){
+    #management{
+        width: 100%;
+        Border: none;
+        padding: 16px 10px 16px 14px !important;
+    }
     .heading{
-        font-size: 36px !important;
+        font-size: 40px !important;
         float: left !important;
         font-weight: bold !important;
+        padding: 10px 0px 0px 0px !important; 
     }
     
     #mSelect{
-        font-size: 32px !important;
+        font-size: 34px !important;
     }
 }

@@ -6,7 +6,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 html,body {
-    height: 100%;
+    background-color: #fff;
+    background-size: cover;
+    height: 100vh;
     margin: 0;
     font-family: Helvetica Neue Bold;
 }
@@ -201,15 +203,15 @@ table.dataTable.nowrap td {
 #footer {
     width: 100%;
     border-top: 1px solid #cdccc8;
-    /* background-color: rgb(152, 160, 163); */
-    /* font-size: 13px; */
+    background-color: rgb(243, 245, 212);
+    font-size: 13px;
     font-weight: bold;
     color: #727374;
-    padding: 2px 0px 2px 0px;
-    position: relative;
+    padding: 2px;
+    position: fixed;
     bottom: 0;
     left: 14px;
-    z-index: 999;
+    z-index: 999 !important;
     margin-top: 0.3%;
 }
 
@@ -369,9 +371,19 @@ table.dataTable.nowrap td {
 
 #accessProgressCard{
     float: right;
-    right: 10px;
+    right: 20px;
+    top: 7px;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    font-size: 12px;
+    background: #0545a5;
+}
+
+#download1{
+    float: right;
+    right: 10px !important;
     top: 5px;
-    padding: 4px 7px 4px 7px;
+    padding: 5px 8px 5px 8px;
     position: absolute;
     font-size: 12px;
     background: #0545a5;
@@ -381,11 +393,11 @@ table.dataTable.nowrap td {
     border:1px solid gainsboro;
     border-radius: 10px;
     background: ghostwhite;
-    padding: 0px 6px 0px 10px;
+    padding: 0px 8px 0px 10px;
     color: #1358c0;
     font-size: 12px;
     right: 15px;
-    top: 0.8%;
+    top: 12%;
     position: absolute;
     cursor: pointer;
 }
@@ -396,6 +408,7 @@ table.dataTable.nowrap td {
 #backBtn img{
     height: 15px;
     width: 16px;
+    margin-left: 5px;
     margin-top: -0.3vh;
 }
 
@@ -450,13 +463,12 @@ table.dataTable.nowrap td {
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
-        /* background-color: rgb(152, 160, 163); */
+        background-color: rgb(243, 245, 212);
         font-size: 20px !important;
         font-weight: bold;
         color: #727374;
-
-        padding: 2px 0px 2px 0px;
-        position: relative;
+        padding: 3px;
+        position: fixed;
         bottom: 0;
         left: 14px;
         z-index: 999;
@@ -602,9 +614,19 @@ table.dataTable.nowrap td {
 
     #accessProgressCard{
         float: right;
+        right: 30px !important;
+        top: 12px !important;
+        padding: 8px 10px 8px 10px !important;
+        position: absolute !important;
+        font-size: 20px !important;
+        background: #0545a5;
+    }
+
+    #download1{
+        float: right;
         right: 20px !important;
-        top: 8px !important;
-        padding: 6px 9px 6px 9px !important;
+        top: 6px !important;
+        padding: 8px 10px 8px 10px !important;
         position: absolute !important;
         font-size: 20px !important;
         background: #0545a5;
@@ -614,11 +636,11 @@ table.dataTable.nowrap td {
         border:1px solid gainsboro;
         border-radius: 12px;
         background: ghostwhite;
-        padding: 7px 10px 7px 10px !important;
+        padding: 10px 10px 10px 10px !important;
         color: #1358c0;
         font-size: 24px !important;
         right: 20px !important;
-        top: 0.8vh !important;
+        top: 12% !important;
         position: absolute;
         cursor: pointer;
     }
@@ -638,13 +660,12 @@ table.dataTable.nowrap td {
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
-        /* background-color: rgb(152, 160, 163); */
+        background-color: rgb(243, 245, 212);
         font-size: 24px !important;
         font-weight: bold;
         color: #727374;
-
-        padding: 2px 0px 2px 0px;
-        position: relative;
+        padding: 4px !important;
+        position: fixed !important;
         bottom: 0;
         left: 14px;
         z-index: 999;
@@ -790,9 +811,19 @@ table.dataTable.nowrap td {
 
     #accessProgressCard{
         float: right;
+        right: 40px !important;
+        top: 20px !important;
+        padding: 14px 15px 14px 15px !important;
+        position: absolute !important;
+        font-size: 28px !important;
+        background: #0545a5;
+    }
+
+    #download1{
+        float: right;
         right: 30px !important;
-        top: 8px !important;
-        padding: 8px 12px 8px 12px !important;
+        top: 0px !important;
+        padding: 10px 15px 10px 15px !important;
         position: absolute !important;
         font-size: 28px !important;
         background: #0545a5;
@@ -802,11 +833,11 @@ table.dataTable.nowrap td {
         border:1px solid gainsboro;
         border-radius: 10px;
         background: ghostwhite;
-        padding: 20px !important;
+        padding: 22px 14px 22px 14px !important;
         color: #1358c0;
         font-size: 34px !important;
         right: 20px !important;
-        top: 0.5vh !important;
+        top: 16% !important;
         position: absolute;
         cursor: pointer;
     }
@@ -862,6 +893,9 @@ table.dataTable.nowrap td {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
         background-size: 30px 30px !important;
     }
+    .report-cards {
+        margin-top: 35px !important; 
+      }
   
 }
 
@@ -895,6 +929,10 @@ table.dataTable.nowrap td {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
         background-size: 40px 40px !important;
     }
+
+    .report-cards {
+        margin-top: 50px !important;
+      }
 }
 
 .dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
@@ -983,7 +1021,7 @@ table.dataTable.nowrap td {
 
 
  .report-cards {
-    margin-top: 30px;
+    margin-top: 15px;
   }
   .report-cards h5,  h5 {
     margin-bottom: 20px;

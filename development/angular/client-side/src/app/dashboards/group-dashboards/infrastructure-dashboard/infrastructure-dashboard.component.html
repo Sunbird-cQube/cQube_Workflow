@@ -5,13 +5,15 @@
     <div class="report-cards">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="imr" [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                <span id="imr"
+                    [routerLink]="!dataSource['nifi_infra'] ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                     (click)="fetchTelemetry($event,'imr')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                    <li><img class="card-icon" src="../../../../assets/Infrastructure-icon.png" alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -35,13 +37,15 @@
 
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="cr" [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                <span id="cr"
+                    [routerLink]="!dataSource['nifi_infra'] ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
                     (click)="fetchTelemetry($event,'cr')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt=""></li>
+                                    <li><img class="card-icon" src="../../assets/Composite-Report-icon.png" alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -65,13 +69,15 @@
 
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="udise" [routerLink]="!nifi_udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
+                <span id="udise"
+                    [routerLink]="!dataSource['nifi_udise'] ? ['/coming-soon'] :['/infrastructure/udise-report']"
                     (click)="fetchTelemetry($event,'udise')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><img class="card-icon" src="../../../../assets/UDISE-Report-icon.png" alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">

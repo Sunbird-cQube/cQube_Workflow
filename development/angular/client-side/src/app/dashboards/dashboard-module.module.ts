@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 
 var dashboardRoutes: Routes = [
   {
-    path: '', canActivate: [AuthGuard], children: [
+    path: '', canActivate: [AuthGuard], data: ['admin', 'report_viewer'], children: [
       {
         path: 'infrastructure-dashboard', component: InfrastructureDashboardComponent
       },

@@ -58,14 +58,15 @@
                     </p>
                 </div>
                 <div class="col-sm-4">
-                    <img *ngIf="reportData.length>0" src="../../../../assets/Group 6.svg" alt="Download Report"
-                        title="Download Report" id="download" (click)="downloadReport($event)">
-
+                    <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report" id="download1"
+                        (click)="downloadReport($event)">Dpwnload Report &nbsp; <i class="fa fa-arrow-down"
+                            aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <div style="background: rgb(241, 241, 241); padding: 1%; border-radius: 10px;">
+    <div>
         <div class="row">
             <div class="col-sm-12">
                 <p class="note">

@@ -16,7 +16,7 @@ const otherRoutes = [
       }]
   },
   {
-    path: 'user', canActivate: [AuthGuard], children: [
+    path: 'user', canActivate: [AuthGuard], data: ['viewer'], children: [
       {
         path: 'changePassword', component: ChangePasswordComponent, canActivateChild: [AuthGuard], data: ['viewer']
       }]

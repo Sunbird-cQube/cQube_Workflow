@@ -29,9 +29,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div style="float: right; " id="select">
-                        <em class="fa fa-cloud-download" title="Download Report" id="download"
-                            style="cursor: pointer;font-size: 27px; float: right;margin: 5px 0px 0px 8px;color: #3100cc;"
-                            (click)="downloadReportByType(downloadType)"></em>
+                        <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                            id="download1" (click)="downloadReportByType(downloadType)">Dpwnload Report &nbsp; <i
+                                class="fa fa-arrow-down" aria-hidden="true"></i>
+                        </button>
                         <select class="dwnld" id="downloader"
                             style="padding: 5px; color: white; border-radius: 4px;margin: 5px 0px 0px 8px; font-size: 11px; font-weight: bold; background-color: rgb(152, 160, 163);"
                             [(ngModel)]="downloadType" name="downloadType" (change)="onChange()">

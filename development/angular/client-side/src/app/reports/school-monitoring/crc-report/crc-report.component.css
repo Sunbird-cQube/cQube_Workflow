@@ -7,6 +7,12 @@
   cursor: pointer;
 }
 
+/* #reportHeader{
+  top: 50px;
+  left: 30px;
+  position: fixed;
+} */
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -51,6 +57,19 @@
   border: 1px solid gray;
 }
 
+#downloader{
+  margin-top: 1vh;
+  margin-right: 15px;
+  margin-bottom: 3px;
+  padding: 5.2px;
+  color: white;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  background-color: rgb(152, 160, 163);
+}
+
+
 @media screen and (min-width: 1920px) {
   .dataTables_scroll,
   .dataTables_scrollHead {
@@ -69,6 +88,18 @@
     width: 100%;
     border: 1px solid gray;
   }
+
+  #downloader{
+    margin-top: 8px !important;
+    margin-right: 15px;
+    margin-bottom: 3px;
+    padding: 8px !important;
+    color: white;
+    border-radius: 4px;
+    font-size: 22px !important;
+    font-weight: bold;
+    background-color: rgb(152, 160, 163);
+  }
 }
 
 @media screen and (min-width: 3820px) {
@@ -78,6 +109,18 @@
     text-align: center;
     width: 100%;
     border: 1px solid gray;
+  }
+
+  #downloader{
+    margin-top: 10px !important;
+    margin-right: 20px !important;
+    margin-bottom: 4px;
+    padding: 12px !important;
+    color: white;
+    border-radius: 6px;
+    font-size: 32px !important;
+    font-weight: bold;
+    background-color: rgb(152, 160, 163);
   }
 }
 
