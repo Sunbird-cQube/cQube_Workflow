@@ -298,3 +298,43 @@ font-size: 11px;
 .myDiv .dataTables_wrapper .dataTables_scrollBody table tbody tr th, .myDiv .dataTables_wrapper .dataTables_scrollBody table table.dataTable tbody tr td {
   padding: 0px 0px !important;
 }
+
+
+
+.reportHeader1{
+  top: 45px;
+  position: fixed;
+  width: calc(100% - 25px);
+  z-index: 999;
+  background-color: #F5F5F5;
+}
+.reportContainer1{
+  margin-top: 140px;
+}
+
+
+@media screen and (min-width: 2140px) {
+   .reportHeader1{
+       top: 70px !important;
+       position: fixed;
+       width: calc(100% - 25px);
+       z-index: 999;
+       background-color: #F5F5F5;
+    }
+    .reportContainer1{
+       margin-top: 220px !important;
+    }
+}
+
+@media screen and (min-width: 3820px) {
+   .reportHeader1{
+       top: 120px !important;
+       position: fixed;
+       width: calc(100% - 25px);
+       z-index: 999;
+       background-color: #F5F5F5;
+    }
+    .reportContainer1{
+       margin-top: 250px !important;
+    }
+}

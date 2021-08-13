@@ -243,7 +243,7 @@ export class SemesterExceptionComponent implements OnInit {
 
           this.commonService.restrictZoom(globalMap);
           globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
-          this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allBlocks_${this.commonService.dateAndTime}`;
+          this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
           this.genericFun(this.data, options, this.fileName);
           this.commonService.onResize(this.level);
 

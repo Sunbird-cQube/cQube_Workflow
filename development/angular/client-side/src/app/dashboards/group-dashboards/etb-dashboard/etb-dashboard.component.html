@@ -4,7 +4,7 @@
 
     <div class="report-cards">
         <div class="row">
-            <div *ngIf="!diksha_column" class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="diksha_column" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="ut"
                     [routerLink]="!dataSource['nifi_diksha'] ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
                     (click)="fetchTelemetry($event,'ut')" class="text-decoration-none">

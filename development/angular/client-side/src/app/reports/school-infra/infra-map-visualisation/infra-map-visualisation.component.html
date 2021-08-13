@@ -121,7 +121,7 @@
             </div>
             <div [ngStyle]="{height: heigth > 1760 ? '80vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}"
                 style="float: right; width: 11%; margin-left: 1%;  padding-left: 1.5%;border-radius: 3%;">
-                <h5 id="legend" style="margin-left: 20%; padding-top: 1%;">Legend</h5>
+                <h5 id="legend" style="margin-left: 20%;">Legend</h5>
                 <div *ngFor="let value of values; let i = index">
                     <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
                         [style.background-color]="legendColors[i]">

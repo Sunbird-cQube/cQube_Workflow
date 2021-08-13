@@ -75,14 +75,18 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.onResize();
+    this.levelWiseFilter();
     document.getElementById('spinner').style.display = 'block';
   }
 
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.levelWiseFilter();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
+    // this.levelWiseFilter();
   }
 
   public tableHead: any;
@@ -464,6 +468,8 @@ export class SchoolInfrastructureComponent implements OnInit {
       xAxis: x_axis.value,
       yAxis: y_axis.value
     }
+    this.labels = labels;
+    this.obj = obj;
 
     this.createChart(labels, this.chartData, this.tableHead, obj);
   }
@@ -487,6 +493,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   createTable(dataSet, height) {
+    
     if ($.fn.DataTable.isDataTable('#table')) {
       $('#table').DataTable().destroy();
       $('#table').empty();
@@ -561,7 +568,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       $("#table").append(body);
       $('#table').DataTable({
         destroy: true, bLengthChange: false, bInfo: false,
-        bPaginate: false, scrollY: height > 1760 ? '62vh' : height > 1180 && height < 1760 ? '56vh' : height > 667 && height < 1180 ? '46vh' : '40vh', scrollX: true,
+        bPaginate: false, scrollY: '36vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
         fixedColumns: {
           leftColumns: 1
@@ -570,6 +577,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     });
   }
 
+  labels: any;
+  obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
     ctx.attr('height', this.height > 1760 ? '68vh' : this.height > 1180 && this.height < 1760 ? '64vh' : this.height > 667 && this.height < 1180 ? '60vh' : '52vh');

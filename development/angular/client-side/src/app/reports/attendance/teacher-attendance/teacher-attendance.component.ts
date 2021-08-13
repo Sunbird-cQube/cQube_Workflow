@@ -156,8 +156,8 @@ export class TeacherAttendanceComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("tarMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "none";

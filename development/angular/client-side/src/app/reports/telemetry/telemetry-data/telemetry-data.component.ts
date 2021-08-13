@@ -102,6 +102,7 @@ export class TelemetryDataComponent implements OnInit {
     globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
     document.getElementById('accessProgressCard').style.display = 'none';
     //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('home') ? document.getElementById('home').style.display = 'block' : "";
     this.timePeriod = 'overall';
     this.levelWiseFilter();
   }

@@ -65,7 +65,9 @@ export class CompositReportComponent implements OnInit {
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 

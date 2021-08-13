@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row reportHeader">
+    <div class="row reportHeader1">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row" (window:resize)="onResize()">
                 <div class="col-sm-8 ">
@@ -47,12 +47,14 @@
                         </div>
                         <div class="col-sm-9">
                             <div *ngIf="skul; else ng_else" style="float: left; " id="select">
-                                <button class="btn btn-primary" title="Download Report" id="download1"
+                                <button *ngIf="xAxisFilter && xAxisFilter.length>0" class="btn btn-primary"
+                                    title="Download Report" id="download1"
                                     (click)="downloadReportofState(downloadType)">Download Report &nbsp; <i
                                         class="fa fa-arrow-down" aria-hidden="true"></i>
                                 </button>
-                                <select class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
-                                    <option [value]="downloadType" disabled selected="selected"> Download Report
+                                <select *ngIf="xAxisFilter && xAxisFilter.length>0" class="dwnld" id="downloader"
+                                    [(ngModel)]="downloadType" name="downloadType">
+                                    <option [value]="downloadType" disabled selected="selected"> Choose Report
                                     </option>
                                     <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
                                         {{md}} Report
@@ -61,9 +63,9 @@
                             </div>
 
                             <ng-template #ng_else>
-                                <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
-                                    id="download1" (click)="downloadReport()">Download Report &nbsp; <i
-                                        class="fa fa-arrow-down" aria-hidden="true"></i>
+                                <button *ngIf="xAxisFilter && xAxisFilter.length>0" class="btn btn-primary"
+                                    title="Download Report" id="download1" (click)="downloadReport()">Download Report
+                                    &nbsp; <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                 </button>
                             </ng-template>
 
@@ -91,7 +93,7 @@
             </div>
         </div>
     </div>
-    <div class="row reportContainer">
+    <div class="row reportContainer1">
         <div class="col-sm-6">
             <div class="row">
                 <div class="col-sm-6 ">

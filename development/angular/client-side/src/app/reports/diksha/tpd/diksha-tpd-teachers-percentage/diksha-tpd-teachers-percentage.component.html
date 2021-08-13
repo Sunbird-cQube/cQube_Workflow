@@ -1,110 +1,115 @@
 <div class="container-fluid" (window:resize)="getHeight($event)">
-    <div class="row">
-        <div class="col-sm-10 ">
-            <div *ngIf='skul'>
-                <p id="dist">
-                    Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
-            </div>
-            <div *ngIf='dist'>
-                <p id="block">
-                    Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
-                        (click)="selectedDistrict(districtHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{districtHierarchy.districtName}}</span> </p>
-            </div>
-            <div *ngIf="blok">
-                <p id="cluster">
-                    Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="selectedDistrict(blockHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.districtName}}</span><span> | </span><span
-                        (click)="selectedBlock(blockHierarchy.blockId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.blockName}}</span></p>
-            </div>
-
-            <div *ngIf="clust">
-                <p id="school">
-                    Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="selectedDistrict(clusterHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.districtName}}</span><span> | </span><span
-                        (click)="selectedBlock(clusterHierarchy.blockId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.blockName}}</span><span> | </span><span>
-                        {{clusterHierarchy.clusterName}}</span></p>
-            </div>
-        </div>
-        <div class="col-sm-2">
+    <div class="row reportHeader">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
-                <div class="col-sm-0" style="display: none;">
-                    <p id="errMsg" class="note"
-                        style="display: none; text-align: center;line-height: 1.2em; font-size: 12px; margin-top: 3%; ">
+                <div class="col-sm-10 ">
+                    <div *ngIf='skul'>
+                        <p id="dist">
+                            Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                    </div>
+                    <div *ngIf='dist'>
+                        <p id="block">
+                            Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
+                            </span><span (click)="selectedDistrict(districtHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{districtHierarchy.districtName}}</span> </p>
+                    </div>
+                    <div *ngIf="blok">
+                        <p id="cluster">
+                            Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="selectedDistrict(blockHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{blockHierarchy.districtName}}</span><span> | </span><span
+                                (click)="selectedBlock(blockHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{blockHierarchy.blockName}}</span></p>
+                    </div>
+
+                    <div *ngIf="clust">
+                        <p id="school">
+                            Diksha TPD Teachers Percentage Report for: <span (click)="resetToInitPage()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="selectedDistrict(clusterHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.districtName}}</span><span> | </span><span
+                                (click)="selectedBlock(clusterHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span>
+                                {{clusterHierarchy.clusterName}}</span></p>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="row">
+                        <div class="col-sm-0" style="display: none;">
+                            <p id="errMsg" class="note"
+                                style="display: none; text-align: center;line-height: 1.2em; font-size: 12px; margin-top: 3%; ">
+                            </p>
+                        </div>
+                        <div class="col-sm-12">
+
+                            <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                id="download1" (click)="downloadReport()">Download Report &nbsp; <i
+                                    class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="report-subtitle">
+                        <strong> About the dashboard:</strong> The dashboard provides information on the % of teachers
+                        who have
+                        enrolled for Teacher Professional Development courses at the district level.
                     </p>
                 </div>
-                <div class="col-sm-12">
+            </div>
+            <div class="row">
+                <div class="col-md-12 " style="margin-bottom: 10px;">
+                    <select id="timePeriod" class="select-control" style="margin-right: 25px; float: left;"
+                        [(ngModel)]="timePeriod" (change)="selectedTimePeriod()">
+                        <option [value]="timePeriod" disabled selected="selected">Choose time period</option>
+                        <option *ngFor="let timePeriod of timePeriods, let i =index" [(ngValue)]="timePeriod.key">
+                            {{timePeriod.value}}
+                        </option>
+                    </select>
 
-                    <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report" id="download1"
-                        (click)="downloadReport()">Download Report &nbsp; <i class="fa fa-arrow-down"
-                            aria-hidden="true"></i>
-                    </button>
+                    <app-multi-select style="float: left;width: auto;" [list]="scousesTOShow" [text]="'Course'"
+                        [width1]="'200px auto'" [width2]="'200px auto'" (shareCheckedList)="shareCheckedList($event)">
+                    </app-multi-select>
 
+                    <select id="district" class="select-control" style="margin-right: 25px; margin-left: 20px;"
+                        [(ngModel)]="district" (change)="selectedDistrict(district)">
+                        <option [value]="district" disabled selected="selected">Choose a District</option>
+                        <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">
+                            {{district.district_name}}
+                        </option>
+                    </select>
+
+
+                    <select [hidden]="blockHidden" id="block" class="select-control" style="margin-right: 25px;"
+                        [(ngModel)]="block" (change)="selectedBlock(block)">
+                        <option [value]="block" disabled selected="selected">Choose a Block</option>
+                        <option *ngFor="let block of blockNames, let i =index" [(ngValue)]="block.block_id">
+                            {{block.block_name}}
+                        </option>
+                    </select>
+                    <select [hidden]="clusterHidden" id="cluster" class="select-control" style="margin-right: 0px;"
+                        [(ngModel)]="cluster" (change)="selectedCluster(cluster)">
+                        <option [value]="cluster" disabled selected="selected">Choose a Cluster</option>
+                        <option *ngFor="let cluster of clusterNames, let i =index" [(ngValue)]="cluster.cluster_id">
+                            {{cluster.cluster_name}}
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <p class="report-subtitle">
-                <strong> About the dashboard:</strong> The dashboard provides information on the % of teachers who have
-                enrolled for Teacher Professional Development courses at the district level.
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 " style="margin-bottom: 10px;">
-            <select id="timePeriod" class="select-control" style="margin-right: 25px; float: left;"
-                [(ngModel)]="timePeriod" (change)="selectedTimePeriod()">
-                <option [value]="timePeriod" disabled selected="selected">Choose time period</option>
-                <option *ngFor="let timePeriod of timePeriods, let i =index" [(ngValue)]="timePeriod.key">
-                    {{timePeriod.value}}
-                </option>
-            </select>
-
-            <app-multi-select style="float: left;width: auto;" [list]="scousesTOShow" [text]="'Course'"
-                [width1]="'200px auto'" [width2]="'200px auto'" (shareCheckedList)="shareCheckedList($event)">
-            </app-multi-select>
-
-            <select id="district" class="select-control" style="margin-right: 25px; margin-left: 20px;"
-                [(ngModel)]="district" (change)="selectedDistrict(district)">
-                <option [value]="district" disabled selected="selected">Choose a District</option>
-                <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">
-                    {{district.district_name}}
-                </option>
-            </select>
-
-
-            <select [hidden]="blockHidden" id="block" class="select-control" style="margin-right: 25px;"
-                [(ngModel)]="block" (change)="selectedBlock(block)">
-                <option [value]="block" disabled selected="selected">Choose a Block</option>
-                <option *ngFor="let block of blockNames, let i =index" [(ngValue)]="block.block_id">
-                    {{block.block_name}}
-                </option>
-            </select>
-            <select [hidden]="clusterHidden" id="cluster" class="select-control" style="margin-right: 0px;"
-                [(ngModel)]="cluster" (change)="selectedCluster(cluster)">
-                <option [value]="cluster" disabled selected="selected">Choose a Cluster</option>
-                <option *ngFor="let cluster of clusterNames, let i =index" [(ngValue)]="cluster.cluster_id">
-                    {{cluster.cluster_name}}
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
+    <div class="row reportContainer">
         <!-- <div id="scrolly" [ngStyle]="{width: width,height: height > 700 ? '70vh' : '65vh'}">
             <div class="col-md-12" id="container" [ngStyle]="{height: '100%', minWidth: (innerWidth-15)+'px'}"></div>
         </div> -->
