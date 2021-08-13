@@ -664,6 +664,10 @@
 ::ng-deep .mat-drawer-inner-container.ng-tns-c71-0 {
   overflow: hidden;
 }
+
+.mat-drawer-inner-container{
+  overflow: hidden !important;
+}
 ::-webkit-scrollbar { width : 5px !important; } 
 /* Track */ 
 ::-webkit-scrollbar-track { 
