@@ -71,6 +71,7 @@ export class HomeComponent implements OnInit {
     if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
       this.sidebar.toggle();
       setTimeout(() => {
+        //document.getElementById("sidenav-container").style.backgroundColor = "#F5F5F5";
         window.dispatchEvent(new Event('resize'));
       }, 1500);
     }
@@ -82,12 +83,14 @@ export class HomeComponent implements OnInit {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
         if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
+          document.getElementById("sidenav-container").style.backgroundColor = "#F5F5F5";
           this.sidebar.close();
         }
       }, 1000);
     } else {
       this.sidenavMode = 'side';
       this.sidebar.open();
+      document.getElementById("sidenav-container").style.backgroundColor = "#ffebcc";
     }
   }
 

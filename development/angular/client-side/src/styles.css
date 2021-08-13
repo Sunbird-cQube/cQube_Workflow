@@ -209,7 +209,7 @@ table.dataTable.nowrap td {
 #footer {
     width: 100%;
     border-top: 1px solid #cdccc8;
-    background-color: rgb(243, 245, 212);
+    /* background-color: rgb(243, 245, 212); */
     font-size: 13px;
     font-weight: bold;
     color: #727374;
@@ -470,7 +470,7 @@ table.dataTable.nowrap td {
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
-        background-color: rgb(243, 245, 212);
+        /* background-color: rgb(243, 245, 212); */
         font-size: 20px !important;
         font-weight: bold;
         color: #727374;
@@ -668,7 +668,7 @@ table.dataTable.nowrap td {
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
-        background-color: rgb(243, 245, 212);
+        /* background-color: rgb(243, 245, 212); */
         font-size: 24px !important;
         font-weight: bold;
         color: #727374;

@@ -14,7 +14,7 @@
       <button class="btn btn-primary" id="accessProgressCard" (click)="sccessProgressCard()">Access Progress
         Card</button>
     </mat-toolbar>
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container id="sidenav-container" class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
       <mat-sidenav #sidebar [mode]="mobileQuery.matches ? 'over' : sidenavMode" [fixedInViewport]="mobileQuery.matches"
         [opened]="mobileQuery.matches ? 'false' : 'true'" fixedTopGap="56">
 
