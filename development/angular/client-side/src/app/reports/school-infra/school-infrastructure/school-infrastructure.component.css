@@ -23,7 +23,7 @@
       border: 1px solid gray;
     }
     #downloader{
-      margin-top: 1vh;
+      margin-top: 5px;
       margin-right: 15px;
         margin-bottom: 3px;
         padding: 8px !important;
@@ -43,20 +43,20 @@
       border: 1px solid gray;
     }
     #downloader{
-      margin-top: 1vh;
+      margin-top: 0px !important;
       margin-right: 20px;
-        margin-bottom: 4px;
-        padding: 12px !important;
-        color: white;
-        border-radius: 6px;
-        font-size: 32px !important;
-        font-weight: bold;
-        background-color: rgb(152, 160, 163);
+      margin-bottom: 4px;
+      padding: 12px !important;
+      color: white;
+      border-radius: 6px;
+      font-size: 32px !important;
+      font-weight: bold;
+      background-color: rgb(152, 160, 163);
     }
   }
 
   #downloader{
-    margin-top: 1vh;
+    margin-top: 5px;
     margin-right: 15px;
     margin-bottom: 3px;
     padding: 5.2px;

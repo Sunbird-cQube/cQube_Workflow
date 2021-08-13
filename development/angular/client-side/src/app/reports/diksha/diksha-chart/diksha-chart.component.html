@@ -2,12 +2,12 @@
     <div class="row">
         <div class="col-sm-8 ">
             <div *ngIf='all'>
-                <p id="dist_level" style=" color: #284d8a;font-size: 18px; line-height: 1.2em; margin-top: 5px;">
+                <p id="dist">
                     Textbook Linked Content Usage: <span (click)="homeClick()"
                         style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
             </div>
             <div *ngIf='dist'>
-                <p id="block_level" style=" color: #284d8a;font-size: 18px; line-height: 1.2em; margin-top: 5px;">
+                <p id="block">
                     Textbook Linked Content Usage: <span (click)="homeClick()"
                         style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
                         (click)="districtWise(districtId)" style="cursor: pointer;text-decoration: underline;">
@@ -30,7 +30,7 @@
                 <div class="col-sm-6">
                     <div style="float: right; " id="select">
                         <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
-                            id="download1" (click)="downloadReportByType(downloadType)">Dpwnload Report &nbsp; <i
+                            id="download1" (click)="downloadReportByType(downloadType)">Download Report &nbsp; <i
                                 class="fa fa-arrow-down" aria-hidden="true"></i>
                         </button>
                         <select class="dwnld" id="downloader"

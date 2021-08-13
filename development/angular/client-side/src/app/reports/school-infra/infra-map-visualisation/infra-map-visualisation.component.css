@@ -1,0 +1,15 @@
+.reportHeader{
+    /* background-repeat: no-repeat;
+    background-position: right;
+    background-image: url(../../../../assets/bg-icon.png);
+    background-position-y: 150px;
+    background-size: 450px 500px; */
+}
+
+.reportContainer{
+    background-repeat: no-repeat;
+    background-position: right;
+    background-image: url(../../../../assets/bg-icon.png);
+    background-position-y: 150px;
+    background-size: 450px 500px;
+}

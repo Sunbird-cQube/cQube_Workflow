@@ -50,9 +50,9 @@
   border-bottom-right-radius: 25px;
 }
 
-mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
+/* mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
   background-color: #ffebcc;
-}
+} */
 
 .content-wrapper{
   min-height: 92vh;
@@ -93,13 +93,12 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
 
 .user{
   position: relative;
-  bottom: 0;
+  /* bottom: 0; */
   right: 0;
   left: 0;
 }
 .user-info {
   display: block;
-  /* display: flex!important; */
   padding: 9px 0px 9px 0px;
   margin: -8px 0 0px;
   align-items: center;
@@ -178,7 +177,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
 }
 
 .mat-sidenav-content{
-  margin-top: 45px;
+  padding-top: 45px;
 }
 
 .mat-sidenav{
@@ -280,9 +279,9 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
   background-size: 850px 1000px !important;
 }
 
-mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
+/* mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
   background-color: #ffebcc;
-}
+} */
 
 /*sidebar menu bottom */
 .user-logout{
@@ -399,7 +398,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
   }
 
   .mat-sidenav-content{
-    margin-top: 70px !important;
+    padding-top: 70px !important;
   }
 
   .mat-sidenav{
@@ -486,8 +485,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
 }
 
 .content-wrapper{
-  min-height: 94vh auto !important;
-  width: 98% !important;
+  min-height: 93vh !important;
   background-repeat: no-repeat;
   background-position: right;
   background-image: url(../../assets/bg-icon.png);
@@ -495,9 +493,9 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
   background-size: 1000px 1400px !important;
 }
 
-mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
+/* mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-container{
   background-color: #ffebcc;
-}
+} */
 
 /*sidebar menu bottom */
 .user-logout{
@@ -609,7 +607,7 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
 
 
   .mat-sidenav-content{
-    margin-top: 140px !important;
+    padding-top: 120px !important;
   }
 
   .mat-sidenav{
@@ -711,9 +709,4 @@ mat-sidenav-container.mat-drawer-container.mat-sidenav-container.sidenav-contain
 
 ::ng-deep.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content{
   display: block!important;
-}
-
-.content-wrapper{
-  padding: 0px !important;
-  margin-left: 0px !important;
 }

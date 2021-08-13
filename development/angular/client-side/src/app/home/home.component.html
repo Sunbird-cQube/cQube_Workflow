@@ -14,7 +14,7 @@
       <button class="btn btn-primary" id="accessProgressCard" (click)="sccessProgressCard()">Access Progress
         Card</button>
     </mat-toolbar>
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container id="sidenav-container" class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
       <mat-sidenav #sidebar [mode]="mobileQuery.matches ? 'over' : sidenavMode" [fixedInViewport]="mobileQuery.matches"
         [opened]="mobileQuery.matches ? 'false' : 'true'" fixedTopGap="56">
 
@@ -139,9 +139,11 @@
       </mat-sidenav>
       <mat-sidenav-content
         [style.marginLeft.px]="router.url.includes('dashboard') && !mobileQuery.matches ? '345' : '0'">
-        <div class="content-wrapper">
-          <div class="col-12" (click)="closeSidebar()">
-            <router-outlet (click)="closeSidebar()"></router-outlet>
+        <div class="container-fluid content-wrapper" style="overflow-x: hidden;">
+          <div class="row">
+            <div class="col-12" (click)="closeSidebar()">
+              <router-outlet (click)="closeSidebar()"></router-outlet>
+            </div>
           </div>
         </div>
       </mat-sidenav-content>

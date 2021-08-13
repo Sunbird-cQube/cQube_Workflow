@@ -1,131 +1,135 @@
 <div class="container-fluid">
-    <div class="row" (window:resize)="commonService.onResize(level); onResize()">
-        <div class="col-lg-9 col-md-9 col-sm-12">
-            <div *ngIf='skul'>
-                <p id="dist">
-                    Report on Infrastructure access by location for: <span (click)="clickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
-            </div>
-            <div *ngIf='dist'>
-                <p id="block">
-                    Report on Infrastructure access by location for: <span (click)="clickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
-                        (click)="onDistrictSelect(districtHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{districtHierarchy.districtName}}</span> </p>
-            </div>
-            <div *ngIf="blok">
-                <p id="cluster">
-                    Report on Infrastructure access by location for: <span (click)="clickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="onDistrictSelect(blockHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.districtName}}</span><span> | </span><span
-                        (click)="onBlockSelect(blockHierarchy.blockId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.blockName}}</span></p>
-            </div>
+    <div class="row reportHeader">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row" (window:resize)="commonService.onResize(level); onResize()">
+                <div class="col-lg-9 col-md-9 col-sm-12">
+                    <div *ngIf='skul'>
+                        <p id="dist">
+                            Report on Infrastructure access by location for: <span (click)="clickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                    </div>
+                    <div *ngIf='dist'>
+                        <p id="block">
+                            Report on Infrastructure access by location for: <span (click)="clickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
+                            </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{districtHierarchy.districtName}}</span> </p>
+                    </div>
+                    <div *ngIf="blok">
+                        <p id="cluster">
+                            Report on Infrastructure access by location for: <span (click)="clickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="onDistrictSelect(blockHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{blockHierarchy.districtName}}</span><span> | </span><span
+                                (click)="onBlockSelect(blockHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{blockHierarchy.blockName}}</span></p>
+                    </div>
 
-            <div *ngIf="clust">
-                <p id="school">
-                    Report on Infrastructure access by location for: <span (click)="clickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="onDistrictSelect(clusterHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.districtName}}</span><span> | </span><span
-                        (click)="onBlockSelect(clusterHierarchy.blockId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.blockName}}</span><span> | </span><span>
-                        {{clusterHierarchy.clusterName}}</span></p>
+                    <div *ngIf="clust">
+                        <p id="school">
+                            Report on Infrastructure access by location for: <span (click)="clickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="onDistrictSelect(clusterHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.districtName}}</span><span> | </span><span
+                                (click)="onBlockSelect(clusterHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span>
+                                {{clusterHierarchy.clusterName}}</span></p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <p id="errMsg" class="note">
+                            </p>
+                        </div>
+                        <div class="col-sm-7">
+                            <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                id="download1" (click)="downloadReport()">Download Report &nbsp; <i
+                                    class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="row">
-                <div class="col-sm-5">
-                    <p id="errMsg" class="note">
+                <div class="col-sm-12">
+                    <p class="note">
+                        <strong> About the dashboard:</strong> The School Infrastructure dashboard visualises the data
+                        on
+                        school
+                        infrastructure metrics for {{state}}.
                     </p>
                 </div>
-                <div class="col-sm-7">
-                    <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report" id="download1"
-                        (click)="downloadReport()">Dpwnload Report &nbsp; <i class="fa fa-arrow-down"
-                            aria-hidden="true"></i>
+            </div>
+            <div class="row" style="margin-bottom: 10px; ">
+                <div class="col-sm-12">
+                    <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
+                    <button class="btn btn-secondary" id="clusterbtn"
+                        (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
+                    </button>
+                    <button class="btn btn-secondary" id="schoolbtn"
+                        (click)="schoolWise()">&nbsp;<strong>Schools</strong>
+                    </button>
+
+                    <select id="choose_infra" [(ngModel)]="infraData" (change)="oninfraSelect(infraData)">
+                        <option [value]="infraData" disabled selected="selected">Choose a Infrastructure</option>
+                        <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
+                            {{infra.value}}
+                        </option>
+                    </select>
+
+                    <select id="choose_dist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
+                        <option [value]="districtId" disabled selected="selected">Choose a District</option>
+                        <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.details.district_id">
+                            {{dist.details.district_name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
+                        (change)="onBlockSelect(blockId)">
+                        <option [value]="blockId" disabled selected="selected">Choose a Block</option>
+                        <option *ngFor="let block of blockMarkers" [(ngValue)]="block.details.block_id">
+                            {{block.details.block_name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
+                        (change)="onClusterSelect(clusterId)">
+                        <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
+                        <option *ngFor="let cluster of clusterMarkers" [(ngValue)]="cluster.details.cluster_id"
+                            [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
+                            {{cluster.details.cluster_name}}
+                        </option>
+                    </select>
+
                 </div>
             </div>
         </div>
     </div>
-    <div>
-        <div class="row">
-            <div class="col-sm-12">
-                <p class="note">
-                    <strong> About the dashboard:</strong> The School Infrastructure dashboard visualises the data on
-                    school
-                    infrastructure metrics for {{state}}.
-                </p>
-            </div>
-        </div>
-        <div class="row" style="margin-bottom: 10px; ">
-            <div class="col-sm-12">
-                <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
-                </button>
-                <button class="btn btn-secondary" id="clusterbtn"
-                    (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
-                </button>
-                <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise()">&nbsp;<strong>Schools</strong>
-                </button>
-
-                <select id="choose_infra" [(ngModel)]="infraData" (change)="oninfraSelect(infraData)">
-                    <option [value]="infraData" disabled selected="selected">Choose a Infrastructure</option>
-                    <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
-                        {{infra.value}}
-                    </option>
-                </select>
-
-                <select id="choose_dist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
-                    <option [value]="districtId" disabled selected="selected">Choose a District</option>
-                    <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.details.district_id">
-                        {{dist.details.district_name}}
-                    </option>
-                </select>
-
-                <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
-                    (change)="onBlockSelect(blockId)">
-                    <option [value]="blockId" disabled selected="selected">Choose a Block</option>
-                    <option *ngFor="let block of blockMarkers" [(ngValue)]="block.details.block_id">
-                        {{block.details.block_name}}
-                    </option>
-                </select>
-
-                <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
-                    (change)="onClusterSelect(clusterId)">
-                    <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
-                    <option *ngFor="let cluster of clusterMarkers" [(ngValue)]="cluster.details.cluster_id"
-                        [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
-                        {{cluster.details.cluster_name}}
-                    </option>
-                </select>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div style="float: left; width: 88%;">
-                    <div #mapContainer id="infraMap" class="active" style="width: 100%;"
-                        [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '82vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}">
-                    </div>
+    <div class="row reportContainer">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div style="float: left; width: 88%;">
+                <div #mapContainer id="infraMap" class="active" style="width: 100%;"
+                    [ngStyle]="{height: heigth > 1760 ? '80vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}">
                 </div>
-                <div [ngStyle]="{height: heigth > 1760 ? '85vh': heigth > 1180 && heigth < 1760 ? '82vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}"
-                    style="float: right; width: 11%; margin-left: 1%;  padding-left: 1.5%;border-radius: 3%;">
-                    <h5 id="legend" style="margin-left: 20%; padding-top: 1%;">Legend</h5>
-                    <div *ngFor="let value of values; let i = index">
-                        <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
-                            [style.background-color]="legendColors[i]">
-                            {{values[i]}} </span>
-                    </div>
-                    <p id="legendNote"><span style="font-weight: bold; padding-left: 0.5%;">Note: </span>These colors
-                        are applicable for the
-                        absolute selection only</p>
+            </div>
+            <div [ngStyle]="{height: heigth > 1760 ? '80vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '77vh':'72vh'}"
+                style="float: right; width: 11%; margin-left: 1%;  padding-left: 1.5%;border-radius: 3%;">
+                <h5 id="legend" style="margin-left: 20%; padding-top: 1%;">Legend</h5>
+                <div *ngFor="let value of values; let i = index">
+                    <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
+                        [style.background-color]="legendColors[i]">
+                        {{values[i]}} </span>
                 </div>
+                <p id="legendNote"><span style="font-weight: bold; padding-left: 0.5%;">Note: </span>These colors
+                    are applicable for the
+                    absolute selection only</p>
             </div>
         </div>
     </div>
