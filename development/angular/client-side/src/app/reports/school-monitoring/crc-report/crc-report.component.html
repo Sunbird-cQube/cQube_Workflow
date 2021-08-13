@@ -1,42 +1,47 @@
 <div class="container-fluid">
-    <div class="row" (window:resize)="onResize()" id="reportHeader">
-        <div class="col-sm-7 ">
-            <div *ngIf='skul'>
-                <p id="dist">
-                    CRC Report for: <span (click)="onClockHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
-            </div>
-            <div *ngIf='dist'>
-                <p id="block">
-                    CRC Report for: <span (click)="onClockHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
-                        {{hierName}}</span> </p>
-            </div>
-            <div *ngIf="blok">
-                <p id="cluster">
-                    CRC Report for: <span (click)="onClockHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{hierName}}</span></p>
-            </div>
+    <div class="row reportHeader1">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row" (window:resize)="onResize()" id="reportHeader">
+                <div class="col-sm-7 ">
+                    <div *ngIf='skul'>
+                        <p id="dist">
+                            CRC Report for: <span (click)="onClockHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                    </div>
+                    <div *ngIf='dist'>
+                        <p id="block">
+                            CRC Report for: <span (click)="onClockHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
+                            </span><span (click)="myDistData(distName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{hierName}}</span> </p>
+                    </div>
+                    <div *ngIf="blok">
+                        <p id="cluster">
+                            CRC Report for: <span (click)="onClockHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="myDistData(distName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{hierName}}</span></p>
+                    </div>
 
-            <div *ngIf="clust">
-                <p id="school">
-                    CRC Report for: <span (click)="onClockHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{title}}</span><span> | </span><span>
-                        {{hierName}}</span></p>
-            </div>
-        </div>
-        <div class="col-sm-5">
-            <!-- <div class="row"> -->
-            <!-- <div class="col-sm-4">
+                    <div *ngIf="clust">
+                        <p id="school">
+                            CRC Report for: <span (click)="onClockHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="myDistData(distName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{title}}</span><span> | </span><span>
+                                {{hierName}}</span></p>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <!-- <div class="row"> -->
+                    <!-- <div class="col-sm-4">
                     <p id="errMsg" class="note">
                     </p>
                 </div>
@@ -64,54 +69,64 @@
                     
 
                 </div> -->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <p id="errMsg" class="note">
+                            </p>
+                        </div>
+                        <div class="col-sm-8">
+                            <div *ngIf="skul; else ng_else" style="float: left; " id="select">
+                                <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                    id="download1" (click)="downloadReportofState(downloadType)">Download Report &nbsp;
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                </button>
+                                <select *ngIf="reportData.length>0" class="dwnld" id="downloader"
+                                    [(ngModel)]="downloadType" name="downloadType">
+                                    <option [value]="downloadType" disabled selected="selected"> Choose Report
+                                    </option>
+                                    <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
+                                        {{md}} Report
+                                    </option>
+                                </select>
+                            </div>
+
+                            <ng-template #ng_else>
+                                <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                    id="download1" (click)="downloadReport()">Download Report &nbsp; <i
+                                        class="fa fa-arrow-down" aria-hidden="true"></i>
+                                </button>
+                            </ng-template>
+
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
-                <div class="col-sm-3">
-                    <p id="errMsg" class="note">
+                <div class="col-sm-12">
+                    <p class="note">
+                        <strong> About the dashboard:</strong> The dashboard here provides insights using the CRC App
+                        data. We
+                        have derived several normalised metrics using the raw data and you can read more about them
+                        using the
+                        following link. A key feature
+                        of this dashboard is its ability to Zoom In and Out at various administrative levels. The
+                        administrative
+                        levels include District, Block and Cluster. This has been done to provide relevant insights at
+                        the
+                        appropriate administrative level.
+                        In addition to visualising data, the dashboard also gives you the ability to download the data
+                        at
+                        various administrative levels. This feature has been enabled to provide freedom to power users
+                        to derive
+                        additional insights that may not
+                        be captured in this dashboard. You can download the data using the dropdown option on the top
+                        right
+                        corner.
                     </p>
                 </div>
-                <div class="col-sm-9">
-                    <div *ngIf="skul; else ng_else" style="float: left; " id="select">
-                        <button class="btn btn-primary" title="Download Report" id="download1"
-                            (click)="downloadReportofState(downloadType)">Download Report &nbsp; <i
-                                class="fa fa-arrow-down" aria-hidden="true"></i>
-                        </button>
-                        <select class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
-                            <option [value]="downloadType" disabled selected="selected"> Download Report
-                            </option>
-                            <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
-                                {{md}} Report
-                            </option>
-                        </select>
-                    </div>
-
-                    <ng-template #ng_else>
-                        <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
-                            id="download1" (click)="downloadReport()">Download Report &nbsp; <i class="fa fa-arrow-down"
-                                aria-hidden="true"></i>
-                        </button>
-                    </ng-template>
-
-                </div>
-                <!-- </div> -->
             </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <p class="note">
-                <strong> About the dashboard:</strong> The dashboard here provides insights using the CRC App data. We
-                have derived several normalised metrics using the raw data and you can read more about them using the
-                following link. A key feature
-                of this dashboard is its ability to Zoom In and Out at various administrative levels. The administrative
-                levels include District, Block and Cluster. This has been done to provide relevant insights at the
-                appropriate administrative level.
-                In addition to visualising data, the dashboard also gives you the ability to download the data at
-                various administrative levels. This feature has been enabled to provide freedom to power users to derive
-                additional insights that may not
-                be captured in this dashboard. You can download the data using the dropdown option on the top right
-                corner.
-            </p>
         </div>
     </div>
     <!-- <div class="row">
@@ -122,7 +137,7 @@
                 Card</a>
         </div>
     </div> -->
-    <div class="row" style="height: 72vh;">
+    <div class="row reportContainer1" style="height: 72vh;">
         <div class="col-sm-6">
             <div class="row">
                 <div class="col-sm-6 ">

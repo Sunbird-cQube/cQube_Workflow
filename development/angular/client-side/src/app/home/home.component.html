@@ -14,9 +14,10 @@
       <button class="btn btn-primary" id="accessProgressCard" (click)="sccessProgressCard()">Access Progress
         Card</button>
     </mat-toolbar>
-    <mat-sidenav-container id="sidenav-container" class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container id="sidenav-container" class="sidenav-container"
+      [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
       <mat-sidenav #sidebar [mode]="mobileQuery.matches ? 'over' : sidenavMode" [fixedInViewport]="mobileQuery.matches"
-        [opened]="mobileQuery.matches ? 'false' : 'true'" fixedTopGap="56">
+        [opened]="mobileQuery.matches ? 'false' : 'true'" fixedTopGap="0">
 
         <mat-nav-list class="side-menu">
           <div class="sideBarHeight">
@@ -113,11 +114,12 @@
                           <h3>{{email}}</h3>
                         </div>
 
-                        <button type="button" id="logoutBtn" class="my-3 btn btn-labeled btn-primary"
-                          (click)="logout()">
+                        <button type="button" id="logoutBtn" style="background-color: #0C54C6;"
+                          class="my-3 btn btn-labeled btn-primary" (click)="logout()">
                           <span class="btn-label p-3 log-out"><img src="assets/logout.svg" alt=""></span>Logout</button>
-                        <div *ngIf="role != 'admin'" class="" id="chPass"><a [routerLink]="['/user/changePassword']"
-                            class="text-decoration-underline">Change Password</a></div>
+                        <div *ngIf="role != 'admin'" id="chPass"><a [routerLink]="['/user/changePassword']"
+                            class="text-decoration-underline" style="text-decoration: underline !important;">Change
+                            Password</a></div>
 
                       </div>
                       <div class="row versions">

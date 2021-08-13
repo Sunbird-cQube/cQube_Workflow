@@ -86,6 +86,9 @@ export class DataSourcesService {
         if (element.template === 'nifi_sat') {
           this.dataSources.nifi_sat = element.status;
         }
+        if (element.template === 'nifi_healthcard') {
+          this.dataSources.nifi_healthcard = element.status;
+        }
       });
     });
     // this.callOnInterval();

@@ -1,188 +1,199 @@
-<div class="container-fluid" style="background-color: #f5f6fb; letter-spacing: 0; ;">
-    <div class="row row flex-column-reverse flex-lg-row" style="padding-bottom: 10px !important; min-height: 100px;">
-        <div class="col-lg-7 col-md-12 col-sm-12" (window:resize)="onResize($event)">
-            <div *ngIf="showAll" class="regional-detail-card">
-                <div class="row details">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6" *ngIf="innerWidth > 767">
-                                <div class="regional-details-container">
-                                    <table>
-                                        <tbody>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small *ngIf=" i%2==0 && i==0 && level =='state'">State : &nbsp;
-                                                    &nbsp;</small>
-                                                <strong *ngIf=" i%2==0 && i==0 && level =='state'"> {{state}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small
-                                                    *ngIf=" i%2==0 && level !='state' && level !='school'">{{updatedKeys[i]}}
-                                                    : &nbsp;&nbsp;</small>
-                                                <strong *ngIf=" i%2==0 && level !='state' && level !='school'">
-                                                    {{healthCardData[key]}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small *ngIf="i%2==0 && level =='school'">{{updatedKeys[i]}} :
-                                                    &nbsp;&nbsp;
-                                                </small>
-                                                <strong *ngIf="i%2==0 && level =='school'">
-                                                    {{healthCardData[key]}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small
-                                                    *ngIf="i%2==0 && i!=0 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
-                                                    : &nbsp;&nbsp;</small>
-                                                <strong
-                                                    *ngIf="i%2==0 && i!=0 && level =='state' && healthCardData['basic_details']">{{healthCardData['basic_details'][key]}}</strong>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6" *ngIf="innerWidth > 767">
-                                <div class="regional-details-container">
-                                    <table>
-                                        <tbody>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small
-                                                    *ngIf=" i%2==1 && i==1 && level =='state' && healthCardData['basic_details']">State
-                                                    ID : &nbsp;&nbsp;</small>
-                                                <strong
-                                                    *ngIf=" i%2==1 && i==1 && level =='state' && healthCardData['basic_details']">
-                                                    {{healthCardData['basic_details']['state_id']}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small
-                                                    *ngIf="i%2==1 && level !='state' && level !='school'">{{updatedKeys[i]}}
-                                                    : &nbsp;&nbsp;</small>
-                                                <strong *ngIf=" i%2==1 && level !='state' && level !='school'">
-                                                    {{healthCardData[key]}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small *ngIf="i%2==1 && level =='school'">{{updatedKeys[i]}} :
-                                                    &nbsp;&nbsp;
-                                                </small>
-                                                <strong *ngIf="i%2==1 && level =='school'">
-                                                    {{healthCardData[key]}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small
-                                                    *ngIf="i%2==1 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
-                                                    : &nbsp;&nbsp;</small>
-                                                <strong
-                                                    *ngIf="i%2==1 && level =='state' && healthCardData['basic_details']">
-                                                    {{healthCardData['basic_details'][key]}}</strong>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-sm-12" *ngIf="innerWidth <= 767">
-                                <div class="regional-details-container">
-                                    <table>
-                                        <tbody>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small *ngIf="i==0 && level =='state'">State : &nbsp;
-                                                    &nbsp;</small>
-                                                <strong *ngIf="i==0 && level =='state'"> {{state}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small
-                                                    *ngIf="i==1 && level =='state' && healthCardData['basic_details']">State
-                                                    ID : &nbsp;&nbsp;</small>
-                                                <strong
-                                                    *ngIf="i==1 && level =='state' && healthCardData['basic_details']">
-                                                    {{healthCardData['basic_details']['state_id']}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small *ngIf="level !='state' && level !='school'">{{updatedKeys[i]}}
-                                                    : &nbsp;&nbsp;</small>
-                                                <strong *ngIf="level !='state' && level !='school'">
-                                                    {{healthCardData[key]}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small *ngIf="level =='school'">{{updatedKeys[i]}} :
-                                                    &nbsp;&nbsp;
-                                                </small>
-                                                <strong *ngIf="level =='school'">
-                                                    {{healthCardData[key]}}</strong>
-                                            </tr>
-                                            <tr *ngFor="let key of keys; let i=index">
-                                                <small
-                                                    *ngIf="i!=0 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
-                                                    : &nbsp;&nbsp;</small>
-                                                <strong
-                                                    *ngIf="i!=0 && level =='state' && healthCardData['basic_details']">{{healthCardData['basic_details'][key]}}</strong>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+<div class="container-fluid" style="letter-spacing: 0; ;">
+    <div class="row reportHeader">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row row flex-column-reverse flex-lg-row"
+                style="padding-bottom: 10px !important; min-height: 100px;">
+                <div class="col-lg-7 col-md-12 col-sm-12" (window:resize)="onResize($event)">
+                    <div *ngIf="showAll" class="regional-detail-card">
+                        <div class="row details">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6" *ngIf="innerWidth > 767">
+                                        <div class="regional-details-container">
+                                            <table>
+                                                <tbody>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small *ngIf=" i%2==0 && i==0 && level =='state'">State : &nbsp;
+                                                            &nbsp;</small>
+                                                        <strong *ngIf=" i%2==0 && i==0 && level =='state'">
+                                                            {{state}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf=" i%2==0 && level !='state' && level !='school'">{{updatedKeys[i]}}
+                                                            : &nbsp;&nbsp;</small>
+                                                        <strong *ngIf=" i%2==0 && level !='state' && level !='school'">
+                                                            {{healthCardData[key]}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small *ngIf="i%2==0 && level =='school'">{{updatedKeys[i]}} :
+                                                            &nbsp;&nbsp;
+                                                        </small>
+                                                        <strong *ngIf="i%2==0 && level =='school'">
+                                                            {{healthCardData[key]}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf="i%2==0 && i!=0 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
+                                                            : &nbsp;&nbsp;</small>
+                                                        <strong
+                                                            *ngIf="i%2==0 && i!=0 && level =='state' && healthCardData['basic_details']">{{healthCardData['basic_details'][key]}}</strong>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6" *ngIf="innerWidth > 767">
+                                        <div class="regional-details-container">
+                                            <table>
+                                                <tbody>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf=" i%2==1 && i==1 && level =='state' && healthCardData['basic_details']">State
+                                                            ID : &nbsp;&nbsp;</small>
+                                                        <strong
+                                                            *ngIf=" i%2==1 && i==1 && level =='state' && healthCardData['basic_details']">
+                                                            {{healthCardData['basic_details']['state_id']}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf="i%2==1 && level !='state' && level !='school'">{{updatedKeys[i]}}
+                                                            : &nbsp;&nbsp;</small>
+                                                        <strong *ngIf=" i%2==1 && level !='state' && level !='school'">
+                                                            {{healthCardData[key]}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small *ngIf="i%2==1 && level =='school'">{{updatedKeys[i]}} :
+                                                            &nbsp;&nbsp;
+                                                        </small>
+                                                        <strong *ngIf="i%2==1 && level =='school'">
+                                                            {{healthCardData[key]}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf="i%2==1 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
+                                                            : &nbsp;&nbsp;</small>
+                                                        <strong
+                                                            *ngIf="i%2==1 && level =='state' && healthCardData['basic_details']">
+                                                            {{healthCardData['basic_details'][key]}}</strong>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12" *ngIf="innerWidth <= 767">
+                                        <div class="regional-details-container">
+                                            <table>
+                                                <tbody>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small *ngIf="i==0 && level =='state'">State : &nbsp;
+                                                            &nbsp;</small>
+                                                        <strong *ngIf="i==0 && level =='state'"> {{state}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf="i==1 && level =='state' && healthCardData['basic_details']">State
+                                                            ID : &nbsp;&nbsp;</small>
+                                                        <strong
+                                                            *ngIf="i==1 && level =='state' && healthCardData['basic_details']">
+                                                            {{healthCardData['basic_details']['state_id']}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf="level !='state' && level !='school'">{{updatedKeys[i]}}
+                                                            : &nbsp;&nbsp;</small>
+                                                        <strong *ngIf="level !='state' && level !='school'">
+                                                            {{healthCardData[key]}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small *ngIf="level =='school'">{{updatedKeys[i]}} :
+                                                            &nbsp;&nbsp;
+                                                        </small>
+                                                        <strong *ngIf="level =='school'">
+                                                            {{healthCardData[key]}}</strong>
+                                                    </tr>
+                                                    <tr *ngFor="let key of keys; let i=index">
+                                                        <small
+                                                            *ngIf="i!=0 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
+                                                            : &nbsp;&nbsp;</small>
+                                                        <strong
+                                                            *ngIf="i!=0 && level =='state' && healthCardData['basic_details']">{{healthCardData['basic_details'][key]}}</strong>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-5 col-md-12 col-sm-12">
-            <div style="height: 120px auto;margin-top: 5px; border-radius: 20px;">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div style="float: left;">
-                            <select id="period" class="select-control" [(ngModel)]="period" (change)="onPeriodSelect()">
-                                <option [value]="period" disabled selected="selected">Choose TimeRange</option>
-                                <option *ngFor="let period of timeRange,  let i =index" [(ngValue)]="period.key">
-                                    {{period.value}}
-                                </option>
-                            </select>
-                        </div>
-                        <!-- <div style="float: right;">
+                <div class="col-lg-5 col-md-12 col-sm-12">
+                    <div style="height: 120px auto;margin-top: 5px; border-radius: 20px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div style="float: left;">
+                                    <select id="period" class="select-control" [(ngModel)]="period"
+                                        (change)="onPeriodSelect()">
+                                        <option [value]="period" disabled selected="selected">Choose TimeRange</option>
+                                        <option *ngFor="let period of timeRange,  let i =index"
+                                            [(ngValue)]="period.key">
+                                            {{period.value}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <!-- <div style="float: right;">
                             <em aria-disabled="true" class="fa fa-cloud-download" aria-hidden="true" id="download"
                                 title="Download Report"
                                 style="cursor: pointer;display: none; font-size: 30px; float: right; color: #3100cc;" alt="download">
                             </em>
                         </div> -->
-                        <div style="float: right;">
-                            <em class="fa fa-home" aria-hidden="true" id="home" title="Home"
-                                style="cursor: pointer;font-size: 30px; float: right; margin-right: 10px;  color: #3100cc;"
-                                alt="Home" (click)="onHomeSelect()"></em>
+                                <div style="float: right;">
+                                    <em *ngIf="level != 'state'" class="fa fa-home" aria-hidden="true" id="home"
+                                        title="Home"
+                                        style="cursor: pointer;font-size: 30px; float: right; margin-right: 10px;  color: #3100cc; display: block !important;"
+                                        alt="Home" (click)="onHomeSelect()"></em>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row" style="padding-top: 8px !important;">
-                    <div class="col-lg-4 col-md-3 col-sm-12">
-                        <label for="" class="form-label note">Choose Level</label>
-                        <select id="level" class="select-control full-width" [(ngModel)]="level" name="level"
-                            (change)="selectedLevel()">
-                            <option [value]="level" disabled selected="selected">Choose Level
-                            </option>
-                            <option *ngFor="let level of levels" [(ngValue)]="level.key">
-                                {{level.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="autocomplete" style="width:100%;">
-                            <label id="warning" class="form-label note" style="text-align: unset;"> Please enter at
-                                least 2
-                                characters/digits</label>
-                            <!-- <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label> -->
-                            <p *ngIf="level && len>=2" style="line-height: 0.7em; float: left;">&nbsp;</p>
-                            <input #searchInput id="myInput" class="input-control full-width" type="search"
-                                class="clearable" autocomplete="off" name="districtName" [(ngModel)]="value"
-                                (input)="onChange()" [placeholder]="placeHolder">
+                        <div class="row" style="padding-top: 8px !important;">
+                            <div class="col-lg-4 col-md-3 col-sm-12">
+                                <label for="" class="form-label note">Choose Level</label>
+                                <select id="level" class="select-control full-width" [(ngModel)]="level" name="level"
+                                    (change)="selectedLevel()">
+                                    <option [value]="level" disabled selected="selected">Choose Level
+                                    </option>
+                                    <option *ngFor="let level of levels" [(ngValue)]="level.key">
+                                        {{level.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="autocomplete" style="width:100%;">
+                                    <label id="warning" class="form-label note" style="text-align: unset;"> Please enter
+                                        at
+                                        least 2
+                                        characters/digits</label>
+                                    <!-- <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label> -->
+                                    <p *ngIf="level && len>=2" style="line-height: 0.7em; float: left;">&nbsp;</p>
+                                    <input #searchInput id="myInput" class="input-control full-width" type="search"
+                                        class="clearable" autocomplete="off" name="districtName" [(ngModel)]="value"
+                                        (input)="onChange()" [placeholder]="placeHolder">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <p style="line-height: 0.9em;">&nbsp;</p>
+                                <button type="submit" class="btn btn-secondary submit-btn" id="button"
+                                    (click)="onSubmit()">Submit</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-12">
-                        <p style="line-height: 0.9em;">&nbsp;</p>
-                        <button type="submit" class="btn btn-secondary submit-btn" id="button"
-                            (click)="onSubmit()">Submit</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row" *ngIf="showAll" style="padding-bottom: 2%;">
+    <div class="row reportContainer" *ngIf="showAll" style="padding-bottom: 2%;">
         <div *ngIf="!err" class="col-sm-12" style="font-size: 13px;">
             <div class="row">
                 <div class="col-lg-4 col-md-12 col-sm-12" id="stdAttendance" style="margin-bottom:10px !important">

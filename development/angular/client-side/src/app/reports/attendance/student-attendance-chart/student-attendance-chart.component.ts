@@ -320,6 +320,7 @@ export class StudentAttendanceChartComponent implements OnInit {
       this.changeDetection.detectChanges();
     } else {
       this.onHomeClick(false);
+      this.changeDetection.detectChanges();
       //document.getElementById('home').style.display = 'none';
     }
   }
@@ -359,6 +360,7 @@ export class StudentAttendanceChartComponent implements OnInit {
       if (this.multiSelect2)
         this.multiSelect2.showDropDown = false;
       this.shareCheckedList(this.selectedDistricts);
+      this.changeDetection.detectChanges();
       //document.getElementById('home').style.display = 'none';
     }
   }
@@ -394,6 +396,7 @@ export class StudentAttendanceChartComponent implements OnInit {
         this.multiSelect3.showDropDown = false;
 
       this.shareCheckedList1(this.selectedBlock);
+      this.changeDetection.detectChanges();
       //document.getElementById('home').style.display = 'none';
     }
   }
@@ -423,8 +426,8 @@ export class StudentAttendanceChartComponent implements OnInit {
     } else {
       if (this.multiSelect2)
         this.multiSelect2.showDropDown = false;
-
       this.shareCheckedList2(this.selectedCluster);
+      this.changeDetection.detectChanges();
       //document.getElementById('home').style.display = 'none';
     }
   }

@@ -263,7 +263,7 @@ export class PATExceptionComponent implements OnInit {
       this.level = "Block";
       this.schoolCount = '';
 
-      this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allBlocks_${this.commonService.dateAndTime}`;
+      this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
 
       this.reportData = [];
       this.districtId = undefined;
