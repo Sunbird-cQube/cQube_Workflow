@@ -9,8 +9,14 @@ html,body {
     background-color: #fff;
     background-size: cover;
     height: 100vh;
-    margin: 0;
     font-family: Helvetica Neue Bold;
+}
+
+.container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+    /*padding-right: 10px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    background-color: #f5f6fb; */
 }
 
 table {
@@ -974,7 +980,7 @@ table.dataTable.nowrap td {
 .main-panel {
     transition: width 0.25s ease, margin 0.25s ease;
     width: 100%;
-    min-height: calc(100vh - 97px);
+    /* min-height: calc(100vh - 97px); */
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;

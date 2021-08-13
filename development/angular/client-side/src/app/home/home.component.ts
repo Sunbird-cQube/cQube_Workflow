@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
         if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
           this.sidebar.close();
         }
-      }, 500);
+      }, 1000);
     } else {
       this.sidenavMode = 'side';
       this.sidebar.open();

@@ -139,9 +139,11 @@
       </mat-sidenav>
       <mat-sidenav-content
         [style.marginLeft.px]="router.url.includes('dashboard') && !mobileQuery.matches ? '345' : '0'">
-        <div class="content-wrapper">
-          <div class="col-12" (click)="closeSidebar()">
-            <router-outlet (click)="closeSidebar()"></router-outlet>
+        <div class="container-fluid content-wrapper" style="overflow-x: hidden;">
+          <div class="row">
+            <div class="col-12" (click)="closeSidebar()">
+              <router-outlet (click)="closeSidebar()"></router-outlet>
+            </div>
           </div>
         </div>
       </mat-sidenav-content>
