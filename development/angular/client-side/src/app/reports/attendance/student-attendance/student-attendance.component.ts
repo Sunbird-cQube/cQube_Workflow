@@ -162,8 +162,8 @@ export class StudengtAttendanceComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("sarMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
@@ -2236,8 +2236,8 @@ export class StudengtAttendanceComponent implements OnInit {
   public selectedIndex;
   select(i) {
     this.selectedIndex = i;
-    document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray";
-    document.getElementById(`${i}`).style.transform = "scale(1.1)";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
     this.deSelect();
   }
 

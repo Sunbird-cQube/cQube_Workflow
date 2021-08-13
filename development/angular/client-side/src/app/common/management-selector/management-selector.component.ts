@@ -15,7 +15,7 @@ export class ManagementSelectorComponent implements OnInit {
 
   //Management and category
   @Input() managements = [];
-  @Input() public management;
+  @Input() public management = JSON.parse(localStorage.getItem('management')) ? JSON.parse(localStorage.getItem('management')).id : "";;
   categories = [];
   public category;
   onSelectManagement() {
@@ -64,11 +64,11 @@ export class ManagementSelectorComponent implements OnInit {
         }
         document.getElementById("spinner").style.display = "none";
       });
-      this.getDefault();
+
     } else {
-      this.getDefault();
       document.getElementById("spinner").style.display = "none";
     }
+    this.getDefault();
   }
 
   getDefault() {

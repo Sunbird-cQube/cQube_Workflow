@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row" (window:resize)="onResize()">
+    <div class="row" (window:resize)="onResize()" id="reportHeader">
         <div class="col-sm-7 ">
             <div *ngIf='skul'>
                 <p id="dist">
@@ -44,7 +44,8 @@
                     <div *ngIf="skul; else ng_else" style="float: right; " id="select">
                         <img *ngIf="reportData.length>0" src="../../../../assets/Group 6.svg" alt="Download Report"
                             title="Download Report" id="download" (click)="downloadReportofState(downloadType)">
-                        <select class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
+                        <select *ngIf="reportData.length>0" class="dwnld" id="downloader" [(ngModel)]="downloadType"
+                            name="downloadType">
                             <option [value]="downloadType" disabled selected="selected"> Download Report</option>
                             <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
                                 {{md}} Report
@@ -53,8 +54,10 @@
                     </div>
 
                     <ng-template #ng_else>
-                        <img *ngIf="reportData.length>0" src="../../../../assets/Group 6.svg" alt="Download Report"
-                            title="Download Report" id="download" (click)="downloadReport()">
+                        <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                            id="download1" (click)="downloadReport()">Dpwnload Report &nbsp; <i class="fa fa-arrow-down"
+                                aria-hidden="true"></i>
+                        </button>
                     </ng-template>
 
                 </div>
@@ -120,7 +123,7 @@
             </p>
             <br>
             <div class="row">
-                <canvas id="myChart" width="100vw" height="200vh"></canvas>
+                <canvas id="myChart" width="100vw"></canvas>
             </div>
         </div>
         <div class="col-sm-6">
@@ -187,8 +190,7 @@
             </div>
         </div>
     </div>
-    <div class="row"
-        style="width:100%; background-color: gray;font-size: 13px;font-weight: bold; color: white; padding: 2px 0px 2px 0px;margin: 0px 0px 0px 0px;position: fixed; bottom: 0; left: 0;">
+    <div class="row" id="footer">
         <div style="margin-right: 5%; margin-left: 1%;">
             <span id="nm" class="note" style="text-align: center;">Management Type: {{managementName}}</span>
         </div>

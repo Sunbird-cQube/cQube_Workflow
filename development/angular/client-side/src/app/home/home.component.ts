@@ -36,15 +36,6 @@ export class HomeComponent implements OnInit {
 
   email: any;
   role: any;
-  showSubmenu1: any = false;
-  showSubmenu2: any = false;
-  showSubmenu3: any = false;
-  showSubmenu4: any = false;
-  showSubmenu5: any = false;
-  showSubmenu6: any = false;
-  showSubmenu7: any = false;
-  showSubmenu8: any = false;
-  showSubmenu9: any = false;
   showsideMenu: boolean = false;
   isExpanded = true;
   showSubmenu: boolean = false;
@@ -59,21 +50,7 @@ export class HomeComponent implements OnInit {
   // diksha columns
   diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
-  //for coming soon page
-  nifi_crc;
-  nifi_attendance;
-  nifi_semester;
-  nifi_infra;
-  nifi_diksha;
-  nifi_telemetry;
-  nifi_udise;
-  nifi_pat;
-  nifi_composite;
-  nifi_sat;
-
-
   ngOnInit() {
-    this.changeDataSourceStatus();
     this.email = localStorage.getItem('userName');
     this.email = this.email.charAt(0).toUpperCase() + this.email.substr(1).toLowerCase();
     this.role = localStorage.getItem('roleName');
@@ -95,7 +72,7 @@ export class HomeComponent implements OnInit {
       this.sidebar.toggle();
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
-      }, 2000);
+      }, 1500);
     }
   }
 
@@ -107,7 +84,7 @@ export class HomeComponent implements OnInit {
         if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
           this.sidebar.close();
         }
-      }, 2000);
+      }, 500);
     } else {
       this.sidenavMode = 'side';
       this.sidebar.open();
@@ -121,43 +98,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  changeDataSourceStatus() {
-    this.service.getDataSource().subscribe((res: any) => {
-      res.forEach(element => {
-        if (element.template == 'nifi_crc') {
-          this.nifi_crc = element.status;
-        }
-        if (element.template == 'nifi_attendance') {
-          this.nifi_attendance = element.status;
-        }
-        if (element.template == 'nifi_semester') {
-          this.nifi_semester = element.status;
-        }
-        if (element.template == 'nifi_infra') {
-          this.nifi_infra = element.status;
-        }
-        if (element.template == 'nifi_diksha') {
-          this.nifi_diksha = element.status;
-        }
-        if (element.template == 'nifi_telemetry') {
-          this.nifi_telemetry = element.status;
-        }
-        if (element.template == 'nifi_udise') {
-          this.nifi_udise = element.status;
-        }
-        if (element.template == 'nifi_pat') {
-          this.nifi_pat = element.status;
-        }
-        if (element.template === 'nifi_composite') {
-          this.nifi_composite = element.status;
-        }
-        if (element.template === 'nifi_sat') {
-          this.nifi_sat = element.status;
-        }
-      });
-    })
-  }
-
   logout() {
     localStorage.clear();
     this.clearSessionStorage();
@@ -169,17 +109,6 @@ export class HomeComponent implements OnInit {
     this.keyCloakService.kc.logout(options);
   }
 
-  mouseenter() {
-    if (!this.isExpanded) {
-      this.isShowing = true;
-    }
-  }
-
-  mouseleave() {
-    if (!this.isExpanded) {
-      this.isShowing = false;
-    }
-  }
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);
