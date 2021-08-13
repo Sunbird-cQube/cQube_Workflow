@@ -6,6 +6,7 @@ import * as data from '../assets/states_for_cQube.json';
 import * as config from '../assets/config.json';
 import * as L from 'leaflet';
 import { ExportToCsv } from 'export-to-csv';
+import { BehaviorSubject } from 'rxjs';
 
 export var globalMap;
 declare const $;
@@ -14,6 +15,8 @@ declare const $;
     providedIn: 'root'
 })
 export class AppServiceComponent {
+    toggleMenu = new BehaviorSubject<any>(false);
+    callProgressCard = new BehaviorSubject<any>(false);
     public map;
     public baseUrl = environment.apiEndpoint;
     public token;
@@ -87,13 +90,13 @@ export class AppServiceComponent {
             document.getElementById('spinner').style.display = 'none';
         } else {
             document.getElementById('spinner').style.display = 'none';
-            document.getElementById('errMsg').style.color = 'red';
-            document.getElementById('errMsg').style.display = 'block';
-            document.getElementById('errMsg').innerHTML = 'No data found';
+            document.getElementById('errMsg') ? document.getElementById('errMsg').style.color = 'red' : "";
+            document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'block' : "";
+            document.getElementById('errMsg') ? document.getElementById('errMsg').innerHTML = 'No data found' : "";
         }
     }
     errMsg() {
-        document.getElementById('errMsg').style.display = 'none';
+        document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'none' : "";
         document.getElementById('spinner').style.display = 'block';
         document.getElementById('spinner').style.marginTop = '3%';
     }
@@ -501,10 +504,10 @@ export class AppServiceComponent {
             }
         });
         let uniqueItems = [...new Set(values)];
-        uniqueItems = uniqueItems.map(a=>{
-            if(typeof(a) == 'object'){
+        uniqueItems = uniqueItems.map(a => {
+            if (typeof (a) == 'object') {
                 return a['percentage']
-            }else{
+            } else {
                 return a;
             }
         })
@@ -663,5 +666,14 @@ export class AppServiceComponent {
     getDefault() {
         this.logoutOnTokenExpire();
         return this.http.get(`${this.baseUrl}/getDefault`);
+    }
+
+    //
+    setProgressCardValue(status) {
+        this.callProgressCard.next(status);
+    }
+
+    setToggleMenuValue(status) {
+        this.toggleMenu.next(status);
     }
 }

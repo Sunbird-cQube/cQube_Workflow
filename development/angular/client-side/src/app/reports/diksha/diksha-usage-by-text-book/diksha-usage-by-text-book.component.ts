@@ -11,6 +11,7 @@ import { AppServiceComponent } from '../../../app.service';
   encapsulation: ViewEncapsulation.None
 })
 export class DikshaUsageByTextBookComponent implements OnInit {
+  //chart data variabes:::::::::::::
   chart: boolean = false;
   public colors = [];
   header = '';
@@ -26,7 +27,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   public hierName: any;
   public dist: boolean = false;
   public all: boolean = false;
-  public timeDetails: any = [{ id: "all", name: "Overall" },{ id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" },  { id: "last_day", name: "Last Day" }];
+  public timeDetails: any = [{ id: "all", name: "Overall" }, { id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" }, { id: "last_day", name: "Last Day" }];
   public districtsDetails: any = '';
   public myChart: Chart;
   public showAllChart: boolean = false;
@@ -53,8 +54,8 @@ export class DikshaUsageByTextBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('backBtn').style.display = "none";
-    document.getElementById('homeBtn').style.display = "Block";
+
+    document.getElementById('accessProgressCard').style.display = "none";
     this.getAllData();
   }
 
@@ -65,7 +66,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   }
 
   homeClick() {
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.timePeriod = 'all';
     this.getAllData()
   }
@@ -86,9 +87,9 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   async getAllData() {
     this.emptyChart();
     if (this.timePeriod != "all") {
-      document.getElementById('home').style.display = "block";
+      //document.getElementById('home').style.display = "block";
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
     }
     this.reportData = [];
     this.commonService.errMsg();
@@ -127,7 +128,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
       this.collectionNames = res['uniqueCollections'];
       this.collectionNames.sort((a, b) => (a > b) ? 1 : ((b > a) ? -1 : 0));
       if (res['chartData']) {
-        document.getElementById('home').style.display = "block";
+        //document.getElementById('home').style.display = "block";
         this.emptyChart();
         this.result = res['chartData'];
         this.footer = res['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -156,7 +157,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
     this.emptyChart();
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/table_reports/textbook/${this.time}/${this.time}.csv`;
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     if (this.timePeriod == 'all') {
       await this.getAllData();
     } else {
@@ -167,7 +168,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.commonService.errMsg();
     this.fileName = `${this.reportName}_${this.timePeriod}_${this.commonService.dateAndTime}`;
     this.footer = '';
@@ -189,7 +190,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
     document.getElementById('errMsg').style.display = 'none';
   }
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
 

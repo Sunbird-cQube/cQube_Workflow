@@ -1,0 +1,105 @@
+<div class="main-panel" style="padding-top: 10px !important;">
+    <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector>
+
+    <div class="report-cards">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="imr"
+                    [routerLink]="!dataSource['nifi_infra'] ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                    (click)="fetchTelemetry($event,'imr')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src="../../../../assets/Infrastructure-icon.png" alt="">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="imrViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{imrViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex align-items-center">
+                            <h6>Infrastructure Access by Location</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.imrTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="cr"
+                    [routerLink]="!dataSource['nifi_infra'] ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                    (click)="fetchTelemetry($event,'cr')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src="../../assets/Composite-Report-icon.png" alt="">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="crViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{crViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex align-items-center">
+                            <h6>Composite Report</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.crTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="udise"
+                    [routerLink]="!dataSource['nifi_udise'] ? ['/coming-soon'] :['/infrastructure/udise-report']"
+                    (click)="fetchTelemetry($event,'udise')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src="../../../../assets/UDISE-Report-icon.png" alt="">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="udiseViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{udiseViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex align-items-center">
+                            <h6>UDISE Report</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.udiseTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

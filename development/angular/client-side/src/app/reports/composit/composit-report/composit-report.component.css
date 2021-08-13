@@ -78,7 +78,7 @@
 	
 	#districtSelect, #blockSelect, #clusterSelect{
 		border-radius: 6px; 
-		height: 35px; 
+		height: 36px !important; 
 		width: 33.33%;  
 		float: left;
 	}
@@ -115,7 +115,7 @@
 	
 	#districtSelect, #blockSelect, #clusterSelect{
 		border-radius: 6px; 
-		height: 38px; 
+		height: 40px !important; 
 		width: 33.33%;  
 		float: left;
 	}
@@ -152,7 +152,7 @@
 	
 	#districtSelect, #blockSelect, #clusterSelect{
 		border-radius: 15px !important; 
-		height: 46px !important; 
+		height: 48px !important; 
 		width: 33.33%;  
 		float: left;
 	}

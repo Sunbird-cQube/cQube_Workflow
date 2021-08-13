@@ -1,136 +1,150 @@
-<div class="container-fluid" style="padding-top:15px !important;">
-    <div class="row" (window:resize)="onResize()">
-        <div class="col-sm-8">
-            <div *ngIf='skul'>
-                <p id="dist">
-                    Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
-            </div>
-            <div *ngIf='dist'>
-                <p id="block">
-                    Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span>
-                    <span id="dist" (click)="clickedMarker($event,distName)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{hierName}}</span>
-                </p>
-            </div>
-            <div *ngIf="blok">
-                <p id="cluster">
-                    Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
-                        id="dist" (click)="clickedMarker($event,distName)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span>/ </span><span id="block" (click)="clickedMarker($event,blockName)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{hierName}}</span></p>
-            </div>
+<div class="container-fluid">
+    <div class="row reportHeader">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row" (window:resize)="commonService.onResize(level);onResize()">
+                <div class="col-sm-8 ">
+                    <div *ngIf='skul'>
+                        <p id="dist">
+                            Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                    </div>
+                    <div *ngIf='dist'>
+                        <p id="block">
+                            Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span>
+                            <span id="dist" (click)="clickedMarker($event,distName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{hierName}}</span>
+                        </p>
+                    </div>
+                    <div *ngIf="blok">
+                        <p id="cluster">
+                            Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span id="dist" (click)="clickedMarker($event,distName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{titleName}}</span><span> | </span><span id="block"
+                                (click)="clickedMarker($event,blockName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{hierName}}</span></p>
+                    </div>
 
-            <div *ngIf="clust">
-                <p id="school">
-                    Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span>
-                    <span id="dist" (click)="clickedMarker($event,distName)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span>/ </span><span id="block" (click)="clickedMarker($event,blockName)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{title}}</span><span>/ </span><span>
-                        {{hierName}}</span>
-                </p>
+                    <div *ngIf="clust">
+                        <p id="school">
+                            Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span>
+                            <span id="dist" (click)="clickedMarker($event,distName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{titleName}}</span><span> | </span><span id="block"
+                                (click)="clickedMarker($event,blockName)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{title}}</span><span> | </span><span>
+                                {{hierName}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <p id="errMsg" class="note">
+                            </p>
+                        </div>
+                        <div class="col-sm-5">
+                            <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                id="download1" (click)="downloadReport($event)">Download Report &nbsp; <i
+                                    class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-4">
             <div class="row">
-                <div class="col-sm-7">
-                    <p id="errMsg" class="note">
+                <div class="col-sm-12">
+                    <p class="note">
+                        <strong> About the dashboard:</strong> This dashboard provides information about student
+                        attendance
+                        calculated at a
+                        monthly level. The data has been collated at various administrative levels (i.e. District,
+                        Block,
+                        Cluster and School) and this dashboard allows you to view and download the data at these various
+                        administrative levels. You can select a different month/year combination to view student
+                        attendance for
+                        any other time period.
                     </p>
                 </div>
-                <div class="col-sm-5">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        (click)="downloadReport($event)"></em>
-                    <em class="fa fa-home" id="home" title="Home" alt="Home" (click)="onClickHome()"></em>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 " style="padding-bottom: 10px !important">
+                    <select id="period" [(ngModel)]="period"
+                        (change)="period != 'select_month' ? onPeriodSelect() : showYearMonth()">
+                        <option [value]="period" disabled selected="selected">Choose TimeRange</option>
+                        <option *ngFor="let period of timeRange,  let i =index" [(ngValue)]="period.key">
+                            {{period.value}}
+                        </option>
+                    </select>
+                    <select [hidden]="yearMonth" id="year" [(ngModel)]="year" name="year" (change)="getYear()">
+                        <option [value]="year" disabled selected="selected">Choose Year
+                        </option>
+                        <option *ngFor="let year of years, let i = index" [(ngValue)]="years[i]">
+                            {{years[i]}}
+                        </option>
+                    </select>
+                    <select [hidden]="yearMonth" id="month" [(ngModel)]="month" name="month"
+                        (change)="getMonth($event)">
+                        <option [value]="month" disabled selected="selected">Choose Month
+                        </option>
+                        <option *ngFor="let month of months" [(ngValue)]="month.id">
+                            {{month.name}}
+                        </option>
+                    </select>
+
+                    <button class="btn btn-secondary" id="blockbtn" name="block"
+                        (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                    </button>
+                    <button class="btn btn-secondary" id="clusterbtn"
+                        (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
+                    </button>
+                    <button class="btn btn-secondary" id="schoolbtn"
+                        (click)="schoolWise()">&nbsp;<strong>Schools</strong>
+                    </button>
+
+                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"
+                        (change)="distSelect($event,myDistrict)">
+                        <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
+                            District
+                        </option>
+                        <option *ngFor="let dist of districtsNames" [(ngValue)]="dist.id">
+                            {{dist.name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
+                        (change)="blockSelect($event,myBlock)">
+                        <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
+                        </option>
+                        <option *ngFor="let block of blocksNames" [(ngValue)]="block.id">
+                            {{block.name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
+                        (change)="clusterSelect($event,myCluster)">
+                        <option [value]="myCluster" disabled selected="selected">Choose a cluster
+                        </option>
+                        <option *ngFor="let cluster of clusterNames" [(ngValue)]="cluster.id"
+                            [ngStyle]="{'color': cluster.name !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
+                            {{cluster.name}}
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <p class="note">
-                <strong> About the dashboard:</strong> This dashboard provides information about student attendance
-                calculated at a
-                monthly level. The data has been collated at various administrative levels (i.e. District, Block,
-                Cluster and School) and this dashboard allows you to view and download the data at these various
-                administrative levels. You can select a different month/year combination to view student attendance for
-                any other time period.
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12" style="padding-bottom: 10px !important">
-            <select id="period" [(ngModel)]="period"
-                (change)="period != 'select_month' ? onPeriodSelect() : showYearMonth()">
-                <option [value]="period" disabled selected="selected">Choose TimeRange</option>
-                <option *ngFor="let period of timeRange,  let i =index" [(ngValue)]="period.key">
-                    {{period.value}}
-                </option>
-            </select>
-            <select [hidden]="yearMonth" id="year" [(ngModel)]="year" name="year" (change)="getYear()">
-                <option [value]="year" disabled selected="selected">Choose Year
-                </option>
-                <option *ngFor="let year of years, let i = index" [(ngValue)]="years[i]">
-                    {{years[i]}}
-                </option>
-            </select>
-            <select [hidden]="yearMonth" id="month" [(ngModel)]="month" name="month" (change)="getMonth($event)">
-                <option [value]="month" disabled selected="selected">Choose Month
-                </option>
-                <option *ngFor="let month of months" [(ngValue)]="month.id">
-                    {{month.name}}
-                </option>
-            </select>
-
-            <button class="btn btn-secondary" id="blockbtn" name="block"
-                (click)="blockWise($event)">&nbsp;<strong>Blocks</strong>
-            </button>
-            <button class="btn btn-secondary" id="clusterbtn"
-                (click)="clusterWise($event)">&nbsp;<strong>Clusters</strong>
-            </button>
-            <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise($event)">&nbsp;<strong>Schools</strong>
-            </button>
-
-            <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"
-                (change)="distSelect($event,myDistrict)">
-                <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a District
-                </option>
-                <option *ngFor="let dist of districtsNames" [(ngValue)]="dist.id">
-                    {{dist.name}}
-                </option>
-            </select>
-
-            <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
-                (change)="blockSelect($event,myBlock)">
-                <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
-                </option>
-                <option *ngFor="let block of blocksNames" [(ngValue)]="block.id">
-                    {{block.name}}
-                </option>
-            </select>
-
-            <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
-                (change)="clusterSelect($event,myCluster)">
-                <option [value]="myCluster" disabled selected="selected">Choose a cluster
-                </option>
-                <option *ngFor="let cluster of clusterNames" [(ngValue)]="cluster.id"
-                    [ngStyle]="{'color': cluster.name !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
-                    {{cluster.name}}
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
+    <div class="row reportContainer">
         <div class="col-sm-12">
             <div #mapContainer id="tarExpMap" class="active" style="width: 100%;"
-                [ngStyle]="{height: heigth > 1760 ? '84vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '76vh':'70vh'}">
+                [ngStyle]="{height: width > 3820 ? '83vh': width > 1920 && width < 2500 ? '80vh': width > 1367 && width < 1920 ? '78vh':'70vh'}">
             </div>
         </div>
     </div>

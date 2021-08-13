@@ -117,8 +117,8 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   constructor(private cdr: ChangeDetectorRef, public commonService: AppServiceComponent, public service: HealthCardService, private readonly _router: Router, private readonly _cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    document.getElementById('backBtn').style.display = 'none';
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('myInput')['disabled'] = true;
     this.state = this.commonService.state;
 
@@ -141,11 +141,11 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     if (this.params && this.params.level) {
       this.level = this.params.level;
       if (this.level == 'state') {
-        document.getElementById('home').style.display = "none";
+        //document.getElementById('home').style.display = "none";
         this.stateData();
       }
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
       this.stateData();
     }
   }
@@ -163,7 +163,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
     if (this.params && this.params.level) {
       if (this.params.level != 'state') {
-        document.getElementById('home').style.display = "block";
+        //document.getElementById('home').style.display = "block";
         this.len = 2;
         this.value = this.params.value;
         this.searchInput.nativeElement.value = this.params.value;
@@ -180,9 +180,9 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   stateData() {
     document.getElementById('spinner').style.display = 'block';
     if (this.period != 'overall') {
-      document.getElementById('home').style.display = "block";
+      //document.getElementById('home').style.display = "block";
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
     }
     this.semLength = 2;
     this.udiseLength = -1;
@@ -240,7 +240,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.err = false;
     this.showAll = false;
     this.showLink = true;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     //document.getElementById('download').style.display = 'block';
     document.getElementById('spinner').style.display = 'block';
     this.exist = false;
@@ -506,8 +506,8 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   showData(healthCardData) {
     if (this.level != 'state') {
       if (this.level != 'school')
-        healthCardData['total_schools'] = healthCardData['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      healthCardData['total_students'] = healthCardData['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        healthCardData['total_schools'] = healthCardData['total_schools'] ? healthCardData['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
+      healthCardData['total_students'] = healthCardData['total_students'] ? healthCardData['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
       if (healthCardData['school_management_type'])
         healthCardData['school_management_type'] = this.commonService.changeingStringCases(healthCardData['school_management_type'].replace(/_/g, ' '))
       this.updatedKeys = [];
@@ -616,13 +616,19 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.tooltipSemKeys.push(myKey);
       });
       if (healthCardData['student_semester']['grade_wise_performance']) {
+        const ordered = Object.keys(healthCardData['student_semester']['grade_wise_performance']).sort().reduce(
+          (obj, key) => {
+            obj[key] = healthCardData['student_semester']['grade_wise_performance'][key];
+            return obj;
+          },
+          {}
+        );
+        healthCardData['student_semester']['grade_wise_performance'] = ordered;
         this.semPerformTooltip = Object.keys(healthCardData['student_semester']['grade_wise_performance']);
         this.semPerformTooltip.filter(key => {
           myKey = this.stringConverter(key);
           this.semPerformTooltipKeys.push(myKey);
         });
-        /* let i = this.tooltimSem.indexOf('grade_wise_performance');
-        this.tooltimSem.splice(i, 1); */
       }
       this.semColor = this.service.colorGredient(healthCardData['student_semester']['performance']);
       this.semRankMatrixValue = healthCardData['student_semester']['state_level_score'] * 10;
@@ -727,7 +733,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   len;
   exist = false;
   onChange() {
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     //document.getElementById('download').style.display = 'none';
 
     this.exist = true;
@@ -735,7 +741,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.val = document.getElementById('myInput')['value'];
     this.len = this.val.length;
     this.showAll = false;
-    document.getElementById('warning').style.display = 'inline-block';
+    document.getElementById('warning').style.display = 'block';
     if (this.value.match(/^\d/)) {
       if (this.value.toString().length > 1) {
         document.getElementById('warning').style.display = 'none';
@@ -752,7 +758,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
 
   levels = [{ key: 'district', name: 'District' }, { key: 'block', name: 'Block' }, { key: 'cluster', name: 'Cluster' }, { key: 'school', name: 'School' }];
   selectedLevel(callSubmit = false) {
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     //document.getElementById('download').style.display = 'none';
     this.exist = true;
     this.cdr.detectChanges();
@@ -761,7 +767,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.allData = [];
     this.ids = [];
     this.names = [];
-    document.getElementById('warning').style.display = 'inline-block';
+    document.getElementById('warning').style.display = 'block';
     this.showAll = false;
     document.getElementById('myInput')['disabled'] = false;
     if (!callSubmit)

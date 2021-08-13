@@ -1,0 +1,9 @@
+@media screen and (min-width: 1200px) {
+    #school{
+      margin-top: 5px !important;
+    }
+  }
+  
+  #school{
+    margin-top: 0px;
+  }

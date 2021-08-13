@@ -91,8 +91,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   scousesTOShow: any = [];
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
-    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('accessProgressCard').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.service.courseFilter({ timePeriod: 'All' }).subscribe(res => {
       this.scousesTOShow = this.courses = res;
     });
@@ -139,7 +139,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.timePeriod = 'All';
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     this.selectedCourses = [];
     var courses = this.courses.map(course => {
       course.status = false;
@@ -472,7 +472,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = true;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -513,7 +513,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = false;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -555,7 +555,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   selectedCluster(clusterId) {
     this.level = 'school';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -638,7 +638,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
   //level wise filter
   levelWiseFilter() {
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.level == 'district') {
       this.commonFunc()
     }

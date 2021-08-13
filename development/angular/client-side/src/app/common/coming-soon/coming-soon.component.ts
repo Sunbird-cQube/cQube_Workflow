@@ -12,10 +12,10 @@ export class ComingSoonComponent implements OnInit {
   constructor(private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-  //  var value =  this.route.snapshot.params['name'];
-  //     this.pageTitle = value;
-    document.getElementById('homeBtn').style.display = 'block';
-    document.getElementById('backBtn').style.display = 'none';
+    //  var value =  this.route.snapshot.params['name'];
+    //     this.pageTitle = value;
+    document.getElementById('accessProgressCard').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
   }
 
 }

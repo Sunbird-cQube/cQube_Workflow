@@ -13,8 +13,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
-// import { MatPaginatorModule, MatSortModule } from '@angular/material';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { KeycloakSecurityService } from './keycloak-security.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthInterceptor } from './auth.interceptor';
@@ -31,6 +29,7 @@ import { DikshaTPDContentProgressComponent } from './reports/diksha/tpd/diksha-t
 import { DikshaTPDTeachersPercentageComponent } from './reports/diksha/tpd/diksha-tpd-teachers-percentage/diksha-tpd-teachers-percentage.component';
 import { StudentAttendanceChartComponent } from './reports/attendance/student-attendance-chart/student-attendance-chart.component';
 import { LineChartComponent } from './common/line-chart/line-chart.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
@@ -41,7 +40,6 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
   declarations: [
     AppComponent,
     HomeComponent,
-    DashboardComponent,
     HomePageComponent,
     InfoComponent,
     DikshaChartComponent,
@@ -61,10 +59,9 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
+    MatExpansionModule,
     MatIconModule,
     MatTableModule,
-    // MatPaginatorModule,
-    // MatSortModule,
     HttpClientModule,
     FormsModule,
     ChartsModule,
@@ -72,11 +69,6 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     AppRoutingModule,
     NgbModule,
     NgCircleProgressModule.forRoot({})
-  ],
-  exports: [
-    MatTableModule,
-    // MatPaginatorModule,
-    // MatSortModule
   ],
   providers: [
     {
