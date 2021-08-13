@@ -1,15 +1,16 @@
 .reportHeader{
-    /* background-repeat: no-repeat;
-    background-position: right;
-    background-image: url(../../../../assets/bg-icon.png);
-    background-position-y: 150px;
-    background-size: 450px 500px; */
+   top: 45px;
+   position: fixed;
+   width: calc(100% - 25px);
+   z-index: 999;
+   background-color: #F5F5F5;
 }
 
 .reportContainer{
-    background-repeat: no-repeat;
-    background-position: right;
-    background-image: url(../../../../assets/bg-icon.png);
-    background-position-y: 150px;
-    background-size: 450px 500px;
+   margin-top: 120px;
+}
+
+
+@media screen and (min-width: 2140px) {
+    
 }
