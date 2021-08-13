@@ -251,7 +251,8 @@ table.dataTable.nowrap td {
 #block,
 #cluster,
 #school {
-    color: #284d8a;
+    color: #262626;
+    font-weight: 600;
     font-size: 18px;
     line-height: 1.2em;
     margin-top: 5px;
@@ -506,7 +507,8 @@ table.dataTable.nowrap td {
     #block,
     #cluster,
     #school {
-        color: #284d8a;
+        color: #262626;
+        font-weight: 600;
         font-size: 32px;
         line-height: 1.2em;
         margin-top: 5px;
@@ -703,7 +705,8 @@ table.dataTable.nowrap td {
     #block,
     #cluster,
     #school {
-        color: #284d8a;
+        color: #262626;
+        font-weight: 600;
         font-size: 38px !important;
         line-height: 1.2em;
         margin-top: 5px;
