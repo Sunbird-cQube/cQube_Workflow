@@ -570,9 +570,7 @@ export class SchoolInfrastructureComponent implements OnInit {
         destroy: true, bLengthChange: false, bInfo: false,
         bPaginate: false, scrollY: '34vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
-        fixedColumns: {
-          leftColumns: 1
-        }
+        responsive: true,
       });
     });
   }

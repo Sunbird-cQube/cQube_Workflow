@@ -595,7 +595,7 @@ export class CompositReportComponent implements OnInit {
   obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1760 ? '60vh' : this.height > 1180 && this.height < 1760 ? '60vh' : this.height > 667 && this.height < 1180 ? '50vh' : '46vh');
+    ctx.attr('height', this.height > 1760 ? '58vh' : this.height > 1160 && this.height < 1760 ? '54vh' : this.height > 667 && this.height < 1160 ? '50vh' : '46vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
 
@@ -647,13 +647,13 @@ export class CompositReportComponent implements OnInit {
             ticks: {
               fontColor: 'black',
               min: 0,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1160 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.xAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1160 ? 15 : 10,
             }
           }],
           yAxes: [{
@@ -663,13 +663,13 @@ export class CompositReportComponent implements OnInit {
             ticks: {
               fontColor: 'black',
               min: 0,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1160 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.yAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1160 ? 15 : 10,
             }
           }]
         }
