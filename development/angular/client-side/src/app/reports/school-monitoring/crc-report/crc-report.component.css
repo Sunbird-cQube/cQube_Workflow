@@ -202,7 +202,7 @@
 
 @media only screen and (min-width: 2540px) {
   .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 45vh !important;
+      max-height: 44vh !important;
       font-size: 22px !important;
   }
 
@@ -240,7 +240,7 @@
 
 @media only screen and (min-width: 3840px) {
       .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 52vh !important;
+      max-height: 50vh !important;
       font-size: 30px !important;
   }
   .myDiv .dataTables_wrapper .dataTables_scrollHead{
@@ -311,7 +311,6 @@ font-size: 11px;
 .reportContainer1{
   margin-top: 140px;
 }
-
 
 @media screen and (min-width: 2140px) {
    .reportHeader1{

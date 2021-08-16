@@ -40,7 +40,7 @@
   display: inline-block;
 }
 
-@media only screen and (min-width: 1920px) {
+/* @media only screen and (min-width: 1920px) {
   .btn-primary {
     padding: 4px;
     font-size: 1.2rem !important;
@@ -48,16 +48,16 @@
 
   .fa-angle-down {
     margin-top: 2px !important;
-    font-size: 28px !important;
+    font-size: 20px !important;
   }
 
   .btn-secondary {
     padding: 4px !important;
-    width: 500px;
+    width: 500px !important;
   }
 
   .btn-secondary span {
-    font-size: 1.2rem !important;
+    font-size: 1rem !important;
   }
 
   .drop-show #div1 {
@@ -72,7 +72,7 @@
     width: 1.2rem;
     height: 1.2rem;
   }
-}
+} */
 
 @media only screen and (min-width: 2540px) {
   .btn-primary {
@@ -86,12 +86,12 @@
   }
 
   .btn-secondary {
-    padding: 4px !important;
-    width: 500px;
+    padding: 11px !important;
+    width: 600px !important;
   }
 
   .btn-secondary span {
-    font-size: 1.25rem !important;
+    font-size: 1.5rem !important;
   }
 
   .drop-show #div1 {
@@ -120,8 +120,8 @@
   }
 
   .btn-secondary {
-    padding: 8px !important;
-    width: 500px !important;
+    padding: 11px !important;
+    width: 700px !important;
   }
 
   .btn-secondary span {
