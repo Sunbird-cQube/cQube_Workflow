@@ -149,6 +149,8 @@ export class CrcReportComponent implements OnInit {
     { key: "select_month", value: "Year and Month" },
   ];
   period = "overall";
+  labels: any = [];
+  obj: any;
 
   myData;
   state: string;
@@ -503,7 +505,7 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY: "32vh",
+              scrollY: "30vh",
               scrollX: true,
               scrollCollapse: true,
               paging: false,
@@ -1135,16 +1137,14 @@ export class CrcReportComponent implements OnInit {
       .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
   }
 
-  labels: any;
-  obj:any;
   createChart(labels, chartData, name, obj) {
     var ctx = $("#myChart");
     ctx.attr(
       "height",
       this.height > 1760
-        ? "64vh"
+        ? "60vh"
         : this.height > 1180 && this.height < 1760
-          ? "63vh"
+          ? "60vh"
           : this.height > 667 && this.height < 1180
             ? "52vh"
             : "44vh"

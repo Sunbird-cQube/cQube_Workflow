@@ -355,7 +355,7 @@ table.dataTable.nowrap td {
 #legend {
     font-size: 12px;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 #legendNote {
@@ -427,6 +427,7 @@ table.dataTable.nowrap td {
     #legend {
         font-size: 13px;
         font-weight: bold;
+        margin-top: 10px !important;
     }
     #legendNote {
         font-size: 14px;
@@ -595,9 +596,9 @@ table.dataTable.nowrap td {
         font-weight: bold;
     }
     #legend {
-        font-size: 26px;
+        font-size: 26px !important;
         font-weight: bold;
-        margin-top: 20px;
+        margin-top: 8px !important;
     }
     #legendNote {
         font-size: 22px;
@@ -684,14 +685,14 @@ table.dataTable.nowrap td {
     }
     #absolute {
         border-radius: 20px !important;
-        height: 50px !important;
+        height: 49px !important;
         width: 50%;
         float: left;
         cursor: pointer;
     }
     #relative {
         border-radius: 20px !important;
-        height: 50px !important;
+        height: 49px !important;
         width: 50%;
         float: left;
         cursor: pointer;
@@ -794,8 +795,9 @@ table.dataTable.nowrap td {
         font-weight: bold;
     }
     #legend {
-        font-size: 32px;
+        font-size: 32px !important;
         font-weight: bold;
+        margin-top: 8px !important;
     }
     #legendNote {
         font-size: 32px;
@@ -862,9 +864,50 @@ table.dataTable.nowrap td {
     font-size: 12px;
 }
 
+/*/////////////////TABLE CONTROL CSS////////////////////////*/
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
+    max-height: 44vh !important;
+    font-size: 12px !important;
+}
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead{
+    font-size: 12px !important;
+}
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
+    height: 70px !important;
+}
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
+    min-width: 150px !important;
+}
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr th{
+    min-width: 30px !important;
+}
+.dataTableCustom .dataTables_wrapper .dataTables_scrollBody .indicator{
+    min-width: 150px !important;
+}
+.page-item.active .page-link{
+    background-color: whitesmoke !important;
+    color: black !important;
+    font-size: 12px;
+}
+.page-link{
+    color: black !important;
+    font-size: 12px;
+}
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
+    background-size: 15px 15px !important;
+}
+.report-cards {
+    margin-top: 20px !important; 
+  }
+
+
 @media only screen and (min-width: 2560px) {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 62vh !important;
+        max-height: 54vh !important;
         font-size: 22px !important;
     }
 
@@ -899,41 +942,40 @@ table.dataTable.nowrap td {
     }
     .report-cards {
         margin-top: 35px !important; 
-      }
+    }
   
 }
 
 @media only screen and (min-width: 3840px) {
-        .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 66vh !important;
-        font-size: 30px !important;
+    .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
+        max-height: 58vh !important;
+        font-size: 32px !important;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead{
-        font-size: 30px !important;
+        font-size: 32px !important;
     }
 
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
         height: 220px !important;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
-        width: 350px;
+        width: 380px !important;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody .indicator{
-        min-width: 350px !important;
+        min-width: 380px !important;
     }
     .page-item.active .page-link{
         background-color: whitesmoke !important;
         color: black !important;
-        font-size: 30px;
+        font-size: 32px;
     }
     .page-link{
         color: black !important;
-        font-size: 30px;
+        font-size: 32px;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
         background-size: 40px 40px !important;
     }
-
     .report-cards {
         margin-top: 50px !important;
       }

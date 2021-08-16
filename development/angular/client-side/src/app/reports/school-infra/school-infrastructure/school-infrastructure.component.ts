@@ -493,7 +493,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   createTable(dataSet, height) {
-    
+
     if ($.fn.DataTable.isDataTable('#table')) {
       $('#table').DataTable().destroy();
       $('#table').empty();
@@ -568,7 +568,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       $("#table").append(body);
       $('#table').DataTable({
         destroy: true, bLengthChange: false, bInfo: false,
-        bPaginate: false, scrollY: '36vh', scrollX: true,
+        bPaginate: false, scrollY: '34vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
         fixedColumns: {
           leftColumns: 1
@@ -581,7 +581,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1760 ? '68vh' : this.height > 1180 && this.height < 1760 ? '64vh' : this.height > 667 && this.height < 1180 ? '60vh' : '52vh');
+    ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1180 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1180 ? '56vh' : '46vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
       data: {
@@ -591,8 +591,8 @@ export class SchoolInfrastructureComponent implements OnInit {
           pointBackgroundColor: "#4890b5",
           pointBorderColor: '#7cd6cc',
           pointBorderWidth: 0.5,
-          pointRadius: this.height > 1760 ? 16 : this.height > 1180 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1180 ? 8 : 5,
-          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1180 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1180 ? 9 : 6,
+          pointRadius: this.height > 1760 ? 16 : this.height > 1180 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1180 ? 10 : 5,
+          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1180 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1180 ? 11 : 6,
         }]
       },
       options: {
@@ -640,13 +640,13 @@ export class SchoolInfrastructureComponent implements OnInit {
               fontColor: 'black',
               min: 0,
               max: 100,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.xAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 14 : 10,
             }
           }],
           yAxes: [{
@@ -657,13 +657,13 @@ export class SchoolInfrastructureComponent implements OnInit {
               fontColor: 'black',
               min: 0,
               max: 100,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.yAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 14 : 10,
             }
           }]
         }
