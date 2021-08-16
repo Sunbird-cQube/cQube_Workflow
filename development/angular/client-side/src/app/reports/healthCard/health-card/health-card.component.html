@@ -170,12 +170,12 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="autocomplete" style="width:100%;">
-                                    <label id="warning" class="form-label note" style="text-align: unset;"> Please enter
+                                    <label id="warning" class="form-label note1"
+                                        style="text-align: unset; line-height: 1em;"> Please enter
                                         at
                                         least 2
                                         characters/digits</label>
-                                    <!-- <label class="form-label" for="" *ngIf="len >= 2">&nbsp;</label> -->
-                                    <p *ngIf="level && len>=2" style="line-height: 0.7em; float: left;">&nbsp;</p>
+                                    <p id="warning1" style="line-height: 0.7em; float: left; display: none;">&nbsp;</p>
                                     <input #searchInput id="myInput" class="input-control full-width" type="search"
                                         class="clearable" autocomplete="off" name="districtName" [(ngModel)]="value"
                                         (input)="onChange()" [placeholder]="placeHolder">

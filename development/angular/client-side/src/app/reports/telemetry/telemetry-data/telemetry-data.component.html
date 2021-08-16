@@ -63,12 +63,21 @@
                             </p>
                         </div>
                         <div class="col-sm-7">
-                            <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
-                                id="download1" (click)="downloadReport()">Download Report &nbsp; <i
-                                    class="fa fa-arrow-down" aria-hidden="true"></i>
-                            </button>
-                            <em *ngIf='level != "District"' class="fa fa-home" id="home" title="Home" alt="Home"
-                                (click)="districtWise()" style="display: block !important; margin-left: 50px !important; float: left !important; margin-right: 10px;"></em>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <em *ngIf='level != "District"' class="fa fa-home" id="home" title="Home" alt="Home"
+                                        (click)="districtWise()"
+                                        style="display: block !important; float: right !important; margin-right: 10px;"></em>
+                                </div>
+                                <div class="col-sm-8">
+                                    <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                        id="download1" (click)="downloadReport()">Download Report &nbsp; <i
+                                            class="fa fa-arrow-down" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -93,10 +102,10 @@
             </div>
         </div>
     </div>
-    <div class="row reportContainer">
+    <div class="row reportContainer1">
         <div class="col-sm-12">
             <div #mapContainer id="map" class="active" style="width: 100%;"
-                [ngStyle]="{height: heigth > 1760 ? '89vh': heigth > 1180 && heigth < 1760 ? '86vh': heigth > 667 && heigth < 1180 ? '84vh':'80vh'}">
+                [ngStyle]="{height: heigth > 1760 ? '88vh': heigth > 1180 && heigth < 1760 ? '84vh': heigth > 667 && heigth < 1180 ? '80vh':'74vh'}">
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
 import HeatmapModule from 'highcharts/modules/heatmap';
 HeatmapModule(Highcharts);
@@ -84,7 +84,7 @@ export class SatHeatChartComponent implements OnInit {
 
   getHeight(event) {
     this.height = event.target.innerHeight;
-    this.onChangePage();
+    //
   }
 
   screenWidth: number;
@@ -92,14 +92,19 @@ export class SatHeatChartComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenWidth = window.innerWidth;
+    if (this.toolTipData) {
+      this.onChangePage();
+    }
     this.resetFontSizesOfChart();
+
   }
 
   constructor(
     public http: HttpClient,
     public service: PatReportService,
     public commonService: AppServiceComponent,
-    public router: Router
+    public router: Router,
+    public ref: ChangeDetectorRef
   ) {
     this.screenWidth = window.innerWidth;
     service.PATHeatMapMetaData({ report: 'sat' }).subscribe(res => {
@@ -166,7 +171,7 @@ export class SatHeatChartComponent implements OnInit {
   onChangePage() {
     let yLabel = this.yLabel.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage - 1) * this.pageSize + this.pageSize));
     let data = this.items.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage);
-    let tooltipData = this.toolTipData.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage);
+    let tooltipData = this.toolTipData ? this.toolTipData.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage) : ":";
 
     data = data.map(record => {
       record.y %= this.pageSize;
@@ -822,6 +827,7 @@ export class SatHeatChartComponent implements OnInit {
 
     this.items = this.data.map((x, i) => x);
     this.toolTipData = response['result']['tooltipData'];
+    this.ref.detectChanges();
     this.onChangePage();
   }
 

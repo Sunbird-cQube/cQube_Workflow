@@ -1,0 +1,56 @@
+#heading{
+    font-size: 20px;
+}
+
+.table.dataTable, table.dataTable th, table.dataTable td {
+    font-size: 13px;
+}
+
+table.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1{
+    font-size: 13px;
+}
+
+#invalidData{
+    font-size: 13px;
+    padding: 0px 5px 0px 5px;
+}
+
+@media only screen and (min-width: 2120px) {
+    #heading{
+        font-size: 35px !important;
+    }
+    
+    .table.dataTable, table.dataTable th, table.dataTable td {
+        font-size: 22px !important;
+        white-space: nowrap;
+    }
+    
+    table.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1{
+        font-size: 22px !important;
+    }
+
+    #invalidData{
+        font-size: 22px !important;
+        padding: 0px 5px 0px 5px;
+    }
+}
+
+@media only screen and (min-width: 3820px) {
+    #heading{
+        font-size: 50px !important;
+    }
+    
+    .table.dataTable, table.dataTable th, table.dataTable td {
+        font-size: 32px !important;
+        white-space: nowrap;
+    }
+    
+    table.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1{
+        font-size: 30px !important;
+    }
+
+    #invalidData{
+        font-size: 30px !important;
+        padding: 0px 5px 0px 5px;
+    }
+}
