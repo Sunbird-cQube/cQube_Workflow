@@ -186,11 +186,11 @@ leaflet-right {
     overflow: auto;
     overflow-y: hidden;
     margin: 0 auto;
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
-table.dataTable.nowrap td {
-    white-space: unset !important; 
+.table.dataTable.nowrap td {
+    white-space: unset !important;
 }
 
 /*//////////////////////////////////////////////////////////////////*/
@@ -716,9 +716,9 @@ table.dataTable.nowrap td {
     }
     #home {
         cursor: pointer;
-        font-size: 45px !important;
+        font-size: 60px !important;
         float: right;
-        margin: 2px 0px 0px 0px;
+        margin: 5px 0px 0px 0px !important;
         color: #3100cc;
         display: none;
     }

@@ -16,17 +16,12 @@
         </div>
         <div class="col-sm-4">
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-6">
                     <p id="errMsg" class="note"
                         style="display: none; text-align: center;line-height: 1.2em; font-size: 12px; margin-top: 3%; ">
                     </p>
                 </div>
-                <div class="col-sm-4">
-                    <span id="rawDownload" *ngIf="reportData.length > 0"
-                        style="color: #284d8a;cursor: pointer; text-decoration: underline; font-size: 13px;"
-                        (click)="downloadRawFile()"><strong>Download Raw
-                            File</strong></span>
-                </div>
+
                 <div class="col-sm-6">
                     <div style="float: right; " id="select">
                         <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"

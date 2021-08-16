@@ -58,8 +58,8 @@
                         <div class="col-sm-4">
                             <a *ngIf="academicYear" href="javascript: void(0)" id="downloadRaw"
                                 (click)="downloadRaw()">Download
-                                Raw Data</a>
-                            <p id="errMsg" class="note">
+                                Academic Year Data</a>
+                            <p *ngIf="!academicYear" id="errMsg" class="note">
                             </p>
                         </div>
                         <div class="col-sm-4">
@@ -166,7 +166,7 @@
                     [ngStyle]="{height: heigth > 1760 ? '83vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '74vh':'70vh'}">
                 </div>
             </div>
-            <div style="float: left; width: 9%; margin-left: 1%;">
+            <div style="float: left; width: 9%; margin-left: 1%; margin-top: 1%;">
                 <h5 id="legend" style="margin-left: 20%;">Legend</h5>
                 <div *ngFor="let value of values; let i = index">
                     <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"

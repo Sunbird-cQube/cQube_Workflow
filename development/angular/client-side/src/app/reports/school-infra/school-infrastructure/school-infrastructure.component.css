@@ -1,27 +1,18 @@
 .dataTables_scroll, .dataTables_scrollHead{
-    font-size: 11px; 
     text-align: center; 
     width: 100%; 
+    white-space: nowrap !important;
     border: 1px solid gray;
   }
-  
-  @media screen and (min-width: 1920px){
-    .dataTables_scroll, .dataTables_scrollHead{
-      font-size: 16px; 
-      text-align: center; 
-      width: 100%; 
-      border: 1px solid gray;
-    }
-    
-  }
+
   
   @media screen and (min-width: 2500px){
-    .dataTables_scroll, .dataTables_scrollHead{
+    /* .dataTables_scroll, .dataTables_scrollHead{
       font-size: 22px; 
       text-align: center; 
       width: 100%; 
       border: 1px solid gray;
-    }
+    } */
     #downloader{
       margin-top: 5px;
       margin-right: 15px;
@@ -36,17 +27,17 @@
   }
   
   @media screen and (min-width: 3820px) {
-    .dataTables_scroll, .dataTables_scrollHead{
+    /* .dataTables_scroll, .dataTables_scrollHead{
       font-size: 26px !important; 
       text-align: center; 
       width: 100%; 
       border: 1px solid gray;
-    }
+    } */
     #downloader{
       margin-top: 0px !important;
       margin-right: 20px;
       margin-bottom: 4px;
-      padding: 12px !important;
+      padding: 14px !important;
       color: white;
       border-radius: 6px;
       font-size: 32px !important;
@@ -67,218 +58,99 @@
     background-color: rgb(152, 160, 163);
   }
 
-
-@media only screen and (min-width: 1260px) {
+  @media only screen and (min-width: 2540px) {
+    .myDiv .dataTables_wrapper .dataTables_scrollBody {
+        max-height: 48vh !important;
+        font-size: 22px !important;
+    }
+  
+    .myDiv .dataTables_wrapper .dataTables_scrollHead{
+        font-size: 22px !important;
+    }
+    .myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
+        background-size: 30px 30px !important;
+    }
+  
+  }
+  
+  @media only screen and (min-width: 3840px) {
+        .myDiv .dataTables_wrapper .dataTables_scrollBody {
+        max-height: 55vh !important;
+        font-size: 30px !important;
+    }
+    .myDiv .dataTables_wrapper .dataTables_scrollHead{
+        font-size: 30px !important;
+    }
+ 
+    .myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
+        background-size: 40px 40px !important;
+    }
+  }
+  
+  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
+    height: 60px;
+    padding-left: -10px;
+  }
   .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 32vh;
-      font-size: 12px;
+  font-size: 11px;
   }
-
+  
   .myDiv .dataTables_wrapper .dataTables_scrollHead{
-      font-size: 12px !important;
+  font-size: 11px;
   }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
-      height: 100px !important;
-  }
+  
+  
   .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
-      min-width: 180px !important;
+    width: 150px;
   }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr th{
-      min-width: 40px !important;
-  }
+  
   .myDiv .dataTables_wrapper .dataTables_scrollBody .indicator{
-      min-width: 180px !important;
+    min-width: 150px;
   }
-  .page-item.active .page-link{
-      background-color: whitesmoke !important;
-      color: black !important;
-      font-size: 12px;
-  }
-  .page-link{
-      color: black !important;
-      font-size: 12px;
-  }
-
+  
   .myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
-      background-size: 15px 15px !important;
+    background-size: 20px 20px;
   }
-
-}
-
-@media only screen and (min-width: 1920px) {
-  .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 42vh !important;
-      font-size: 18px !important;
+/*   
+  .myDiv .dataTables_wrapper .dataTables_scrollBody table tbody tr th, .myDiv .dataTables_wrapper .dataTables_scrollBody table table.dataTable tbody tr td {
+    padding: 0px 0px !important;
+  } */
+  
+  
+  
+  .reportHeader1{
+    top: 45px;
+    position: fixed;
+    width: calc(100% - 25px);
+    z-index: 999;
+    background-color: #F5F5F5;
   }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead{
-      font-size: 18px !important;
+  .reportContainer1{
+    margin-top: 140px;
   }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
-      height: 120px !important;
+  
+  @media screen and (min-width: 2140px) {
+     .reportHeader1{
+         top: 70px !important;
+         position: fixed;
+         width: calc(100% - 25px);
+         z-index: 999;
+         background-color: #F5F5F5;
+      }
+      .reportContainer1{
+         margin-top: 220px !important;
+      }
   }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
-      min-width: 200px !important;
+  
+  @media screen and (min-width: 3820px) {
+     .reportHeader1{
+         top: 120px !important;
+         position: fixed;
+         width: calc(100% - 25px);
+         z-index: 999;
+         background-color: #F5F5F5;
+      }
+      .reportContainer1{
+         margin-top: 250px !important;
+      }
   }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr th{
-      min-width: 50px !important;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollBody .indicator{
-      min-width: 200px !important;
-  }
-  .page-item.active .page-link{
-      background-color: whitesmoke !important;
-      color: black !important;
-      font-size: 18px;
-  }
-  .page-link{
-      color: black !important;
-      font-size: 18px;
-  }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
-      background-size: 20px 20px !important;
-  }
-
-}
-
-@media only screen and (min-width: 2540px) {
-  .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 45vh !important;
-      font-size: 22px !important;
-  }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead{
-      font-size: 22px !important;
-  }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
-      height: 150px !important;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
-      min-width: 250px !important;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr th{
-      min-width: 50px !important;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollBody .indicator{
-      min-width: 250px !important;
-  }
-  .page-item.active .page-link{
-      background-color: whitesmoke !important;
-      color: black !important;
-      font-size: 23px;
-  }
-  .page-link{
-      color: black !important;
-      font-size: 23px;
-  }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
-      background-size: 30px 30px !important;
-  }
-
-}
-
-@media only screen and (min-width: 3840px) {
-      .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 52vh !important;
-      font-size: 30px !important;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead{
-      font-size: 30px !important;
-  }
-
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
-      height: 220px !important;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
-      width: 350px;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollBody .indicator{
-      min-width: 350px !important;
-  }
-  .page-item.active .page-link{
-      background-color: whitesmoke !important;
-      color: black !important;
-      font-size: 30px;
-  }
-  .page-link{
-      color: black !important;
-      font-size: 30px;
-  }
-  .myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
-      background-size: 40px 40px !important;
-  }
-}
-
-.myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
-  height: 60px;
-  padding-left: -10px;
-}
-.myDiv .dataTables_wrapper .dataTables_scrollBody {
-font-size: 11px;
-}
-
-.myDiv .dataTables_wrapper .dataTables_scrollHead{
-font-size: 11px;
-}
-
-
-.myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
-  width: 150px;
-}
-
-.myDiv .dataTables_wrapper .dataTables_scrollBody .indicator{
-  min-width: 150px;
-}
-
-.myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
-  background-size: 20px 20px;
-}
-
-.myDiv .dataTables_wrapper .dataTables_scrollBody table tbody tr th, .myDiv .dataTables_wrapper .dataTables_scrollBody table table.dataTable tbody tr td {
-  padding: 0px 0px !important;
-}
-
-
-.reportHeader1{
-  top: 45px;
-  position: fixed;
-  width: calc(100% - 25px);
-  z-index: 999;
-  background-color: #F5F5F5;
-}
-.reportContainer1{
-  margin-top: 140px;
-}
-
-
-@media screen and (min-width: 2140px) {
-   .reportHeader1{
-       top: 70px !important;
-       position: fixed;
-       width: calc(100% - 25px);
-       z-index: 999;
-       background-color: #F5F5F5;
-    }
-    .reportContainer1{
-       margin-top: 220px !important;
-    }
-}
-
-@media screen and (min-width: 3820px) {
-   .reportHeader1{
-       top: 120px !important;
-       position: fixed;
-       width: calc(100% - 25px);
-       z-index: 999;
-       background-color: #F5F5F5;
-    }
-    .reportContainer1{
-       margin-top: 250px !important;
-    }
-}
-
