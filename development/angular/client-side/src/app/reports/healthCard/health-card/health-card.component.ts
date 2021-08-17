@@ -551,6 +551,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     }
 
     this.showAll = true;
+    this.err = false;
     var myKey;
     this.tooltipInfra = [];
     this.toolTipInfraKeys = [];
