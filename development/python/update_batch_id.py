@@ -24,7 +24,7 @@ def update_parameter_ctx(pc_var, parameter_name, jolt_spec):
 
 def nifi_params_config():
     params={
-        'cQube-raw-data-fetch-parameters':'diksha_progress_exhaust_batch_list.json'
+        'diksha_parameters':'diksha_progress_exhaust_batch_list.json'
         
     }
     for param_name,filename in params.items():

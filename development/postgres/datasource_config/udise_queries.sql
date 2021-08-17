@@ -1,5 +1,4 @@
-/*--------------------------------------------------------------Udise configuration stage-------------------------------------------------------------------------------*/
-
+/*--------------------------------------------------------------Udise configuration stage----------------------------------------------*/
 
 CREATE OR REPLACE FUNCTION insert_udise_trans()
 RETURNS text AS
@@ -631,6 +630,8 @@ Execute transaction_insert;
 return 0;
 END;
 $$LANGUAGE plpgsql;
+
+/* aggragation table */
 
 CREATE OR REPLACE FUNCTION create_udise_table()
 RETURNS text AS

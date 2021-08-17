@@ -1,5 +1,4 @@
-
-/* crc_inspection_trans */
+/* Transaction table - crc_inspection_trans */
 
 create table if not exists crc_inspection_trans
 (
@@ -28,7 +27,7 @@ updated_on  TIMESTAMP without time zone
 
 create index if not exists crc_inspection_trans_id on crc_inspection_trans(school_id,crc_id);
 
-/* crc_location_trans */
+/* Transaction table - crc_location_trans */
 
 create table if not exists crc_location_trans
 (

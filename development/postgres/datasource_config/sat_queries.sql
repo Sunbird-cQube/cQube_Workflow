@@ -3220,7 +3220,7 @@ left join school_hierarchy_details as c on a.school_id=c.school_id
 group by a.school_id ,school_management_type)as b
  on d.school_id=b.school_id and d.school_management_type=b.school_management_type;
  
- 
+/* health card state last 30 days */ 
 
 create or replace view hc_sat_state_last30 as
  select (select round(((coalesce(sum(semester_exam_school_result.obtained_marks), (0)::numeric) * 100.0) / coalesce(sum(semester_exam_school_result.total_marks), (1)::numeric)), 1) as school_performance
@@ -3233,7 +3233,7 @@ create or replace view hc_sat_state_last30 as
         (select sum(students_count) as students_count from semester_exam_school_result where exam_code in (select exam_code from sat_date_range where date_range='last30days')),
         (select count(distinct school_id) as total_schools from semester_exam_school_result where exam_code in (select exam_code from sat_date_range where date_range='last30days'));
         
-
+/* health card state overall */ 
 create or replace view hc_sat_state_overall as
  select (select round(((coalesce(sum(semester_exam_school_result.obtained_marks), (0)::numeric) * 100.0) / coalesce(sum(semester_exam_school_result.total_marks), (0)::numeric)), 1) as school_performance
         from semester_exam_school_result),
@@ -3262,6 +3262,8 @@ left join (select exam_id,assessment_year,semester from semester_exam_mst) as b 
 left join school_hierarchy_details as c on a.school_id=c.school_id
 where b.assessment_year is not null
 group by a.school_id,b.assessment_year,semester )as b);
+
+/* sat heatchart queries */
 
 create materialized view if not exists sat_mgmt_lo_p1_indicator_all as (select academic_year,grade,subject as subject_name,to_char(cast(exam_date as text)::DATE,'dd-mm-yyyy')as exam_date, district_id,district_name,indicator, sum(students_attended) as students_attended, rtrim(ltrim(TO_CHAR( TO_TIMESTAMP (date_part('month',exam_date)::text, 'MM'), 'Month' )))as month, round(coalesce(sum(obtained_marks),0)/nullif(coalesce(sum(total_marks),0),0),1)as marks, round(coalesce((sum(obtained_marks)*100),0)/nullif(coalesce(sum(total_marks),0),0),1)as percentage, count(school_id)as total_schools,sum(total_students) as total_students,school_management_type from semester_exam_school_ind_result  where school_management_type is not null group by academic_year,grade,subject,exam_date,district_id,district_name,indicator,school_management_type) with no data; 
 
