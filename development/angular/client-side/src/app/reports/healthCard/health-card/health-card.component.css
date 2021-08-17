@@ -222,6 +222,10 @@ select:focus {
   height: 80px;
 }
 
+.note1{
+  font-size: 11px;
+}
+
 @media only screen and (min-width: 2560px) {
   .regional-detail-card {
     min-height: 145px;
@@ -327,6 +331,11 @@ select:focus {
   .select-control option {
     font-size: 1.5rem !important;
   }
+
+  .note1{
+    font-size: 18px !important;
+  }
+  
 }
 
 @media only screen and (min-width: 3820px) {
@@ -442,4 +451,8 @@ select:focus {
   .select-control option {
     font-size: 2rem !important;
   }
+  .note1{
+    font-size: 24px !important;
+  }
+  
 }

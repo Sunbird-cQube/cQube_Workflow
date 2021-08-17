@@ -9,6 +9,8 @@ import { environment } from "../../../environments/environment";
   styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit {
+  showCards = localStorage.getItem("show-Cards");
+
   state;
   semester = true;
   //tooltip texts::::::::::::::
@@ -144,7 +146,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     sessionStorage.clear();
     document.getElementById("spinner").style.display = "block";
-    document.getElementById("homeBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn").style.display = "block";
     if (localStorage.getItem("roleName") == "admin") {
       this.hiddenPass = false;
@@ -153,7 +155,7 @@ export class DashboardComponent implements OnInit {
     }
 
     //calling function to show telemetry views..................
-    
+
     this.callOnInterval();
     setInterval(() => {
       this.callOnInterval();
@@ -240,40 +242,40 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDataSourceStatus() {
-    this.service.getDataSource().subscribe((res: any) => {
-      res.forEach((element) => {
-        if (element.template == "nifi_crc") {
-          this.nifi_crc = element.status;
-        }
-        if (element.template == "nifi_attendance") {
-          this.nifi_attendance = element.status;
-        }
-        if (element.template == "nifi_semester") {
-          this.nifi_semester = element.status;
-        }
-        if (element.template == "nifi_infra") {
-          this.nifi_infra = element.status;
-        }
-        if (element.template == "nifi_diksha") {
-          this.nifi_diksha = element.status;
-        }
-        if (element.template == "nifi_telemetry") {
-          this.nifi_telemetry = element.status;
-        }
-        if (element.template == "nifi_udise") {
-          this.nifi_udise = element.status;
-        }
-        if (element.template == "nifi_pat") {
-          this.nifi_pat = element.status;
-        }
-        if (element.template === "nifi_composite") {
-          this.nifi_composite = element.status;
-        }
-        if (element.template === 'nifi_sat') {
-          this.nifi_sat = element.status;
-        }
-      });
-    });
+    // this.service.getDataSource().subscribe((res: any) => {
+    // res.forEach((element) => {
+    // if (element.template == "nifi_crc") {
+    this.nifi_crc = true;
+    // }
+    // if (element.template == "nifi_attendance") {
+    this.nifi_attendance = true;
+    // }
+    // if (element.template == "nifi_semester") {
+    this.nifi_semester = true;
+    // }
+    // if (element.template == "nifi_infra") {
+    this.nifi_infra = true;
+    // }
+    // if (element.template == "nifi_diksha") {
+    this.nifi_diksha = true;
+    // }
+    // if (element.template == "nifi_telemetry") {
+    this.nifi_telemetry = true;
+    // }
+    // if (element.template == "nifi_udise") {
+    this.nifi_udise = true;
+    // }
+    // if (element.template == "nifi_pat") {
+    this.nifi_pat = true;
+    // }
+    // if (element.template === "nifi_composite") {
+    this.nifi_composite = true;
+    // }
+    // if (element.template === 'nifi_sat') {
+    this.nifi_sat = true;
+    // }
+    // });
+    // });
   }
 
   callOnInterval() {
@@ -288,8 +290,8 @@ export class DashboardComponent implements OnInit {
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "block";
+    //document.getElementById("backBtn").style.display = "none";
     this.service.homeControl();
   }
 

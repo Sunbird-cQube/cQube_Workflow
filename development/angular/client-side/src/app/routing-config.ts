@@ -7,7 +7,6 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ComingSoonComponent } from './common/coming-soon/coming-soon.component';
 import { HealthCardComponent } from './reports/healthCard/health-card/health-card.component';
 import { DashboardCloneComponent } from './dashboards/test_usecase/dashboard-clone.component';
-import { testCase } from './dashboards/dashboard.config';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 
 export var routes: Routes = routes = [

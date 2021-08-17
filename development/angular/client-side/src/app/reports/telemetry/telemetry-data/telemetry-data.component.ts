@@ -75,6 +75,7 @@ export class TelemetryDataComponent implements OnInit {
   public lng: any;
 
   reportName = 'telemerty';
+  level = "District";
 
   constructor(
     public http: HttpClient,
@@ -90,18 +91,6 @@ export class TelemetryDataComponent implements OnInit {
   onResize() {
     this.width = window.innerWidth;
     this.heigth = window.innerHeight;
-    this.commonService.zoomLevel = this.width > 3820 ? this.commonService.mapCenterLatlng.zoomLevel + 2 : this.width < 3820 && this.width >= 2500 ? this.commonService.mapCenterLatlng.zoomLevel + 1 : this.width < 2500 && this.width > 1920 ? this.commonService.mapCenterLatlng.zoomLevel + 1 : this.commonService.mapCenterLatlng.zoomLevel;
-    this.changeDetection.detectChanges();
-    this.levelWiseFilter();
-  }
-  setZoomLevel(lat, lng, globalMap, zoomLevel) {
-    globalMap.setView(new L.LatLng(lat, lng), zoomLevel);
-    globalMap.options.minZoom = this.commonService.zoomLevel;
-    this.changeDetection.detectChanges();
-  }
-  getMarkerRadius(rad1, rad2, rad3, rad4) {
-    let radius = this.width > 3820 ? rad1 : this.width > 2500 && this.width < 3820 ? rad2 : this.width < 2500 && this.width > 1920 ? rad3 : rad4;
-    return radius;
   }
 
   ngOnInit() {
@@ -111,10 +100,11 @@ export class TelemetryDataComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.commonService.initMap('map', [[this.lat, this.lng]]);
     globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
-    document.getElementById('homeBtn').style.display = 'block';
-    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('accessProgressCard').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('home') ? document.getElementById('home').style.display = 'block' : "";
     this.timePeriod = 'overall';
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   getDaysInMonth = function (month, year) {
@@ -122,7 +112,7 @@ export class TelemetryDataComponent implements OnInit {
   };
 
   getTimePeriod(timePeriod) {
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   levelWiseFilter() {
@@ -142,7 +132,7 @@ export class TelemetryDataComponent implements OnInit {
 
   homeClick() {
     this.skul = true;
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   // to load all the districts for state data on the map
@@ -150,7 +140,10 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
+      this.level = "District";
       this.districtId = undefined;
       this.commonService.errMsg();
 
@@ -180,16 +173,16 @@ export class TelemetryDataComponent implements OnInit {
 
         // options to set for markers in the map
         let options = {
-          radius: this.getMarkerRadius(14, 10, 8, 5),
+          radius: this.commonService.zoomLevel,
           fillOpacity: 1,
           strokeWeight: 0.01,
           mapZoom: this.commonService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
-          level: 'district'
+          level: 'District'
         }
         globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
-        this.setZoomLevel(this.lat, this.lng, globalMap, this.commonService.zoomLevel);
+        this.commonService.onResize(options.level);
         this.fileName = `${this.reportName}_allDistricts_${this.timePeriod}_${this.commonService.dateAndTime}`;
         this.genericFun(this.data, options, this.fileName);
 
@@ -201,7 +194,7 @@ export class TelemetryDataComponent implements OnInit {
       });
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'none';
+      //document.getElementById('home').style.display = 'none';
 
     } catch (e) {
       console.log(e);
@@ -213,7 +206,10 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
+      this.level = "Block";
       this.commonService.errMsg();
       this.reportData = [];
       this.districtId = undefined;
@@ -243,7 +239,7 @@ export class TelemetryDataComponent implements OnInit {
           mapZoom: this.commonService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
-          level: "block"
+          level: "Block"
         }
         globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
 
@@ -254,7 +250,7 @@ export class TelemetryDataComponent implements OnInit {
 
           if (this.blockMarkers.length !== 0) {
             for (let i = 0; i < this.blockMarkers.length; i++) {
-              var markerIcon = this.commonService.initMarkers(this.blockMarkers[i].lat, this.blockMarkers[i].lng, "#42a7f5", this.getMarkerRadius(12, 8, 6, 3.5), 1, 1, options.level);
+              var markerIcon = this.commonService.initMarkers1(this.blockMarkers[i].lat, this.blockMarkers[i].lng, "#42a7f5", 1, 1, options.level);
               this.generateToolTip(this.blockMarkers[i], options.level, markerIcon, "lat", "lng");
             }
             // to download the report
@@ -265,13 +261,13 @@ export class TelemetryDataComponent implements OnInit {
             this.changeDetection.markForCheck();
           }
         }
-        this.setZoomLevel(this.lat, this.lng, globalMap, this.commonService.zoomLevel);
+        this.commonService.onResize(options.level);
       }, err => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
       });
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
     } catch (e) {
       console.log(e);
     }
@@ -282,7 +278,10 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
+      this.level = "Cluster";
       this.commonService.errMsg();
       this.reportData = [];
       this.districtId = undefined;
@@ -314,7 +313,7 @@ export class TelemetryDataComponent implements OnInit {
           mapZoom: this.commonService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
-          level: "cluster"
+          level: "Cluster"
         }
         globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
 
@@ -325,7 +324,7 @@ export class TelemetryDataComponent implements OnInit {
 
           if (this.clusterMarkers.length !== 0) {
             for (let i = 0; i < this.clusterMarkers.length; i++) {
-              var markerIcon = this.commonService.initMarkers(this.clusterMarkers[i].lat, this.clusterMarkers[i].lng, "#42a7f5", this.getMarkerRadius(8, 5, 4, 2.5), 1, 1, options.level);
+              var markerIcon = this.commonService.initMarkers1(this.clusterMarkers[i].lat, this.clusterMarkers[i].lng, "#42a7f5", 1, 1, options.level);
               this.generateToolTip(this.clusterMarkers[i], options.level, markerIcon, "lat", "lng");
             }
             // to download the report
@@ -336,13 +335,13 @@ export class TelemetryDataComponent implements OnInit {
             this.changeDetection.markForCheck();
           }
         }
-        this.setZoomLevel(this.lat, this.lng, globalMap, this.commonService.zoomLevel);
+        this.commonService.onResize(options.level);
       }, err => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
       });
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
     } catch (e) {
       console.log(e);
     }
@@ -353,7 +352,10 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
+      this.level = "School";
       this.commonService.errMsg();
       this.reportData = [];
       // these are for showing the hierarchy names based on selection
@@ -392,7 +394,7 @@ export class TelemetryDataComponent implements OnInit {
           this.schoolMarkers = result;
           if (this.schoolMarkers.length !== 0) {
             for (let i = 0; i < this.schoolMarkers.length; i++) {
-              var markerIcon = this.commonService.initMarkers(this.schoolMarkers[i].lat, this.schoolMarkers[i].lng, "#42a7f5", this.getMarkerRadius(7, 5, 3.5, 2), 1.5, 0, options.level);
+              var markerIcon = this.commonService.initMarkers1(this.schoolMarkers[i].lat, this.schoolMarkers[i].lng, "#42a7f5", 1.5, 0, options.level);
               this.generateToolTip(this.schoolMarkers[i], options.level, markerIcon, "lat", "lng");
             }
             // to download the report
@@ -403,13 +405,13 @@ export class TelemetryDataComponent implements OnInit {
             this.changeDetection.markForCheck();
           }
         }
-        this.setZoomLevel(this.lat, this.lng, globalMap, this.commonService.zoomLevel);
+        this.commonService.onResize(options.level);
       }, err => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
       });
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
     } catch (e) {
       console.log(e);
     }
@@ -468,7 +470,7 @@ export class TelemetryDataComponent implements OnInit {
        this.commonService.loaderAndErr(this.data);
      });
      globalMap.addLayer(this.layerMarkers);
-     document.getElementById('home').style.display = 'block';
+     //document.getElementById('home').style.display = 'block';
    }
   
    // to load all the clusters for selected block for state data on the map
@@ -533,7 +535,7 @@ export class TelemetryDataComponent implements OnInit {
        this.commonService.loaderAndErr(this.data);
      });
      globalMap.addLayer(this.layerMarkers);
-     document.getElementById('home').style.display = 'block';
+     //document.getElementById('home').style.display = 'block';
    }
   
    // to load all the schools for selected cluster for state data on the map
@@ -617,7 +619,7 @@ export class TelemetryDataComponent implements OnInit {
        this.commonService.loaderAndErr(this.data);
      });
      globalMap.addLayer(this.layerMarkers);
-     document.getElementById('home').style.display = 'block';
+     //document.getElementById('home').style.display = 'block';
    }*/
 
   // common function for all the data to show in the map
@@ -654,7 +656,7 @@ export class TelemetryDataComponent implements OnInit {
           strLng = "school_longitude";
         }
 
-        var markerIcon = this.commonService.initMarkers(this.markers[i].lat, this.markers[i].lng, "#42a7f5", options.radius, options.strokeWeight, 1, options.level);
+        var markerIcon = this.commonService.initMarkers1(this.markers[i].lat, this.markers[i].lng, "#42a7f5", options.strokeWeight, 1, options.level);
 
         // data to show on the tooltip for the desired levels
         if (options.level) {

@@ -1,3 +1,6 @@
+// The dashboard provides information on the total enrollments and
+// completions for Teacher Professional Development courses at the district level.
+
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
@@ -10,6 +13,8 @@ import { AppServiceComponent } from '../../../app.service';
   styleUrls: ['./diksha-tpd-enrollment.component.css']
 })
 export class DikshaTpdEnrollmentComponent implements OnInit {
+
+  //chart data variables::::::::::::
   chart: boolean = false;
   public colors = [];
   header = '';
@@ -77,11 +82,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
-    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('accessProgressCard').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.getAllData();
   }
 
+  //making chart empty:::::::::
   emptyChart() {
     this.result = [];
     this.chartData = [];
@@ -95,7 +101,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
 
   homeClick() {
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.timePeriod = 'overall';
     this.type = 'enrollment';
     this.districtId = undefined;
@@ -108,12 +114,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.getAllData()
   }
 
+  //getting all chart data to show:::::::::
   async getAllData() {
     this.emptyChart();
     if (this.timePeriod != 'overall') {
-      document.getElementById('home').style.display = "block";
+      //document.getElementById('home').style.display = "block";
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
     }
     this.districts = [];
     this.blocks = [];
@@ -148,6 +155,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   }
 
+  //Lsiting all collection  names::::::::::::::::::
   listCollectionNames() {
     this.commonService.errMsg();
     //this.collectionName = '';
@@ -165,8 +173,20 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
   fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
+
+  //download raw file:::::::::::
+  downloadRawFile() {
+    this.service.downloadFile({ fileName: this.fileToDownload }).subscribe(res => {
+      window.open(`${res['downloadUrl']}`, "_blank");
+    }, err => {
+      alert("No Raw Data File Available in Bucket");
+    })
+  }
+
+
+  //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     if (this.level == 'district') {
@@ -183,14 +203,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }
   }
 
-  downloadRawFile() {
-    this.service.downloadFile({ fileName: this.fileToDownload }).subscribe(res => {
-      window.open(`${res['downloadUrl']}`, "_blank");
-    }, err => {
-      alert("No Raw Data File Available in Bucket");
-    })
-  }
-
+  //Showing data based on level selected:::::::
   onTypeSelect(type) {
     if (this.level == 'district') {
       this.getAllData();
@@ -205,6 +218,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.onClusterSelect(this.clusterId);
     }
   }
+
+  //getting all chart data to show:::::::::
   getBarChartData() {
     this.completion = [];
     if (this.result.labels.length <= 25) {
@@ -227,13 +242,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
   }
 
+  //Showing district data based on selected id:::::::::::::::::
   distLinkClick(districtId) {
     this.onDistSelect(districtId);
     this.collectionName = '';
   }
   onDistSelect(districtId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = districtId;
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -267,13 +283,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     });
   }
 
+  //Showing block data based on selected id:::::::::::::::::
   blockLinkClick(blockId) {
     this.onBlockSelect(blockId);
     this.collectionName = '';
   }
   onBlockSelect(blockId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = blockId;
     this.blockHidden = false;
     this.clusterHidden = false;
@@ -307,13 +324,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     });
   }
 
+  //Showing cluster data based on selected id:::::::::::::::::
   clusterLinkClick(clusterId) {
     this.onClusterSelect(clusterId);
     this.collectionName = '';
   }
   onClusterSelect(clusterId) {
     this.emptyChart();
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.globalId = this.blockId;
     this.level = "school"
     this.skul = false;
@@ -345,10 +363,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     });
   }
 
+  //Get data based on selected collection:::::::::::::::
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.commonService.errMsg();
     this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${this.globalId}_${this.commonService.dateAndTime}`;
     this.footer = '';
@@ -388,7 +407,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     });
   }
 
-  //to filter downloadable data
+  //filter downloadable data
   dataToDownload = [];
   newDownload(element) {
     element['total_enrolled'] = element.total_enrolled.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -413,7 +432,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.dataToDownload.push(data3);
   }
 
-  downloadRoport() {
+  //download UI data::::::::::::
+  downloadReport() {
     this.dataToDownload = [];
     this.reportData.forEach(element => {
       this.newDownload(element);

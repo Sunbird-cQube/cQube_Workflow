@@ -76,7 +76,7 @@ export class HeatChartComponent implements OnInit {
   pageSize = 40;
   currentPage = 1;
 
-  reportName = "periodic_assessment_test_heatmap";
+  reportName = "periodic_equalizer_test_heatmap";
   screenWidth: number;
 
   managementName;
@@ -183,8 +183,8 @@ export class HeatChartComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
     this.category = JSON.parse(localStorage.getItem("category")).id;
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
   }
 
   onChangePage() {
@@ -235,7 +235,7 @@ export class HeatChartComponent implements OnInit {
     this.commonFunc();
     this.currentPage = 1;
 
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
   }
 
   commonFunc = () => {
@@ -619,7 +619,7 @@ export class HeatChartComponent implements OnInit {
   };
 
   selectedYear() {
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.month = "";
     this.examDate = "all";
     this.subject = "all";
@@ -633,7 +633,7 @@ export class HeatChartComponent implements OnInit {
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.levelWiseFilter();
   }
   selectedGrade() {
@@ -709,7 +709,7 @@ export class HeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = true;
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -766,7 +766,7 @@ export class HeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = false;
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -823,7 +823,7 @@ export class HeatChartComponent implements OnInit {
       this.currentPage = 1;
       this.level = "school";
       this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -945,7 +945,7 @@ export class HeatChartComponent implements OnInit {
   //level wise filter
   levelWiseFilter() {
     this.currentPage = 1;
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     if (this.level == "district") {
       this.commonFunc();
     }
