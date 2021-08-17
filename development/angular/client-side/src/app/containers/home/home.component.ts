@@ -4,8 +4,8 @@ import { KeycloakSecurityService } from '../../keycloak-security.service';
 import { AppServiceComponent } from '../../app.service';
 import { environment } from '../../../environments/environment';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,28 +15,27 @@ import { MatSidenav } from '@angular/material/sidenav';
 export class HomeComponent implements OnInit {
   currentDashboardGroup: any = "/dashboard/infrastructure-dashboard";
   edate: Date;
-  showBackBtn = true;
-  showAccesCard = false;
+
+  sidenavMode: any = 'side';
+
   @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
   private _mobileQueryListener: () => void;
+  showBackBtn: boolean = false;
 
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
     private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.onToggle();
+      }
+    })
   }
+
   email: any;
   role: any;
-  showSubmenu1: any = false;
-  showSubmenu2: any = false;
-  showSubmenu3: any = false;
-  showSubmenu4: any = false;
-  showSubmenu5: any = false;
-  showSubmenu6: any = false;
-  showSubmenu7: any = false;
-  showSubmenu8: any = false;
-  showSubmenu9: any = false;
   showsideMenu: boolean = false;
   isExpanded = true;
   showSubmenu: boolean = false;
@@ -51,21 +50,7 @@ export class HomeComponent implements OnInit {
   // diksha columns
   diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
-  //for coming soon page
-  nifi_crc;
-  nifi_attendance;
-  nifi_semester;
-  nifi_infra;
-  nifi_diksha;
-  nifi_telemetry;
-  nifi_udise;
-  nifi_pat;
-  nifi_composite;
-  nifi_sat;
-
-
   ngOnInit() {
-    this.changeDataSourceStatus();
     this.email = localStorage.getItem('userName');
     this.email = this.email.charAt(0).toUpperCase() + this.email.substr(1).toLowerCase();
     this.role = localStorage.getItem('roleName');
@@ -75,55 +60,45 @@ export class HomeComponent implements OnInit {
     } else {
       this.showUser = true;
     }
+    if (this.role == 'admin') {
+      this.showBackBtn = true;
+    } else {
+      this.showBackBtn = false;
+    }
+  }
+
+  onClickToggleMenu() {
+    if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
+      this.sidebar.toggle();
+      setTimeout(() => {
+        //document.getElementById("sidenav-container").style.backgroundColor = "#F5F5F5";
+        window.dispatchEvent(new Event('resize'));
+      }, 1500);
+    }
   }
 
   onToggle() {
     if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
-      this.sidebar.toggle();
+      this.sidenavMode = 'over';
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+        if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
+          document.getElementById("sidenav-container").style.backgroundColor = "#F5F5F5";
+          this.sidebar.close();
+        }
+      }, 1000);
+    } else {
+      this.sidenavMode = 'side';
+      this.sidebar.open();
+      document.getElementById("sidenav-container").style.backgroundColor = "#ffebcc";
     }
   }
 
   closeSidebar() {
+    document.body.scrollTop = 0;
     if (!this.router.url.includes('dashboard') && this.sidebar) {
       this.sidebar.close();
     }
-  }
-
-  changeDataSourceStatus() {
-    this.service.getDataSource().subscribe((res: any) => {
-      res.forEach(element => {
-        if (element.template == 'nifi_crc') {
-          this.nifi_crc = element.status;
-        }
-        if (element.template == 'nifi_attendance') {
-          this.nifi_attendance = element.status;
-        }
-        if (element.template == 'nifi_semester') {
-          this.nifi_semester = element.status;
-        }
-        if (element.template == 'nifi_infra') {
-          this.nifi_infra = element.status;
-        }
-        if (element.template == 'nifi_diksha') {
-          this.nifi_diksha = element.status;
-        }
-        if (element.template == 'nifi_telemetry') {
-          this.nifi_telemetry = element.status;
-        }
-        if (element.template == 'nifi_udise') {
-          this.nifi_udise = element.status;
-        }
-        if (element.template == 'nifi_pat') {
-          this.nifi_pat = element.status;
-        }
-        if (element.template === 'nifi_composite') {
-          this.nifi_composite = element.status;
-        }
-        if (element.template === 'nifi_sat') {
-          this.nifi_sat = element.status;
-        }
-      });
-    })
   }
 
   logout() {
@@ -137,17 +112,6 @@ export class HomeComponent implements OnInit {
     this.keyCloakService.kc.logout(options);
   }
 
-  mouseenter() {
-    if (!this.isExpanded) {
-      this.isShowing = true;
-    }
-  }
-
-  mouseleave() {
-    if (!this.isExpanded) {
-      this.isShowing = false;
-    }
-  }
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);

@@ -101,7 +101,8 @@ export class TelemetryDataComponent implements OnInit {
     this.commonService.initMap('map', [[this.lat, this.lng]]);
     globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('home') ? document.getElementById('home').style.display = 'block' : "";
     this.timePeriod = 'overall';
     this.levelWiseFilter();
   }
@@ -139,6 +140,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "District";
       this.districtId = undefined;
@@ -191,7 +194,7 @@ export class TelemetryDataComponent implements OnInit {
       });
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'none';
+      //document.getElementById('home').style.display = 'none';
 
     } catch (e) {
       console.log(e);
@@ -203,6 +206,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "Block";
       this.commonService.errMsg();
@@ -262,7 +267,7 @@ export class TelemetryDataComponent implements OnInit {
         this.commonService.loaderAndErr(this.data);
       });
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
     } catch (e) {
       console.log(e);
     }
@@ -273,6 +278,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "Cluster";
       this.commonService.errMsg();
@@ -334,7 +341,7 @@ export class TelemetryDataComponent implements OnInit {
         this.commonService.loaderAndErr(this.data);
       });
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
     } catch (e) {
       console.log(e);
     }
@@ -345,6 +352,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
+      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "School";
       this.commonService.errMsg();
@@ -402,7 +411,7 @@ export class TelemetryDataComponent implements OnInit {
         this.commonService.loaderAndErr(this.data);
       });
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
     } catch (e) {
       console.log(e);
     }
@@ -461,7 +470,7 @@ export class TelemetryDataComponent implements OnInit {
        this.commonService.loaderAndErr(this.data);
      });
      globalMap.addLayer(this.layerMarkers);
-     document.getElementById('home').style.display = 'block';
+     //document.getElementById('home').style.display = 'block';
    }
   
    // to load all the clusters for selected block for state data on the map
@@ -526,7 +535,7 @@ export class TelemetryDataComponent implements OnInit {
        this.commonService.loaderAndErr(this.data);
      });
      globalMap.addLayer(this.layerMarkers);
-     document.getElementById('home').style.display = 'block';
+     //document.getElementById('home').style.display = 'block';
    }
   
    // to load all the schools for selected cluster for state data on the map
@@ -610,7 +619,7 @@ export class TelemetryDataComponent implements OnInit {
        this.commonService.loaderAndErr(this.data);
      });
      globalMap.addLayer(this.layerMarkers);
-     document.getElementById('home').style.display = 'block';
+     //document.getElementById('home').style.display = 'block';
    }*/
 
   // common function for all the data to show in the map

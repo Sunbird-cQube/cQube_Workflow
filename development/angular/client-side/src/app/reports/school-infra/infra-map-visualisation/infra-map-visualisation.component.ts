@@ -129,7 +129,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.commonService.initMap("infraMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
@@ -348,7 +348,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     } catch (e) {
       this.data = [];
       this.commonService.loaderAndErr(this.data);
@@ -464,7 +464,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       this.data = [];
       this.commonService.loaderAndErr(this.data);
@@ -580,7 +580,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       this.data = [];
       this.commonService.loaderAndErr(this.data);
@@ -698,7 +698,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       );
 
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       this.data = [];
       this.commonService.loaderAndErr(this.data);
@@ -783,7 +783,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // to load all the clusters for selected block for state data on the map
@@ -876,7 +876,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // to load all the schools for selected cluster for state data on the map
@@ -995,7 +995,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // common function for all the data to show in the map

@@ -30,7 +30,6 @@ import { DikshaTPDContentProgressComponent } from './reports/diksha/tpd/diksha-t
 import { DikshaTPDTeachersPercentageComponent } from './reports/diksha/tpd/diksha-tpd-teachers-percentage/diksha-tpd-teachers-percentage.component';
 import { StudentAttendanceChartComponent } from './reports/attendance/student-attendance-chart/student-attendance-chart.component';
 import { LineChartComponent } from './common/line-chart/line-chart.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
 import { UsecaseTwoComponent } from './dashboards/usecase-two/usecase-two.component';
@@ -73,7 +72,6 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    FontAwesomeModule,
     HttpClientModule,
     FormsModule,
     ChartsModule,

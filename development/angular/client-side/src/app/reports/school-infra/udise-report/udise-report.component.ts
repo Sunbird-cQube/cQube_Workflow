@@ -128,7 +128,7 @@ export class UdiseReportComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.commonService.initMap("udisemap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -339,7 +339,7 @@ export class UdiseReportComponent implements OnInit {
 
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     } catch (e) {
       console.log(e);
     }
@@ -453,7 +453,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -566,7 +566,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -680,7 +680,7 @@ export class UdiseReportComponent implements OnInit {
       );
 
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -759,7 +759,7 @@ export class UdiseReportComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // to load all the clusters for selected block for state data on the map
@@ -847,7 +847,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // to load all the schools for selected cluster for state data on the map
@@ -952,7 +952,7 @@ export class UdiseReportComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // common function for all the data to show in the map

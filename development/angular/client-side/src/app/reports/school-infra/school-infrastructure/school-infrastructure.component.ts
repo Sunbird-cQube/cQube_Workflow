@@ -68,22 +68,25 @@ export class SchoolInfrastructureComponent implements OnInit {
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-
-    this.onResize();
+    this.levelWiseFilter();
     document.getElementById('spinner').style.display = 'block';
   }
 
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.levelWiseFilter();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
+    // this.levelWiseFilter();
   }
 
   public tableHead: any;
@@ -117,7 +120,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.clusterHidden = true;
     this.reportData = [];
 
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
 
     if (this.myData) {
       this.myData.unsubscribe();
@@ -172,7 +175,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = true;
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -230,7 +233,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = false;
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -287,7 +290,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -465,6 +468,8 @@ export class SchoolInfrastructureComponent implements OnInit {
       xAxis: x_axis.value,
       yAxis: y_axis.value
     }
+    this.labels = labels;
+    this.obj = obj;
 
     this.createChart(labels, this.chartData, this.tableHead, obj);
   }
@@ -488,6 +493,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   createTable(dataSet, height) {
+
     if ($.fn.DataTable.isDataTable('#table')) {
       $('#table').DataTable().destroy();
       $('#table').empty();
@@ -562,18 +568,18 @@ export class SchoolInfrastructureComponent implements OnInit {
       $("#table").append(body);
       $('#table').DataTable({
         destroy: true, bLengthChange: false, bInfo: false,
-        bPaginate: false, scrollY: height > 1760 ? '62vh' : height > 1180 && height < 1760 ? '56vh' : height > 667 && height < 1180 ? '46vh' : '40vh', scrollX: true,
+        bPaginate: false, scrollY: '34vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
-        fixedColumns: {
-          leftColumns: 1
-        }
+        responsive: true,
       });
     });
   }
 
+  labels: any;
+  obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1760 ? '68vh' : this.height > 1180 && this.height < 1760 ? '64vh' : this.height > 667 && this.height < 1180 ? '60vh' : '52vh');
+    ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1180 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1180 ? '56vh' : '46vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
       data: {
@@ -583,8 +589,8 @@ export class SchoolInfrastructureComponent implements OnInit {
           pointBackgroundColor: "#4890b5",
           pointBorderColor: '#7cd6cc',
           pointBorderWidth: 0.5,
-          pointRadius: this.height > 1760 ? 16 : this.height > 1180 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1180 ? 8 : 5,
-          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1180 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1180 ? 9 : 6,
+          pointRadius: this.height > 1760 ? 16 : this.height > 1180 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1180 ? 10 : 5,
+          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1180 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1180 ? 11 : 6,
         }]
       },
       options: {
@@ -632,13 +638,13 @@ export class SchoolInfrastructureComponent implements OnInit {
               fontColor: 'black',
               min: 0,
               max: 100,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.xAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 14 : 10,
             }
           }],
           yAxes: [{
@@ -649,13 +655,13 @@ export class SchoolInfrastructureComponent implements OnInit {
               fontColor: 'black',
               min: 0,
               max: 100,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.yAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 14 : 10,
             }
           }]
         }
@@ -684,7 +690,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     })
     this.reportData = newData
     if (this.downloadType === 'District Wise' || this.downloadType === 'Block Wise' || this.downloadType === 'Cluster Wise' || this.downloadType === 'School Wise') {
-      this.downloadRoport();
+      this.downloadReport();
     }
   }
 
@@ -703,7 +709,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     }
   }
 
-  downloadRoport() {
+  downloadReport() {
     var position = this.reportName.length;
     this.fileName = [this.fileName.slice(0, position), `_${this.management}`, this.fileName.slice(position)].join('');
     this.commonService.download(this.fileName, this.reportData);

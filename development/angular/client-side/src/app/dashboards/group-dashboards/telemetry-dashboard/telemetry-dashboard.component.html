@@ -1,30 +1,33 @@
-<div id="spinner">
-    <div class="loading">Loading&#8230;</div>
-</div>
-
-<div class="main-panel container" style="padding-top: 10px !important;">
+<div class="main-panel" style="padding-top: 10px !important;">
     <app-management-selector [reportGroup]="reportGroup">
     </app-management-selector>
     <div class="report-cards">
         <div class="row">
-            <div class="col-sm-12 col-xl-4">
-                <span id="telemData" [routerLink]="!nifi_telemetry ? ['/coming-soon'] :['/telemetry']"
-                (click)="fetchTelemetry($event,'telemData')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="telemData" [routerLink]="!dataSource['nifi_telemetry'] ? ['/coming-soon'] :['/telemetry']"
+                    (click)="fetchTelemetry($event,'telemData')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
                                     <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{telemDataViews}}</p>
+                                <p *ngIf="telemDataViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{telemDataViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
                             <h6>Telemetry</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.telemDataTooltip}}</p>
                         </div>
                     </div>
@@ -32,4 +35,6 @@
             </div>
         </div>
     </div>
+
+
 </div>

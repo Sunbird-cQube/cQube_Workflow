@@ -53,9 +53,9 @@ export class StudentAttendanceChartComponent implements OnInit {
   @ViewChild('multiSelect4') multiSelect4: MultiSelectComponent;
 
   ngOnInit(): void {
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.state = this.commonService.state;
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -105,7 +105,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     this.districtList = districtList;
     if (this.multiSelect1)
       this.multiSelect1.checkedList = [];
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
   }
 
   //this is to get state level data::::::::::
@@ -316,11 +316,12 @@ export class StudentAttendanceChartComponent implements OnInit {
         this.getBlockData();
       }
       this.getCurrentDistData();
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.changeDetection.detectChanges();
     } else {
       this.onHomeClick(false);
-      document.getElementById('home').style.display = 'none';
+      this.changeDetection.detectChanges();
+      //document.getElementById('home').style.display = 'none';
     }
   }
 
@@ -353,13 +354,14 @@ export class StudentAttendanceChartComponent implements OnInit {
         this.getClusterData();
       }
       this.getCurrentBlockData();
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.changeDetection.detectChanges();
     } else {
       if (this.multiSelect2)
         this.multiSelect2.showDropDown = false;
       this.shareCheckedList(this.selectedDistricts);
-      document.getElementById('home').style.display = 'none';
+      this.changeDetection.detectChanges();
+      //document.getElementById('home').style.display = 'none';
     }
   }
 
@@ -387,14 +389,15 @@ export class StudentAttendanceChartComponent implements OnInit {
         this.getSchoolData();
       }
       this.getCurrentClusterData();
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.changeDetection.detectChanges();
     } else {
       if (this.multiSelect3)
         this.multiSelect3.showDropDown = false;
 
       this.shareCheckedList1(this.selectedBlock);
-      document.getElementById('home').style.display = 'none';
+      this.changeDetection.detectChanges();
+      //document.getElementById('home').style.display = 'none';
     }
   }
   shareCheckedList3(list) {
@@ -418,14 +421,14 @@ export class StudentAttendanceChartComponent implements OnInit {
         }
       }
       this.getCurrentSchoolData();
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.changeDetection.detectChanges();
     } else {
       if (this.multiSelect2)
         this.multiSelect2.showDropDown = false;
-
       this.shareCheckedList2(this.selectedCluster);
-      document.getElementById('home').style.display = 'none';
+      this.changeDetection.detectChanges();
+      //document.getElementById('home').style.display = 'none';
     }
   }
 

@@ -78,7 +78,7 @@
 	
 	#districtSelect, #blockSelect, #clusterSelect{
 		border-radius: 6px; 
-		height: 36px; 
+		height: 36px !important; 
 		width: 33.33%;  
 		float: left;
 	}
@@ -115,7 +115,7 @@
 	
 	#districtSelect, #blockSelect, #clusterSelect{
 		border-radius: 6px; 
-		height: 40px; 
+		height: 40px !important; 
 		width: 33.33%;  
 		float: left;
 	}
@@ -127,7 +127,7 @@
 	}
 	
 	#choose_district, #choose_blok, #choose_clust , #x_axis, #y_axis{
-		padding: 8px;
+		padding: 8px !important;
 		width: 100%; 
 		border-radius: 8px; 
 		font-size: 22px;
@@ -144,10 +144,10 @@
 	#selected{
 		border-radius: 15px !important; 
 		background-color: #f5f6fb; 
-		height: 52px !important; 
+		height: 54px !important; 
 		width: 100%; 
 		border: 1px solid gray;
-		font-size: 26px !important;
+		font-size: 30px !important;
 	}
 	
 	#districtSelect, #blockSelect, #clusterSelect{
@@ -159,21 +159,21 @@
 	
 	.chooseLevel{
 		line-height: 1.2em; 
-		font-size: 26px !important;
+		font-size: 30px !important;
 		font-weight: bold;
 	}
 	
 	#choose_district, #choose_blok, #choose_clust , #x_axis, #y_axis{
-		padding: 9px;
+		padding: 12px !important;
 		width: 100%; 
 		border-radius: 10px; 
-		font-size: 26px !important; 
+		font-size: 30px !important; 
 		font-weight: bold; 
 		background-color: #f5f6fb;
 	}
 	#allBlock, #allCluster{
 		width:100%;
-		font-size: 26px !important;
+		font-size: 30px !important;
 	}
 }
 

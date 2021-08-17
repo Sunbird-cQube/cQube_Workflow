@@ -1,32 +1,37 @@
-<div id="spinner">
-    <div class="loading">Loading&#8230;</div>
-</div>
-
-<div class="main-panel container" style="padding-top: 10px !important;">
+<div class="main-panel" style="padding-top: 10px !important;">
     <app-management-selector [reportGroup]="reportGroup">
     </app-management-selector>
 
     <div class="report-cards">
         <div class="row">
-            <div class="col-sm-12 col-xl-4">
-                <span id="sat" [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-report']"
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="sat"
+                    [routerLink]="!dataSource['nifi_sat'] ? ['/coming-soon'] :['/student-performance/sat-report']"
                     (click)="fetchTelemetry($event,'sat')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="ic-equalizer1" src="../../assets/images/teacher.png" alt=""
-                                            height="30px" width="30px"></li>
+                                    <li><img class="card-icon" src="../../../../assets/images/Infrastructure-icon.png"
+                                            alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{satViews}}</p>
+                                <p *ngIf="satViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{satViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Semester <br> Assesment Test </h6>
+                            <h6>Semester Assesment Test </h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.satTooltip}}</p>
                         </div>
                     </div>
@@ -34,25 +39,32 @@
             </div>
 
 
-            <div class="col-sm-12 col-xl-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="satHeatChart"
-                    [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
+                    [routerLink]="!dataSource['nifi_sat'] ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
                     (click)="fetchTelemetry($event,'satHeatChart')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><img class="card-icon" src="../../assets/images/Composite-Report-icon.png" alt=""></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{satHeatChartViews}}</p>
+                                <p *ngIf="satHeatChartViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{satHeatChartViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Semester Assesment <br> Test Heatchart</h6>
+                            <h6>Semester Assesment Test Heat-chart</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.satHeatChartTooltip}}</p>
                         </div>
                     </div>
@@ -61,24 +73,34 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12 col-xl-4">
-                <span id="pat1" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/pat-report']"
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="pat1"
+                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/student-performance/pat-report']"
                     (click)="fetchTelemetry($event,'pat')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                    <li><img class="card-icon" src="../../../../assets/images/Infrastructure-icon.png"
+                                            alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{patViews}}</p>
+                                <p *ngIf="patViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{patViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Periodic <br> Assesment Test</h6>
+                            <h6>Periodic Assesment Test</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.patTooltip}}</p>
                         </div>
                     </div>
@@ -86,25 +108,33 @@
             </div>
 
 
-            <div class="col-sm-12 col-xl-4">
-                <span id="heatChart" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="heatChart"
+                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/student-performance/heat-chart']"
                     (click)="fetchTelemetry($event,'heatChart')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="ic-equalizer1" src="../../assets/images/teacher.png" alt=""
-                                            height="30px" width="30px"></li>
+                                    <li><img class="card-icon" src="../../assets/images/Composite-Report-icon.png" alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{heatChartViews}}</p>
+                                <p *ngIf="heatChartViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{heatChartViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Periodic Assesment <br> Test Heatchart</h6>
+                            <h6>Periodic Assesment Test Heat-chart</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.heatChartTooltip}}</p>
                         </div>
                     </div>
@@ -112,24 +142,33 @@
             </div>
 
 
-            <div class="col-sm-12 col-xl-4">
-                <span id="lotable" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="lotable"
+                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                     (click)="fetchTelemetry($event,'lotable')" class="text-decoration-none">
-                    <div class="card my-3">
-                        <div class="card-header bg-pink border-0">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><img class="card-icon" src="../../../../assets/images/ic_grid_on.svg" alt="">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p class="text-white mb-0"><strong>Views :</strong> {{lotableViews}}</p>
+                                <p *ngIf="lotableViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{lotableViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Periodic Assesment <br> Test Lo-Table</h6>
+                            <h6>Periodic Assesment Test LO-Table</h6>
                         </div>
-                        <div class="card-footer bg-light-white-grad-pink border-0">
+                        <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.lotableTooltip}}</p>
                         </div>
                     </div>
@@ -138,4 +177,6 @@
 
         </div>
     </div>
+
+
 </div>

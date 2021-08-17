@@ -62,7 +62,7 @@ export class PATLOTableComponent implements OnInit {
   months: string[];
   month: string = "";
 
-  reportName = "periodic_assessment_test_loTable";
+  reportName = "periodic_equalizer_test_loTable";
   managementName;
   management;
   category;
@@ -134,8 +134,8 @@ export class PATLOTableComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
     this.state = this.commonService.state;
-    document.getElementById("accessProgressCard").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     // this.onResize();
   }
 
@@ -202,7 +202,7 @@ export class PATLOTableComponent implements OnInit {
     this.clusterHidden = true;
     this.year = this.years[this.years.length - 1];
     this.commonFunc();
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
   }
 
   commonFunc = () => {
@@ -278,19 +278,6 @@ export class PATLOTableComponent implements OnInit {
         });
         newArr.push(temp);
       });
-      // var extra = Math.fround((8 - newArr.length)*2.5);
-      // if (extra > 0) {
-      //   for (let i = 0; i < extra; i++) {
-      //     var temp = [];
-      //     my_columns.map((data, i) => {
-      //       var new_item = {};
-      //       new_item["data"] = '';
-      //       new_item["value"] = '';
-      //       temp.push(new_item);
-      //     })
-      //     newArr.push(temp);
-      //   }
-      // }
 
       function tableCellColor(data) {
         var colors = {
@@ -408,7 +395,7 @@ export class PATLOTableComponent implements OnInit {
   }
 
   selectedYear() {
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.month = "";
     this.grade = "all";
     this.examDate = "all";
@@ -423,7 +410,7 @@ export class PATLOTableComponent implements OnInit {
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.levelWiseFilter();
   }
 
@@ -483,7 +470,7 @@ export class PATLOTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = true;
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.commonService.errMsg();
 
     let a = {
@@ -539,7 +526,7 @@ export class PATLOTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = false;
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.commonService.errMsg();
 
     let a = {
@@ -599,7 +586,7 @@ export class PATLOTableComponent implements OnInit {
     this.resetTable();
     this.level = "school";
     this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.commonService.errMsg();
 
     let a = {
@@ -654,7 +641,7 @@ export class PATLOTableComponent implements OnInit {
   //level wise filter
   levelWiseFilter() {
     document.getElementById("initTable").style.display = "block";
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     if (this.level == "district") {
       this.resetTable();
       this.commonFunc();

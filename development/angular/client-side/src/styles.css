@@ -1,14 +1,16 @@
 @import "~leaflet/dist/leaflet.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
-@import 'material-icons/iconfont/material-icons.css';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* @import "~@angular/material/prebuilt-themes/deeppurple-amber.css"; */
+@import '~material-design-icons/iconfont/material-icons.css';
+
 
 /* You can add global styles to this file, and also import other style files */
 
 html,body {
-    height: 100%;
-    margin: 0;
+    background-color: #fff;
+    background-size: cover;
+    height: 100vh;
     font-family: Helvetica Neue Bold;
 }
 
@@ -186,11 +188,11 @@ leaflet-right {
     overflow: auto;
     overflow-y: hidden;
     margin: 0 auto;
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
-table.dataTable.nowrap td {
-    white-space: unset !important; 
+.table.dataTable.nowrap td {
+    white-space: unset !important;
 }
 
 /*//////////////////////////////////////////////////////////////////*/
@@ -202,15 +204,15 @@ table.dataTable.nowrap td {
 #footer {
     width: 100%;
     border-top: 1px solid #cdccc8;
-    /* background-color: rgb(152, 160, 163); */
-    /* font-size: 13px; */
+    background-color: #F5F5F5;
+    font-size: 13px;
     font-weight: bold;
     color: #727374;
-    padding: 2px 0px 2px 0px;
-    position: relative;
+    padding: 2px;
+    position: fixed;
     bottom: 0;
     left: 14px;
-    z-index: 999;
+    z-index: 999 !important;
     margin-top: 0.3%;
 }
 
@@ -244,7 +246,8 @@ table.dataTable.nowrap td {
 #block,
 #cluster,
 #school {
-    color: #284d8a;
+    color: #262626;
+    font-weight: 600;
     font-size: 18px;
     line-height: 1.2em;
     margin-top: 5px;
@@ -259,10 +262,10 @@ table.dataTable.nowrap td {
 
 #download {
     cursor: pointer;
-    font-size: 27px;
     float: right;
-    margin: 5px 0px 0px 8px;
-    color: #3100cc;
+    margin: .5vh 0px 0px 8px;
+    height: 30px;
+    width: 30px;
 }
 
 #home {
@@ -325,7 +328,6 @@ table.dataTable.nowrap td {
 #academicYear,
 #year,
 #month,
-#downloader,
 #x-axis,
 #y-axis,
 #type,
@@ -355,6 +357,7 @@ table.dataTable.nowrap td {
 #legend {
     font-size: 12px;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 #legendNote {
@@ -366,6 +369,50 @@ table.dataTable.nowrap td {
     line-height: 1.2em;
     font-size: 14px;
     font-weight: bold;
+}
+
+
+#accessProgressCard{
+    float: right;
+    right: 20px;
+    top: 7px;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    font-size: 12px;
+    background: #0545a5;
+}
+
+#download1{
+    float: right;
+    right: 10px;
+    top: 5px;
+    padding: 5px 10px 5px 10px;
+    position: absolute;
+    font-size: 12px;
+    background: #0545a5;
+}
+  
+#backBtn{
+    border:1px solid gainsboro;
+    border-radius: 10px;
+    background: ghostwhite;
+    padding: 0px 8px 0px 10px;
+    color: #1358c0;
+    font-size: 12px;
+    right: 15px;
+    top: 12%;
+    position: absolute;
+    cursor: pointer;
+}
+#backBtn:hover{
+    background: #C9DDFF;
+}
+
+#backBtn img{
+    height: 15px;
+    width: 16px;
+    margin-left: 5px;
+    margin-top: -0.3vh;
 }
 
 @media screen and (min-width: 1500px) {
@@ -382,6 +429,7 @@ table.dataTable.nowrap td {
     #legend {
         font-size: 13px;
         font-weight: bold;
+        margin-top: 10px !important;
     }
     #legendNote {
         font-size: 14px;
@@ -419,13 +467,12 @@ table.dataTable.nowrap td {
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
-        /* background-color: rgb(152, 160, 163); */
+        background-color: #F5F5F5;
         font-size: 20px !important;
         font-weight: bold;
         color: #727374;
-
-        padding: 2px 0px 2px 0px;
-        position: relative;
+        padding: 3px;
+        position: fixed;
         bottom: 0;
         left: 14px;
         z-index: 999;
@@ -457,17 +504,18 @@ table.dataTable.nowrap td {
     #block,
     #cluster,
     #school {
-        color: #284d8a;
+        color: #262626;
+        font-weight: 600;
         font-size: 32px;
         line-height: 1.2em;
         margin-top: 5px;
     }
     #download {
         cursor: pointer;
-        font-size: 40px !important;
         float: right;
-        margin: 3px 0px 0px 8px;
-        color: #3100cc;
+        margin: .3vh 0px 0px 8px !important;
+        height: 50px !important;
+        width: 50px !important;
     }
     #home {
         cursor: pointer;
@@ -515,7 +563,6 @@ table.dataTable.nowrap td {
     #academicYear,
     #year,
     #month,
-    #downloader,
     #x-axis,
     #y-axis,
     #type,
@@ -551,8 +598,9 @@ table.dataTable.nowrap td {
         font-weight: bold;
     }
     #legend {
-        font-size: 26px;
+        font-size: 26px !important;
         font-weight: bold;
+        margin-top: 8px !important;
     }
     #legendNote {
         font-size: 22px;
@@ -569,6 +617,45 @@ table.dataTable.nowrap td {
         font-size: 24px;
         font-weight: bold;
     }
+
+    #accessProgressCard{
+        float: right;
+        right: 30px !important;
+        top: 12px !important;
+        padding: 8px 10px 8px 10px !important;
+        position: absolute !important;
+        font-size: 20px !important;
+        background: #0545a5;
+    }
+
+    #download1{
+        float: right;
+        right: 20px !important;
+        top: 6px !important;
+        padding: 8px 15px 8px 15px !important;
+        position: absolute !important;
+        font-size: 20px !important;
+        background: #0545a5;
+    }
+      
+    #backBtn{
+        border:1px solid gainsboro;
+        border-radius: 12px;
+        background: ghostwhite;
+        padding: 10px 10px 10px 10px !important;
+        color: #1358c0;
+        font-size: 24px !important;
+        right: 20px !important;
+        top: 12% !important;
+        position: absolute;
+        cursor: pointer;
+    }
+    #backBtn img{
+        height: 24px !important;
+        width: 26px !important;
+        margin-top: -0.3vh !important;
+    }
+    
 }
 
 @media screen and (min-width: 3820px) {
@@ -579,13 +666,12 @@ table.dataTable.nowrap td {
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
-        /* background-color: rgb(152, 160, 163); */
+        background-color: #F5F5F5;
         font-size: 24px !important;
         font-weight: bold;
         color: #727374;
-
-        padding: 2px 0px 2px 0px;
-        position: relative;
+        padding: 4px !important;
+        position: fixed !important;
         bottom: 0;
         left: 14px;
         z-index: 999;
@@ -601,14 +687,14 @@ table.dataTable.nowrap td {
     }
     #absolute {
         border-radius: 20px !important;
-        height: 50px !important;
+        height: 49px !important;
         width: 50%;
         float: left;
         cursor: pointer;
     }
     #relative {
         border-radius: 20px !important;
-        height: 50px !important;
+        height: 49px !important;
         width: 50%;
         float: left;
         cursor: pointer;
@@ -617,23 +703,24 @@ table.dataTable.nowrap td {
     #block,
     #cluster,
     #school {
-        color: #284d8a;
+        color: #262626;
+        font-weight: 600;
         font-size: 38px !important;
         line-height: 1.2em;
         margin-top: 5px;
     }
     #download {
         cursor: pointer;
-        font-size: 44px !important;
         float: right;
-        margin: 3px 0px 0px 8px;
-        color: #3100cc;
+        margin: .2vh 0px 0px 8px !important;
+        height: 70px !important;
+        width: 70px !important;
     }
     #home {
         cursor: pointer;
-        font-size: 45px !important;
+        font-size: 60px !important;
         float: right;
-        margin: 2px 0px 0px 0px;
+        margin: 5px 0px 0px 0px !important;
         color: #3100cc;
         display: none;
     }
@@ -675,7 +762,6 @@ table.dataTable.nowrap td {
     #academicYear,
     #year,
     #month,
-    #downloader,
     #x-axis,
     #y-axis,
     #type,
@@ -711,8 +797,9 @@ table.dataTable.nowrap td {
         font-weight: bold;
     }
     #legend {
-        font-size: 32px;
+        font-size: 32px !important;
         font-weight: bold;
+        margin-top: 8px !important;
     }
     #legendNote {
         font-size: 32px;
@@ -729,6 +816,44 @@ table.dataTable.nowrap td {
         font-size: 32px;
         font-weight: bold;
     }
+
+    #accessProgressCard{
+        float: right;
+        right: 40px !important;
+        top: 20px !important;
+        padding: 14px 15px 14px 15px !important;
+        position: absolute !important;
+        font-size: 28px !important;
+        background: #0545a5;
+    }
+
+    #download1{
+        float: right;
+        right: 30px !important;
+        top: 0px !important;
+        padding: 12px 20px 12px 20px !important;
+        position: absolute !important;
+        font-size: 28px !important;
+        background: #0545a5;
+    }
+      
+    #backBtn{
+        border:1px solid gainsboro;
+        border-radius: 10px;
+        background: ghostwhite;
+        padding: 22px 14px 22px 14px !important;
+        color: #1358c0;
+        font-size: 34px !important;
+        right: 20px !important;
+        top: 16% !important;
+        position: absolute;
+        cursor: pointer;
+    }
+    #backBtn img{
+        height: 32px !important;
+        width: 34px !important;
+        margin-top: -0.3vh !important;
+    }
 }
 
 .page-item.active .page-link{
@@ -741,9 +866,50 @@ table.dataTable.nowrap td {
     font-size: 12px;
 }
 
+/*/////////////////TABLE CONTROL CSS////////////////////////*/
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
+    max-height: 44vh !important;
+    font-size: 12px !important;
+}
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead{
+    font-size: 12px !important;
+}
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
+    height: 70px !important;
+}
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
+    min-width: 150px !important;
+}
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr th{
+    min-width: 30px !important;
+}
+.dataTableCustom .dataTables_wrapper .dataTables_scrollBody .indicator{
+    min-width: 150px !important;
+}
+.page-item.active .page-link{
+    background-color: whitesmoke !important;
+    color: black !important;
+    font-size: 12px;
+}
+.page-link{
+    color: black !important;
+    font-size: 12px;
+}
+
+.dataTableCustom .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
+    background-size: 15px 15px !important;
+}
+.report-cards {
+    margin-top: 20px !important; 
+  }
+
+
 @media only screen and (min-width: 2560px) {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 62vh !important;
+        max-height: 54vh !important;
         font-size: 22px !important;
     }
 
@@ -776,39 +942,45 @@ table.dataTable.nowrap td {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
         background-size: 30px 30px !important;
     }
+    .report-cards {
+        margin-top: 35px !important; 
+    }
   
 }
 
 @media only screen and (min-width: 3840px) {
-        .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 66vh !important;
-        font-size: 30px !important;
+    .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
+        max-height: 58vh !important;
+        font-size: 32px !important;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead{
-        font-size: 30px !important;
+        font-size: 32px !important;
     }
 
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
         height: 220px !important;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .indicator{
-        width: 350px;
+        width: 380px !important;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody .indicator{
-        min-width: 350px !important;
+        min-width: 380px !important;
     }
     .page-item.active .page-link{
         background-color: whitesmoke !important;
         color: black !important;
-        font-size: 30px;
+        font-size: 32px;
     }
     .page-link{
         color: black !important;
-        font-size: 30px;
+        font-size: 32px;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
         background-size: 40px 40px !important;
     }
+    .report-cards {
+        margin-top: 50px !important;
+      }
 }
 
 .dataTableCustom .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
@@ -843,7 +1015,6 @@ table.dataTable.nowrap td {
 
 
 
-
 /* common css for layout */
 .me-3, .template-demo > .btn-toolbar {
     margin-right: 1rem !important;
@@ -851,7 +1022,7 @@ table.dataTable.nowrap td {
 .main-panel {
     transition: width 0.25s ease, margin 0.25s ease;
     width: 100%;
-    min-height: calc(100vh - 97px);
+    /* min-height: calc(100vh - 97px); */
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
@@ -885,6 +1056,9 @@ table.dataTable.nowrap td {
 .btn-outline-secondary:hover {
     color: #333 !important;
 }
+.mat-drawer.mat-drawer-side{
+    width: 312px;
+}
 
 @media (max-width: 767.98px) {
     mat-sidenav-container{
@@ -893,9 +1067,60 @@ table.dataTable.nowrap td {
  }
 
 
+
  .report-cards {
-    margin-top: 30px;
+    margin-top: 15px;
   }
   .report-cards h5,  h5 {
     margin-bottom: 20px;
   }
+
+  button:focus {
+    outline: 0px dotted !important;
+    outline: 0px auto -webkit-focus-ring-color !important;
+}
+
+
+/*:::::::::Sticky reports header*/
+
+.reportHeader{
+    top: 45px;
+    position: fixed;
+    width: calc(100% - 25px);
+    z-index: 999;
+    background-color: #F5F5F5;
+ }
+ .reportContainer{
+    margin-top: 120px;
+ }
+ 
+ 
+ @media screen and (min-width: 2140px) {
+     .reportHeader{
+         top: 70px !important;
+         position: fixed;
+         width: calc(100% - 25px);
+         z-index: 999;
+         background-color: #F5F5F5;
+      }
+      .reportContainer{
+         margin-top: 180px !important;
+      }
+ }
+ 
+ @media screen and (min-width: 3820px) {
+     .reportHeader{
+         top: 120px !important;
+         position: fixed;
+         width: calc(100% - 25px);
+         z-index: 999;
+         background-color: #F5F5F5;
+      }
+      .reportContainer{
+         margin-top: 230px !important;
+      }
+ }
+ 
+.selected-level{
+    color: #777777;
+}

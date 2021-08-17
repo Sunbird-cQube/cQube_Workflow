@@ -149,6 +149,8 @@ export class CrcReportComponent implements OnInit {
     { key: "select_month", value: "Year and Month" },
   ];
   period = "overall";
+  labels: any = [];
+  obj: any;
 
   myData;
   state: string;
@@ -173,14 +175,16 @@ export class CrcReportComponent implements OnInit {
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
@@ -232,7 +236,6 @@ export class CrcReportComponent implements OnInit {
         }
       } else {
         this.levelWiseFilter()
-        // this.districtWise();
       }
     }, err => {
       this.commonService.loaderAndErr([]);
@@ -240,7 +243,9 @@ export class CrcReportComponent implements OnInit {
   }
 
   getDistricts(level): void {
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.service
       .crcDistWiseData({ ...{ timePeriod: this.period }, ...this.month_year, ...{ management: this.management, category: this.category } })
       .subscribe((res) => {
@@ -355,7 +360,7 @@ export class CrcReportComponent implements OnInit {
   reportName = "crc_report";
 
   showYearMonth() {
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month_year = {
       month: this.monthNames.indexOf(this.month.trim()) + 1,
@@ -385,9 +390,9 @@ export class CrcReportComponent implements OnInit {
 
   onPeriodSelect() {
     if (this.period != "overall") {
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } else {
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     }
     this.yearMonth = true;
     this.month_year = {
@@ -403,7 +408,7 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.districtWise();
   }
 
@@ -492,7 +497,7 @@ export class CrcReportComponent implements OnInit {
             };
             this.labels = labels;
             this.obj = obj;
-            this.createChart(labels, this.chartData, this.tableHead, obj);
+            this.createChart(labels, this.chartData, this.tableHead, this.obj);
             this.tableData = this.result;
             this.dtOptions = {
               data: this.tableData,
@@ -500,7 +505,7 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY: "32vh",
+              scrollY: "40vh",
               scrollX: true,
               scrollCollapse: true,
               paging: false,
@@ -682,7 +687,9 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.modes = [];
     this.downloadType = "";
     this.blockHidden = false;
@@ -757,7 +764,7 @@ export class CrcReportComponent implements OnInit {
             };
             this.labels = labels;
             this.obj = obj;
-            this.createChart(labels, this.chartData, this.tableHead, obj);
+            this.createChart(labels, this.chartData, this.tableHead, this.obj);
             this.changeDetection.detectChanges();
             this.tableData = this.crcBlocksNames;
             this.dtOptions = {
@@ -766,7 +773,7 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY: "32vh",
+              scrollY: "40vh",
               scrollX: true,
               scrollCollapse: true,
               paging: false,
@@ -813,7 +820,7 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   myBlockData(data: any, fromParam = false) {
@@ -821,7 +828,9 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.modes = [];
     this.downloadType = "";
     this.clusterHidden = false;
@@ -905,7 +914,7 @@ export class CrcReportComponent implements OnInit {
           };
           this.labels = labels;
           this.obj = obj;
-          this.createChart(labels, this.chartData, this.tableHead, obj);
+          this.createChart(labels, this.chartData, this.tableHead, this.obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcClusterNames;
           this.dtOptions = {
@@ -914,7 +923,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY: "32vh",
+            scrollY: "40vh",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -961,7 +970,7 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   myClusterData(data: any, fromParam = false) {
@@ -969,7 +978,9 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.modes = [];
     this.downloadType = "";
     this.tableHead = "School Name";
@@ -1055,7 +1066,7 @@ export class CrcReportComponent implements OnInit {
           };
           this.labels = labels;
           this.obj = obj;
-          this.createChart(labels, this.chartData, this.tableHead, obj);
+          this.createChart(labels, this.chartData, this.tableHead, this.obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcSchoolNames;
           this.dtOptions = {
@@ -1064,7 +1075,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY: "32vh",
+            scrollY: "40vh",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
@@ -1108,7 +1119,7 @@ export class CrcReportComponent implements OnInit {
           this.commonService.loaderAndErr(this.chartData);
         }
       );
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   countVisitedAndNotVisited(a) {
@@ -1126,21 +1137,18 @@ export class CrcReportComponent implements OnInit {
       .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
   }
 
-  labels: any;
-  obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $("#myChart");
     ctx.attr(
       "height",
       this.height > 1760
-        ? "64vh"
+        ? "60vh"
         : this.height > 1180 && this.height < 1760
-          ? "63vh"
+          ? "60vh"
           : this.height > 667 && this.height < 1180
             ? "52vh"
             : "44vh"
     );
-    console.log(ctx);
     this.scatterChart = new Chart("myChart", {
       type: "scatter",
       data: {

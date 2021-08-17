@@ -1,36 +1,36 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-sm-8">
+        <div class="col-sm-8 ">
             <div *ngIf='skul'>
                 <p id="dist">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                        style="cursor: pointer;text-decoration: underline;" class="selected-level">{{state}}</span></p>
             </div>
             <div *ngIf='dist'>
                 <p id="block">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span>/ </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
+                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;" class="selected-level">
                         {{hierName}}</span> </p>
             </div>
             <div *ngIf="blok">
                 <p id="cluster">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span>/ </span><span (click)="myBlockData(blockName)"
-                        style="cursor: pointer;text-decoration: underline;">
+                        {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
+                        style="cursor: pointer;text-decoration: underline;" class="selected-level">
                         {{hierName}}</span></p>
             </div>
 
             <div *ngIf="clust">
                 <p id="school">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span>/ </span><span
+                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
                         (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span>/ </span><span (click)="myBlockData(blockName)"
+                        {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
                         style="cursor: pointer;text-decoration: underline;">
-                        {{title}}</span><span>/ </span><span>
+                        {{title}}</span><span> | </span><span class="selected-level">
                         {{hierName}}</span></p>
             </div>
         </div>
@@ -42,12 +42,11 @@
                     </p>
                 </div>
                 <div class="col-sm-6">
-                    <em class="fa fa-cloud-download" title="Download Report" id="download"
-                        style="cursor: pointer;font-size: 27px; float: right;margin: 5px 0px 0px 8px; color: #3100cc;"
-                        (click)="downloadRoport()"></em>
-                    <em class="fa fa-home" id="home" title="Home"
-                        style="cursor: pointer;font-size: 30px; float: right;margin: 2px 0px 0px 0px; color: #3100cc; display: none;"
-                        alt="Home" (click)="districtWise()"></em>
+                    <button *ngIf="reportData && reportData.length>0" class="btn btn-primary" title="Download Report"
+                        id="download1" (click)="downloadReport()">Download Report &nbsp; <i class="fa fa-arrow-down"
+                            aria-hidden="true"></i>
+                    </button>
+
                 </div>
             </div>
         </div>
@@ -67,7 +66,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="col-lg-3 col-md-6 col-sm-12" style="margin-top: 1vh;">
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
                             <button class="btn btn-secondary botton" id="allBlock" name="block"
@@ -84,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" id="fourth" style="margin-bottom: 0px !important; margin-top: -30px !important">
+            <div class="row" id="fourth" style="margin-bottom: 0px !important;">
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <span class="chooseLevel">X-Axis:</span> <br> <select id="x_axis" [(ngModel)]="xAxis" name="xAxis"
                         (change)="selectAxis()">
@@ -116,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12" id="first">
+        <div class="col-lg-3 col-md-12 col-sm-12" id="first" style="margin-top: 1vh;">
             <div class="row">
                 <div class="col col-sm-12">
                     <div id="selected">

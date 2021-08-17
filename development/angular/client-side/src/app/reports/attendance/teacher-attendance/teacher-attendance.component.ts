@@ -156,12 +156,12 @@ export class TeacherAttendanceComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("tarMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "none";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.skul = true;
     this.timePeriod = {
       period: "overall",
@@ -177,47 +177,51 @@ export class TeacherAttendanceComponent implements OnInit {
     //setting year-month options:::::
     this.service.getDateRange().subscribe(
       (res) => {
-        this.getMonthYear = res;
-        this.years = Object.keys(this.getMonthYear);
-        this.year = this.years[this.years.length - 1];
-        var allMonths = [];
-        allMonths = this.getMonthYear[`${this.year}`];
-        this.months = [];
-        allMonths.forEach((month) => {
-          var obj = {
-            name: month.month_name,
-            id: month.month,
-          };
-          this.months.push(obj);
-        });
-        this.month = this.months[this.months.length - 1].id;
-        // this.dateRange = `${this.getMonthYear[`${this.year}`][this.months.length - 1].data_from_date} to ${this.getMonthYear[`${this.year}`][this.months.length - 1].data_upto_date}`;
-        if (this.month) {
-          this.month_year = {
-            month: null,
-            year: null,
-          };
+        try {
+          this.getMonthYear = res;
+          this.years = Object.keys(this.getMonthYear);
+          this.year = this.years[this.years.length - 1];
+          var allMonths = [];
+          allMonths = this.getMonthYear[`${this.year}`];
+          this.months = [];
+          allMonths.forEach((month) => {
+            var obj = {
+              name: month.month_name,
+              id: month.month,
+            };
+            this.months.push(obj);
+          });
+          this.month = this.months[this.months.length - 1].id;
+          // this.dateRange = `${this.getMonthYear[`${this.year}`][this.months.length - 1].data_from_date} to ${this.getMonthYear[`${this.year}`][this.months.length - 1].data_upto_date}`;
+          if (this.month) {
+            this.month_year = {
+              month: null,
+              year: null,
+            };
 
-          this.params = JSON.parse(sessionStorage.getItem("report-level-info"));
-          let params = this.params;
+            this.params = JSON.parse(sessionStorage.getItem("report-level-info"));
+            let params = this.params;
 
-          if (params && params.level) {
-            let data = params.data;
-            if (params.level === "district") {
-              this.myDistrict = data.id;
-            } else if (params.level === "block") {
-              this.myDistrict = data.districtId;
-              this.myBlock = data.id;
-            } else if (params.level === "cluster") {
-              this.myDistrict = data.districtId;
-              this.myBlock = Number(data.blockId);
-              this.myCluster = data.id;
+            if (params && params.level) {
+              let data = params.data;
+              if (params.level === "district") {
+                this.myDistrict = data.id;
+              } else if (params.level === "block") {
+                this.myDistrict = data.districtId;
+                this.myBlock = data.id;
+              } else if (params.level === "cluster") {
+                this.myDistrict = data.districtId;
+                this.myBlock = Number(data.blockId);
+                this.myCluster = data.id;
+              }
+              this.changeDetection.detectChanges();
+              this.getDistricts();
+            } else {
+              this.levelWiseFilter();
             }
-            this.changeDetection.detectChanges();
-            this.getDistricts();
-          } else {
-            this.levelWiseFilter();
           }
+        } catch (e) {
+          this.commonService.loaderAndErr(this.markers);
         }
       },
       (err) => {
@@ -225,7 +229,7 @@ export class TeacherAttendanceComponent implements OnInit {
         this.teacherCount = "";
         this.schoolCount = "";
         this.changeDetection.detectChanges();
-        document.getElementById("home").style.display = "none";
+        //document.getElementById("home").style.display = "none";
         this.getMonthYear = {};
         this.commonService.loaderAndErr(this.markers);
       }
@@ -237,7 +241,7 @@ export class TeacherAttendanceComponent implements OnInit {
 
   //This function will be called on select year-month option show year month dropdown:::::
   showYearMonth() {
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month_year = {
       month: this.month,
@@ -252,9 +256,9 @@ export class TeacherAttendanceComponent implements OnInit {
   //This function will be called on select period dropdown::::
   onPeriodSelect() {
     if (this.period != "overall") {
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } else {
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     }
     this.yearMonth = true;
     this.timePeriod = {
@@ -570,7 +574,7 @@ export class TeacherAttendanceComponent implements OnInit {
       period: this.period,
     };
     this.districtWise();
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
   }
 
   async districtWise() {
@@ -689,7 +693,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
   }
 
   blockWise(event) {
@@ -812,7 +816,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   clusterWise(event) {
@@ -955,7 +959,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.markersList);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.cluster = [];
   }
 
@@ -1071,7 +1075,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   commonAtStateLevel() {
@@ -1384,7 +1388,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     globalMap.addLayer(this.layerMarkers);
   }
 
@@ -1598,7 +1602,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   clusterSelect(event, data) {
@@ -1828,7 +1832,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   popups(markerIcon, markers, onClick_Marker, layerMarkers) {

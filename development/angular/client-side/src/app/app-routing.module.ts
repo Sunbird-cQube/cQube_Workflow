@@ -28,7 +28,7 @@ switch (useCase) {
       {
         path: '', component: HomeComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer', 'all'], children: [
           {
-            path: 'dashboard', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all'], loadChildren: () => import('./dashboards/group-dashboards/dashboard-module.module').then(m => m.DashboardModule)
+            path: 'dashboard', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all'], loadChildren: () => import('./dashboards/dashboard-module.module').then(m => m.DashboardModule)
           },
           {
             path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all']

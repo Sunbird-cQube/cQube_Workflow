@@ -65,7 +65,9 @@ export class CompositReportComponent implements OnInit {
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    this.scatterChart.destroy();
+    if (this.chartData.length !== 0) {
+      this.scatterChart.destroy();
+    }
     this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
@@ -77,7 +79,7 @@ export class CompositReportComponent implements OnInit {
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
@@ -142,7 +144,7 @@ export class CompositReportComponent implements OnInit {
     this.clusterHidden = true;
     this.reportData = [];
 
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
 
     if (this.myData) {
       this.myData.unsubscribe();
@@ -194,7 +196,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = true;
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -251,7 +253,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = false;
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -307,7 +309,7 @@ export class CompositReportComponent implements OnInit {
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
 
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -373,7 +375,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.reportData = [];
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -411,7 +413,7 @@ export class CompositReportComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.reportData = [];
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -449,7 +451,7 @@ export class CompositReportComponent implements OnInit {
   //   this.blockHidden = true;
   //   this.clusterHidden = true;
   //   this.reportData = [];
-  //   document.getElementById('home').style.display = 'block';
+  //   //document.getElementById('home').style.display = 'block';
   //   if (this.myData) {
   //     this.myData.unsubscribe();
   //   }
@@ -593,7 +595,7 @@ export class CompositReportComponent implements OnInit {
   obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1760 ? '62vh' : this.height > 1180 && this.height < 1760 ? '63vh' : this.height > 667 && this.height < 1180 ? '55vh' : '50vh');
+    ctx.attr('height', this.height > 1760 ? '58vh' : this.height > 1160 && this.height < 1760 ? '54vh' : this.height > 667 && this.height < 1160 ? '50vh' : '46vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
 
@@ -645,13 +647,13 @@ export class CompositReportComponent implements OnInit {
             ticks: {
               fontColor: 'black',
               min: 0,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1160 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.xAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1160 ? 15 : 10,
             }
           }],
           yAxes: [{
@@ -661,13 +663,13 @@ export class CompositReportComponent implements OnInit {
             ticks: {
               fontColor: 'black',
               min: 0,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1180 ? 13 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 25 : this.height > 667 && this.height < 1160 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.yAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1180 ? 12 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 24 : this.height > 667 && this.height < 1160 ? 15 : 10,
             }
           }]
         }
@@ -699,7 +701,7 @@ export class CompositReportComponent implements OnInit {
     })
     this.reportData = newData
   }
-  downloadRoport() {
+  downloadReport() {
     var position = this.reportName.length;
     this.fileName = [this.fileName.slice(0, position), `_${this.management}`, this.fileName.slice(position)].join('');
     this.commonService.download(this.fileName, this.reportData);

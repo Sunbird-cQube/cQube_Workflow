@@ -95,16 +95,17 @@ export class AppServiceComponent {
             document.getElementById('spinner').style.display = 'none';
         } else {
             document.getElementById('spinner').style.display = 'none';
-            document.getElementById('errMsg').style.color = 'red';
-            document.getElementById('errMsg').style.display = 'block';
-            document.getElementById('errMsg').innerHTML = 'No data found';
+            document.getElementById('errMsg') ? document.getElementById('errMsg').style.color = 'red' : "";
+            document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'block' : "";
+            document.getElementById('errMsg') ? document.getElementById('errMsg').innerHTML = 'No data found' : "";
         }
     }
     errMsg() {
-        document.getElementById('errMsg').style.display = 'none';
+        document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'none' : "";
         document.getElementById('spinner').style.display = 'block';
         document.getElementById('spinner').style.marginTop = '3%';
     }
+
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
@@ -640,6 +641,9 @@ export class AppServiceComponent {
     //
     setProgressCardValue(status) {
         this.callProgressCard.next(status);
+    }
 
+    setToggleMenuValue(status) {
+        this.toggleMenu.next(status);
     }
 }

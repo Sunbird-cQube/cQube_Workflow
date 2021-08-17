@@ -56,7 +56,7 @@ export class DikshaBarChartComponent implements OnInit {
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.getAllData();
   }
 
@@ -68,7 +68,7 @@ export class DikshaBarChartComponent implements OnInit {
   }
 
   homeClick() {
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.timePeriod = 'all';
     this.getAllData()
   }
@@ -90,9 +90,9 @@ export class DikshaBarChartComponent implements OnInit {
   async getAllData() {
     this.emptyChart();
     if (this.timePeriod != 'all') {
-      document.getElementById('home').style.display = "block";
+      //document.getElementById('home').style.display = "block";
     } else {
-      document.getElementById('home').style.display = "none";
+      //document.getElementById('home').style.display = "none";
     }
     this.reportData = [];
     this.commonService.errMsg();
@@ -173,14 +173,14 @@ export class DikshaBarChartComponent implements OnInit {
     } else {
       this.listCollectionNames();
     }
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
   }
 
   //Get data based on selected collection:::::::::::::::
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.commonService.errMsg();
     this.fileName = `${this.reportName}_${this.timePeriod}_${this.commonService.dateAndTime}`;
     this.footer = '';
@@ -202,7 +202,7 @@ export class DikshaBarChartComponent implements OnInit {
     document.getElementById('errMsg').style.display = 'none';
   }
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
 

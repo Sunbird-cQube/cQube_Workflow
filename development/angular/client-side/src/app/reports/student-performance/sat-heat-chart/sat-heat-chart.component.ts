@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
 import HeatmapModule from 'highcharts/modules/heatmap';
 HeatmapModule(Highcharts);
@@ -84,7 +84,7 @@ export class SatHeatChartComponent implements OnInit {
 
   getHeight(event) {
     this.height = event.target.innerHeight;
-    this.onChangePage();
+    //
   }
 
   screenWidth: number;
@@ -92,14 +92,19 @@ export class SatHeatChartComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenWidth = window.innerWidth;
+    if (this.toolTipData) {
+      this.onChangePage();
+    }
     this.resetFontSizesOfChart();
+
   }
 
   constructor(
     public http: HttpClient,
     public service: PatReportService,
     public commonService: AppServiceComponent,
-    public router: Router
+    public router: Router,
+    public ref: ChangeDetectorRef
   ) {
     this.screenWidth = window.innerWidth;
     service.PATHeatMapMetaData({ report: 'sat' }).subscribe(res => {
@@ -160,13 +165,13 @@ export class SatHeatChartComponent implements OnInit {
     );
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
   }
 
   onChangePage() {
     let yLabel = this.yLabel.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage - 1) * this.pageSize + this.pageSize));
     let data = this.items.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage);
-    let tooltipData = this.toolTipData.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage);
+    let tooltipData = this.toolTipData ? this.toolTipData.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage) : ":";
 
     data = data.map(record => {
       record.y %= this.pageSize;
@@ -188,7 +193,7 @@ export class SatHeatChartComponent implements OnInit {
     this.commonFunc();
     this.currentPage = 1;
 
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
   }
 
   commonFunc = () => {
@@ -538,7 +543,7 @@ export class SatHeatChartComponent implements OnInit {
 
 
   selectedYear() {
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     this.month = '';
     this.examDate = 'all';
     this.subject = 'all';
@@ -552,7 +557,7 @@ export class SatHeatChartComponent implements OnInit {
     this.grade = 'all';
     this.examDate = 'all';
     this.subject = 'all';
-    document.getElementById('home').style.display = 'none';
+    //document.getElementById('home').style.display = 'none';
     this.levelWiseFilter();
   }
   selectedGrade() {
@@ -628,7 +633,7 @@ export class SatHeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = true;
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -680,7 +685,7 @@ export class SatHeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = false;
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -734,7 +739,7 @@ export class SatHeatChartComponent implements OnInit {
       this.currentPage = 1;
       this.level = 'school';
       this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      document.getElementById('home').style.display = 'block';
+      //document.getElementById('home').style.display = 'block';
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -822,13 +827,14 @@ export class SatHeatChartComponent implements OnInit {
 
     this.items = this.data.map((x, i) => x);
     this.toolTipData = response['result']['tooltipData'];
+    this.ref.detectChanges();
     this.onChangePage();
   }
 
   //level wise filter
   levelWiseFilter() {
     this.currentPage = 1;
-    document.getElementById('home').style.display = 'block';
+    //document.getElementById('home').style.display = 'block';
     if (this.level == 'district') {
       this.commonFunc()
     }

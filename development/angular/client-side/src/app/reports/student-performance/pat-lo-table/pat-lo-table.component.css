@@ -8,7 +8,7 @@
   }
 
   #dist, #block:not(.select-control), #cluster:not(.select-control), #school:not(.select-control) {
-    color: #284d8a;font-size: 18px !important; line-height: 1.2em; margin-top: 5px;
+    color: #262626;font-size: 18px !important; line-height: 1.2em; margin-top: 5px;
  }
 
  #year, #month, #grade, #subject, #examDate, #viewBy, #district, #block.select-control, #cluster.select-control {

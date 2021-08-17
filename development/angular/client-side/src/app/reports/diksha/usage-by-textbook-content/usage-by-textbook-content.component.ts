@@ -51,7 +51,7 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('backBtn').style.display = "none";
+
     document.getElementById('accessProgressCard').style.display = "none";
     this.collectionWise();
     this.onResize();
@@ -77,14 +77,14 @@ export class UsageByTextbookContentComponent implements OnInit {
       document.getElementById('spinner').style.display = 'none';
     } else {
       document.getElementById('spinner').style.display = 'none';
-      document.getElementById('errMsg').style.color = 'red';
-      document.getElementById('errMsg').style.display = 'block';
-      document.getElementById('errMsg').innerHTML = 'No data found';
+      document.getElementById('errMsg') ? document.getElementById('errMsg').style.color = 'red' : "";
+      document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'block' : "";
+      document.getElementById('errMsg') ? document.getElementById('errMsg').innerHTML = 'No data found' : "";
     }
   }
 
   errMsg() {
-    document.getElementById('errMsg').style.display = 'none';
+    document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'none' : "";
     document.getElementById('spinner').style.display = 'block';
     document.getElementById('spinner').style.marginTop = '3%';
   }
@@ -96,7 +96,7 @@ export class UsageByTextbookContentComponent implements OnInit {
   }
 
   collectionWise() {
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.errMsg();
     this.districtId = '';
     this.timePeriod = 'all';
@@ -152,7 +152,7 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   districtWise(districtId) {
     this.errMsg();
-    document.getElementById('home').style.display = "Block";
+    //document.getElementById('home').style.display = "Block";
     this.districtId = districtId
     var period = this.timePeriod == 'all' ? '' : this.timePeriod;
     if (period != '' && districtId != '') {
@@ -203,7 +203,7 @@ export class UsageByTextbookContentComponent implements OnInit {
     this.errMsg();
     this.time = timePeriod == 'all' ? 'overall' : timePeriod;
     this.fileToDownload = `diksha_raw_data/table_reports/textbook/${this.time}/${this.time}.csv`;
-    document.getElementById('home').style.display = "Block";
+    //document.getElementById('home').style.display = "Block";
     if (this.districtId == '') {
       this.districtId = undefined
     }
@@ -252,7 +252,7 @@ export class UsageByTextbookContentComponent implements OnInit {
   }
 
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
   changeingStringCases(str) {
