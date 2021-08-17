@@ -1102,7 +1102,7 @@ leaflet-right {
          background-color: #F5F5F5;
       }
       .reportContainer{
-         margin-top: 180px !important;
+         margin-top: 190px !important;
       }
  }
  
@@ -1115,7 +1115,20 @@ leaflet-right {
          background-color: #F5F5F5;
       }
       .reportContainer{
-         margin-top: 230px !important;
+         margin-top: 240px !important;
       }
  }
  
+
+
+ /*:::::::::::::::Side bar scroll::::::::::::::::*/
+ .mat-drawer-inner-container.ng-tns-c71-0 {
+    overflow: hidden !important;
+  } 
+  ::ng-deep .mat-drawer-inner-container.ng-tns-c71-0 {
+    overflow: hidden !important;
+  }
+  
+  .mat-drawer-inner-container{
+    overflow: hidden !important;
+  }
