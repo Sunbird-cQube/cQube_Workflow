@@ -2958,6 +2958,7 @@
                     <selectedRelationships>school</selectedRelationships>
                     <selectedRelationships>school_category</selectedRelationships>
                     <selectedRelationships>school_management</selectedRelationships>
+                    <selectedRelationships>school_mst</selectedRelationships>
                     <selectedRelationships>student_attendance</selectedRelationships>
                     <selectedRelationships>tch_att</selectedRelationships>
                     <selectedRelationships>udise</selectedRelationships>
@@ -4933,7 +4934,7 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>20528.0</x>
+                        <x>20680.0</x>
                         <y>280.0</y>
                     </bends>
                     <destination>
@@ -12383,8 +12384,8 @@
                     <id>2fe8269e-f990-3924-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>23816.0</x>
-                        <y>1064.0</y>
+                        <x>23800.0</x>
+                        <y>1144.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -12552,7 +12553,7 @@
                     <id>8a924e01-2072-3137-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21984.0</x>
+                        <x>21992.0</x>
                         <y>-392.0</y>
                     </position>
                     <comments></comments>
@@ -12812,8 +12813,8 @@
                     <id>f071d0ae-d235-3bc7-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21232.0</x>
-                        <y>1088.0</y>
+                        <x>21240.0</x>
+                        <y>1120.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -13113,11 +13114,11 @@
                     <id>1a3a9c0b-7528-35aa-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>20608.0</x>
-                        <y>-640.0</y>
+                        <x>20616.0</x>
+                        <y>-536.0</y>
                     </position>
                     <height>104.0</height>
-                    <label>                                Output(infra_transformer)</label>
+                    <label>                                Output(cqube_telemetry_transformer)</label>
                     <style>
                         <entry>
                             <key>background-color</key>
@@ -13341,6 +13342,27 @@
                     <width>392.0</width>
                 </labels>
                 <labels>
+                    <id>390df844-a0e2-3bd5-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>21608.0</x>
+                        <y>1560.0</y>
+                    </position>
+                    <height>424.0</height>
+                    <label>S3 </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#55a61f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
                     <id>3bd7fd51-91a7-31e7-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -13365,8 +13387,8 @@
                     <id>3bfc8a71-8774-3836-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>33040.0</x>
-                        <y>-2408.0</y>
+                        <x>32656.0</x>
+                        <y>-2424.0</y>
                     </position>
                     <height>56.0</height>
                     <label>DATA REPLAY / RETENTION Data Storage</label>
@@ -13432,6 +13454,27 @@
                         <y>1528.0</y>
                     </position>
                     <height>184.0</height>
+                    <label>S3 </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#55a61f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
+                    <id>4facf78e-e1e6-3a3e-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>24080.0</x>
+                        <y>1504.0</y>
+                    </position>
+                    <height>424.0</height>
                     <label>S3 </label>
                     <style>
                         <entry>
@@ -13524,7 +13567,7 @@
                         </entry>
                         <entry>
                             <key>font-size</key>
-                            <value>18px</value>
+                            <value>24px</value>
                         </entry>
                     </style>
                     <width>576.0</width>
@@ -13638,8 +13681,8 @@
                     <id>659d9571-787b-3c5f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>23600.0</x>
-                        <y>896.0</y>
+                        <x>23576.0</x>
+                        <y>992.0</y>
                     </position>
                     <height>104.0</height>
                     <label>                                Output(composite_transformer)</label>
@@ -13759,6 +13802,27 @@
                         </entry>
                     </style>
                     <width>384.0</width>
+                </labels>
+                <labels>
+                    <id>6c9d1f82-cbd8-3c1c-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>23440.0</x>
+                        <y>1504.0</y>
+                    </position>
+                    <height>832.0</height>
+                    <label>On Premise </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#a65c1f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
                 </labels>
                 <labels>
                     <id>701822ae-f438-3d83-0000-000000000000</id>
@@ -14142,8 +14206,8 @@
                     <id>b4365257-fc62-3772-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>16024.0</x>
-                        <y>-632.0</y>
+                        <x>16288.0</x>
+                        <y>-432.0</y>
                     </position>
                     <height>104.0</height>
                     <label>                                Output(infra_transformer)</label>
@@ -14284,6 +14348,27 @@
                         </entry>
                     </style>
                     <width>400.0</width>
+                </labels>
+                <labels>
+                    <id>c0b3f73c-b823-3026-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>20792.0</x>
+                        <y>1520.0</y>
+                    </position>
+                    <height>832.0</height>
+                    <label>On Premise </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#a65c1f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
                 </labels>
                 <labels>
                     <id>c229e670-4f30-3843-0000-000000000000</id>
@@ -14646,8 +14731,8 @@
                     <id>f31d3b5e-2c63-35f3-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21016.0</x>
-                        <y>888.0</y>
+                        <x>21024.0</x>
+                        <y>992.0</y>
                     </position>
                     <height>104.0</height>
                     <label>                                Output(healthcard_transformer)</label>
@@ -15100,8 +15185,8 @@
                     <id>d651e721-bb81-360f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21120.0</x>
-                        <y>488.0</y>
+                        <x>21112.0</x>
+                        <y>480.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15714,7 +15799,7 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>23456.0</x>
-                        <y>2368.0</y>
+                        <y>2192.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -16591,8 +16676,8 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                     <id>06d2b330-80f9-3f8b-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>23752.0</x>
-                        <y>1248.0</y>
+                        <x>23744.0</x>
+                        <y>1272.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -17769,7 +17854,7 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>23456.0</x>
-                        <y>2104.0</y>
+                        <y>1992.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -20289,7 +20374,7 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>${absolute.path}${filename}</value>
+<value>${absolute.path}/${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -29832,7 +29917,7 @@ ${emission_filename:substringAfter('/'):startsWith('diksha_data_summary'):ifElse
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>20816.0</x>
-                        <y>1824.0</y>
+                        <y>1776.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -31327,12 +31412,6 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('pa
 </value>
                             </entry>
                             <entry>
-<key>school</key>
-<value>
-    <name>school</name>
-</value>
-                            </entry>
-                            <entry>
 <key>school_category</key>
 <value>
     <name>school_category</name>
@@ -31342,6 +31421,12 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('pa
 <key>school_management</key>
 <value>
     <name>school_management</name>
+</value>
+                            </entry>
+                            <entry>
+<key>school_mst</key>
+<value>
+    <name>school_mst</name>
 </value>
                             </entry>
                             <entry>
@@ -31418,16 +31503,16 @@ or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
 <value>${filename:startsWith('semester_'):or(${filename:startsWith('sat/')})}</value>
                             </entry>
                             <entry>
-<key>school</key>
-<value>${filename:startsWith('school_')}</value>
-                            </entry>
-                            <entry>
 <key>school_category</key>
 <value>${filename:startsWith('school_category')}</value>
                             </entry>
                             <entry>
 <key>school_management</key>
 <value>${filename:startsWith('school_management')}</value>
+                            </entry>
+                            <entry>
+<key>school_mst</key>
+<value>${filename:startsWith('school_mst')}</value>
                             </entry>
                             <entry>
 <key>student_attendance</key>
@@ -31560,15 +31645,15 @@ ${filename:startsWith('sch_safety')}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>school</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
                         <name>school_category</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>school_management</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>school_mst</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -31975,7 +32060,7 @@ Sucessfully fetched ${filename} from ${absolute.path}.</value>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>23456.0</x>
-                        <y>1824.0</y>
+                        <y>1768.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -32427,8 +32512,8 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <id>5e16c56a-c32a-34ae-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>24112.0</x>
-                        <y>1864.0</y>
+                        <x>24096.0</x>
+                        <y>1776.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -32496,7 +32581,7 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>21632.0</x>
-                        <y>1944.0</y>
+                        <y>1840.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -32852,7 +32937,7 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <id>6500c31d-a95c-377c-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>24112.0</x>
+                        <x>24096.0</x>
                         <y>1544.0</y>
                     </position>
                     <bundle>
@@ -34965,8 +35050,8 @@ ${filename:startsWith('data_retention'):ifElse('input_record_count_data_retentio
                     <id>737f58be-8807-317a-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>20832.0</x>
-                        <y>2392.0</y>
+                        <x>20816.0</x>
+                        <y>2208.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -46179,8 +46264,8 @@ ${query_type:startsWith('sat_exception_management_grade_school_last_30_days'):if
                     <id>a489baaf-6974-35df-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>20824.0</x>
-                        <y>2120.0</y>
+                        <x>20816.0</x>
+                        <y>1984.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -62933,5 +63018,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/22/2021 19:00:23 IST</timestamp>
+    <timestamp>08/18/2021 15:37:43 IST</timestamp>
 </template>
