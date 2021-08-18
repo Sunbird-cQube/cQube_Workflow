@@ -291,7 +291,8 @@ create materialized view if not exists student_attendance_agg_overall as
 b.school_name,b.school_latitude,b.school_longitude,b.cluster_id,b.cluster_name,b.cluster_latitude,b.cluster_longitude,
 b.block_id,b.block_name,b.block_latitude,b.block_longitude,b.district_id,b.district_name,b.district_latitude,b.district_longitude,b.school_management_type,b.school_category,
 (select Data_from_date(Min(year),min(month))  from student_attendance_trans where year = (select min(year) from student_attendance_trans) group by year) as data_from_date, 
-(select   case when year=extract(year from now()) and month=extract(month from now()) then to_char(now(),'DD-MM-YYYY')   else Data_upto_date(year,month) end as data_upto_date 
+(select   case when year=extract(year from now()) and month=extract(month from now()) then to_char(now(),'DD-MM-YYYY') 
+when year IS NULL and month IS NULL then NULL  else Data_upto_date(year,month) end as data_upto_date 
 from (select max(month) as month ,max(year) as year from student_attendance_trans where year = (select max(year) from student_attendance_trans)) as matt)
 from 
 (select school_id ,sum(total_present) as total_present,sum(total_working_days) as total_students from school_student_total_attendance  group by school_id) as sch_res
