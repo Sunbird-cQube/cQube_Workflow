@@ -54,7 +54,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 attendance: schoolsAttendanceData[i]['x_value'],
                 lat: schoolsAttendanceData[i]['y_value'],
                 lng: schoolsAttendanceData[i]['z_value'],
-                number_of_students: schoolsAttendanceData[i]['students_count'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+                //number_of_students: schoolsAttendanceData[i]['students_count'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
             }
             schoolData.push(obj);
         }
@@ -123,7 +123,7 @@ router.post('/schoolPerCluster', auth.authController, async (req, res) => {
                 attendance: schoolsAttendanceData[i]['x_value'],
                 lat: schoolsAttendanceData[i]['y_value'],
                 lng: schoolsAttendanceData[i]['z_value'],
-                number_of_students: schoolsAttendanceData[i]['students_count'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+                //number_of_students: schoolsAttendanceData[i]['students_count'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
             }
             schoolsDetails.push(obj);
         }

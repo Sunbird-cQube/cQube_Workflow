@@ -50,6 +50,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   getAllMarkers() {
     document.getElementById('spinner').style.display = "block";
+    this.markers  = [];
     this.http.post(environment.apiRoute, {
       category: "overall",
       management: environment.management,
@@ -74,7 +75,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         this.markers.push(marker);
       });
       // this.coordinates = new google.maps.LatLng(res['blockData'][0].lat, res['blockData'][0].lng);
-      if (this.markers .length == res['schoolData'].length) {
+      if (this.markers.length == res['schoolData'].length) {
         document.getElementById('spinner').style.display = "none";
       }
     })
@@ -94,6 +95,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     this.mapInitializer();
+    //document.getElementById('spinner').style.display = "none";
   }
 
   mapInitializer(): void {
