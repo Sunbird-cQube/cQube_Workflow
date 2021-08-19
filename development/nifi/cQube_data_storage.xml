@@ -2955,7 +2955,6 @@
                     <selectedRelationships>infra_trans</selectedRelationships>
                     <selectedRelationships>pat</selectedRelationships>
                     <selectedRelationships>sat</selectedRelationships>
-                    <selectedRelationships>school</selectedRelationships>
                     <selectedRelationships>school_category</selectedRelationships>
                     <selectedRelationships>school_management</selectedRelationships>
                     <selectedRelationships>school_mst</selectedRelationships>
@@ -10550,13 +10549,17 @@
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>9632.0</x>
+                        <y>-1824.0</y>
+                    </bends>
                     <destination>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>2e20da2b-69e1-3c6e-0000-000000000000</id>
                         <type>OUTPUT_PORT</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
@@ -12818,7 +12821,7 @@
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>health_card_save_output_input_port</name>
+                    <name>progress_card_save_output_input_port</name>
                     <state>STOPPED</state>
                     <type>INPUT_PORT</type>
                 </inputPorts>
@@ -14735,7 +14738,7 @@
                         <y>992.0</y>
                     </position>
                     <height>104.0</height>
-                    <label>                                Output(healthcard_transformer)</label>
+                    <label>                                Output(progress_card_transformer)</label>
                     <style>
                         <entry>
                             <key>background-color</key>
@@ -31512,7 +31515,7 @@ or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
                             </entry>
                             <entry>
 <key>school_mst</key>
-<value>${filename:startsWith('school_mst')}</value>
+<value>${filename:startsWith('school_mst'):or(${filename:startsWith('school_master')})}</value>
                             </entry>
                             <entry>
 <key>student_attendance</key>
@@ -46364,7 +46367,7 @@ ${query_type:startsWith('sat_exception_management_grade_school_last_30_days'):if
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_save_output_on_premise</name>
+                    <name>progress_card_save_output_on_premise</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -51282,7 +51285,7 @@ ${query_type:startsWith('health_card_management_index_district_last_30_days'):if
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_save_output_s3</name>
+                    <name>progress_card_save_output_s3</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -63018,5 +63021,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>08/18/2021 15:37:43 IST</timestamp>
+    <timestamp>08/19/2021 19:21:32 IST</timestamp>
 </template>
