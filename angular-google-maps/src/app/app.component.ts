@@ -95,7 +95,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     this.mapInitializer();
-    //document.getElementById('spinner').style.display = "none";
   }
 
   mapInitializer(): void {
