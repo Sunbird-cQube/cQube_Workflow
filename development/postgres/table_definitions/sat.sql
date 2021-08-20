@@ -11,13 +11,6 @@ updated_on  TIMESTAMP without time zone
 
 /* SAT exception tables */
 
-create table IF NOT EXISTS school_grade_enrolment(
-  school_id bigint,
-  grade int,
-  students_count int,
-  primary key(school_id,grade)
-);
-
 create table IF NOT EXISTS subject_details(
   subject_id int,
   grade int,

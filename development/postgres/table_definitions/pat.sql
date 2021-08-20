@@ -255,14 +255,6 @@ updated_on  timestamp,
 primary key(exam_code, student_uid, question_id)
 );
 
-
-create table IF NOT EXISTS school_grade_enrolment(
-  school_id bigint,
-  grade int,
-  students_count int,
-  primary key(school_id,grade)
-);
-
 create table IF NOT EXISTS subject_details(
   subject_id int,
   grade int,

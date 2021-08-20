@@ -50,7 +50,7 @@ order by 1)as f group by district_id) as dik
 on stat.district_id=dik.district_id')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'district','semester_performance,semester_performance_grade_3,
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'district','semester_performance,semester_performance_grade_3,
 	semester_performance_grade_4,semester_performance_grade_5,semester_performance_grade_6,semester_performance_grade_7,semester_performance_grade_8',
 		'left join (	select a.district_id,a.semester_performance,
 b.grade_3 as semester_performance_grade_3,b.grade_4 as semester_performance_grade_4,b.grade_5 as semester_performance_grade_5,
@@ -113,7 +113,7 @@ insert into composite_config(template,status,category,select_query,table_join) v
 on stat.block_id=pat.block_id')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'block','semester_performance,semester_performance_grade_3,
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'block','semester_performance,semester_performance_grade_3,
 	semester_performance_grade_4,semester_performance_grade_5,semester_performance_grade_6,semester_performance_grade_7,semester_performance_grade_8',
 		'left join (	select a.block_id,a.semester_performance,
 b.grade_3 as semester_performance_grade_3,b.grade_4 as semester_performance_grade_4,b.grade_5 as semester_performance_grade_5,
@@ -177,7 +177,7 @@ insert into composite_config(template,status,category,select_query,table_join) v
 on stat.cluster_id=pat.cluster_id')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'cluster','semester_performance,semester_performance_grade_3,
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'cluster','semester_performance,semester_performance_grade_3,
 	semester_performance_grade_4,semester_performance_grade_5,semester_performance_grade_6,semester_performance_grade_7,semester_performance_grade_8',
 		'left join (	select a.cluster_id,a.semester_performance,
 b.grade_3 as semester_performance_grade_3,b.grade_4 as semester_performance_grade_4,b.grade_5 as semester_performance_grade_5,
@@ -241,7 +241,7 @@ insert into composite_config(template,status,category,select_query,table_join) v
 on stat.school_id=pat.school_id')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'school','semester_performance,semester_performance_grade_3,
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'school','semester_performance,semester_performance_grade_3,
 	semester_performance_grade_4,semester_performance_grade_5,semester_performance_grade_6,semester_performance_grade_7,semester_performance_grade_8',
 		'left join (	select a.school_id,a.semester_performance,
 b.grade_3 as semester_performance_grade_3,b.grade_4 as semester_performance_grade_4,b.grade_5 as semester_performance_grade_5,
@@ -280,7 +280,7 @@ update composite_config as uds set select_query= stg.select_query from
 where uds.template='udise';
 
 
-update composite_config set status= false where lower(template) in (select split_part(lower(template),'_',2) from nifi_template_info where status=false);
+update composite_config set status= false where lower(template) in (select  lower(template)  from nifi_template_info where status=false);
 
 /*Function to create composite views*/
 
@@ -501,7 +501,7 @@ order by 1)as f group by district_id) as dik
 on stat.district_id=dik.district_id')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'district_mgt','sat.Semester_exam_performance',
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'district_mgt','sat.Semester_exam_performance',
 		'left join (select district_id,district_performance as Semester_exam_performance,school_management_type from semester_exam_district_mgmt_all where school_management_type is not null) as sat 
 on stat.district_id=sat.district_id and stat.school_management_type=sat.school_management_type')
 on conflict on constraint composite_config_pkey do nothing;
@@ -540,7 +540,7 @@ insert into composite_config(template,status,category,select_query,table_join) v
 on stat.block_id=pat.block_id and stat.school_management_type=pat.school_management_type')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'block_mgt','sat.Semester_exam_performance',
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'block_mgt','sat.Semester_exam_performance',
 		'left join (select block_id,block_performance as Semester_exam_performance,school_management_type from semester_exam_block_mgmt_all where school_management_type is not null) as sat 
 on stat.block_id=sat.block_id and stat.school_management_type=sat.school_management_type')
 on conflict on constraint composite_config_pkey do nothing;
@@ -579,7 +579,7 @@ insert into composite_config(template,status,category,select_query,table_join) v
 on stat.cluster_id=pat.cluster_id and stat.school_management_type=pat.school_management_type')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'cluster_mgt','sat.semester_exam_performance',
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'cluster_mgt','sat.semester_exam_performance',
 		'left join (select cluster_id,cluster_performance as semester_exam_performance,school_management_type from semester_exam_cluster_mgmt_all where school_management_type is not null) as sat 
 on stat.cluster_id=sat.cluster_id and stat.school_management_type=sat.school_management_type')
 on conflict on constraint composite_config_pkey do nothing;
@@ -618,7 +618,7 @@ insert into composite_config(template,status,category,select_query,table_join) v
 on stat.school_id=pat.school_id and stat.school_management_type=pat.school_management_type')
 on conflict on constraint composite_config_pkey do nothing;
 
-insert into composite_config(template,status,category,select_query,table_join) values('semester',true,'school_mgt','sat.Semester_exam_performance',
+insert into composite_config(template,status,category,select_query,table_join) values('sat',true,'school_mgt','sat.Semester_exam_performance',
 		'left join (select school_id,school_performance as semester_exam_performance,school_management_type from semester_exam_school_mgmt_all where school_management_type is not null) as sat 
 on stat.school_id=sat.school_id and stat.school_management_type=sat.school_management_type')
 on conflict on constraint composite_config_pkey do nothing;
@@ -626,16 +626,16 @@ on conflict on constraint composite_config_pkey do nothing;
 /* updating semester composite to sat report */
 
 update composite_config set select_query='sat.Semester_exam_performance',table_join='left join (select district_id,district_performance as Semester_exam_performance from semester_exam_district_all) as sat 
-on stat.district_id=sat.district_id' where template='semester' and category='district'; 
+on stat.district_id=sat.district_id' where template='sat' and category='district'; 
 
 update composite_config set select_query='sat.Semester_exam_performance',table_join='left join (select block_id,block_performance as Semester_exam_performance from semester_exam_block_all) as sat 
-on stat.block_id=sat.block_id' where template='semester' and category='block'; 
+on stat.block_id=sat.block_id' where template='sat' and category='block'; 
 
 update composite_config set select_query='sat.Semester_exam_performance',table_join='left join (select cluster_id,cluster_performance as semester_exam_performance from semester_exam_cluster_all) as sat 
-on stat.cluster_id=sat.cluster_id' where template='semester' and category='cluster'; 
+on stat.cluster_id=sat.cluster_id' where template='sat' and category='cluster'; 
 
 update composite_config set select_query='sat.Semester_exam_performance',table_join='left join (select school_id,school_performance as semester_exam_performance from semester_exam_school_all) as sat 
-on stat.school_id=sat.school_id' where template='semester' and category='school'; 
+on stat.school_id=sat.school_id' where template='sat' and category='school'; 
 
 insert into composite_config(template,status,category,table_join) values('udise',true,'school_mgt','left join udise_school_mgt_score
 on stat.school_id=udise_school_mgt_score.udise_school_id and stat.school_management_type=udise_school_mgt_score.school_management_type')
@@ -654,7 +654,7 @@ from udise_config where status = '1' and type='indice' group by column_name)as a
 where uds.template='udise';
 
 
-update composite_config set status= false where lower(template) in (select split_part(lower(template),'_',2) from nifi_template_info where status=false);
+update composite_config set status= false where lower(template) in (select  lower(template)  from nifi_template_info where status=false);
 
 /*Composite jolt spec*/
 
@@ -686,7 +686,7 @@ update composite_config as uds set jolt_spec=
         "semester_performance_grade_6": "[&1].Semester Performance Grade-6(%).percent",
         "semester_performance_grade_7": "[&1].Semester Performance Grade-7(%).percent",
         "semester_performance_grade_8": "[&1].Semester Performance Grade-8(%).percent"'
-         where uds.template='semester';
+         where uds.template='sat';
 
 /*Function to create composite management views*/
 

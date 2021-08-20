@@ -3220,7 +3220,7 @@ left join school_hierarchy_details as c on a.school_id=c.school_id
 group by a.school_id ,school_management_type)as b
  on d.school_id=b.school_id and d.school_management_type=b.school_management_type;
  
-/* health card state last 30 days */ 
+/* Progress card state last 30 days */ 
 
 create or replace view hc_sat_state_last30 as
  select (select round(((coalesce(sum(semester_exam_school_result.obtained_marks), (0)::numeric) * 100.0) / coalesce(sum(semester_exam_school_result.total_marks), (1)::numeric)), 1) as school_performance
@@ -3233,7 +3233,7 @@ create or replace view hc_sat_state_last30 as
         (select sum(students_count) as students_count from semester_exam_school_result where exam_code in (select exam_code from sat_date_range where date_range='last30days')),
         (select count(distinct school_id) as total_schools from semester_exam_school_result where exam_code in (select exam_code from sat_date_range where date_range='last30days'));
         
-/* health card state overall */ 
+/* Progress card state overall */ 
 create or replace view hc_sat_state_overall as
  select (select round(((coalesce(sum(semester_exam_school_result.obtained_marks), (0)::numeric) * 100.0) / coalesce(sum(semester_exam_school_result.total_marks), (0)::numeric)), 1) as school_performance
         from semester_exam_school_result),

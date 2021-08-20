@@ -794,4 +794,14 @@ alter table data_replay_meta add column if not exists retention_period integer;
 
 insert into school_hierarchy_details values(9999,NULL,'others',NULL,NULL,9999,'others',NULL,9999,'others',9999,'others',NULL,now(),now()) on conflict  ON CONSTRAINT school_hierarchy_details_pkey do nothing;
 
-create table if not exists health_card_config(id serial,	data_source varchar(100),select_query text,join_query text,status boolean,category varchar(100),time_period varchar(100),primary key(data_source,category,time_period));
+drop table if exists health_card_config cascade;
+
+create table if not exists progress_card_config(id serial,	data_source varchar(100),select_query text,join_query text,status boolean,category varchar(100),time_period varchar(100),primary key(data_source,category,time_period));
+
+create table IF NOT EXISTS school_grade_enrolment(
+  school_id bigint,
+  grade int,
+  students_count int,
+  primary key(school_id,grade)
+);
+
