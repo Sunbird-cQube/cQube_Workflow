@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>Single template (Both s3 and on premise).</description>
+    <description></description>
     <groupId>281dc6f4-0173-1000-6ece-d7cd0acfb411</groupId>
-    <name>healthcard_transformer</name>
+    <name>progress_card_transformer</name>
     <snippet>
         <processGroups>
             <id>38d48e31-1a8d-3ee1-0000-000000000000</id>
@@ -209,7 +209,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>health_card_management_state</selectedRelationships>
+                    <selectedRelationships>progress_card_management_state</selectedRelationships>
                     <source>
                         <groupId>38d48e31-1a8d-3ee1-0000-000000000000</groupId>
                         <id>ad575425-9c81-3e1a-0000-000000000000</id>
@@ -284,8 +284,8 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>health_card_management_state</selectedRelationships>
-                    <selectedRelationships>health_card_state</selectedRelationships>
+                    <selectedRelationships>progress_card_management_state</selectedRelationships>
+                    <selectedRelationships>progress_card_state</selectedRelationships>
                     <source>
                         <groupId>38d48e31-1a8d-3ee1-0000-000000000000</groupId>
                         <id>9091d034-74dd-3bf1-0000-000000000000</id>
@@ -389,7 +389,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>health_card_meta</selectedRelationships>
+                    <selectedRelationships>progress_card_meta</selectedRelationships>
                     <source>
                         <groupId>38d48e31-1a8d-3ee1-0000-000000000000</groupId>
                         <id>9091d034-74dd-3bf1-0000-000000000000</id>
@@ -414,7 +414,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>health_card_managment_level</selectedRelationships>
+                    <selectedRelationships>progress_card_managment_level</selectedRelationships>
                     <source>
                         <groupId>38d48e31-1a8d-3ee1-0000-000000000000</groupId>
                         <id>9091d034-74dd-3bf1-0000-000000000000</id>
@@ -668,7 +668,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>health_card_files</selectedRelationships>
+                    <selectedRelationships>progress_card_files</selectedRelationships>
                     <source>
                         <groupId>38d48e31-1a8d-3ee1-0000-000000000000</groupId>
                         <id>9091d034-74dd-3bf1-0000-000000000000</id>
@@ -751,8 +751,8 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>health_card_management_state</selectedRelationships>
-                    <selectedRelationships>health_card_state</selectedRelationships>
+                    <selectedRelationships>progress_card_management_state</selectedRelationships>
+                    <selectedRelationships>progress_card_state</selectedRelationships>
                     <source>
                         <groupId>38d48e31-1a8d-3ee1-0000-000000000000</groupId>
                         <id>5ebd2874-2270-3559-0000-000000000000</id>
@@ -1137,7 +1137,7 @@
                             </value>
                         </entry>
                     </descriptors>
-                    <name>postgres_health_card</name>
+                    <name>postgres_progress_card</name>
                     <persistsState>false</persistsState>
                     <properties>
                         <entry>
@@ -1280,7 +1280,7 @@
                             </value>
                         </entry>
                     </descriptors>
-                    <name>JsonTreeReader_health_card</name>
+                    <name>JsonTreeReader_progress_card</name>
                     <persistsState>false</persistsState>
                     <properties>
                         <entry>
@@ -1435,7 +1435,7 @@
                             </value>
                         </entry>
                     </descriptors>
-                    <name>JsonRecordSetWriter_health_card</name>
+                    <name>JsonRecordSetWriter_progress_card</name>
                     <persistsState>false</persistsState>
                     <properties>
                         <entry>
@@ -1512,7 +1512,7 @@
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>health_card_save_output_output_port</name>
+                    <name>progress_card_save_output_output_port</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -1590,7 +1590,7 @@
                             </entry>
                             <entry>
 <key>filename</key>
-<value>#{base_dir}/cqube/nifi/nifi_queries/#{health_card_queries_filename}</value>
+<value>#{base_dir}/cqube/nifi/nifi_queries/#{progress_card_queries_filename}</value>
                             </entry>
                             <entry>
 <key>source</key>
@@ -1603,7 +1603,7 @@
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_add__qry_filename</name>
+                    <name>progress_card_add__qry_filename</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
@@ -1791,7 +1791,7 @@
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>healthcard_extract_query</name>
+                    <name>progress_card_extract_query</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>matched</name>
@@ -1934,7 +1934,7 @@ file:${filename},Error while extracting "${query_type}" query.</value>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_partition_management</name>
+                    <name>progress_card_partition_management</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>failure</name>
@@ -2339,10 +2339,10 @@ file:${filename},Error while extracting "${query_type}" query.</value>
                             </entry>
                             <entry>
 <key>partition_by_level</key>
-<value>${query_type:startsWith('health_card_index_district'):or(${query_type:startsWith('health_card_management_index_district')}):ifElse('/district_id',
-${query_type:startsWith('health_card_index_block'):or(${query_type:startsWith('health_card_management_index_block')}):ifElse('/block_id',
-${query_type:startsWith('health_card_index_cluster'):or(${query_type:startsWith('health_card_management_index_cluster')}):ifElse('/block_id',
-${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('health_card_management_index_school')}):ifElse('/block_id','None')}
+<value>${query_type:startsWith('progress_card_index_district'):or(${query_type:startsWith('progress_card_management_index_district')}):ifElse('/district_id',
+${query_type:startsWith('progress_card_index_block'):or(${query_type:startsWith('progress_card_management_index_block')}):ifElse('/block_id',
+${query_type:startsWith('progress_card_index_cluster'):or(${query_type:startsWith('progress_card_management_index_cluster')}):ifElse('/block_id',
+${query_type:startsWith('progress_card_index_school'):or(${query_type:startsWith('progress_card_management_index_school')}):ifElse('/block_id','None')}
 )} )} )}</value>
                             </entry>
                         </properties>
@@ -2352,7 +2352,7 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_partition_by_level</name>
+                    <name>progress_card_partition_by_level</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>failure</name>
@@ -2393,15 +2393,15 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
 </value>
                             </entry>
                             <entry>
-<key>health_card_management_state</key>
+<key>progress_card_management_state</key>
 <value>
-    <name>health_card_management_state</name>
+    <name>progress_card_management_state</name>
 </value>
                             </entry>
                             <entry>
-<key>health_card_state</key>
+<key>progress_card_state</key>
 <value>
-    <name>health_card_state</name>
+    <name>progress_card_state</name>
 </value>
                             </entry>
                         </descriptors>
@@ -2414,13 +2414,13 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
 <value>Route to Property name</value>
                             </entry>
                             <entry>
-<key>health_card_management_state</key>
-<value>${query_type:startsWith('health_card_management_index_state_overall')
-:or(${query_type:startsWith('health_card_management_index_state_last_30_days')})}</value>
+<key>progress_card_management_state</key>
+<value>${query_type:startsWith('progress_card_management_index_state_overall')
+:or(${query_type:startsWith('progress_card_management_index_state_last_30_days')})}</value>
                             </entry>
                             <entry>
-<key>health_card_state</key>
-<value>${query_type:startsWith('health_card_index_state')}</value>
+<key>progress_card_state</key>
+<value>${query_type:startsWith('progress_card_index_state')}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -2429,14 +2429,14 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_route_files_final</name>
+                    <name>progress_card_route_files_final</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_management_state</name>
+                        <name>progress_card_management_state</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_state</name>
+                        <name>progress_card_state</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -2802,11 +2802,11 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
                             </entry>
                             <entry>
 <key>management</key>
-<value>${query_type:startsWith('health_card_management_index_district'):ifElse('/school_management_type',
-${query_type:startsWith('health_card_management_index_state'):ifElse('/basic_details/school_management_type',
-${query_type:startsWith('health_card_management_index_block'):ifElse('/school_management_type',
-${query_type:startsWith('health_card_management_index_cluster'):ifElse('/school_management_type',
-${query_type:startsWith('health_card_management_index_school'):ifElse('/school_management_type','None')} )} )}
+<value>${query_type:startsWith('progress_card_management_index_district'):ifElse('/school_management_type',
+${query_type:startsWith('progress_card_management_index_state'):ifElse('/basic_details/school_management_type',
+${query_type:startsWith('progress_card_management_index_block'):ifElse('/school_management_type',
+${query_type:startsWith('progress_card_management_index_cluster'):ifElse('/school_management_type',
+${query_type:startsWith('progress_card_management_index_school'):ifElse('/school_management_type','None')} )} )}
 )} )}</value>
                             </entry>
                         </properties>
@@ -2816,7 +2816,7 @@ ${query_type:startsWith('health_card_management_index_school'):ifElse('/school_m
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_partition_management</name>
+                    <name>progress_card_partition_management</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>failure</name>
@@ -2969,33 +2969,33 @@ ${query_type:startsWith('health_card_management_index_school'):ifElse('/school_m
 </value>
                             </entry>
                             <entry>
-<key>health_card_files</key>
+<key>progress_card_files</key>
 <value>
-    <name>health_card_files</name>
+    <name>progress_card_files</name>
 </value>
                             </entry>
                             <entry>
-<key>health_card_management_state</key>
+<key>progress_card_management_state</key>
 <value>
-    <name>health_card_management_state</name>
+    <name>progress_card_management_state</name>
 </value>
                             </entry>
                             <entry>
-<key>health_card_managment_level</key>
+<key>progress_card_managment_level</key>
 <value>
-    <name>health_card_managment_level</name>
+    <name>progress_card_managment_level</name>
 </value>
                             </entry>
                             <entry>
-<key>health_card_meta</key>
+<key>progress_card_meta</key>
 <value>
-    <name>health_card_meta</name>
+    <name>progress_card_meta</name>
 </value>
                             </entry>
                             <entry>
-<key>health_card_state</key>
+<key>progress_card_state</key>
 <value>
-    <name>health_card_state</name>
+    <name>progress_card_state</name>
 </value>
                             </entry>
                         </descriptors>
@@ -3008,35 +3008,35 @@ ${query_type:startsWith('health_card_management_index_school'):ifElse('/school_m
 <value>Route to Property name</value>
                             </entry>
                             <entry>
-<key>health_card_files</key>
-<value>${query_type:startsWith('health_card_index_district'):or(
-${query_type:startsWith('health_card_index_block'):or(
-${query_type:startsWith('health_card_index_cluster'):or(
-${query_type:startsWith('health_card_index_school')} )} )} )}</value>
+<key>progress_card_files</key>
+<value>${query_type:startsWith('progress_card_index_district'):or(
+${query_type:startsWith('progress_card_index_block'):or(
+${query_type:startsWith('progress_card_index_cluster'):or(
+${query_type:startsWith('progress_card_index_school')} )} )} )}</value>
                             </entry>
                             <entry>
-<key>health_card_management_state</key>
-<value>${query_type:startsWith('health_card_management_index_state_overall')
-:or(${query_type:startsWith('health_card_management_index_state_last_30_days')})}</value>
+<key>progress_card_management_state</key>
+<value>${query_type:startsWith('progress_card_management_index_state_overall')
+:or(${query_type:startsWith('progress_card_management_index_state_last_30_days')})}</value>
                             </entry>
                             <entry>
-<key>health_card_managment_level</key>
-<value>${query_type:startsWith('health_card_management_index_school_overall')
-:or(${query_type:startsWith('health_card_management_index_cluster_overall')})
-:or(${query_type:startsWith('health_card_management_index_block_overall')})
-:or(${query_type:startsWith('health_card_management_index_district_overall')})
-:or(${query_type:startsWith('health_card_management_index_school_last_30_days')})
-:or(${query_type:startsWith('health_card_management_index_cluster_last_30_days')})
-:or(${query_type:startsWith('health_card_management_index_block_last_30_days')})
-:or(${query_type:startsWith('health_card_management_index_district_last_30_days')})}</value>
+<key>progress_card_managment_level</key>
+<value>${query_type:startsWith('progress_card_management_index_school_overall')
+:or(${query_type:startsWith('progress_card_management_index_cluster_overall')})
+:or(${query_type:startsWith('progress_card_management_index_block_overall')})
+:or(${query_type:startsWith('progress_card_management_index_district_overall')})
+:or(${query_type:startsWith('progress_card_management_index_school_last_30_days')})
+:or(${query_type:startsWith('progress_card_management_index_cluster_last_30_days')})
+:or(${query_type:startsWith('progress_card_management_index_block_last_30_days')})
+:or(${query_type:startsWith('progress_card_management_index_district_last_30_days')})}</value>
                             </entry>
                             <entry>
-<key>health_card_meta</key>
-<value>${query_type:startsWith('health_card_index_meta')}</value>
+<key>progress_card_meta</key>
+<value>${query_type:startsWith('progress_card_index_meta')}</value>
                             </entry>
                             <entry>
-<key>health_card_state</key>
-<value>${query_type:startsWith('health_card_index_state')}</value>
+<key>progress_card_state</key>
+<value>${query_type:startsWith('progress_card_index_state')}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -3045,26 +3045,26 @@ ${query_type:startsWith('health_card_index_school')} )} )} )}</value>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_route_files_initial</name>
+                    <name>progress_card_route_files_initial</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_files</name>
+                        <name>progress_card_files</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_management_state</name>
+                        <name>progress_card_management_state</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_managment_level</name>
+                        <name>progress_card_managment_level</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_meta</name>
+                        <name>progress_card_meta</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_state</name>
+                        <name>progress_card_state</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
@@ -3192,10 +3192,10 @@ ${query_type:startsWith('health_card_index_school')} )} )} )}</value>
                             </entry>
                             <entry>
 <key>partition_by_level</key>
-<value>${query_type:startsWith('health_card_index_district'):or(${query_type:startsWith('health_card_management_index_district')}):ifElse('/district_id',
-${query_type:startsWith('health_card_index_block'):or(${query_type:startsWith('health_card_management_index_block')}):ifElse('/block_id',
-${query_type:startsWith('health_card_index_cluster'):or(${query_type:startsWith('health_card_management_index_cluster')}):ifElse('/block_id',
-${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('health_card_management_index_school')}):ifElse('/block_id','None')}
+<value>${query_type:startsWith('progress_card_index_district'):or(${query_type:startsWith('progress_card_management_index_district')}):ifElse('/district_id',
+${query_type:startsWith('progress_card_index_block'):or(${query_type:startsWith('progress_card_management_index_block')}):ifElse('/block_id',
+${query_type:startsWith('progress_card_index_cluster'):or(${query_type:startsWith('progress_card_management_index_cluster')}):ifElse('/block_id',
+${query_type:startsWith('progress_card_index_school'):or(${query_type:startsWith('progress_card_management_index_school')}):ifElse('/block_id','None')}
 )} )} )}</value>
                             </entry>
                         </properties>
@@ -3205,7 +3205,7 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_partition_by_level</name>
+                    <name>progress_card_partition_by_level</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>failure</name>
@@ -3246,9 +3246,9 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
 </value>
                             </entry>
                             <entry>
-<key>health_card_management_state</key>
+<key>progress_card_management_state</key>
 <value>
-    <name>health_card_management_state</name>
+    <name>progress_card_management_state</name>
 </value>
                             </entry>
                         </descriptors>
@@ -3261,9 +3261,9 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
 <value>Route to Property name</value>
                             </entry>
                             <entry>
-<key>health_card_management_state</key>
-<value>${query_type:startsWith('health_card_management_index_state_overall')
-:or(${query_type:startsWith('health_card_management_index_state_last_30_days')})}</value>
+<key>progress_card_management_state</key>
+<value>${query_type:startsWith('progress_card_management_index_state_overall')
+:or(${query_type:startsWith('progress_card_management_index_state_last_30_days')})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -3272,10 +3272,10 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_route_after_jolt</name>
+                    <name>progress_card_route_after_jolt</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>health_card_management_state</name>
+                        <name>progress_card_management_state</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -3381,11 +3381,11 @@ ${query_type:startsWith('health_card_index_school'):or(${query_type:startsWith('
                             </entry>
                             <entry>
 <key>sql-pre-query</key>
-<value>${query_type:startsWith('health_card_index_meta'):ifElse('',
-${query_type:startsWith('health_card_index_district'):ifElse("select infra_district_reports('water','toilet');",
-${query_type:startsWith('health_card_index_block'):ifElse("select infra_block_reports('water','toilet');",
-${query_type:startsWith('health_card_index_cluster'):ifElse("select infra_cluster_reports('water','toilet');",
-${query_type:startsWith('health_card_index_school'):ifElse("select infra_school_reports('water','toilet');",'')}
+<value>${query_type:startsWith('progress_card_index_meta'):ifElse('',
+${query_type:startsWith('progress_card_index_district'):ifElse("select infra_district_reports('water','toilet');",
+${query_type:startsWith('progress_card_index_block'):ifElse("select infra_block_reports('water','toilet');",
+${query_type:startsWith('progress_card_index_cluster'):ifElse("select infra_cluster_reports('water','toilet');",
+${query_type:startsWith('progress_card_index_school'):ifElse("select infra_school_reports('water','toilet');",'')}
 )} )} )} )}</value>
                             </entry>
                             <entry>
@@ -3430,7 +3430,7 @@ ${query_type:startsWith('health_card_index_school'):ifElse("select infra_school_
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_run_query</name>
+                    <name>progress_card_run_query</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>failure</name>
@@ -3531,7 +3531,7 @@ ${query_type:startsWith('health_card_index_school'):ifElse("select infra_school_
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_fetch_query_file</name>
+                    <name>progress_card_fetch_query_file</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -3784,7 +3784,7 @@ file:${filename},Error while executing "${query_type}" query.</value>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_trigger</name>
+                    <name>progress_card_trigger</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
@@ -3863,11 +3863,11 @@ file:${filename},Error while executing "${query_type}" query.</value>
                             </entry>
                             <entry>
 <key>jolt-spec</key>
-<value>${query_type:startsWith('health_card_management_index_state_overall')
-:or(${query_type:startsWith('health_card_management_index_state_last_30_days')}):ifElse(#{health_card_jolt_management_state},
-${query_type:startsWith('health_card_index_state_overall')
-:or(${query_type:startsWith('health_card_index_state_last_30_days')})
-:ifElse(#{health_card_jolt_state},'None'
+<value>${query_type:startsWith('progress_card_management_index_state_overall')
+:or(${query_type:startsWith('progress_card_management_index_state_last_30_days')}):ifElse(#{progress_card_jolt_management_state},
+${query_type:startsWith('progress_card_index_state_overall')
+:or(${query_type:startsWith('progress_card_index_state_last_30_days')})
+:ifElse(#{progress_card_jolt_state},'None'
 )} )}</value>
                             </entry>
                             <entry>
@@ -3971,9 +3971,9 @@ file:${filename},Error while partitioning "${query_type
             </contents>
             <flowfileConcurrency>UNBOUNDED</flowfileConcurrency>
             <flowfileOutboundPolicy>STREAM_WHEN_AVAILABLE</flowfileOutboundPolicy>
-            <name>healthcard_transformer</name>
+            <name>progress_card_transformer</name>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/22/2021 18:34:50 IST</timestamp>
+    <timestamp>08/20/2021 19:55:47 IST</timestamp>
 </template>
