@@ -28,6 +28,6 @@ export const dashboardReportDescriptions = {
     patExcptTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their periodic assessment scores.",
     tarExpTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their teacher attendance data.",
     sarExcptTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their student attendance data.",
-    satTooltip: "This geo-location-based dashboard provides insights on student Periodic Assessment Test (SAT) performance across " + state + ".",
+    satTooltip: "This geo-location-based dashboard provides insights on student Semester Assessment Test (SAT) performance across " + state + ".",
     satHeatChartTooltip: "This dashboard provides insights on student performance at the question level."
 }

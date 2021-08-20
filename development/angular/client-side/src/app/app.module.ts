@@ -13,7 +13,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
-import { DashboardComponent } from './dashboards/education_usecase/dashboard.component';
 import { KeycloakSecurityService } from './keycloak-security.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthInterceptor } from './auth.interceptor';
@@ -32,9 +31,6 @@ import { StudentAttendanceChartComponent } from './reports/attendance/student-at
 import { LineChartComponent } from './common/line-chart/line-chart.component';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
-import { UsecaseTwoComponent } from './dashboards/usecase-two/usecase-two.component';
-import { UsecaseThreeComponent } from './dashboards/usecase-three/usecase-three.component';
-import { HomeUsecaseTwoComponent } from './containers/home-usecase-two/home-usecase-two.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
@@ -45,7 +41,6 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
   declarations: [
     AppComponent,
     HomeComponent,
-    DashboardComponent,
     HomePageComponent,
     InfoComponent,
     DikshaChartComponent,
@@ -59,9 +54,6 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     StudentAttendanceChartComponent,
     LineChartComponent,
     PageNotFoundComponent,
-    UsecaseTwoComponent,
-    UsecaseThreeComponent,
-    HomeUsecaseTwoComponent,
   ],
   imports: [
     BrowserModule,
