@@ -599,6 +599,7 @@ export class SchoolInfrastructureComponent implements OnInit {
         },
         responsive: true,
         tooltips: {
+          mode: 'index',
           titleFontSize: 16,
           cornerRadius: 10,
           xPadding: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1180 ? 10 : 7,

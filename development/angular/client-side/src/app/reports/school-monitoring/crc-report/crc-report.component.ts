@@ -177,8 +177,8 @@ export class CrcReportComponent implements OnInit {
     this.height = window.innerHeight;
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
+      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
     }
-    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
   ngOnInit() {
@@ -1184,6 +1184,7 @@ export class CrcReportComponent implements OnInit {
         },
         responsive: true,
         tooltips: {
+          mode: 'index',
           titleFontSize: 16,
           cornerRadius: 10,
           xPadding:

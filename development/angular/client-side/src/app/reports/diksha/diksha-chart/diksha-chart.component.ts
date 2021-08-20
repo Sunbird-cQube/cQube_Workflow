@@ -373,6 +373,7 @@ export class DikshaChartComponent implements OnInit {
         },
         responsive: true,
         tooltips: {
+          mode: 'index',
           custom: function (tooltip) {
             if (!tooltip) return;
             tooltip.displayColors = false;

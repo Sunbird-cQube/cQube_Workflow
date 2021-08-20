@@ -67,8 +67,8 @@ export class CompositReportComponent implements OnInit {
     this.height = window.innerHeight;
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
+      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
     }
-    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
 
@@ -94,12 +94,12 @@ export class CompositReportComponent implements OnInit {
       if (Object.keys(this.result[0]).includes("Student Attendance(%)")) {
         this.xAxis = "Student Attendance(%)";
       } else {
-        this.xAxis = Object.keys(this.result[0])[1];
+        this.xAxis = Object.keys(this.result[0])[2];
       }
       if (Object.keys(this.result[0]).includes("Semester Performance(%)")) {
         this.yAxis = "Semester Performance(%)";
       } else {
-        this.yAxis = Object.keys(this.result[0])[2];
+        this.yAxis = Object.keys(this.result[0])[3];
       }
       this.districtWise();
     }, err => {
@@ -542,8 +542,8 @@ export class CompositReportComponent implements OnInit {
       let y_axis = this.yAxisFilter.find(o => o.key == this.yAxis);
 
       let obj = {
-        xAxis: x_axis.value,
-        yAxis: y_axis.value
+        xAxis: x_axis ? x_axis.value : this.xAxis,
+        yAxis: y_axis ? y_axis.value : this.yAxis
       }
       this.labels = labels;
       this.obj = obj;
@@ -611,12 +611,14 @@ export class CompositReportComponent implements OnInit {
         }]
       },
       options: {
+
         legend: {
           display: false
         },
 
         responsive: true,
         tooltips: {
+          mode: 'index',
           titleFontSize: 16,
           cornerRadius: 10,
           xPadding: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1180 ? 10 : 7,
