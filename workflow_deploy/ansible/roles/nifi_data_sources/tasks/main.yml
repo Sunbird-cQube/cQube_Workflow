@@ -2,11 +2,11 @@
 - include_tasks: nifi_cqube_data.yml
   tags: [ install, update ]
 
+- include_tasks: nifi_static.yml
+  tags: [ install, update ]
+  
 - include_tasks: nifi_crc.yml
   when: nifi_crc
-  tags: [ install, update ]
-
-- include_tasks: nifi_static.yml
   tags: [ install, update ]
 
 - include_tasks: nifi_attendance.yml
