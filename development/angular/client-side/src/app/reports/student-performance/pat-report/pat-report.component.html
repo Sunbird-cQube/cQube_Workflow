@@ -149,21 +149,19 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <div style="float: left; width: 90%;">
+                    <div style="float: left;" [ngStyle]="{'width' : selected == 'absolute' ? '90%' : '100%'}">
                         <div #mapContainer id="patMap" class="active" style="width: 100%;"
                             [ngStyle]="{height: width > 3820 ? '83vh': width > 1920 && width < 2500 ? '80vh': width > 1367 && width < 1920 ? '74vh':'69vh'}">
                         </div>
                     </div>
-                    <div style="float: left; width: 9%; margin-left: 1%;">
+                    <div *ngIf="selected == 'absolute'" style="float: left; width: 9%; margin-left: 1%;">
                         <h5 id="legend" style="margin-left: 20%;">Legend</h5>
                         <div *ngFor="let value of values; let i = index">
                             <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
                                 [style.background-color]="legendColors[i]">
                                 {{values[i]}} </span>
                         </div>
-                        <p id="legendNote"><span style="font-weight: bold;">Note: </span>These colors are applicable for
-                            the
-                            absolute selection only</p>
+                       
                     </div>
                 </div>
             </div>
