@@ -1,46 +1,3 @@
-/* drop views */
-
-create or replace function drop_view_hc()
-returns int as
-$body$
-begin
-
-drop view if exists health_card_index_school_overall cascade;
-drop view if exists health_card_index_cluster_overall cascade;
-drop view if exists health_card_index_block_overall cascade;
-drop view if exists health_card_index_district_overall cascade;
-drop view if exists health_card_index_school_mgmt_overall cascade;
-drop view if exists health_card_index_cluster_mgmt_overall cascade;
-drop view if exists health_card_index_block_mgmt_overall cascade;
-drop view if exists health_card_index_district_mgmt_overall cascade;
-drop view if exists health_card_index_school_last30 cascade;
-drop view if exists health_card_index_cluster_last30 cascade;
-drop view if exists health_card_index_block_last30 cascade;
-drop view if exists health_card_index_district_last30 cascade;
-drop view if exists health_card_index_school_mgmt_last30 cascade;
-drop view if exists health_card_index_cluster_mgmt_last30 cascade;
-drop view if exists health_card_index_block_mgmt_last30 cascade;
-drop view if exists health_card_index_district_mgmt_last30 cascade;
-drop view if exists health_card_index_state cascade;
-drop view if exists health_card_index_state_last30 cascade;
-drop view if exists health_card_index_state_mgmt_last30 cascade;
-drop view if exists health_card_index_state_mgmt_overall cascade;
-
-  return 0;
-
-
-
-    exception 
-    when others then
-        return 0;
-
-end;
-$body$
-language plpgsql;
-
-select drop_view_hc();
-
-
 /* Insert statements to progress card config  */
 /* District */
 
@@ -67,7 +24,7 @@ on sad.district_id= sac.district_id
 )as student_attendance on basic.district_id=student_attendance.district_id',True,'district','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,semester,
   ((rank () over (partition by semester order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
@@ -181,7 +138,7 @@ ON b.block_id = c.block_id )as student_attendance
 on basic.block_id=student_attendance.block_id',True,'block','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join (select b.*,c.block_level_rank_within_the_state,
 c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance as performance,semester
@@ -400,7 +357,7 @@ ON b.cluster_id = c.cluster_id)as student_attendance
 on basic.cluster_id=student_attendance.cluster_id',True,'cluster','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
@@ -658,7 +615,7 @@ ON b.school_id = c.school_id)as student_attendance
 on basic.school_id=student_attendance.school_id',True,'school','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
@@ -890,7 +847,7 @@ on sad.district_id= sac.district_id
 )as student_attendance on basic.district_id=student_attendance.district_id',True,'district','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,semester,
   ((rank () over (partition by semester order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
@@ -1034,7 +991,7 @@ ON b.block_id = c.block_id )as student_attendance
 on basic.block_id=student_attendance.block_id',True,'block','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
 c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
@@ -1293,7 +1250,7 @@ ON b.cluster_id = c.cluster_id)as student_attendance
 on basic.cluster_id=student_attendance.cluster_id',True,'cluster','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 'left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
@@ -1596,7 +1553,7 @@ ON b.school_id = c.school_id)as student_attendance
 on basic.school_id=student_attendance.school_id',True,'school','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
@@ -1994,7 +1951,7 @@ on sad.district_id= sac.district_id and sad.school_management_type=sac.school_ma
 on basic.district_id=student_attendance.district_id and basic.school_management_type=student_attendance.school_management_type ',True,'district_mgmt','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,school_management_type,semester,
@@ -2149,7 +2106,7 @@ ON b.block_id = c.block_id and b.school_management_type=c.school_management_type
 on basic.block_id=student_attendance.block_id and basic.school_management_type=student_attendance.school_management_type',True,'block_mgmt','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
 c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
@@ -2432,7 +2389,7 @@ ON b.cluster_id = c.cluster_id and b.school_management_type=c.school_management_
 on basic.cluster_id=student_attendance.cluster_id and basic.school_management_type=student_attendance.school_management_type',True,'cluster_mgmt','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
@@ -2759,7 +2716,7 @@ on basic.school_id=student_attendance.school_id  and basic.school_management_typ
  ',True,'school_mgmt','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (	select b.*,c.school_level_rank_within_the_state,
 	c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
@@ -3081,7 +3038,7 @@ on sad.district_id= sac.district_id and sad.school_management_type=sac.school_ma
 on basic.district_id=student_attendance.district_id and basic.school_management_type=student_attendance.school_management_type ',True,'district_mgmt','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,school_management_type,semester,
@@ -3236,7 +3193,7 @@ ON b.block_id = c.block_id and b.school_management_type=c.school_management_type
 on basic.block_id=student_attendance.block_id and basic.school_management_type=student_attendance.school_management_type ',True,'block_mgmt','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
 c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
@@ -3523,7 +3480,7 @@ on basic.cluster_id=student_attendance.cluster_id and basic.school_management_ty
  ',True,'cluster_mgmt','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (
 select b.*,c.cluster_level_rank_within_the_state,
@@ -3853,7 +3810,7 @@ on basic.school_id=student_attendance.school_id
  ',True,'school_mgmt','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester','row_to_json(semester.*) as student_semester',
 ' left join 
 (	select b.*,c.school_level_rank_within_the_state,
 	c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
@@ -4277,7 +4234,7 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
    ' ',True,'state','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester',' union
 (select ''student_semester'' as data,
   row_to_json(sat)::text from (select hc_sat_state_overall.school_performance as performance,hc_sat_state_overall.grade_wise_performance,hc_sat_state_overall.students_count,hc_sat_state_overall.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
 from
@@ -4402,7 +4359,7 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
    ' ',True,'state','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester',' union
 (select ''student_semester'' as data,
   row_to_json(sat)::text from (select hc_sat_state_last30.school_performance as performance,hc_sat_state_last30.grade_wise_performance,hc_sat_state_last30.students_count,hc_sat_state_last30.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
 from
@@ -4601,7 +4558,7 @@ hsamo.school_management_type=data.school_management_type)as state_attendance) ',
    ' ',True,'state_mgmt','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester',' union
 (select ''student_semester'' as data,school_management_type,
   row_to_json(sat)::text from (select hs.school_performance as performance,hs.grade_wise_performance,hs.school_management_type,hs.students_count,hs.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
 from
@@ -4728,7 +4685,7 @@ hsamo.school_management_type=data.school_management_type)as state_attendance) ',
    ' ',True,'state_mgmt','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
-insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
+insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('semester',' union
 (select ''student_semester'' as data,school_management_type,
   row_to_json(sat)::text from (select hs.school_performance as performance,hs.grade_wise_performance,hs.school_management_type,hs.students_count,hs.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
 from
@@ -4897,8 +4854,8 @@ END;
 $$LANGUAGE plpgsql;
 
 
-update progress_card_config set status= true where lower(data_source) in (select lower(template) from nifi_template_info where status=true);
-update progress_card_config set status= false where lower(data_source) in (select lower(template) from nifi_template_info where status=false);
+update progress_card_config set status= true where lower(data_source) in (select split_part(lower(template),'_',2) from nifi_template_info where status=true);
+update progress_card_config set status= false where lower(data_source) in (select split_part(lower(template),'_',2) from nifi_template_info where status=false);
 
 select progress_card_create_views();
 select progress_card_create_mgmt_views();
