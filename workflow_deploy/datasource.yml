@@ -5,7 +5,7 @@ nifi_telemetry: false
 nifi_udise: false
 nifi_pat: false
 nifi_composite: false
-nifi_healthcard: false
+nifi_progresscard: false
 nifi_teacher_attendance: false
 nifi_data_replay: false
 nifi_sat: false

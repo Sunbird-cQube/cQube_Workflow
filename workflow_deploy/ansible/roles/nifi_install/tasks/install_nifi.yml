@@ -21,7 +21,7 @@
     - crc_transformer.xml
     - data_replay_transformer.xml
     - diksha_transformer.xml
-    - healthcard_transformer.xml
+    - progresscard_transformer.xml
     - infra_transformer.xml
     - pat_transformer.xml
     - sat_transformer.xml
@@ -48,7 +48,7 @@
     - composite_queries.json
     - pat_queries.json
     - udise_queries.json
-    - health_card_queries.json
+    - progress_card_queries.json
     - teacher_attendance_queries.json
     - data_replay_queries.json
     - sat_queries.json

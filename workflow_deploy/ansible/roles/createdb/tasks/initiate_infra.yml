@@ -20,6 +20,14 @@
     - truncate_tables.sql
   tags: [ install, update ]
 
+- name: Run static table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/static_tables.sql
+  tags: [ install, update ]
+  
 - name: Run crc table_definitions from SQL script
   become: true
   become_user: postgres
@@ -27,14 +35,6 @@
     db: "{{ db_name }}"
     path_to_script: /tmp/postgres/table_definitions/crc.sql
   when: nifi_crc
-  tags: [ install, update ]
-
-- name: Run static table_definitions from SQL script
-  become: true
-  become_user: postgres
-  postgresql_query:
-    db: "{{ db_name }}"
-    path_to_script: /tmp/postgres/table_definitions/static_tables.sql
   tags: [ install, update ]
 
 - name: Run attendance table_definitions from SQL script
@@ -46,6 +46,15 @@
   when: nifi_attendance
   tags: [ install, update ]
 
+- name: Run teacher_attendance table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/table_definitions/teacher_attendance.sql
+  when: nifi_teacher_attendance
+  tags: [ install, update ]
+  
 - name: Run diksha table_definitions from SQL script
   become: true
   become_user: postgres
@@ -132,6 +141,14 @@
   when: output_nifi.stdout_lines[2].strip() == "0"
   tags: [ install, update ]
 
+- name: Run static queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/static_queries.sql
+  tags: [ install, update ]
+
 - name: Run crc queries from SQL script
   become: true
   become_user: postgres
@@ -139,14 +156,6 @@
     db: "{{ db_name }}"
     path_to_script: /tmp/postgres/datasource_config/crc_queries.sql
   when: nifi_crc
-  tags: [ install, update ]
-
-- name: Run static queries from SQL script
-  become: true
-  become_user: postgres
-  postgresql_query:
-    db: "{{ db_name }}"
-    path_to_script: /tmp/postgres/datasource_config/static_queries.sql
   tags: [ install, update ]
 
 - name: Run attendance queries from SQL script
@@ -158,6 +167,15 @@
   when: nifi_attendance
   tags: [ install, update ]
 
+- name: Run teacher_attendance queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/datasource_config/teacher_attendance_queries.sql
+  when: nifi_teacher_attendance
+  tags: [ install, update ]
+  
 - name: Run sat queries from SQL script
   become: true
   become_user: postgres
@@ -221,13 +239,13 @@
   when: nifi_composite
   tags: [ install, update ]
 
-- name: Run healthcard queries from SQL script
+- name: Run progress_card queries from SQL script
   become: true
   become_user: postgres
   postgresql_query:
     db: "{{ db_name }}"
-    path_to_script: /tmp/postgres/datasource_config/health_card_queries.sql
-  when: nifi_healthcard
+    path_to_script: /tmp/postgres/datasource_config/progress_card_queries.sql
+  when: nifi_progresscard
   tags: [ install, update ]
 
 - name: Truncating previous tables

@@ -7,7 +7,7 @@ nifi_telemetry: true
 nifi_udise: true
 nifi_pat: true
 nifi_composite: true
-nifi_healthcard: true
+nifi_progresscard: true
 nifi_teacher_attendance: true
 nifi_data_replay: true
 nifi_sat: true
