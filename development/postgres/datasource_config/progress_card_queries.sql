@@ -1,3 +1,46 @@
+/* drop views */
+
+create or replace function drop_view_hc()
+returns int as
+$body$
+begin
+
+drop view if exists health_card_index_school_overall cascade;
+drop view if exists health_card_index_cluster_overall cascade;
+drop view if exists health_card_index_block_overall cascade;
+drop view if exists health_card_index_district_overall cascade;
+drop view if exists health_card_index_school_mgmt_overall cascade;
+drop view if exists health_card_index_cluster_mgmt_overall cascade;
+drop view if exists health_card_index_block_mgmt_overall cascade;
+drop view if exists health_card_index_district_mgmt_overall cascade;
+drop view if exists health_card_index_school_last30 cascade;
+drop view if exists health_card_index_cluster_last30 cascade;
+drop view if exists health_card_index_block_last30 cascade;
+drop view if exists health_card_index_district_last30 cascade;
+drop view if exists health_card_index_school_mgmt_last30 cascade;
+drop view if exists health_card_index_cluster_mgmt_last30 cascade;
+drop view if exists health_card_index_block_mgmt_last30 cascade;
+drop view if exists health_card_index_district_mgmt_last30 cascade;
+drop view if exists health_card_index_state cascade;
+drop view if exists health_card_index_state_last30 cascade;
+drop view if exists health_card_index_state_mgmt_last30 cascade;
+drop view if exists health_card_index_state_mgmt_overall cascade;
+
+  return 0;
+
+
+
+    exception 
+    when others then
+        return 0;
+
+end;
+$body$
+language plpgsql;
+
+select drop_view_hc();
+
+
 /* Insert statements to progress card config  */
 /* District */
 
