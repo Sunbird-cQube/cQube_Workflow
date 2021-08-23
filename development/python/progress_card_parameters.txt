@@ -1,6 +1,6 @@
 {
-"health_card_queries_filename":"""health_card_queries.json""",
-"health_card_jolt_management_state":"""[
+"progress_card_queries_filename":"""progress_card_queries.json""",
+"progress_card_jolt_management_state":"""[
   {
     "operation": "shift",
     "spec": {
@@ -10,7 +10,7 @@
     }
   }
 ]""",
-"health_card_jolt_state":"""[
+"progress_card_jolt_state":"""[
   {
     "operation": "shift",
     "spec": {
