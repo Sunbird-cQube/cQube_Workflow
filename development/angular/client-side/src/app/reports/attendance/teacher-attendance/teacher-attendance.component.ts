@@ -144,9 +144,9 @@ export class TeacherAttendanceComponent implements OnInit {
   }
 
   width = window.innerWidth;
-  heigth = window.innerHeight;
-  onResize(event) {
-    this.heigth = window.innerHeight;
+  height = window.innerHeight;
+  onResize() {
+    this.height = window.innerHeight;
   }
 
   //to select management and category
@@ -229,7 +229,6 @@ export class TeacherAttendanceComponent implements OnInit {
         this.teacherCount = "";
         this.schoolCount = "";
         this.changeDetection.detectChanges();
-        //document.getElementById("home").style.display = "none";
         this.getMonthYear = {};
         this.commonService.loaderAndErr(this.markers);
       }

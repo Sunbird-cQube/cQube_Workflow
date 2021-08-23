@@ -5,7 +5,7 @@ const auth = require('../../../middleware/check-auth');
 const groupArray = require('group-array');
 const s3File = require('../../../lib/reads3File');
 
-router.get('/getDateRange', auth.authController, async (req, res)=> {
+router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
         let fileName = `teacher_attendance/teacher_attendance_meta.json`;
@@ -13,7 +13,11 @@ router.get('/getDateRange', auth.authController, async (req, res)=> {
 
         let date = groupArray(jsonData, 'year')
         logger.info('--- getDateRange response sent ---');
-        res.status(200).send(date);
+        if (date == {}) {
+            res.status(403).send({ errMsg: "data not found" });
+        } else {
+            res.status(200).send(date);
+        }
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
