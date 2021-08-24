@@ -141,7 +141,7 @@
         <div class="col-sm-12">
             <div style="float: left;" [ngStyle]="{'width' : selected == 'absolute' ? '90%' : '100%'}">
                 <div #mapContainer id="satMap" class="active" style="width: 100%;"
-                    [ngStyle]="{height: heigth > 1760 ? '83vh': heigth > 1180 && heigth < 1760 ? '80vh': heigth > 667 && heigth < 1180 ? '74vh':'69vh'}">
+                    [ngStyle]="{height: height > 1760 ? '83vh': height > 1180 && height < 1760 ? '80vh': height > 667 && height < 1180 ? '74vh':'69vh'}">
                 </div>
             </div>
             <div *ngIf="selected == 'absolute'" style="float: left; width: 9%; margin-left: 1%;">

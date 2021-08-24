@@ -100,7 +100,7 @@ export class ManagementSelectorComponent implements OnInit {
       this.category = JSON.parse(localStorage.getItem('category')).id;
     }
     if (this.managementType) {
-      if (this.managements.length <= 0) {
+      if (this.managements && this.managements.length <= 0) {
         this.managements.push({ id: this.managementType, value: this.service.changeingStringCases(this.managementType.replace(/_/g, ' ')) })
       }
     } else {
