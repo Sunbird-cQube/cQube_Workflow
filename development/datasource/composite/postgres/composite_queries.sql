@@ -743,6 +743,8 @@ return 0;
 END;
 $$LANGUAGE plpgsql;
 
+delete from composite_config where template='semester';
+
 select composite_create_views();
 select composite_create_mgt_views();
 select composite_jolt_spec();
