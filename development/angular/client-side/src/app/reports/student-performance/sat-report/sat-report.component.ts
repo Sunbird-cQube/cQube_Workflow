@@ -399,6 +399,11 @@ export class SatReportComponent implements OnInit {
       }
       this.reportData = [];
       this.level = "District";
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -459,14 +464,14 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "District",
                   };
-
+                  this.dataOptions = options;
                   this.commonService.restrictZoom(globalMap);
                   globalMap.setMaxBounds([
                     [options.centerLat - 4.5, options.centerLng - 6],
                     [options.centerLat + 3.5, options.centerLng + 6],
                   ]);
                   this.changeDetection.detectChanges();
-                  this.genericFun(this.myDistData, options, this.fileName);
+                  this.genericFun(this.data, options, this.fileName);
                   this.commonService.onResize(this.level);
                   this.allDistricts.sort((a, b) =>
                     a.Details["district_name"] > b.Details["district_name"]
@@ -529,6 +534,10 @@ export class SatReportComponent implements OnInit {
         }_${this.subject ? this.subject : ""}_allBlocks_${this.commonService.dateAndTime
         }`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -581,7 +590,7 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "Block",
                   };
-
+                  this.dataOptions = options;
                   if (this.data.length > 0) {
                     let result = this.data;
                     this.blockMarkers = [];
@@ -738,6 +747,10 @@ export class SatReportComponent implements OnInit {
         }_${this.subject ? this.subject : ""}_allClusters_${this.commonService.dateAndTime
         }`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -789,7 +802,7 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "Cluster",
                   };
-
+                  this.dataOptions = options;
                   if (this.data.length > 0) {
                     let result = this.data;
                     this.clusterMarkers = [];
@@ -946,6 +959,10 @@ export class SatReportComponent implements OnInit {
         }_${this.subject ? this.subject : ""}_allSchools_${this.commonService.dateAndTime
         }`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -997,7 +1014,7 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "School",
                   };
-
+                  this.dataOptions = options;
                   this.schoolMarkers = [];
                   if (this.data.length > 0) {
                     let result = this.data;
@@ -1149,6 +1166,10 @@ export class SatReportComponent implements OnInit {
       (a) => a.Details.district_id == districtId
     );
 
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     // api call to get the blockwise data for selected district
     if (this.myData) {
       this.myData.unsubscribe();
@@ -1199,7 +1220,7 @@ export class SatReportComponent implements OnInit {
             centerLng: this.data[0].Details.longitude,
             level: "blockPerDistrict",
           };
-
+          this.dataOptions = options;
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
@@ -1256,6 +1277,10 @@ export class SatReportComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_clusters_of_block_${blockId}_${this.commonService.dateAndTime
       }`;
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
 
     // api call to get the clusterwise data for selected district, block
     if (this.myData) {
@@ -1324,6 +1349,7 @@ export class SatReportComponent implements OnInit {
             centerLng: this.data[0].Details.longitude,
             level: "clusterPerBlock",
           };
+          this.dataOptions = options;
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
@@ -1378,6 +1404,10 @@ export class SatReportComponent implements OnInit {
     var myData = this.clusterFilter.find(
       (a) => a.Details.cluster_id == clusterId
     );
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
 
     // api call to get the schoolwise data for selected district, block, cluster
     if (this.myData) {
@@ -1479,6 +1509,7 @@ export class SatReportComponent implements OnInit {
                   centerLng: this.data[0].Details.longitude,
                   level: "schoolPerCluster",
                 };
+                this.dataOptions = options;
                 this.commonService.latitude = this.lat = options.centerLat;
                 this.commonService.longitude = this.lng = options.centerLng;
 
@@ -2162,16 +2193,11 @@ export class SatReportComponent implements OnInit {
             markers.push(a);
           }
         } else {
-          if (a['Grades'][`${this.grade}`] > this.valueRange.split("-")[0] - 1 && a['Grades'][`${this.grade}`] <= this.valueRange.split("-")[1]) {
+          if (a['Subjects'][`${this.subject}`] > this.valueRange.split("-")[0] - 1 && a['Subjects'][`${this.subject}`] <= this.valueRange.split("-")[1]) {
             markers.push(a);
           }
         }
       })
-
-      //      Subjects:
-      //Grade Performance: 61.3
-
-
     } else {
       markers = this.data;
     }
@@ -2181,11 +2207,11 @@ export class SatReportComponent implements OnInit {
     if (markers.length > 0) {
       this.commonService.errMsg();
       if (this.level == 'District') {
-        this.districtMarkers = markers;
+        this.allDistricts = markers;
       } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
-        this.blockMarkers = markers;
+        this.allBlocks = markers;
       } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
-        this.clusterMarkers = markers;
+        this.allClusters = markers;
       }
     }
     //adjusting marker size and other UI on screen resize:::::::::::
@@ -2209,6 +2235,13 @@ export class SatReportComponent implements OnInit {
         elements[j]['style'].border = "1px solid transparent";
         elements[j]['style'].transform = "scale(1.0)";
       }
+    }
+    if (this.level == 'District') {
+      this.allDistricts = this.data;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.allBlocks = this.data;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.allClusters = this.data;
     }
   }
 

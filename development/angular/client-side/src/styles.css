@@ -653,6 +653,11 @@ leaflet-right {
         width: 26px !important;
         margin-top: -0.3vh !important;
     }
+
+    #resetImg{
+        height: 40px !important;
+        width: 40px !important;
+    }
     
 }
 

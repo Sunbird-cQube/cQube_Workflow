@@ -1557,13 +1557,13 @@ export class UdiseReportComponent implements OnInit {
     this.reportData = markers;
     if (markers.length > 0) {
       this.commonService.errMsg();
-      // if (this.level == 'District') {
-      //   this.districtMarkers = markers;
-      // } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
-      //   this.blockMarkers = markers;
-      // } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
-      //   this.clusterMarkers = markers;
-      // }
+      if (this.level == 'District') {
+        this.districtMarkers = markers;
+      } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+        this.blockMarkers = markers;
+      } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+        this.clusterMarkers = markers;
+      }
     }
     //adjusting marker size and other UI on screen resize:::::::::::
     this.commonService.onResize(this.level);
@@ -1586,6 +1586,13 @@ export class UdiseReportComponent implements OnInit {
         elements[j]['style'].border = "1px solid transparent";
         elements[j]['style'].transform = "scale(1.0)";
       }
+    }
+    if (this.level == 'District') {
+      this.districtMarkers = this.data;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.blockMarkers = this.data;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.clusterMarkers = this.data;
     }
   }
 

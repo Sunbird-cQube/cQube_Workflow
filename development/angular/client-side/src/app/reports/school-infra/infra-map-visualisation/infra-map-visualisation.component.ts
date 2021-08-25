@@ -1514,6 +1514,13 @@ export class InfraMapVisualisationComponent implements OnInit {
         elements[j]['style'].transform = "scale(1.0)";
       }
     }
+    if (this.level == 'District') {
+      this.districtMarkers = this.data;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.blockMarkers = this.data;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.clusterMarkers = this.data;
+    }
   }
 
   reset(value) {
