@@ -124,6 +124,13 @@ export class HomeComponent implements OnInit {
   onBackClick() {
     localStorage.removeItem('management');
     localStorage.removeItem('category');
+    localStorage.removeItem('managements');
+  }
+
+  goBackPage() {
+    if (!this.router.url.includes('dashboard')) {
+      window.history.back();
+    }
   }
 
   sccessProgressCard() {

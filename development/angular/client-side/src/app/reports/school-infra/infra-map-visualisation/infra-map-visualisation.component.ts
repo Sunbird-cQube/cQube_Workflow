@@ -1481,7 +1481,6 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.genericFun(markers, this.dataOptions, this.fileName);
 
-    this.reportData = markers;
     if (markers.length > 0) {
       this.commonService.errMsg();
       if (this.level == 'District') {
