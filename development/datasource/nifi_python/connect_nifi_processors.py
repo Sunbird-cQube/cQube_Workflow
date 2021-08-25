@@ -117,7 +117,7 @@ if __name__ == "__main__":
     destination_pg = sys.argv[2].strip()
     
     logging.info('Connection between PORTS started...')
-    if 'composite_transformer' in destination_pg or 'healthcard_transformer' in destination_pg:
+    if 'composite_transformer' in destination_pg or 'progress_card_transformer' in destination_pg:
         logging.info("Processor group=",destination_pg)
     else: 
         res_1 = connect_output_input_port(source_pg, destination_pg)

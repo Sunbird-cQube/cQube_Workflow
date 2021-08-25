@@ -268,7 +268,7 @@ if __name__ == "__main__":
         'cQube_data_storage_parameters': 'cQube_data_storage_parameters.txt',
         'udise_parameters': 'udise_parameters.txt',
         'composite_parameters': 'composite_parameters.txt',
-        'health_card_parameters':'health_card_parameters.txt',
+        'progress_card_parameters':'progress_card_parameters.txt',
         'pat_parameters': 'pat_parameters.txt',
         'data_replay_parameters':'data_replay_parameters.txt'
         
@@ -317,7 +317,7 @@ if __name__ == "__main__":
         'composite_transformer': ['cQube_s3_composite', 'postgres_composite'],
         'pat_transformer': ['cQube_s3_pat', 'postgres_pat'],
         'data_replay_transformer': ['cQube_s3_data_replay', 'postgres_data_replay'],
-        'healthcard_transformer': ['cQube_s3_health_card', 'postgres_health_card']
+        'progress_card_transformer': ['cQube_s3_progress_card', 'postgres_progress_card']
     }
     
     if controller_list_all.get(processor_group_name):
