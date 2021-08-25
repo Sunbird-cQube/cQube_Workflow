@@ -5110,7 +5110,7 @@ left join school_hierarchy_details as c on a.school_id=c.school_id
 group by c.district_id )as b
  on d.district_id=b.district_id;
 
-/*Progress card state views */
+/*Health card state views */
 
 create or replace view hc_pat_state_overall as
  select (select round(((coalesce(sum(periodic_exam_school_result.obtained_marks), (0)::numeric) * 100.0) / coalesce(sum(periodic_exam_school_result.total_marks), (0)::numeric)), 1) as school_performance

@@ -1,3 +1,4 @@
+
 /* teacher_hierarchy_details */
 
 create table if not exists teacher_hierarchy_details
@@ -14,7 +15,6 @@ create table if not exists teacher_hierarchy_details
     );
 
 create index if not exists teacher_hierarchy_details_id on teacher_hierarchy_details(school_id,nature_of_employment);
-
 
 /*teacher_attendance_trans*/
 
@@ -285,6 +285,7 @@ alter table school_teacher_total_attendance add primary key(school_id,month,year
 alter table school_teacher_total_attendance drop COLUMN if exists total_training;
 alter table school_teacher_total_attendance drop COLUMN if exists total_halfday;
 alter table school_teacher_total_attendance alter COLUMN total_present type double precision;
+
 
 
 create table if not exists teacher_attendance_dup
@@ -936,8 +937,7 @@ return 0;
 END;
 $$  LANGUAGE plpgsql;
 
-/* Exception table */
-
+/* Exception tables */
 create table if not exists teacher_attendance_exception_agg
   (
 	    school_id bigint,
@@ -962,14 +962,3 @@ create table if not exists teacher_attendance_exception_agg
 	updated_on TIMESTAMP without time zone,
 primary key(school_id,month,year));
 
---Tables related to teacher_attendance
-
-insert into del_data_source_details values('teacher_attendance','month,year','teacher_attendance_meta',3) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
-insert into del_data_source_details values('teacher_attendance','month,year','teacher_attendance_staging_1',1) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
-insert into del_data_source_details values('teacher_attendance','month,year','teacher_attendance_staging_2',2) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
-insert into del_data_source_details values('teacher_attendance','month,year','teacher_attendance_temp',4) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
-insert into del_data_source_details values('teacher_attendance','month,year','teacher_attendance_trans',5) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
-insert into del_data_source_details values('teacher_attendance','month,year','school_teacher_total_attendance',6) on conflict  ON CONSTRAINT del_data_source_details_pkey do nothing;
-
-alter table teacher_attendance_exception_agg add column if not exists school_management_type varchar(100);
-alter table teacher_attendance_exception_agg add column if not exists school_category varchar(100);

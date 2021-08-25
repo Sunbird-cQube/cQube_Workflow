@@ -1564,7 +1564,7 @@ $$LANGUAGE plpgsql;
 
 select infra_school_mgt_reports('water','toilet');
 
-/* progress card infra  queries*/
+/* health card infra  queries*/
 /*school - infra*/
 create or replace view hc_infra_school as
 select b.*,atf.areas_to_focus,c.school_level_rank_within_the_state,
