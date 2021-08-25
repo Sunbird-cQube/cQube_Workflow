@@ -541,7 +541,7 @@ export class PATReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "District",
                   };
-
+                  this.dataOptions = options;
                   this.commonService.restrictZoom(globalMap);
                   globalMap.setMaxBounds([
                     [options.centerLat - 4.5, options.centerLng - 6],
@@ -682,7 +682,7 @@ export class PATReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "Block",
                   };
-
+                  this.dataOptions = options;
                   if (this.data.length > 0) {
                     let result = this.data;
                     this.blockMarkers = result;
@@ -896,7 +896,7 @@ export class PATReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "Cluster",
                   };
-
+                  this.dataOptions = options;
                   if (this.data.length > 0) {
                     let result = this.data;
                     this.clusterMarkers = [];
@@ -1110,7 +1110,7 @@ export class PATReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "School",
                   };
-
+                  this.dataOptions = options;
                   this.schoolMarkers = [];
                   if (this.data.length > 0) {
                     let result = this.data;
@@ -1324,6 +1324,7 @@ export class PATReportComponent implements OnInit {
             centerLng: this.data[0].Details.longitude,
             level: "blockPerDistrict",
           };
+          this.dataOptions = options;
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
@@ -1464,6 +1465,7 @@ export class PATReportComponent implements OnInit {
             centerLng: this.data[0].Details.longitude,
             level: "clusterPerBlock",
           };
+          this.dataOptions = options;
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
@@ -1640,6 +1642,7 @@ export class PATReportComponent implements OnInit {
                   centerLng: this.data[0].Details.longitude,
                   level: "schoolPerCluster",
                 };
+                this.dataOptions = options;
                 this.commonService.latitude = this.lat = options.centerLat;
                 this.commonService.longitude = this.lng = options.centerLng;
 
@@ -2319,16 +2322,11 @@ export class PATReportComponent implements OnInit {
             markers.push(a);
           }
         } else {
-          if (a['Grades'][`${this.grade}`] > this.valueRange.split("-")[0] - 1 && a['Grades'][`${this.grade}`] <= this.valueRange.split("-")[1]) {
+          if (a['Subjects'][`${this.subject}`] > this.valueRange.split("-")[0] - 1 && a['Subjects'][`${this.subject}`] <= this.valueRange.split("-")[1]) {
             markers.push(a);
           }
         }
       })
-
-      //      Subjects:
-      //Grade Performance: 61.3
-
-
     } else {
       markers = this.data;
     }
@@ -2338,11 +2336,11 @@ export class PATReportComponent implements OnInit {
     if (markers.length > 0) {
       this.commonService.errMsg();
       if (this.level == 'District') {
-        this.districtMarkers = markers;
+        this.allDistricts = markers;
       } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
-        this.blockMarkers = markers;
+        this.allBlocks = markers;
       } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
-        this.clusterMarkers = markers;
+        this.allClusters = markers;
       }
     }
     //adjusting marker size and other UI on screen resize:::::::::::
@@ -2366,6 +2364,13 @@ export class PATReportComponent implements OnInit {
         elements[j]['style'].border = "1px solid transparent";
         elements[j]['style'].transform = "scale(1.0)";
       }
+    }
+    if (this.level == 'District') {
+      this.allDistricts = this.data;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.allBlocks = this.data;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.allClusters = this.data;
     }
   }
 
