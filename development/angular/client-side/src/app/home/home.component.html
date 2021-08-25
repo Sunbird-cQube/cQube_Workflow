@@ -4,7 +4,7 @@
       <button id="menuIcon" mat-icon-button class="humber-icon-btn" (click)="onClickToggleMenu()">
         <mat-icon class="humber-icon">menu</mat-icon>
       </button>
-      <a class="logo" id="cubeLogo" (click)="onToggle()" [routerLink]="[currentDashboardGroup]">
+      <a class="logo" id="cubeLogo" (click)="onToggle(); goBackPage()" style="cursor: pointer;">
         <img src="assets/logo.png" alt="logo">
       </a>
 

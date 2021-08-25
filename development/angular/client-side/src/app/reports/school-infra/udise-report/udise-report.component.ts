@@ -1554,7 +1554,6 @@ export class UdiseReportComponent implements OnInit {
     console.log(markers);
     this.genericFun(markers, this.dataOptions, this.fileName);
 
-    this.reportData = markers;
     if (markers.length > 0) {
       this.commonService.errMsg();
       if (this.level == 'District') {
