@@ -4511,8 +4511,8 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>-24960.0</x>
-                        <y>1184.0</y>
+                        <x>-24947.60132385529</x>
+                        <y>1226.0390603105898</y>
                     </bends>
                     <destination>
                         <groupId>3442fd0e-fb3e-39ab-0000-000000000000</groupId>
@@ -13862,7 +13862,7 @@ ${query_type:startsWith('diksha_tpd_r2_raw')})})}</value>
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>update diksha_api_meta set cqube_process_status='IN_PROGRESS',updated_on='${now():toNumber():format('yyyy-MM-dd HH:mm:ss.SSS')}' where ff_uuid='${emission_ff_uuid}';</value>
+<value>update diksha_api_meta set cqube_process_status='IN_PROGRESS',updated_on='${now():toNumber():format('yyyy-MM-dd HH:mm:ss.SSS')}' where ff_uuid='${files_uuid}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -21649,7 +21649,7 @@ order by requested_on desc limit 1;</value>
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>update diksha_api_meta set cqube_process_status='FAILURE',updated_on='${now():toNumber():format('yyyy-MM-dd HH:mm:ss.SSS')}' where ff_uuid='${emission_ff_uuid}';</value>
+<value>update diksha_api_meta set cqube_process_status='FAILURE',updated_on='${now():toNumber():format('yyyy-MM-dd HH:mm:ss.SSS')}' where ff_uuid='${files_uuid}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -22734,7 +22734,7 @@ ${diksha_columns:equals('false'):ifElse(#{diksha_data_summary_select_less_column
                     <id>4d5a09af-1fb8-3ba8-0000-000000000000</id>
                     <parentGroupId>3442fd0e-fb3e-39ab-0000-000000000000</parentGroupId>
                     <position>
-                        <x>96.0</x>
+                        <x>80.0</x>
                         <y>-1128.0</y>
                     </position>
                     <bundle>
@@ -23426,8 +23426,8 @@ ${filename:startsWith('diksha_tpd'):ifElse("delete from  diksha_tpd_staging wher
                     <id>560f7973-8799-3cbe-0000-000000000000</id>
                     <parentGroupId>3442fd0e-fb3e-39ab-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-24536.0</x>
-                        <y>712.0</y>
+                        <x>-24544.0</x>
+                        <y>688.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -25316,7 +25316,7 @@ ${filename:startsWith('diksha_tpd'):ifElse("delete from  diksha_tpd_staging wher
                     <parentGroupId>3442fd0e-fb3e-39ab-0000-000000000000</parentGroupId>
                     <position>
                         <x>-24544.0</x>
-                        <y>560.0</y>
+                        <y>552.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -27321,7 +27321,7 @@ where ff_uuid='${files_uuid:trim()}';</value>
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>update diksha_api_meta set cqube_process_status='SUCCESS' where cqube_process_status&lt;&gt;'FAILURE' and ff_uuid='${emission_ff_uuid}';</value>
+<value>update diksha_api_meta set cqube_process_status='SUCCESS' where cqube_process_status&lt;&gt;'FAILURE' and ff_uuid='${files_uuid}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -32970,7 +32970,7 @@ Mirror data validation of file:${filename} completed and deleted the mirror data
 <value>insert into diksha_api_meta(request_id,encryption_key,batch_id,request_status,
 							cqube_process_status,requested_on,dataset,request_channel,expiry_time,ff_uuid,tag)
 values('${requestId}','#{diksha_api_progress_exhaust_encryption_key}','${batchId}','${status}','SUBMITTED','${now():toNumber():format("yyyy-MM-dd HH:mm:ss.SSS")}','${dataset}',
-	   '${requestedChannel}','${expiresAt:format('yyyy-MM-dd  HH:mm:ss.SSS','IST')}','${uuid}','${tag}');</value>
+	   '${requestedChannel}','${expiresAt:format('yyyy-MM-dd  HH:mm:ss.SSS','IST')}','${files_uuid}','${tag}');</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -35955,7 +35955,7 @@ processed_records,
 process_start_time,
 uuid,
 collection_id)
-VALUES('diksha_tpd_progress_${filename:substringBefore('_')}_${now():format('yyyyMMddHHmmssSS')}_${ff_uuid}.csv','${files_uuid}',${text.line.count:minus(${text.line.nonempty.count}):isNull():ifElse(0,${text.line.count:minus(${text.line.nonempty.count})})},0,0,0,'${now():format("yyyy-MM-dd HH:mm:ss")}',0,0)</value>
+VALUES('${emission_filename:substringAfter('/')}','${files_uuid}',${text.line.count:minus(${text.line.nonempty.count}):isNull():ifElse(0,${text.line.count:minus(${text.line.nonempty.count})})},0,0,0,'${now():format("yyyy-MM-dd HH:mm:ss")}',0,0)</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -38389,8 +38389,8 @@ where ff_uuid='${emission_ff_uuid:trim()}';</value>
                     <id>d5bce80e-03f9-3f0f-0000-000000000000</id>
                     <parentGroupId>3442fd0e-fb3e-39ab-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-24512.0</x>
-                        <y>192.0</y>
+                        <x>-24520.0</x>
+                        <y>200.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -38548,7 +38548,7 @@ where ff_uuid='${emission_ff_uuid:trim()}';</value>
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>update diksha_api_meta set cqube_process_status='FAILURE',updated_on='${now():toNumber():format('yyyy-MM-dd HH:mm:ss.SSS')}' where ff_uuid='${emission_ff_uuid}';</value>
+<value>update diksha_api_meta set cqube_process_status='FAILURE',updated_on='${now():toNumber():format('yyyy-MM-dd HH:mm:ss.SSS')}' where ff_uuid='${files_uuid}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -40151,6 +40151,12 @@ where ff_uuid= '${files_uuid}'</value>
 </value>
                             </entry>
                             <entry>
+<key>files_uuid</key>
+<value>
+    <name>files_uuid</name>
+</value>
+                            </entry>
+                            <entry>
 <key>x-channel-id</key>
 <value>
     <name>x-channel-id</name>
@@ -40182,6 +40188,10 @@ where ff_uuid= '${files_uuid}'</value>
                             <entry>
 <key>Content-Type</key>
 <value>application/json</value>
+                            </entry>
+                            <entry>
+<key>files_uuid</key>
+<value>${uuid}</value>
                             </entry>
                             <entry>
 <key>x-channel-id</key>
@@ -43534,5 +43544,5 @@ WHERE ff_uuid = '${files_uuid}'</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>08/13/2021 15:16:09 IST</timestamp>
+    <timestamp>08/10/2021 13:57:58 IST</timestamp>
 </template>
