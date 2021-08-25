@@ -144,9 +144,9 @@ export class TeacherAttendanceComponent implements OnInit {
   }
 
   width = window.innerWidth;
-  heigth = window.innerHeight;
+  height = window.innerHeight;
   onResize(event) {
-    this.heigth = window.innerHeight;
+    this.height = window.innerHeight;
   }
 
   //to select management and category
@@ -644,12 +644,13 @@ export class TeacherAttendanceComponent implements OnInit {
                   1,
                   this.levelWise
                 );
+                this.layerMarkers.addLayer(markerIcon);
+
                 //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
-                  this.layerMarkers,
                   this.levelWise
                 );
               }
@@ -768,12 +769,14 @@ export class TeacherAttendanceComponent implements OnInit {
                   1,
                   this.levelWise
                 );
+
+                this.layerMarkers.addLayer(markerIcon);
+
                 //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
-                  this.layerMarkers,
                   this.levelWise
                 );
               }
@@ -906,12 +909,14 @@ export class TeacherAttendanceComponent implements OnInit {
                   0.5,
                   this.levelWise
                 );
+
+                this.layerMarkers.addLayer(markerIcon);
+
                 //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
-                  this.layerMarkers,
                   this.levelWise
                 );
               }
@@ -1030,12 +1035,13 @@ export class TeacherAttendanceComponent implements OnInit {
                   0.3,
                   this.levelWise
                 );
+                this.layerMarkers.addLayer(markerIcon);
+
                 //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
-                  this.layerMarkers,
                   this.levelWise
                 );
               }
@@ -1108,6 +1114,9 @@ export class TeacherAttendanceComponent implements OnInit {
     ]);
     this.markerData = {};
     this.myDistrict = null;
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
   }
 
   clickedMarker(event, label) {
@@ -1230,6 +1239,11 @@ export class TeacherAttendanceComponent implements OnInit {
       $('#choose_dist').val('');
       return;
     }
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     this.levelWise = "blockPerDistrict";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
@@ -1342,12 +1356,13 @@ export class TeacherAttendanceComponent implements OnInit {
                 1,
                 this.levelWise
               );
+              this.layerMarkers.addLayer(markerIcon);
+
               //Adding values to tooltip 
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
                 this.onClick_Marker,
-                this.layerMarkers,
                 this.levelWise
               );
             }
@@ -1417,6 +1432,10 @@ export class TeacherAttendanceComponent implements OnInit {
       $('#choose_block').val('');
       return;
     }
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
 
     this.levelWise = "clusterPerBlock";
     globalMap.removeLayer(this.markersList);
@@ -1554,12 +1573,13 @@ export class TeacherAttendanceComponent implements OnInit {
                 1,
                 this.levelWise
               );
+              this.layerMarkers.addLayer(markerIcon);
+              
               //Adding values to tooltip 
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
                 this.onClick_Marker,
-                this.layerMarkers,
                 this.levelWise
               );
             }
@@ -1628,6 +1648,10 @@ export class TeacherAttendanceComponent implements OnInit {
       $('#choose_cluster').val('');
       return;
     }
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
 
     this.levelWise = "schoolPerCluster";
     globalMap.removeLayer(this.markersList);
@@ -1789,12 +1813,13 @@ export class TeacherAttendanceComponent implements OnInit {
                 1,
                 this.levelWise
               );
+              this.layerMarkers.addLayer(markerIcon);
+
               //Adding values to tooltip 
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
                 this.onClick_Marker,
-                this.layerMarkers,
                 this.levelWise
               );
             }
@@ -1835,15 +1860,13 @@ export class TeacherAttendanceComponent implements OnInit {
     //document.getElementById("home").style.display = "block";
   }
 
-  popups(markerIcon, markers, onClick_Marker, layerMarkers) {
+  popups(markerIcon, markers, onClick_Marker) {
     markerIcon.on("mouseover", function (e) {
       this.openPopup();
     });
     markerIcon.on("mouseout", function (e) {
       this.closePopup();
     });
-
-    layerMarkers.addLayer(markerIcon);
     if (this.levelWise === "schoolPerCluster" || this.levelWise === "School") {
       markerIcon.on("click", this.onClickSchool, this);
     } else {
@@ -1857,10 +1880,9 @@ export class TeacherAttendanceComponent implements OnInit {
     markerIcon,
     markers,
     onClick_Marker,
-    layerMarkers,
     levelWise
   ) {
-    this.popups(markerIcon, markers, onClick_Marker, layerMarkers);
+    this.popups(markerIcon, markers, onClick_Marker);
     var details = {};
     var orgObject = {};
     Object.keys(markers).forEach((key) => {
@@ -2006,5 +2028,172 @@ export class TeacherAttendanceComponent implements OnInit {
     "81-90",
     "91-100",
   ];
+
+
+  //Filter data based on attendance percentage value range:::::::::::::::::::
+  public valueRange = undefined;
+  public prevRange = undefined;
+  selectRange(value) {
+    this.valueRange = value;
+    this.filterRangeWiseData(value);
+  }
+
+  async filterRangeWiseData(value) {
+    this.prevRange = value;
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
+    
+    //getting relative colors for all markers:::::::::::
+    let colors = this.commonService.getRelativeColors(this.markers, {
+      value: "attendance",
+      report: "reports",
+    });
+
+    var markers = [];
+    if (value) {
+      markers = this.markers.filter(a => {
+        return a['attendance'] > this.valueRange.split("-")[0] - 1 && a['attendance'] <= this.valueRange.split("-")[1]
+      })
+    } else {
+      markers = this.markers;
+    }
+
+    this.reportData = markers;
+
+    var distNames = [];
+    var blockNames = [];
+    var clustNames = [];
+    this.teacherCount = 0;
+    this.schoolCount = this.levelWise == 'School' ? markers.length : 0;
+    var stopLoader = false;
+
+    if (markers.length > 0) {
+      this.commonService.errMsg();
+      for (var i = 0; i < markers.length; i++) {
+        if (i == markers.length - 1) {
+          stopLoader = true;
+        }
+        var color = this.commonService.color(
+          markers[i],
+          "attendance"
+        );
+        if (this.levelWise == "District") {
+          this.districtsIds.push(markers[i]["district_id"]);
+          distNames.push({
+            id: markers[i]["district_id"],
+            name: markers[i]["district_name"],
+          });
+          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+        }
+        if (this.levelWise == "Block" || this.levelWise == "blockPerDistrict") {
+          this.blocksIds.push(markers[i]["block_id"]);
+          blockNames.push({
+            id: markers[i]["block_id"],
+            name: markers[i]["block_name"],
+            distId: markers[i]["dist"],
+          });
+          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+        }
+        if (this.levelWise == "Cluster" || this.levelWise == "clusterPerBlock") {
+          this.clusterIds.push(markers[i]["cluster_id"]);
+          this.blocksIds.push(markers[i]["block_id"]);
+          clustNames.push({
+            id: markers[i]["cluster_id"],
+            name: markers[i]["cluster_name"],
+            blockId: markers[i]["block_id"],
+          });
+          blockNames.push({
+            id: markers[i]["block_id"],
+            name: markers[i]["block_name"],
+            distId: markers[i]["district_id"],
+          });
+          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+        }
+        //this.teacherCount = this.teacherCount + parseInt(markers[i]['number_of_students'].replace(',', ''));
+
+        //initialize markers with its latitude and longitude
+        var markerIcon = this.commonService.initMarkers1(
+          markers[i].lat,
+          markers[i].lng,
+          this.selected == "absolute"
+            ? color
+            : this.commonService.relativeColorGredient(
+              markers[i],
+              { value: "attendance", report: "reports" },
+              colors
+            ),
+          this.levelWise == "School" ? 1 : 0.01,
+          this.levelWise == "School" ? 0.3 : 1,
+          this.levelWise
+        );
+        this.layerMarkers.addLayer(markerIcon);
+
+        //Adding values to tooltip 
+        this.generateToolTip(
+          markerIcon,
+          markers[i],
+          this.onClick_Marker,
+          this.levelWise
+        );
+      }
+      stopLoader ? this.commonService.loaderAndErr(markers) : "";
+    }
+
+    this.schoolCount = this.schoolCount
+      .toString()
+      .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+    this.teacherCount = this.teacherCount
+      .toString()
+      .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+    if (this.levelWise == "District") {
+      distNames.sort((a, b) =>
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+      );
+      this.districtsNames = distNames;
+    }
+    if (this.levelWise == "blockPerDistrict") {
+      blockNames.sort((a, b) =>
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+      );
+      this.blocksNames = blockNames;
+    }
+    if (this.levelWise == "clusterPerBlock") {
+      clustNames.sort((a, b) =>
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+      );
+      this.clusterNames = clustNames;
+    }
+
+    //adjusting marker size and other UI on screen resize:::::::::::
+    this.commonService.onResize(this.levelWise);
+    this.commonService.loaderAndErr(markers)
+    this.changeDetection.detectChanges();
+  }
+
+  public selectedIndex;
+  select(i) {
+    this.selectedIndex = i;
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
+    this.deSelect();
+  }
+
+  deSelect() {
+    var elements = document.getElementsByClassName('legends');
+    for (var j = 0; j < elements.length; j++) {
+      if (this.selectedIndex !== j) {
+        elements[j]['style'].border = "1px solid transparent";
+        elements[j]['style'].transform = "scale(1.0)";
+      }
+    }
+  }
+
+  reset(value) {
+    this.valueRange = value;
+    this.selectedIndex = undefined;
+    this.deSelect();
+    this.filterRangeWiseData(value);
+  }
 
 }

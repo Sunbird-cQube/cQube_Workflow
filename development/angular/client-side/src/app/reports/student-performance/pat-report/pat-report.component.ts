@@ -56,6 +56,8 @@ export class PATReportComponent implements OnInit {
   // for dropdowns
   public data: any;
   public markers: any = [];
+  public dataOptions = {};
+
   // for maps
   public districtMarkers: any = [];
   public blockMarkers: any = [];
@@ -146,10 +148,10 @@ export class PATReportComponent implements OnInit {
   }
 
   width = window.innerWidth;
-  heigth = window.innerHeight;
+  height = window.innerHeight;
   onResize() {
     this.width = window.innerWidth;
-    this.heigth = window.innerHeight;
+    this.height = window.innerHeight;
   }
 
 
@@ -470,6 +472,11 @@ export class PATReportComponent implements OnInit {
         this.grade = undefined;
         this.subject = undefined;
       }
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       this.reportData = [];
       this.commonService.errMsg();
       this.level = "District";
@@ -541,7 +548,20 @@ export class PATReportComponent implements OnInit {
                     [options.centerLat + 3.5, options.centerLng + 6],
                   ]);
                   this.changeDetection.detectChanges();
-                  this.genericFun(this.myDistData, options, this.fileName);
+                  this.genericFun(this.data, options, this.fileName);
+                  //schoolCount
+                  this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
+                  if (this.schoolCount != null) {
+                    this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                  }
+                  this.studentCount = res['footer'] ? res['footer'].total_students : null;
+                  if (this.studentCount != null) {
+                    this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                  }
+                  this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
+                  if (this.studentAttended != null) {
+                    this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                  }
                   this.commonService.onResize(this.level);
                   this.allDistricts.sort((a, b) =>
                     a.Details["district_name"] > b.Details["district_name"]
@@ -600,6 +620,11 @@ export class PATReportComponent implements OnInit {
         this.grade = undefined;
         this.subject = undefined;
       }
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       this.allGrades = [];
       this.reportData = [];
       this.districtId = undefined;
@@ -809,6 +834,11 @@ export class PATReportComponent implements OnInit {
         this.grade = undefined;
         this.subject = undefined;
       }
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       this.allGrades = [];
       this.reportData = [];
       this.districtId = undefined;
@@ -1018,6 +1048,11 @@ export class PATReportComponent implements OnInit {
         this.grade = undefined;
         this.subject = undefined;
       }
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       this.allGrades = [];
       this.reportData = [];
       this.districtId = undefined;
@@ -1228,6 +1263,11 @@ export class PATReportComponent implements OnInit {
       this.grade = undefined;
       this.subject = undefined;
     }
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     this.blockId = undefined;
     this.reportData = [];
     this.level = "blockPerDistrict";
@@ -1294,7 +1334,20 @@ export class PATReportComponent implements OnInit {
           ]);
           this.changeDetection.detectChanges();
 
-          this.genericFun(res, options, this.fileName);
+          this.genericFun(this.data, options, this.fileName);
+          //schoolCount
+          this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
+          if (this.schoolCount != null) {
+            this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          }
+          this.studentCount = res['footer'] ? res['footer'].total_students : null;
+          if (this.studentCount != null) {
+            this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          }
+          this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
+          if (this.studentAttended != null) {
+            this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          }
           this.commonService.onResize(this.level);
         },
         (err) => {
@@ -1335,6 +1388,11 @@ export class PATReportComponent implements OnInit {
       this.grade = undefined;
       this.subject = undefined;
     }
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     this.clusterId = undefined;
     this.reportData = [];
     this.level = "clusterPerBlock";
@@ -1416,7 +1474,21 @@ export class PATReportComponent implements OnInit {
           ]);
           this.changeDetection.detectChanges();
 
-          this.genericFun(res, options, this.fileName);
+          this.genericFun(this.data, options, this.fileName);
+          //schoolCount
+          this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
+          if (this.schoolCount != null) {
+            this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          }
+          this.studentCount = res['footer'] ? res['footer'].total_students : null;
+          if (this.studentCount != null) {
+            this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          }
+          this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
+          if (this.studentAttended != null) {
+            this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          }
+
           this.commonService.onResize(this.level);
           // sort the clusterName alphabetically
           this.allClusters.sort((a, b) =>
@@ -1463,6 +1535,10 @@ export class PATReportComponent implements OnInit {
       this.grade = undefined;
       this.subject = undefined;
     }
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     // api call to get the schoolwise data for selected district, block, cluster
     if (this.myData) {
       this.myData.unsubscribe();
@@ -1579,7 +1655,21 @@ export class PATReportComponent implements OnInit {
                 ]);
                 this.changeDetection.detectChanges();
 
-                this.genericFun(res, options, this.fileName);
+                this.genericFun(this.data, options, this.fileName);
+
+                //schoolCount
+                this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
+                if (this.schoolCount != null) {
+                  this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                }
+                this.studentCount = res['footer'] ? res['footer'].total_students : null;
+                if (this.studentCount != null) {
+                  this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                }
+                this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
+                if (this.studentAttended != null) {
+                  this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                }
                 this.commonService.onResize(this.level);
               },
               (err) => {
@@ -1600,12 +1690,11 @@ export class PATReportComponent implements OnInit {
     try {
       this.reportData = [];
       this.schoolCount = 0;
-      var myData = data["data"];
       var color;
       var colors = [];
       this.allSubjects.sort();
-      if (myData.length > 0) {
-        this.markers = myData;
+      if (data.length > 0) {
+        this.markers = data;
         if (this.grade && this.subject) {
           var filtererSubData = this.markers.filter(item => {
             return item.Subjects[`${this.subject}`];
@@ -1691,20 +1780,6 @@ export class PATReportComponent implements OnInit {
           this.getDownloadableData(this.markers[i], options.level);
         }
         this.commonService.loaderAndErr(this.data);
-
-        //schoolCount
-        this.schoolCount = data['footer'] ? data['footer'].total_schools : null;
-        if (this.schoolCount != null) {
-          this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
-        this.studentCount = data['footer'] ? data['footer'].total_students : null;
-        if (this.studentCount != null) {
-          this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
-        this.studentAttended = data['footer'] ? data['footer'].students_attended : null;
-        if (this.studentAttended != null) {
-          this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
         this.changeDetection.detectChanges();
       }
     } catch (e) {
@@ -2215,4 +2290,89 @@ export class PATReportComponent implements OnInit {
     "81-90",
     "91-100",
   ];
+
+
+  //Filter data based on attendance percentage value range:::::::::::::::::::
+  public valueRange = undefined;
+  public prevRange = undefined;
+  selectRange(value) {
+    this.valueRange = value;
+    this.filterRangeWiseData(value);
+  }
+
+  filterRangeWiseData(value) {
+    this.prevRange = value;
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
+
+    //getting relative colors for all markers:::::::::::
+    var markers = [];
+    if (value) {
+      this.data.map(a => {
+        console.log(a);
+        if (!this.grade && !this.subject) {
+          if (a.Details[`Performance`] > this.valueRange.split("-")[0] - 1 && a.Details[`Performance`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        } else if (this.grade && !this.subject) {
+          if (a['Subjects'][`Grade Performance`] > this.valueRange.split("-")[0] - 1 && a['Subjects'][`Grade Performance`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        } else {
+          if (a['Grades'][`${this.grade}`] > this.valueRange.split("-")[0] - 1 && a['Grades'][`${this.grade}`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        }
+      })
+
+      //      Subjects:
+      //Grade Performance: 61.3
+
+
+    } else {
+      markers = this.data;
+    }
+    this.genericFun(markers, this.dataOptions, this.fileName);
+
+    this.reportData = markers;
+    if (markers.length > 0) {
+      this.commonService.errMsg();
+      if (this.level == 'District') {
+        this.districtMarkers = markers;
+      } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+        this.blockMarkers = markers;
+      } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+        this.clusterMarkers = markers;
+      }
+    }
+    //adjusting marker size and other UI on screen resize:::::::::::
+    this.commonService.onResize(this.level);
+    this.commonService.loaderAndErr(markers)
+    this.changeDetection.detectChanges();
+  }
+
+  public selectedIndex;
+  select(i) {
+    this.selectedIndex = i;
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
+    this.deSelect();
+  }
+
+  deSelect() {
+    var elements = document.getElementsByClassName('legends');
+    for (var j = 0; j < elements.length; j++) {
+      if (this.selectedIndex !== j) {
+        elements[j]['style'].border = "1px solid transparent";
+        elements[j]['style'].transform = "scale(1.0)";
+      }
+    }
+  }
+
+  reset(value) {
+    this.valueRange = value;
+    this.selectedIndex = undefined;
+    this.deSelect();
+    this.filterRangeWiseData(value);
+  }
 }

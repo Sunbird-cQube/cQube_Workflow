@@ -55,6 +55,8 @@ export class SatReportComponent implements OnInit {
   // for dropdowns
   public data: any;
   public markers: any = [];
+  public dataOptions = {};
+
   // for maps
   public districtMarkers: any = [];
   public blockMarkers: any = [];
@@ -138,17 +140,17 @@ export class SatReportComponent implements OnInit {
   }
 
   width = window.innerWidth;
-  heigth = window.innerHeight;
+  height = window.innerHeight;
   onResize() {
     this.width = window.innerWidth;
-    this.heigth = window.innerHeight;
+    this.height = window.innerHeight;
   }
 
   ngOnInit() {
     this.period = "all";
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("satMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
@@ -1207,7 +1209,7 @@ export class SatReportComponent implements OnInit {
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
-          this.genericFun(res, options, this.fileName);
+          this.genericFun(this.data, options, this.fileName);
           this.commonService.onResize(this.level);
 
           // sort the blockname alphabetically
@@ -1331,7 +1333,7 @@ export class SatReportComponent implements OnInit {
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
-          this.genericFun(res, options, this.fileName);
+          this.genericFun(this.data, options, this.fileName);
           this.commonService.onResize(this.level);
 
           // sort the clusterName alphabetically
@@ -1491,7 +1493,7 @@ export class SatReportComponent implements OnInit {
                   [options.centerLat + 1.5, options.centerLng + 2],
                 ]);
 
-                this.genericFun(res, options, this.fileName);
+                this.genericFun(this.data, options, this.fileName);
                 this.commonService.onResize(this.level);
 
               },
@@ -1513,12 +1515,11 @@ export class SatReportComponent implements OnInit {
     try {
       this.reportData = [];
       this.schoolCount = 0;
-      var myData = data["data"];
       var color;
       var colors = [];
       this.allSubjects.sort();
-      if (myData.length > 0) {
-        this.markers = myData;
+      if (data.length > 0) {
+        this.markers = data;
         if (this.grade && this.subject) {
           var filtererSubData = this.markers.filter(item => {
             return item.Subjects[`${this.subject}`];
@@ -2133,4 +2134,89 @@ export class SatReportComponent implements OnInit {
     "81-90",
     "91-100",
   ];
+
+  //Filter data based on attendance percentage value range:::::::::::::::::::
+  public valueRange = undefined;
+  public prevRange = undefined;
+  selectRange(value) {
+    this.valueRange = value;
+    this.filterRangeWiseData(value);
+  }
+
+  filterRangeWiseData(value) {
+    this.prevRange = value;
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
+
+    //getting relative colors for all markers:::::::::::
+    var markers = [];
+    if (value) {
+      this.data.map(a => {
+        console.log(a);
+        if (!this.grade && !this.subject) {
+          if (a.Details[`Performance`] > this.valueRange.split("-")[0] - 1 && a.Details[`Performance`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        } else if (this.grade && !this.subject) {
+          if (a['Subjects'][`Grade Performance`] > this.valueRange.split("-")[0] - 1 && a['Subjects'][`Grade Performance`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        } else {
+          if (a['Grades'][`${this.grade}`] > this.valueRange.split("-")[0] - 1 && a['Grades'][`${this.grade}`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        }
+      })
+
+      //      Subjects:
+      //Grade Performance: 61.3
+
+
+    } else {
+      markers = this.data;
+    }
+    this.genericFun(markers, this.dataOptions, this.fileName);
+
+    this.reportData = markers;
+    if (markers.length > 0) {
+      this.commonService.errMsg();
+      if (this.level == 'District') {
+        this.districtMarkers = markers;
+      } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+        this.blockMarkers = markers;
+      } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+        this.clusterMarkers = markers;
+      }
+    }
+    //adjusting marker size and other UI on screen resize:::::::::::
+    this.commonService.onResize(this.level);
+    this.commonService.loaderAndErr(markers)
+    this.changeDetection.detectChanges();
+  }
+
+  public selectedIndex;
+  select(i) {
+    this.selectedIndex = i;
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
+    this.deSelect();
+  }
+
+  deSelect() {
+    var elements = document.getElementsByClassName('legends');
+    for (var j = 0; j < elements.length; j++) {
+      if (this.selectedIndex !== j) {
+        elements[j]['style'].border = "1px solid transparent";
+        elements[j]['style'].transform = "scale(1.0)";
+      }
+    }
+  }
+
+  reset(value) {
+    this.valueRange = value;
+    this.selectedIndex = undefined;
+    this.deSelect();
+    this.filterRangeWiseData(value);
+  }
+
 }
