@@ -1,5 +1,5 @@
 import get_jolt_spec_db as jolt_spec
-from update_nifi_parameters_main import update_parameter_context
+from update_nifi_parameters_main import parameter_list_builder,get_parameter_context,update_parameter
 import time
 
 def update_nifi_jolt_params(processor_group):
@@ -32,8 +32,17 @@ def update_nifi_jolt_params(processor_group):
         }
 }
 
-    # updates the parameters 
+    par_data = {"revision":{"clientId":"","version":""},"id":"","component":{"id":"","name":"","description":"","parameters":[]}}
+    pc = get_parameter_context(processor_group)
+    par_data['revision']['version'] = pc['version']
+    par_data['id'] = pc['id']
+    par_data['component']['id'] = pc['id']
+    par_data['component']['name'] = pc['name']
+    
+    # updates the parameters
     if processor_group in jolt_params:
         for key, value in jolt_params[processor_group].items():
-            update_parameter_context(processor_group,key,jolt_spec.get_jolt_spec(value))
-            time.sleep(2)
+            parameter_body = parameter_list_builder(key,jolt_spec.get_jolt_spec(value))
+            par_data['component']['parameters'].append(parameter_body)
+        
+    update_parameter(par_data)        
