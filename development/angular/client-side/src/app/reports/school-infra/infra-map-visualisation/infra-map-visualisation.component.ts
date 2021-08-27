@@ -207,7 +207,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   getBlocks(distId, blockId?: any): void {
     this.service.infraMapBlockWise(distId, { management: this.management, category: this.category }).subscribe((res) => {
-      this.markers = this.data = res["data"];
+      this.data = res["data"];
       this.blockMarkers = this.data;
       this.blockMarkers.sort((a, b) =>
         a.details.block_name > b.details.block_name
@@ -266,7 +266,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.clusterHidden = true;
       // api call to get all the districts data
       if (this.myDistData != undefined) {
-        this.markers = this.data = this.myDistData["data"];
+        this.data = this.myDistData["data"];
         this.gettingInfraFilters(this.data);
         // to show only in dropdowns
         this.districtMarkers = this.myDistData["data"];
@@ -287,7 +287,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         ]);
         this.changeDetection.detectChanges();
 
-        this.genericFun(this.markers, options, this.fileName);
+        this.genericFun(this.districtMarkers, options, this.fileName);
         //schoolCount
         this.schoolCount = this.myDistData["footer"];
         this.schoolCount = this.schoolCount
@@ -309,7 +309,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.myData = this.service.infraMapDistWise({ management: this.management, category: this.category }).subscribe(
           (res) => {
             this.myDistData = res;
-            this.markers = this.data = res["data"];
+            this.data = res["data"];
             this.gettingInfraFilters(this.data);
 
             // to show only in dropdowns
@@ -339,7 +339,7 @@ export class InfraMapVisualisationComponent implements OnInit {
                   ? -1
                   : 0
             );
-            this.genericFun(this.markers, options, this.fileName);
+            this.genericFun(this.districtMarkers, options, this.fileName);
             //schoolCount
             this.schoolCount = res["footer"];
             this.schoolCount = this.schoolCount
@@ -369,8 +369,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       globalMap.addLayer(this.layerMarkers);
       //document.getElementById("home").style.display = "none";
     } catch (e) {
-      this.data = [];
-      this.commonService.loaderAndErr(this.data);
+      this.districtMarkers = [];
+      this.commonService.loaderAndErr(this.districtMarkers);
       console.log(e);
     }
   }
@@ -411,7 +411,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.myData = this.service.infraMapAllBlockWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           this.myBlockData = res["data"];
-          this.markers = this.data = res["data"];
+          this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
             mapZoom: this.commonService.zoomLevel,
@@ -489,8 +489,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       globalMap.addLayer(this.layerMarkers);
       //document.getElementById("home").style.display = "block";
     } catch (e) {
-      this.data = [];
-      this.commonService.loaderAndErr(this.data);
+      this.blockMarkers = [];
+      this.commonService.loaderAndErr(this.blockMarkers);
       console.log(e);
     }
   }
@@ -531,7 +531,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllClusterWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
-          this.markers = this.data = res["data"];
+          this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
             mapZoom: this.commonService.zoomLevel,
@@ -584,10 +584,10 @@ export class InfraMapVisualisationComponent implements OnInit {
               }
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
+              this.schoolCount = res["footer"]
                 .toString()
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
               this.commonService.restrictZoom(globalMap);
               globalMap.setMaxBounds([
                 [options.centerLat - 4.5, options.centerLng - 6],
@@ -595,22 +595,20 @@ export class InfraMapVisualisationComponent implements OnInit {
               ]);
               this.changeDetection.detectChanges();
               this.commonService.onResize(this.level);
-
               this.commonService.loaderAndErr(this.data);
-              this.changeDetection.markForCheck();
             }
           }
         },
         (err) => {
-          this.data = [];
-          this.commonService.loaderAndErr(this.data);
+          this.clusterMarkers = [];
+          this.commonService.loaderAndErr(this.clusterMarkers);
         }
       );
       globalMap.addLayer(this.layerMarkers);
       //document.getElementById("home").style.display = "block";
     } catch (e) {
-      this.data = [];
-      this.commonService.loaderAndErr(this.data);
+      this.clusterMarkers = [];
+      this.commonService.loaderAndErr(this.clusterMarkers);
       console.log(e);
     }
   }
@@ -651,7 +649,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllSchoolWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
-          this.markers = this.data = res["data"];
+          this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
             mapZoom: this.commonService.zoomLevel,
@@ -723,16 +721,16 @@ export class InfraMapVisualisationComponent implements OnInit {
           }
         },
         (err) => {
-          this.data = [];
-          this.commonService.loaderAndErr(this.data);
+          this.schoolMarkers = [];
+          this.commonService.loaderAndErr(this.schoolMarkers);
         }
       );
 
       globalMap.addLayer(this.layerMarkers);
       //document.getElementById("home").style.display = "block";
     } catch (e) {
-      this.data = [];
-      this.commonService.loaderAndErr(this.data);
+      this.schoolMarkers = [];
+      this.commonService.loaderAndErr(this.schoolMarkers);
       console.log(e);
     }
   }
@@ -759,7 +757,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.myData = this.service.infraMapBlockWise(districtId, { management: this.management, category: this.category }).subscribe(
       (res) => {
-        this.markers = this.data = res["data"];
+        this.data = res["data"];
         this.gettingInfraFilters(this.data);
 
         this.blockMarkers = this.data;
@@ -801,7 +799,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           [options.centerLat + 1.5, options.centerLng + 2],
         ]);
 
-        this.genericFun(this.markers, options, this.fileName);
+        this.genericFun(this.blockMarkers, options, this.fileName);
 
         //schoolCount
         this.schoolCount = res["footer"];
@@ -821,8 +819,8 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.changeDetection.detectChanges();
       },
       (err) => {
-        this.data = [];
-        this.commonService.loaderAndErr(this.data);
+        this.blockMarkers = [];
+        this.commonService.loaderAndErr(this.blockMarkers);
       }
     );
     globalMap.addLayer(this.layerMarkers);
@@ -853,7 +851,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       .infraMapClusterWise(this.districtHierarchy.distId, blockId, { management: this.management, category: this.category })
       .subscribe(
         (res) => {
-          this.markers = this.data = res["data"];
+          this.data = res["data"];
           this.gettingInfraFilters(this.data);
 
           this.clusterMarkers = this.data;
@@ -906,7 +904,7 @@ export class InfraMapVisualisationComponent implements OnInit {
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
-          this.genericFun(this.markers, options, this.fileName);
+          this.genericFun(this.clusterMarkers, options, this.fileName);
           //schoolCount
           this.schoolCount = res["footer"];
           this.schoolCount = this.schoolCount
@@ -925,8 +923,8 @@ export class InfraMapVisualisationComponent implements OnInit {
           this.changeDetection.detectChanges();
         },
         (err) => {
-          this.data = [];
-          this.commonService.loaderAndErr(this.data);
+          this.clusterMarkers = [];
+          this.commonService.loaderAndErr(this.clusterMarkers);
         }
       );
     globalMap.addLayer(this.layerMarkers);
@@ -959,7 +957,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              this.markers = this.data = res["data"];
+              this.data = res["data"];
               this.gettingInfraFilters(this.data);
 
               this.schoolMarkers = this.data;
@@ -1040,7 +1038,7 @@ export class InfraMapVisualisationComponent implements OnInit {
               this.changeDetection.detectChanges();
 
               this.level = options.level;
-              this.genericFun(markers, options, this.fileName);
+              this.genericFun(this.schoolMarkers, options, this.fileName);
 
               //schoolCount
               this.schoolCount = res["footer"];
@@ -1056,8 +1054,8 @@ export class InfraMapVisualisationComponent implements OnInit {
           );
       },
       (err) => {
-        this.data = [];
-        this.commonService.loaderAndErr(this.data);
+        this.schoolMarkers = [];
+        this.commonService.loaderAndErr(this.schoolMarkers);
       }
     );
     globalMap.addLayer(this.layerMarkers);
@@ -1094,7 +1092,6 @@ export class InfraMapVisualisationComponent implements OnInit {
             this.markers[i].details.latitude,
             this.markers[i].details.longitude,
             color,
-            // options.radius,
             options.strokeWeight,
             1,
             options.level
@@ -1113,12 +1110,12 @@ export class InfraMapVisualisationComponent implements OnInit {
           this.fileName = fileName;
           this.getDownloadableData(this.markers[i], options.level);
         }
-        this.commonService.loaderAndErr(this.data);
-        this.changeDetection.markForCheck();
+        this.commonService.loaderAndErr(data);
+        this.changeDetection.detectChanges();
       }
     } catch (e) {
-      this.data = [];
-      this.commonService.loaderAndErr(this.data);
+      data = [];
+      this.commonService.loaderAndErr(data);
     }
 
   }
@@ -1189,15 +1186,15 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
   }
 
-  generateToolTip(markers, level, markerIcon, lat, lng) {
-    this.popups(markerIcon, markers, level);
+  generateToolTip(marker, level, markerIcon, lat, lng) {
+    this.popups(markerIcon, marker, level);
     var infraName = this.infraData;
     let colorText = `style='color:blue !important;'`;
     var details = {};
     var orgObject = {};
-    Object.keys(markers.details).forEach((key) => {
+    Object.keys(marker.details).forEach((key) => {
       if (key !== lat) {
-        details[key] = markers.details[key];
+        details[key] = marker.details[key];
       }
     });
     Object.keys(details).forEach((key) => {
@@ -1222,10 +1219,10 @@ export class InfraMapVisualisationComponent implements OnInit {
         .getInfoFrom(orgObject, "", level, "infra-map", infraName, colorText)
         .join(" <br>");
     }
-    const ordered = Object.keys(markers.metrics)
+    const ordered = Object.keys(marker.metrics)
       .sort()
       .reduce((obj, key) => {
-        obj[key] = markers.metrics[key];
+        obj[key] = marker.metrics[key];
         return obj;
       }, {});
     var yourData = this.commonService
@@ -1248,22 +1245,20 @@ export class InfraMapVisualisationComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    for (var i = 0; i < this.markers.length; i++) {
-      markerIcon.on("mouseover", function (e) {
-        this.openPopup();
-      });
-      markerIcon.on("mouseout", function (e) {
-        this.closePopup();
-      });
+    markerIcon.on("mouseover", function (e) {
+      this.openPopup();
+    });
+    markerIcon.on("mouseout", function (e) {
+      this.closePopup();
+    });
 
-      this.layerMarkers.addLayer(markerIcon);
-      if (level === "schoolPerCluster" || level === "School") {
-        markerIcon.on("click", this.onClickSchool, this);
-      } else {
-        markerIcon.on("click", this.onClick_Marker, this);
-      }
-      markerIcon.myJsonData = markers;
+    this.layerMarkers.addLayer(markerIcon);
+    if (level === "schoolPerCluster" || level === "School") {
+      markerIcon.on("click", this.onClickSchool, this);
+    } else {
+      markerIcon.on("click", this.onClick_Marker, this);
     }
+    markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }
 

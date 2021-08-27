@@ -1558,7 +1558,7 @@ export class SatReportComponent implements OnInit {
           this.markers = filtererSubData;
         }
         for (let i = 0; i < this.markers.length; i++) {
-          if (this.period != 'all') {
+          if (this.period != 'all' && !this.valueRange) {
             if (this.grade && !this.subject) {
               this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
               this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
@@ -1952,22 +1952,20 @@ export class SatReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    for (var i = 0; i < this.markers.length; i++) {
-      markerIcon.on("mouseover", function (e) {
-        this.openPopup();
-      });
-      markerIcon.on("mouseout", function (e) {
-        this.closePopup();
-      });
+    markerIcon.on("mouseover", function (e) {
+      this.openPopup();
+    });
+    markerIcon.on("mouseout", function (e) {
+      this.closePopup();
+    });
 
-      this.layerMarkers.addLayer(markerIcon);
-      if (level === "schoolPerCluster" || level === "School") {
-        markerIcon.on("click", this.onClickSchool, this);
-      } else {
-        markerIcon.on("click", this.onClick_Marker, this);
-      }
-      markerIcon.myJsonData = markers;
+    this.layerMarkers.addLayer(markerIcon);
+    if (level === "schoolPerCluster" || level === "School") {
+      markerIcon.on("click", this.onClickSchool, this);
+    } else {
+      markerIcon.on("click", this.onClick_Marker, this);
     }
+    markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }
 

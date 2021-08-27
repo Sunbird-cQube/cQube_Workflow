@@ -470,7 +470,7 @@ export class TeacherAttendanceComponent implements OnInit {
 
     var myReport = [];
     this.reportData.forEach((element) => {
-      if (this.levelWise != "school") {
+      if (this.levelWise != "School") {
         if (element.number_of_schools) {
           element.number_of_schools = element.number_of_schools.replace(
             /\,/g,
@@ -527,7 +527,7 @@ export class TeacherAttendanceComponent implements OnInit {
       if (this.levelWise === "Cluster") {
         this.clusterWise(event);
       }
-      if (this.levelWise === "school") {
+      if (this.levelWise === "School") {
         this.schoolWise(event);
       }
     } else {
@@ -1123,7 +1123,7 @@ export class TeacherAttendanceComponent implements OnInit {
     var level;
     var obj = {};
     if (this.districtsIds.includes(label.district_id)) {
-      level = "district";
+      level = "District";
       localStorage.setItem("dist", label.district_name);
       localStorage.setItem("distId", label.district_id);
       this.myDistData(label.district_id);
@@ -1138,7 +1138,7 @@ export class TeacherAttendanceComponent implements OnInit {
     }
 
     if (this.blocksIds.includes(label.block_id)) {
-      level = "block";
+      level = "Block";
       if (this.skul) {
         localStorage.setItem("dist", label.district_name);
         localStorage.setItem("distId", label.district_id);
@@ -1161,7 +1161,7 @@ export class TeacherAttendanceComponent implements OnInit {
     }
 
     if (this.clusterIds.includes(label.cluster_id)) {
-      level = "cluster";
+      level = "Cluster";
       localStorage.setItem("dist", label.district_name);
       localStorage.setItem("distId", label.district_id);
       localStorage.setItem("block", label.block_name);
@@ -1196,7 +1196,7 @@ export class TeacherAttendanceComponent implements OnInit {
   }
 
   onClickSchool(event) {
-    this.levelWise = "school";
+    this.levelWise = "School";
     if (event.latlng) {
       var obj = {
         id: event.target.myJsonData.school_id,
@@ -1574,7 +1574,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.levelWise
               );
               this.layerMarkers.addLayer(markerIcon);
-              
+
               //Adding values to tooltip 
               this.generateToolTip(
                 markerIcon,
@@ -2042,7 +2042,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-    
+
     //getting relative colors for all markers:::::::::::
     let colors = this.commonService.getRelativeColors(this.markers, {
       value: "attendance",
@@ -2064,9 +2064,9 @@ export class TeacherAttendanceComponent implements OnInit {
     var blockNames = [];
     var clustNames = [];
     this.teacherCount = 0;
-    this.schoolCount = this.levelWise == 'School' ? markers.length : 0;
+    this.schoolCount = this.levelWise == 'School' || this.levelWise == 'schoolPerCluster' ? markers.length : 0;
     var stopLoader = false;
-
+    console.log(this.levelWise);
     if (markers.length > 0) {
       this.commonService.errMsg();
       for (var i = 0; i < markers.length; i++) {
@@ -2083,7 +2083,7 @@ export class TeacherAttendanceComponent implements OnInit {
             id: markers[i]["district_id"],
             name: markers[i]["district_name"],
           });
-          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+          this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
         if (this.levelWise == "Block" || this.levelWise == "blockPerDistrict") {
           this.blocksIds.push(markers[i]["block_id"]);
@@ -2092,7 +2092,7 @@ export class TeacherAttendanceComponent implements OnInit {
             name: markers[i]["block_name"],
             distId: markers[i]["dist"],
           });
-          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+          this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
         if (this.levelWise == "Cluster" || this.levelWise == "clusterPerBlock") {
           this.clusterIds.push(markers[i]["cluster_id"]);
@@ -2107,9 +2107,9 @@ export class TeacherAttendanceComponent implements OnInit {
             name: markers[i]["block_name"],
             distId: markers[i]["district_id"],
           });
-          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+          this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
-        //this.teacherCount = this.teacherCount + parseInt(markers[i]['number_of_students'].replace(',', ''));
+        this.teacherCount = this.teacherCount + markers[i] ? parseInt(markers[i]['number_of_teachers'].replace(',', '')) : 0;
 
         //initialize markers with its latitude and longitude
         var markerIcon = this.commonService.initMarkers1(

@@ -494,7 +494,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
     var myReport = [];
     this.reportData.forEach((element) => {
-      if (this.levelWise != "school") {
+      if (this.levelWise != "School") {
         if (element.number_of_schools) {
           element.number_of_schools = element.number_of_schools.replace(
             /\,/g,
@@ -2126,7 +2126,7 @@ export class StudengtAttendanceComponent implements OnInit {
     var blockNames = [];
     var clustNames = [];
     this.studentCount = 0;
-    this.schoolCount = this.levelWise == 'School' ? markers.length : 0;
+    this.schoolCount = this.levelWise == 'School' || this.levelWise == 'schoolPerCluster' ? markers.length : 0;
     var stopLoader = false;
 
     if (markers.length > 0) {
