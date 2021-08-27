@@ -1291,22 +1291,20 @@ export class UdiseReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    for (var i = 0; i < this.markers.length; i++) {
-      markerIcon.on("mouseover", function (e) {
-        this.openPopup();
-      });
-      markerIcon.on("mouseout", function (e) {
-        this.closePopup();
-      });
+    markerIcon.on("mouseover", function (e) {
+      this.openPopup();
+    });
+    markerIcon.on("mouseout", function (e) {
+      this.closePopup();
+    });
 
-      this.layerMarkers.addLayer(markerIcon);
-      if (level === "schoolPerCluster" || level === "School") {
-        markerIcon.on("click", this.onClickSchool, this);
-      } else {
-        markerIcon.on("click", this.onClick_Marker, this);
-      }
-      markerIcon.myJsonData = markers;
+    this.layerMarkers.addLayer(markerIcon);
+    if (level === "schoolPerCluster" || level === "School") {
+      markerIcon.on("click", this.onClickSchool, this);
+    } else {
+      markerIcon.on("click", this.onClick_Marker, this);
     }
+    markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }
 

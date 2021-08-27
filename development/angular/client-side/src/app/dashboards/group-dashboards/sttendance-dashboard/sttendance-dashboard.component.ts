@@ -12,7 +12,7 @@ import { DataSourcesService } from "../data-sources.service";
 })
 export class AttendanceDashboardComponent implements OnInit {
   state;
-  reportGroup = "Student Performance"
+  reportGroup = "Attendance"
   //tooltip texts::::::::::::::
   toolTip = dashboardReportDescriptions;
   dataSource: any;
