@@ -286,10 +286,8 @@ export class UdiseReportComponent implements OnInit {
         this.genericFun(this.data, options, this.fileName);
 
         //schoolCount
-        this.schoolCount = this.myDistData["footer"];
-        this.schoolCount = this.schoolCount
-          .toString()
-          .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
         this.commonService.onResize(this.level);
 
         // sort the districtname alphabetically
@@ -332,10 +330,8 @@ export class UdiseReportComponent implements OnInit {
             );
             this.genericFun(this.data, options, this.fileName);
             //schoolCount
-            this.schoolCount = res["footer"];
-            this.schoolCount = this.schoolCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
             this.commonService.onResize(this.level);
 
             // sort the districtname alphabetically
@@ -455,11 +451,7 @@ export class UdiseReportComponent implements OnInit {
               this.commonService.onResize(this.level);
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.loaderAndErr();
               this.changeDetection.detectChanges();
             }
@@ -566,10 +558,7 @@ export class UdiseReportComponent implements OnInit {
               }
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.commonService.onResize(this.level);
 
@@ -635,7 +624,6 @@ export class UdiseReportComponent implements OnInit {
           this.schoolMarkers = [];
           if (this.data.length > 0) {
             let result = this.data;
-            this.schoolCount = 0;
             this.schoolMarkers = result;
             var colors = this.commonService.getRelativeColors(
               this.schoolMarkers,
@@ -682,10 +670,7 @@ export class UdiseReportComponent implements OnInit {
               this.commonService.onResize(this.level);
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.loaderAndErr();
               this.changeDetection.detectChanges();
@@ -765,10 +750,8 @@ export class UdiseReportComponent implements OnInit {
 
         this.genericFun(this.data, options, this.fileName);
         //schoolCount
-        this.schoolCount = res["footer"];
-        this.schoolCount = this.schoolCount
-          .toString()
-          .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
         this.changeDetection.detectChanges();
         this.commonService.onResize(this.level);
 
@@ -863,10 +846,8 @@ export class UdiseReportComponent implements OnInit {
 
           this.genericFun(this.data, options, this.fileName);
           //schoolCount
-          this.schoolCount = res["footer"];
-          this.schoolCount = this.schoolCount
-            .toString()
-            .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
           this.changeDetection.detectChanges();
           this.commonService.onResize(this.level);
 
@@ -982,10 +963,8 @@ export class UdiseReportComponent implements OnInit {
 
               this.genericFun(this.data, options, this.fileName);
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
               this.changeDetection.detectChanges();
               this.commonService.onResize(this.level);
             },
@@ -1008,14 +987,12 @@ export class UdiseReportComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.schoolCount = 0;
       if (data.length > 0) {
         this.markers = data;
         var colors = this.commonService.getRelativeColors(
           this.markers,
           this.indiceData
         );
-        this.schoolCount = 0;
         // attach values to markers
         for (var i = 0; i < this.markers.length; i++) {
           if (this.selected == "absolute") {
@@ -1535,7 +1512,6 @@ export class UdiseReportComponent implements OnInit {
     var markers = [];
     if (value) {
       this.data.map(a => {
-        console.log(a.details[`${this.indiceData}`] > this.valueRange.split("-")[0] - 1 && a.details[`${this.indiceData}`] <= this.valueRange.split("-")[1])
         if (this.indiceData == "Infrastructure_Score") {
           if (a.details[`${this.indiceData}`] > this.valueRange.split("-")[0] - 1 && a.details[`${this.indiceData}`] <= this.valueRange.split("-")[1]) {
             markers.push(a);
@@ -1549,7 +1525,6 @@ export class UdiseReportComponent implements OnInit {
     } else {
       markers = this.data;
     }
-    console.log(markers);
     this.genericFun(markers, this.dataOptions, this.fileName);
 
     if (markers.length > 0) {

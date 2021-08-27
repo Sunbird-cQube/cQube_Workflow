@@ -172,8 +172,8 @@
                         style="cursor: pointer;height: 20px; width:20px; float: right; background-color: aqua; border-radius: 20px; padding: 5px; margin-top: -5px;"
                         (click)="reset('0-100');"></h5>
                 <div *ngFor="let value of values; let i = index">
-                    <span class="legends" style="float: left; cursor: pointer;"
-                        [ngStyle]="{color: i> 1 ?'black': 'white'}" (click)="selectRange(value); select(i)"
+                    <span id={{i}} class="legends" style="float: left; cursor: pointer;"
+                        (click)="selectRange(value); select(i)" [ngStyle]="{color: i> 1 ?'black': 'white'}"
                         [style.background-color]="legendColors[i]">
                         {{values[i]}} </span>
                 </div>
