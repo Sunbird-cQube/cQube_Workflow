@@ -1,8 +1,9 @@
 /***
     css for multi select drop down
 **/
+
 .btn-secondary {
-  background-color: rgb(152, 160, 163);
+  background: var(--theme-report-button-color);
   padding: 0px 0px 0px 5px;
   cursor: pointer;
   width: 300px;
@@ -18,7 +19,7 @@
   border-radius: 4px;
   padding: 5px;
   width: 600px auto;
-  background-color: rgb(152, 160, 163);
+  background: var(--theme-report-button-color);
   border: 1px solid rgb(152, 160, 163);
   color: white;
   position: absolute;

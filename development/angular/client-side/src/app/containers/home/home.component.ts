@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  
   currentDashboardGroup: any = "/dashboard/infrastructure-dashboard";
   edate: Date;
 
@@ -23,7 +25,7 @@ export class HomeComponent implements OnInit {
   showBackBtn: boolean = false;
 
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
-    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router) {
+    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice:ThemeService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -51,6 +53,9 @@ export class HomeComponent implements OnInit {
   diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
   ngOnInit() {
+    console.log(this.themeservice.getAvailableThemes())
+    console.log(this.themeservice.getActiveTheme())
+    console.log(this.themeservice.isDarkTheme())
     this.email = localStorage.getItem('userName');
     this.email = this.email.charAt(0).toUpperCase() + this.email.substr(1).toLowerCase();
     this.role = localStorage.getItem('roleName');
@@ -83,14 +88,14 @@ export class HomeComponent implements OnInit {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
         if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
-          document.getElementById("sidenav-container").style.backgroundColor = "#F5F5F5";
+          // document.getElementById("sidenav-container").style.backgroundColor = "red";
           this.sidebar.close();
         }
       }, 1000);
     } else {
       this.sidenavMode = 'side';
       this.sidebar.open();
-      document.getElementById("sidenav-container").style.backgroundColor = "#ffebcc";
+      document.getElementById("sidenav-container").style.backgroundColor = "--theme-bg-container-color";
     }
   }
 
@@ -122,10 +127,8 @@ export class HomeComponent implements OnInit {
   }
 
   onBackClick() {
-    localStorage.removeItem('managements');
     localStorage.removeItem('management');
-    // localStorage.removeItem('category');
-    this.router.navigate(['/', 'home']);
+    localStorage.removeItem('category');
   }
 
   sccessProgressCard() {
@@ -135,4 +138,12 @@ export class HomeComponent implements OnInit {
   setCurrentDashboardGroup(route) {
     this.currentDashboardGroup = route;
   }
+
+
+  toggleTheme(colorCode) {
+    this.themeservice.setTheme(colorCode);
+  }
+
+  
+
 }

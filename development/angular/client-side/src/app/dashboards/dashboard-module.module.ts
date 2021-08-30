@@ -19,34 +19,34 @@ var dashboardRoutes: Routes = [
   {
     path: '', canActivate: [AuthGuard], data: ['admin', 'report_viewer'], children: [
       {
-        path: 'infrastructure-dashboard', component: InfrastructureDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'infrastructure-dashboard', component: InfrastructureDashboardComponent
       },
       {
-        path: 'composite-dashboard', component: CompostieDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'composite-dashboard', component: CompostieDashboardComponent
       },
       {
-        path: 'tpd-dashboard', component: TpdDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'tpd-dashboard', component: TpdDashboardComponent
       },
       {
-        path: 'etb-dashboard', component: EtbDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'etb-dashboard', component: EtbDashboardComponent
       },
       {
-        path: 'crc-dashboard', component: CrcDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'crc-dashboard', component: CrcDashboardComponent
       },
       {
-        path: 'prograss-card-dashboard', component: ProgressCardDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'prograss-card-dashboard', component: ProgressCardDashboardComponent
       },
       {
-        path: 'std-performance-dashboard', component: StdPerformanceDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'std-performance-dashboard', component: StdPerformanceDashboardComponent
       },
       {
-        path: 'attendance-dashboard', component: AttendanceDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'attendance-dashboard', component: AttendanceDashboardComponent
       },
       {
-        path: 'exception-dashboard', component: ExceptionDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'exception-dashboard', component: ExceptionDashboardComponent
       },
       {
-        path: 'telemetry-dashboard', component: TelemetryDashboardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: 'telemetry-dashboard', component: TelemetryDashboardComponent
       }
     ]
   }

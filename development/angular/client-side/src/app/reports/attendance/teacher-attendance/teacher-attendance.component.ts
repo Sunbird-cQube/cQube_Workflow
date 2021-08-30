@@ -143,8 +143,8 @@ export class TeacherAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
-  width = window.innerWidth;
-  height = window.innerHeight;
+  public width = window.innerWidth;
+  public height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
   }
@@ -229,6 +229,7 @@ export class TeacherAttendanceComponent implements OnInit {
         this.teacherCount = "";
         this.schoolCount = "";
         this.changeDetection.detectChanges();
+        //document.getElementById("home").style.display = "none";
         this.getMonthYear = {};
         this.commonService.loaderAndErr(this.markers);
       }

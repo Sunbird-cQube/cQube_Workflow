@@ -1,36 +1,3 @@
-.reportHeader1{
-    top: 45px;
-    position: fixed;
-    width: calc(100% - 25px);
-    z-index: 999;
-    background-color: #F5F5F5;
-  }
-  .reportContainer1{
-    margin-top: 130px;
-  }
-  
-  @media screen and (min-width: 2140px) {
-     .reportHeader1{
-         top: 70px !important;
-         position: fixed;
-         width: calc(100% - 25px);
-         z-index: 999;
-         background-color: #F5F5F5;
-      }
-      .reportContainer1{
-         margin-top: 200px !important;
-      }
-  }
-  
-  @media screen and (min-width: 3820px) {
-     .reportHeader1{
-         top: 120px !important;
-         position: fixed;
-         width: calc(100% - 25px);
-         z-index: 999;
-         background-color: #F5F5F5;
-      }
-      .reportContainer1{
-         margin-top: 240px !important;
-      }
-  }
+.reportContainer{
+    margin-top: 130px !important;
+ }

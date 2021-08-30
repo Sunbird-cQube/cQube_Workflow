@@ -14,8 +14,8 @@ export class ManagementSelectorComponent implements OnInit {
   constructor(public service: AppServiceComponent, public changeDetection: ChangeDetectorRef) { }
 
   //Management and category
-  public managements = [];
-  public management = JSON.parse(localStorage.getItem('management')) != null ? JSON.parse(localStorage.getItem('management')).id : "";;
+  @Input() managements = [];
+  @Input() public management = JSON.parse(localStorage.getItem('management')) ? JSON.parse(localStorage.getItem('management')).id : "";;
   categories = [];
   public category;
   onSelectManagement() {
@@ -37,8 +37,6 @@ export class ManagementSelectorComponent implements OnInit {
 
   ngOnInit(): void {
     this.managements = JSON.parse(localStorage.getItem('managements'))
-    document.getElementById("spinner").style.display = "block";
-    this.changeDetection.detectChanges();
     if (!this.managements) {
       this.service.management_category_metaData().subscribe((res) => {
         this.managements = res["mydata"].management;
@@ -68,9 +66,7 @@ export class ManagementSelectorComponent implements OnInit {
       });
 
     } else {
-      if (this.managements.length > 0) {
-        document.getElementById("spinner").style.display = "none";
-      }
+      document.getElementById("spinner").style.display = "none";
     }
     this.getDefault();
   }
@@ -84,6 +80,7 @@ export class ManagementSelectorComponent implements OnInit {
   }
 
   setDefault() {
+    this.changeDetection.detectChanges();
     if (localStorage.getItem('management') == null) {
       this.management = this.managementType;
       this.category = this.categoryType;
@@ -97,19 +94,20 @@ export class ManagementSelectorComponent implements OnInit {
         value: this.service.changeingStringCases(this.categoryType.replace(/_/g, ' '))
       }
       localStorage.setItem("category", JSON.stringify(obj));
+      this.changeDetection.detectChanges();
     } else {
       this.management = JSON.parse(localStorage.getItem('management')).id;
       this.category = JSON.parse(localStorage.getItem('category')).id;
     }
     if (this.managementType) {
-      if (this.managements && this.managements.length == 0) {
+      if (this.managements.length <= 0) {
         this.managements.push({ id: this.managementType, value: this.service.changeingStringCases(this.managementType.replace(/_/g, ' ')) })
       }
     } else {
       this.management = JSON.parse(localStorage.getItem('management')).id;
       this.category = JSON.parse(localStorage.getItem('category')).id;
+      this.changeDetection.detectChanges();
     }
-    this.changeDetection.detectChanges();
   }
 
 }

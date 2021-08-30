@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row reportHeader1">
+    <div class="row reportHeader">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row" (window:resize)="commonService.onResize(level);onResize()">
                 <div class="col-sm-8 ">
@@ -117,15 +117,16 @@
             </div>
         </div>
     </div>
-    <div class="row reportContainer1">
+    <div class="row reportContainer">
         <div class="col-sm-12">
             <div style="float: left;" [ngStyle]="{'width' : selected == 'absolute' ? '90%' : '100%'}">
                 <div #mapContainer id="udisemap" class="active" style="width: 100%;"
                     [ngStyle]="{height: height > 1760 ? '82vh': height > 1180 && height < 1760 ? '80vh': height > 667 && height < 1180 ? '75vh':'69vh'}">
                 </div>
             </div>
-            <div *ngIf="selected == 'absolute'" style="float: left; width: 9%; margin-left: 1%;">
-                <h5 class="legend" id="legend" style="margin-left: 20%;">Legend</h5>
+            <div [ngStyle]="{height: height > 1760 ? '82vh': height > 1180 && height < 1760 ? '80vh': height > 667 && height < 1180 ? '75vh':'69vh'}"
+                style="float: left; width: 9%; margin-left: 1%;">
+                <h5 id="legend" style="margin-left: 20%;">Legend</h5>
                 <div *ngFor="let value of values; let i = index">
                     <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
                         [style.background-color]="legendColors[i]">

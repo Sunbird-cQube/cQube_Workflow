@@ -5,10 +5,11 @@
 @import '~material-design-icons/iconfont/material-icons.css';
 
 
+
 /* You can add global styles to this file, and also import other style files */
 
 html,body {
-    background-color: #fff;
+    /* background-color: #fff; */
     background-size: cover;
     height: 100vh;
     font-family: Helvetica Neue Bold;
@@ -88,6 +89,7 @@ leaflet-right {
 /* :not(:required) hides these rules from IE9 and below */
 
 .loading:not(:required) {
+    display: block;
     /* hide "loading..." text */
     font: 0/0 a;
     color: transparent;
@@ -246,7 +248,7 @@ leaflet-right {
 #block,
 #cluster,
 #school {
-    color: #262626;
+    color: var(--theme-report-heading-color);
     font-weight: 600;
     font-size: 18px;
     line-height: 1.2em;
@@ -301,6 +303,7 @@ leaflet-right {
 #notVisited {
     text-align: justify;
     font-size: 12px;
+    color:var(--theme-report-heading-color);
 }
 
 #blockbtn,
@@ -311,7 +314,7 @@ leaflet-right {
     font-size: 11px;
     width: 75px;
     padding: 4px;
-    background-color: rgb(152, 160, 163);
+    background:var(--theme-report-button-color);
 }
 
 #choose_dist,
@@ -340,7 +343,7 @@ leaflet-right {
     border-radius: 4px;
     font-size: 11px;
     font-weight: bold;
-    background-color: rgb(152, 160, 163);
+    background: var(--theme-report-button-color);
 }
 
 .legends {
@@ -357,7 +360,7 @@ leaflet-right {
 #legend {
     font-size: 12px;
     font-weight: bold;
-    margin-top: 5px !important;
+    margin-top: 10px;
 }
 
 #legendNote {
@@ -379,7 +382,7 @@ leaflet-right {
     padding: 5px 8px 5px 8px;
     position: absolute;
     font-size: 12px;
-    background: #0545a5;
+    background:var(--theme-access-progress-card-btn-color);
 }
 
 #download1{
@@ -389,19 +392,21 @@ leaflet-right {
     padding: 5px 10px 5px 10px;
     position: absolute;
     font-size: 12px;
-    background: #0545a5;
+    background: var(--theme-download-btn-color);
 }
   
 #backBtn{
     border:1px solid gainsboro;
     border-radius: 10px;
     background: ghostwhite;
+    background:var(--theme-back-button-color);
+border-color:var(--theme-back-button-border-color);
     padding: 0px 8px 0px 10px;
     color: #1358c0;
     font-size: 12px;
-    right: 15px;
-    top: 12%;
-    position: absolute;
+    /* right: 15px; */
+    /* top: 12%; */
+    /* position: absolute; */
     cursor: pointer;
 }
 #backBtn:hover{
@@ -625,7 +630,7 @@ leaflet-right {
         padding: 8px 10px 8px 10px !important;
         position: absolute !important;
         font-size: 20px !important;
-        background: #0545a5;
+        background:var(--theme-access-progress-card-btn-color);
     }
 
     #download1{
@@ -635,7 +640,7 @@ leaflet-right {
         padding: 8px 15px 8px 15px !important;
         position: absolute !important;
         font-size: 20px !important;
-        background: #0545a5;
+        background: var(--theme-download-btn-color);
     }
       
     #backBtn{
@@ -824,7 +829,7 @@ leaflet-right {
         padding: 14px 15px 14px 15px !important;
         position: absolute !important;
         font-size: 28px !important;
-        background: #0545a5;
+        background: var(--theme-access-progress-card-btn-color);
     }
 
     #download1{
@@ -834,7 +839,7 @@ leaflet-right {
         padding: 12px 20px 12px 20px !important;
         position: absolute !important;
         font-size: 28px !important;
-        background: #0545a5;
+        background: var(--theme-download-btn-color);
     }
       
     #backBtn{
@@ -1088,7 +1093,7 @@ leaflet-right {
     position: fixed;
     width: calc(100% - 25px);
     z-index: 999;
-    background-color: #F5F5F5;
+    background-color: var(--theme-report-header-bg-color);
  }
  .reportContainer{
     margin-top: 120px;
@@ -1101,10 +1106,10 @@ leaflet-right {
          position: fixed;
          width: calc(100% - 25px);
          z-index: 999;
-         background-color: #F5F5F5;
+         background: var(--theme-report-header-bg-color);
       }
       .reportContainer{
-         margin-top: 190px !important;
+         margin-top: 180px !important;
       }
  }
  
@@ -1114,13 +1119,91 @@ leaflet-right {
          position: fixed;
          width: calc(100% - 25px);
          z-index: 999;
-         background-color: #F5F5F5;
+         background:var(--theme-report-header-bg-color);
       }
       .reportContainer{
-         margin-top: 240px !important;
+         margin-top: 230px !important;
       }
  }
  
 .selected-level{
-    color: #777777 !important;
+    color: var(--theme-report-selected-level-color);
+}
+
+
+
+
+/* theme css start */
+@import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
+
+:root {
+  /* Colors */
+
+  --theme-bg-header-color:#fff;
+  --theme-bg-sidenav-color:#FFC400;
+  --theme-bg-container-color: #ffebcc;
+  --theme-text-color: #000;
+  --theme-dark-button-color: #0C54C6;
+  --theme-button-border-color: #0C54C6;
+  --theme-back-button-color: #dcdcdc;
+  --theme-back-button-border-color: #dcdcdc;
+  --theme-report-button-color: rgb(152, 160, 163);
+  --theme-bg-sidenav-user-info:#FFE07B;
+  --theme-report-heading-color: #000;
+  --theme-access-progress-card-btn-color: #0545a5;
+  --theme-download-btn-color: #0545a5;
+  --theme-report-selected-level-color: #777;
+  --theme-icon-color: #000;
+  --theme-user-info-bg-image:url('assets/images/user-info-bg-icon.svg');
+  --theme-container-bg-image:url('assets/images/bg-icon.png');
+  --theme-report-header-bg-color : #ffebcd;
+}
+.badge-colors .badge-default {
+    background-color: #ffb236;
+}
+.badge-colors .badge-blue {
+    background-color: #2ca8ff;
+}
+.badge-colors .badge-green {
+    background-color: #18ce0f;
+}
+.badge-colors .badge {
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block !important;
+    height: 23px;
+    margin-right: 5px;
+    position: relative;
+    width: 23px;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+.badge-colors .badge:hover {
+    border-color: #0bf;
+}
+
+.mat-icon{
+    color: var(--theme-icon-color);
+}
+
+body {
+  background: var(--theme-bg-color);
+}
+/* .mat-drawer{
+    background:var(--theme-bg-yellow-color); 
+} */
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "PT Sans", sans-serif;
 }
