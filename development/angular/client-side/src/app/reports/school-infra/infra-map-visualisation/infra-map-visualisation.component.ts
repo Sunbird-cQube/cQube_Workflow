@@ -1066,7 +1066,6 @@ export class InfraMapVisualisationComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.schoolCount = 0;
       if (data.length > 0) {
         this.markers = data;
         var colors = this.commonService.getRelativeColors(
@@ -1092,8 +1091,8 @@ export class InfraMapVisualisationComponent implements OnInit {
             this.markers[i].details.latitude,
             this.markers[i].details.longitude,
             color,
-            options.strokeWeight,
-            1,
+            options.level == 'School' ? 0 : options.strokeWeight,
+            options.level == 'School' ? 0.3 : 1,
             options.level
           );
 

@@ -480,6 +480,10 @@ export class SatReportComponent implements OnInit {
                         ? -1
                         : 0
                   );
+
+                  this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                  this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                  this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                   this.changeDetection.detectChanges();
                 },
                 (err) => {
@@ -599,7 +603,6 @@ export class SatReportComponent implements OnInit {
                       this.blockFilter = this.blockMarkers;
                     }
 
-                    this.schoolCount = 0;
                     if (this.grade && this.subject) {
                       let filterData = this.blockMarkers.filter((obj) => {
                         return Object.keys(obj.Subjects).includes(this.subject);
@@ -681,18 +684,9 @@ export class SatReportComponent implements OnInit {
                     ]);
                     this.commonService.onResize(this.level);
 
-                    this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
-                    if (this.schoolCount != null) {
-                      this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentCount = res['footer'] ? res['footer'].total_students : null;
-                    if (this.studentCount != null) {
-                      this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
-                    if (this.studentAttended != null) {
-                      this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
+                    this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.changeDetection.detectChanges();
                     this.commonService.loaderAndErr(this.data);
                   }
@@ -810,7 +804,6 @@ export class SatReportComponent implements OnInit {
                     if (!this.clusterMarkers[0]["Subjects"]) {
                       this.clusterFilter = this.clusterMarkers;
                     }
-                    this.schoolCount = 0;
                     if (this.grade && this.subject) {
                       let filterData = this.clusterMarkers.filter((obj) => {
                         return Object.keys(obj.Subjects).includes(this.subject);
@@ -893,18 +886,9 @@ export class SatReportComponent implements OnInit {
                     this.commonService.onResize(this.level);
 
                     //schoolCount
-                    this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
-                    if (this.schoolCount != null) {
-                      this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentCount = res['footer'] ? res['footer'].total_students : null;
-                    if (this.studentCount != null) {
-                      this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
-                    if (this.studentAttended != null) {
-                      this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
+                    this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.changeDetection.detectChanges();
                     this.commonService.loaderAndErr(this.data);
                   }
@@ -1018,7 +1002,6 @@ export class SatReportComponent implements OnInit {
                   this.schoolMarkers = [];
                   if (this.data.length > 0) {
                     let result = this.data;
-                    this.schoolCount = 0;
                     this.schoolMarkers = result;
                     if (this.grade && this.subject) {
                       let filterData = this.schoolMarkers.filter((obj) => {
@@ -1103,18 +1086,9 @@ export class SatReportComponent implements OnInit {
                     this.commonService.onResize(this.level);
 
                     ///schoolCount
-                    this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
-                    if (this.schoolCount != null) {
-                      this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentCount = res['footer'] ? res['footer'].total_students : null;
-                    if (this.studentCount != null) {
-                      this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
-                    if (this.studentAttended != null) {
-                      this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
+                    this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.changeDetection.detectChanges();
                     this.commonService.loaderAndErr(this.data);
                   }
@@ -1241,6 +1215,10 @@ export class SatReportComponent implements OnInit {
                 ? -1
                 : 0
           );
+
+          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
         },
         (err) => {
           this.errorHandling();
@@ -1370,6 +1348,9 @@ export class SatReportComponent implements OnInit {
                 ? -1
                 : 0
           );
+          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
         },
         (err) => {
           this.errorHandling();
@@ -1527,6 +1508,9 @@ export class SatReportComponent implements OnInit {
                 this.genericFun(this.data, options, this.fileName);
                 this.commonService.onResize(this.level);
 
+                this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
               },
               (err) => {
                 this.errorHandling();
@@ -1545,7 +1529,6 @@ export class SatReportComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.schoolCount = 0;
       var color;
       var colors = [];
       this.allSubjects.sort();
@@ -1636,20 +1619,6 @@ export class SatReportComponent implements OnInit {
           this.getDownloadableData(this.markers[i], options.level);
         }
         this.commonService.loaderAndErr(this.data);
-
-        //schoolCount
-        this.schoolCount = data['footer'] ? data['footer'].total_schools : null;
-        if (this.schoolCount != null) {
-          this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
-        this.studentCount = data['footer'] ? data['footer'].total_students : null;
-        if (this.studentCount != null) {
-          this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
-        this.studentAttended = data['footer'] ? data['footer'].students_attended : null;
-        if (this.studentAttended != null) {
-          this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
         this.changeDetection.detectChanges();
       }
     } catch (e) {
@@ -1705,8 +1674,8 @@ export class SatReportComponent implements OnInit {
             },
             colors
           ),
-        strock,
-        border,
+        level == 'School' ? 0 : strock,
+        level == 'School' ? 0.3 : border,
         level
       );
       return icon;
@@ -2174,6 +2143,10 @@ export class SatReportComponent implements OnInit {
 
   filterRangeWiseData(value) {
     this.prevRange = value;
+    this.schoolCount = 0;
+    this.studentCount = 0
+    this.studentAttended = 0;
+
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
 
@@ -2181,7 +2154,6 @@ export class SatReportComponent implements OnInit {
     var markers = [];
     if (value) {
       this.data.map(a => {
-        console.log(a);
         if (!this.grade && !this.subject) {
           if (a.Details[`Performance`] > this.valueRange.split("-")[0] - 1 && a.Details[`Performance`] <= this.valueRange.split("-")[1]) {
             markers.push(a);
@@ -2210,6 +2182,14 @@ export class SatReportComponent implements OnInit {
       } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
         this.allClusters = markers;
       }
+      for (let i = 0; i < markers.length; i++) {
+        this.studentAttended += markers[i].Details['students_attended'] ? markers[i].Details['students_attended'] : 0;
+        this.studentCount += markers[i].Details['total_students'] ? markers[i].Details['total_students'] : 0;
+        this.schoolCount += markers[i].Details['total_schools'] ? markers[i].Details['total_schools'] : 0;
+      }
+      this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      this.studentCount = this.studentCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      this.studentAttended = this.studentAttended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     }
     //adjusting marker size and other UI on screen resize:::::::::::
     this.commonService.onResize(this.level);
