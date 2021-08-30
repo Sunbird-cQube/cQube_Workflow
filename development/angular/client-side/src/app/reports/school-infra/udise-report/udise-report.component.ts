@@ -1012,9 +1012,8 @@ export class UdiseReportComponent implements OnInit {
             this.markers[i].details.latitude,
             this.markers[i].details.longitude,
             this.setColor,
-            // options.radius,
-            options.strokeWeight,
-            1,
+            options.level == 'School' ? 0 : options.strokeWeight,
+            options.level == 'School' ? 0.3 : 1,
             options.level
           );
 

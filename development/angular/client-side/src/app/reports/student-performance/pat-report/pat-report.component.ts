@@ -1774,8 +1774,8 @@ export class PATReportComponent implements OnInit {
           },
           this.colors
         ),
-      strock,
-      border,
+      level == 'School' ? 0 : strock,
+      level == 'School' ? 0.3 : border,
       level
     );
     return icon;

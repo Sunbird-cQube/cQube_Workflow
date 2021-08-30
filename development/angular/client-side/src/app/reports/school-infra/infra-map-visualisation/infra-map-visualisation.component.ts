@@ -1091,8 +1091,8 @@ export class InfraMapVisualisationComponent implements OnInit {
             this.markers[i].details.latitude,
             this.markers[i].details.longitude,
             color,
-            options.strokeWeight,
-            1,
+            options.level == 'School' ? 0 : options.strokeWeight,
+            options.level == 'School' ? 0.3 : 1,
             options.level
           );
 
