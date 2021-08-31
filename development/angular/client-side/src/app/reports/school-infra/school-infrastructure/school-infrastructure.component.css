@@ -135,7 +135,7 @@
          position: fixed;
          width: calc(100% - 25px);
          z-index: 999;
-         background-color: #F5F5F5;
+         background:var(--theme-report-header-bg-color);
       }
       .reportContainer1{
          margin-top: 220px !important;
@@ -148,7 +148,7 @@
          position: fixed;
          width: calc(100% - 25px);
          z-index: 999;
-         background-color: #F5F5F5;
+         background:var(--theme-report-header-bg-color);
       }
       .reportContainer1{
          margin-top: 250px !important;
