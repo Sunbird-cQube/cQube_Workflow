@@ -1,0 +1,8 @@
+---
+
+- include_tasks: postgres_pat.yml
+  tags: [ install, update ]
+
+- include_tasks: nifi_pat.yml
+  tags: [ install, update ]
+

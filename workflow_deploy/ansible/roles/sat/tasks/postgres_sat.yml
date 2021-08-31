@@ -1,0 +1,18 @@
+
+- name: Run sat table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/sat.sql
+  when: sat
+  tags: [ install, update ]
+
+- name: Run sat queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/sat_queries.sql
+  when: sat
+  tags: [ install, update ]

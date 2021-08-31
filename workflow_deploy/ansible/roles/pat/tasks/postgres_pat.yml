@@ -1,0 +1,19 @@
+
+- name: Run pat table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/pat.sql
+  when: pat
+  tags: [ install, update ]
+
+- name: Run pat queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/pat_queries.sql
+  when: pat
+  tags: [ install, update ]
+  

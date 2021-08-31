@@ -1,0 +1,17 @@
+
+- name: Run static table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/static_tables.sql
+  tags: [ install, update ]
+
+- name: Run static queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/static_queries.sql
+  tags: [ install, update ]
+  

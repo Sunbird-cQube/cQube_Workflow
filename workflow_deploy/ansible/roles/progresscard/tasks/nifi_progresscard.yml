@@ -1,0 +1,7 @@
+- name: Run progress card python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py progress_card_transformer progress_card_parameters 0"
+  tags: [ install, update ]
+
+- name: Connection of progress card to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage progress_card_transformer"
+  tags: [ install, update ]

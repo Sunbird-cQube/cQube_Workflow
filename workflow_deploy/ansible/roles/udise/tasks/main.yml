@@ -1,0 +1,8 @@
+---
+
+- include_tasks: postgres_udise.yml
+  tags: [ install, update ]
+
+- include_tasks: nifi_udise.yml
+  tags: [ install, update ]
+
