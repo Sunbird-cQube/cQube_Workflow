@@ -377,6 +377,10 @@ export class UdiseReportComponent implements OnInit {
       this.level = "Block";
       this.fileName = `${this.reportName}_${this.indiceData}_allBlocks_${this.commonService.dateAndTime}`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -488,6 +492,10 @@ export class UdiseReportComponent implements OnInit {
       this.level = "Cluster";
       this.fileName = `${this.reportName}_${this.indiceData}_allClusters_${this.commonService.dateAndTime}`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -597,6 +605,10 @@ export class UdiseReportComponent implements OnInit {
       this.clusterId = undefined;
       this.level = "School";
       this.fileName = `${this.reportName}_${this.indiceData}_allSchools_${this.commonService.dateAndTime}`;
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
 
       // these are for showing the hierarchy names based on selection
       this.skul = true;
