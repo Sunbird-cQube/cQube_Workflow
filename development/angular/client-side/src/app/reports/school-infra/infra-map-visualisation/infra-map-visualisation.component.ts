@@ -285,14 +285,12 @@ export class InfraMapVisualisationComponent implements OnInit {
           [options.centerLat - 4.5, options.centerLng - 6],
           [options.centerLat + 3.5, options.centerLng + 6],
         ]);
-        this.changeDetection.detectChanges();
+
+        //schoolCount
+        this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
         this.genericFun(this.districtMarkers, options, this.fileName);
-        //schoolCount
-        this.schoolCount = this.myDistData["footer"];
-        this.schoolCount = this.schoolCount
-          .toString()
-          .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
         this.commonService.onResize(this.level);
         // sort the districtname alphabetically
         this.districtMarkers.sort((a, b) =>
@@ -302,6 +300,8 @@ export class InfraMapVisualisationComponent implements OnInit {
               ? -1
               : 0
         );
+        this.changeDetection.detectChanges();
+
       } else {
         if (this.myData) {
           this.myData.unsubscribe();
@@ -339,12 +339,10 @@ export class InfraMapVisualisationComponent implements OnInit {
                   ? -1
                   : 0
             );
-            this.genericFun(this.districtMarkers, options, this.fileName);
             //schoolCount
-            this.schoolCount = res["footer"];
-            this.schoolCount = this.schoolCount
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+            this.genericFun(this.districtMarkers, options, this.fileName);
 
             this.commonService.onResize(this.level);
 
@@ -799,14 +797,10 @@ export class InfraMapVisualisationComponent implements OnInit {
           [options.centerLat + 1.5, options.centerLng + 2],
         ]);
 
-        this.genericFun(this.blockMarkers, options, this.fileName);
-
         //schoolCount
-        this.schoolCount = res["footer"];
-        this.schoolCount = this.schoolCount
-          .toString()
-          .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+        this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
+        this.genericFun(this.blockMarkers, options, this.fileName);
         this.commonService.onResize(this.level);
         // sort the blockname alphabetically
         this.blockMarkers.sort((a, b) =>
@@ -904,13 +898,10 @@ export class InfraMapVisualisationComponent implements OnInit {
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
-          this.genericFun(this.clusterMarkers, options, this.fileName);
           //schoolCount
-          this.schoolCount = res["footer"];
-          this.schoolCount = this.schoolCount
-            .toString()
-            .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
+          this.genericFun(this.clusterMarkers, options, this.fileName);
           this.commonService.onResize(this.level);
           // sort the clusterName alphabetically
           this.clusterMarkers.sort((a, b) =>
@@ -1035,17 +1026,14 @@ export class InfraMapVisualisationComponent implements OnInit {
                 [options.centerLat - 1.5, options.centerLng - 3],
                 [options.centerLat + 1.5, options.centerLng + 2],
               ]);
-              this.changeDetection.detectChanges();
-
-              this.level = options.level;
-              this.genericFun(this.schoolMarkers, options, this.fileName);
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.genericFun(this.schoolMarkers, options, this.fileName);
               this.commonService.onResize(this.level);
+              this.changeDetection.detectChanges();
+
             },
             (err) => {
               this.data = [];
@@ -1475,16 +1463,15 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.genericFun(markers, this.dataOptions, this.fileName);
 
-    if (markers.length > 0) {
-      this.commonService.errMsg();
-      if (this.level == 'District') {
-        this.districtMarkers = markers;
-      } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
-        this.blockMarkers = markers;
-      } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
-        this.clusterMarkers = markers;
-      }
+    this.commonService.errMsg();
+    if (this.level == 'District') {
+      this.districtMarkers = markers;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.blockMarkers = markers;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.clusterMarkers = markers;
     }
+
     //adjusting marker size and other UI on screen resize:::::::::::
     this.commonService.onResize(this.level);
     this.commonService.loaderAndErr(markers)

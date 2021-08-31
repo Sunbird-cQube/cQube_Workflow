@@ -1208,7 +1208,7 @@ export class SatReportComponent implements OnInit {
           this.commonService.onResize(this.level);
 
           // sort the blockname alphabetically
-          this.blockMarkers.sort((a, b) =>
+          this.allBlocks.sort((a, b) =>
             a.Details.block_name > b.Details.block_name
               ? 1
               : b.Details.block_name > a.Details.block_name
@@ -2033,11 +2033,11 @@ export class SatReportComponent implements OnInit {
     var mylevel;
     if (level == "District") {
       mylevel = level;
-    } else if (level == "Block") {
+    } else if (level == "Block" || level == "blockPerDistrict") {
       mylevel = level;
-    } else if (level == "Cluster") {
+    } else if (level == "Cluster" || level == "clusterPerBlock") {
       mylevel = level;
-    } else if (level == "School") {
+    } else if (level == "School" || level == "schoolPerCluster") {
       mylevel = level;
     }
     if (level != mylevel) {
@@ -2173,15 +2173,16 @@ export class SatReportComponent implements OnInit {
     }
     this.genericFun(markers, this.dataOptions, this.fileName);
 
+
+    this.commonService.errMsg();
+    if (this.level == 'District') {
+      this.allDistricts = markers;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.allBlocks = markers;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.allClusters = markers;
+    }
     if (markers.length > 0) {
-      this.commonService.errMsg();
-      if (this.level == 'District') {
-        this.allDistricts = markers;
-      } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
-        this.allBlocks = markers;
-      } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
-        this.allClusters = markers;
-      }
       for (let i = 0; i < markers.length; i++) {
         this.studentAttended += markers[i].Details['students_attended'] ? markers[i].Details['students_attended'] : 0;
         this.studentCount += markers[i].Details['total_students'] ? markers[i].Details['total_students'] : 0;

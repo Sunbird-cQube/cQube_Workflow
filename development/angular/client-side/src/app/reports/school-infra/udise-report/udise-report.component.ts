@@ -283,11 +283,11 @@ export class UdiseReportComponent implements OnInit {
           level: "District",
         };
         this.dataOptions = options;
-        this.genericFun(this.data, options, this.fileName);
 
         //schoolCount
         this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
+        this.genericFun(this.data, options, this.fileName);
         this.commonService.onResize(this.level);
 
         // sort the districtname alphabetically
@@ -298,6 +298,7 @@ export class UdiseReportComponent implements OnInit {
               ? -1
               : 0
         );
+        this.changeDetection.detectChanges();
       } else {
         if (this.myData) {
           this.myData.unsubscribe();
@@ -328,10 +329,11 @@ export class UdiseReportComponent implements OnInit {
                   ? -1
                   : 0
             );
-            this.genericFun(this.data, options, this.fileName);
+
             //schoolCount
             this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
+            this.genericFun(this.data, options, this.fileName);
             this.commonService.onResize(this.level);
 
             // sort the districtname alphabetically
@@ -748,11 +750,10 @@ export class UdiseReportComponent implements OnInit {
         this.commonService.latitude = this.lat = options.centerLat;
         this.commonService.longitude = this.lng = options.centerLng;
 
-        this.genericFun(this.data, options, this.fileName);
         //schoolCount
         this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-        this.changeDetection.detectChanges();
+        this.genericFun(this.data, options, this.fileName);
         this.commonService.onResize(this.level);
 
         // sort the blockname alphabetically
@@ -763,6 +764,8 @@ export class UdiseReportComponent implements OnInit {
               ? -1
               : 0
         );
+        this.changeDetection.detectChanges();
+
       },
       (err) => {
         this.data = [];
@@ -844,11 +847,10 @@ export class UdiseReportComponent implements OnInit {
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
-          this.genericFun(this.data, options, this.fileName);
           //schoolCount
           this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-          this.changeDetection.detectChanges();
+          this.genericFun(this.data, options, this.fileName);
           this.commonService.onResize(this.level);
 
           // sort the clusterName alphabetically
@@ -859,6 +861,7 @@ export class UdiseReportComponent implements OnInit {
                 ? -1
                 : 0
           )
+          this.changeDetection.detectChanges();
         },
         (err) => {
           this.data = [];
@@ -961,12 +964,13 @@ export class UdiseReportComponent implements OnInit {
               this.commonService.latitude = this.lat = options.centerLat;
               this.commonService.longitude = this.lng = options.centerLng;
 
-              this.genericFun(this.data, options, this.fileName);
               //schoolCount
               this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-              this.changeDetection.detectChanges();
+              this.genericFun(this.data, options, this.fileName);
               this.commonService.onResize(this.level);
+              this.changeDetection.detectChanges();
+
             },
             (err) => {
               this.data = [];
@@ -1525,17 +1529,15 @@ export class UdiseReportComponent implements OnInit {
       markers = this.data;
     }
     this.genericFun(markers, this.dataOptions, this.fileName);
-
-    if (markers.length > 0) {
-      this.commonService.errMsg();
-      if (this.level == 'District') {
-        this.districtMarkers = markers;
-      } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
-        this.blockMarkers = markers;
-      } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
-        this.clusterMarkers = markers;
-      }
+    this.commonService.errMsg();
+    if (this.level == 'District') {
+      this.districtMarkers = markers;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.blockMarkers = markers;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.clusterMarkers = markers;
     }
+
     //adjusting marker size and other UI on screen resize:::::::::::
     this.commonService.onResize(this.level);
     this.commonService.loaderAndErr(markers)

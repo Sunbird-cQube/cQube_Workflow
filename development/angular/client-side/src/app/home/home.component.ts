@@ -129,7 +129,7 @@ export class HomeComponent implements OnInit {
 
   goBackPage() {
     if (!this.router.url.includes('dashboard')) {
-      window.history.back();
+      this.router.navigate([this.currentDashboardGroup])
     }
   }
 

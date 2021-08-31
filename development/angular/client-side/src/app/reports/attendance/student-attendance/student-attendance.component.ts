@@ -1314,8 +1314,7 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-              this.mylatlngData = this.blockData =
-                res["blockData"];
+              this.mylatlngData = this.blockData = res["blockData"];
               this.dateRange = res["dateRange"];
               var uniqueData = this.mylatlngData.reduce(function (
                 previous,
@@ -1975,7 +1974,6 @@ export class StudengtAttendanceComponent implements OnInit {
       this.service.telemetrySar(dateObj).subscribe(
         (res) => { },
         (err) => {
-          this.dateRange = "";
           this.changeDetection.detectChanges();
         }
       );
