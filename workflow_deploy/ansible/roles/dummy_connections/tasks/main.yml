@@ -1,0 +1,5 @@
+---
+
+- include_tasks: nifi_dummy_connections.yml
+  tags: [ install, update ]
+
