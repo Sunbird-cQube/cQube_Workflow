@@ -3,6 +3,6 @@ ansible-playbook ../ansible/update_ui.yml --tags "update" --extra-vars "@$base_d
                                                         --extra-vars "@upgradation_config.yml" \
                                                         --extra-vars "@$base_dir/cqube/conf/aws_s3_upgradation_config.yml" \
                                                         --extra-vars "@$base_dir/cqube/conf/local_storage_upgradation_config.yml" \
-                                                        --extra-vars "@datasource_config.yml" \
-                                                        --extra-vars "usecase_name=test_usecase"
+							--extra-vars "@datasource_config.yml" \
+                                                        --extra-vars "usecase_name=educational_new_theme"
 
