@@ -32,7 +32,7 @@
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="imr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                             (click)="fetchTelemetry($event,'imr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -67,7 +67,7 @@
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%)" id="cr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
                             (click)="fetchTelemetry($event,'cr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -103,7 +103,7 @@
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="udise"
-                            [routerLink]="!nifi_udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
+                            [routerLink]="!udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
                             (click)="fetchTelemetry($event,'udise')">
                             <div class="card-body ">
                                 <div class="row">
@@ -145,7 +145,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="imr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                             (click)="fetchTelemetry($event,'imr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -180,7 +180,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%)" id="cr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
                             (click)="fetchTelemetry($event,'cr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -222,7 +222,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="udise"
-                            [routerLink]="!nifi_udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
+                            [routerLink]="!udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
                             (click)="fetchTelemetry($event,'udise')">
                             <div class="card-body ">
                                 <div class="row">
@@ -266,7 +266,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="sar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
                             (click)="fetchTelemetry($event,'sar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -303,7 +303,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="tar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
                             (click)="fetchTelemetry($event,'tar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -346,7 +346,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="sar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
                             (click)="fetchTelemetry($event,'sar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -389,7 +389,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="tar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
                             (click)="fetchTelemetry($event,'tar')">
                             <div class="card-body ">
                                 <div class="row">
