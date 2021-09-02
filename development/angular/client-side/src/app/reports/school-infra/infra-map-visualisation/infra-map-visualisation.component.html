@@ -6,15 +6,14 @@
                     <div *ngIf='skul'>
                         <p id="dist">
                             Report on Infrastructure access by location for: <span (click)="clickHome()"
-                                style="cursor: pointer;text-decoration: underline;"
-                                class="selected-level">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
                             Report on Infrastructure access by location for: <span (click)="clickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
-                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                                style="cursor: pointer;text-decoration: underline;">
                                 {{districtHierarchy.districtName}}</span> </p>
                     </div>
                     <div *ngIf="blok">
@@ -25,7 +24,7 @@
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{blockHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onBlockSelect(blockHierarchy.blockId)"
-                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                                style="cursor: pointer;text-decoration: underline;">
                                 {{blockHierarchy.blockName}}</span></p>
                     </div>
 
@@ -38,7 +37,7 @@
                                 {{clusterHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onBlockSelect(clusterHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span>
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
@@ -115,22 +114,22 @@
     </div>
     <div class="row reportContainer">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div style="float: left; width: 88%;">
+            <div style="float: left;" [ngStyle]="{'width' : selected == 'absolute' ? '90%' : '100%'}">
                 <div #mapContainer id="infraMap" class="active" style="width: 100%;"
                     [ngStyle]="{height: height > 1760 ? '80vh': height > 1180 && height < 1760 ? '80vh': height > 667 && height < 1180 ? '77vh':'72vh'}">
                 </div>
             </div>
-            <div [ngStyle]="{height: height > 1760 ? '80vh': height > 1180 && height < 1760 ? '80vh': height > 667 && height < 1180 ? '77vh':'72vh'}"
-                style="float: right; width: 11%; margin-left: 1%;  padding-left: 1.5%;border-radius: 3%;">
-                <h5 id="legend" style="margin-left: 20%;">Legend</h5>
+            <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%;">
+                <h5 id="legend" style="margin-left: 15%;">Legend <img *ngIf="valueRange && valueRange != '0-100'"
+                        id="resetImg" src="../../../../assets/images/reset.png" alt="reset" title="Reset to all"
+                        style="cursor: pointer;height: 20px; width:20px; float: right; background-color: aqua; border-radius: 20px; padding: 5px; margin-top: -5px;"
+                        (click)="reset('0-100');"></h5>
                 <div *ngFor="let value of values; let i = index">
-                    <span class="legends" style="float: left;" [ngStyle]="{color: i> 1 ?'black': 'white'}"
+                    <span id={{i}} class="legends" style="float: left; cursor: pointer;"
+                        [ngStyle]="{color: i> 1 ?'black': 'white'}" (click)="selectRange(value); select(i)"
                         [style.background-color]="legendColors[i]">
                         {{values[i]}} </span>
                 </div>
-                <p id="legendNote"><span style="font-weight: bold; padding-left: 0.5%;">Note: </span>These colors
-                    are applicable for the
-                    absolute selection only</p>
             </div>
         </div>
     </div>
@@ -152,9 +151,9 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <span id="nm" class="note" style="text-align: center;">Management Type: {{managementName}}</span>
+            <span id="name" class="note" style="text-align: center;">Management Type: {{managementName}}</span>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-5" *ngIf="!valueRange || valueRange == '0-100'">
             <span id="schools" class="note" style="text-align: center;">Number of Schools: {{schoolCount}}</span>
         </div>
     </div>
