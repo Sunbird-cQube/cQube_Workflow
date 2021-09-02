@@ -53,9 +53,6 @@ export class HomeComponent implements OnInit {
   diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
   ngOnInit() {
-    console.log(this.themeservice.getAvailableThemes())
-    console.log(this.themeservice.getActiveTheme())
-    console.log(this.themeservice.isDarkTheme())
     this.email = localStorage.getItem('userName');
     this.email = this.email.charAt(0).toUpperCase() + this.email.substr(1).toLowerCase();
     this.role = localStorage.getItem('roleName');

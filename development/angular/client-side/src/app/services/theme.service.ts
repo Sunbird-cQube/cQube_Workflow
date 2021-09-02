@@ -10,8 +10,7 @@ import { Theme, light, dark,  defaultTheme, greenTheme } from "../theme.model";
   
 
 constructor (){
-  this.setTheme(this.active)
-  console.log('testing')
+  this.setTheme(this.active);
 }
 
     getAvailableThemes(): Theme[] {
@@ -27,11 +26,8 @@ constructor (){
     }  
     setActiveTheme(theme: Theme): void {
       this.active = theme;
-    //   console.log(theme)
   
       Object.keys(this.active.properties).forEach(property => {
-        console.log( property,
-          this.active.properties[property])
         document.documentElement.style.setProperty(
           property,
           this.active.properties[property]
@@ -41,7 +37,6 @@ constructor (){
 
 
     setTheme(code): void {
-        console.log(code)
         switch (code){
             case "dark":
                 this.setActiveTheme(dark);

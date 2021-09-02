@@ -5,7 +5,7 @@
     <div class="report-cards">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="dcc" [routerLink]="!dataSource['nifi_diksha'] ? ['/coming-soon'] :['/diksha/usage-by-course']"
+                <span id="dcc" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/usage-by-course']"
                     (click)="fetchTelemetry($event,'dcc')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -38,7 +38,7 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="dtr"
-                    [routerLink]="!dataSource['nifi_diksha'] ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
                     (click)="fetchTelemetry($event,'dtr')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -71,7 +71,7 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="tdp-cp"
-                    [routerLink]="!dataSource['nifi_diksha'] ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
                     (click)="fetchTelemetry($event,'tpd-cp')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -105,7 +105,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="tpd-enroll"
-                    [routerLink]="!dataSource['nifi_diksha'] ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
                     (click)="fetchTelemetry($event,'tpd-enroll')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -137,8 +137,7 @@
 
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="tpd-comp"
-                    [routerLink]="!dataSource['nifi_diksha'] ? ['/coming-soon'] :['/diksha/tpd-completion']"
+                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-completion']"
                     (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
