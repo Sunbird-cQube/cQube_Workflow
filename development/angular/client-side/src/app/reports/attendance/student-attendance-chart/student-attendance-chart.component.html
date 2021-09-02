@@ -8,19 +8,19 @@
                         <p id="dist">
                             Student Attendance Report for: <span id="state"
                                 style="cursor: pointer;text-decoration: underline;"
-                                (click)="onHomeClick(false)">{{state}}</span>
+                                (click)="onHomeClick(false)" class="selected-level">{{state}}</span>
                             <span *ngIf="selectedDistricts.length === 1"> / <span
                                     style="cursor: pointer;text-decoration: underline;"
-                                    (click)="shareCheckedList(selectedDistricts)">{{
+                                    (click)="shareCheckedList(selectedDistricts)" class="selected-level">{{
                                     getDistrictName(selectedDistricts[0])
                                     }}</span></span>
                             <span *ngIf="selectedBlock.length === 1"> / <span
                                     style="cursor: pointer;text-decoration: underline;"
-                                    (click)="shareCheckedList1(selectedBlock)">{{ getBlockName(selectedBlock[0])
+                                    (click)="shareCheckedList1(selectedBlock)" class="selected-level">{{ getBlockName(selectedBlock[0])
                                     }}</span></span>
                             <span *ngIf="selectedCluster.length === 1"> / <span
                                     style="cursor: pointer;text-decoration: underline;"
-                                    (click)="shareCheckedList2(selectedCluster)">{{ getClusterName(selectedCluster[0])
+                                    (click)="shareCheckedList2(selectedCluster)" class="selected-level">{{ getClusterName(selectedCluster[0])
                                     }}</span></span>
                         </p>
                     </div>

@@ -6,14 +6,14 @@
                     <div *ngIf='skul'>
                         <p id="dist">
                             Teacher Attendance Report for: <span id="state" (click)="onClickHome()"
-                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
                             Teacher Attendance Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span>
                             <span id="dist" (click)="clickedMarker($event,distName)"
-                                style="cursor: pointer;text-decoration: underline;">
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{hierName}}</span>
                         </p>
                     </div>
@@ -25,7 +25,7 @@
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{titleName}}</span><span> | </span><span id="block"
                                 (click)="clickedMarker($event,blockName)"
-                                style="cursor: pointer;text-decoration: underline;">
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{hierName}}</span></p>
                     </div>
 
@@ -38,7 +38,7 @@
                                 {{titleName}}</span><span> | </span><span id="block"
                                 (click)="clickedMarker($event,blockName)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{title}}</span><span> | </span><span>
+                                {{title}}</span><span> | </span><span class="selected-level">
                                 {{hierName}}</span>
                         </p>
                     </div>

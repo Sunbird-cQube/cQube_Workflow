@@ -6,14 +6,15 @@
                     <div *ngIf='skul'>
                         <p id="dist">
                             Periodic Assessment Test Report for: <span (click)="linkClick()"
-                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;"
+                                class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
                             Periodic Assessment Test Report for: <span (click)="linkClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="ondistLinkClick(districtHierarchy.distId)"
-                                style="cursor: pointer;text-decoration: underline;">
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{districtHierarchy.districtName}}</span> </p>
                     </div>
                     <div *ngIf="blok">
@@ -24,7 +25,7 @@
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{blockHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onblockLinkClick(blockHierarchy.blockId)"
-                                style="cursor: pointer;text-decoration: underline;">
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{blockHierarchy.blockName}}</span></p>
                     </div>
 
@@ -37,9 +38,7 @@
                                 {{clusterHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onblockLinkClick(clusterHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span
-                                (click)="onclusterLinkClick(clusterHierarchy.clusterId)"
-                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>

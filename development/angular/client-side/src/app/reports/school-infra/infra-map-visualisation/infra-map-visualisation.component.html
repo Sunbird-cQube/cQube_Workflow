@@ -6,14 +6,14 @@
                     <div *ngIf='skul'>
                         <p id="dist">
                             Report on Infrastructure access by location for: <span (click)="clickHome()"
-                                style="cursor: pointer;text-decoration: underline;">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
                             Report on Infrastructure access by location for: <span (click)="clickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
-                                style="cursor: pointer;text-decoration: underline;">
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{districtHierarchy.districtName}}</span> </p>
                     </div>
                     <div *ngIf="blok">
@@ -24,7 +24,7 @@
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{blockHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onBlockSelect(blockHierarchy.blockId)"
-                                style="cursor: pointer;text-decoration: underline;">
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{blockHierarchy.blockName}}</span></p>
                     </div>
 
@@ -37,7 +37,7 @@
                                 {{clusterHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onBlockSelect(clusterHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span>
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
