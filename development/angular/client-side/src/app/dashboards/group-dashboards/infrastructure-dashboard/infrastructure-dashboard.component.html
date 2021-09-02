@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="imr"
-                    [routerLink]="!dataSource['nifi_infra'] ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                    [routerLink]="!dataSource['infra'] ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                     (click)="fetchTelemetry($event,'imr')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -39,13 +39,14 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="cr"
-                    [routerLink]="!dataSource['nifi_infra'] ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                    [routerLink]="!dataSource['infra'] ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
                     (click)="fetchTelemetry($event,'cr')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="card-icon" src="../../../../assets/images/Composite-Report-icon.png" alt="">
+                                    <li><img class="card-icon" src="../../../../assets/images/Composite-Report-icon.png"
+                                            alt="">
                                     </li>
                                 </ul>
                             </div>
@@ -71,7 +72,7 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="udise"
-                    [routerLink]="!dataSource['nifi_udise'] ? ['/coming-soon'] :['/infrastructure/udise-report']"
+                    [routerLink]="!dataSource['udise'] ? ['/coming-soon'] :['/infrastructure/udise-report']"
                     (click)="fetchTelemetry($event,'udise')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
