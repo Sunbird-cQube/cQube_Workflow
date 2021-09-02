@@ -5,8 +5,7 @@
     <div class="report-cards">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="SemExp"
-                    [routerLink]="!dataSource['nifi_sat'] ? ['/coming-soon'] :['/exception/sem-exception']"
+                <span id="SemExp" [routerLink]="!dataSource['sat'] ? ['/coming-soon'] :['/exception/sem-exception']"
                     (click)="fetchTelemetry($event,'SemExp')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -40,8 +39,7 @@
 
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="patExcpt"
-                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/exception/pat-exception']"
+                <span id="patExcpt" [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/exception/pat-exception']"
                     (click)="fetchTelemetry($event,'patExcpt')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -76,7 +74,7 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="isdata"
-                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/exception/download-missing-data']"
+                    [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/exception/download-missing-data']"
                     (click)="fetchTelemetry($event,'isdata')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -110,7 +108,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="sarExcpt"
-                    [routerLink]="!dataSource['nifi_attendance'] ? ['/coming-soon'] :['/exception/student-attendance-exception']"
+                    [routerLink]="!dataSource['attendance'] ? ['/coming-soon'] :['/exception/student-attendance-exception']"
                     (click)="fetchTelemetry($event,'sarExcpt')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -145,7 +143,7 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="tarExp"
-                    [routerLink]="!dataSource['nifi_attendance'] ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
+                    [routerLink]="!dataSource['attendance'] ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
                     (click)="fetchTelemetry($event,'tarExp')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">

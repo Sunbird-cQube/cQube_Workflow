@@ -5,8 +5,7 @@
     <div class="report-cards">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="sat"
-                    [routerLink]="!dataSource['nifi_sat'] ? ['/coming-soon'] :['/student-performance/sat-report']"
+                <span id="sat" [routerLink]="!dataSource['sat'] ? ['/coming-soon'] :['/student-performance/sat-report']"
                     (click)="fetchTelemetry($event,'sat')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -41,13 +40,14 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="satHeatChart"
-                    [routerLink]="!dataSource['nifi_sat'] ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
+                    [routerLink]="!dataSource['sat'] ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
                     (click)="fetchTelemetry($event,'satHeatChart')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="card-icon" src="../../assets/images/Composite-Report-icon.png" alt=""></li>
+                                    <li><img class="card-icon" src="../../assets/images/Composite-Report-icon.png"
+                                            alt=""></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -75,7 +75,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="pat1"
-                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/student-performance/pat-report']"
+                    [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/student-performance/pat-report']"
                     (click)="fetchTelemetry($event,'pat')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -110,13 +110,14 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="heatChart"
-                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/student-performance/heat-chart']"
+                    [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/student-performance/heat-chart']"
                     (click)="fetchTelemetry($event,'heatChart')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><img class="card-icon" src="../../assets/images/Composite-Report-icon.png" alt="">
+                                    <li><img class="card-icon" src="../../assets/images/Composite-Report-icon.png"
+                                            alt="">
                                     </li>
                                 </ul>
                             </div>
@@ -144,7 +145,7 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="lotable"
-                    [routerLink]="!dataSource['nifi_pat'] ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+                    [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                     (click)="fetchTelemetry($event,'lotable')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">

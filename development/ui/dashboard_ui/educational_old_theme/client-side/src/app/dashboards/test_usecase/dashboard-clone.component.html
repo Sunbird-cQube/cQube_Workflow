@@ -34,7 +34,7 @@
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="imr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                             (click)="fetchTelemetry($event,'imr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -69,7 +69,7 @@
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%)" id="cr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
                             (click)="fetchTelemetry($event,'cr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -105,7 +105,7 @@
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="udise"
-                            [routerLink]="!nifi_udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
+                            [routerLink]="!udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
                             (click)="fetchTelemetry($event,'udise')">
                             <div class="card-body ">
                                 <div class="row">
@@ -147,7 +147,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="imr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                             (click)="fetchTelemetry($event,'imr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -182,7 +182,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%)" id="cr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
                             (click)="fetchTelemetry($event,'cr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -224,7 +224,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="udise"
-                            [routerLink]="!nifi_udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
+                            [routerLink]="!udise ? ['/coming-soon'] :['/infrastructure/udise-report']"
                             (click)="fetchTelemetry($event,'udise')">
                             <div class="card-body ">
                                 <div class="row">
@@ -266,7 +266,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #f38d52 0%, #fca97a 100%);" id="composite"
-                            [routerLink]="!nifi_composite ? ['/coming-soon'] :['/composite/composite-report']"
+                            [routerLink]="!composite ? ['/coming-soon'] :['/composite/composite-report']"
                             (click)="fetchTelemetry($event,'composite')">
                             <div class="card-body ">
                                 <div class="row">
@@ -314,7 +314,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%);" id="dcc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-course']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-course']"
                             (click)="fetchTelemetry($event,'dcc')">
                             <div class="card-body ">
                                 <div class="row">
@@ -351,7 +351,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%);" id="dtr"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
                             (click)="fetchTelemetry($event,'dtr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -392,7 +392,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)" id="tpd-enroll"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
                             (click)="fetchTelemetry($event,'tpd-enroll')">
                             <div class="card-body ">
                                 <div class="row">
@@ -430,7 +430,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)" id="tpd-comp"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-completion']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-completion']"
                             (click)="fetchTelemetry($event,'tpd-comp')">
                             <div class="card-body ">
                                 <div class="row">
@@ -473,7 +473,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)" id="tdp-cp"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
                             (click)="fetchTelemetry($event,'tpd-cp')">
                             <div class="card-body ">
                                 <div class="row">
@@ -509,7 +509,7 @@
                     </div>
                     <!-- <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="card card-stats" style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)"
-                        id="tpd-tp" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-teacher-percentage']"
+                        id="tpd-tp" [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-teacher-percentage']"
                         (click)="fetchTelemetry($event,'tdp-tp')">
                         <div class="card-body ">
                             <div class="row">
@@ -554,7 +554,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF5F55 0%, #FF9E95 100%);" id="crcr"
-                            [routerLink]="!nifi_crc ? ['/coming-soon'] :['/crc/crc-report']"
+                            [routerLink]="!crc ? ['/coming-soon'] :['/crc/crc-report']"
                             (click)="fetchTelemetry($event,'crcr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -643,7 +643,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="dsc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-user-profile']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-user-profile']"
                             (click)="fetchTelemetry($event,'dsc')">
                             <div class="card-body ">
                                 <div class="row">
@@ -680,7 +680,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="ut"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
                             (click)="fetchTelemetry($event,'ut')">
                             <div class="card-body ">
                                 <div class="row">
@@ -717,7 +717,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="utc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
                             (click)="fetchTelemetry($event,'utc')">
                             <div class="card-body ">
                                 <div class="row">
@@ -762,7 +762,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="ut"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
                             (click)="fetchTelemetry($event,'ut')">
                             <div class="card-body ">
                                 <div class="row">
@@ -800,7 +800,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="utc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
                             (click)="fetchTelemetry($event,'utc')">
                             <div class="card-body ">
                                 <div class="row">
@@ -847,7 +847,7 @@
                         <div class="col-lg-6 col-md-6  col-sm-6">
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="sat"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-report']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-report']"
                                 (click)="fetchTelemetry($event,'sat')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -886,7 +886,7 @@
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                 id="satHeatChart"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
                                 (click)="fetchTelemetry($event,'satHeatChart')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -928,7 +928,7 @@
                         <div class="col-lg-6 col-md-6  col-sm-6">
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="sat"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-report']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-report']"
                                 (click)="fetchTelemetry($event,'sat')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -967,7 +967,7 @@
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                 id="satHeatChart"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
                                 (click)="fetchTelemetry($event,'satHeatChart')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -1009,7 +1009,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="sr"
-                                    [routerLink]="!nifi_semester ? ['/coming-soon'] :['/student-performance/semester-report']"
+                                    [routerLink]="!semester ? ['/coming-soon'] :['/student-performance/semester-report']"
                                     (click)="fetchTelemetry($event,'sr')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1047,7 +1047,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="pat"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/pat-report']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/pat-report']"
                                     (click)="fetchTelemetry($event,'pat')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1086,7 +1086,7 @@
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                     id="heatChart"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
                                     (click)="fetchTelemetry($event,'heatChart')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1124,7 +1124,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="lotable"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                                     (click)="fetchTelemetry($event,'lotable')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1168,7 +1168,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="pat"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/pat-report']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/pat-report']"
                                     (click)="fetchTelemetry($event,'pat')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1207,7 +1207,7 @@
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                     id="heatChart"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
                                     (click)="fetchTelemetry($event,'heatChart')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1245,7 +1245,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="lotable"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                                     (click)="fetchTelemetry($event,'lotable')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1289,7 +1289,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="pat"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/pat-report']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/pat-report']"
                                     (click)="fetchTelemetry($event,'pat')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1328,7 +1328,7 @@
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                     id="heatChart"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
                                     (click)="fetchTelemetry($event,'heatChart')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1366,7 +1366,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="lotable"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                                     (click)="fetchTelemetry($event,'lotable')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -1413,7 +1413,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="sar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
                             (click)="fetchTelemetry($event,'sar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1450,7 +1450,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="tar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
                             (click)="fetchTelemetry($event,'tar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1493,7 +1493,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="sar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
                             (click)="fetchTelemetry($event,'sar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1536,7 +1536,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="tar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
                             (click)="fetchTelemetry($event,'tar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1579,7 +1579,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #6B76DB 0%, #9E9EF4 100%);" id="telemData"
-                            [routerLink]="!nifi_telemetry ? ['/coming-soon'] :['/telemetry']"
+                            [routerLink]="!telemetry ? ['/coming-soon'] :['/telemetry']"
                             (click)="fetchTelemetry($event,'telemData')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1622,7 +1622,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);" id="SemExp"
-                            [routerLink]="!nifi_sat ? ['/coming-soon'] :['/exception/sem-exception']"
+                            [routerLink]="!sat ? ['/coming-soon'] :['/exception/sem-exception']"
                             (click)="fetchTelemetry($event,'SemExp')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1661,7 +1661,7 @@
                     <div class="col-lg-4 col-md-6  col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);;" id="patExcpt"
-                            [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/pat-exception']"
+                            [routerLink]="!pat ? ['/coming-soon'] :['/exception/pat-exception']"
                             (click)="fetchTelemetry($event,'patExcpt')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1700,7 +1700,7 @@
                     <div class="col-lg-4 col-md-6  col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);;" id="isdata"
-                            [routerLink]="!nifi_semester ? ['/coming-soon'] :['/exception/download-missing-data']"
+                            [routerLink]="!semester ? ['/coming-soon'] :['/exception/download-missing-data']"
                             (click)="fetchTelemetry($event,'isdata')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1743,7 +1743,7 @@
                     <div class="col-lg-6 col-md-6  col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);;" id="sarExcpt"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/exception/student-attendance-exception']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/exception/student-attendance-exception']"
                             (click)="fetchTelemetry($event,'sarExcpt')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1781,7 +1781,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);" id="tarExp"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
                             (click)="fetchTelemetry($event,'tarExp')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1824,7 +1824,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);;" id="sarExcpt"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/exception/student-attendance-exception']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/exception/student-attendance-exception']"
                             (click)="fetchTelemetry($event,'sarExcpt')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1867,7 +1867,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);" id="tarExp"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
                             (click)="fetchTelemetry($event,'tarExp')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1920,7 +1920,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%);" id="imr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                             (click)="fetchTelemetry($event,'imr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -1955,7 +1955,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135.85deg, #B56FD0 0%, #AF90DF 100%)" id="cr"
-                            [routerLink]="!nifi_infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
+                            [routerLink]="!infra ? ['/coming-soon'] :['/infrastructure/school-infrastructure']"
                             (click)="fetchTelemetry($event,'cr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2001,7 +2001,7 @@
                         <div class="col-lg-6 col-md-6  col-sm-6">
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="sat"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-report']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-report']"
                                 (click)="fetchTelemetry($event,'sat')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -2040,7 +2040,7 @@
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                 id="satHeatChart"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
                                 (click)="fetchTelemetry($event,'satHeatChart')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -2082,7 +2082,7 @@
                         <div class="col-lg-6 col-md-6  col-sm-6">
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="sat"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-report']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-report']"
                                 (click)="fetchTelemetry($event,'sat')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -2121,7 +2121,7 @@
                             <div class="card card-stats"
                                 style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                 id="satHeatChart"
-                                [routerLink]="!nifi_sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
+                                [routerLink]="!sat ? ['/coming-soon'] :['/student-performance/sat-heat-chart']"
                                 (click)="fetchTelemetry($event,'satHeatChart')">
                                 <div class="card-body ">
                                     <div class="row">
@@ -2163,7 +2163,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="sr"
-                                    [routerLink]="!nifi_semester ? ['/coming-soon'] :['/student-performance/semester-report']"
+                                    [routerLink]="!semester ? ['/coming-soon'] :['/student-performance/semester-report']"
                                     (click)="fetchTelemetry($event,'sr')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2201,7 +2201,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="pat"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/pat-report']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/pat-report']"
                                     (click)="fetchTelemetry($event,'pat')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2240,7 +2240,7 @@
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                     id="heatChart"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
                                     (click)="fetchTelemetry($event,'heatChart')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2278,7 +2278,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="lotable"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                                     (click)="fetchTelemetry($event,'lotable')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2322,7 +2322,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="pat"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/pat-report']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/pat-report']"
                                     (click)="fetchTelemetry($event,'pat')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2361,7 +2361,7 @@
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                     id="heatChart"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
                                     (click)="fetchTelemetry($event,'heatChart')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2399,7 +2399,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="lotable"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                                     (click)="fetchTelemetry($event,'lotable')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2443,7 +2443,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;" id="pat"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/pat-report']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/pat-report']"
                                     (click)="fetchTelemetry($event,'pat')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2482,7 +2482,7 @@
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);;"
                                     id="heatChart"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/heat-chart']"
                                     (click)="fetchTelemetry($event,'heatChart')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2520,7 +2520,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="card card-stats"
                                     style="background: linear-gradient(135deg, #07A997 0%, #1BC9B4 100%);" id="lotable"
-                                    [routerLink]="!nifi_pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
+                                    [routerLink]="!pat ? ['/coming-soon'] :['/student-performance/PAT-LO-table']"
                                     (click)="fetchTelemetry($event,'lotable')">
                                     <div class="card-body ">
                                         <div class="row">
@@ -2568,7 +2568,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="sar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
                             (click)="fetchTelemetry($event,'sar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2605,7 +2605,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="tar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
                             (click)="fetchTelemetry($event,'tar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2648,7 +2648,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="sar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/student-attendance']"
                             (click)="fetchTelemetry($event,'sar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2691,7 +2691,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #FF9456 0%, #FFA67C 100%);" id="tar"
-                            [routerLink]="!nifi_attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
+                            [routerLink]="!attendance ? ['/coming-soon'] :['/attendance/teacher-attendance']"
                             (click)="fetchTelemetry($event,'tar')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2740,7 +2740,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%);" id="dcc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-course']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-course']"
                             (click)="fetchTelemetry($event,'dcc')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2777,7 +2777,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%);" id="dtr"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
                             (click)="fetchTelemetry($event,'dtr')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2818,7 +2818,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)" id="tpd-enroll"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
                             (click)="fetchTelemetry($event,'tpd-enroll')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2856,7 +2856,7 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)" id="tpd-comp"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-completion']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-completion']"
                             (click)="fetchTelemetry($event,'tpd-comp')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2899,7 +2899,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)" id="tdp-cp"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
                             (click)="fetchTelemetry($event,'tpd-cp')">
                             <div class="card-body ">
                                 <div class="row">
@@ -2935,7 +2935,7 @@
                     </div>
                     <!-- <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="card card-stats" style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)"
-                        id="tpd-tp" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-teacher-percentage']"
+                        id="tpd-tp" [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/tpd-teacher-percentage']"
                         (click)="fetchTelemetry($event,'tdp-tp')">
                         <div class="card-body ">
                             <div class="row">
@@ -2982,7 +2982,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="dsc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-user-profile']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-user-profile']"
                             (click)="fetchTelemetry($event,'dsc')">
                             <div class="card-body ">
                                 <div class="row">
@@ -3019,7 +3019,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="ut"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
                             (click)="fetchTelemetry($event,'ut')">
                             <div class="card-body ">
                                 <div class="row">
@@ -3056,7 +3056,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="utc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
                             (click)="fetchTelemetry($event,'utc')">
                             <div class="card-body ">
                                 <div class="row">
@@ -3101,7 +3101,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="ut"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
                             (click)="fetchTelemetry($event,'ut')">
                             <div class="card-body">
                                 <div class="row">
@@ -3139,7 +3139,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-stats"
                             style="background: linear-gradient(135deg, #e79c7a 0%, #eeb79d 100%);" id="utc"
-                            [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
+                            [routerLink]="!diksha ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
                             (click)="fetchTelemetry($event,'utc')">
                             <div class="card-body">
                                 <div class="row">

@@ -6,17 +6,18 @@ import { AppServiceComponent } from 'src/app/app.service';
 })
 export class DataSourcesService {
   public dataSources = {
-    nifi_crc: "",
-    nifi_attendance: "",
-    nifi_semester: "",
-    nifi_infra: "",
-    nifi_diksha: "",
-    nifi_telemetry: "",
-    nifi_udise: "",
-    nifi_pat: "",
-    nifi_composite: "",
-    nifi_sat: "",
-    nifi_healthcard: ""
+    crc: "",
+    attendance: "",
+    infra: "",
+    diksha: "",
+    telemetry: "",
+    udise: "",
+    pat: "",
+    composite: "",
+    progresscard: "",
+    teacher_attendance: "",
+    // data_replay: "",
+    sat: ""
   }
 
   // public telemetryData = [];
@@ -56,38 +57,38 @@ export class DataSourcesService {
   constructor(public service: AppServiceComponent) {
     service.getDataSource().subscribe((res: any) => {
       res.forEach((element) => {
-        if (element.template == "nifi_crc") {
-          this.dataSources.nifi_crc = element.status;
+        if (element.template == "crc") {
+          this.dataSources.crc = element.status;
         }
-        if (element.template == "nifi_attendance") {
-          this.dataSources.nifi_attendance = element.status;
+        if (element.template == "attendance") {
+          this.dataSources.attendance = element.status;
         }
-        if (element.template == "nifi_semester") {
-          this.dataSources.nifi_semester = element.status;
+        // if (element.template == "nifi_semester") {
+        //   this.dataSources.semester = element.status;
+        // }
+        if (element.template == "infra") {
+          this.dataSources.infra = element.status;
         }
-        if (element.template == "nifi_infra") {
-          this.dataSources.nifi_infra = element.status;
+        if (element.template == "diksha") {
+          this.dataSources.diksha = element.status;
         }
-        if (element.template == "nifi_diksha") {
-          this.dataSources.nifi_diksha = element.status;
+        if (element.template == "telemetry") {
+          this.dataSources.telemetry = element.status;
         }
-        if (element.template == "nifi_telemetry") {
-          this.dataSources.nifi_telemetry = element.status;
+        if (element.template == "udise") {
+          this.dataSources.udise = element.status;
         }
-        if (element.template == "nifi_udise") {
-          this.dataSources.nifi_udise = element.status;
+        if (element.template == "pat") {
+          this.dataSources.pat = element.status;
         }
-        if (element.template == "nifi_pat") {
-          this.dataSources.nifi_pat = element.status;
+        if (element.template === "composite") {
+          this.dataSources.composite = element.status;
         }
-        if (element.template === "nifi_composite") {
-          this.dataSources.nifi_composite = element.status;
+        if (element.template === 'sat') {
+          this.dataSources.sat = element.status;
         }
-        if (element.template === 'nifi_sat') {
-          this.dataSources.nifi_sat = element.status;
-        }
-        if (element.template === 'nifi_healthcard') {
-          this.dataSources.nifi_healthcard = element.status;
+        if (element.template === 'progresscard') {
+          this.dataSources.progresscard = element.status;
         }
       });
     });
