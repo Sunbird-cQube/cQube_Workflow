@@ -1,0 +1,7 @@
+- name: Run pat python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py pat_transformer pat_parameters 4665"
+  tags: [ install, update ]
+
+- name: Connection of pat to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage pat_transformer"
+  tags: [ install, update ]

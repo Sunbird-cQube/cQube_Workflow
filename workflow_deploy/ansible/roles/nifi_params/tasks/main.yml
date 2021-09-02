@@ -6,8 +6,8 @@
     mode: "0644"
   loop:
     - cQube_data_storage_parameters
-    - crc_parameters
     - static_data_parameters
+    - crc_parameters  
     - student_attendance_parameters
     - infra_parameters
     - diksha_parameters

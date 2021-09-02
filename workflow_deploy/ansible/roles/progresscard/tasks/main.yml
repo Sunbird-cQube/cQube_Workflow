@@ -1,0 +1,8 @@
+---
+
+- include_tasks: postgres_progresscard.yml
+  tags: [ install, update ]
+
+- include_tasks: nifi_progresscard.yml
+  tags: [ install, update ]
+
