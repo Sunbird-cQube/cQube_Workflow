@@ -7,51 +7,8 @@
       <a class="logo" id="cubeLogo" (click)="onToggle()" [routerLink]="[currentDashboardGroup]">
         <img src="../../../assets/images/logo.png" alt="logo">
       </a>
-
-      <!-- <div class="badge-colors text-center">
-        <span class="badge filter badge-default active"></span>
-        <span  class="badge filter badge-blue"></span>
-        <span  class="badge filter badge-green"></span>
-      </div> -->
       <div class="col text-right d-flex align-items-center justify-content-center">
-        <div class="badge-colors text-center">
-          <span class="badge filter badge-default active" (click)="toggleTheme('defaultTheme')"></span>
-          <span  class="badge filter badge-blue" (click)="toggleTheme('dark')"></span>
-          <span  class="badge filter badge-green" (click)="toggleTheme('greenTheme')"></span>
-        </div>
-        <!-- <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Change Theme</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="toggleTheme('defaultTheme')">Default</button>
-            <button ngbDropdownItem (click)="toggleTheme('red')">red</button>
-            <button ngbDropdownItem (click)="toggleTheme('light')">light</button>
-            <button ngbDropdownItem (click)="toggleTheme('dark')">Blue Theme</button>
-            <button ngbDropdownItem (click)="toggleTheme('greenTheme')">Green Theme</button>
-            <button ngbDropdownItem (click)="toggleTheme('blue')">blue</button>
-            
-          </div>
-        </div> -->
       </div>
-
-       <!-- <div class="col text-center">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select Color</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem >red</button>
-            <button ngbDropdownItem >light</button>
-            <button ngbDropdownItem >dark</button>
-            <button ngbDropdownItem >green</button>
-          </div>
-        </div>
-      </div> -->
-    
- 
-
-      <!-- <span class="">
-        <button class="btn btn-primary" (click)="toggleTheme('red')">red</button>
-        <button class="btn btn-primary" (click)="toggleTheme('light')">light</button>
-        <button class="btn btn-primary" (click)="toggleTheme('dark')">dark</button>
-      </span> -->
       <span *ngIf="showBackBtn" id="backBtn" (click)="onBackClick()" [routerLink]="['/home']"><img
           src="../../../assets/images/back.svg" alt="back-logo"><strong
           style="padding: 0px 0.6vw .1vh 1vw">Back</strong></span>
