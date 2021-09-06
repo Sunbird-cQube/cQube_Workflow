@@ -579,7 +579,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1180 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1180 ? '56vh' : '46vh');
+    ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1160 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1160 ? '56vh' : '46vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
       data: {
@@ -589,8 +589,8 @@ export class SchoolInfrastructureComponent implements OnInit {
           pointBackgroundColor: "#4890b5",
           pointBorderColor: '#7cd6cc',
           pointBorderWidth: 0.5,
-          pointRadius: this.height > 1760 ? 16 : this.height > 1180 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1180 ? 10 : 5,
-          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1180 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1180 ? 11 : 6,
+          pointRadius: this.height > 1760 ? 16 : this.height > 1160 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1160 ? 10 : 5,
+          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1160 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1160 ? 11 : 6,
         }]
       },
       options: {
@@ -602,9 +602,9 @@ export class SchoolInfrastructureComponent implements OnInit {
           mode: 'index',
           titleFontSize: 16,
           cornerRadius: 10,
-          xPadding: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1180 ? 10 : 7,
-          yPadding: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1180 ? 10 : 7,
-          bodyFontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+          xPadding: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 10 : 7,
+          yPadding: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 10 : 7,
+          bodyFontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 12 : 10,
           displayColors: false,
           custom: function (tooltip) {
             if (!tooltip) return;
@@ -639,13 +639,13 @@ export class SchoolInfrastructureComponent implements OnInit {
               fontColor: 'black',
               min: 0,
               max: 100,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 15 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1160 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.xAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 14 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 14 : 10,
             }
           }],
           yAxes: [{
@@ -656,13 +656,13 @@ export class SchoolInfrastructureComponent implements OnInit {
               fontColor: 'black',
               min: 0,
               max: 100,
-              fontSize: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1180 ? 15 : 10,
+              fontSize: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 23 : this.height > 667 && this.height < 1160 ? 15 : 10,
             },
             scaleLabel: {
               fontColor: "black",
               display: true,
               labelString: obj.yAxis,
-              fontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 14 : 10,
+              fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 14 : 10,
             }
           }]
         }
