@@ -17,6 +17,7 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         } else {
             fileName = `attendance/trend_line_chart/state_${year}.json`;
         }
+        console.log(fileName)
         var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var mydata = [];
 
