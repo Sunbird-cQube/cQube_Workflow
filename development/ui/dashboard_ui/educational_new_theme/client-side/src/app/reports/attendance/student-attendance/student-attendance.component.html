@@ -7,8 +7,7 @@
                     <div *ngIf='skul'>
                         <p id="dist">
                             Student Attendance Report for: <span id="state" (click)="onClickHome()"
-                                style="cursor: pointer;text-decoration: underline;"
-                                class="selected-level">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
@@ -40,7 +39,8 @@
                                 {{titleName}}</span><span> | </span><span id="block"
                                 (click)="clickedMarker($event,blockName)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{title}}</span><span> | </span><span class="selected-level"> {{hierName}}</span>
+                                {{title}}</span><span> | </span><span class="selected-level">
+                                {{hierName}}</span>
                         </p>
                     </div>
                 </div>
@@ -164,14 +164,14 @@
     <div class="row reportContainer">
         <div class="col-sm-12 ">
             <!--Map visualization=====================-->
-            <div style="float: left; width: 90%;">
+            <div style="float: left;" [ngStyle]="{'width' : selected == 'absolute' ? '90%' : '100%'}">
                 <div #mapContainer id="sarMap" class="active" style="width: 100%;"
-                    [ngStyle]="{height: height > 1760 ? '83vh': height > 1180 && height < 1760 ? '80vh': height > 667 && height < 1180 ? '74vh':'70vh'}">
+                    [ngStyle]="{height: height > 1760 ? '83vh': height > 1160 && height < 1760 ? '80vh': height > 667 && height < 1160 ? '74vh':'70vh'}">
                 </div>
             </div>
 
             <!--Marker legends ======================-->
-            <div style="float: left; width: 9%; margin-left: 1%; margin-top: 1%;">
+            <div *ngIf="selected == 'absolute'" style="float: left; width: 9%; margin-left: 1%; margin-top: 1%;">
                 <h5 id="legend" style="margin-left: 15%;">Legend <img *ngIf="valueRange && valueRange != '0-100'"
                         id="resetImg" src="../../../../assets/images/reset.png" alt="reset" title="Reset to all"
                         style="cursor: pointer;height: 20px; width:20px; float: right; background-color: aqua; border-radius: 20px; padding: 5px; margin-top: -5px;"
@@ -182,9 +182,7 @@
                         [style.background-color]="legendColors[i]">
                         {{values[i]}} </span>
                 </div>
-                <p id="legendNote"><span style="font-weight: bold;">Note: </span>These colors are applicable
-                    for the
-                    absolute selection only</p>
+
             </div>
         </div>
     </div>

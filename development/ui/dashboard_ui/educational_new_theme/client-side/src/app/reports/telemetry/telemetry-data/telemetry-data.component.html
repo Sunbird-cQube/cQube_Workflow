@@ -1,26 +1,28 @@
 <div class="container-fluid">
-    <div class="row reportHeader">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="row" (window:resize)="commonService.onResize(level);onResize()">
-                <div class="col-sm-8 ">
-                    <div>
-                        <p id="dist" *ngIf='skul'>
-                            Telemetry Data for: District Level
-                    </div>
-                    <div>
-                        <p id="block" *ngIf='dist'>
-                            Telemetry Data for: Block Level
-                    </div>
-                    <div>
-                        <p id="cluster" *ngIf='blok'>
-                            Telemetry Data for: Cluster Level
-                    </div>
+  <div class="row reportHeader">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div
+        class="row"
+        (window:resize)="commonService.onResize(level); onResize()"
+      >
+        <div class="col-sm-8">
+          <div>
+            <p id="dist" *ngIf="skul">Telemetry Data for: District Level</p>
+          </div>
 
-                    <div>
-                        <p id="school" *ngIf='clust'>
-                            Telemetry Data for: School Level
-                    </div>
-                    <!-- <div *ngIf='dist'>
+          <div>
+            <p id="block" *ngIf="dist">Telemetry Data for: Block Level</p>
+          </div>
+
+          <div>
+            <p id="cluster" *ngIf="blok">Telemetry Data for: Cluster Level</p>
+          </div>
+
+          <div>
+            <p id="school" *ngIf="clust">Telemetry Data for: School Level</p>
+          </div>
+
+          <!-- <div *ngIf='dist'>
                 <p id="block"
                 >
                     Semester exception report for: <span (click)="districtWise()"
@@ -55,61 +57,106 @@
                         {{clusterHierarchy.blockName}}</span><span> | </span><span>
                         {{clusterHierarchy.clusterName}}</span></p>
             </div> -->
-                </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-5">
+              <p id="errMsg" class="note"></p>
+            </div>
+            <div class="col-sm-7">
+              <div class="row">
                 <div class="col-sm-4">
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <p id="errMsg" class="note">
-                            </p>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <em *ngIf='level != "District"' class="fa fa-home" id="home" title="Home" alt="Home"
-                                        (click)="districtWise()"
-                                        style="display: block !important; float: right !important; margin-right: 10px;"></em>
-                                </div>
-                                <div class="col-sm-8">
-                                    <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
-                                        id="download1" (click)="downloadReport()">Download Report &nbsp; <i
-                                            class="fa fa-arrow-down" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
+                  <em
+                    *ngIf="level != 'District'"
+                    class="fa fa-home"
+                    id="home"
+                    title="Home"
+                    alt="Home"
+                    (click)="districtWise()"
+                    style="
+                      display: block !important;
+                      float: right !important;
+                      margin-right: 10px;
+                    "
+                  ></em>
                 </div>
-            </div>
-            <div class="row" style="margin-bottom: 10px;">
-                <div class="col-sm-12 ">
-                    <select id="period" [(ngModel)]="timePeriod" name="timePeriod" (change)="getTimePeriod(timePeriod)">
-                        <option [value]="timePeriod" disabled selected="selected">Choose Time Period</option>
-                        <option *ngFor="let time of timeDetails, let i = index" [(ngValue)]="time.id">
-                            {{time.time}}
-                        </option>
-                    </select>
-                    <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
-                    </button>
-                    <button class="btn btn-secondary" id="clusterbtn"
-                        (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
-                    </button>
-                    <button class="btn btn-secondary" id="schoolbtn"
-                        (click)="schoolWise()">&nbsp;<strong>Schools</strong>
-                    </button>
+                <div class="col-sm-8">
+                  <button
+                    *ngIf="reportData.length > 0"
+                    class="btn btn-primary"
+                    title="Download Report"
+                    id="download1"
+                    (click)="downloadReport()"
+                  >
+                    Download Report &nbsp;
+                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                  </button>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    <div class="row reportContainer1">
+      </div>
+      <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
-            <div #mapContainer id="map" class="active" style="width: 100%;"
-                [ngStyle]="{height: heigth > 1760 ? '88vh': heigth > 1180 && heigth < 1760 ? '84vh': heigth > 667 && heigth < 1180 ? '80vh':'74vh'}">
-            </div>
+          <select
+            id="period"
+            [(ngModel)]="timePeriod"
+            name="timePeriod"
+            (change)="getTimePeriod(timePeriod)"
+          >
+            <option [value]="timePeriod" disabled selected="selected">
+              Choose Time Period
+            </option>
+            <option
+              *ngFor="let time of timeDetails; let i = index"
+              [(ngValue)]="time.id"
+            >
+              {{ time.time }}
+            </option>
+          </select>
+          <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">
+            &nbsp;<strong>Blocks</strong>
+          </button>
+          <button
+            class="btn btn-secondary"
+            id="clusterbtn"
+            (click)="clusterWise()"
+          >
+            &nbsp;<strong>Clusters</strong>
+          </button>
+          <button
+            class="btn btn-secondary"
+            id="schoolbtn"
+            (click)="schoolWise()"
+          >
+            &nbsp;<strong>Schools</strong>
+          </button>
         </div>
+      </div>
     </div>
+  </div>
+  <div class="row reportContainer1">
+    <div class="col-sm-12">
+      <div
+        #mapContainer
+        id="map"
+        class="active"
+        style="width: 100%"
+        [ngStyle]="{
+          height:
+            height > 1760
+              ? '88vh'
+              : height > 1160 && height < 1760
+              ? '84vh'
+              : height > 667 && height < 1160
+              ? '80vh'
+              : '74vh'
+        }"
+      ></div>
+    </div>
+  </div>
 </div>
 <div id="spinner">
-    <div class="loading">Loading&#8230;</div>
+  <div class="loading">Loading&#8230;</div>
 </div>

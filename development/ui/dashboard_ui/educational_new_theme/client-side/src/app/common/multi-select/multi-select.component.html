@@ -18,7 +18,7 @@
                         <label *ngFor="let a of list">
                             <input type="checkbox" [(ngModel)]="a.status"
                                 (change)="getSelectedValue(a.id,a.status, a)">
-                            <span style="margin-left: 5px;">{{a.name}}</span>
+                            <span style="margin-left: 5px; font-weight: normal; margin-top: -2px;">{{a.name}}</span>
                         </label>
                     </div>
                 </div>

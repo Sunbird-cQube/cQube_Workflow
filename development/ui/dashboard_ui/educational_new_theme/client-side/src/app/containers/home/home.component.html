@@ -7,7 +7,8 @@
       <a class="logo" id="cubeLogo" (click)="onToggle()" [routerLink]="[currentDashboardGroup]">
         <img src="../../../assets/images/logo.png" alt="logo">
       </a>
-
+      <div class="col text-right d-flex align-items-center justify-content-center">
+      </div>
       <span *ngIf="showBackBtn" id="backBtn" (click)="onBackClick()" [routerLink]="['/home']"><img
           src="../../../assets/images/back.svg" alt="back-logo"><strong
           style="padding: 0px 0.6vw .1vh 1vw">Back</strong></span>
@@ -114,8 +115,9 @@
                           <span style="opacity: 0.5;">Logged in as</span>
                           <h3>{{email}}</h3>
                         </div>
+                       
 
-                        <button type="button" id="logoutBtn" style="background-color: #0C54C6;"
+                        <button type="button" id="logoutBtn"
                           class="my-3 btn btn-labeled btn-primary" (click)="logout()">
                           <span class="btn-label p-3 log-out"><img src="assets/images/logout.svg"
                               alt=""></span>Logout</button>
