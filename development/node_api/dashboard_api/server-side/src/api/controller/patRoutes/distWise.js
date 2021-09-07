@@ -85,13 +85,14 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         footerFile = `${report}/${period}/${semester}/all_subjects_footer.json`;
                     }
                 } else {
-                    fileName = `${report}/${period}/${semester}/${report}_district.json`;
+                    fileName = `${report}/${academic_year}/${semester}/district/district.json`;
                 }
             }
         }
         var footer;
         var allSubjects = [];
         districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+       
         if (period != 'all') {
             if (grade && subject) {
                 footerData = await s3File.readS3File(footerFile);

@@ -670,7 +670,6 @@ export class PATLOTableComponent implements OnInit {
     this.reportData.map(a => {
       var keys = Object.keys(a);
       keys.map(key => {
-        console.log(typeof (a[key]));
         if (typeof (a[key]) == "object") {
           a[key] = a[key]['percentage'];
         }

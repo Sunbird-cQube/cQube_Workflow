@@ -79,7 +79,7 @@ router.post('/allClusterWise', auth.authController, async (req, res) => {
                         footerFile = `${report}/${period}/${semester}/all_subjects_footer.json`;
                     }
                 } else {
-                    fileName = `${report}/${period}/${semester}/${report}_cluster.json`;
+                    fileName = `${report}/${academic_year}/${semester}/cluster/cluster.json`;
                 }
             }
         }
@@ -166,7 +166,7 @@ router.post('/clusterWise/:distId/:blockId', auth.authController, async (req, re
                     footerFile = `${report}/${academic_year}/${month}/block/grade_subject_footer.json`;
                 }
             } else {
-                fileName = `${report}/${period}/${semester}/${report}_cluster.json`;
+                fileName = `${report}/${academic_year}/${semester}/cluster/cluster.json`;
                 footerFile = `${report}/${period}/block/${semester}/grade_subject_footer.json`;
             }
         }

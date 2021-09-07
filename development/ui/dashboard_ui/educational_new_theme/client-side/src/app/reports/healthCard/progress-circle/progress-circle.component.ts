@@ -31,7 +31,6 @@ export class ProgressCircleComponent implements OnInit {
   }
 
   renderSpinner(): void {
-    //console.log(this.screenWidth);
     if (this.screenWidth <= 1920) {
       this.radius = 100;
       this.titleFontSize = 50;
@@ -57,7 +56,6 @@ export class ProgressCircleComponent implements OnInit {
       this.innerStrokeWidth = 170;
       this.space = -170;
     }
-    //console.log(this.radius);
   }
 
 }

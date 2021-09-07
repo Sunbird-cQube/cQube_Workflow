@@ -98,18 +98,22 @@ export class SatReportComponent implements OnInit {
   reportName = "semester_assessment_test";
 
   timeRange = [
-    { key: "all", value: "Overall" },
+    // { key: "all", value: "Overall" },
     { key: "last_30_days", value: "Last 30 Days" },
-    { key: "last_7_days", value: "Last 7 Days" }
+    { key: "last_7_days", value: "Last 7 Days" },
+    // { key: "year_sem", value: "Year and Semseter" }
   ];
-  period = "all";
+  period = "last_30_days";
   state: string;
   // initial center position for the map
   public lat: any;
   public lng: any;
 
   semesters: any = [];
-  semester;
+  semester = "";
+  yearSem = false;
+  years = [];
+  year;
 
   management;
   category;
@@ -147,7 +151,7 @@ export class SatReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.period = "all";
+    this.period = "last_30_days";
     this.state = this.commonService.state;
     this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
     this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
@@ -166,6 +170,14 @@ export class SatReportComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
       }`;
+
+    this.service.getYears().subscribe(res => {
+      res['data'].map(a => {
+        this.years.push(a);
+      })
+      this.year = this.years[0]['academic_year'];
+      this.onSelectYear();
+    });
 
     if (params) {
       this.changeDetection.detectChanges();
@@ -219,20 +231,28 @@ export class SatReportComponent implements OnInit {
         this.clusterId = data.id;
         this.getDistricts(params.level);
       }
-    } else {
-      this.getSemesters();
     }
   }
-  getSemesters() {
-    this.service.semMetaData({ period: this.period }).subscribe((res) => {
-      this.semesters = res["data"];
-      if (this.semesters.length > 0)
-        this.semester = this.semesters[this.semesters.length - 1].id;
+  // getSemesters() {
+  //   this.service.semMetaData({ period: this.period }).subscribe((res) => {
+  //     this.semesters = res["data"];
+  //     console.log(this.semesters);
+  //     if (this.semesters.length > 0)
+  //       this.semester = this.semesters[this.semesters.length - 1].id;
+  //     this.levelWiseFilter();
+  //   }, err => {
+  //     this.semesters = [];
+  //     this.commonService.loaderAndErr(this.semesters);
+  //   });
+  // }
+
+  onSelectYear() {
+    let obj = this.years.find(a => a['academic_year'] == this.year);
+    this.semesters = obj['semester'];
+    if (this.semesters.length > 0) {
+      this.semester = this.semesters[this.semesters.length - 1].id;
       this.levelWiseFilter();
-    }, err => {
-      this.semesters = [];
-      this.commonService.loaderAndErr(this.semesters);
-    });
+    }
   }
 
   semSelect() {
@@ -251,6 +271,7 @@ export class SatReportComponent implements OnInit {
             grade: this.grade,
             period: this.period,
             report: "sat",
+            year: this.year,
             sem: this.semester,
           }, ...{ management: this.management, category: this.category }
         })
@@ -280,6 +301,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         }, ...{ management: this.management, category: this.category }
       })
@@ -302,6 +324,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         }, ...{ management: this.management, category: this.category }
       })
@@ -331,6 +354,10 @@ export class SatReportComponent implements OnInit {
   }
 
   onGradeSelect(data) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject ? this.subject : ""
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
@@ -339,6 +366,10 @@ export class SatReportComponent implements OnInit {
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject}_all${this.level}_${this.commonService.dateAndTime}`;
     this.subject = data;
     this.levelWiseFilter();
@@ -371,7 +402,7 @@ export class SatReportComponent implements OnInit {
 
   linkClick() {
     //document.getElementById("home").style.display = "none";
-    this.period = 'all';
+    this.period = 'last_30_days';
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
       }`;
@@ -379,7 +410,8 @@ export class SatReportComponent implements OnInit {
     this.subject = undefined;
     this.subjectHidden = true;
     this.level = "District";
-    this.levelWiseFilter();
+    this.year = this.years[0]['academic_year'];
+    this.onSelectYear();
   }
 
   // to load all the districts for state data on the map
@@ -417,6 +449,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -438,6 +471,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -506,6 +540,10 @@ export class SatReportComponent implements OnInit {
   }
 
   blockClick() {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -556,6 +594,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -578,6 +617,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -708,6 +748,10 @@ export class SatReportComponent implements OnInit {
   }
 
   clusterClick() {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -759,6 +803,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -781,6 +826,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -910,6 +956,10 @@ export class SatReportComponent implements OnInit {
   }
 
   schoolClick() {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -961,6 +1011,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -983,6 +1034,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -1111,6 +1163,10 @@ export class SatReportComponent implements OnInit {
   }
 
   ondistLinkClick(districtId) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -1153,6 +1209,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
           grade: this.grade, subject: this.subject
         }, ...{ management: this.management, category: this.category }
@@ -1229,6 +1286,10 @@ export class SatReportComponent implements OnInit {
   }
 
   onblockLinkClick(blockId) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -1269,6 +1330,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
           grade: this.grade, subject: this.subject
         }, ...{ management: this.management, category: this.category }
@@ -1361,6 +1423,10 @@ export class SatReportComponent implements OnInit {
   }
 
   onclusterLinkClick(clusterId) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -1400,6 +1466,7 @@ export class SatReportComponent implements OnInit {
           grade: this.grade,
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         }, ...{ management: this.management, category: this.category }
       })
@@ -1410,7 +1477,12 @@ export class SatReportComponent implements OnInit {
               this.blockHierarchy.distId,
               this.blockHierarchy.blockId,
               clusterId,
-              { ...{ period: this.period, report: "sat", sem: this.semester, grade: this.grade, subject: this.subject }, ...{ management: this.management, category: this.category } }
+              {
+                ...{
+                  period: this.period, report: "sat",
+                  year: this.year, sem: this.semester, grade: this.grade, subject: this.subject
+                }, ...{ management: this.management, category: this.category }
+              }
             )
             .subscribe(
               (res) => {

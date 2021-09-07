@@ -39,8 +39,8 @@ export class StudentAttendanceChartComponent implements OnInit {
 
   //For academic year selection::::::::::::::::::::::::::::::::
   years = [];
-  selectedYear = '2020-21';
-  selectedYear1 = '2018-19';
+  selectedYear;
+  selectedYear1;
 
   //For management and category
   managementName;
@@ -77,7 +77,8 @@ export class StudentAttendanceChartComponent implements OnInit {
     );
     this.service.getYears().subscribe(res => {
       this.years = Object.keys(res);
-      // this.selectedYear = this.years[this.years.length - 1];
+      this.selectedYear = this.years[0];
+      this.selectedYear1 = this.years[1];
       this.onResize();
       this.onHomeClick(false);
     }, err => {
@@ -106,8 +107,10 @@ export class StudentAttendanceChartComponent implements OnInit {
   //this will reset the page content::::::::::::::::::::::::::::
   onHomeClick(defYear) {
     this.commonService.errMsg();
-    // if (!defYear)
-    // this.selectedYear = this.years[this.years.length - 1];
+    if (!defYear) {
+      this.selectedYear = this.years[0];
+      this.selectedYear1 = this.years[1];
+    }
     this.getStateData();
     this.getStateData1();
     this.selectedDistricts = [];

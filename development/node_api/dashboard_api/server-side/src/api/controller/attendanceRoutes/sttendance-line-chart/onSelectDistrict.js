@@ -17,7 +17,6 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         } else {
             fileName = `attendance/trend_line_chart/state_${year}.json`;
         }
-        console.log(fileName)
         var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var mydata = [];
 
@@ -145,7 +144,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
             fileName = `attendance/trend_line_chart/district/district_${year}.json`;
         }
 
-        var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
         var keys = Object.keys(districtData);
         var mydata = [];
 
@@ -265,22 +264,11 @@ router.post('/distWise', auth.authController, async (req, res) => {
 router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
-        const_data['getParams']['Key'] = `attendance/student_attendance_meta.json`;
-        const_data['s3'].getObject(const_data['getParams'], function (err, data) {
-            if (err) {
-                logger.error(err);
-                res.status(500).json({ errMsg: "Something went wrong" });
-            } else if (!data) {
-                logger.error("No data found in s3 file");
-                res.status(403).json({ errMsg: "No such data found" });
-            } else {
-                let dateObj = data.Body.toString();
-                dateObj = JSON.parse(dateObj);
-                let date = groupArray(dateObj, 'year')
-                logger.info('--- getDateRange response sent ---');
-                res.status(200).send(date);
-            }
-        });
+        let fileName = `attendance/student_attendance_meta.json`;
+        let data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
+        let date = groupArray(data, 'year');
+        logger.info('--- getDateRange response sent ---');
+        res.status(200).send(date);
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

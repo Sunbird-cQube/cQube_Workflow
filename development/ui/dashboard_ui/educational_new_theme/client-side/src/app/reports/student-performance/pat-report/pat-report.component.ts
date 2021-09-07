@@ -354,7 +354,6 @@ export class PATReportComponent implements OnInit {
     this.grade = undefined;
     this.subject = undefined;
     this.subjectHidden = true;
-    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month = this.months[this.months.length - 1];
     this.month_year = {
