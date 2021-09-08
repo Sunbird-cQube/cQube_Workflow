@@ -81,35 +81,35 @@ returns int as
 $body$
 begin
 
-DROP MATERIALIZED VIEW periodic_grade_district_year_month;
-DROP MATERIALIZED VIEW periodic_grade_block_year_month;
-DROP MATERIALIZED VIEW periodic_grade_cluster_year_month;
-DROP MATERIALIZED VIEW periodic_grade_school_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_district_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_block_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_cluster_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_school_year_month;
 
-DROP MATERIALIZED VIEW periodic_grade_district_mgmt_year_month;
-DROP MATERIALIZED VIEW periodic_grade_block_mgmt_year_month;
-DROP MATERIALIZED VIEW periodic_grade_cluster_mgmt_year_month;
-DROP MATERIALIZED VIEW periodic_grade_school_mgmt_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_district_mgmt_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_block_mgmt_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_cluster_mgmt_year_month;
+DROP MATERIALIZED VIEW if exists periodic_grade_school_mgmt_year_month;
 
-DROP MATERIALIZED VIEW periodic_grade_district_mgmt_last30;
-DROP MATERIALIZED VIEW periodic_grade_block_mgmt_last30;
-DROP MATERIALIZED VIEW periodic_grade_cluster_mgmt_last30;
-DROP MATERIALIZED VIEW periodic_grade_school_mgmt_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_district_mgmt_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_block_mgmt_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_cluster_mgmt_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_school_mgmt_last30;
 
-DROP MATERIALIZED VIEW periodic_grade_district_mgmt_last7;
-DROP MATERIALIZED VIEW periodic_grade_block_mgmt_last7;
-DROP MATERIALIZED VIEW periodic_grade_cluster_mgmt_last7;
-DROP MATERIALIZED VIEW periodic_grade_school_mgmt_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_district_mgmt_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_block_mgmt_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_cluster_mgmt_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_school_mgmt_last7;
 
-DROP MATERIALIZED VIEW periodic_grade_district_last30;
-DROP MATERIALIZED VIEW periodic_grade_block_last30;
-DROP MATERIALIZED VIEW periodic_grade_cluster_last30;
-DROP MATERIALIZED VIEW periodic_grade_school_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_district_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_block_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_cluster_last30;
+DROP MATERIALIZED VIEW if exists periodic_grade_school_last30;
 
-DROP MATERIALIZED VIEW periodic_grade_district_last7;
-DROP MATERIALIZED VIEW periodic_grade_block_last7;
-DROP MATERIALIZED VIEW periodic_grade_cluster_last7;
-DROP MATERIALIZED VIEW periodic_grade_school_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_district_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_block_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_cluster_last7;
+DROP MATERIALIZED VIEW if exists periodic_grade_school_last7;
 
   return 0;
 
