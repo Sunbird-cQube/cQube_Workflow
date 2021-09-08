@@ -106,5 +106,10 @@ export class PatReportService {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/pat/getSemesters`, data);
   }
+
+  getYears(){
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/pat/getYears`);
+  }
 }
 

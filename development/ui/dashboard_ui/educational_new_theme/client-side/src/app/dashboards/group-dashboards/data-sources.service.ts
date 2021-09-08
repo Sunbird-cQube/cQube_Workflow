@@ -8,16 +8,16 @@ export class DataSourcesService {
   public dataSources = {
     crc: "",
     attendance: "",
+    teacher_attendance: "",
+    semester: "",
     infra: "",
     diksha: "",
     telemetry: "",
     udise: "",
     pat: "",
     composite: "",
-    progresscard: "",
-    teacher_attendance: "",
-    // data_replay: "",
-    sat: ""
+    sat: "",
+    progresscard: ""
   }
 
   // public telemetryData = [];
@@ -63,9 +63,12 @@ export class DataSourcesService {
         if (element.template == "attendance") {
           this.dataSources.attendance = element.status;
         }
-        // if (element.template == "nifi_semester") {
-        //   this.dataSources.semester = element.status;
-        // }
+        if (element.template == "teacher_attendance") {
+          this.dataSources.teacher_attendance = element.status;
+        }
+        if (element.template == "semester") {
+          this.dataSources.semester = element.status;
+        }
         if (element.template == "infra") {
           this.dataSources.infra = element.status;
         }

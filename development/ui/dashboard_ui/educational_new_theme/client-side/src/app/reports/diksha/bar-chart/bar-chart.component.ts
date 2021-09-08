@@ -60,7 +60,7 @@ export class BarChartComponent implements OnInit {
         labels: {
           style: {
             color: 'black',
-            fontSize: this.height > 1760 ? "32px" : this.height > 1180 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1180 ? "12px" : "10px"
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           }
         },
         type: "category",
@@ -70,7 +70,7 @@ export class BarChartComponent implements OnInit {
           text: this.yAxisLabel,
           style: {
             color: 'black',
-            fontSize: this.height > 1760 ? "32px" : this.height > 1180 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1180 ? "12px" : "10px",
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             fontWeight: "bold"
           }
         },
@@ -86,7 +86,7 @@ export class BarChartComponent implements OnInit {
         labels: {
           style: {
             color: 'black',
-            fontSize: this.height > 1760 ? "26px" : this.height > 1180 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1180 ? "12px" : "10px"
+            fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           },
           formatter: function () {
             return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -100,7 +100,7 @@ export class BarChartComponent implements OnInit {
           text: this.xAxisLabel,
           style: {
             color: 'black',
-            fontSize: this.height > 1760 ? "32px" : this.height > 1180 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1180 ? "12px" : "10px",
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             fontWeight: "bold"
           }
         }
@@ -128,7 +128,7 @@ export class BarChartComponent implements OnInit {
             enabled: true,
             style: {
               fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1180 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1180 ? "12px" : "10px"
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
             },
             formatter: function () {
               return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -140,7 +140,7 @@ export class BarChartComponent implements OnInit {
       ],
       tooltip: {
         style: {
-          fontSize: this.height > 1760 ? "32px" : this.height > 1180 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1180 ? "12px" : "10px",
+          fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
           opacity: 1,
           backgroundColor: "white"
         },

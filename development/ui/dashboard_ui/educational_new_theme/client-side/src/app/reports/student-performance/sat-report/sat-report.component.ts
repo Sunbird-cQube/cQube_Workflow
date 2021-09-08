@@ -55,6 +55,8 @@ export class SatReportComponent implements OnInit {
   // for dropdowns
   public data: any;
   public markers: any = [];
+  public dataOptions = {};
+
   // for maps
   public districtMarkers: any = [];
   public blockMarkers: any = [];
@@ -96,18 +98,22 @@ export class SatReportComponent implements OnInit {
   reportName = "semester_assessment_test";
 
   timeRange = [
-    { key: "all", value: "Overall" },
+    // { key: "all", value: "Overall" },
     { key: "last_30_days", value: "Last 30 Days" },
-    { key: "last_7_days", value: "Last 7 Days" }
+    { key: "last_7_days", value: "Last 7 Days" },
+    // { key: "year_sem", value: "Year and Semseter" }
   ];
-  period = "all";
+  period = "last_30_days";
   state: string;
   // initial center position for the map
   public lat: any;
   public lng: any;
 
   semesters: any = [];
-  semester;
+  semester = "";
+  yearSem = false;
+  years = [];
+  year;
 
   management;
   category;
@@ -138,17 +144,17 @@ export class SatReportComponent implements OnInit {
   }
 
   width = window.innerWidth;
-  heigth = window.innerHeight;
+  height = window.innerHeight;
   onResize() {
     this.width = window.innerWidth;
-    this.heigth = window.innerHeight;
+    this.height = window.innerHeight;
   }
 
   ngOnInit() {
-    this.period = "all";
+    this.period = "last_30_days";
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("satMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
@@ -164,6 +170,14 @@ export class SatReportComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
       }`;
+
+    this.service.getYears().subscribe(res => {
+      res['data'].map(a => {
+        this.years.push(a);
+      })
+      this.year = this.years[0]['academic_year'];
+      this.onSelectYear();
+    });
 
     if (params) {
       this.changeDetection.detectChanges();
@@ -217,20 +231,28 @@ export class SatReportComponent implements OnInit {
         this.clusterId = data.id;
         this.getDistricts(params.level);
       }
-    } else {
-      this.getSemesters();
     }
   }
-  getSemesters() {
-    this.service.semMetaData({ period: this.period }).subscribe((res) => {
-      this.semesters = res["data"];
-      if (this.semesters.length > 0)
-        this.semester = this.semesters[this.semesters.length - 1].id;
+  // getSemesters() {
+  //   this.service.semMetaData({ period: this.period }).subscribe((res) => {
+  //     this.semesters = res["data"];
+  //     console.log(this.semesters);
+  //     if (this.semesters.length > 0)
+  //       this.semester = this.semesters[this.semesters.length - 1].id;
+  //     this.levelWiseFilter();
+  //   }, err => {
+  //     this.semesters = [];
+  //     this.commonService.loaderAndErr(this.semesters);
+  //   });
+  // }
+
+  onSelectYear() {
+    let obj = this.years.find(a => a['academic_year'] == this.year);
+    this.semesters = obj['semester'];
+    if (this.semesters.length > 0) {
+      this.semester = this.semesters[this.semesters.length - 1].id;
       this.levelWiseFilter();
-    }, err => {
-      this.semesters = [];
-      this.commonService.loaderAndErr(this.semesters);
-    });
+    }
   }
 
   semSelect() {
@@ -249,6 +271,7 @@ export class SatReportComponent implements OnInit {
             grade: this.grade,
             period: this.period,
             report: "sat",
+            year: this.year,
             sem: this.semester,
           }, ...{ management: this.management, category: this.category }
         })
@@ -278,6 +301,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         }, ...{ management: this.management, category: this.category }
       })
@@ -300,6 +324,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         }, ...{ management: this.management, category: this.category }
       })
@@ -329,6 +354,10 @@ export class SatReportComponent implements OnInit {
   }
 
   onGradeSelect(data) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject ? this.subject : ""
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
@@ -337,6 +366,10 @@ export class SatReportComponent implements OnInit {
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject}_all${this.level}_${this.commonService.dateAndTime}`;
     this.subject = data;
     this.levelWiseFilter();
@@ -369,7 +402,7 @@ export class SatReportComponent implements OnInit {
 
   linkClick() {
     //document.getElementById("home").style.display = "none";
-    this.period = 'all';
+    this.period = 'last_30_days';
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
       }`;
@@ -377,7 +410,8 @@ export class SatReportComponent implements OnInit {
     this.subject = undefined;
     this.subjectHidden = true;
     this.level = "District";
-    this.levelWiseFilter();
+    this.year = this.years[0]['academic_year'];
+    this.onSelectYear();
   }
 
   // to load all the districts for state data on the map
@@ -397,6 +431,11 @@ export class SatReportComponent implements OnInit {
       }
       this.reportData = [];
       this.level = "District";
+
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -410,6 +449,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -431,6 +471,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -457,14 +498,14 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "District",
                   };
-
+                  this.dataOptions = options;
                   this.commonService.restrictZoom(globalMap);
                   globalMap.setMaxBounds([
                     [options.centerLat - 4.5, options.centerLng - 6],
                     [options.centerLat + 3.5, options.centerLng + 6],
                   ]);
                   this.changeDetection.detectChanges();
-                  this.genericFun(this.myDistData, options, this.fileName);
+                  this.genericFun(this.data, options, this.fileName);
                   this.commonService.onResize(this.level);
                   this.allDistricts.sort((a, b) =>
                     a.Details["district_name"] > b.Details["district_name"]
@@ -473,6 +514,10 @@ export class SatReportComponent implements OnInit {
                         ? -1
                         : 0
                   );
+
+                  this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                  this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                  this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                   this.changeDetection.detectChanges();
                 },
                 (err) => {
@@ -495,6 +540,10 @@ export class SatReportComponent implements OnInit {
   }
 
   blockClick() {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -527,6 +576,10 @@ export class SatReportComponent implements OnInit {
         }_${this.subject ? this.subject : ""}_allBlocks_${this.commonService.dateAndTime
         }`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -541,6 +594,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -563,6 +617,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -579,7 +634,7 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "Block",
                   };
-
+                  this.dataOptions = options;
                   if (this.data.length > 0) {
                     let result = this.data;
                     this.blockMarkers = [];
@@ -588,7 +643,6 @@ export class SatReportComponent implements OnInit {
                       this.blockFilter = this.blockMarkers;
                     }
 
-                    this.schoolCount = 0;
                     if (this.grade && this.subject) {
                       let filterData = this.blockMarkers.filter((obj) => {
                         return Object.keys(obj.Subjects).includes(this.subject);
@@ -670,18 +724,9 @@ export class SatReportComponent implements OnInit {
                     ]);
                     this.commonService.onResize(this.level);
 
-                    this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
-                    if (this.schoolCount != null) {
-                      this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentCount = res['footer'] ? res['footer'].total_students : null;
-                    if (this.studentCount != null) {
-                      this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
-                    if (this.studentAttended != null) {
-                      this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
+                    this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.changeDetection.detectChanges();
                     this.commonService.loaderAndErr(this.data);
                   }
@@ -703,6 +748,10 @@ export class SatReportComponent implements OnInit {
   }
 
   clusterClick() {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -736,6 +785,10 @@ export class SatReportComponent implements OnInit {
         }_${this.subject ? this.subject : ""}_allClusters_${this.commonService.dateAndTime
         }`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -750,6 +803,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -772,6 +826,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -787,7 +842,7 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "Cluster",
                   };
-
+                  this.dataOptions = options;
                   if (this.data.length > 0) {
                     let result = this.data;
                     this.clusterMarkers = [];
@@ -795,7 +850,6 @@ export class SatReportComponent implements OnInit {
                     if (!this.clusterMarkers[0]["Subjects"]) {
                       this.clusterFilter = this.clusterMarkers;
                     }
-                    this.schoolCount = 0;
                     if (this.grade && this.subject) {
                       let filterData = this.clusterMarkers.filter((obj) => {
                         return Object.keys(obj.Subjects).includes(this.subject);
@@ -878,18 +932,9 @@ export class SatReportComponent implements OnInit {
                     this.commonService.onResize(this.level);
 
                     //schoolCount
-                    this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
-                    if (this.schoolCount != null) {
-                      this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentCount = res['footer'] ? res['footer'].total_students : null;
-                    if (this.studentCount != null) {
-                      this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
-                    if (this.studentAttended != null) {
-                      this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
+                    this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.changeDetection.detectChanges();
                     this.commonService.loaderAndErr(this.data);
                   }
@@ -911,6 +956,10 @@ export class SatReportComponent implements OnInit {
   }
 
   schoolClick() {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -944,6 +993,10 @@ export class SatReportComponent implements OnInit {
         }_${this.subject ? this.subject : ""}_allSchools_${this.commonService.dateAndTime
         }`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -958,6 +1011,7 @@ export class SatReportComponent implements OnInit {
         .gradeMetaData({
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         })
         .subscribe(
@@ -980,6 +1034,7 @@ export class SatReportComponent implements OnInit {
                   subject: this.subject,
                   period: this.period,
                   report: "sat",
+                  year: this.year,
                   sem: this.semester,
                 }, ...{ management: this.management, category: this.category }
               })
@@ -995,11 +1050,10 @@ export class SatReportComponent implements OnInit {
                     centerLng: this.lng,
                     level: "School",
                   };
-
+                  this.dataOptions = options;
                   this.schoolMarkers = [];
                   if (this.data.length > 0) {
                     let result = this.data;
-                    this.schoolCount = 0;
                     this.schoolMarkers = result;
                     if (this.grade && this.subject) {
                       let filterData = this.schoolMarkers.filter((obj) => {
@@ -1084,18 +1138,9 @@ export class SatReportComponent implements OnInit {
                     this.commonService.onResize(this.level);
 
                     ///schoolCount
-                    this.schoolCount = res['footer'] ? res['footer'].total_schools : null;
-                    if (this.schoolCount != null) {
-                      this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentCount = res['footer'] ? res['footer'].total_students : null;
-                    if (this.studentCount != null) {
-                      this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
-                    this.studentAttended = res['footer'] ? res['footer'].students_attended : null;
-                    if (this.studentAttended != null) {
-                      this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                    }
+                    this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                    this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.changeDetection.detectChanges();
                     this.commonService.loaderAndErr(this.data);
                   }
@@ -1118,6 +1163,10 @@ export class SatReportComponent implements OnInit {
   }
 
   ondistLinkClick(districtId) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -1147,6 +1196,10 @@ export class SatReportComponent implements OnInit {
       (a) => a.Details.district_id == districtId
     );
 
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     // api call to get the blockwise data for selected district
     if (this.myData) {
       this.myData.unsubscribe();
@@ -1156,6 +1209,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
           grade: this.grade, subject: this.subject
         }, ...{ management: this.management, category: this.category }
@@ -1197,7 +1251,7 @@ export class SatReportComponent implements OnInit {
             centerLng: this.data[0].Details.longitude,
             level: "blockPerDistrict",
           };
-
+          this.dataOptions = options;
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
@@ -1207,17 +1261,21 @@ export class SatReportComponent implements OnInit {
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
-          this.genericFun(res, options, this.fileName);
+          this.genericFun(this.data, options, this.fileName);
           this.commonService.onResize(this.level);
 
           // sort the blockname alphabetically
-          this.blockMarkers.sort((a, b) =>
+          this.allBlocks.sort((a, b) =>
             a.Details.block_name > b.Details.block_name
               ? 1
               : b.Details.block_name > a.Details.block_name
                 ? -1
                 : 0
           );
+
+          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
         },
         (err) => {
           this.errorHandling();
@@ -1228,6 +1286,10 @@ export class SatReportComponent implements OnInit {
   }
 
   onblockLinkClick(blockId) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -1255,6 +1317,10 @@ export class SatReportComponent implements OnInit {
       }_${this.subject ? this.subject : ""}_clusters_of_block_${blockId}_${this.commonService.dateAndTime
       }`;
 
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     // api call to get the clusterwise data for selected district, block
     if (this.myData) {
       this.myData.unsubscribe();
@@ -1264,6 +1330,7 @@ export class SatReportComponent implements OnInit {
         ...{
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
           grade: this.grade, subject: this.subject
         }, ...{ management: this.management, category: this.category }
@@ -1322,6 +1389,7 @@ export class SatReportComponent implements OnInit {
             centerLng: this.data[0].Details.longitude,
             level: "clusterPerBlock",
           };
+          this.dataOptions = options;
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
@@ -1331,7 +1399,7 @@ export class SatReportComponent implements OnInit {
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
-          this.genericFun(res, options, this.fileName);
+          this.genericFun(this.data, options, this.fileName);
           this.commonService.onResize(this.level);
 
           // sort the clusterName alphabetically
@@ -1342,6 +1410,9 @@ export class SatReportComponent implements OnInit {
                 ? -1
                 : 0
           );
+          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
         },
         (err) => {
           this.errorHandling();
@@ -1352,6 +1423,10 @@ export class SatReportComponent implements OnInit {
   }
 
   onclusterLinkClick(clusterId) {
+    if (this.semester == "") {
+      alert("Please select semester!");
+      return;
+    }
     if (this.grade) {
       this.grade = undefined;
       this.subject = undefined;
@@ -1377,6 +1452,10 @@ export class SatReportComponent implements OnInit {
       (a) => a.Details.cluster_id == clusterId
     );
 
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     // api call to get the schoolwise data for selected district, block, cluster
     if (this.myData) {
       this.myData.unsubscribe();
@@ -1387,6 +1466,7 @@ export class SatReportComponent implements OnInit {
           grade: this.grade,
           period: this.period,
           report: "sat",
+          year: this.year,
           sem: this.semester,
         }, ...{ management: this.management, category: this.category }
       })
@@ -1397,7 +1477,12 @@ export class SatReportComponent implements OnInit {
               this.blockHierarchy.distId,
               this.blockHierarchy.blockId,
               clusterId,
-              { ...{ period: this.period, report: "sat", sem: this.semester, grade: this.grade, subject: this.subject }, ...{ management: this.management, category: this.category } }
+              {
+                ...{
+                  period: this.period, report: "sat",
+                  year: this.year, sem: this.semester, grade: this.grade, subject: this.subject
+                }, ...{ management: this.management, category: this.category }
+              }
             )
             .subscribe(
               (res) => {
@@ -1477,6 +1562,7 @@ export class SatReportComponent implements OnInit {
                   centerLng: this.data[0].Details.longitude,
                   level: "schoolPerCluster",
                 };
+                this.dataOptions = options;
                 this.commonService.latitude = this.lat = options.centerLat;
                 this.commonService.longitude = this.lng = options.centerLng;
 
@@ -1491,9 +1577,12 @@ export class SatReportComponent implements OnInit {
                   [options.centerLat + 1.5, options.centerLng + 2],
                 ]);
 
-                this.genericFun(res, options, this.fileName);
+                this.genericFun(this.data, options, this.fileName);
                 this.commonService.onResize(this.level);
 
+                this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
               },
               (err) => {
                 this.errorHandling();
@@ -1512,13 +1601,11 @@ export class SatReportComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.schoolCount = 0;
-      var myData = data["data"];
       var color;
       var colors = [];
       this.allSubjects.sort();
-      if (myData.length > 0) {
-        this.markers = myData;
+      if (data.length > 0) {
+        this.markers = data;
         if (this.grade && this.subject) {
           var filtererSubData = this.markers.filter(item => {
             return item.Subjects[`${this.subject}`];
@@ -1526,7 +1613,7 @@ export class SatReportComponent implements OnInit {
           this.markers = filtererSubData;
         }
         for (let i = 0; i < this.markers.length; i++) {
-          if (this.period != 'all') {
+          if (this.period != 'all' && !this.valueRange) {
             if (this.grade && !this.subject) {
               this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
               this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
@@ -1604,20 +1691,6 @@ export class SatReportComponent implements OnInit {
           this.getDownloadableData(this.markers[i], options.level);
         }
         this.commonService.loaderAndErr(this.data);
-
-        //schoolCount
-        this.schoolCount = data['footer'] ? data['footer'].total_schools : null;
-        if (this.schoolCount != null) {
-          this.schoolCount = (this.schoolCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
-        this.studentCount = data['footer'] ? data['footer'].total_students : null;
-        if (this.studentCount != null) {
-          this.studentCount = (this.studentCount).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
-        this.studentAttended = data['footer'] ? data['footer'].students_attended : null;
-        if (this.studentAttended != null) {
-          this.studentAttended = (this.studentAttended).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
         this.changeDetection.detectChanges();
       }
     } catch (e) {
@@ -1673,8 +1746,8 @@ export class SatReportComponent implements OnInit {
             },
             colors
           ),
-        strock,
-        border,
+        level == 'School' ? 0 : strock,
+        level == 'School' ? 0.3 : border,
         level
       );
       return icon;
@@ -1920,22 +1993,20 @@ export class SatReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    for (var i = 0; i < this.markers.length; i++) {
-      markerIcon.on("mouseover", function (e) {
-        this.openPopup();
-      });
-      markerIcon.on("mouseout", function (e) {
-        this.closePopup();
-      });
+    markerIcon.on("mouseover", function (e) {
+      this.openPopup();
+    });
+    markerIcon.on("mouseout", function (e) {
+      this.closePopup();
+    });
 
-      this.layerMarkers.addLayer(markerIcon);
-      if (level === "schoolPerCluster" || level === "School") {
-        markerIcon.on("click", this.onClickSchool, this);
-      } else {
-        markerIcon.on("click", this.onClick_Marker, this);
-      }
-      markerIcon.myJsonData = markers;
+    this.layerMarkers.addLayer(markerIcon);
+    if (level === "schoolPerCluster" || level === "School") {
+      markerIcon.on("click", this.onClickSchool, this);
+    } else {
+      markerIcon.on("click", this.onClick_Marker, this);
     }
+    markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }
 
@@ -2034,11 +2105,11 @@ export class SatReportComponent implements OnInit {
     var mylevel;
     if (level == "District") {
       mylevel = level;
-    } else if (level == "Block") {
+    } else if (level == "Block" || level == "blockPerDistrict") {
       mylevel = level;
-    } else if (level == "Cluster") {
+    } else if (level == "Cluster" || level == "clusterPerBlock") {
       mylevel = level;
-    } else if (level == "School") {
+    } else if (level == "School" || level == "schoolPerCluster") {
       mylevel = level;
     }
     if (level != mylevel) {
@@ -2133,4 +2204,102 @@ export class SatReportComponent implements OnInit {
     "81-90",
     "91-100",
   ];
+
+  //Filter data based on attendance percentage value range:::::::::::::::::::
+  public valueRange = undefined;
+  public prevRange = undefined;
+  selectRange(value) {
+    this.valueRange = value;
+    this.filterRangeWiseData(value);
+  }
+
+  filterRangeWiseData(value) {
+    this.prevRange = value;
+    this.schoolCount = 0;
+    this.studentCount = 0
+    this.studentAttended = 0;
+
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
+
+    //getting relative colors for all markers:::::::::::
+    var markers = [];
+    if (value) {
+      this.data.map(a => {
+        if (!this.grade && !this.subject) {
+          if (a.Details[`Performance`] > this.valueRange.split("-")[0] - 1 && a.Details[`Performance`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        } else if (this.grade && !this.subject) {
+          if (a['Subjects'][`Grade Performance`] > this.valueRange.split("-")[0] - 1 && a['Subjects'][`Grade Performance`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        } else {
+          if (a['Subjects'][`${this.subject}`] > this.valueRange.split("-")[0] - 1 && a['Subjects'][`${this.subject}`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        }
+      })
+    } else {
+      markers = this.data;
+    }
+    this.genericFun(markers, this.dataOptions, this.fileName);
+
+
+    this.commonService.errMsg();
+    if (this.level == 'District') {
+      this.allDistricts = markers;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.allBlocks = markers;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.allClusters = markers;
+    }
+    if (markers.length > 0) {
+      for (let i = 0; i < markers.length; i++) {
+        this.studentAttended += markers[i].Details['students_attended'] ? markers[i].Details['students_attended'] : 0;
+        this.studentCount += markers[i].Details['total_students'] ? markers[i].Details['total_students'] : 0;
+        this.schoolCount += markers[i].Details['total_schools'] ? markers[i].Details['total_schools'] : 0;
+      }
+      this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      this.studentCount = this.studentCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      this.studentAttended = this.studentAttended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+    }
+    //adjusting marker size and other UI on screen resize:::::::::::
+    this.commonService.onResize(this.level);
+    this.commonService.loaderAndErr(markers)
+    this.changeDetection.detectChanges();
+  }
+
+  public selectedIndex;
+  select(i) {
+    this.selectedIndex = i;
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
+    this.deSelect();
+  }
+
+  deSelect() {
+    var elements = document.getElementsByClassName('legends');
+    for (var j = 0; j < elements.length; j++) {
+      if (this.selectedIndex !== j) {
+        elements[j]['style'].border = "1px solid transparent";
+        elements[j]['style'].transform = "scale(1.0)";
+      }
+    }
+    if (this.level == 'District') {
+      this.allDistricts = this.data;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.allBlocks = this.data;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.allClusters = this.data;
+    }
+  }
+
+  reset(value) {
+    this.valueRange = value;
+    this.selectedIndex = undefined;
+    this.deSelect();
+    this.filterRangeWiseData(value);
+  }
+
 }

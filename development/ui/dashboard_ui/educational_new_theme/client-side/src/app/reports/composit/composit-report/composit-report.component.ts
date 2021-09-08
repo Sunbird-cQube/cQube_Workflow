@@ -94,12 +94,12 @@ export class CompositReportComponent implements OnInit {
       if (Object.keys(this.result[0]).includes("Student Attendance(%)")) {
         this.xAxis = "Student Attendance(%)";
       } else {
-        this.xAxis = Object.keys(this.result[0])[1];
+        this.xAxis = Object.keys(this.result[0])[2];
       }
       if (Object.keys(this.result[0]).includes("Semester Performance(%)")) {
         this.yAxis = "Semester Performance(%)";
       } else {
-        this.yAxis = Object.keys(this.result[0])[2];
+        this.yAxis = Object.keys(this.result[0])[3];
       }
       this.districtWise();
     }, err => {
@@ -542,8 +542,8 @@ export class CompositReportComponent implements OnInit {
       let y_axis = this.yAxisFilter.find(o => o.key == this.yAxis);
 
       let obj = {
-        xAxis: x_axis.value,
-        yAxis: y_axis.value
+        xAxis: x_axis ? x_axis.value : this.xAxis,
+        yAxis: y_axis ? y_axis.value : this.yAxis
       }
       this.labels = labels;
       this.obj = obj;
@@ -606,22 +606,24 @@ export class CompositReportComponent implements OnInit {
           pointBackgroundColor: "#0850b8",
           pointBorderColor: '#7cd6cc',
           pointBorderWidth: 0.5,
-          pointRadius: this.height > 1760 ? 16 : this.height > 1180 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1180 ? 8 : 5,
-          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1180 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1180 ? 9 : 6,
+          pointRadius: this.height > 1760 ? 16 : this.height > 1160 && this.height < 1760 ? 10 : this.height > 667 && this.height < 1160 ? 8 : 5,
+          pointHoverRadius: this.height > 1760 ? 18 : this.height > 1160 && this.height < 1760 ? 12 : this.height > 667 && this.height < 1160 ? 9 : 6,
         }]
       },
       options: {
+
         legend: {
           display: false
         },
 
         responsive: true,
         tooltips: {
+          mode: 'index',
           titleFontSize: 16,
           cornerRadius: 10,
-          xPadding: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1180 ? 10 : 7,
-          yPadding: this.height > 1760 ? 30 : this.height > 1180 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1180 ? 10 : 7,
-          bodyFontSize: this.height > 1760 ? 32 : this.height > 1180 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1180 ? 12 : 10,
+          xPadding: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 10 : 7,
+          yPadding: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 10 : 7,
+          bodyFontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 12 : 10,
           displayColors: false,
           custom: function (tooltip) {
             if (!tooltip) return;
