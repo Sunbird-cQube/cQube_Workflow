@@ -3373,6 +3373,8 @@ cast (right(pert.exam_code,4)as integer) as year,pert.school_id,cluster_id,block
 school_management_type,student_uid from semester_exam_stud_grade_count pert  join school_hierarchy_details shd on pert.school_id=shd.school_id join semester_exam_mst sem on pert.exam_code=sem.exam_code ) as a	
 group by school_id,semester,grade,academic_year,school_management_type,cluster_id,block_id,district_id) WITH NO DATA;
 
+
+
 /* District */
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_district_year_semester AS
@@ -3413,7 +3415,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_district_year_semester AS
                             round(COALESCE(sum(semester_exam_school_result.obtained_marks), 0::numeric) * 100.0 / COALESCE(sum(semester_exam_school_result.total_marks), 0::numeric), 1) AS district_performance                           FROM semester_exam_school_result
                           GROUP BY semester_exam_school_result.academic_year,semester_exam_school_result.semester,semester_exam_school_result.district_id, semester_exam_school_result.district_name, semester_exam_school_result.district_latitude, semester_exam_school_result.district_longitude) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.district_id
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
@@ -3529,7 +3531,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_block_year_semester AS
 							 GROUP BY semester_exam_school_result.academic_year,semester_exam_school_result.semester,
 						  semester_exam_school_result.district_id, semester_exam_school_result.district_name,semester_exam_school_result.block_id, semester_exam_school_result.block_name, semester_exam_school_result.block_latitude, semester_exam_school_result.block_longitude) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.block_id
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
@@ -3654,7 +3656,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_cluster_year_semester AS
 						  semester_exam_school_result.district_id, semester_exam_school_result.district_name,semester_exam_school_result.block_id, semester_exam_school_result.block_name,
 						  semester_exam_school_result.cluster_id, semester_exam_school_result.cluster_name, semester_exam_school_result.cluster_latitude, semester_exam_school_result.cluster_longitude) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.cluster_id
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
@@ -3788,7 +3790,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_school_year_semester AS
 						  semester_exam_school_result.cluster_id,semester_exam_school_result.cluster_name,
 						  semester_exam_school_result.school_id, semester_exam_school_result.school_name, semester_exam_school_result.school_latitude, semester_exam_school_result.school_longitude) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.school_id
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
@@ -4082,7 +4084,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_district_mgmt_year_semester
 						  semester_exam_school_result.district_id, semester_exam_school_result.district_name,semester_exam_school_result.semester,
 						   semester_exam_school_result.district_latitude, semester_exam_school_result.district_longitude) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.district_id,a_1.school_management_type
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
@@ -4211,7 +4213,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_block_mgmt_year_semester AS
 						  semester_exam_school_result.district_id, semester_exam_school_result.district_name,semester_exam_school_result.block_id, semester_exam_school_result.block_name,
 						  semester_exam_school_result.block_latitude, semester_exam_school_result.block_longitude) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.block_id,a_1.school_management_type
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
@@ -4346,7 +4348,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_cluster_mgmt_year_semester 
                            FROM semester_exam_school_result where  semester_exam_school_result.school_management_type is not NULL
                           GROUP BY academic_year,school_management_type,semester,district_id, district_name,block_id, block_name,cluster_id, cluster_name, cluster_latitude, cluster_longitude) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.cluster_id,a_1.school_management_type
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT academic_year,
@@ -4491,7 +4493,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_school_mgmt_year_semester A
 						  semester_exam_school_result.cluster_id, semester_exam_school_result.cluster_name,semester_exam_school_result.school_id, semester_exam_school_result.school_name, semester_exam_school_result.school_latitude, semester_exam_school_result.school_longitude,
 						  semester_exam_school_result.school_management_type) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,
                             a_1.school_id,a_1.school_management_type
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
@@ -4749,7 +4751,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_state_trendline AS
                             round(COALESCE(sum(semester_exam_school_result.obtained_marks), 0::numeric) * 100.0 / COALESCE(sum(semester_exam_school_result.total_marks), 0::numeric), 1) AS state_performance                           FROM semester_exam_school_result
 							GROUP BY semester_exam_school_result.academic_year,semester_exam_school_result.semester) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
                                     'Grade '::text || semester_exam_school_result.grade AS grade,
@@ -4806,7 +4808,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS semester_exam_state_mgmt_trendline AS
                             round(COALESCE(sum(semester_exam_school_result.obtained_marks), 0::numeric) * 100.0 / COALESCE(sum(semester_exam_school_result.total_marks), 0::numeric), 1) AS state_performance                           FROM semester_exam_school_result where semester_exam_school_result.school_management_type is not NULL
 							GROUP BY semester_exam_school_result.academic_year,semester_exam_school_result.semester,semester_exam_school_result.school_management_type) a
                     LEFT JOIN (SELECT a_1.academic_year,
-                            json_object_agg(a_1.grade, json_build_object('percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
+                            json_object_agg(a_1.grade, json_build_object('semester',a_1.semester,'percentage',a_1.percentage,'total_schools',total_schools,'total_students',total_students,'students_attended',students_attended)) AS grade_wise_performance,
                             a_1.semester,a_1.school_management_type
                            FROM (select b.*,c.students_attended,c.total_schools,tot_stud.total_students from  (SELECT semester_exam_school_result.academic_year,
                                     'Grade '::text || semester_exam_school_result.grade AS grade,
@@ -4835,6 +4837,8 @@ group by exam_code,pert.school_id,student_uid,school_management_type) as a
 left join (select exam_code,assessment_year, semester from semester_exam_mst) as b on a.exam_code=b.exam_code
 group by b.assessment_year,semester,school_management_type) b ON c.academic_year::text = b.academic_year::text AND c.semester = b.semester and c.school_management_type=b.school_management_type) as d
 )WITH NO DATA;		
+
+
 
 /* creating index */
 create index  IF NOT EXISTS sat_school_grade_enrolment_district_district_id_idx ON sat_school_grade_enrolment_district (district_id);
