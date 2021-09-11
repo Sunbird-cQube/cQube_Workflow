@@ -10,11 +10,11 @@ router.post('/getDateRange', auth.authController, async (req, res) => {
         logger.info('---getDateRange api ---');
         var report = req.body.report;
         var fileName;
-        if (report == 'sarException') {
+        // if (report == 'sarException') {
             fileName = `exception_list/student_attendance_completion/metaData.json`;
-        } else {
-            fileName = `exception_list/teacher_attendance_completion/metaData.json`;
-        }
+        // } else {
+        //     fileName = `exception_list/teacher_attendance_completion/metaData.json`;
+        // }
         var jsonData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
 
         let date = groupArray(jsonData, 'year')

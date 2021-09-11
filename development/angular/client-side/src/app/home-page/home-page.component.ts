@@ -12,7 +12,7 @@ import { AppServiceComponent } from '../app.service';
 export class HomePageComponent implements OnInit {
   adminUrl;
   constructor(public keycloakService: KeycloakSecurityService, public router: Router, public service: AppServiceComponent) {
-    // service.logoutOnTokenExpire();
+    service.logoutOnTokenExpire();
   }
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class HomePageComponent implements OnInit {
         this.router.navigate(['/home']);
       } else if (this.keycloakService.kc.tokenParsed.realm_access.roles.includes('report_viewer')) {
         localStorage.setItem('roleName', 'report_viewer');
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/infrastructure-dashboard']);
       } else {
         if (!this.keycloakService.kc.tokenParsed.realm_access.roles.includes('report_viewer')
           || !this.keycloakService.kc.tokenParsed.realm_access.roles.includes('admin')) {

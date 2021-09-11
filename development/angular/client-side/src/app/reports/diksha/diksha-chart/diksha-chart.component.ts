@@ -84,8 +84,8 @@ export class DikshaChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('homeBtn').style.display = 'block';
-    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('accessProgressCard').style.display = 'none';
+    //document.getElementById('backBtn').style.display = 'none';
     this.metaData();
     this.getAllData();
   }
@@ -143,7 +143,7 @@ export class DikshaChartComponent implements OnInit {
   }
   async getAllData() {
     this.emptyChart();
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.errMsg();
     this.districtId = '';
     this.footer = '';
@@ -211,7 +211,7 @@ export class DikshaChartComponent implements OnInit {
   districtWise(districtId) {
     this.emptyChart();
     this.errMsg();
-    document.getElementById('home').style.display = "Block";
+    //document.getElementById('home').style.display = "Block";
     this.districtId = districtId
     this.hierName = undefined;
     this.footer = '';
@@ -229,7 +229,7 @@ export class DikshaChartComponent implements OnInit {
   timeRange(timePeriod) {
     this.emptyChart();
     this.fileToDownload = `diksha_raw_data/stack_bar_reports/${this.timePeriod}/${this.timePeriod}.csv`;
-    document.getElementById('home').style.display = "block";
+    //document.getElementById('home').style.display = "block";
     this.allDataNotFound = undefined;
     this.errMsg();
     // this.hierName = undefined;
@@ -467,7 +467,7 @@ export class DikshaChartComponent implements OnInit {
               });
               this.reportData.push(obj2);
             });
-            this.downloadRoport();
+            this.downloadReport();
           } else {
             document.getElementById('errMsg').innerHTML = 'No data found for this type';
             document.getElementById('errMsg').style.display = 'block';
@@ -478,7 +478,7 @@ export class DikshaChartComponent implements OnInit {
           if (res[`${this.districtId}`][`${type}`]) {
             this.fileName = `${this.reportName}_${type}_${this.timePeriod}_${this.districtId}_${this.commonService.dateAndTime}`;
             this.reportData = res[`${this.districtId}`][`${type}`];
-            this.downloadRoport();
+            this.downloadReport();
           } else {
             document.getElementById('errMsg').innerHTML = 'No data found for this type';
             document.getElementById('errMsg').style.display = 'block';
@@ -499,7 +499,7 @@ export class DikshaChartComponent implements OnInit {
 
   }
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
 

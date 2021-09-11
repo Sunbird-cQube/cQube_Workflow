@@ -147,7 +147,7 @@ export class UsecaseThreeComponent implements OnInit {
   ngOnInit() {
     sessionStorage.clear();
     document.getElementById("spinner").style.display = "block";
-    document.getElementById("homeBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn").style.display = "block";
     if (localStorage.getItem("roleName") == "admin") {
       this.hiddenPass = false;
@@ -291,8 +291,8 @@ export class UsecaseThreeComponent implements OnInit {
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "block";
+    //document.getElementById("backBtn").style.display = "none";
     this.service.homeControl();
   }
 

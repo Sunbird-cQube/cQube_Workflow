@@ -117,8 +117,8 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   constructor(private cdr: ChangeDetectorRef, public commonService: AppServiceComponent, public service: HealthCardService, private readonly _router: Router, private readonly _cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    document.getElementById('backBtn').style.display = 'none';
-    document.getElementById('homeBtn').style.display = 'block';
+    document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
+    document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('myInput')['disabled'] = true;
     this.state = this.commonService.state;
 
@@ -141,11 +141,9 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     if (this.params && this.params.level) {
       this.level = this.params.level;
       if (this.level == 'state') {
-        document.getElementById('home').style.display = "none";
         this.stateData();
       }
     } else {
-      document.getElementById('home').style.display = "none";
       this.stateData();
     }
   }
@@ -163,7 +161,6 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
     if (this.params && this.params.level) {
       if (this.params.level != 'state') {
-        document.getElementById('home').style.display = "block";
         this.len = 2;
         this.value = this.params.value;
         this.searchInput.nativeElement.value = this.params.value;
@@ -179,11 +176,6 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   }
   stateData() {
     document.getElementById('spinner').style.display = 'block';
-    if (this.period != 'overall') {
-      document.getElementById('home').style.display = "block";
-    } else {
-      document.getElementById('home').style.display = "none";
-    }
     this.semLength = 2;
     this.udiseLength = -1;
     this.crcLength = 1;
@@ -240,8 +232,6 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.err = false;
     this.showAll = false;
     this.showLink = true;
-    document.getElementById('home').style.display = 'block';
-    //document.getElementById('download').style.display = 'block';
     document.getElementById('spinner').style.display = 'block';
     this.exist = false;
     this.cdr.detectChanges();
@@ -249,6 +239,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     var id;
     if (this.ids.includes(this.districtName) || this.names.includes(this.districtName)) {
       document.getElementById('warning').style.display = 'none';
+      document.getElementById('warning1').style.display = 'block';
     }
     if (this.districtName) {
       if (this.level == 'district') {
@@ -550,6 +541,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     }
 
     this.showAll = true;
+    this.err = false;
     var myKey;
     this.tooltipInfra = [];
     this.toolTipInfraKeys = [];
@@ -733,8 +725,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   len;
   exist = false;
   onChange() {
-    document.getElementById('home').style.display = 'none';
-    //document.getElementById('download').style.display = 'none';
+    document.getElementById('warning').style.lineHeight = "1.7em";
 
     this.exist = true;
     this.cdr.detectChanges();
@@ -742,15 +733,18 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.len = this.val.length;
     this.showAll = false;
     document.getElementById('warning').style.display = 'block';
+    document.getElementById('warning1').style.display = 'none';
     if (this.value.match(/^\d/)) {
       if (this.value.toString().length > 1) {
         document.getElementById('warning').style.display = 'none';
+        document.getElementById('warning1').style.display = 'block';
       }
       this.autocomplete(document.getElementById("myInput"), this.ids);
     }
     if (!this.value.match(/^\d/)) {
       if (this.value.length > 1) {
         document.getElementById('warning').style.display = 'none';
+        document.getElementById('warning1').style.display = 'block';
       }
       this.autocomplete(document.getElementById("myInput"), this.names);
     }
@@ -758,8 +752,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
 
   levels = [{ key: 'district', name: 'District' }, { key: 'block', name: 'Block' }, { key: 'cluster', name: 'Cluster' }, { key: 'school', name: 'School' }];
   selectedLevel(callSubmit = false) {
-    document.getElementById('home').style.display = 'none';
-    //document.getElementById('download').style.display = 'none';
+    document.getElementById('warning').style.lineHeight = "1.8em"
     this.exist = true;
     this.cdr.detectChanges();
     document.getElementById('spinner').style.display = 'block';
@@ -768,6 +761,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.ids = [];
     this.names = [];
     document.getElementById('warning').style.display = 'block';
+    document.getElementById('warning1').style.display = 'none';
     this.showAll = false;
     document.getElementById('myInput')['disabled'] = false;
     if (!callSubmit)
@@ -789,6 +783,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.placeHolder = "No districts name/id available";
         document.getElementById('spinner').style.display = 'none';
         document.getElementById('warning').style.display = 'none';
+        document.getElementById('warning1').style.display = 'block';
       });
     }
 
@@ -808,6 +803,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.placeHolder = "No blocks name/id available";
         document.getElementById('spinner').style.display = 'none';
         document.getElementById('warning').style.display = 'none';
+        document.getElementById('warning1').style.display = 'block';
       });
     }
 
@@ -827,6 +823,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.placeHolder = "No clusters name/id available";
         document.getElementById('spinner').style.display = 'none';
         document.getElementById('warning').style.display = 'none';
+        document.getElementById('warning1').style.display = 'block';
       });
     }
 
@@ -846,6 +843,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.placeHolder = "No schools name/id available";
         document.getElementById('spinner').style.display = 'none';
         document.getElementById('warning').style.display = 'none';
+        document.getElementById('warning1').style.display = 'block';
       });
     }
   }
