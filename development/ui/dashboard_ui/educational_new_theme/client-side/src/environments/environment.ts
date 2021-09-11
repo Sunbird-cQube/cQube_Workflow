@@ -12,7 +12,8 @@ export const environment = {
   clientId: "cQube_Application",
   stateName: "GJ",
   useCase: "education_usecase",
-  diksha_columns: false
+  diksha_columns: false,
+  theme: "theme1"
 };
 
 /*

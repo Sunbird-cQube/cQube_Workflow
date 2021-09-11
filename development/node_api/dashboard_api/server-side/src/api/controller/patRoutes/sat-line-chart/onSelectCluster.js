@@ -2,26 +2,22 @@ const router = require('express').Router();
 const { logger } = require('../../../lib/logger');
 const auth = require('../../../middleware/check-auth');
 const s3File = require('../../../lib/reads3File');
-const fs = require('fs');
 
-router.post('/blockWise', auth.authController, async (req, res) => {
+router.post('/clusterWise', auth.authController, async (req, res) => {
     try {
         logger.info('---Trends dist wise api ---');
         var year = req.body.year;
-        var districtId = req.body.districtId;
+        var blockId = req.body.blockId;
         var management = req.body.management;
         var category = req.body.category;
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/block/${districtId}_${year}.json`;
+            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/cluster/${blockId}_${year}.json`;
         } else {
-            fileName = `attendance/trend_line_chart/block/${districtId}_${year}.json`;
+            fileName = `attendance/trend_line_chart/cluster/${blockId}_${year}.json`;
         }
-        var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        fs.writeFile('./trendBlock.json', JSON.stringify(blockData), () => {
-            console.log("written to file");
-        })
-        var keys = Object.keys(blockData);
+        var clusterData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        var keys = Object.keys(clusterData);
         var mydata = [];
 
         keys.map(key => {
@@ -110,8 +106,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 schoolCount: undefined,
                 attendance: ''
             }]
-
-            blockData[key].attendance.map(a => {
+            clusterData[key].attendance.map(a => {
                 attendanceTest.map(item => {
                     if (item.monthId == a.month) {
                         item.attendance = a.attendance_percentage;
@@ -122,8 +117,8 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 })
             });
             let obj2 = {
-                blockId: key,
-                blockName: blockData[key].block_name[0],
+                clusterId: key,
+                clusterName: clusterData[key].cluster_name[0],
                 attendance: attendanceTest
             }
             mydata.push(obj2);

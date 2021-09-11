@@ -10,6 +10,7 @@ import { PATLOTableComponent } from './pat-lo-table/pat-lo-table.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { SatReportComponent } from './sat-report/sat-report.component';
 import { SatHeatChartComponent } from './sat-heat-chart/sat-heat-chart.component';
+import { SatTrendsChartComponent } from './sat-trends-chart/sat-trends-chart.component';
 
 const performRoute: Routes = [
   {
@@ -31,6 +32,9 @@ const performRoute: Routes = [
       },
       {
         path: 'sat-heat-chart', component: SatHeatChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      },
+      {
+        path: 'sat-trends-chart', component: SatTrendsChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }
@@ -43,7 +47,7 @@ const performRoute: Routes = [
     HeatChartComponent,
     PATLOTableComponent,
     SatReportComponent,
-    SatHeatChartComponent,
+    SatHeatChartComponent
   ],
   imports: [
     CommonModule,
