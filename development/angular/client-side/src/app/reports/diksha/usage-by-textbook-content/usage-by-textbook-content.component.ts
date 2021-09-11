@@ -31,14 +31,14 @@ export class UsageByTextbookContentComponent implements OnInit {
   state: string;
   public reportName = "usage_by_textbook_content";
 
-   //For pagination.....
-   pageSize = 500;
-   currentPage = 1;
-   filteredData = []
-   showPagination = false;
-   validTransactions: any;
-   table: any;
-   updatedTable:any = [];
+  //For pagination.....
+  pageSize = 500;
+  currentPage = 1;
+  filteredData = []
+  showPagination = false;
+  validTransactions: any;
+  table: any;
+  updatedTable: any = [];
 
   constructor(
     public http: HttpClient,
@@ -51,8 +51,8 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.state = this.commonService.state;
-    document.getElementById('backBtn').style.display = "none";
-    document.getElementById('homeBtn').style.display = "Block";
+
+    document.getElementById('accessProgressCard').style.display = "none";
     this.collectionWise();
     this.onResize();
   }
@@ -62,12 +62,12 @@ export class UsageByTextbookContentComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
-  onChangePage(){
+  onChangePage() {
     document.getElementById('spinner').style.display = 'block';
     this.pageChange();
   }
 
-  pageChange(){
+  pageChange() {
     this.filteredData = this.result.slice(((this.currentPage - 1) * this.pageSize), ((this.currentPage - 1) * this.pageSize + this.pageSize));
     this.tableCreation(this.filteredData);
   }
@@ -77,14 +77,14 @@ export class UsageByTextbookContentComponent implements OnInit {
       document.getElementById('spinner').style.display = 'none';
     } else {
       document.getElementById('spinner').style.display = 'none';
-      document.getElementById('errMsg').style.color = 'red';
-      document.getElementById('errMsg').style.display = 'block';
-      document.getElementById('errMsg').innerHTML = 'No data found';
+      document.getElementById('errMsg') ? document.getElementById('errMsg').style.color = 'red' : "";
+      document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'block' : "";
+      document.getElementById('errMsg') ? document.getElementById('errMsg').innerHTML = 'No data found' : "";
     }
   }
 
   errMsg() {
-    document.getElementById('errMsg').style.display = 'none';
+    document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'none' : "";
     document.getElementById('spinner').style.display = 'block';
     document.getElementById('spinner').style.marginTop = '3%';
   }
@@ -96,7 +96,7 @@ export class UsageByTextbookContentComponent implements OnInit {
   }
 
   collectionWise() {
-    document.getElementById('home').style.display = "none";
+    //document.getElementById('home').style.display = "none";
     this.errMsg();
     this.districtId = '';
     this.timePeriod = 'all';
@@ -152,7 +152,7 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   districtWise(districtId) {
     this.errMsg();
-    document.getElementById('home').style.display = "Block";
+    //document.getElementById('home').style.display = "Block";
     this.districtId = districtId
     var period = this.timePeriod == 'all' ? '' : this.timePeriod;
     if (period != '' && districtId != '') {
@@ -203,7 +203,7 @@ export class UsageByTextbookContentComponent implements OnInit {
     this.errMsg();
     this.time = timePeriod == 'all' ? 'overall' : timePeriod;
     this.fileToDownload = `diksha_raw_data/table_reports/textbook/${this.time}/${this.time}.csv`;
-    document.getElementById('home').style.display = "Block";
+    //document.getElementById('home').style.display = "Block";
     if (this.districtId == '') {
       this.districtId = undefined
     }
@@ -252,7 +252,7 @@ export class UsageByTextbookContentComponent implements OnInit {
   }
 
 
-  downloadRoport() {
+  downloadReport() {
     this.commonService.download(this.fileName, this.reportData);
   }
   changeingStringCases(str) {
@@ -314,37 +314,36 @@ export class UsageByTextbookContentComponent implements OnInit {
           leftColumns: 1
         }
       }
-      if(dataSet.length > 0)
+      if (dataSet.length > 0)
         obj['order'] = [[my_columns.length - 5, "desc"]];
-      
+
       this.table = $(`#table`).DataTable(obj);
-      $(document).ready(function() {
-        
-        $('#table').on( 'page.dt', function () 
-        {
+      $(document).ready(function () {
+
+        $('#table').on('page.dt', function () {
           $('.dataTables_scrollBody').scrollTop(0);
         });
-        }, 300);
-        document.getElementById('spinner').style.display = 'none';
-      });
-      this.showPagination = true;
+      }, 300);
+      document.getElementById('spinner').style.display = 'none';
+    });
+    this.showPagination = true;
   }
 
 
   updateFilter(event: any) {
     this.columns = this.commonService.getColumns(this.updatedTable);
     var val = event.target.value.toLowerCase();
-    
+
     // filter our data
     let ref = this;
-    let temp:any = [];
+    let temp: any = [];
 
     if (val) {
       temp = this.updatedTable.filter(function (d: any) {
         let found = false;
-  
+
         for (let i = 0; i < ref.columns.length; i++) {
-          let value = d[ref.columns[i].data]; 
+          let value = d[ref.columns[i].data];
           if (typeof value === 'number') {
             value = value.toString()
           }
@@ -360,7 +359,7 @@ export class UsageByTextbookContentComponent implements OnInit {
       document.getElementById('spinner').style.display = 'block';
       temp = this.updatedTable;
     }
-        
+
     // update the rows
     this.result = temp;
     this.pageChange();

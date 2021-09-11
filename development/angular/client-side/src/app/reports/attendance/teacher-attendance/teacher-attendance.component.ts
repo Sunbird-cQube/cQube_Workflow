@@ -1,3 +1,9 @@
+// This dashboard provides information about teacher attendance
+// calculated at a monthly level. The data has been collated at various administrative levels (i.e.
+// District, Block, Cluster and School) and
+// this dashboard allows you to view and download the data at these various administrative levels. You can
+// select a different month/year combination to view teacher attendance for any other time period.
+
 import {
   Component,
   OnInit,
@@ -20,43 +26,66 @@ declare const $;
   encapsulation: ViewEncapsulation.None,
 })
 export class TeacherAttendanceComponent implements OnInit {
+  //variables for telemetry data
   state;
   edate;
   public telemData = {};
-  public disabled = false;
+
+  // to set the hierarchy names
   public title: string = "";
   public titleName: string = "";
+
+  //to store level data
   public districts: any = [];
   public blocks: any = [];
   public cluster: any = [];
   public schools: any = [];
+
+  //to store level wise ids
   public districtsIds: any = [];
   public blocksIds: any = [];
   public clusterIds: any = [];
   public schoolsIds: any = [];
+
+  //to store names for dropdown
   public districtsNames: any = [];
   public blocksNames: any = [];
   public clusterNames: any = [];
   public schoolsNames: any = [];
-  public id: any = "";
+
+  //to show or hide dropdowns
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
+
+  //to store selected level value
   public myDistrict: any;
   public myBlock: any;
   public myCluster: any;
+
+  //to store colors for markers
   public colors: any;
+
+  //to store footer values
   public teacherCount: any;
   public schoolCount: any;
   public dateRange: any = "";
+
+  //to control hierarchy
   public dist: boolean = false;
   public blok: boolean = false;
   public clust: boolean = false;
   public skul: boolean = false;
+
+  // store level wise heirarchy
   public hierName: any;
   public distName: any;
   public blockName: any;
   public clustName: any;
+
+  //to store all markers
   public markerData;
+
+  // leaflet layer dependencies
   public layerMarkers: any = new L.layerGroup();
   public markersList = new L.FeatureGroup();
   public levelWise: any = "District";
@@ -72,6 +101,8 @@ export class TeacherAttendanceComponent implements OnInit {
 
   public markers: any = [];
   public mylatlngData: any = [];
+
+  //for year and month selection
   public getMonthYear: any;
   public years: any = [];
   public year;
@@ -83,6 +114,7 @@ export class TeacherAttendanceComponent implements OnInit {
   selected = "absolute";
   reportName = "teacher_attendance";
 
+  //options for timerange dropdown::::::
   timeRange = [
     { key: "overall", value: "Overall" },
     { key: "last_30_days", value: "Last 30 Days" },
@@ -117,72 +149,79 @@ export class TeacherAttendanceComponent implements OnInit {
     this.heigth = window.innerHeight;
   }
 
+  //to select management and category
   managementName;
   management;
   category;
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("tarMap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.skul = true;
     this.timePeriod = {
       period: "overall",
     };
 
+    //setting management-category values
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
 
+    //setting year-month options:::::
     this.service.getDateRange().subscribe(
       (res) => {
-        this.getMonthYear = res;
-        this.years = Object.keys(this.getMonthYear);
-        this.year = this.years[this.years.length - 1];
-        var allMonths = [];
-        allMonths = this.getMonthYear[`${this.year}`];
-        this.months = [];
-        allMonths.forEach((month) => {
-          var obj = {
-            name: month.month_name,
-            id: month.month,
-          };
-          this.months.push(obj);
-        });
-        this.month = this.months[this.months.length - 1].id;
-        // this.dateRange = `${this.getMonthYear[`${this.year}`][this.months.length - 1].data_from_date} to ${this.getMonthYear[`${this.year}`][this.months.length - 1].data_upto_date}`;
-        if (this.month) {
-          this.month_year = {
-            month: null,
-            year: null,
-          };
+        try {
+          this.getMonthYear = res;
+          this.years = Object.keys(this.getMonthYear);
+          this.year = this.years[this.years.length - 1];
+          var allMonths = [];
+          allMonths = this.getMonthYear[`${this.year}`];
+          this.months = [];
+          allMonths.forEach((month) => {
+            var obj = {
+              name: month.month_name,
+              id: month.month,
+            };
+            this.months.push(obj);
+          });
+          this.month = this.months[this.months.length - 1].id;
+          // this.dateRange = `${this.getMonthYear[`${this.year}`][this.months.length - 1].data_from_date} to ${this.getMonthYear[`${this.year}`][this.months.length - 1].data_upto_date}`;
+          if (this.month) {
+            this.month_year = {
+              month: null,
+              year: null,
+            };
 
-          this.params = JSON.parse(sessionStorage.getItem("report-level-info"));
-          let params = this.params;
+            this.params = JSON.parse(sessionStorage.getItem("report-level-info"));
+            let params = this.params;
 
-          if (params && params.level) {
-            let data = params.data;
-            if (params.level === "district") {
-              this.myDistrict = data.id;
-            } else if (params.level === "block") {
-              this.myDistrict = data.districtId;
-              this.myBlock = data.id;
-            } else if (params.level === "cluster") {
-              this.myDistrict = data.districtId;
-              this.myBlock = Number(data.blockId);
-              this.myCluster = data.id;
+            if (params && params.level) {
+              let data = params.data;
+              if (params.level === "district") {
+                this.myDistrict = data.id;
+              } else if (params.level === "block") {
+                this.myDistrict = data.districtId;
+                this.myBlock = data.id;
+              } else if (params.level === "cluster") {
+                this.myDistrict = data.districtId;
+                this.myBlock = Number(data.blockId);
+                this.myCluster = data.id;
+              }
+              this.changeDetection.detectChanges();
+              this.getDistricts();
+            } else {
+              this.levelWiseFilter();
             }
-            this.changeDetection.detectChanges();
-            this.getDistricts();
-          } else {
-            this.levelWiseFilter();
           }
+        } catch (e) {
+          this.commonService.loaderAndErr(this.markers);
         }
       },
       (err) => {
@@ -190,7 +229,7 @@ export class TeacherAttendanceComponent implements OnInit {
         this.teacherCount = "";
         this.schoolCount = "";
         this.changeDetection.detectChanges();
-        document.getElementById("home").style.display = "none";
+        //document.getElementById("home").style.display = "none";
         this.getMonthYear = {};
         this.commonService.loaderAndErr(this.markers);
       }
@@ -200,8 +239,9 @@ export class TeacherAttendanceComponent implements OnInit {
     });
   }
 
+  //This function will be called on select year-month option show year month dropdown:::::
   showYearMonth() {
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month_year = {
       month: this.month,
@@ -213,11 +253,12 @@ export class TeacherAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  //This function will be called on select period dropdown::::
   onPeriodSelect() {
     if (this.period != "overall") {
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } else {
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     }
     this.yearMonth = true;
     this.timePeriod = {
@@ -230,6 +271,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  //This function is get all district names, on load of page after coming from progress card:::::::
   getDistricts(): void {
     this.service.dist_wise_data(this.month_year).subscribe(
       (res) => {
@@ -532,7 +574,7 @@ export class TeacherAttendanceComponent implements OnInit {
       period: this.period,
     };
     this.districtWise();
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
   }
 
   async districtWise() {
@@ -569,6 +611,8 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
+
+            //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
               report: "reports",
@@ -584,6 +628,8 @@ export class TeacherAttendanceComponent implements OnInit {
                   id: this.markers[i]["district_id"],
                   name: this.markers[i]["district_name"],
                 });
+
+                //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -598,6 +644,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   1,
                   this.levelWise
                 );
+                //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
@@ -614,10 +661,14 @@ export class TeacherAttendanceComponent implements OnInit {
             this.districtsNames = distNames;
 
             this.commonService.restrictZoom(globalMap);
+
+            //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 4.5, this.lng - 6],
               [this.lat + 3.5, this.lng + 6],
             ]);
+
+            //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.schoolCount
               .toString()
@@ -642,7 +693,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
   }
 
   blockWise(event) {
@@ -683,6 +734,8 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
+
+            //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
               report: "reports",
@@ -699,6 +752,8 @@ export class TeacherAttendanceComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["dist"],
                 });
+
+                //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -713,6 +768,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   1,
                   this.levelWise
                 );
+                //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
@@ -727,10 +783,14 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blocksNames = blockNames;
 
               this.commonService.restrictZoom(globalMap);
+
+              //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
+
+              //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
               this.schoolCount = this.schoolCount
                 .toString()
@@ -756,7 +816,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   clusterWise(event) {
@@ -798,6 +858,8 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
+
+            //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
               report: "reports",
@@ -828,6 +890,8 @@ export class TeacherAttendanceComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["district_id"],
                 });
+
+                //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -842,6 +906,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   0.5,
                   this.levelWise
                 );
+                //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
@@ -861,10 +926,14 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blocksNames = blockNames;
 
               this.commonService.restrictZoom(globalMap);
+
+              //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
+
+              //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
               this.schoolCount = this.schoolCount
                 .toString()
@@ -890,7 +959,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.markersList);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.cluster = [];
   }
 
@@ -932,6 +1001,8 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
+
+            //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
               report: "reports",
@@ -943,6 +1014,8 @@ export class TeacherAttendanceComponent implements OnInit {
                   "attendance"
                 );
                 this.districtsIds.push(sorted[i]["district_id"]);
+
+                //initialize markers with its latitude and longitude
                 var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -957,6 +1030,7 @@ export class TeacherAttendanceComponent implements OnInit {
                   0.3,
                   this.levelWise
                 );
+                //Adding values to tooltip 
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
@@ -968,10 +1042,14 @@ export class TeacherAttendanceComponent implements OnInit {
 
               globalMap.doubleClickZoom.enable();
               globalMap.scrollWheelZoom.enable();
+
+              //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
+
+              //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
               this.schoolCount = this.markers.length
                 .toString()
@@ -997,7 +1075,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   commonAtStateLevel() {
@@ -1022,6 +1100,8 @@ export class TeacherAttendanceComponent implements OnInit {
     this.clustName = "";
     this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
     this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+
+    //Setting map bound for scroll::::::::::::
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -1227,6 +1307,8 @@ export class TeacherAttendanceComponent implements OnInit {
             );
 
             this.markers = sorted;
+
+            //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
               report: "reports",
@@ -1244,6 +1326,8 @@ export class TeacherAttendanceComponent implements OnInit {
                 id: this.markers[i]["block_id"],
                 name: this.markers[i]["block_name"],
               });
+
+              //initialize markers with its latitude and longitude
               var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
@@ -1258,6 +1342,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 1,
                 this.levelWise
               );
+              //Adding values to tooltip 
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
@@ -1272,10 +1357,14 @@ export class TeacherAttendanceComponent implements OnInit {
             this.blocksNames = blokName;
 
             this.commonService.restrictZoom(globalMap);
+
+            //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
+
+            //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.schoolCount
               .toString()
@@ -1299,7 +1388,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     globalMap.addLayer(this.layerMarkers);
   }
 
@@ -1424,6 +1513,8 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
             // sorted.pop();
             this.markers = sorted;
+
+            //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
               report: "reports",
@@ -1447,6 +1538,8 @@ export class TeacherAttendanceComponent implements OnInit {
                   blockId: sorted[i]["block_id"],
                 });
               }
+
+              //initialize markers with its latitude and longitude
               var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
@@ -1461,6 +1554,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 1,
                 this.levelWise
               );
+              //Adding values to tooltip 
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
@@ -1476,10 +1570,14 @@ export class TeacherAttendanceComponent implements OnInit {
             this.clusterNames = clustNames;
 
             this.commonService.restrictZoom(globalMap);
+
+            //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
+
+            //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.schoolCount
               .toString()
@@ -1504,7 +1602,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   clusterSelect(event, data) {
@@ -1664,6 +1762,8 @@ export class TeacherAttendanceComponent implements OnInit {
             this.schoolCount = res["schoolCount"];
 
             this.markers = sorted;
+
+            //getting relative colors for all markers:::::::::::
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "attendance",
               report: "reports",
@@ -1673,6 +1773,8 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.markers[i],
                 "attendance"
               );
+
+              //initialize markers with its latitude and longitude
               var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
@@ -1687,6 +1789,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 1,
                 this.levelWise
               );
+              //Adding values to tooltip 
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
@@ -1697,10 +1800,14 @@ export class TeacherAttendanceComponent implements OnInit {
             }
             globalMap.doubleClickZoom.enable();
             globalMap.scrollWheelZoom.enable();
+
+            //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
+
+            //adjusting marker size and other UI on screen resize:::::::::::
             this.commonService.onResize(this.levelWise);
             this.schoolCount = this.markers.length
               .toString()
@@ -1725,7 +1832,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   popups(markerIcon, markers, onClick_Marker, layerMarkers) {

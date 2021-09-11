@@ -1,0 +1,27 @@
+<div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <h4 class="text-dark text-decoration-none heading">{{reportGroup}}</h4>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 text-right">
+                    <span id="mSelect">Select Management</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <select id="management" [(ngModel)]="management" (change)="onSelectManagement()"
+                        style="background-color: white; color: black;">
+                        <option [value]="management" disabled selected="selected">Choose a Management Name</option>
+                        <option *ngFor="let management of managements,  let i =index" style="width: 100px;"
+                            [(ngValue)]="management.id">
+                            {{management.value}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="spinner" style="display: none;">
+    <div id="loader" class="loading">Loading&#8230;</div>
+</div>

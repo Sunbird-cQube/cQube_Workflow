@@ -121,7 +121,14 @@ export class SatReportComponent implements OnInit {
     public router: Router,
     private changeDetection: ChangeDetectorRef,
     private readonly _router: Router
-  ) { }
+  ) {
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
+  }
 
   selected = "absolute";
 
@@ -144,8 +151,8 @@ export class SatReportComponent implements OnInit {
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("satMap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "block";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -361,7 +368,7 @@ export class SatReportComponent implements OnInit {
   }
 
   linkClick() {
-    document.getElementById("home").style.display = "none";
+    //document.getElementById("home").style.display = "none";
     this.period = 'all';
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
@@ -481,7 +488,7 @@ export class SatReportComponent implements OnInit {
 
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     } catch (e) {
       console.log(e);
     }
@@ -689,7 +696,7 @@ export class SatReportComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -897,7 +904,7 @@ export class SatReportComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -1104,7 +1111,7 @@ export class SatReportComponent implements OnInit {
         );
 
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -1217,7 +1224,7 @@ export class SatReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   onblockLinkClick(blockId) {
@@ -1341,7 +1348,7 @@ export class SatReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   onclusterLinkClick(clusterId) {
@@ -1498,7 +1505,7 @@ export class SatReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // common function for all the data to show in the map
@@ -1779,9 +1786,18 @@ export class SatReportComponent implements OnInit {
 
       if (level == mylevel) {
         if (this.grade && !this.subject) {
+          ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
+          Object.keys(markers["Subjects"])
+            .sort()
+            .forEach(function (key) {
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
+            });
           yourData = this.commonService
             .getInfoFrom(
-              markers.Subjects,
+              ordered,
               "Performance",
               level,
               "patReport",
@@ -1790,9 +1806,18 @@ export class SatReportComponent implements OnInit {
             )
             .join(" <br>");
         } else if (this.grade && this.subject) {
+          ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
+          Object.keys(markers["Subjects"])
+            .sort()
+            .forEach(function (key) {
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
+            });
           yourData = this.commonService
             .getInfoFrom(
-              markers.Subjects,
+              ordered,
               "Performance",
               level,
               "patReport",
@@ -1821,10 +1846,13 @@ export class SatReportComponent implements OnInit {
       } else {
         if (this.grade && !this.subject) {
           ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
           Object.keys(markers["Subjects"])
             .sort()
             .forEach(function (key) {
-              ordered[key] = markers["Subjects"][key];
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
             });
           yourData = this.commonService
             .getInfoFrom(
@@ -1838,10 +1866,13 @@ export class SatReportComponent implements OnInit {
             .join(" <br>");
         } else if (this.grade && this.subject) {
           ordered = {};
+          ordered["Grade Performance"] = markers["Subjects"]["Grade Performance"]
           Object.keys(markers["Subjects"])
             .sort()
             .forEach(function (key) {
-              ordered[key] = markers["Subjects"][key];
+              if (key != "Grade Performance") {
+                ordered[key] = markers["Subjects"][key];
+              }
             });
           yourData = this.commonService
             .getInfoFrom(

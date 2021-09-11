@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardCloneComponent } from './dashboard-clone.component';
+import { CrcDashboardComponent } from './crc-dashboard.component';
 
-describe('DashboardCloneComponent', () => {
-  let component: DashboardCloneComponent;
-  let fixture: ComponentFixture<DashboardCloneComponent>;
+describe('CrcDashboardComponent', () => {
+  let component: CrcDashboardComponent;
+  let fixture: ComponentFixture<CrcDashboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardCloneComponent ]
+      declarations: [ CrcDashboardComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardCloneComponent);
+    fixture = TestBed.createComponent(CrcDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

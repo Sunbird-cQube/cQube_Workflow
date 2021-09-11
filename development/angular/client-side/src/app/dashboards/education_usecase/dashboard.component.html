@@ -1,6 +1,5 @@
-<div class="container-fluid" style="background-color: rgb(245, 245, 245);padding-top: 30px; padding-bottom: 10px">
+<!-- <div class="container-fluid" style="background-color: rgb(245, 245, 245);padding-top: 30px; padding-bottom: 10px">
     <div class="row">
-        <!-- <div class="col-lg-3 col-md-2 col-sm-0"></div> -->
         <div class="col-lg-12 col-md-12 col-sm-12" style="margin-left: 20px; margin-bottom: 1%;">
             <span class="chooseLevel">Select Management</span> <br><select id="management" [(ngModel)]="management"
                 (change)="onSelectManagement()" style="background-color: white; color: black;">
@@ -11,15 +10,7 @@
                 </option>
             </select>
         </div>
-        <!-- <div class="col-lg-3 col-md-8 col-sm-6">
-            <span class="chooseLevel">Select Category</span> <br><select id="category" [(ngModel)]="category" (change)="onSelectCategory()">
-                <option [value]="category" disabled selected="selected">Choose a Category Name</option>
-                <option *ngFor="let category of categories,  let i =index" style="width: 100px;"
-                    [(ngValue)]="category.id">
-                    {{category.value}}
-                </option>
-            </select>
-        </div> -->
+
     </div>
     <div class="row" style="padding: 20px;">
         <div class="col-lg-9 col-md-6 col-sm-6" style="padding:  0% 25px 0px 25px">
@@ -38,7 +29,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ab29b4;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_location_on.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_location_on.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +66,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ab29b4;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_assessment.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_assessment.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +103,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ab29b4;">
-                                            <img class="ic-equalizer1" src="../../assets/Group 13.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/Group 13.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +143,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: rgb(194, 134, 84);">
-                                            <img class="ic-equalizer1" src="../../assets/ic_trending_up.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_trending_up.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +187,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #5700f3;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_equalizer.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +224,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #5700f3;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -269,7 +264,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #5700f3;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_equalizer.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -305,7 +301,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #5700f3;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_equalizer.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -348,7 +345,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #5700f3;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -371,42 +368,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-lg-6 col-md-12 col-sm-12">
-                    <div class="card card-stats" style="background: linear-gradient(135deg, #4266FF 0%, #40A6FF 100%)"
-                        id="tpd-tp" [routerLink]="!nifi_diksha ? ['/coming-soon'] :['/diksha/tpd-teacher-percentage']"
-                        (click)="fetchTelemetry($event,'tdp-tp')">
-                        <div class="card-body ">
-                            <div class="row">
-                                <div id="tooltip">
-                                    <app-info [tooltipText]="tpdtpTooltip">
-                                    </app-info>
-                                </div>
-                                <div class="col-3 col-md-2">
-                                    <div class="icon-big text-center icon-warning">
-                                        <div class="iconDiv" style="background-color: #5700f3;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-9 col-md-10">
-                                    <div class="numbers" style="font-size: 13px; text-align: center;">
-                                        <p class="card-category">TPD Teacher </p>
-                                        <p class="card-title">Percentage</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="views">
-                                    <p *ngIf="tpdtpViews;else other_content" id="views">views: {{tpdtpViews}}
-                                    </p>
-                                    <ng-template #other_content>
-                                        <p id="errViews">views: 0 {{timePeriod}}</p>
-                                    </ng-template>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+               
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6" style="padding:  0% 25px 0px 25px">
@@ -425,7 +387,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #f23740;">
-                                            <img class="ic-equalizer1" src="../../assets/Group 11.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/Group 11.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -466,7 +428,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #32ac2e;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -493,7 +455,6 @@
         </div>
     </div>
 
-    <!-- ENERGISED TEXTBOOK USAGE rows -- added two blocks for enabling and disabling -->
     <div *ngIf="diksha_column" class="row" style="padding: 20px">
         <div class="col-lg-9 col-md-12 col-sm-12" style="padding:  0% 25px 0px 25px">
             <div class="headings">Energised Textbook Usage</div>
@@ -511,7 +472,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ecbc9c;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_equalizer.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -547,7 +509,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ecbc9c;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_equalizer.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -583,7 +546,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ecbc9c;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -627,7 +590,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ecbc9c;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_equalizer.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_equalizer.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -664,7 +628,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #ecbc9c;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -710,7 +674,8 @@
                                     <div class="col-3 col-md-2">
                                         <div class="icon-big text-center icon-warning">
                                             <div class="iconDiv" style="background-color: #008b77;">
-                                                <img class="ic-equalizer1" src="../../assets/ic_location_on.svg" alt="">
+                                                <img class="ic-equalizer1" src="../../assets/images/ic_location_on.svg"
+                                                    alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -746,7 +711,8 @@
                                     <div class="col-3 col-md-2">
                                         <div class="icon-big text-center icon-warning">
                                             <div class="iconDiv" style="background-color: #008b77;">
-                                                <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                                <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg"
+                                                    alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -789,8 +755,8 @@
                                         <div class="col-3 col-md-2">
                                             <div class="icon-big text-center icon-warning">
                                                 <div class="iconDiv" style="background-color: #008b77;">
-                                                    <img class="ic-equalizer1" src="../../assets/Combined Shape.svg"
-                                                        alt="">
+                                                    <img class="ic-equalizer1"
+                                                        src="../../assets/images/Combined Shape.svg" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -827,8 +793,8 @@
                                         <div class="col-3 col-md-2">
                                             <div class="icon-big text-center icon-warning">
                                                 <div class="iconDiv" style="background-color: #008b77;">
-                                                    <img class="ic-equalizer1" src="../../assets/ic_location_on.svg"
-                                                        alt="">
+                                                    <img class="ic-equalizer1"
+                                                        src="../../assets/images/ic_location_on.svg" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -864,7 +830,8 @@
                                         <div class="col-3 col-md-2">
                                             <div class="icon-big text-center icon-warning">
                                                 <div class="iconDiv" style="background-color: #008b77;">
-                                                    <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                                    <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg"
+                                                        alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -901,7 +868,8 @@
                                         <div class="col-3 col-md-2">
                                             <div class="icon-big text-center icon-warning">
                                                 <div class="iconDiv" style="background-color: #008b77;">
-                                                    <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                                    <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg"
+                                                        alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -945,8 +913,8 @@
                                         <div class="col-3 col-md-2">
                                             <div class="icon-big text-center icon-warning">
                                                 <div class="iconDiv" style="background-color: #008b77;">
-                                                    <img class="ic-equalizer1" src="../../assets/ic_location_on.svg"
-                                                        alt="">
+                                                    <img class="ic-equalizer1"
+                                                        src="../../assets/images/ic_location_on.svg" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -982,7 +950,8 @@
                                         <div class="col-3 col-md-2">
                                             <div class="icon-big text-center icon-warning">
                                                 <div class="iconDiv" style="background-color: #008b77;">
-                                                    <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                                    <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg"
+                                                        alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -1019,7 +988,8 @@
                                         <div class="col-3 col-md-2">
                                             <div class="icon-big text-center icon-warning">
                                                 <div class="iconDiv" style="background-color: #008b77;">
-                                                    <img class="ic-equalizer1" src="../../assets/ic_grid_on.svg" alt="">
+                                                    <img class="ic-equalizer1" src="../../assets/images/ic_grid_on.svg"
+                                                        alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -1065,7 +1035,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #eb7637;">
-                                            <img class="ic-equalizer1" src="../../assets/student-4.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/student-4.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1101,7 +1071,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #eb7637;">
-                                            <img class="ic-equalizer1" src="../../assets/teacher.png" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/teacher.png" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1141,7 +1111,7 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #6341af;">
-                                            <img class="ic-equalizer1" src="../../assets/Group 10.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/Group 10.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1183,7 +1153,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #0093d0;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_assignment_24px.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_assignment_24px.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1220,7 +1191,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #0093d0;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_assignment_24px.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_assignment_24px.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1246,8 +1218,7 @@
 
                 <div class="col-lg-4 col-md-6  col-sm-6">
                     <div class="card card-stats" style="background: linear-gradient(135deg, #26B1ED 0%, #54E7FF 100%);;"
-                        id="isdata"
-                        [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/download-missing-data']"
+                        id="isdata" [routerLink]="!nifi_pat ? ['/coming-soon'] :['/exception/download-missing-data']"
                         (click)="fetchTelemetry($event,'isdata')">
                         <div class="card-body ">
                             <div class="row">
@@ -1258,7 +1229,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #0093d0;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_cloud_download.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_cloud_download.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1299,7 +1271,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #0093d0;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_assignment_24px.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_assignment_24px.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1336,7 +1309,8 @@
                                 <div class="col-3 col-md-2">
                                     <div class="icon-big text-center icon-warning">
                                         <div class="iconDiv" style="background-color: #0093d0;">
-                                            <img class="ic-equalizer1" src="../../assets/ic_assignment_24px.svg" alt="">
+                                            <img class="ic-equalizer1" src="../../assets/images/ic_assignment_24px.svg"
+                                                alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -1362,7 +1336,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> 
 <div id="spinner">
     <div class="loading">Loading&#8230;</div>
-</div>
+</div>-->

@@ -6,6 +6,7 @@ import * as config from '../assets/config.json';
 import * as mapData from '../assets/map.json';
 import * as L from 'leaflet';
 import { ExportToCsv } from 'export-to-csv';
+import { BehaviorSubject } from 'rxjs';
 
 export var globalMap;
 declare const $;
@@ -14,6 +15,9 @@ declare const $;
     providedIn: 'root'
 })
 export class AppServiceComponent {
+    toggleMenu = new BehaviorSubject<any>(false);
+    callProgressCard = new BehaviorSubject<any>(false);
+
     public map;
     public baseUrl = environment.apiEndpoint;
     public token;
@@ -28,15 +32,16 @@ export class AppServiceComponent {
     dateAndTime: string;
     latitude;
     longitude;
+    static state: any;
 
     constructor(public http: HttpClient, public keyCloakService: KeycloakSecurityService) {
         this.token = keyCloakService.kc.token;
         localStorage.setItem('token', this.token);
         this.dateAndTime = `${("0" + (this.date.getDate())).slice(-2)}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${this.date.getFullYear()}`;
-        // this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
-        //     this.mapData = res;
-        // })
+
     }
+
+
 
     width = window.innerWidth;
     onResize(level) {
@@ -90,20 +95,20 @@ export class AppServiceComponent {
             document.getElementById('spinner').style.display = 'none';
         } else {
             document.getElementById('spinner').style.display = 'none';
-            document.getElementById('errMsg').style.color = 'red';
-            document.getElementById('errMsg').style.display = 'block';
-            document.getElementById('errMsg').innerHTML = 'No data found';
+            document.getElementById('errMsg') ? document.getElementById('errMsg').style.color = 'red' : "";
+            document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'block' : "";
+            document.getElementById('errMsg') ? document.getElementById('errMsg').innerHTML = 'No data found' : "";
         }
     }
     errMsg() {
-        document.getElementById('errMsg').style.display = 'none';
+        document.getElementById('errMsg') ? document.getElementById('errMsg').style.display = 'none' : "";
         document.getElementById('spinner').style.display = 'block';
         document.getElementById('spinner').style.marginTop = '3%';
     }
+
     //Initialisation of Map  
     initMap(map, maxBounds) {
         globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-        //if (this.mapData) {
         var data = mapData.default;
         function applyCountryBorder(map) {
             L.geoJSON(data[`${environment.stateName}`]['features'], {
@@ -114,20 +119,6 @@ export class AppServiceComponent {
             }).addTo(map);
         }
         applyCountryBorder(globalMap);
-        // } else {
-        //     this.http.get(`../assets/maps/${environment.stateName}.json`).subscribe(res => {
-        //         this.mapData = res;
-        //         function applyCountryBorder(map) {
-        //             L.geoJSON(res[`${environment.stateName}`]['features'], {
-        //                 color: "#6e6d6d",
-        //                 weight: 2,
-        //                 fillOpacity: 0,
-        //                 fontWeight: "bold"
-        //             }).addTo(map);
-        //         }
-        //         applyCountryBorder(globalMap);
-        //     })
-        // }
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
             {
                 subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -153,34 +144,6 @@ export class AppServiceComponent {
 
     //Initialise markers.....
     markersIcons = [];
-    public initMarkers(lat, lng, color, radius, strokeWeight, weight, levelWise) {
-        if (lat !== undefined && lng !== undefined) {
-            var markerIcon;
-            if (radius >= 1) {
-                markerIcon = L.circleMarker([lat, lng], {
-                    radius: radius + 1,
-                    color: "gray",
-                    fillColor: color,
-                    fillOpacity: 1,
-                    strokeWeight: strokeWeight,
-                    weight: weight
-                });
-            } else {
-                markerIcon = L.circleMarker([lat, lng], {
-                    radius: 1,
-                    color: color,
-                    fillColor: color,
-                    fillOpacity: 1,
-                    strokeWeight: strokeWeight,
-                    weight: weight
-                });
-            }
-            this.markersIcons.push(markerIcon);
-            return markerIcon;
-        }
-
-        return undefined;
-    }
     public initMarkers1(lat, lng, color, strokeWeight, weight, levelWise) {
         if (lat !== undefined && lng !== undefined) {
             var markerIcon;
@@ -562,7 +525,7 @@ export class AppServiceComponent {
             seconds: ("0" + (this.edate.getSeconds())).slice(-2),
         }
         obj = {
-            uid: this.keyCloakService.kc.tokenParsed.sub,
+            // uid: this.keyCloakService.kc.tokenParsed.sub,
             eventType: event,
             reportId: reportId,
             time: dateObj.year + '-' + dateObj.month + '-' + dateObj.date + ' ' + dateObj.hour + ':' + dateObj.minut + ':' + dateObj.seconds
@@ -672,5 +635,15 @@ export class AppServiceComponent {
     getDefault() {
         this.logoutOnTokenExpire();
         return this.http.get(`${this.baseUrl}/getDefault`);
+    }
+
+
+    //
+    setProgressCardValue(status) {
+        this.callProgressCard.next(status);
+    }
+
+    setToggleMenuValue(status) {
+        this.toggleMenu.next(status);
     }
 }

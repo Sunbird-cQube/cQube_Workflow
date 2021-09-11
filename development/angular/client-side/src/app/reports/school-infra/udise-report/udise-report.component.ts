@@ -97,6 +97,12 @@ export class UdiseReportComponent implements OnInit {
     private readonly _router: Router
   ) {
     commonService.logoutOnTokenExpire();
+    this.commonService.callProgressCard.subscribe(value => {
+      if (value) {
+        this.goToHealthCard();
+        this.commonService.setProgressCardValue(false);
+      }
+    })
   }
 
   selected = "absolute";
@@ -121,8 +127,8 @@ export class UdiseReportComponent implements OnInit {
     this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("udisemap", [[this.lat, this.lng]]);
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "block";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -227,7 +233,7 @@ export class UdiseReportComponent implements OnInit {
     document.getElementById("spinner").style.marginTop = "3%";
   }
 
-  homeClick(){
+  homeClick() {
     this.indiceData = "Infrastructure_Score";
     this.districtWise();
   }
@@ -333,7 +339,7 @@ export class UdiseReportComponent implements OnInit {
 
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     } catch (e) {
       console.log(e);
     }
@@ -447,7 +453,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -560,7 +566,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -674,7 +680,7 @@ export class UdiseReportComponent implements OnInit {
       );
 
       globalMap.addLayer(this.layerMarkers);
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } catch (e) {
       console.log(e);
     }
@@ -753,7 +759,7 @@ export class UdiseReportComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // to load all the clusters for selected block for state data on the map
@@ -841,7 +847,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // to load all the schools for selected cluster for state data on the map
@@ -946,12 +952,12 @@ export class UdiseReportComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
-    try{
+    try {
       this.reportData = [];
       this.schoolCount = 0;
       var myData = data["data"];
@@ -986,7 +992,7 @@ export class UdiseReportComponent implements OnInit {
             1,
             options.level
           );
-  
+
           // data to show on the tooltip for the desired levels
           if (options.level) {
             // data to show on the tooltip for the desired levels
@@ -997,12 +1003,12 @@ export class UdiseReportComponent implements OnInit {
               "latitude",
               "longitude"
             );
-  
+
             this.fileName = fileName;
             this.getDownloadableData(this.markers[i], options.level);
           }
         }
-  
+
         this.loaderAndErr();
         this.changeDetection.markForCheck();
       }
@@ -1011,7 +1017,7 @@ export class UdiseReportComponent implements OnInit {
       this.schoolCount = this.schoolCount
         .toString()
         .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-  
+
       if (this.level == "school") {
         globalMap.doubleClickZoom.enable();
         globalMap.scrollWheelZoom.enable();
@@ -1026,7 +1032,7 @@ export class UdiseReportComponent implements OnInit {
           [options.centerLat + 3.5, options.centerLng + 6],
         ]);
       }
-    }catch(e){
+    } catch (e) {
       this.data = [];
       this.loaderAndErr();
     }
