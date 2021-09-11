@@ -9,6 +9,8 @@ import * as Highcharts from 'highcharts/highstock'
 export class BarChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions;
+
+  //chart data variables
   @Input() public category: String[];
   @Input() public data: Number[];
   @Input() public xData: Number[];
@@ -33,6 +35,7 @@ export class BarChartComponent implements OnInit {
     this.onResize();
   }
 
+  //generate bar chart:::::::::::
   createBarChart() {
     var xData = this.xData;
     var name = this.reportName;
@@ -148,6 +151,7 @@ export class BarChartComponent implements OnInit {
     }
     this.Highcharts.chart("container", this.chartOptions);
 
+    //Bar tooltips::::::::::::::::::::::
     function getPointCategoryName(point, reportName, xData, level, type) {
       var obj = '';
       if (reportName == "course") {
@@ -172,8 +176,8 @@ export class BarChartComponent implements OnInit {
       if (reportName == "enroll/comp") {
         obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category}
         <br> ${point.y !== null ? `<b>${type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()}:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        ${type != `completion` && xData[point.index] ? `<br><b>Completion: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : '' }
-        ${type != `enrollment` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : '' }
+        ${type != `completion` && xData[point.index] ? `<br><b>Completion: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
+        ${type != `enrollment` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
         `
         return obj;
       }

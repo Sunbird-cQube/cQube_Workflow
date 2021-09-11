@@ -9,8 +9,12 @@ import { KeycloakSecurityService } from '../keycloak-security.service';
 })
 export class HomeComponent implements OnInit {
   public grafanaUrl = environment.grafanaEndPoint;
+  public storageType = environment.storageType;
+  public listFileName = ""
   logoutVar;
   constructor(public keyCloakService: KeycloakSecurityService) {
+    this.listFileName = this.storageType == 's3' ? "Download \n S3 Files" : "List \n Local Files"
+
   }
   email: any;
   role: any;

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { S3DownloadsService } from '../../services/s3-downloads.service';
+import { environment } from '../../../environments/environment'
+
 declare const $;
 
 @Component({
@@ -22,7 +24,12 @@ export class S3FilesDownloadComponent implements OnInit {
   public selectedFile;
   public select1 = "bucket";
   public isBucket = false;
-  constructor(private router: Router, private service: S3DownloadsService) { }
+  listFileName: string;
+  public storageType = environment.storageType;
+  constructor(private router: Router, private service: S3DownloadsService) { 
+    this.listFileName = this.storageType == 's3' ? "Download \n S3 Files" : "List \n Local Files"
+
+  }
 
   ngOnInit(): void {
     document.getElementById('backBtn').style.display = "none";

@@ -61,7 +61,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   public markerData;
   public layerMarkers: any = new L.layerGroup();
   public markersList = new L.FeatureGroup();
-  public levelWise: any = "District";
+  public level: any = "District";
 
   // google maps zoom level
   public zoom: number = 7;
@@ -112,38 +112,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   onResize() {
     this.width = window.innerWidth;
     this.heigth = window.innerHeight;
-    this.commonService.zoomLevel =
-      this.width > 3820
-        ? this.commonService.mapCenterLatlng.zoomLevel + 2
-        : this.width < 3820 && this.width >= 2500
-          ? this.commonService.mapCenterLatlng.zoomLevel + 1
-          : this.width < 2500 && this.width > 1920
-            ? this.commonService.mapCenterLatlng.zoomLevel + 1
-            : this.commonService.mapCenterLatlng.zoomLevel;
-    this.changeDetection.detectChanges();
-    this.levelWiseFilter();
-  }
-  setZoomLevel(lat, lng, globalMap, zoomLevel) {
-    globalMap.setView(new L.LatLng(lat, lng), zoomLevel);
-    globalMap.options.minZoom = this.commonService.zoomLevel;
-    this.changeDetection.detectChanges();
-  }
-  getMarkerRadius(rad1, rad2, rad3, rad4) {
-    let radius =
-      this.width > 3820
-        ? rad1
-        : this.width > 2500 && this.width < 3820
-          ? rad2
-          : this.width < 2500 && this.width > 1920
-            ? rad3
-            : rad4;
-    return radius;
   }
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.commonService.initMap("sarExpMap", [[this.lat, this.lng]]);
     globalMap.setMaxBounds([
@@ -155,8 +129,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    document.getElementById("homeBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.skul = true;
     this.timePeriod = {
       period: "overall",
@@ -185,20 +159,20 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               month: null,
               year: null,
             };
-            this.onResize();
+            this.levelWiseFilter();
           }
         } else {
           this.dateRange = "";
           this.changeDetection.detectChanges();
-          document.getElementById("home").style.display = "none";
+          //document.getElementById("home").style.display = "none";
           this.getMonthYear = {};
-          this.onResize();
+          this.levelWiseFilter();
         }
       },
       (err) => {
         this.dateRange = "";
         this.changeDetection.detectChanges();
-        document.getElementById("home").style.display = "none";
+        //document.getElementById("home").style.display = "none";
         this.getMonthYear = {};
         this.commonService.loaderAndErr(this.markers);
       }
@@ -206,7 +180,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   }
 
   showYearMonth() {
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.yearMonth = false;
     this.month_year = {
       month: this.month,
@@ -216,14 +190,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       period: null,
       report: "sarException",
     };
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   onPeriodSelect() {
     if (this.period != "overall") {
-      document.getElementById("home").style.display = "block";
+      //document.getElementById("home").style.display = "block";
     } else {
-      document.getElementById("home").style.display = "none";
+      //document.getElementById("home").style.display = "none";
     }
     this.yearMonth = true;
     this.timePeriod = {
@@ -234,7 +208,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       month: null,
       year: null,
     };
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   public fileName: any;
@@ -290,7 +264,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
     var myReport = [];
     this.reportData.forEach((element) => {
-      if (this.levelWise != "school") {
+      if (this.level != "school") {
         if (element.number_of_schools) {
           element.number_of_schools = element.number_of_schools.replace(
             /\,/g,
@@ -333,34 +307,33 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       month: this.month,
       year: this.year,
     };
-    this.onResize();
+    this.levelWiseFilter();
   }
 
   levelWiseFilter() {
-    if (this.skul) {
-      if (this.levelWise === "District") {
-        this.districtWise();
-      }
-      if (this.levelWise === "Block") {
-        this.blockWise(event);
-      }
-      if (this.levelWise === "Cluster") {
-        this.clusterWise(event);
-      }
-      if (this.levelWise === "school") {
-        this.schoolWise(event);
-      }
-    } else {
-      if (this.dist && this.myDistrict !== null) {
-        this.myDistData(this.myDistrict);
-      }
-      if (this.blok && this.myBlock !== undefined) {
-        this.myBlockData(this.myBlock);
-      }
-      if (this.clust && this.myCluster !== null) {
-        this.myClusterData(this.myCluster);
-      }
+    if (this.level == "District") {
+      this.districtWise();
     }
+    if (this.level == "Block") {
+      this.blockWise();
+    }
+    if (this.level == "Cluster") {
+      this.clusterWise();
+    }
+    if (this.level == "School") {
+      this.schoolWise();
+    }
+
+    if (this.level == "blockPerDistrict") {
+      this.myDistData(this.myDistrict);
+    }
+    if (this.level == "clusterPerBlock") {
+      this.myBlockData(this.myBlock);
+    }
+    if (this.level == "schoolPerCluster") {
+      this.myClusterData(this.myCluster);
+    }
+    this.changeDetection.detectChanges();
   }
 
   getYear() {
@@ -384,7 +357,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   onClickHome() {
     this.yearMonth = true;
     this.period = "overall";
-    this.levelWise = "District";
+    this.level = "District";
     this.skul = true;
     this.month_year = {
       month: null,
@@ -394,12 +367,13 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       period: this.period,
       report: "sarException",
     };
-    this.onResize();
-    document.getElementById("home").style.display = "none";
+    this.levelWiseFilter();
+    //document.getElementById("home").style.display = "none";
   }
 
   async districtWise() {
     this.commonAtStateLevel();
+    this.level = "District";
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -435,7 +409,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   id: this.markers[i]["district_id"],
                   name: this.markers[i]["district_name"],
                 });
-                var markerIcon = this.commonService.initMarkers(
+                var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.commonService.relativeColorGredient(
@@ -446,17 +420,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                     },
                     colors
                   ),
-                  this.getMarkerRadius(14, 10, 8, 5),
                   0.01,
                   1,
-                  this.levelWise
+                  this.level
                 );
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
                   this.layerMarkers,
-                  this.levelWise
+                  this.level
                 );
               }
             }
@@ -471,12 +444,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               [this.lat - 4.5, this.lng - 6],
               [this.lat + 3.5, this.lng + 6],
             ]);
-            this.setZoomLevel(
-              this.lat,
-              this.lng,
-              globalMap,
-              this.commonService.zoomLevel
-            );
+            this.commonService.onResize(this.level);
             this.schoolCount = this.schoolCount
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -501,14 +469,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     globalMap.addLayer(this.layerMarkers);
   }
 
-  blockWise(event) {
+  blockWise() {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
     }
 
     this.commonAtStateLevel();
-    this.levelWise = "Block";
+    this.level = "Block";
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -545,7 +513,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["dist"],
                 });
-                var markerIcon = this.commonService.initMarkers(
+                var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.commonService.relativeColorGredient(
@@ -556,17 +524,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                     },
                     colors
                   ),
-                  this.getMarkerRadius(12, 8, 6, 3.5),
                   0.01,
                   1,
-                  this.levelWise
+                  this.level
                 );
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
                   this.layerMarkers,
-                  this.levelWise
+                  this.level
                 );
               }
               blockNames.sort((a, b) =>
@@ -579,12 +546,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              this.setZoomLevel(
-                this.lat,
-                this.lng,
-                globalMap,
-                this.commonService.zoomLevel
-              );
+              this.commonService.onResize(this.level);
               this.schoolCount = this.schoolCount
                 .toString()
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -607,16 +569,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
-  clusterWise(event) {
+  clusterWise() {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
     }
     this.commonAtStateLevel();
-    this.levelWise = "Cluster";
+    this.level = "Cluster";
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -668,7 +630,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["district_id"],
                 });
-                var markerIcon = this.commonService.initMarkers(
+                var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.commonService.relativeColorGredient(
@@ -679,17 +641,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                     },
                     colors
                   ),
-                  this.getMarkerRadius(3, 2, 1.5, 1),
                   0.01,
                   0.5,
-                  this.levelWise
+                  this.level
                 );
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
                   this.layerMarkers,
-                  this.levelWise
+                  this.level
                 );
               }
 
@@ -707,12 +668,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              this.setZoomLevel(
-                this.lat,
-                this.lng,
-                globalMap,
-                this.commonService.zoomLevel
-              );
+              this.commonService.onResize(this.level);
               this.schoolCount = this.schoolCount
                 .toString()
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -735,17 +691,17 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.markersList);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     this.cluster = [];
   }
 
-  schoolWise(event) {
+  schoolWise() {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
     }
     this.commonAtStateLevel();
-    this.levelWise = "school";
+    this.level = "School";
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -772,21 +728,20 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             if (this.markers.length !== 0) {
               for (let i = 0; i < this.markers.length; i++) {
                 this.districtsIds.push(sorted[i]["district_id"]);
-                var markerIcon = this.commonService.initMarkers(
+                var markerIcon = this.commonService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   "red",
-                  this.getMarkerRadius(1.5, 1.2, 1, 0),
                   0,
                   0.3,
-                  this.levelWise
+                  this.level
                 );
                 this.generateToolTip(
                   markerIcon,
                   this.markers[i],
                   this.onClick_Marker,
                   this.layerMarkers,
-                  this.levelWise
+                  this.level
                 );
               }
 
@@ -796,12 +751,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              this.setZoomLevel(
-                this.lat,
-                this.lng,
-                globalMap,
-                this.commonService.zoomLevel
-              );
+              this.commonService.onResize(this.level);
               this.schoolCount = this.markers.length
                 .toString()
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -824,7 +774,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   commonAtStateLevel() {
@@ -847,8 +797,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.title = "";
     this.titleName = "";
     this.clustName = "";
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
+    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -861,7 +811,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     var level;
     var obj = {};
     if (this.districtsIds.includes(label.district_id)) {
-      level = "district";
+      level = "District";
       localStorage.setItem("dist", label.district_name);
       localStorage.setItem("distId", label.district_id);
       this.myDistData(label.district_id);
@@ -876,7 +826,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     }
 
     if (this.blocksIds.includes(label.block_id)) {
-      level = "block";
+      level = "Block";
       if (this.skul) {
         localStorage.setItem("dist", label.district_name);
         localStorage.setItem("distId", label.district_id);
@@ -899,7 +849,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     }
 
     if (this.clusterIds.includes(label.cluster_id)) {
-      level = "cluster";
+      level = "Cluster";
       localStorage.setItem("dist", label.district_name);
       localStorage.setItem("distId", label.district_id);
       localStorage.setItem("block", label.block_name);
@@ -934,7 +884,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   }
 
   onClickSchool(event) {
-    this.levelWise = "school";
+    this.level = "School";
     if (event.latlng) {
       var obj = {
         id: event.target.myJsonData.school_id,
@@ -942,7 +892,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         lat: event.target.myJsonData.lat,
         lng: event.target.myJsonData.lng,
       };
-      this.getTelemetryData(obj, event.type, this.levelWise);
+      this.getTelemetryData(obj, event.type, this.level);
     }
   }
 
@@ -977,7 +927,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_dist').val('');
       return;
     }
-    this.levelWise = "Block";
+    this.level = "Block";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];
@@ -998,11 +948,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
-        this.fileName = `${this.reportName}_${this.levelWise
+        this.fileName = `${this.reportName}_${this.level
           }s_of_district_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
           }`;
       } else {
-        this.fileName = `${this.reportName}_${this.levelWise}s_of_district_${data}_${this.period}_${this.commonService.dateAndTime}`;
+        this.fileName = `${this.reportName}_${this.level}s_of_district_${data}_${this.period}_${this.commonService.dateAndTime}`;
       }
       this.distName = { district_id: data, district_name: obj.name };
       this.hierName = obj.name;
@@ -1036,8 +986,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.lat = Number(this.mylatlngData[0]["lat"]);
-            this.lng = Number(this.mylatlngData[0]["lng"]);
+            this.commonService.latitude = this.lat = Number(
+              this.mylatlngData[0]["lat"]
+            );
+            this.commonService.longitude = this.lng = Number(
+              this.mylatlngData[0]["lng"]
+            );
 
             var blokName = [];
 
@@ -1055,7 +1009,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 id: this.markers[i]["block_id"],
                 name: this.markers[i]["block_name"],
               });
-              var markerIcon = this.commonService.initMarkers(
+              var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.commonService.relativeColorGredient(
@@ -1066,17 +1020,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   },
                   colors
                 ),
-                this.getMarkerRadius(14, 10, 8, 4),
                 0.01,
                 1,
-                this.levelWise
+                this.level
               );
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
                 this.onClick_Marker,
                 this.layerMarkers,
-                this.levelWise
+                this.level
               );
             }
             blokName.sort((a, b) =>
@@ -1089,12 +1042,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            this.setZoomLevel(
-              this.lat,
-              this.lng,
-              globalMap,
-              this.commonService.zoomLevel + 1
-            );
+            this.commonService.onResize(this.level);
             this.schoolCount = this.schoolCount
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -1115,7 +1063,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.markers = [];
       this.commonService.loaderAndErr(this.markers);
     }
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
     globalMap.addLayer(this.layerMarkers);
   }
 
@@ -1144,7 +1092,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_block').val('');
       return;
     }
-    this.levelWise = "Cluster";
+    this.level = "Cluster";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];
@@ -1161,11 +1109,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
-        this.fileName = `${this.reportName}_${this.levelWise
+        this.fileName = `${this.reportName}_${this.level
           }s_of_block_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
           }`;
       } else {
-        this.fileName = `${this.reportName}_${this.levelWise}s_of_block_${data}_${this.period}_${this.commonService.dateAndTime}`;
+        this.fileName = `${this.reportName}_${this.level}s_of_block_${data}_${this.period}_${this.commonService.dateAndTime}`;
       }
       var blockNames = [];
       this.blocksNames.forEach((item) => {
@@ -1218,8 +1166,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.lat = Number(this.mylatlngData[0]["lat"]);
-            this.lng = Number(this.mylatlngData[0]["lng"]);
+            this.commonService.latitude = this.lat = Number(
+              this.mylatlngData[0]["lat"]
+            );
+            this.commonService.longitude = this.lng = Number(
+              this.mylatlngData[0]["lng"]
+            );
             var clustNames = [];
 
             var sorted = this.mylatlngData;
@@ -1247,7 +1199,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   blockId: sorted[i]["block_id"],
                 });
               }
-              var markerIcon = this.commonService.initMarkers(
+              var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.commonService.relativeColorGredient(
@@ -1258,17 +1210,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   },
                   colors
                 ),
-                this.getMarkerRadius(14, 10, 8, 4),
                 0.01,
                 1,
-                this.levelWise
+                this.level
               );
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
                 this.onClick_Marker,
                 this.layerMarkers,
-                this.levelWise
+                this.level
               );
             }
 
@@ -1282,12 +1233,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            this.setZoomLevel(
-              this.lat,
-              this.lng,
-              globalMap,
-              this.commonService.zoomLevel + 3
-            );
+            this.commonService.onResize(this.level);
             this.schoolCount = this.schoolCount
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -1309,7 +1255,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   clusterSelect(event, data) {
@@ -1335,7 +1281,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_cluster').val('');
       return;
     }
-    this.levelWise = "school";
+    this.level = "School";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];
@@ -1355,11 +1301,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
-        this.fileName = `${this.reportName}_${this.levelWise
+        this.fileName = `${this.reportName}_${this.level
           }s_of_cluster_${data}_${month.name.trim()}_${this.year}_${this.commonService.dateAndTime
           }`;
       } else {
-        this.fileName = `${this.reportName}_${this.levelWise}s_of_cluster_${data}_${this.period}_${this.commonService.dateAndTime}`;
+        this.fileName = `${this.reportName}_${this.level}s_of_cluster_${data}_${this.period}_${this.commonService.dateAndTime}`;
       }
 
       let obj = this.clusterNames.find((o) => o.id == data);
@@ -1448,8 +1394,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.lat = Number(this.mylatlngData[0]["lat"]);
-            this.lng = Number(this.mylatlngData[0]["lng"]);
+            this.commonService.latitude = this.lat = Number(
+              this.mylatlngData[0]["lat"]
+            );
+            this.commonService.longitude = this.lng = Number(
+              this.mylatlngData[0]["lng"]
+            );
 
             var sorted = this.mylatlngData;
 
@@ -1462,7 +1412,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             });
             this.markers = sorted;
             for (var i = 0; i < sorted.length; i++) {
-              var markerIcon = this.commonService.initMarkers(
+              var markerIcon = this.commonService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.commonService.relativeColorGredient(
@@ -1473,17 +1423,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   },
                   colors
                 ),
-                this.getMarkerRadius(14, 10, 8, 4),
                 0.1,
                 1,
-                this.levelWise
+                this.level
               );
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],
                 this.onClick_Marker,
                 this.layerMarkers,
-                this.levelWise
+                this.level
               );
             }
             globalMap.doubleClickZoom.enable();
@@ -1492,12 +1441,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            this.setZoomLevel(
-              this.lat,
-              this.lng,
-              globalMap,
-              this.commonService.zoomLevel + 5
-            );
+            this.commonService.onResize(this.level);
             this.schoolCount = this.markers.length
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -1519,7 +1463,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.commonService.loaderAndErr(this.markers);
     }
     globalMap.addLayer(this.layerMarkers);
-    document.getElementById("home").style.display = "block";
+    //document.getElementById("home").style.display = "block";
   }
 
   popups(markerIcon, markers, onClick_Marker, layerMarkers, levelWise) {
@@ -1531,7 +1475,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     });
 
     layerMarkers.addLayer(markerIcon);
-    if (levelWise != "school") {
+    if (levelWise != "School" || levelWise == "schoolPerCluster") {
       markerIcon.on("click", onClick_Marker, this);
     } else {
       markerIcon.on("click", this.onClickSchool, this);
@@ -1584,13 +1528,13 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   goToHealthCard(): void {
     let data: any = {};
 
-    if (this.levelWise === "Block") {
+    if (this.level === "Block") {
       data.level = "district";
       data.value = this.myDistrict;
-    } else if (this.levelWise === "Cluster") {
+    } else if (this.level === "Cluster") {
       data.level = "block";
       data.value = this.myBlock;
-    } else if (this.levelWise === "school") {
+    } else if (this.level === "school") {
       data.level = "cluster";
       data.value = this.myCluster;
     } else {
