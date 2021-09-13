@@ -2955,9 +2955,9 @@
                     <selectedRelationships>infra_trans</selectedRelationships>
                     <selectedRelationships>pat</selectedRelationships>
                     <selectedRelationships>sat</selectedRelationships>
-                    <selectedRelationships>school</selectedRelationships>
                     <selectedRelationships>school_category</selectedRelationships>
                     <selectedRelationships>school_management</selectedRelationships>
+                    <selectedRelationships>school_mst</selectedRelationships>
                     <selectedRelationships>student_attendance</selectedRelationships>
                     <selectedRelationships>tch_att</selectedRelationships>
                     <selectedRelationships>udise</selectedRelationships>
@@ -4238,6 +4238,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>633b5380-9cf0-3b72-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>4b3e964b-3270-385b-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>1d102c95-9717-3bbb-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>63f29a69-2f19-32b3-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -4933,7 +4958,7 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>20528.0</x>
+                        <x>20680.0</x>
                         <y>280.0</y>
                     </bends>
                     <destination>
@@ -6338,6 +6363,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>93b495c4-548f-37aa-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>cc53cb55-aa99-3827-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>s3</selectedRelationships>
+                    <source>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>08010d64-3a2a-31ee-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>93e3f476-62af-30d3-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -7364,6 +7414,31 @@
                     <source>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>4b8a1ce9-93f8-3c7a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>add8b20d-493a-3a14-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>1d102c95-9717-3bbb-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>local</selectedRelationships>
+                    <source>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>08010d64-3a2a-31ee-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -8822,6 +8897,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>d2cde5c1-d77a-3ecc-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>e72aeb6b-b60f-3f6f-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>4b3e964b-3270-385b-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>d3897eb5-1c9e-3ee2-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -9859,6 +9959,30 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>eef290b2-0c1d-3c1a-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>08010d64-3a2a-31ee-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>c794c9a5-38f5-391f-0000-000000000000</id>
+                        <type>INPUT_PORT</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>ef594013-10c0-36ca-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -10549,13 +10673,17 @@
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>9632.0</x>
+                        <y>-1824.0</y>
+                    </bends>
                     <destination>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>2e20da2b-69e1-3c6e-0000-000000000000</id>
                         <type>OUTPUT_PORT</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
@@ -12383,8 +12511,8 @@
                     <id>2fe8269e-f990-3924-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>23816.0</x>
-                        <y>1064.0</y>
+                        <x>23800.0</x>
+                        <y>1144.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -12552,7 +12680,7 @@
                     <id>8a924e01-2072-3137-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21984.0</x>
+                        <x>21992.0</x>
                         <y>-392.0</y>
                     </position>
                     <comments></comments>
@@ -12705,6 +12833,19 @@
                     <type>INPUT_PORT</type>
                 </inputPorts>
                 <inputPorts>
+                    <id>c794c9a5-38f5-391f-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>13168.0</x>
+                        <y>888.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>sat-s3-trends-input-port</name>
+                    <state>STOPPED</state>
+                    <type>INPUT_PORT</type>
+                </inputPorts>
+                <inputPorts>
                     <id>c8c1bb43-c29d-3ad6-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -12812,12 +12953,12 @@
                     <id>f071d0ae-d235-3bc7-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21232.0</x>
-                        <y>1088.0</y>
+                        <x>21240.0</x>
+                        <y>1120.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>health_card_save_output_input_port</name>
+                    <name>progress_card_save_output_input_port</name>
                     <state>STOPPED</state>
                     <type>INPUT_PORT</type>
                 </inputPorts>
@@ -13113,11 +13254,11 @@
                     <id>1a3a9c0b-7528-35aa-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>20608.0</x>
-                        <y>-640.0</y>
+                        <x>20616.0</x>
+                        <y>-536.0</y>
                     </position>
                     <height>104.0</height>
-                    <label>                                Output(infra_transformer)</label>
+                    <label>                                Output(cqube_telemetry_transformer)</label>
                     <style>
                         <entry>
                             <key>background-color</key>
@@ -13281,8 +13422,8 @@
                     <id>2c9e1ed2-957a-3264-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>9456.0</x>
-                        <y>832.0</y>
+                        <x>10320.0</x>
+                        <y>720.0</y>
                     </position>
                     <height>104.0</height>
                     <label>                                Output(sat_transformer)</label>
@@ -13341,6 +13482,27 @@
                     <width>392.0</width>
                 </labels>
                 <labels>
+                    <id>390df844-a0e2-3bd5-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>21608.0</x>
+                        <y>1560.0</y>
+                    </position>
+                    <height>424.0</height>
+                    <label>S3 </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#55a61f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
                     <id>3bd7fd51-91a7-31e7-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -13365,8 +13527,8 @@
                     <id>3bfc8a71-8774-3836-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>33040.0</x>
-                        <y>-2408.0</y>
+                        <x>32656.0</x>
+                        <y>-2424.0</y>
                     </position>
                     <height>56.0</height>
                     <label>DATA REPLAY / RETENTION Data Storage</label>
@@ -13432,6 +13594,27 @@
                         <y>1528.0</y>
                     </position>
                     <height>184.0</height>
+                    <label>S3 </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#55a61f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
+                    <id>4facf78e-e1e6-3a3e-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>24080.0</x>
+                        <y>1504.0</y>
+                    </position>
+                    <height>424.0</height>
                     <label>S3 </label>
                     <style>
                         <entry>
@@ -13524,7 +13707,7 @@
                         </entry>
                         <entry>
                             <key>font-size</key>
-                            <value>18px</value>
+                            <value>24px</value>
                         </entry>
                     </style>
                     <width>576.0</width>
@@ -13638,8 +13821,8 @@
                     <id>659d9571-787b-3c5f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>23600.0</x>
-                        <y>896.0</y>
+                        <x>23576.0</x>
+                        <y>992.0</y>
                     </position>
                     <height>104.0</height>
                     <label>                                Output(composite_transformer)</label>
@@ -13761,6 +13944,27 @@
                     <width>384.0</width>
                 </labels>
                 <labels>
+                    <id>6c9d1f82-cbd8-3c1c-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>23440.0</x>
+                        <y>1504.0</y>
+                    </position>
+                    <height>832.0</height>
+                    <label>On Premise </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#a65c1f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
                     <id>701822ae-f438-3d83-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -13801,6 +14005,27 @@
                         </entry>
                     </style>
                     <width>408.0</width>
+                </labels>
+                <labels>
+                    <id>74e5f991-a84a-3cb7-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>12776.0</x>
+                        <y>1256.0</y>
+                    </position>
+                    <height>640.0</height>
+                    <label>On Premise </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#a65c1f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>400.0</width>
                 </labels>
                 <labels>
                     <id>76b5c03f-70eb-3106-0000-000000000000</id>
@@ -14142,8 +14367,8 @@
                     <id>b4365257-fc62-3772-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>16024.0</x>
-                        <y>-632.0</y>
+                        <x>16288.0</x>
+                        <y>-432.0</y>
                     </position>
                     <height>104.0</height>
                     <label>                                Output(infra_transformer)</label>
@@ -14286,6 +14511,27 @@
                     <width>400.0</width>
                 </labels>
                 <labels>
+                    <id>c0b3f73c-b823-3026-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>20792.0</x>
+                        <y>1520.0</y>
+                    </position>
+                    <height>832.0</height>
+                    <label>On Premise </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#a65c1f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
                     <id>c229e670-4f30-3843-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -14333,6 +14579,27 @@
                     <position>
                         <x>22208.0</x>
                         <y>-48.0</y>
+                    </position>
+                    <height>184.0</height>
+                    <label>S3 </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#55a61f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
+                    <id>ca9d2378-5265-398b-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>13504.0</x>
+                        <y>1280.0</y>
                     </position>
                     <height>184.0</height>
                     <label>S3 </label>
@@ -14646,11 +14913,11 @@
                     <id>f31d3b5e-2c63-35f3-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21016.0</x>
-                        <y>888.0</y>
+                        <x>21024.0</x>
+                        <y>992.0</y>
                     </position>
                     <height>104.0</height>
-                    <label>                                Output(healthcard_transformer)</label>
+                    <label>                                Output(progress_card_transformer)</label>
                     <style>
                         <entry>
                             <key>background-color</key>
@@ -15100,8 +15367,8 @@
                     <id>d651e721-bb81-360f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>21120.0</x>
-                        <y>488.0</y>
+                        <x>21112.0</x>
+                        <y>480.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15714,7 +15981,7 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>23456.0</x>
-                        <y>2368.0</y>
+                        <y>2192.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -16549,14 +16816,19 @@ where ff_uuid= '${files_uuid}'
                             </entry>
                             <entry>
 <key>filename</key>
-<value>${query_type:startsWith('sat_management_exam_school_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/school.json',
-${query_type:startsWith('sat_management_exam_cluster_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/cluster.json',
-${query_type:startsWith('sat_management_exam_block_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/block.json',
-${query_type:startsWith('sat_management_exam_district_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/district.json',
-${query_type:startsWith('sat_management_grade_school_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/school/${partition_by}.json',
-${query_type:startsWith('sat_management_grade_cluster_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/cluster/${partition_by}.json',
-${query_type:startsWith('sat_management_grade_block_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/block/${partition_by}.json',
-${query_type:startsWith('sat_management_grade_district_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/district/${partition_by}.json',
+<value>${query_type:startsWith('sat_management_exam_school_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/school.json',
+${query_type:startsWith('sat_management_exam_cluster_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/cluster.json',
+${query_type:startsWith('sat_management_exam_block_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/block.json',
+${query_type:startsWith('sat_management_exam_district_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/district.json',
+${query_type:startsWith('sat_management_grade_school_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/school/${partition_by}.json',
+${query_type:startsWith('sat_management_grade_cluster_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/cluster/${partition_by}.json',
+${query_type:startsWith('sat_management_grade_block_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/block/${partition_by}.json',
+${query_type:startsWith('sat_management_grade_district_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/district/${partition_by}.json',
+${query_type:startsWith('sat_management_subject_all_footer_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/all_subjects_footer.json',
+${query_type:startsWith('sat_management_subject_footer_school'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/school/grade_subject_footer.json',
+${query_type:startsWith('sat_management_subject_footer_cluster'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/cluster/grade_subject_footer.json',
+${query_type:startsWith('sat_management_subject_footer_block'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/block/grade_subject_footer.json',
+${query_type:startsWith('sat_management_subject_footer_district'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/district/grade_subject_footer.json',
 ${query_type:startsWith('sat_management_learning_outcome_p1_question_all'):ifElse('sat/school_management_category/heatChart/questionIdLevel/${academic_year}/${month}/overall_category/${management}/allData.json',
 ${query_type:startsWith('sat_management_learning_outcome_p1_question_district'):ifElse('sat/school_management_category/heatChart/questionIdLevel/${academic_year}/${month}/overall_category/${management}/districts/${partition_by}.json',
 ${query_type:startsWith('sat_management_learning_outcome_p1_question_block'):ifElse('sat/school_management_category/heatChart/questionIdLevel/${academic_year}/${month}/overall_category/${management}/blocks/${partition_by}.json',
@@ -16569,7 +16841,7 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_all'):ifElse('sat/sc
 ${query_type:startsWith('sat_management_learning_outcome_p3_district'):ifElse('sat/school_management_category/heatmap-summary/${academic_year}/${month}/overall_category/${management}/districts/${partition_by}.json',
 ${query_type:startsWith('sat_management_learning_outcome_p3_block'):ifElse('sat/school_management_category/heatmap-summary/${academic_year}/${month}/overall_category/${management}/blocks/${partition_by}.json',
 ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sat/school_management_category/heatmap-summary/${academic_year}/${month}/overall_category/${management}/clusters/${partition_by}.json','None')} )} )} )} )} )} )} )}
-)} )} )} )} )} )} )} )} )} )} )} )}</value>
+)} )} )} )} )} )} )} )} )} )} )} )})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -16591,8 +16863,84 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                     <id>06d2b330-80f9-3f8b-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>23752.0</x>
-                        <y>1248.0</y>
+                        <x>23744.0</x>
+                        <y>1272.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>local</key>
+<value>
+    <name>local</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3</key>
+<value>
+    <name>s3</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>local</key>
+<value>${source:startsWith('local')}</value>
+                            </entry>
+                            <entry>
+<key>s3</key>
+<value>${source:startsWith('s3')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>route_s3_or_local</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>local</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>s3</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
+                    <id>08010d64-3a2a-31ee-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>13112.0</x>
+                        <y>1024.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -16919,14 +17267,19 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                         <properties>
                             <entry>
 <key>Object Key</key>
-<value>${query_type:startsWith('sat_management_exam_school_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/school.json',
-${query_type:startsWith('sat_management_exam_cluster_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/cluster.json',
-${query_type:startsWith('sat_management_exam_block_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/block.json',
-${query_type:startsWith('sat_management_exam_district_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/district.json',
-${query_type:startsWith('sat_management_grade_school_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/school/${partition_by}.json',
-${query_type:startsWith('sat_management_grade_cluster_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/cluster/${partition_by}.json',
-${query_type:startsWith('sat_management_grade_block_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/block/${partition_by}.json',
-${query_type:startsWith('sat_management_grade_district_year_month'):ifElse('sat/school_management_category/${academic_year}/${month}/sem_${semester}/overall_category/${management}/district/${partition_by}.json',
+<value>${query_type:startsWith('sat_management_exam_school_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/school.json',
+${query_type:startsWith('sat_management_exam_cluster_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/cluster.json',
+${query_type:startsWith('sat_management_exam_block_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/block.json',
+${query_type:startsWith('sat_management_exam_district_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/district.json',
+${query_type:startsWith('sat_management_grade_school_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/school/${partition_by}.json',
+${query_type:startsWith('sat_management_grade_cluster_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/cluster/${partition_by}.json',
+${query_type:startsWith('sat_management_grade_block_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/block/${partition_by}.json',
+${query_type:startsWith('sat_management_grade_district_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/district/${partition_by}.json',
+${query_type:startsWith('sat_management_subject_all_footer_year_semester'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/all_subjects_footer.json',
+${query_type:startsWith('sat_management_subject_footer_school'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/school/grade_subject_footer.json',
+${query_type:startsWith('sat_management_subject_footer_cluster'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/cluster/grade_subject_footer.json',
+${query_type:startsWith('sat_management_subject_footer_block'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/block/grade_subject_footer.json',
+${query_type:startsWith('sat_management_subject_footer_district'):ifElse('sat/school_management_category/${academic_year}/sem_${semester}/overall_category/${management}/district/grade_subject_footer.json',
 ${query_type:startsWith('sat_management_learning_outcome_p1_question_all'):ifElse('sat/school_management_category/heatChart/questionIdLevel/${academic_year}/${month}/overall_category/${management}/allData.json',
 ${query_type:startsWith('sat_management_learning_outcome_p1_question_district'):ifElse('sat/school_management_category/heatChart/questionIdLevel/${academic_year}/${month}/overall_category/${management}/districts/${partition_by}.json',
 ${query_type:startsWith('sat_management_learning_outcome_p1_question_block'):ifElse('sat/school_management_category/heatChart/questionIdLevel/${academic_year}/${month}/overall_category/${management}/blocks/${partition_by}.json',
@@ -16939,7 +17292,7 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_all'):ifElse('sat/sc
 ${query_type:startsWith('sat_management_learning_outcome_p3_district'):ifElse('sat/school_management_category/heatmap-summary/${academic_year}/${month}/overall_category/${management}/districts/${partition_by}.json',
 ${query_type:startsWith('sat_management_learning_outcome_p3_block'):ifElse('sat/school_management_category/heatmap-summary/${academic_year}/${month}/overall_category/${management}/blocks/${partition_by}.json',
 ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sat/school_management_category/heatmap-summary/${academic_year}/${month}/overall_category/${management}/clusters/${partition_by}.json','None')} )} )} )} )} )} )} )}
-)} )} )} )} )} )} )} )} )} )} )} )}</value>
+)} )} )} )} )} )} )} )} )} )} )} )})})})})})}</value>
                             </entry>
                             <entry>
 <key>Bucket</key>
@@ -17769,7 +18122,7 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>23456.0</x>
-                        <y>2104.0</y>
+                        <y>1992.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -20289,7 +20642,7 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>${absolute.path}${filename}</value>
+<value>${absolute.path}/${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -20337,6 +20690,102 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.FetchFile</type>
+                </processors>
+                <processors>
+                    <id>1d102c95-9717-3bbb-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>12800.0</x>
+                        <y>1312.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>
+    <name>filename</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>${query_type:startsWith('sat_line_chart_state'):ifElse('sat/trend_line_chart/state_${year}.json',
+${query_type:startsWith('sat_district_wise'):ifElse('sat/trend_line_chart/district/district_${year}.json',
+${query_type:startsWith('sat_block_wise'):ifElse('sat/trend_line_chart/block/${level}_${year}.json',
+${query_type:startsWith('sat_cluster_wise'):ifElse('sat/trend_line_chart/cluster/${level}_${year}.json',
+${query_type:startsWith('sat_school_wise'):ifElse('sat/trend_line_chart/school/${level}_${year}.json',
+${query_type:startsWith('sat_management_line_chart_state'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/state_${year}.json',
+${query_type:startsWith('sat_management_district_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/district/district_${year}.json',
+${query_type:startsWith('sat_management_block_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/block/${level}_${year}.json',
+${query_type:startsWith('sat_management_cluster_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/cluster/${level}_${year}.json',
+${query_type:startsWith('sat_management_school_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/school/${level}_${year}.json',''
+)})} )} )} )} )} )} )} )} )}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_trend_update_filename</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
                 </processors>
                 <processors>
                     <id>1d840754-668e-3d27-0000-000000000000</id>
@@ -27312,7 +27761,7 @@ VALUES
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>9960.0</x>
-                        <y>1440.0</y>
+                        <y>1432.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-aws-nar</artifact>
@@ -27644,10 +28093,23 @@ ${query_type:startsWith('sat_exception_grade_school_last_7_days'):ifElse('except
 ${query_type:startsWith('sat_exception_grade_district_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/district/${partition_by}.json',  
 ${query_type:startsWith('sat_exception_grade_block_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/block/${partition_by}.json',
 ${query_type:startsWith('sat_exception_grade_cluster_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/cluster/${partition_by}.json',
-${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/school/${partition_by}.json','None')}
- )} )}	)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
+${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/school/${partition_by}.json',
+${query_type:startsWith('sat_grade_district_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/district/${partition_by_grade}.json',
+${query_type:startsWith('sat_grade_block_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/block/${partition_by_grade}.json',
+${query_type:startsWith('sat_grade_cluster_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/cluster/${partition_by_grade}.json',
+${query_type:startsWith('sat_grade_school_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/${partition_by_grade}.json',
+${query_type:startsWith('sat_exam_district_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/district/district.json',
+${query_type:startsWith('sat_exam_block_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/block/block.json',
+${query_type:startsWith('sat_exam_cluster_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/cluster/cluster.json',
+${query_type:startsWith('sat_exam_school_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/school.json',
+${query_type:startsWith('sat_subject_all_footer_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/all_subjects_footer.json',
+${query_type:startsWith('sat_subject_footer_district_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/district/grade_subject_footer.json',
+${query_type:startsWith('sat_subject_footer_block_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/block/grade_subject_footer.json',
+${query_type:startsWith('sat_subject_footer_cluster_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/cluster/grade_subject_footer.json',
+${query_type:startsWith('sat_subject_footer_school_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/grade_subject_footer.json','None')}
+)})} )}	)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
-)})})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Bucket</key>
@@ -27902,7 +28364,7 @@ ${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('excep
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>9384.0</x>
-                        <y>1312.0</y>
+                        <y>1328.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -28008,6 +28470,7 @@ ${query_type:startsWith('sat_subject_footer_block_last_7_days'):ifElse('sat/last
 ${query_type:startsWith('sat_subject_footer_cluster_last_7_days'):ifElse('sat/last_7_days/cluster/sem_${partition_by_level}/grade_subject_footer.json',
 ${query_type:startsWith('sat_subject_footer_school_last_7_days'):ifElse('sat/last_7_days/school/sem_${partition_by_level}/grade_subject_footer.json',
 ${query_type:startsWith('sat_meta_last7'):ifElse('sat/last_7_days/sat_metadata.json',
+${query_type:startsWith('sat_meta_by_year_semester'):ifElse('sat/metaData.json',
 ${query_type:startsWith('sat_meta_semester_last7'):ifElse('sat/last_7_days/sat_semester_metadata.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_meta'):ifElse('sat/heatChart/metaData.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_district'):ifElse('sat/heatChart/questionIdLevel/${partition_by}/${partition_by_month}/districts/${partition_by_level}.json',
@@ -28046,10 +28509,23 @@ ${query_type:startsWith('sat_exception_grade_school_last_7_days'):ifElse('except
 ${query_type:startsWith('sat_exception_grade_district_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/district/${partition_by}.json',  
 ${query_type:startsWith('sat_exception_grade_block_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/block/${partition_by}.json',
 ${query_type:startsWith('sat_exception_grade_cluster_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/cluster/${partition_by}.json',
-${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/school/${partition_by}.json','None')}
- )} )}	)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
+${query_type:startsWith('sat_exception_grade_school_last_30_days'):ifElse('exception_list/sat_exception/grade/last_30_days/sem_${semester}/school/${partition_by}.json',
+${query_type:startsWith('sat_grade_district_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/district/${partition_by_grade}.json',
+${query_type:startsWith('sat_grade_block_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/block/${partition_by_grade}.json',
+${query_type:startsWith('sat_grade_cluster_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/cluster/${partition_by_grade}.json',
+${query_type:startsWith('sat_grade_school_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/${partition_by_grade}.json',
+${query_type:startsWith('sat_exam_district_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/district/district.json',
+${query_type:startsWith('sat_exam_block_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/block/block.json',
+${query_type:startsWith('sat_exam_cluster_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/cluster/cluster.json',
+${query_type:startsWith('sat_exam_school_by_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/school.json',
+${query_type:startsWith('sat_subject_all_footer_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/all_subjects_footer.json',
+${query_type:startsWith('sat_subject_footer_district_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/district/grade_subject_footer.json',
+${query_type:startsWith('sat_subject_footer_block_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/block/grade_subject_footer.json',
+${query_type:startsWith('sat_subject_footer_cluster_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/cluster/grade_subject_footer.json',
+${query_type:startsWith('sat_subject_footer_school_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/grade_subject_footer.json','None')}
+)})} )}	)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
-)})})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -29246,6 +29722,102 @@ ${query_type:startsWith('diksha_tpd_r2_raw_overall'):ifElse('diksha_raw_data/tpd
                     <type>org.apache.nifi.processors.aws.s3.PutS3Object</type>
                 </processors>
                 <processors>
+                    <id>4b3e964b-3270-385b-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>12800.0</x>
+                        <y>1528.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>directory</key>
+<value>
+    <name>directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>
+    <name>filename</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>directory</key>
+<value>${filename:substringBeforeLast('/')}</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>${filename:substringAfterLast('/')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_update_filename_directory</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
                     <id>4b8a1ce9-93f8-3c7a-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -29832,7 +30404,7 @@ ${emission_filename:substringAfter('/'):startsWith('diksha_data_summary'):ifElse
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>20816.0</x>
-                        <y>1824.0</y>
+                        <y>1776.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -31327,12 +31899,6 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('pa
 </value>
                             </entry>
                             <entry>
-<key>school</key>
-<value>
-    <name>school</name>
-</value>
-                            </entry>
-                            <entry>
 <key>school_category</key>
 <value>
     <name>school_category</name>
@@ -31342,6 +31908,12 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('pa
 <key>school_management</key>
 <value>
     <name>school_management</name>
+</value>
+                            </entry>
+                            <entry>
+<key>school_mst</key>
+<value>
+    <name>school_mst</name>
 </value>
                             </entry>
                             <entry>
@@ -31418,16 +31990,16 @@ or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
 <value>${filename:startsWith('semester_'):or(${filename:startsWith('sat/')})}</value>
                             </entry>
                             <entry>
-<key>school</key>
-<value>${filename:startsWith('school_')}</value>
-                            </entry>
-                            <entry>
 <key>school_category</key>
 <value>${filename:startsWith('school_category')}</value>
                             </entry>
                             <entry>
 <key>school_management</key>
 <value>${filename:startsWith('school_management')}</value>
+                            </entry>
+                            <entry>
+<key>school_mst</key>
+<value>${filename:startsWith('school_mst'):or(${filename:startsWith('school_master')})}</value>
                             </entry>
                             <entry>
 <key>student_attendance</key>
@@ -31560,15 +32132,15 @@ ${filename:startsWith('sch_safety')}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>school</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
                         <name>school_category</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>school_management</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>school_mst</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -31975,7 +32547,7 @@ Sucessfully fetched ${filename} from ${absolute.path}.</value>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>23456.0</x>
-                        <y>1824.0</y>
+                        <y>1768.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -32427,8 +32999,8 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <id>5e16c56a-c32a-34ae-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>24112.0</x>
-                        <y>1864.0</y>
+                        <x>24096.0</x>
+                        <y>1776.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -32496,7 +33068,7 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
                         <x>21632.0</x>
-                        <y>1944.0</y>
+                        <y>1840.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -32852,7 +33424,7 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <id>6500c31d-a95c-377c-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>24112.0</x>
+                        <x>24096.0</x>
                         <y>1544.0</y>
                     </position>
                     <bundle>
@@ -34965,8 +35537,8 @@ ${filename:startsWith('data_retention'):ifElse('input_record_count_data_retentio
                     <id>737f58be-8807-317a-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>20832.0</x>
-                        <y>2392.0</y>
+                        <x>20816.0</x>
+                        <y>2208.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -46179,8 +46751,8 @@ ${query_type:startsWith('sat_exception_management_grade_school_last_30_days'):if
                     <id>a489baaf-6974-35df-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>20824.0</x>
-                        <y>2120.0</y>
+                        <x>20816.0</x>
+                        <y>1984.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -46279,7 +46851,7 @@ ${query_type:startsWith('sat_exception_management_grade_school_last_30_days'):if
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_save_output_on_premise</name>
+                    <name>progress_card_save_output_on_premise</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -51197,7 +51769,7 @@ ${query_type:startsWith('health_card_management_index_district_last_30_days'):if
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>health_card_save_output_s3</name>
+                    <name>progress_card_save_output_s3</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -54886,6 +55458,426 @@ file:${filename} successfully stored "${query_type}" output into s3 output bucke
                     <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
+                    <id>cc53cb55-aa99-3827-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>13528.0</x>
+                        <y>1312.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-aws-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Object Key</key>
+<value>
+    <name>Object Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>
+    <name>Bucket</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Content Type</key>
+<value>
+    <name>Content Type</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Content Disposition</key>
+<value>
+    <name>Content Disposition</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Cache Control</key>
+<value>
+    <name>Cache Control</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+<value>
+    <name>Access Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+<value>
+    <name>Secret Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+<value>
+    <name>Credentials File</name>
+</value>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderService</identifiesControllerService>
+    <name>AWS Credentials Provider service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3-object-tags-prefix</key>
+<value>
+    <name>s3-object-tags-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3-object-remove-tags-prefix</key>
+<value>
+    <name>s3-object-remove-tags-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Storage Class</key>
+<value>
+    <name>Storage Class</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>
+    <name>Region</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>
+    <name>Communications Timeout</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Expiration Time Rule</key>
+<value>
+    <name>Expiration Time Rule</name>
+</value>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>
+    <name>FullControl User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>
+    <name>Read Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>
+    <name>Write Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>
+    <name>Read ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>
+    <name>Write ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canned-acl</key>
+<value>
+    <name>canned-acl</name>
+</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.ssl.SSLContextService</identifiesControllerService>
+    <name>SSL Context Service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+<value>
+    <name>Endpoint Override URL</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>
+    <name>Signer Override</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Threshold</key>
+<value>
+    <name>Multipart Threshold</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Part Size</key>
+<value>
+    <name>Multipart Part Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload AgeOff Interval</key>
+<value>
+    <name>Multipart Upload AgeOff Interval</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload Max Age Threshold</key>
+<value>
+    <name>Multipart Upload Max Age Threshold</name>
+</value>
+                            </entry>
+                            <entry>
+<key>server-side-encryption</key>
+<value>
+    <name>server-side-encryption</name>
+</value>
+                            </entry>
+                            <entry>
+<key>encryption-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.processors.aws.s3.AmazonS3EncryptionService</identifiesControllerService>
+    <name>encryption-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>use-chunked-encoding</key>
+<value>
+    <name>use-chunked-encoding</name>
+</value>
+                            </entry>
+                            <entry>
+<key>use-path-style-access</key>
+<value>
+    <name>use-path-style-access</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
+    <name>proxy-configuration-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+<value>
+    <name>Proxy Host</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+<value>
+    <name>Proxy Host Port</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+<value>
+    <name>proxy-user-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+<value>
+    <name>proxy-user-password</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Object Key</key>
+<value>${query_type:startsWith('sat_line_chart_state'):ifElse('sat/trend_line_chart/state_${year}.json',
+${query_type:startsWith('sat_district_wise'):ifElse('sat/trend_line_chart/district/district_${year}.json',
+${query_type:startsWith('sat_block_wise'):ifElse('sat/trend_line_chart/block/${level}_${year}.json',
+${query_type:startsWith('sat_cluster_wise'):ifElse('sat/trend_line_chart/cluster/${level}_${year}.json',
+${query_type:startsWith('sat_school_wise'):ifElse('sat/trend_line_chart/school/${level}_${year}.json',
+${query_type:startsWith('sat_management_line_chart_state'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/state_${year}.json',
+${query_type:startsWith('sat_management_district_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/district/district_${year}.json',
+${query_type:startsWith('sat_management_block_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/block/${level}_${year}.json',
+${query_type:startsWith('sat_management_cluster_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/cluster/${level}_${year}.json',
+${query_type:startsWith('sat_management_school_by_semester_year'):ifElse('sat/trend_line_chart/school_management_category/overall_category/overall/${management}/school/${level}_${year}.json',''
+)})} )} )} )} )} )} )} )} )}</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>#{s3_output_bucket}</value>
+                            </entry>
+                            <entry>
+<key>Content Type</key>
+                            </entry>
+                            <entry>
+<key>Content Disposition</key>
+                            </entry>
+                            <entry>
+<key>Cache Control</key>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>9dc5a640-ee53-3002-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>s3-object-tags-prefix</key>
+                            </entry>
+                            <entry>
+<key>s3-object-remove-tags-prefix</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>Storage Class</key>
+<value>Standard</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>ap-south-1</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>30 secs</value>
+                            </entry>
+                            <entry>
+<key>Expiration Time Rule</key>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>${s3.permissions.full.users}</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>${s3.permissions.read.users}</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>${s3.permissions.write.users}</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>${s3.permissions.readacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>${s3.permissions.writeacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>${s3.owner}</value>
+                            </entry>
+                            <entry>
+<key>canned-acl</key>
+<value>${s3.permissions.cannedacl}</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>Default Signature</value>
+                            </entry>
+                            <entry>
+<key>Multipart Threshold</key>
+<value>1 GB</value>
+                            </entry>
+                            <entry>
+<key>Multipart Part Size</key>
+<value>100 MB</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload AgeOff Interval</key>
+<value>60 min</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload Max Age Threshold</key>
+<value>7 days</value>
+                            </entry>
+                            <entry>
+<key>server-side-encryption</key>
+<value>None</value>
+                            </entry>
+                            <entry>
+<key>encryption-service</key>
+                            </entry>
+                            <entry>
+<key>use-chunked-encoding</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>use-path-style-access</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>25</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>60 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_s3_trends</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.aws.s3.PutS3Object</type>
+                </processors>
+                <processors>
                     <id>cc98668d-8173-3e76-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -57288,6 +58280,123 @@ or(${filename:startsWith('diksha_data_summary')})}</value>
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
+                    <id>e72aeb6b-b60f-3f6f-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>12800.0</x>
+                        <y>1728.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Directory</key>
+<value>
+    <name>Directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>
+    <name>Conflict Resolution Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>
+    <name>Create Missing Directories</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+<value>
+    <name>Maximum File Count</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+<value>
+    <name>Last Modified Time</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+<value>
+    <name>Permissions</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Group</key>
+<value>
+    <name>Group</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Directory</key>
+<value>#{output_directory}${directory}/</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>replace</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+                            </entry>
+                            <entry>
+<key>Group</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_s3_trends</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PutFile</type>
                 </processors>
                 <processors>
                     <id>e7baf387-d0d0-39be-0000-000000000000</id>
@@ -60255,7 +61364,7 @@ ${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('a
                     <id>f70d6621-849d-3f6f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>9656.0</x>
+                        <x>9616.0</x>
                         <y>1104.0</y>
                     </position>
                     <bundle>
@@ -62933,5 +64042,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/22/2021 19:00:23 IST</timestamp>
+    <timestamp>09/13/2021 07:03:31 IST</timestamp>
 </template>
