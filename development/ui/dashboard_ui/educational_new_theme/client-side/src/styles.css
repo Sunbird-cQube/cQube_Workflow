@@ -1127,7 +1127,7 @@ border-color:var(--theme-back-button-border-color);
  }
  
 .selected-level{
-    color: var(--theme-report-selected-level-color);
+    color: var(--theme-report-selected-level-color) !important;
 }
 
 
@@ -1206,4 +1206,17 @@ body {
   margin: 0;
   padding: 0;
   font-family: "PT Sans", sans-serif;
+}
+
+
+.leaflet-control{
+    display: none;
+}
+
+.leaflet-bottom .leaflet-right{
+    display: none;
+}
+
+.map-control{
+    display: none;
 }

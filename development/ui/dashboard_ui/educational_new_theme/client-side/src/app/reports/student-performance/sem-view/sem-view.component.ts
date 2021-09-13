@@ -10,7 +10,8 @@ import { SemesterReportService } from "../../../services/semester-report.service
 import { Router } from "@angular/router";
 import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
-import { AppServiceComponent, globalMap } from "../../../app.service";
+import { AppServiceComponent } from "../../../app.service";
+import { MapService, globalMap } from "src/app/services/map-services/maps.service";
 
 @Component({
   selector: "app-sem-view",
@@ -108,7 +109,8 @@ export class SemViewComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef,
-    private readonly _router: Router
+    private readonly _router: Router,
+    public globalService: MapService,
   ) { }
 
   selected = "absolute";
@@ -128,10 +130,10 @@ export class SemViewComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
-    this.commonService.zoomLevel = this.commonService.mapCenterLatlng.zoomLevel;
-    this.commonService.initMap("semMap", [[this.lat, this.lng]]);
+    this.lat = this.globalService.mapCenterLatlng.lat;
+    this.lng = this.globalService.mapCenterLatlng.lng;
+    this.globalService.zoomLevel = this.globalService.mapCenterLatlng.zoomLevel;
+    this.globalService.initMap("semMap", [[this.lat, this.lng]]);
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -330,12 +332,12 @@ export class SemViewComponent implements OnInit {
               radius: 5,
               fillOpacity: 1,
               strokeWeight: 0.01,
-              mapZoom: this.commonService.zoomLevel,
+              mapZoom: this.globalService.zoomLevel,
               centerLat: this.lat,
               centerLng: this.lng,
               level: "district",
             };
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
             globalMap.setMaxBounds([
               [options.centerLat - 4.5, options.centerLng - 6],
               [options.centerLat + 3.5, options.centerLng + 6],
@@ -412,7 +414,7 @@ export class SemViewComponent implements OnInit {
           (res) => {
             this.data = res;
             let options = {
-              mapZoom: this.commonService.zoomLevel,
+              mapZoom: this.globalService.zoomLevel,
               centerLat: this.lat,
               centerLng: this.lng,
             };
@@ -451,14 +453,14 @@ export class SemViewComponent implements OnInit {
                     this.level
                   );
                 }
-                this.commonService.restrictZoom(globalMap);
+                this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
                   [options.centerLat - 4.5, options.centerLng - 6],
                   [options.centerLat + 3.5, options.centerLng + 6],
                 ]);
                 globalMap.setView(
                   new L.LatLng(options.centerLat, options.centerLng),
-                  this.commonService.zoomLevel
+                  this.globalService.zoomLevel
                 );
 
                 this.schoolCount = this.data["totalValues"].totalSchools;
@@ -525,7 +527,7 @@ export class SemViewComponent implements OnInit {
           (res) => {
             this.data = res;
             let options = {
-              mapZoom: this.commonService.zoomLevel,
+              mapZoom: this.globalService.zoomLevel,
               centerLat: this.lat,
               centerLng: this.lng,
             };
@@ -565,14 +567,14 @@ export class SemViewComponent implements OnInit {
                     this.level
                   );
                 }
-                this.commonService.restrictZoom(globalMap);
+                this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
                   [options.centerLat - 4.5, options.centerLng - 6],
                   [options.centerLat + 3.5, options.centerLng + 6],
                 ]);
                 globalMap.setView(
                   new L.LatLng(options.centerLat, options.centerLng),
-                  this.commonService.zoomLevel
+                  this.globalService.zoomLevel
                 );
 
                 this.schoolCount = this.data["totalValues"].totalSchools;
@@ -636,7 +638,7 @@ export class SemViewComponent implements OnInit {
           (res) => {
             this.data = res;
             let options = {
-              mapZoom: this.commonService.zoomLevel,
+              mapZoom: this.globalService.zoomLevel,
               centerLat: this.lat,
               centerLng: this.lng,
             };
@@ -685,7 +687,7 @@ export class SemViewComponent implements OnInit {
                 ]);
                 globalMap.setView(
                   new L.LatLng(options.centerLat, options.centerLng),
-                  this.commonService.zoomLevel
+                  this.globalService.zoomLevel
                 );
 
                 this.schoolCount = this.data["totalValues"].totalSchools;
@@ -759,12 +761,12 @@ export class SemViewComponent implements OnInit {
             radius: 3.5,
             fillOpacity: 1,
             strokeWeight: 0.01,
-            mapZoom: this.commonService.zoomLevel + 1,
+            mapZoom: this.globalService.zoomLevel + 1,
             centerLat: this.data["sortedData"][0].lat,
             centerLng: this.data["sortedData"][0].lng,
             level: "block",
           };
-          this.commonService.restrictZoom(globalMap);
+          this.globalService.restrictZoom(globalMap);
           globalMap.setMaxBounds([
             [options.centerLat - 1.5, options.centerLng - 3],
             [options.centerLat + 1.5, options.centerLng + 2],
@@ -870,12 +872,12 @@ export class SemViewComponent implements OnInit {
             radius: 3.5,
             fillOpacity: 1,
             strokeWeight: 0.01,
-            mapZoom: this.commonService.zoomLevel + 3,
+            mapZoom: this.globalService.zoomLevel + 3,
             centerLat: this.data["sortedData"][0].lat,
             centerLng: this.data["sortedData"][0].lng,
             level: "cluster",
           };
-          this.commonService.restrictZoom(globalMap);
+          this.globalService.restrictZoom(globalMap);
           globalMap.setMaxBounds([
             [options.centerLat - 1.5, options.centerLng - 3],
             [options.centerLat + 1.5, options.centerLng + 2],
@@ -1002,7 +1004,7 @@ export class SemViewComponent implements OnInit {
                   radius: 3.5,
                   fillOpacity: 1,
                   strokeWeight: 0.01,
-                  mapZoom: this.commonService.zoomLevel + 5,
+                  mapZoom: this.globalService.zoomLevel + 5,
                   centerLat: this.data["sortedData"][0].lat,
                   centerLng: this.data["sortedData"][0].lng,
                   level: "school",
@@ -1123,15 +1125,14 @@ export class SemViewComponent implements OnInit {
 
     this.reportData.push(orgObject);
 
-    var yourData = this.commonService
-      .getInfoFrom(
-        orgObject,
-        "semester_performance",
-        levelWise,
-        "std-attd",
-        undefined,
-        undefined
-      )
+    var yourData = this.globalService.getInfoFrom(
+      orgObject,
+      "semester_performance",
+      levelWise,
+      "std-attd",
+      undefined,
+      undefined
+    )
       .join(" <br>");
     yourData = [
       yourData.slice(0, yourData.search("Grade")),

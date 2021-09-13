@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row reportHeader">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <div class="row" (window:resize)="commonService.onResize(level); onResize()">
+      <div class="row" (window:resize)="globalService.onResize(level); onResize()">
         <div class="col-sm-8">
           <div *ngIf="skul">
             <p id="dist">
@@ -126,7 +126,7 @@
               {{ allSubjects[i] }}
             </option>
           </select>
-          
+
           <select id="choose_dist" [(ngModel)]="districtId" (change)="ondistLinkClick(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District
@@ -158,8 +158,8 @@
             </option>
           </select>
           <span class="note" id="sat-trends" [routerLink]="['/student-performance/sat-trends-chart']"
-                        style="cursor: pointer; float: right !important; font-weight: bold; text-decoration: underline; font-size: 13px; color: #3100cc">Click
-                        on Trends</span>
+            style="cursor: pointer; float: right !important; font-weight: bold; text-decoration: underline; font-size: 13px; color: #3100cc">Click
+            on Trends</span>
         </div>
       </div>
     </div>
@@ -232,7 +232,8 @@
       <span id="students" style="text-align: center">Number of Students: {{ studentCount }}</span>
     </div>
     <div class="col-sm-3" *ngIf="period != 'all'">
-      <span id="studentsAttended" class="note" style="text-align: center">Number of Students Attended: {{ studentAttended }}</span>
+      <span id="studentsAttended" class="note" style="text-align: center">Number of Students Attended: {{
+        studentAttended }}</span>
     </div>
   </div>
 </div>
