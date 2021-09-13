@@ -80,7 +80,7 @@ router.post('/allSchoolWise', auth.authController, async (req, res) => {
                         footerFile = `${report}/${period}/${semester}/all_subjects_footer.json`;
                     }
                 } else {
-                    fileName = `${report}/${period}/${semester}/${report}_school.json`;
+                    fileName = `${report}/${academic_year}/${semester}/school/school.json`;
                 }
             }
         }
@@ -168,7 +168,7 @@ router.post('/schoolWise/:distId/:blockId/:clusterId', auth.authController, asyn
                     footerFile = `${report}/${academic_year}/${month}/cluster/grade_subject_footer.json`;
                 }
             } else {
-                fileName = `${report}/${period}/${semester}/${report}_school.json`;
+                fileName = `${report}/${academic_year}/${semester}/school/school.json`;
                 footerFile = `${report}/${period}/cluster/${semester}/grade_subject_footer.json`;
             }
         }

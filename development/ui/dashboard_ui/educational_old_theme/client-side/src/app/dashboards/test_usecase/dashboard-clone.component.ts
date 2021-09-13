@@ -12,7 +12,7 @@ import { dashboardConfig } from "../dashboard.config";
 export class DashboardCloneComponent implements OnInit {
   state;
   semester = true;
-  dashboard:any;
+  dashboard: any;
   testCases: any;
   //tooltip texts::::::::::::::
   imrTooltip;
@@ -79,16 +79,16 @@ export class DashboardCloneComponent implements OnInit {
   satHeatChartViews;
 
   //for coming soon page
-  nifi_crc;
-  nifi_attendance;
-  nifi_semester;
-  nifi_infra;
-  nifi_diksha;
-  nifi_telemetry;
-  nifi_udise;
-  nifi_pat;
-  nifi_composite;
-  nifi_sat;
+  crc;
+  attendance;
+  // semester;
+  infra;
+  diksha;
+  telemetry;
+  udise;
+  pat;
+  composite;
+  sat;
 
 
   managementType;
@@ -157,7 +157,7 @@ export class DashboardCloneComponent implements OnInit {
     }
 
     //calling function to show telemetry views..................
-    
+
     this.callOnInterval();
     setInterval(() => {
       this.callOnInterval();
@@ -246,35 +246,35 @@ export class DashboardCloneComponent implements OnInit {
   changeDataSourceStatus() {
     this.service.getDataSource().subscribe((res: any) => {
       res.forEach((element) => {
-        if (element.template == "nifi_crc") {
-          this.nifi_crc = element.status;
+        if (element.template == "crc") {
+          this.crc = element.status;
         }
-        if (element.template == "nifi_attendance") {
-          this.nifi_attendance = element.status;
+        if (element.template == "attendance") {
+          this.attendance = element.status;
         }
-        if (element.template == "nifi_semester") {
-          this.nifi_semester = element.status;
+        if (element.template == "semester") {
+          this.semester = element.status;
         }
-        if (element.template == "nifi_infra") {
-          this.nifi_infra = element.status;
+        if (element.template == "infra") {
+          this.infra = element.status;
         }
-        if (element.template == "nifi_diksha") {
-          this.nifi_diksha = element.status;
+        if (element.template == "diksha") {
+          this.diksha = element.status;
         }
-        if (element.template == "nifi_telemetry") {
-          this.nifi_telemetry = element.status;
+        if (element.template == "telemetry") {
+          this.telemetry = element.status;
         }
-        if (element.template == "nifi_udise") {
-          this.nifi_udise = element.status;
+        if (element.template == "udise") {
+          this.udise = element.status;
         }
-        if (element.template == "nifi_pat") {
-          this.nifi_pat = element.status;
+        if (element.template == "pat") {
+          this.pat = element.status;
         }
-        if (element.template === "nifi_composite") {
-          this.nifi_composite = element.status;
+        if (element.template === "composite") {
+          this.composite = element.status;
         }
-        if (element.template === 'nifi_sat') {
-          this.nifi_sat = element.status;
+        if (element.template === 'sat') {
+          this.sat = element.status;
         }
       });
     });

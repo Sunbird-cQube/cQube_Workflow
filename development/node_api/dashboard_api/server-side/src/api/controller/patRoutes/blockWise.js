@@ -79,7 +79,7 @@ router.post('/allBlockWise', auth.authController, async (req, res) => {
                         footerFile = `${report}/${period}/${semester}/all_subjects_footer.json`;
                     }
                 } else {
-                    fileName = `${report}/${period}/${semester}/${report}_block.json`;
+                    fileName = `${report}/${academic_year}/${semester}/block/block.json`;
                 }
             }
         }
@@ -166,7 +166,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
                     footerFile = `${report}/${academic_year}/${month}/district/grade_subject_footer.json`;
                 }
             } else {
-                fileName = `${report}/${period}/${semester}/${report}_block.json`;
+                fileName = `${report}/${academic_year}/${semester}/block/block.json`;
                 footerFile = `${report}/${period}/district/${semester}/grade_subject_footer.json`;
             }
         }

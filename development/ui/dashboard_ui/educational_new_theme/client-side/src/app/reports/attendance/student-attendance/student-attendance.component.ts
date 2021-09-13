@@ -494,7 +494,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
     var myReport = [];
     this.reportData.forEach((element) => {
-      if (this.levelWise != "school") {
+      if (this.levelWise != "School") {
         if (element.number_of_schools) {
           element.number_of_schools = element.number_of_schools.replace(
             /\,/g,
@@ -633,8 +633,8 @@ export class StudengtAttendanceComponent implements OnInit {
               );
 
               var distNames = [];
-              this.studentCount = res["studentCount"];
-              this.schoolCount = res["schoolCount"];
+              this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted;
 
@@ -699,12 +699,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = this.studentCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             },
@@ -765,8 +759,8 @@ export class StudengtAttendanceComponent implements OnInit {
               );
 
               var blockNames = [];
-              this.studentCount = res["studentCount"];
-              this.schoolCount = res["schoolCount"];
+              this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted
               // if (!this.valueRange) {
@@ -828,12 +822,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = this.studentCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             },
@@ -895,8 +883,8 @@ export class StudengtAttendanceComponent implements OnInit {
 
               var clustNames = [];
               var blockNames = [];
-              this.studentCount = res["studentCount"];
-              this.schoolCount = res["schoolCount"];
+              this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted;
               // if (!this.valueRange) {
@@ -977,12 +965,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = this.studentCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             },
@@ -1042,8 +1024,8 @@ export class StudengtAttendanceComponent implements OnInit {
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
               );
 
-              this.studentCount = res["studentCount"];
-              this.schoolCount = res["schoolCount"];
+              this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted
 
@@ -1099,12 +1081,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
-              this.schoolCount = this.markers.length
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = this.studentCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             },
@@ -1338,8 +1314,7 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-              this.mylatlngData = this.blockData =
-                res["blockData"];
+              this.mylatlngData = this.blockData = res["blockData"];
               this.dateRange = res["dateRange"];
               var uniqueData = this.mylatlngData.reduce(function (
                 previous,
@@ -1373,8 +1348,8 @@ export class StudengtAttendanceComponent implements OnInit {
                 value: "attendance",
                 report: "reports",
               });
-              this.studentCount = res["studentCount"];
-              this.schoolCount = res["schoolCount"];
+              this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               if (this.markers.length > 0) {
                 for (var i = 0; i < this.markers.length; i++) {
                   var color = this.commonService.color(
@@ -1427,12 +1402,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = this.studentCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             },
@@ -1578,8 +1547,8 @@ export class StudengtAttendanceComponent implements OnInit {
               );
 
               this.markers = [];
-              this.studentCount = res["studentCount"];
-              this.schoolCount = res["schoolCount"];
+              this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               // sorted.pop();
 
               this.reportData = this.markers = sorted;
@@ -1651,12 +1620,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = this.studentCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             },
@@ -1839,8 +1802,8 @@ export class StudengtAttendanceComponent implements OnInit {
               );
 
               this.markers = [];
-              this.studentCount = res["studentCount"];
-              this.schoolCount = res["schoolCount"];
+              this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted;
 
@@ -1892,12 +1855,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
               //adjusting marker size and other UI on screen resize:::::::::::
               this.commonService.onResize(this.levelWise);
-              this.schoolCount = this.markers.length
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = this.studentCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             },
@@ -2017,9 +1974,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.service.telemetrySar(dateObj).subscribe(
         (res) => { },
         (err) => {
-          this.dateRange = "";
           this.changeDetection.detectChanges();
-          console.log(err);
         }
       );
     }
@@ -2126,7 +2081,7 @@ export class StudengtAttendanceComponent implements OnInit {
     var blockNames = [];
     var clustNames = [];
     this.studentCount = 0;
-    this.schoolCount = this.levelWise == 'School' ? markers.length : 0;
+    this.schoolCount = this.levelWise == 'School' || this.levelWise == 'schoolPerCluster' ? markers.length : 0;
     var stopLoader = false;
 
     if (markers.length > 0) {
@@ -2145,7 +2100,7 @@ export class StudengtAttendanceComponent implements OnInit {
             id: markers[i]["district_id"],
             name: markers[i]["district_name"],
           });
-          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+          this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
         if (this.levelWise == "Block" || this.levelWise == "blockPerDistrict") {
           this.blocksIds.push(markers[i]["block_id"]);
@@ -2154,7 +2109,7 @@ export class StudengtAttendanceComponent implements OnInit {
             name: markers[i]["block_name"],
             distId: markers[i]["dist"],
           });
-          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+          this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
         if (this.levelWise == "Cluster" || this.levelWise == "clusterPerBlock") {
           this.clusterIds.push(markers[i]["cluster_id"]);
@@ -2169,9 +2124,9 @@ export class StudengtAttendanceComponent implements OnInit {
             name: markers[i]["block_name"],
             distId: markers[i]["district_id"],
           });
-          this.schoolCount = this.schoolCount + parseInt(markers[i]['number_of_schools'].replace(',', ''));
+          this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
-        this.studentCount = this.studentCount + parseInt(markers[i]['number_of_students'].replace(',', ''));
+        this.studentCount += parseInt(markers[i]['number_of_students'].replace(',', ''));
 
         //initialize markers with its latitude and longitude
         var markerIcon = this.commonService.initMarkers1(

@@ -53,7 +53,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     DikshaTPDTeachersPercentageComponent,
     StudentAttendanceChartComponent,
     LineChartComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

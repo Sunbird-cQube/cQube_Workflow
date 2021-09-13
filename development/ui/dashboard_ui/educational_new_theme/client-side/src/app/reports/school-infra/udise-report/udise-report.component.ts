@@ -53,6 +53,8 @@ export class UdiseReportComponent implements OnInit {
   // for dropdowns
   public data: any;
   public markers: any = [];
+  public dataOptions = {};
+
   // for maps
   public districtMarkers: any = [];
   public blockMarkers: any = [];
@@ -115,10 +117,10 @@ export class UdiseReportComponent implements OnInit {
   colorGenData: any = [];
 
   width = window.innerWidth;
-  heigth = window.innerHeight;
+  height = window.innerHeight;
   onResize() {
     this.width = window.innerWidth;
-    this.heigth = window.innerHeight;
+    this.height = window.innerHeight;
   }
 
   ngOnInit() {
@@ -251,6 +253,10 @@ export class UdiseReportComponent implements OnInit {
       this.level = "District";
       this.fileName = `${this.reportName}_${this.indiceData}_allDistricts_${this.commonService.dateAndTime}`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -276,7 +282,12 @@ export class UdiseReportComponent implements OnInit {
           centerLng: this.lng,
           level: "District",
         };
-        this.genericFun(this.myDistData, options, this.fileName);
+        this.dataOptions = options;
+
+        //schoolCount
+        this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+        this.genericFun(this.data, options, this.fileName);
         this.commonService.onResize(this.level);
 
         // sort the districtname alphabetically
@@ -287,6 +298,7 @@ export class UdiseReportComponent implements OnInit {
               ? -1
               : 0
         );
+        this.changeDetection.detectChanges();
       } else {
         if (this.myData) {
           this.myData.unsubscribe();
@@ -309,7 +321,7 @@ export class UdiseReportComponent implements OnInit {
               centerLng: this.lng,
               level: "District",
             };
-
+            this.dataOptions = options;
             this.data.sort((a, b) =>
               `${a[this.indiceData]}` > `${b[this.indiceData]}`
                 ? 1
@@ -317,7 +329,11 @@ export class UdiseReportComponent implements OnInit {
                   ? -1
                   : 0
             );
-            this.genericFun(this.myDistData, options, this.fileName);
+
+            //schoolCount
+            this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+            this.genericFun(this.data, options, this.fileName);
             this.commonService.onResize(this.level);
 
             // sort the districtname alphabetically
@@ -361,6 +377,10 @@ export class UdiseReportComponent implements OnInit {
       this.level = "Block";
       this.fileName = `${this.reportName}_${this.indiceData}_allBlocks_${this.commonService.dateAndTime}`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -386,7 +406,7 @@ export class UdiseReportComponent implements OnInit {
             centerLng: this.lng,
             level: "Block",
           };
-
+          this.dataOptions = options;
           if (this.data.length > 0) {
             let result = this.data;
             this.blockMarkers = [];
@@ -437,11 +457,7 @@ export class UdiseReportComponent implements OnInit {
               this.commonService.onResize(this.level);
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.loaderAndErr();
               this.changeDetection.detectChanges();
             }
@@ -476,6 +492,10 @@ export class UdiseReportComponent implements OnInit {
       this.level = "Cluster";
       this.fileName = `${this.reportName}_${this.indiceData}_allClusters_${this.commonService.dateAndTime}`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -500,7 +520,7 @@ export class UdiseReportComponent implements OnInit {
             centerLng: this.lng,
             level: "Cluster",
           };
-
+          this.dataOptions = options;
           if (this.data.length > 0) {
             let result = this.data;
             this.clusterMarkers = [];
@@ -548,10 +568,7 @@ export class UdiseReportComponent implements OnInit {
               }
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.commonService.onResize(this.level);
 
@@ -589,6 +606,10 @@ export class UdiseReportComponent implements OnInit {
       this.level = "School";
       this.fileName = `${this.reportName}_${this.indiceData}_allSchools_${this.commonService.dateAndTime}`;
 
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -613,10 +634,10 @@ export class UdiseReportComponent implements OnInit {
             centerLng: this.lng,
             level: "School",
           };
+          this.dataOptions = options;
           this.schoolMarkers = [];
           if (this.data.length > 0) {
             let result = this.data;
-            this.schoolCount = 0;
             this.schoolMarkers = result;
             var colors = this.commonService.getRelativeColors(
               this.schoolMarkers,
@@ -663,10 +684,7 @@ export class UdiseReportComponent implements OnInit {
               this.commonService.onResize(this.level);
 
               //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.loaderAndErr();
               this.changeDetection.detectChanges();
@@ -698,6 +716,10 @@ export class UdiseReportComponent implements OnInit {
 
     this.level = "blockPerDistrict";
     this.fileName = `${this.reportName}_${this.indiceData}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
 
     // api call to get the blockwise data for selected district
     if (this.myData) {
@@ -736,12 +758,14 @@ export class UdiseReportComponent implements OnInit {
           centerLng: this.data[0].details.longitude,
           level: "blockPerDistrict",
         };
-
+        this.dataOptions = options;
         this.commonService.latitude = this.lat = options.centerLat;
         this.commonService.longitude = this.lng = options.centerLng;
 
-        this.genericFun(res, options, this.fileName);
-        this.changeDetection.detectChanges();
+        //schoolCount
+        this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+        this.genericFun(this.data, options, this.fileName);
         this.commonService.onResize(this.level);
 
         // sort the blockname alphabetically
@@ -752,6 +776,8 @@ export class UdiseReportComponent implements OnInit {
               ? -1
               : 0
         );
+        this.changeDetection.detectChanges();
+
       },
       (err) => {
         this.data = [];
@@ -774,6 +800,10 @@ export class UdiseReportComponent implements OnInit {
 
     this.level = "clusterPerBlock";
     this.fileName = `${this.reportName}_${this.indiceData}_clusters_of_block_${blockId}_${this.commonService.dateAndTime}`;
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
 
     // api call to get the clusterwise data for selected district, block
     if (this.myData) {
@@ -825,11 +855,14 @@ export class UdiseReportComponent implements OnInit {
             centerLng: this.data[0].details.longitude,
             level: "clusterPerBlock",
           };
+          this.dataOptions = options;
           this.commonService.latitude = this.lat = options.centerLat;
           this.commonService.longitude = this.lng = options.centerLng;
 
-          this.genericFun(res, options, this.fileName);
-          this.changeDetection.detectChanges();
+          //schoolCount
+          this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+          this.genericFun(this.data, options, this.fileName);
           this.commonService.onResize(this.level);
 
           // sort the clusterName alphabetically
@@ -840,6 +873,7 @@ export class UdiseReportComponent implements OnInit {
                 ? -1
                 : 0
           )
+          this.changeDetection.detectChanges();
         },
         (err) => {
           this.data = [];
@@ -860,6 +894,11 @@ export class UdiseReportComponent implements OnInit {
     this.indiceFilter = [];
     this.level = "schoolPerCluster";
     this.fileName = `${this.reportName}_${this.indiceData}_schools_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
+
+    this.valueRange = undefined;
+    this.selectedIndex = undefined;
+    this.deSelect();
+
     // api call to get the schoolwise data for selected district, block, cluster
     if (this.myData) {
       this.myData.unsubscribe();
@@ -933,12 +972,17 @@ export class UdiseReportComponent implements OnInit {
                 centerLng: this.data[0].details.longitude,
                 level: "schoolPerCluster",
               };
+              this.dataOptions = options;
               this.commonService.latitude = this.lat = options.centerLat;
               this.commonService.longitude = this.lng = options.centerLng;
 
-              this.genericFun(res, options, this.fileName);
-              this.changeDetection.detectChanges();
+              //schoolCount
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.genericFun(this.data, options, this.fileName);
               this.commonService.onResize(this.level);
+              this.changeDetection.detectChanges();
+
             },
             (err) => {
               this.data = [];
@@ -959,15 +1003,12 @@ export class UdiseReportComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.schoolCount = 0;
-      var myData = data["data"];
-      if (myData.length > 0) {
-        this.markers = myData;
+      if (data.length > 0) {
+        this.markers = data;
         var colors = this.commonService.getRelativeColors(
           this.markers,
           this.indiceData
         );
-        this.schoolCount = 0;
         // attach values to markers
         for (var i = 0; i < this.markers.length; i++) {
           if (this.selected == "absolute") {
@@ -987,9 +1028,8 @@ export class UdiseReportComponent implements OnInit {
             this.markers[i].details.latitude,
             this.markers[i].details.longitude,
             this.setColor,
-            // options.radius,
-            options.strokeWeight,
-            1,
+            options.level == 'School' ? 0 : options.strokeWeight,
+            options.level == 'School' ? 0.3 : 1,
             options.level
           );
 
@@ -1012,11 +1052,6 @@ export class UdiseReportComponent implements OnInit {
         this.loaderAndErr();
         this.changeDetection.markForCheck();
       }
-      //schoolCount
-      this.schoolCount = data["footer"];
-      this.schoolCount = this.schoolCount
-        .toString()
-        .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
       if (this.level == "school") {
         globalMap.doubleClickZoom.enable();
@@ -1165,7 +1200,7 @@ export class UdiseReportComponent implements OnInit {
       "<br><br><b><u>Rank</u></b>" +
       "<br>" +
       yourData2 +
-      "<br><br><b><u>All Indices (%)</u></b>" +
+      "<br><br><b><u>All indices (%)</u></b>" +
       "<br>" +
       yourData
     );
@@ -1248,22 +1283,20 @@ export class UdiseReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    for (var i = 0; i < this.markers.length; i++) {
-      markerIcon.on("mouseover", function (e) {
-        this.openPopup();
-      });
-      markerIcon.on("mouseout", function (e) {
-        this.closePopup();
-      });
+    markerIcon.on("mouseover", function (e) {
+      this.openPopup();
+    });
+    markerIcon.on("mouseout", function (e) {
+      this.closePopup();
+    });
 
-      this.layerMarkers.addLayer(markerIcon);
-      if (level === "schoolPerCluster" || level === "School") {
-        markerIcon.on("click", this.onClickSchool, this);
-      } else {
-        markerIcon.on("click", this.onClick_Marker, this);
-      }
-      markerIcon.myJsonData = markers;
+    this.layerMarkers.addLayer(markerIcon);
+    if (level === "schoolPerCluster" || level === "School") {
+      markerIcon.on("click", this.onClickSchool, this);
+    } else {
+      markerIcon.on("click", this.onClick_Marker, this);
     }
+    markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }
 
@@ -1475,4 +1508,83 @@ export class UdiseReportComponent implements OnInit {
     "81-90",
     "91-100",
   ];
+
+
+  //Filter data based on attendance percentage value range:::::::::::::::::::
+  public valueRange = undefined;
+  public prevRange = undefined;
+  selectRange(value) {
+    this.valueRange = value;
+    this.filterRangeWiseData(value);
+  }
+
+  filterRangeWiseData(value) {
+    this.prevRange = value;
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
+
+    //getting relative colors for all markers:::::::::::
+    var markers = [];
+    if (value) {
+      this.data.map(a => {
+        if (this.indiceData == "Infrastructure_Score") {
+          if (a.details[`${this.indiceData}`] > this.valueRange.split("-")[0] - 1 && a.details[`${this.indiceData}`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        } else {
+          if (a.indices[`${this.indiceData}`] > this.valueRange.split("-")[0] - 1 && a.indices[`${this.indiceData}`] <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+        }
+      })
+    } else {
+      markers = this.data;
+    }
+    this.genericFun(markers, this.dataOptions, this.fileName);
+    this.commonService.errMsg();
+    if (this.level == 'District') {
+      this.districtMarkers = markers;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.blockMarkers = markers;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.clusterMarkers = markers;
+    }
+
+    //adjusting marker size and other UI on screen resize:::::::::::
+    this.commonService.onResize(this.level);
+    this.commonService.loaderAndErr(markers)
+    this.changeDetection.detectChanges();
+  }
+
+  public selectedIndex;
+  select(i) {
+    this.selectedIndex = i;
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
+    this.deSelect();
+  }
+
+  deSelect() {
+    var elements = document.getElementsByClassName('legends');
+    for (var j = 0; j < elements.length; j++) {
+      if (this.selectedIndex !== j) {
+        elements[j]['style'].border = "1px solid transparent";
+        elements[j]['style'].transform = "scale(1.0)";
+      }
+    }
+    if (this.level == 'District') {
+      this.districtMarkers = this.data;
+    } else if (this.level == 'Block' || this.level == 'blockPerDistrict') {
+      this.blockMarkers = this.data;
+    } else if (this.level == 'Cluster' || this.level == 'clusterPerBlock') {
+      this.clusterMarkers = this.data;
+    }
+  }
+
+  reset(value) {
+    this.valueRange = value;
+    this.selectedIndex = undefined;
+    this.deSelect();
+    this.filterRangeWiseData(value);
+  }
 }

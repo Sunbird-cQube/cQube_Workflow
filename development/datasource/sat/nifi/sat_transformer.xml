@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>Single template (Both s3 and on premise).</description>
+    <description></description>
     <groupId>281dc6f4-0173-1000-6ece-d7cd0acfb411</groupId>
     <name>sat_transformer</name>
     <snippet>
@@ -84,6 +84,31 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>db3becfa-09a7-3c58-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>040057ee-8582-3949-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>ddc4304c-82f9-35c2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_grade_by_year_semester</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>3a7c6604-ce3f-32c8-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -292,6 +317,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>1082bcff-ce36-3f55-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>327c9ad4-d362-3f92-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>3ce11d7f-9723-3e49-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>1091b7b8-5fe2-308e-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -424,6 +474,68 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>048f8119-3ae3-3eaf-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>15d5673f-1d9e-3c58-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>7240.0</x>
+                        <y>1072.0</y>
+                    </bends>
+                    <bends>
+                        <x>7288.0</x>
+                        <y>1336.0</y>
+                    </bends>
+                    <bends>
+                        <x>7744.0</x>
+                        <y>1608.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>3ce11d7f-9723-3e49-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>2</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_trend_line</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>d78a122e-9c9f-3c6b-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>163f7cca-545f-39ca-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>d838e9df-821e-3e2c-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>23e7496b-2677-3667-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -992,8 +1104,8 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>8084.9404296875</x>
-                        <y>2097.1024780273438</y>
+                        <x>7848.0</x>
+                        <y>2072.0</y>
                     </bends>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -1036,6 +1148,31 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>bf208a60-15d3-35d3-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>2e1772f8-15ee-31cd-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>f10e301d-38fa-3033-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>5628a878-c373-36f5-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -1219,6 +1356,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>34d82cee-b040-341d-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>8f4f2c4a-d3c5-3143-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>bb555af7-e36f-3925-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>350fbe8f-7e82-36d6-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -1347,6 +1509,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>3a2439d1-c3c7-3674-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>23e7496b-2677-3667-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>327c9ad4-d362-3f92-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>3a712b3b-0b8e-3f04-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -1367,6 +1554,35 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>21de7937-36db-38c4-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>3a81c953-c9a7-37ac-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>5880.0</x>
+                        <y>1888.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>9e8739fb-a202-3495-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_map_exam_grade_by_year_semester</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>45f76e56-e699-3e3d-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -1704,6 +1920,31 @@
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>1956dd75-e784-3852-0000-000000000000</id>
                         <type>FUNNEL</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>47200fa0-6948-3a19-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>e826fffe-1a92-3aae-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>f10e301d-38fa-3033-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -2090,6 +2331,8 @@
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
                     <selectedRelationships>sat_all_subject_footer_time_range</selectedRelationships>
+                    <selectedRelationships>sat_all_subject_footer_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_map_meta_year_semester</selectedRelationships>
                     <selectedRelationships>sat_map_report_sem_meta</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -2287,8 +2530,8 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>7676.9404296875</x>
-                        <y>1745.1024780273438</y>
+                        <x>7400.0</x>
+                        <y>1744.0</y>
                     </bends>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -2399,8 +2642,8 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>5860.9404296875</x>
-                        <y>1265.1024780273438</y>
+                        <x>5888.0</x>
+                        <y>1320.0</y>
                     </bends>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -2408,7 +2651,7 @@
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
@@ -2500,6 +2743,31 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>2f5bbbf3-613e-387a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>6407b108-f04d-3338-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>bb555af7-e36f-3925-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>overall_category</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>68d36808-e3fc-39c2-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -2629,6 +2897,35 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>6b81ed01-e302-33fe-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>8368.0</x>
+                        <y>2568.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>d838e9df-821e-3e2c-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_management_trend_line_state_district</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>8f4f2c4a-d3c5-3143-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>6c64a169-f381-33ba-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -2704,6 +3001,31 @@
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>db2e56e8-abe0-351e-0000-000000000000</id>
                         <type>FUNNEL</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>6ef81e08-4ce2-3b91-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>fa28514e-68fc-3975-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>failure</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>f10e301d-38fa-3033-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -3239,12 +3561,8 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>6632.0</x>
-                        <y>1024.0</y>
-                    </bends>
-                    <bends>
-                        <x>5792.0</x>
-                        <y>1040.0</y>
+                        <x>5800.0</x>
+                        <y>976.0</y>
                     </bends>
                     <bends>
                         <x>5072.0</x>
@@ -3256,7 +3574,7 @@
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
@@ -3267,6 +3585,31 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>d78a122e-9c9f-3c6b-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>7eccd076-da8f-314e-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>68d36808-e3fc-39c2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>f4290ffa-2006-30ef-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -3526,6 +3869,63 @@
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>b422d7c6-a0d5-3e53-0000-000000000000</id>
                         <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>88350443-ec57-3d02-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>8992.0</x>
+                        <y>2512.0</y>
+                    </bends>
+                    <bends>
+                        <x>8968.0</x>
+                        <y>2912.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>bb555af7-e36f-3925-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_management_trend_line_state</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>5628a878-c373-36f5-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>8a1f6ba8-a6f5-3aa3-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>f4290ffa-2006-30ef-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>7db0178a-9519-3a0a-0000-000000000000</id>
+                        <type>FUNNEL</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -3958,7 +4358,9 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>sat_management_exam_year_month</selectedRelationships>
+                    <selectedRelationships>sat_management_all_subject_footer_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_management_exam_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_management_grade_subject_footer_year_semester</selectedRelationships>
                     <selectedRelationships>sat_management_learning_outcome_all</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -4033,6 +4435,9 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>sat_all_subject_footer_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_exam_by_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_grade_subject_footer_year_semester</selectedRelationships>
                     <selectedRelationships>sat_grades</selectedRelationships>
                     <selectedRelationships>sat_learning_outcome</selectedRelationships>
                     <source>
@@ -4143,6 +4548,55 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>9ded76b0-7582-3157-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>fa28514e-68fc-3975-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>e826fffe-1a92-3aae-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>9e3107f2-b7fe-3124-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>40ab195e-4aed-3fc9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>7db0178a-9519-3a0a-0000-000000000000</id>
+                        <type>FUNNEL</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>9e4c2824-cbda-3ca0-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -4212,6 +4666,35 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>ea29583a-7a1e-30f2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>9faf9c8f-859a-3991-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>4528.0</x>
+                        <y>1056.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>7d356014-81a5-3710-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>ddc4304c-82f9-35c2-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -4398,7 +4881,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>sat_management_grade_year_month</selectedRelationships>
+                    <selectedRelationships>sat_management_grade_year_semester</selectedRelationships>
                     <selectedRelationships>sat_management_learning_outcome_without_all</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -4475,8 +4958,10 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>sat_management_exam_year_month</selectedRelationships>
-                    <selectedRelationships>sat_management_grade_year_month</selectedRelationships>
+                    <selectedRelationships>sat_management_all_subject_footer_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_management_exam_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_management_grade_subject_footer_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_management_grade_year_semester</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>5a9580fb-71b1-31a4-0000-000000000000</id>
@@ -4530,6 +5015,35 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>e1dfc81b-47ca-3794-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>a6809f86-c29d-36de-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>9632.0</x>
+                        <y>2584.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>7db0178a-9519-3a0a-0000-000000000000</id>
+                        <type>FUNNEL</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_management_trend_line</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>5628a878-c373-36f5-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -4882,6 +5396,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>b3334369-6557-3e98-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>5628a878-c373-36f5-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>d838e9df-821e-3e2c-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>b3873e2f-95c9-3b73-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>10 GB</backPressureDataSizeThreshold>
@@ -5025,8 +5564,8 @@
                         <y>1544.0</y>
                     </bends>
                     <bends>
-                        <x>4728.0</x>
-                        <y>1064.0</y>
+                        <x>4680.0</x>
+                        <y>1128.0</y>
                     </bends>
                     <bends>
                         <x>5912.0</x>
@@ -5045,7 +5584,10 @@
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
                     <selectedRelationships>sat_all_subject_footer_time_range</selectedRelationships>
+                    <selectedRelationships>sat_all_subject_footer_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_exam_by_year_semester</selectedRelationships>
                     <selectedRelationships>sat_grade_subject_footer_time_range</selectedRelationships>
+                    <selectedRelationships>sat_grade_subject_footer_year_semester</selectedRelationships>
                     <selectedRelationships>sat_map_report_files</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -5076,6 +5618,7 @@
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
                     <selectedRelationships>sat_grade_subject_footer_time_range</selectedRelationships>
+                    <selectedRelationships>sat_grade_subject_footer_year_semester</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>45f76e56-e699-3e3d-0000-000000000000</id>
@@ -5298,6 +5841,31 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>c1cf7e26-22a9-3857-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>c6675e71-14eb-38c9-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>e826fffe-1a92-3aae-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_trend_line_state_district</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>5628a878-c373-36f5-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -6150,6 +6718,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>df29e1ec-f132-380f-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>f10e301d-38fa-3033-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_management_trend_line_b_c_s</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>8f4f2c4a-d3c5-3143-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>df4b6cc9-8c42-34d1-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -6205,12 +6798,12 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>5888.0</x>
-                        <y>1096.0</y>
+                        <x>5824.0</x>
+                        <y>1120.0</y>
                     </bends>
                     <bends>
-                        <x>5072.0</x>
-                        <y>1104.0</y>
+                        <x>5208.0</x>
+                        <y>1120.0</y>
                     </bends>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -6224,6 +6817,9 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>sat_all_subject_footer_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_exam_grade_by_year_semester</selectedRelationships>
+                    <selectedRelationships>sat_grade_subject_footer_year_semester</selectedRelationships>
                     <selectedRelationships>sat_map_report_files</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -6445,6 +7041,7 @@
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
                     <selectedRelationships>sat_management</selectedRelationships>
+                    <selectedRelationships>sat_management_all_subject_footer</selectedRelationships>
                     <selectedRelationships>sat_management_all_subject_footer_time_range</selectedRelationships>
                     <selectedRelationships>sat_management_grade_subject_footer</selectedRelationships>
                     <selectedRelationships>sat_management_learning_outcome</selectedRelationships>
@@ -6667,8 +7264,8 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>8140.9404296875</x>
-                        <y>1769.1024780273438</y>
+                        <x>7920.0</x>
+                        <y>1768.0</y>
                     </bends>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -6741,17 +7338,42 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>f06805d0-5d1e-3b41-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>68d36808-e3fc-39c2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>40ab195e-4aed-3fc9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>f1d62d05-7d7c-3abc-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>6632.0</x>
-                        <y>1072.0</y>
+                        <x>6624.0</x>
+                        <y>1008.0</y>
                     </bends>
                     <bends>
-                        <x>5072.0</x>
-                        <y>1032.0</y>
+                        <x>4920.0</x>
+                        <y>1072.0</y>
                     </bends>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -8634,6 +9256,14 @@
                     </position>
                 </funnels>
                 <funnels>
+                    <id>7db0178a-9519-3a0a-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>9344.0</x>
+                        <y>2752.0</y>
+                    </position>
+                </funnels>
+                <funnels>
                     <id>ab1cd665-41be-335f-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
@@ -8909,6 +9539,27 @@ all category vs management</label>
                     <width>984.0</width>
                 </labels>
                 <labels>
+                    <id>7e6df1c6-faf0-3493-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8928.0</x>
+                        <y>1872.0</y>
+                    </position>
+                    <height>56.0</height>
+                    <label>Trend line chart. </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#456da1</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>432.0</width>
+                </labels>
+                <labels>
                     <id>8752a6ac-6514-34fb-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
@@ -8933,8 +9584,8 @@ all category vs management</label>
                     <id>9ced50ed-bcbd-3690-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>8176.0</x>
-                        <y>1824.0</y>
+                        <x>7432.0</x>
+                        <y>1760.0</y>
                     </position>
                     <height>56.0</height>
                     <label>SAT exception management, grade</label>
@@ -9241,8 +9892,8 @@ all category vs management</label>
                     <id>9be421a5-1522-3034-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>8432.0</x>
-                        <y>2392.0</y>
+                        <x>7280.0</x>
+                        <y>2592.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -9288,6 +9939,19 @@ all category vs management</label>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                     <name>sat_split_file_failure</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
+                    <id>fa28514e-68fc-3975-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8576.0</x>
+                        <y>2768.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>sat_s3_trends_output_port</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -10632,7 +11296,7 @@ same id data validation of file:${filename} error while same id mirror data</val
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
                         <x>6880.0</x>
-                        <y>1144.0</y>
+                        <y>1152.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -10679,7 +11343,11 @@ same id data validation of file:${filename} error while same id mirror data</val
                             </entry>
                             <entry>
 <key>partition_by</key>
-<value>${query_type:startsWith('sat_grade_district'):ifElse('/grade',
+<value>${query_type:equals('sat_grade_district_by_year_semester'):ifElse('/academic_year',
+${query_type:equals('sat_grade_block_by_year_semester'):ifElse('/academic_year',
+${query_type:equals('sat_grade_cluster_by_year_semester'):ifElse('/academic_year',
+${query_type:equals('sat_grade_school_by_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_grade_district'):ifElse('/grade',
 ${query_type:startsWith('sat_grade_block'):ifElse('/grade',
 ${query_type:startsWith('sat_grade_cluster'):ifElse('/grade',
 ${query_type:startsWith('sat_grade_school'):ifElse('/grade',
@@ -10695,8 +11363,18 @@ ${query_type:startsWith('sat_learning_outcome_p3_all'):ifElse('/academic_year',
 ${query_type:startsWith('sat_learning_outcome_p3_district'):ifElse('/academic_year',
 ${query_type:startsWith('sat_learning_outcome_p3_block'):ifElse('/academic_year',
 ${query_type:startsWith('sat_learning_outcome_p3_cluster'):ifElse('/academic_year',
-${query_type:startsWith('sat_exception_grade'):ifElse('/grade','None')}	
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
+${query_type:startsWith('sat_exception_grade'):ifElse('/academic_year',
+${query_type:startsWith('sat_meta_grade_by_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_exam_district_by_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_exam_block_by_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_exam_cluster_by_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_exam_school_by_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_subject_footer_district_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_subject_footer_block_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_subject_footer_cluster_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_subject_footer_school_year_semester'):ifElse('/academic_year',
+${query_type:startsWith('sat_subject_all_footer_year_semester'):ifElse('/academic_year','None')} )} )} )} )} )} )} )} )} )} )} )}
+)})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>2000</runDurationMillis>
@@ -11438,11 +12116,123 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_check_same_i
                     <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
+                    <id>23e7496b-2677-3667-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>9216.0</x>
+                        <y>1984.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Regular Expression</key>
+<value>
+    <name>Regular Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Replacement Value</key>
+<value>
+    <name>Replacement Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>
+    <name>Character Set</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>
+    <name>Maximum Buffer Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Replacement Strategy</key>
+<value>
+    <name>Replacement Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Evaluation Mode</key>
+<value>
+    <name>Evaluation Mode</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Line-by-Line Evaluation Mode</key>
+<value>
+    <name>Line-by-Line Evaluation Mode</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Regular Expression</key>
+<value>}"</value>
+                            </entry>
+                            <entry>
+<key>Replacement Value</key>
+<value>}</value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>UTF-8</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>200 MB</value>
+                            </entry>
+                            <entry>
+<key>Replacement Strategy</key>
+<value>Literal Replace</value>
+                            </entry>
+                            <entry>
+<key>Evaluation Mode</key>
+<value>Line-by-Line</value>
+                            </entry>
+                            <entry>
+<key>Line-by-Line Evaluation Mode</key>
+<value>All</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>2000</runDurationMillis>
+                        <schedulingPeriod>1 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>Replace_special_char</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.ReplaceText</type>
+                </processors>
+                <processors>
                     <id>23f70d77-9824-3b72-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>7520.0</x>
-                        <y>1896.0</y>
+                        <x>7272.0</x>
+                        <y>1864.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -11635,8 +12425,8 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_check_same_i
                     <id>27e3ea0c-4f85-3538-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>7768.0</x>
-                        <y>2168.0</y>
+                        <x>7544.0</x>
+                        <y>2144.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12378,6 +13168,118 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{semester_exam_su
                     <type>org.apache.nifi.processors.standard.ValidateCsv</type>
                 </processors>
                 <processors>
+                    <id>327c9ad4-d362-3f92-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8544.0</x>
+                        <y>1968.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Regular Expression</key>
+<value>
+    <name>Regular Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Replacement Value</key>
+<value>
+    <name>Replacement Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>
+    <name>Character Set</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>
+    <name>Maximum Buffer Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Replacement Strategy</key>
+<value>
+    <name>Replacement Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Evaluation Mode</key>
+<value>
+    <name>Evaluation Mode</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Line-by-Line Evaluation Mode</key>
+<value>
+    <name>Line-by-Line Evaluation Mode</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Regular Expression</key>
+<value>"{</value>
+                            </entry>
+                            <entry>
+<key>Replacement Value</key>
+<value>{</value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>UTF-8</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>200 MB</value>
+                            </entry>
+                            <entry>
+<key>Replacement Strategy</key>
+<value>Literal Replace</value>
+                            </entry>
+                            <entry>
+<key>Evaluation Mode</key>
+<value>Line-by-Line</value>
+                            </entry>
+                            <entry>
+<key>Line-by-Line Evaluation Mode</key>
+<value>All</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>2000</runDurationMillis>
+                        <schedulingPeriod>1 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>Replace_special_char</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.ReplaceText</type>
+                </processors>
+                <processors>
                     <id>331318e1-635b-36c8-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
@@ -12851,9 +13753,33 @@ file: ${filename} process end time updated to log db</value>
 </value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>
+    <name>sat_all_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_exam_by_year_semester</key>
+<value>
+    <name>sat_exam_by_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_by_year_semester</key>
+<value>
+    <name>sat_grade_by_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_grade_subject_footer_time_range</key>
 <value>
     <name>sat_grade_subject_footer_time_range</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>
+    <name>sat_grade_subject_footer_year_semester</name>
 </value>
                             </entry>
                             <entry>
@@ -12876,11 +13802,32 @@ file: ${filename} process end time updated to log db</value>
 <value>${query_type:startsWith('sat_subject_all_footer_last_30_days'):or(${query_type:startsWith('sat_subject_all_footer_last_7_days')})}</value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_all_footer_year_semester')}</value>
+                            </entry>
+                            <entry>
+<key>sat_exam_by_year_semester</key>
+<value>${query_type:startsWith('sat_exam_district_by_year_semester'):or(
+${query_type:startsWith('sat_exam_block_by_year_semester'):or(
+${query_type:startsWith('sat_exam_cluster_by_year_semester'):or(
+${query_type:startsWith('sat_exam_school_by_year_semester')})})})}</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_by_year_semester</key>
+<value>${query_type:startsWith('sat_grade_district_by_year_semester'):or(${query_type:startsWith('sat_grade_block_by_year_semester'):or(${query_type:startsWith('sat_grade_cluster_by_year_semester'):or(${query_type:startsWith('sat_grade_school_by_year_semester')})})})}</value>
+                            </entry>
+                            <entry>
 <key>sat_grade_subject_footer_time_range</key>
 <value>${query_type:startsWith('sat_subject_footer_district_last'):or(${query_type:startsWith('sat_subject_footer_district_all')})
 :or(${query_type:startsWith('sat_subject_footer_block_last')}):or(${query_type:startsWith('sat_subject_footer_block_all')})
 :or(${query_type:startsWith('sat_subject_footer_cluster_last')}):or(${query_type:startsWith('sat_subject_footer_cluster_rall')})
 :or(${query_type:startsWith('sat_subject_footer_school_last')}):or(${query_type:startsWith('sat_subject_footer_school_all')})}</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_footer_district_year_semester'):or(${query_type:startsWith('sat_subject_footer_block_year_semester')})
+:or(${query_type:startsWith('sat_subject_footer_cluster_year_semester')}):or(${query_type:startsWith('sat_subject_footer_school_year_semester')})
+}</value>
                             </entry>
                             <entry>
 <key>sat_map_report_files</key>
@@ -12923,7 +13870,23 @@ ${query_type:startsWith('sat_grade_school_last7')} )} )} )} )} )} )} )} )} )} )}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_all_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_exam_by_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_grade_by_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>sat_grade_subject_footer_time_range</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_grade_subject_footer_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -13039,6 +14002,118 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_select_colum
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.QueryRecord</type>
+                </processors>
+                <processors>
+                    <id>3ce11d7f-9723-3e49-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8544.0</x>
+                        <y>1752.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Regular Expression</key>
+<value>
+    <name>Regular Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Replacement Value</key>
+<value>
+    <name>Replacement Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>
+    <name>Character Set</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>
+    <name>Maximum Buffer Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Replacement Strategy</key>
+<value>
+    <name>Replacement Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Evaluation Mode</key>
+<value>
+    <name>Evaluation Mode</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Line-by-Line Evaluation Mode</key>
+<value>
+    <name>Line-by-Line Evaluation Mode</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Regular Expression</key>
+<value>[\\]</value>
+                            </entry>
+                            <entry>
+<key>Replacement Value</key>
+<value></value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>UTF-8</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>200 MB</value>
+                            </entry>
+                            <entry>
+<key>Replacement Strategy</key>
+<value>Regex Replace</value>
+                            </entry>
+                            <entry>
+<key>Evaluation Mode</key>
+<value>Line-by-Line</value>
+                            </entry>
+                            <entry>
+<key>Line-by-Line Evaluation Mode</key>
+<value>All</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>2000</runDurationMillis>
+                        <schedulingPeriod>1 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>Replace_special_char</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.ReplaceText</type>
                 </processors>
                 <processors>
                     <id>3d9a7653-01db-322c-0000-000000000000</id>
@@ -13365,6 +14440,84 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_select_colum
                     <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
+                    <id>40ab195e-4aed-3fc9-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8984.0</x>
+                        <y>2960.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>record-reader</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordReaderFactory</identifiesControllerService>
+    <name>record-reader</name>
+</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
+    <name>record-writer</name>
+</value>
+                            </entry>
+                            <entry>
+<key>management</key>
+<value>
+    <name>management</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>record-reader</key>
+<value>33a5288a-7bd5-364e-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>fbea3059-d87f-3be9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>management</key>
+<value>/school_management_type</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>1000</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_partition_by_management</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>original</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PartitionRecord</type>
+                </processors>
+                <processors>
                     <id>43c5cceb-113c-30bc-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
@@ -13520,6 +14673,12 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_select_colum
 </value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>
+    <name>sat_all_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_exception_grade</key>
 <value>
     <name>sat_exception_grade</name>
@@ -13538,6 +14697,12 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_select_colum
 </value>
                             </entry>
                             <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>
+    <name>sat_grade_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_heat_all</key>
 <value>
     <name>sat_heat_all</name>
@@ -13553,6 +14718,18 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_select_colum
 <key>sat_heat_map_meta</key>
 <value>
     <name>sat_heat_map_meta</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_map_exam_grade_by_year_semester</key>
+<value>
+    <name>sat_map_exam_grade_by_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_map_meta_year_semester</key>
+<value>
+    <name>sat_map_meta_year_semester</name>
 </value>
                             </entry>
                             <entry>
@@ -13587,6 +14764,10 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_select_colum
 <value>${query_type:startsWith('sat_subject_all_footer_last_30_days'):or(${query_type:startsWith('sat_subject_all_footer_last_7_days')})}</value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_all_footer_year_semester')}</value>
+                            </entry>
+                            <entry>
 <key>sat_exception_grade</key>
 <value>${query_type:startsWith('sat_exception_grade')}</value>
                             </entry>
@@ -13600,6 +14781,12 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_select_colum
 :or(${query_type:startsWith('sat_subject_footer_block_last')}):or(${query_type:startsWith('sat_subject_footer_block_all')})
 :or(${query_type:startsWith('sat_subject_footer_cluster_last')}):or(${query_type:startsWith('sat_subject_footer_cluster_rall')})
 :or(${query_type:startsWith('sat_subject_footer_school_last')}):or(${query_type:startsWith('sat_subject_footer_school_all')})}</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_footer_district_year_semester'):or(${query_type:startsWith('sat_subject_footer_block_year_semester')})
+:or(${query_type:startsWith('sat_subject_footer_cluster_year_semester')}):or(${query_type:startsWith('sat_subject_footer_school_year_semester')})
+}</value>
                             </entry>
                             <entry>
 <key>sat_heat_all</key>
@@ -13624,6 +14811,14 @@ ${query_type:startsWith('sat_learning_outcome_p3_cluster')}
 <key>sat_heat_map_meta</key>
 <value>${query_type:startsWith('sat_learning_outcome_p1_question_meta'):or(
 ${query_type:startsWith('sat_learning_outcome_p3_meta')} )}</value>
+                            </entry>
+                            <entry>
+<key>sat_map_exam_grade_by_year_semester</key>
+<value>${query_type:startsWith('sat_grade_district_by_year_semester'):or(${query_type:startsWith('sat_grade_block_by_year_semester'):or(${query_type:startsWith('sat_grade_cluster_by_year_semester'):or(${query_type:startsWith('sat_grade_school_by_year_semester'):or(${query_type:startsWith('sat_exam_district_by_year_semester'):or(${query_type:startsWith('sat_exam_block_by_year_semester'):or(${query_type:startsWith('sat_exam_cluster_by_year_semester'):or(${query_type:startsWith('sat_exam_school_by_year_semester')})})})})})})})}</value>
+                            </entry>
+                            <entry>
+<key>sat_map_meta_year_semester</key>
+<value>${query_type:startsWith('sat_meta_by_year_semester')}</value>
                             </entry>
                             <entry>
 <key>sat_map_report_files</key>
@@ -13676,6 +14871,10 @@ ${query_type:startsWith('sat_meta_last7')} )} )}</value>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_all_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>sat_exception_grade</name>
                     </relationships>
                     <relationships>
@@ -13688,6 +14887,10 @@ ${query_type:startsWith('sat_meta_last7')} )} )}</value>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_grade_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>sat_heat_all</name>
                     </relationships>
                     <relationships>
@@ -13697,6 +14900,14 @@ ${query_type:startsWith('sat_meta_last7')} )} )}</value>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>sat_heat_map_meta</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_map_exam_grade_by_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_map_meta_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -13722,8 +14933,8 @@ ${query_type:startsWith('sat_meta_last7')} )} )}</value>
                     <id>47eaaef9-1bd2-3d23-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>5360.0</x>
-                        <y>896.0</y>
+                        <x>5352.0</x>
+                        <y>800.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -14523,11 +15734,104 @@ where ff_uuid= '${files_uuid}'
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
                 </processors>
                 <processors>
+                    <id>5628a878-c373-36f5-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>9216.0</x>
+                        <y>2216.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line</key>
+<value>
+    <name>sat_management_trend_line</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line_state</key>
+<value>
+    <name>sat_management_trend_line_state</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_trend_line_state_district</key>
+<value>
+    <name>sat_trend_line_state_district</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line</key>
+<value>${query_type:startsWith('sat_management_district_by_semester_year'):or(
+${query_type:startsWith('sat_management_block_by_semester_year'):or(
+${query_type:startsWith('sat_management_cluster_by_semester_year'):or(
+${query_type:startsWith('sat_management_school_by_semester_year')})})})}</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line_state</key>
+<value>${query_type:startsWith('sat_management_line_chart_state')}</value>
+                            </entry>
+                            <entry>
+<key>sat_trend_line_state_district</key>
+<value>${query_type:startsWith('sat_line_chart_state'):or(${query_type:startsWith('sat_district_wise')})}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>25</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_route_trend_line</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_trend_line</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_trend_line_state</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_trend_line_state_district</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>57541fd4-f4ab-3b41-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
                         <x>-5152.0</x>
-                        <y>1544.0</y>
+                        <y>1568.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -15201,15 +16505,21 @@ where ff_uuid= '${files_uuid}'
 </value>
                             </entry>
                             <entry>
+<key>sat_management_all_subject_footer_year_semester</key>
+<value>
+    <name>sat_management_all_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_management_exam_time_range</key>
 <value>
     <name>sat_management_exam_time_range</name>
 </value>
                             </entry>
                             <entry>
-<key>sat_management_exam_year_month</key>
+<key>sat_management_exam_year_semester</key>
 <value>
-    <name>sat_management_exam_year_month</name>
+    <name>sat_management_exam_year_semester</name>
 </value>
                             </entry>
                             <entry>
@@ -15219,15 +16529,21 @@ where ff_uuid= '${files_uuid}'
 </value>
                             </entry>
                             <entry>
+<key>sat_management_grade_subject_footer_year_semester</key>
+<value>
+    <name>sat_management_grade_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_management_grade_time_range</key>
 <value>
     <name>sat_management_grade_time_range</name>
 </value>
                             </entry>
                             <entry>
-<key>sat_management_grade_year_month</key>
+<key>sat_management_grade_year_semester</key>
 <value>
-    <name>sat_management_grade_year_month</name>
+    <name>sat_management_grade_year_semester</name>
 </value>
                             </entry>
                             <entry>
@@ -15250,14 +16566,18 @@ where ff_uuid= '${files_uuid}'
 <value>${query_type:startsWith('sat_management_subject_all_footer_last_30_days'):or(${query_type:startsWith('sat_management_subject_all_footer_last_7_days')})}</value>
                             </entry>
                             <entry>
+<key>sat_management_all_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_management_subject_all_footer_year_semester')}</value>
+                            </entry>
+                            <entry>
 <key>sat_management_exam_time_range</key>
 <value>${query_type:startsWith('sat_management_exam_school_last'):or(${query_type:startsWith('sat_management_exam_school_overall'):or(${query_type:startsWith('sat_management_exam_cluster_last'):or(${query_type:startsWith('sat_management_exam_cluster_overall'):or(
 ${query_type:startsWith('sat_management_exam_block_last'):or(${query_type:startsWith('sat_management_exam_block_overall'):
 or(${query_type:startsWith('sat_management_exam_district_last'):or(${query_type:startsWith('sat_management_exam_district_overall')})}) })}) })} )})}</value>
                             </entry>
                             <entry>
-<key>sat_management_exam_year_month</key>
-<value>${query_type:startsWith('sat_management_exam_school_year_month'):or(${query_type:startsWith('sat_management_exam_cluster_year_month'):or(${query_type:startsWith('sat_management_exam_block_year_month'):or(${query_type:startsWith('sat_management_exam_school_year_month')})})})}</value>
+<key>sat_management_exam_year_semester</key>
+<value>${query_type:startsWith('sat_management_exam_school_year_semester'):or(${query_type:startsWith('sat_management_exam_cluster_year_semester'):or(${query_type:startsWith('sat_management_exam_block_year_semester'):or(${query_type:startsWith('sat_management_exam_school_year_semester')})})})}</value>
                             </entry>
                             <entry>
 <key>sat_management_grade_subject_footer_time_range</key>
@@ -15267,14 +16587,20 @@ or(${query_type:startsWith('sat_management_exam_district_last'):or(${query_type:
 :or(${query_type:startsWith('sat_management_subject_footer_school_last')}):or(${query_type:startsWith('sat_management_subject_footer_school_all')})}</value>
                             </entry>
                             <entry>
+<key>sat_management_grade_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_management_subject_footer_district_year_semester'):or(${query_type:startsWith('sat_management_subject_footer_block_year_semester')})
+:or(${query_type:startsWith('sat_management_subject_footer_cluster_year_semester')}):or(${query_type:startsWith('sat_management_subject_footer_school_year_semester')})
+}</value>
+                            </entry>
+                            <entry>
 <key>sat_management_grade_time_range</key>
 <value>${query_type:startsWith('sat_management_grade_school_last'):or(${query_type:startsWith('sat_management_grade_school_overall'):or(${query_type:startsWith('sat_management_grade_cluster_last'):or(${query_type:startsWith('sat_management_grade_cluster_overall'):or(
 ${query_type:startsWith('sat_management_grade_block_last'):or(${query_type:startsWith('sat_management_grade_block_overall'):
 or(${query_type:startsWith('sat_management_grade_district_last'):or(${query_type:startsWith('sat_management_grade_district_overall')})}) })}) })} )})}</value>
                             </entry>
                             <entry>
-<key>sat_management_grade_year_month</key>
-<value>${query_type:startsWith('sat_management_grade_school_year_month'):or(${query_type:startsWith('sat_management_grade_cluster_year_month'):or(${query_type:startsWith('sat_management_grade_block_year_month'):or(${query_type:startsWith('sat_management_grade_school_year_month')})})})}</value>
+<key>sat_management_grade_year_semester</key>
+<value>${query_type:startsWith('sat_management_grade_school_year_semester'):or(${query_type:startsWith('sat_management_grade_cluster_year_semester'):or(${query_type:startsWith('sat_management_grade_block_year_semester'):or(${query_type:startsWith('sat_management_grade_school_year_semester')})})})}</value>
                             </entry>
                             <entry>
 <key>sat_management_learning_outcome[heat charts]</key>
@@ -15294,11 +16620,15 @@ or(${query_type:startsWith('sat_management_grade_district_last'):or(${query_type
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_management_all_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>sat_management_exam_time_range</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>sat_management_exam_year_month</name>
+                        <name>sat_management_exam_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -15306,11 +16636,15 @@ or(${query_type:startsWith('sat_management_grade_district_last'):or(${query_type
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_management_grade_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>sat_management_grade_time_range</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>sat_management_grade_year_month</name>
+                        <name>sat_management_grade_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -15646,8 +16980,8 @@ Mirror data validation of file:${filename} started</value>
                     <id>5edf7210-8499-34b1-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>6024.0</x>
-                        <y>640.0</y>
+                        <x>6032.0</x>
+                        <y>616.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -17110,6 +18444,68 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_semester_exa
                     <type>org.apache.nifi.processors.standard.ReplaceText</type>
                 </processors>
                 <processors>
+                    <id>68d36808-e3fc-39c2-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>9256.0</x>
+                        <y>3336.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>overall_category</key>
+<value>
+    <name>overall_category</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>overall_category</key>
+<value>${category:startsWith('overall_category')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>25</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>RouteOnAttribute</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>overall_category</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>6a9eff66-d057-3279-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
@@ -18001,8 +19397,8 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{semester_exam_su
                     <id>7d2536b2-a3df-3fec-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>7768.0</x>
-                        <y>2352.0</y>
+                        <x>7216.0</x>
+                        <y>2320.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -18110,7 +19506,7 @@ ${query_type:startsWith('sat_exception_management_grade_school'):ifElse(#{sat_ex
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
                         <x>6024.0</x>
-                        <y>896.0</y>
+                        <y>816.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -18455,9 +19851,27 @@ ${query_type:startsWith('sat_exception_management_grade_school'):ifElse(#{sat_ex
 </value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>
+    <name>sat_all_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_exam_grade_by_year_semester</key>
+<value>
+    <name>sat_exam_grade_by_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_exception</key>
 <value>
     <name>sat_exception</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>
+    <name>sat_grade_subject_footer_year_semester</name>
 </value>
                             </entry>
                             <entry>
@@ -18482,8 +19896,22 @@ ${query_type:startsWith('sat_exception_management_grade_school'):ifElse(#{sat_ex
 <value>Route to Property name</value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_all_footer_year_semester')}</value>
+                            </entry>
+                            <entry>
+<key>sat_exam_grade_by_year_semester</key>
+<value>${query_type:startsWith('sat_grade_district_by_year_semester'):or(${query_type:startsWith('sat_grade_block_by_year_semester'):or(${query_type:startsWith('sat_grade_cluster_by_year_semester'):or(${query_type:startsWith('sat_grade_school_by_year_semester'):or(${query_type:startsWith('sat_exam_district_by_year_semester'):or(${query_type:startsWith('sat_exam_block_by_year_semester'):or(${query_type:startsWith('sat_exam_cluster_by_year_semester'):or(${query_type:startsWith('sat_exam_school_by_year_semester')})})})})})})})}</value>
+                            </entry>
+                            <entry>
 <key>sat_exception</key>
 <value>${query_type:startsWith('sat_exception')}</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_footer_district_year_semester'):or(${query_type:startsWith('sat_subject_footer_block_year_semester')})
+:or(${query_type:startsWith('sat_subject_footer_cluster_year_semester')}):or(${query_type:startsWith('sat_subject_footer_school_year_semester')})
+}</value>
                             </entry>
                             <entry>
 <key>sat_learning_outcome</key>
@@ -18538,7 +19966,19 @@ ${query_type:startsWith('sat_grade_school_last7')} )} )} )} )} )} )} )} )} )} )}
                     <name>sat_route_by_files_4</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_all_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_exam_grade_by_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>sat_exception</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_grade_subject_footer_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -20114,6 +21554,85 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_check_same_r
                     <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
                 </processors>
                 <processors>
+                    <id>8f4f2c4a-d3c5-3143-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8472.0</x>
+                        <y>3008.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line_b_c_s</key>
+<value>
+    <name>sat_management_trend_line_b_c_s</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line_state_district</key>
+<value>
+    <name>sat_management_trend_line_state_district</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line_b_c_s</key>
+<value>${query_type:startsWith('sat_management_block_by_semester_year'):or(
+${query_type:startsWith('sat_management_cluster_by_semester_year'):or(
+${query_type:startsWith('sat_management_school_by_semester_year')})})}</value>
+                            </entry>
+                            <entry>
+<key>sat_management_trend_line_state_district</key>
+<value>${query_type:startsWith('sat_management_line_chart_state'):or(
+${query_type:startsWith('sat_management_district_by_semester_year')})}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>25</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_route_trend_line</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_trend_line_b_c_s</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_trend_line_state_district</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>90e53e54-bdc5-39e6-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
@@ -20658,8 +22177,8 @@ file:${filename} Error during partition_by_level of "${query_type}" file.</value
                     <id>9e8739fb-a202-3495-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>6024.0</x>
-                        <y>1688.0</y>
+                        <x>6072.0</x>
+                        <y>1712.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -22609,15 +24128,27 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_update_null_
 </value>
                             </entry>
                             <entry>
-<key>sat_management_exam_year_month</key>
+<key>sat_management_all_subject_footer_year_semester</key>
 <value>
-    <name>sat_management_exam_year_month</name>
+    <name>sat_management_all_subject_footer_year_semester</name>
 </value>
                             </entry>
                             <entry>
-<key>sat_management_grade_year_month</key>
+<key>sat_management_exam_year_semester</key>
 <value>
-    <name>sat_management_grade_year_month</name>
+    <name>sat_management_exam_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_grade_subject_footer_year_semester</key>
+<value>
+    <name>sat_management_grade_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_grade_year_semester</key>
+<value>
+    <name>sat_management_grade_year_semester</name>
 </value>
                             </entry>
                             <entry>
@@ -22642,12 +24173,22 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_update_null_
 <value>Route to Property name</value>
                             </entry>
                             <entry>
-<key>sat_management_exam_year_month</key>
-<value>${query_type:startsWith('sat_management_exam_school_year_month'):or(${query_type:startsWith('sat_management_exam_cluster_year_month'):or(${query_type:startsWith('sat_management_exam_block_year_month'):or(${query_type:startsWith('sat_management_exam_school_year_month')})})})}</value>
+<key>sat_management_all_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_management_subject_all_footer_year_semester')}</value>
                             </entry>
                             <entry>
-<key>sat_management_grade_year_month</key>
-<value>${query_type:startsWith('sat_management_grade_school_year_month'):or(${query_type:startsWith('sat_management_grade_cluster_year_month'):or(${query_type:startsWith('sat_management_grade_block_year_month'):or(${query_type:startsWith('sat_management_grade_school_year_month')})})})}</value>
+<key>sat_management_exam_year_semester</key>
+<value>${query_type:startsWith('sat_management_exam_school_year_semester'):or(${query_type:startsWith('sat_management_exam_cluster_year_semester'):or(${query_type:startsWith('sat_management_exam_block_year_semester'):or(${query_type:startsWith('sat_management_exam_school_year_semester')})})})}</value>
+                            </entry>
+                            <entry>
+<key>sat_management_grade_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_management_subject_footer_district_year_semester'):or(${query_type:startsWith('sat_management_subject_footer_block_year_semester')})
+:or(${query_type:startsWith('sat_management_subject_footer_cluster_year_semester')}):or(${query_type:startsWith('sat_management_subject_footer_school_year_semester')})
+}</value>
+                            </entry>
+                            <entry>
+<key>sat_management_grade_year_semester</key>
+<value>${query_type:startsWith('sat_management_grade_school_year_semester'):or(${query_type:startsWith('sat_management_grade_cluster_year_semester'):or(${query_type:startsWith('sat_management_grade_block_year_semester'):or(${query_type:startsWith('sat_management_grade_school_year_semester')})})})}</value>
                             </entry>
                             <entry>
 <key>sat_management_learning_outcome_all</key>
@@ -22676,11 +24217,19 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster')})}</value>
                     <name>RouteOnAttribute</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>sat_management_exam_year_month</name>
+                        <name>sat_management_all_subject_footer_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>sat_management_grade_year_month</name>
+                        <name>sat_management_exam_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_grade_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_grade_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -22697,6 +24246,84 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster')})}</value>
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
+                    <id>bb555af7-e36f-3925-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8480.0</x>
+                        <y>3328.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>record-reader</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordReaderFactory</identifiesControllerService>
+    <name>record-reader</name>
+</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
+    <name>record-writer</name>
+</value>
+                            </entry>
+                            <entry>
+<key>management</key>
+<value>
+    <name>management</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>record-reader</key>
+<value>33a5288a-7bd5-364e-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>fbea3059-d87f-3be9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>management</key>
+<value>/school_management_type</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>1000</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_partition_by_management</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>original</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
                     <id>bbff2ce9-8533-3ddd-0000-000000000000</id>
@@ -23062,8 +24689,8 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster')})}</value>
                     <id>bd7d2aa1-95f5-3dda-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>7960.0</x>
-                        <y>1896.0</y>
+                        <x>7728.0</x>
+                        <y>1872.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -23854,7 +25481,7 @@ ${query_type:startsWith('sat_learning_outcome_p3_cluster'):ifElse('/block_id','N
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
                         <x>5360.0</x>
-                        <y>640.0</y>
+                        <y>616.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -25367,8 +26994,8 @@ ${filename:startsWith('semester_exam_subject_details')})}</value>
                     <id>cccd62a6-83ea-34f6-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-7968.0</x>
-                        <y>704.0</y>
+                        <x>-8056.0</x>
+                        <y>712.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -25988,7 +27615,7 @@ WHERE ff_uuid = '${files_uuid}'</value>
                     <id>d78a122e-9c9f-3c6b-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>6896.0</x>
+                        <x>6880.0</x>
                         <y>904.0</y>
                     </position>
                     <bundle>
@@ -26014,9 +27641,27 @@ WHERE ff_uuid = '${files_uuid}'</value>
 </value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>
+    <name>sat_all_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_exam_by_year_semester</key>
+<value>
+    <name>sat_exam_by_year_semester</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_grade_subject_footer_time_range</key>
 <value>
     <name>sat_grade_subject_footer_time_range</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>
+    <name>sat_grade_subject_footer_year_semester</name>
 </value>
                             </entry>
                             <entry>
@@ -26035,6 +27680,12 @@ WHERE ff_uuid = '${files_uuid}'</value>
 <key>sat_management</key>
 <value>
     <name>sat_management</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_all_subject_footer</key>
+<value>
+    <name>sat_management_all_subject_footer</name>
 </value>
                             </entry>
                             <entry>
@@ -26061,6 +27712,12 @@ WHERE ff_uuid = '${files_uuid}'</value>
     <name>sat_map_report_files</name>
 </value>
                             </entry>
+                            <entry>
+<key>sat_trend_line</key>
+<value>
+    <name>sat_trend_line</name>
+</value>
+                            </entry>
                         </descriptors>
                         <executionNode>ALL</executionNode>
                         <lossTolerant>false</lossTolerant>
@@ -26075,11 +27732,25 @@ WHERE ff_uuid = '${files_uuid}'</value>
 <value>${query_type:startsWith('sat_subject_all_footer_last_30_days'):or(${query_type:startsWith('sat_subject_all_footer_last_7_days')})}</value>
                             </entry>
                             <entry>
+<key>sat_all_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_all_footer_year_semester')}</value>
+                            </entry>
+                            <entry>
+<key>sat_exam_by_year_semester</key>
+<value>${query_type:startsWith('sat_exam_district_by_year_semester'):or(${query_type:startsWith('sat_exam_block_by_year_semester'):or(${query_type:startsWith('sat_exam_cluster_by_year_semester'):or(${query_type:startsWith('sat_exam_school_by_year_semester')})})})}</value>
+                            </entry>
+                            <entry>
 <key>sat_grade_subject_footer_time_range</key>
 <value>${query_type:startsWith('sat_subject_footer_district_last'):or(${query_type:startsWith('sat_subject_footer_district_all')})
 :or(${query_type:startsWith('sat_subject_footer_block_last')}):or(${query_type:startsWith('sat_subject_footer_block_all')})
 :or(${query_type:startsWith('sat_subject_footer_cluster_last')}):or(${query_type:startsWith('sat_subject_footer_cluster_rall')})
 :or(${query_type:startsWith('sat_subject_footer_school_last')}):or(${query_type:startsWith('sat_subject_footer_school_all')})}</value>
+                            </entry>
+                            <entry>
+<key>sat_grade_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_subject_footer_district_year_semester'):or(${query_type:startsWith('sat_subject_footer_block_year_semester')})
+:or(${query_type:startsWith('sat_subject_footer_cluster_year_semester')}):or(${query_type:startsWith('sat_subject_footer_school_year_semester')})
+}</value>
                             </entry>
                             <entry>
 <key>sat_grades</key>
@@ -26109,6 +27780,10 @@ ${query_type:startsWith('sat_learning_outcome_p3_cluster')}
 <value>${query_type:startsWith('sat_management_exam'):or(${query_type:startsWith('sat_management_grade')})}</value>
                             </entry>
                             <entry>
+<key>sat_management_all_subject_footer</key>
+<value>${query_type:startsWith('sat_management_subject_all_footer')}</value>
+                            </entry>
+                            <entry>
 <key>sat_management_all_subject_footer_time_range</key>
 <value>${query_type:startsWith('sat_management_subject_all_footer_last_30_days'):or(${query_type:startsWith('sat_management_subject_all_footer_last_7_days')})}</value>
                             </entry>
@@ -26135,6 +27810,13 @@ ${query_type:startsWith('sat_exam_cluster_last7'):or(
 ${query_type:startsWith('sat_exam_block_last7'):or(
 ${query_type:startsWith('sat_exam_district_last7')} )} )} )} )} )} )} )} )} )} )} )}</value>
                             </entry>
+                            <entry>
+<key>sat_trend_line</key>
+<value>${query_type:startsWith('sat_line_chart_state'):or(${query_type:startsWith('sat_district_wise')}):
+or(${query_type:startsWith('sat_block_wise')}):
+or(${query_type:startsWith('sat_cluster_wise')}):
+or(${query_type:startsWith('sat_school_wise')})}</value>
+                            </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
                         <schedulingPeriod>0 sec</schedulingPeriod>
@@ -26149,7 +27831,19 @@ ${query_type:startsWith('sat_exam_district_last7')} )} )} )} )} )} )} )} )} )} )
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_all_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_exam_by_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>sat_grade_subject_footer_time_range</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_grade_subject_footer_year_semester</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -26162,6 +27856,10 @@ ${query_type:startsWith('sat_exam_district_last7')} )} )} )} )} )} )} )} )} )} )
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>sat_management</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_all_subject_footer</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -26181,11 +27879,93 @@ ${query_type:startsWith('sat_exam_district_last7')} )} )} )} )} )} )} )} )} )} )
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
+                        <name>sat_trend_line</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
                         <name>unmatched</name>
                     </relationships>
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
+                    <id>d838e9df-821e-3e2c-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8544.0</x>
+                        <y>2216.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>record-reader</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordReaderFactory</identifiesControllerService>
+    <name>record-reader</name>
+</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
+    <name>record-writer</name>
+</value>
+                            </entry>
+                            <entry>
+<key>year</key>
+<value>
+    <name>year</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>record-reader</key>
+<value>33a5288a-7bd5-364e-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>fbea3059-d87f-3be9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>year</key>
+<value>/academic_year</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>1000</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_partition_trend_year</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>original</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
                     <id>db3becfa-09a7-3c58-0000-000000000000</id>
@@ -26444,6 +28224,84 @@ ${filename:startsWith('semester_exam_subject_details')}
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ExtractText</type>
+                </processors>
+                <processors>
+                    <id>ddc4304c-82f9-35c2-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>4616.0</x>
+                        <y>1808.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>record-reader</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordReaderFactory</identifiesControllerService>
+    <name>record-reader</name>
+</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
+    <name>record-writer</name>
+</value>
+                            </entry>
+                            <entry>
+<key>partition_by_grade</key>
+<value>
+    <name>partition_by_grade</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>record-reader</key>
+<value>33a5288a-7bd5-364e-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>fbea3059-d87f-3be9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>partition_by_grade</key>
+<value>/grade</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>PartitionRecord</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>original</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
                     <id>de0c8a0f-0ad5-34bf-0000-000000000000</id>
@@ -27125,7 +28983,7 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_filter_same_
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
                         <x>6024.0</x>
-                        <y>1328.0</y>
+                        <y>1360.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -27197,6 +29055,111 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_filter_same_
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.PartitionRecord</type>
+                </processors>
+                <processors>
+                    <id>e826fffe-1a92-3aae-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8520.0</x>
+                        <y>2496.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>2</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>jolt-transform</key>
+<value>
+    <name>jolt-transform</name>
+</value>
+                            </entry>
+                            <entry>
+<key>jolt-custom-class</key>
+<value>
+    <name>jolt-custom-class</name>
+</value>
+                            </entry>
+                            <entry>
+<key>jolt-custom-modules</key>
+<value>
+    <name>jolt-custom-modules</name>
+</value>
+                            </entry>
+                            <entry>
+<key>jolt-spec</key>
+<value>
+    <name>jolt-spec</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Transform Cache Size</key>
+<value>
+    <name>Transform Cache Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>pretty_print</key>
+<value>
+    <name>pretty_print</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>jolt-transform</key>
+<value>jolt-transform-chain</value>
+                            </entry>
+                            <entry>
+<key>jolt-custom-class</key>
+                            </entry>
+                            <entry>
+<key>jolt-custom-modules</key>
+                            </entry>
+                            <entry>
+<key>jolt-spec</key>
+<value>${query_type:startsWith('sat_line_chart_state'):or(${query_type:startsWith('sat_management_line_chart_state')}):ifElse(#{sat_jolt_line_chart_state},
+${query_type:startsWith('sat_district_wise'):or(${query_type:startsWith('sat_management_district_by_semester_year')}):ifElse(#{sat_jolt_line_chart_district},
+${query_type:startsWith('sat_block_wise'):or(${query_type:startsWith('sat_management_block_by_semester_year')}):ifElse(#{sat_jolt_line_chart_block},
+${query_type:startsWith('sat_cluster_wise'):or(${query_type:startsWith('sat_management_cluster_by_semester_year')}):ifElse(#{sat_jolt_line_chart_cluster},
+${query_type:startsWith('sat_school_wise'):or(${query_type:startsWith('sat_management_school_by_semester_year')}):ifElse(#{sat_jolt_line_chart_school},'None')} 
+)} )} )} )}</value>
+                            </entry>
+                            <entry>
+<key>Transform Cache Size</key>
+<value>1</value>
+                            </entry>
+                            <entry>
+<key>pretty_print</key>
+<value>false</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>25</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_jolt_trends</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.JoltTransformJSON</type>
                 </processors>
                 <processors>
                     <id>e922363f-9062-3c10-0000-000000000000</id>
@@ -27657,6 +29620,87 @@ same id data validation of file:${filename} error while checking same id data</v
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.LogMessage</type>
+                </processors>
+                <processors>
+                    <id>f10e301d-38fa-3033-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>9048.0</x>
+                        <y>2496.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>record-reader</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordReaderFactory</identifiesControllerService>
+    <name>record-reader</name>
+</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
+    <name>record-writer</name>
+</value>
+                            </entry>
+                            <entry>
+<key>level</key>
+<value>
+    <name>level</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>record-reader</key>
+<value>33a5288a-7bd5-364e-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>fbea3059-d87f-3be9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>level</key>
+<value>${query_type:startsWith('sat_block'):or(${query_type:startsWith('sat_management_block_by_semester_year')}):ifElse('/district_id',
+${query_type:startsWith('sat_cluster'):or(${query_type:startsWith('sat_management_cluster_by_semester_year')}):ifElse('/block_id',
+${query_type:startsWith('sat_school'):or(${query_type:startsWith('sat_management_school_by_semester_year')}):ifElse('/cluster_id',''
+)} )} )}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>1000</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_partition_level</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>original</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
                     <id>f29d6367-9db7-33e7-0000-000000000000</id>
@@ -28204,6 +30248,84 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse('subject_id,grade'
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
+                </processors>
+                <processors>
+                    <id>f4290ffa-2006-30ef-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>9440.0</x>
+                        <y>2960.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>record-reader</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordReaderFactory</identifiesControllerService>
+    <name>record-reader</name>
+</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
+    <name>record-writer</name>
+</value>
+                            </entry>
+                            <entry>
+<key>category</key>
+<value>
+    <name>category</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>record-reader</key>
+<value>33a5288a-7bd5-364e-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>fbea3059-d87f-3be9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>category</key>
+<value>/school_category</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>1000</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_partition_by_category</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>original</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
                     <id>f688fd57-c288-3100-0000-000000000000</id>
@@ -28957,5 +31079,5 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_semester_exa
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/15/2021 14:41:40 IST</timestamp>
+    <timestamp>09/13/2021 07:03:56 IST</timestamp>
 </template>

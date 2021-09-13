@@ -1143,9 +1143,9 @@ export class CrcReportComponent implements OnInit {
       "height",
       this.height > 1760
         ? "60vh"
-        : this.height > 1180 && this.height < 1760
+        : this.height > 1160 && this.height < 1760
           ? "60vh"
-          : this.height > 667 && this.height < 1180
+          : this.height > 667 && this.height < 1160
             ? "52vh"
             : "44vh"
     );
@@ -1162,17 +1162,17 @@ export class CrcReportComponent implements OnInit {
             pointRadius:
               this.height > 1760
                 ? 16
-                : this.height > 1180 && this.height < 1760
+                : this.height > 1160 && this.height < 1760
                   ? 12
-                  : this.height > 667 && this.height < 1180
+                  : this.height > 667 && this.height < 1160
                     ? 8
                     : 5,
             pointHoverRadius:
               this.height > 1760
                 ? 18
-                : this.height > 1180 && this.height < 1760
+                : this.height > 1160 && this.height < 1760
                   ? 14
-                  : this.height > 667 && this.height < 1180
+                  : this.height > 667 && this.height < 1160
                     ? 9
                     : 6,
           },
@@ -1184,30 +1184,31 @@ export class CrcReportComponent implements OnInit {
         },
         responsive: true,
         tooltips: {
+          mode: 'index',
           titleFontSize: 16,
           cornerRadius: 10,
           xPadding:
             this.height > 1760
               ? 30
-              : this.height > 1180 && this.height < 1760
+              : this.height > 1160 && this.height < 1760
                 ? 20
-                : this.height > 667 && this.height < 1180
+                : this.height > 667 && this.height < 1160
                   ? 10
                   : 7,
           yPadding:
             this.height > 1760
               ? 30
-              : this.height > 1180 && this.height < 1760
+              : this.height > 1160 && this.height < 1760
                 ? 20
-                : this.height > 667 && this.height < 1180
+                : this.height > 667 && this.height < 1160
                   ? 10
                   : 7,
           bodyFontSize:
             this.height > 1760
               ? 32
-              : this.height > 1180 && this.height < 1760
+              : this.height > 1160 && this.height < 1760
                 ? 22
-                : this.height > 667 && this.height < 1180
+                : this.height > 667 && this.height < 1160
                   ? 12
                   : 10,
           displayColors: false,
@@ -1239,9 +1240,9 @@ export class CrcReportComponent implements OnInit {
                 fontSize:
                   this.height > 1760
                     ? 30
-                    : this.height > 1180 && this.height < 1760
+                    : this.height > 1160 && this.height < 1760
                       ? 25
-                      : this.height > 667 && this.height < 1180
+                      : this.height > 667 && this.height < 1160
                         ? 15
                         : 10,
               },
@@ -1252,9 +1253,9 @@ export class CrcReportComponent implements OnInit {
                 fontSize:
                   this.height > 1760
                     ? 32
-                    : this.height > 1180 && this.height < 1760
+                    : this.height > 1160 && this.height < 1760
                       ? 24
-                      : this.height > 667 && this.height < 1180
+                      : this.height > 667 && this.height < 1160
                         ? 14
                         : 10,
               },
@@ -1271,9 +1272,9 @@ export class CrcReportComponent implements OnInit {
                 fontSize:
                   this.height > 1760
                     ? 30
-                    : this.height > 1180 && this.height < 1760
+                    : this.height > 1160 && this.height < 1760
                       ? 25
-                      : this.height > 667 && this.height < 1180
+                      : this.height > 667 && this.height < 1160
                         ? 15
                         : 10,
               },
@@ -1284,9 +1285,9 @@ export class CrcReportComponent implements OnInit {
                 fontSize:
                   this.height > 1760
                     ? 32
-                    : this.height > 1180 && this.height < 1760
+                    : this.height > 1160 && this.height < 1760
                       ? 24
-                      : this.height > 667 && this.height < 1180
+                      : this.height > 667 && this.height < 1160
                         ? 14
                         : 10,
               },
