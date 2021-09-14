@@ -47,7 +47,7 @@ export class MapService {
           maxZoom: this.mapCenterLatlng.zoomLevel + 10,
         }
       ).addTo(globalMap);
-    } else {
+    } else{
       globalMap = new MapmyIndia.Map(map, { hasTip: false, autoPan: false, offset: [15, 20] }, {
         zoomControl: false,
         hybrid: false,
