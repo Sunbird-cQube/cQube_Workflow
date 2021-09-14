@@ -32,6 +32,7 @@ import { LineChartComponent } from './common/line-chart/line-chart.component';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { SatTrendsChartComponent } from './reports/student-performance/sat-trends-chart/sat-trends-chart.component';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -53,7 +54,8 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     DikshaTPDTeachersPercentageComponent,
     StudentAttendanceChartComponent,
     LineChartComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SatTrendsChartComponent
   ],
   imports: [
     BrowserModule,

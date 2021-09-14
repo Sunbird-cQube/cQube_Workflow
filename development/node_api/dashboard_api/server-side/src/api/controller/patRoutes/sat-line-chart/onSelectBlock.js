@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { logger } = require('../../../lib/logger');
 const auth = require('../../../middleware/check-auth');
 const s3File = require('../../../lib/reads3File');
-const fs = require('fs');
 
 router.post('/blockWise', auth.authController, async (req, res) => {
     try {
@@ -18,9 +17,6 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             fileName = `attendance/trend_line_chart/block/${districtId}_${year}.json`;
         }
         var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        fs.writeFile('./trendBlock.json', JSON.stringify(blockData), () => {
-            console.log("written to file");
-        })
         var keys = Object.keys(blockData);
         var mydata = [];
 

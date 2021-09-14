@@ -80,7 +80,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 }
             } else {
                 if (grade) {
-                    fileName = `${report}/${period}/district/${semester}/${grade}.json`;
+                    fileName = `${report}/${academic_year}/${semester}/district/${grade}.json`;
                     if (subject) {
                         footerFile = `${report}/${period}/${semester}/all_subjects_footer.json`;
                     }
@@ -92,10 +92,10 @@ router.post('/distWise', auth.authController, async (req, res) => {
         var footer;
         var allSubjects = [];
         districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-       
+       console.log(districtData.data[0])
         if (period != 'all') {
             if (grade && subject) {
-                footerData = await s3File.readS3File(footerFile);
+                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
                 subjects();
             }
             if (grade && !subject || !grade && !subject) {
@@ -133,7 +133,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
     }
 });
 
-// ',
 router.post('/grades', async (req, res, next) => {
     try {
         logger.info('---grades metadata api ---');

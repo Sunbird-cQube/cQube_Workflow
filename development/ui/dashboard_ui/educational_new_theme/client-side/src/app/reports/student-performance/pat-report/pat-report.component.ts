@@ -10,7 +10,8 @@ import { PatReportService } from "../../../services/pat-report.service";
 import { Router } from "@angular/router";
 import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
-import { AppServiceComponent, globalMap } from "../../../app.service";
+import { AppServiceComponent } from "../../../app.service";
+import { MapService, globalMap } from "src/app/services/map-services/maps.service";
 declare const $;
 
 @Component({
@@ -130,7 +131,8 @@ export class PATReportComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef,
-    private readonly _router: Router
+    private readonly _router: Router,
+    public globalService: MapService,
   ) {
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
@@ -158,10 +160,10 @@ export class PATReportComponent implements OnInit {
   ngOnInit() {
     this.commonService.errMsg();
     this.state = this.commonService.state;
-    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+    this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+    this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("patMap", [[this.lat, this.lng]]);
+    this.globalService.initMap("patMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
@@ -462,8 +464,8 @@ export class PATReportComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.districtId = undefined;
       if (this.level != "District") {
@@ -535,13 +537,13 @@ export class PATReportComponent implements OnInit {
                   let options = {
                     fillOpacity: 1,
                     strokeWeight: 0.01,
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "District",
                   };
                   this.dataOptions = options;
-                  this.commonService.restrictZoom(globalMap);
+                  this.globalService.restrictZoom(globalMap);
                   globalMap.setMaxBounds([
                     [options.centerLat - 4.5, options.centerLng - 6],
                     [options.centerLat + 3.5, options.centerLng + 6],
@@ -553,7 +555,7 @@ export class PATReportComponent implements OnInit {
                   this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                   this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
 
-                  this.commonService.onResize(this.level);
+                  this.globalService.onResize(this.level);
                   this.allDistricts.sort((a, b) =>
                     a.Details["district_name"] > b.Details["district_name"]
                       ? 1
@@ -602,8 +604,8 @@ export class PATReportComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.commonService.errMsg();
       if (this.level != "Block") {
@@ -668,7 +670,7 @@ export class PATReportComponent implements OnInit {
                     this.allSubjects = res['subjects'];
                   }
                   let options = {
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "Block",
@@ -754,13 +756,13 @@ export class PATReportComponent implements OnInit {
                       );
                     }
 
-                    this.commonService.restrictZoom(globalMap);
+                    this.globalService.restrictZoom(globalMap);
                     globalMap.setMaxBounds([
                       [options.centerLat - 4.5, options.centerLng - 6],
                       [options.centerLat + 3.5, options.centerLng + 6],
                     ]);
                     this.changeDetection.detectChanges();
-                    this.commonService.onResize(this.level);
+                    this.globalService.onResize(this.level);
 
                     //schoolCount
                     this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
@@ -807,8 +809,8 @@ export class PATReportComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.commonService.errMsg();
       if (this.level != "Cluster") {
@@ -873,7 +875,7 @@ export class PATReportComponent implements OnInit {
                     this.allSubjects = res['subjects'];
                   }
                   let options = {
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "Cluster",
@@ -964,13 +966,13 @@ export class PATReportComponent implements OnInit {
                     this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
 
-                    this.commonService.restrictZoom(globalMap);
+                    this.globalService.restrictZoom(globalMap);
                     globalMap.setMaxBounds([
                       [options.centerLat - 4.5, options.centerLng - 6],
                       [options.centerLat + 3.5, options.centerLng + 6],
                     ]);
                     this.changeDetection.detectChanges();
-                    this.commonService.onResize(this.level);
+                    this.globalService.onResize(this.level);
 
                     this.commonService.loaderAndErr(this.data);
                     this.changeDetection.detectChanges();
@@ -1012,8 +1014,8 @@ export class PATReportComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.commonService.errMsg();
       if (this.level != "School") {
@@ -1078,7 +1080,7 @@ export class PATReportComponent implements OnInit {
                     this.allSubjects = res['subjects'];
                   }
                   let options = {
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "School",
@@ -1170,7 +1172,7 @@ export class PATReportComponent implements OnInit {
                       [options.centerLat + 3.5, options.centerLng + 6],
                     ]);
                     this.changeDetection.detectChanges();
-                    this.commonService.onResize(this.level);
+                    this.globalService.onResize(this.level);
 
                     //schoolCount
                     this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
@@ -1283,22 +1285,22 @@ export class PATReportComponent implements OnInit {
           let options = {
             fillOpacity: 1,
             strokeWeight: 0.01,
-            mapZoom: this.commonService.zoomLevel + 1,
+            mapZoom: this.globalService.zoomLevel + 1,
             centerLat: this.data[0].Details.latitude,
             centerLng: this.data[0].Details.longitude,
             level: "blockPerDistrict",
           };
           this.dataOptions = options;
-          this.commonService.latitude = this.lat = options.centerLat;
-          this.commonService.longitude = this.lng = options.centerLng;
+          this.globalService.latitude = this.lat = options.centerLat;
+          this.globalService.longitude = this.lng = options.centerLng;
 
-          this.commonService.restrictZoom(globalMap);
+          this.globalService.restrictZoom(globalMap);
           globalMap.setMaxBounds([
             [options.centerLat - 1.5, options.centerLng - 3],
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
           this.changeDetection.detectChanges();
-          
+
           this.allBlocks.sort((a, b) =>
             a.Details.block_name > b.Details.block_name
               ? 1
@@ -1313,7 +1315,7 @@ export class PATReportComponent implements OnInit {
           this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
           this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
 
-          this.commonService.onResize(this.level);
+          this.globalService.onResize(this.level);
         },
         (err) => {
           this.errorHandling();
@@ -1424,16 +1426,16 @@ export class PATReportComponent implements OnInit {
           let options = {
             fillOpacity: 1,
             strokeWeight: 0.01,
-            mapZoom: this.commonService.zoomLevel + 3,
+            mapZoom: this.globalService.zoomLevel + 3,
             centerLat: this.data[0].Details.latitude,
             centerLng: this.data[0].Details.longitude,
             level: "clusterPerBlock",
           };
           this.dataOptions = options;
-          this.commonService.latitude = this.lat = options.centerLat;
-          this.commonService.longitude = this.lng = options.centerLng;
+          this.globalService.latitude = this.lat = options.centerLat;
+          this.globalService.longitude = this.lng = options.centerLng;
 
-          this.commonService.restrictZoom(globalMap);
+          this.globalService.restrictZoom(globalMap);
           globalMap.setMaxBounds([
             [options.centerLat - 1.5, options.centerLng - 3],
             [options.centerLat + 1.5, options.centerLng + 2],
@@ -1446,7 +1448,7 @@ export class PATReportComponent implements OnInit {
           this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
           this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
 
-          this.commonService.onResize(this.level);
+          this.globalService.onResize(this.level);
           // sort the clusterName alphabetically
           this.allClusters.sort((a, b) =>
             a.Details.cluster_name > b.Details.cluster_name
@@ -1592,14 +1594,14 @@ export class PATReportComponent implements OnInit {
                 let options = {
                   fillOpacity: 1,
                   strokeWeight: 0.01,
-                  mapZoom: this.commonService.zoomLevel + 5,
+                  mapZoom: this.globalService.zoomLevel + 5,
                   centerLat: this.data[0].Details.latitude,
                   centerLng: this.data[0].Details.longitude,
                   level: "schoolPerCluster",
                 };
                 this.dataOptions = options;
-                this.commonService.latitude = this.lat = options.centerLat;
-                this.commonService.longitude = this.lng = options.centerLng;
+                this.globalService.latitude = this.lat = options.centerLat;
+                this.globalService.longitude = this.lng = options.centerLng;
 
                 this.level = options.level;
                 this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
@@ -1619,7 +1621,7 @@ export class PATReportComponent implements OnInit {
                 this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                 this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                 this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                this.commonService.onResize(this.level);
+                this.globalService.onResize(this.level);
               },
               (err) => {
                 this.errorHandling();
@@ -1757,7 +1759,7 @@ export class PATReportComponent implements OnInit {
 
   //Attach colors to markers.........
   attachColorsToMarkers(marker, color, colors, strock, border, level) {
-    var icon = this.commonService.initMarkers1(
+    var icon = this.globalService.initMarkers1(
       marker.Details.latitude,
       marker.Details.longitude,
       this.selected == "absolute"
@@ -1848,26 +1850,24 @@ export class PATReportComponent implements OnInit {
     }
     var yourData1;
     if (this.grade) {
-      yourData1 = this.commonService
-        .getInfoFrom(
-          orgObject,
-          "Performance",
-          level,
-          "patReport",
-          "",
-          colorText
-        )
+      yourData1 = this.globalService.getInfoFrom(
+        orgObject,
+        "Performance",
+        level,
+        "patReport",
+        "",
+        colorText
+      )
         .join(" <br>");
     } else {
-      yourData1 = this.commonService
-        .getInfoFrom(
-          orgObject,
-          "Performance",
-          level,
-          "patReport",
-          "Performance",
-          colorText
-        )
+      yourData1 = this.globalService.getInfoFrom(
+        orgObject,
+        "Performance",
+        level,
+        "patReport",
+        "Performance",
+        colorText
+      )
         .join(" <br>");
     }
     var yourData;
@@ -1901,15 +1901,14 @@ export class PATReportComponent implements OnInit {
               ordered[key] = markers["Subjects"][key];
             }
           });
-        yourData = this.commonService
-          .getInfoFrom(
-            ordered,
-            "Performance",
-            level,
-            "patReport",
-            "Grade Performance",
-            colorText
-          )
+        yourData = this.globalService.getInfoFrom(
+          ordered,
+          "Performance",
+          level,
+          "patReport",
+          "Grade Performance",
+          colorText
+        )
           .join(" <br>");
       } else if (this.grade && this.subject) {
         ordered = {};
@@ -1921,15 +1920,14 @@ export class PATReportComponent implements OnInit {
               ordered[key] = markers["Subjects"][key];
             }
           });
-        yourData = this.commonService
-          .getInfoFrom(
-            ordered,
-            "Performance",
-            level,
-            "patReport",
-            this.subject,
-            colorText
-          )
+        yourData = this.globalService.getInfoFrom(
+          ordered,
+          "Performance",
+          level,
+          "patReport",
+          this.subject,
+          colorText
+        )
           .join(" <br>");
       } else {
         ordered = {};
@@ -1938,15 +1936,14 @@ export class PATReportComponent implements OnInit {
           .forEach(function (key) {
             ordered[key] = markers["Grade Wise Performance"][key];
           });
-        yourData = this.commonService
-          .getInfoFrom(
-            ordered,
-            "Performance",
-            level,
-            "patReport",
-            "",
-            colorText
-          )
+        yourData = this.globalService.getInfoFrom(
+          ordered,
+          "Performance",
+          level,
+          "patReport",
+          "",
+          colorText
+        )
           .join(" <br>");
       }
     } else {
@@ -1960,15 +1957,14 @@ export class PATReportComponent implements OnInit {
               ordered[key] = markers["Subjects"][key];
             }
           });
-        yourData = this.commonService
-          .getInfoFrom(
-            ordered,
-            "Performance",
-            level,
-            "patReport",
-            "Grade Performance",
-            colorText
-          )
+        yourData = this.globalService.getInfoFrom(
+          ordered,
+          "Performance",
+          level,
+          "patReport",
+          "Grade Performance",
+          colorText
+        )
           .join(" <br>");
       } else if (this.grade && this.subject) {
         ordered = {};
@@ -1980,15 +1976,14 @@ export class PATReportComponent implements OnInit {
               ordered[key] = markers["Subjects"][key];
             }
           });
-        yourData = this.commonService
-          .getInfoFrom(
-            ordered,
-            "Performance",
-            level,
-            "patReport",
-            this.subject,
-            colorText
-          )
+        yourData = this.globalService.getInfoFrom(
+          ordered,
+          "Performance",
+          level,
+          "patReport",
+          this.subject,
+          colorText
+        )
           .join(" <br>");
       } else {
         ordered = {};
@@ -1997,15 +1992,14 @@ export class PATReportComponent implements OnInit {
           .forEach(function (key) {
             ordered[key] = markers["Grade Wise Performance"][key];
           });
-        yourData = this.commonService
-          .getInfoFrom(
-            ordered,
-            "Performance",
-            level,
-            "patReport",
-            "",
-            colorText
-          )
+        yourData = this.globalService.getInfoFrom(
+          ordered,
+          "Performance",
+          level,
+          "patReport",
+          "",
+          colorText
+        )
           .join(" <br>");
       }
     }
@@ -2297,7 +2291,7 @@ export class PATReportComponent implements OnInit {
       this.studentAttended = this.studentAttended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     }
     //adjusting marker size and other UI on screen resize:::::::::::
-    this.commonService.onResize(this.level);
+    this.globalService.onResize(this.level);
     this.commonService.loaderAndErr(markers)
     this.changeDetection.detectChanges();
   }

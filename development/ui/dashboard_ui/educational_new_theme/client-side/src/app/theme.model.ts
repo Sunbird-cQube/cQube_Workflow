@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { themeProperties } from './themes.config';
 
 export interface Theme {
@@ -5,27 +6,29 @@ export interface Theme {
   properties: any;
 }
 
+let selectedTheme = themeProperties[`${environment.theme}`];
+
 export const defaultTheme: Theme = {
   name: "default",
   properties: {
-    "--theme-bg-header-color": themeProperties.themeHeaderBackground,
-    "--theme-bg-sidenav-color": themeProperties.themeSideNavBackground,
-    "--theme-bg-sidenav-user-info": themeProperties.themeSideNavUserInfo,
-    "--theme-report-header-bg-color": themeProperties.themeReportHeaderBackground,
-    "--theme-dark-button-color": themeProperties.themeLogoutButtonBackgroundColor,
-    "--theme-button-border-color": themeProperties.themeButtonBorderColor,
-    "--theme-back-button-color": themeProperties.themeBackButtonBackgroundColor,
-    "--theme-report-button-color": themeProperties.themeReportButtonBackgroundColor,
-    "--theme-back-button-border-color": themeProperties.themeBackButtonBorderColor,
-    "--theme-bg-container-color": themeProperties.themeContainerBackgroundColor,
-    "--theme-report-heading-color": themeProperties.themeReportHeadingColor,
-    "--theme-access-progress-card-btn-color": themeProperties.themeAccessProgressCardButtonBackgroundColor,
-    "--theme-download-btn-color": themeProperties.themeDownloadButtonBackgroundColor,
-    "--theme-report-selected-level-color": themeProperties.themeReportSelectedLevelColor,
-    "--theme-text-color": themeProperties.themeSideNavTextColor,
-    "--theme-user-info-bg-image": themeProperties.themeUserInfoBackgroundImage,
-    "--theme-container-bg-image": themeProperties.themeContainerBackgroundImage,
-    "--theme-icon-color": themeProperties.themeToggleIconColor
+    "--theme-bg-header-color": selectedTheme.themeHeaderBackground,
+    "--theme-bg-sidenav-color": selectedTheme.themeSideNavBackground,
+    "--theme-bg-sidenav-user-info": selectedTheme.themeSideNavUserInfo,
+    "--theme-report-header-bg-color": selectedTheme.themeReportHeaderBackground,
+    "--theme-dark-button-color": selectedTheme.themeLogoutButtonBackgroundColor,
+    "--theme-button-border-color": selectedTheme.themeButtonBorderColor,
+    "--theme-back-button-color": selectedTheme.themeBackButtonBackgroundColor,
+    "--theme-report-button-color": selectedTheme.themeReportButtonBackgroundColor,
+    "--theme-back-button-border-color": selectedTheme.themeBackButtonBorderColor,
+    "--theme-bg-container-color": selectedTheme.themeContainerBackgroundColor,
+    "--theme-report-heading-color": selectedTheme.themeReportHeadingColor,
+    "--theme-access-progress-card-btn-color": selectedTheme.themeAccessProgressCardButtonBackgroundColor,
+    "--theme-download-btn-color": selectedTheme.themeDownloadButtonBackgroundColor,
+    "--theme-report-selected-level-color": selectedTheme.themeReportSelectedLevelColor,
+    "--theme-text-color": selectedTheme.themeSideNavTextColor,
+    "--theme-user-info-bg-image": selectedTheme.themeUserInfoBackgroundImage,
+    "--theme-container-bg-image": selectedTheme.themeContainerBackgroundImage,
+    "--theme-icon-color": selectedTheme.themeToggleIconColor
   }
 };
 

@@ -10,7 +10,8 @@ import { PatReportService } from "../../../services/pat-report.service";
 import { Router } from "@angular/router";
 import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
-import { AppServiceComponent, globalMap } from "../../../app.service";
+import { AppServiceComponent } from "../../../app.service";
+import { MapService, globalMap } from "src/app/services/map-services/maps.service";
 declare const $;
 
 @Component({
@@ -126,7 +127,8 @@ export class SatReportComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef,
-    private readonly _router: Router
+    private readonly _router: Router,
+    public globalService: MapService,
   ) {
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
@@ -153,10 +155,10 @@ export class SatReportComponent implements OnInit {
   ngOnInit() {
     this.period = "last_30_days";
     this.state = this.commonService.state;
-    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+    this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+    this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("satMap", [[this.lat, this.lng]]);
+    this.globalService.initMap("satMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
@@ -177,6 +179,8 @@ export class SatReportComponent implements OnInit {
       })
       this.year = this.years[0]['academic_year'];
       this.onSelectYear();
+    }, err => {
+      this.commonService.loaderAndErr([]);
     });
 
     if (params) {
@@ -242,7 +246,7 @@ export class SatReportComponent implements OnInit {
   //     this.levelWiseFilter();
   //   }, err => {
   //     this.semesters = [];
-  //     this.commonService.loaderAndErr(this.semesters);
+  // this.commonService.loaderAndErr(this.semesters);
   //   });
   // }
 
@@ -420,8 +424,8 @@ export class SatReportComponent implements OnInit {
       this.commonService.errMsg();
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.districtId = undefined;
       if (this.level != "District") {
@@ -493,20 +497,20 @@ export class SatReportComponent implements OnInit {
                   let options = {
                     fillOpacity: 1,
                     strokeWeight: 0.01,
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "District",
                   };
                   this.dataOptions = options;
-                  this.commonService.restrictZoom(globalMap);
+                  this.globalService.restrictZoom(globalMap);
                   globalMap.setMaxBounds([
                     [options.centerLat - 4.5, options.centerLng - 6],
                     [options.centerLat + 3.5, options.centerLng + 6],
                   ]);
                   this.changeDetection.detectChanges();
                   this.genericFun(this.data, options, this.fileName);
-                  this.commonService.onResize(this.level);
+                  this.globalService.onResize(this.level);
                   this.allDistricts.sort((a, b) =>
                     a.Details["district_name"] > b.Details["district_name"]
                       ? 1
@@ -559,8 +563,8 @@ export class SatReportComponent implements OnInit {
       this.commonService.errMsg();
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       if (this.level != "Block") {
         this.subjectHidden = true;
@@ -629,7 +633,7 @@ export class SatReportComponent implements OnInit {
                     this.allSubjects = res['subjects'];
                   }
                   let options = {
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "Block",
@@ -717,12 +721,12 @@ export class SatReportComponent implements OnInit {
                       );
                     }
 
-                    this.commonService.restrictZoom(globalMap);
+                    this.globalService.restrictZoom(globalMap);
                     globalMap.setMaxBounds([
                       [options.centerLat - 4.5, options.centerLng - 6],
                       [options.centerLat + 3.5, options.centerLng + 6],
                     ]);
-                    this.commonService.onResize(this.level);
+                    this.globalService.onResize(this.level);
 
                     this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                     this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
@@ -767,8 +771,8 @@ export class SatReportComponent implements OnInit {
       this.commonService.errMsg();
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       if (this.level != "Cluster") {
         this.subjectHidden = true;
@@ -837,7 +841,7 @@ export class SatReportComponent implements OnInit {
                     this.allSubjects = res['subjects'];
                   }
                   let options = {
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "Cluster",
@@ -924,12 +928,12 @@ export class SatReportComponent implements OnInit {
                       );
                     }
 
-                    this.commonService.restrictZoom(globalMap);
+                    this.globalService.restrictZoom(globalMap);
                     globalMap.setMaxBounds([
                       [options.centerLat - 4.5, options.centerLng - 6],
                       [options.centerLat + 3.5, options.centerLng + 6],
                     ]);
-                    this.commonService.onResize(this.level);
+                    this.globalService.onResize(this.level);
 
                     //schoolCount
                     this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
@@ -975,8 +979,8 @@ export class SatReportComponent implements OnInit {
       this.commonService.errMsg();
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       if (this.level != "School") {
         this.subjectHidden = true;
@@ -1045,7 +1049,7 @@ export class SatReportComponent implements OnInit {
                     this.allSubjects = res['subjects'];
                   }
                   let options = {
-                    mapZoom: this.commonService.zoomLevel,
+                    mapZoom: this.globalService.zoomLevel,
                     centerLat: this.lat,
                     centerLng: this.lng,
                     level: "School",
@@ -1135,7 +1139,7 @@ export class SatReportComponent implements OnInit {
                       [options.centerLat - 4.5, options.centerLng - 6],
                       [options.centerLat + 3.5, options.centerLng + 6],
                     ]);
-                    this.commonService.onResize(this.level);
+                    this.globalService.onResize(this.level);
 
                     ///schoolCount
                     this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
@@ -1246,23 +1250,23 @@ export class SatReportComponent implements OnInit {
           let options = {
             fillOpacity: 1,
             strokeWeight: 0.01,
-            mapZoom: this.commonService.zoomLevel + 1,
+            mapZoom: this.globalService.zoomLevel + 1,
             centerLat: this.data[0].Details.latitude,
             centerLng: this.data[0].Details.longitude,
             level: "blockPerDistrict",
           };
           this.dataOptions = options;
-          this.commonService.latitude = this.lat = options.centerLat;
-          this.commonService.longitude = this.lng = options.centerLng;
+          this.globalService.latitude = this.lat = options.centerLat;
+          this.globalService.longitude = this.lng = options.centerLng;
 
-          this.commonService.restrictZoom(globalMap);
+          this.globalService.restrictZoom(globalMap);
           globalMap.setMaxBounds([
             [options.centerLat - 1.5, options.centerLng - 3],
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
           this.genericFun(this.data, options, this.fileName);
-          this.commonService.onResize(this.level);
+          this.globalService.onResize(this.level);
 
           // sort the blockname alphabetically
           this.allBlocks.sort((a, b) =>
@@ -1384,23 +1388,23 @@ export class SatReportComponent implements OnInit {
           let options = {
             fillOpacity: 1,
             strokeWeight: 0.01,
-            mapZoom: this.commonService.zoomLevel + 3,
+            mapZoom: this.globalService.zoomLevel + 3,
             centerLat: this.data[0].Details.latitude,
             centerLng: this.data[0].Details.longitude,
             level: "clusterPerBlock",
           };
           this.dataOptions = options;
-          this.commonService.latitude = this.lat = options.centerLat;
-          this.commonService.longitude = this.lng = options.centerLng;
+          this.globalService.latitude = this.lat = options.centerLat;
+          this.globalService.longitude = this.lng = options.centerLng;
 
-          this.commonService.restrictZoom(globalMap);
+          this.globalService.restrictZoom(globalMap);
           globalMap.setMaxBounds([
             [options.centerLat - 1.5, options.centerLng - 3],
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
           this.genericFun(this.data, options, this.fileName);
-          this.commonService.onResize(this.level);
+          this.globalService.onResize(this.level);
 
           // sort the clusterName alphabetically
           this.clusterMarkers.sort((a, b) =>
@@ -1557,14 +1561,14 @@ export class SatReportComponent implements OnInit {
                 let options = {
                   fillOpacity: 1,
                   strokeWeight: 0.01,
-                  mapZoom: this.commonService.zoomLevel + 5,
+                  mapZoom: this.globalService.zoomLevel + 5,
                   centerLat: this.data[0].Details.latitude,
                   centerLng: this.data[0].Details.longitude,
                   level: "schoolPerCluster",
                 };
                 this.dataOptions = options;
-                this.commonService.latitude = this.lat = options.centerLat;
-                this.commonService.longitude = this.lng = options.centerLng;
+                this.globalService.latitude = this.lat = options.centerLat;
+                this.globalService.longitude = this.lng = options.centerLng;
 
                 this.level = options.level;
                 this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
@@ -1578,7 +1582,7 @@ export class SatReportComponent implements OnInit {
                 ]);
 
                 this.genericFun(this.data, options, this.fileName);
-                this.commonService.onResize(this.level);
+                this.globalService.onResize(this.level);
 
                 this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
                 this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
@@ -1614,7 +1618,7 @@ export class SatReportComponent implements OnInit {
         }
         for (let i = 0; i < this.markers.length; i++) {
           if (this.period != 'all' && !this.valueRange) {
-            if (this.grade && !this.subject) {
+            if (this.grade && !this.subject && this.markers[i].Subjects['Grade Performance']) {
               this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
               this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
               this.markers[i].Details['total_schools'] = this.markers[i].Subjects['Grade Performance']['total_schools'];
@@ -1630,18 +1634,20 @@ export class SatReportComponent implements OnInit {
               }
             }
             if (this.grade) {
-              if (this.level != 'block' && this.level != 'cluster' && this.level != 'school') {
+              if (this.level != 'Block' && this.level != 'Cluster' && this.level != 'School' && this.markers[i].Subjects['Grade Performance']) {
                 this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
                 this.allSubjects.map(sub => {
                   if (this.markers[i].Subjects[`${sub}`])
                     this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
                 })
               } else {
-                this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
-                this.allSubjects.map(sub => {
-                  if (this.markers[i].Subjects[`${sub}`])
-                    this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
-                })
+                if (this.markers[i].Subjects['Grade Performance']) {
+                  this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
+                  this.allSubjects.map(sub => {
+                    if (this.markers[i].Subjects[`${sub}`])
+                      this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
+                  })
+                }
               }
             } else if (!this.grade && !this.subject) {
               this.allGrades.map(grade => {
@@ -1694,6 +1700,7 @@ export class SatReportComponent implements OnInit {
         this.changeDetection.detectChanges();
       }
     } catch (e) {
+      console.log(e);
       this.errorHandling();
     }
 
@@ -1722,7 +1729,7 @@ export class SatReportComponent implements OnInit {
   //Attach colors to markers.........
   attachColorsToMarkers(marker, color, colors, strock, border, level) {
     if (marker != undefined) {
-      var icon = this.commonService.initMarkers1(
+      var icon = this.globalService.initMarkers1(
         marker.Details.latitude,
         marker.Details.longitude,
         this.selected == "absolute"
@@ -1815,7 +1822,7 @@ export class SatReportComponent implements OnInit {
       }
       var yourData1;
       if (this.grade) {
-        yourData1 = this.commonService
+        yourData1 = this.globalService
           .getInfoFrom(
             orgObject,
             "Performance",
@@ -1826,7 +1833,7 @@ export class SatReportComponent implements OnInit {
           )
           .join(" <br>");
       } else {
-        yourData1 = this.commonService
+        yourData1 = this.globalService
           .getInfoFrom(
             orgObject,
             "Performance",
@@ -1868,7 +1875,7 @@ export class SatReportComponent implements OnInit {
                 ordered[key] = markers["Subjects"][key];
               }
             });
-          yourData = this.commonService
+          yourData = this.globalService
             .getInfoFrom(
               ordered,
               "Performance",
@@ -1888,7 +1895,7 @@ export class SatReportComponent implements OnInit {
                 ordered[key] = markers["Subjects"][key];
               }
             });
-          yourData = this.commonService
+          yourData = this.globalService
             .getInfoFrom(
               ordered,
               "Performance",
@@ -1905,7 +1912,7 @@ export class SatReportComponent implements OnInit {
             .forEach(function (key) {
               ordered[key] = markers["Grade Wise Performance"][key];
             });
-          yourData = this.commonService
+          yourData = this.globalService
             .getInfoFrom(
               ordered,
               "Performance",
@@ -1927,7 +1934,7 @@ export class SatReportComponent implements OnInit {
                 ordered[key] = markers["Subjects"][key];
               }
             });
-          yourData = this.commonService
+          yourData = this.globalService
             .getInfoFrom(
               ordered,
               "Performance",
@@ -1947,7 +1954,7 @@ export class SatReportComponent implements OnInit {
                 ordered[key] = markers["Subjects"][key];
               }
             });
-          yourData = this.commonService
+          yourData = this.globalService
             .getInfoFrom(
               ordered,
               "Performance",
@@ -1964,7 +1971,7 @@ export class SatReportComponent implements OnInit {
             .forEach(function (key) {
               ordered[key] = markers["Grade Wise Performance"][key];
             });
-          yourData = this.commonService
+          yourData = this.globalService
             .getInfoFrom(
               ordered,
               "Performance",
@@ -2265,7 +2272,7 @@ export class SatReportComponent implements OnInit {
       this.studentAttended = this.studentAttended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     }
     //adjusting marker size and other UI on screen resize:::::::::::
-    this.commonService.onResize(this.level);
+    this.globalService.onResize(this.level);
     this.commonService.loaderAndErr(markers)
     this.changeDetection.detectChanges();
   }
