@@ -53,7 +53,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         footerFile = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/all_subjects_footer.json`
                     }
                 } else {
-                    fileName = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/district.json`;
+                    fileName = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/district.json`;
                 }
             }
         } else {

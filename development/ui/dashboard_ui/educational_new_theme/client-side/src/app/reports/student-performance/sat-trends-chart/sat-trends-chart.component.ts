@@ -229,7 +229,8 @@ export class SatTrendsChartComponent implements OnInit {
     this.grade = grade;
     this.currentColors = [];
     this.dataWithColors = [];
-    this.onHomeClick(true);
+    //this.onHomeClick(true);
+    this.onSelectYear();
   }
 
   //this will reset the page content::::::::::::::::::::::::::::
@@ -239,6 +240,7 @@ export class SatTrendsChartComponent implements OnInit {
       this.selectedYear = this.years[0];
       this.selectedYear1 = this.years[2];
     }
+    this.grade = undefined;
     this.getStateData();
     this.getStateData1();
     this.selectedDistricts = [];
@@ -527,8 +529,8 @@ export class SatTrendsChartComponent implements OnInit {
         }
       }
       if (this.selectedDistricts.length == 1) {
-        this.getBlockData();
-        this.getBlockData1();
+        // this.getBlockData();
+        // this.getBlockData1();
       }
       this.getCurrentDistData();
       this.getCurrentDistData1();
@@ -667,8 +669,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.districtId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
+              element.performance.map(i => {
+                console.log(i);
+                data.push(i.performance);
                 counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
               })
               this.currentData.push({ data: data, name: element.districtName, color: this.currentColors[index], index: index });
@@ -677,6 +680,7 @@ export class SatTrendsChartComponent implements OnInit {
         })
         this.counts.push(counts);
       });
+      console.log(this.currentData);
     }
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';

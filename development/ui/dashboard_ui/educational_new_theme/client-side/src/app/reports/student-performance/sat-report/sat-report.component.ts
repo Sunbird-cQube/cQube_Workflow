@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
 import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
 import { AppServiceComponent } from "../../../app.service";
-import { MapService, globalMap } from "src/app/services/map-services/maps.service";
+import { MapService, globalMap } from "../../../services/map-services/map.service";
 declare const $;
 
 @Component({
@@ -660,7 +660,7 @@ export class SatReportComponent implements OnInit {
 
                     for (let i = 0; i < this.blockMarkers.length; i++) {
                       if (this.period != 'all') {
-                        if (this.grade && !this.subject) {
+                        if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
                           this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
                           this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
                           this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
@@ -675,7 +675,7 @@ export class SatReportComponent implements OnInit {
                             this.blockMarkers.splice(index, 1);
                           }
                         }
-                        if (this.grade) {
+                        if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
                           this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
                           this.allSubjects.map(sub => {
                             if (this.blockMarkers[i].Subjects[`${sub}`])
