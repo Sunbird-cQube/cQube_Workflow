@@ -20,7 +20,7 @@
   tags: [ install, update ]
     
 - name: copying server-side script
-  shell: "cp -R ../../development/angular/server-side/* {{base_dir}}/cqube/dashboard/server_side"
+  shell: "cp -R ../../development/node_api/dashboard_api/server-side/* {{base_dir}}/cqube/dashboard/server_side"
   tags: [ install, update ]
 
 - name: NodeJS dependencies install
@@ -53,4 +53,8 @@
       PASSWORD= "{{ keycloak_adm_passwd }}"
       GRANT_TYPE= "password"
       BASE_DIR = "{{ base_dir }}"
+      STORAGE_TYPE = "{{ storage_type }}"
+      INPUT_DIRECTORY= "{{ input_directory }}"
+      OUTPUT_DIRECTORY= "{{ output_directory }}"
+      EMISSION_DIRECTORY= "{{ emission_directory }}"
   tags: [ install, update ]

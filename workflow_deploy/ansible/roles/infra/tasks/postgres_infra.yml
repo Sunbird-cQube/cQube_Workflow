@@ -1,0 +1,29 @@
+
+- name: Run infra table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/infra.sql
+  when: infra
+  tags: [ install, update ]
+
+- name: checking for infra table
+  shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "select case when (select count(*) from infrastructure_master)=0 then 0 else 1 end;"
+  when: infra
+  register: output_infra
+  tags: [ install, update ]
+
+- name: Copying table structure from csv file
+  shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "copy infrastructure_master(infrastructure_name,infrastructure_category,score,status) from '/tmp/postgres/infrastructure_master.csv' delimiter ',' csv header;"
+  when: infra and output_infra.stdout_lines[2].strip() == "0"
+  tags: [ install, update ]
+  
+- name: Run infra queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/infra_queries.sql
+  when: infra
+  tags: [ install, update ]

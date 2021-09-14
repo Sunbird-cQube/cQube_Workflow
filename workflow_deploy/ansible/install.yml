@@ -4,8 +4,6 @@
   gather_facts: true
   remote_user: root
   vars_files:
-    - ../config.yml
-    - ../datasource_config.yml
     - ../memory_config.yml
     - ../.version
 
@@ -17,65 +15,63 @@
           - keycloak
           - nifi_install
           - { role: nifi_params, tags: install }
-
-          - role: nifi_crc
+          
+          - role: cqube_data
             tags: install
-            when: nifi_crc
-
-          - role: nifi_static
+  
+          - role: static
             tags: install
 
-          - role: nifi_attendance
+          - role: crc
             tags: install
-            when: nifi_attendance
+            when: crc
 
-          - role: nifi_semester
+          - role: attendance
             tags: install
-            when: nifi_semester
+            when: attendance
 
-          - role: nifi_infra
+          - role: infra
             tags: install
-            when: nifi_infra
+            when: infra
 
-          - role: nifi_diksha
+          - role: telemetry
             tags: install
-            when: nifi_diksha
+            when: telemetry
 
-          - role: nifi_telemetry
+          - role: udise
             tags: install
-            when: nifi_telemetry
+            when: udise
 
-          - role: nifi_udise
+          - role: pat
             tags: install
-            when: nifi_udise
+            when: pat
 
-          - role: nifi_pat
+          - role: teacher_attendance
             tags: install
-            when: nifi_pat
+            when: teacher_attendance
 
-          - role: nifi_composite
+          - role: data_replay
             tags: install
-            when: nifi_composite
+            when: data_replay
 
-          - role: nifi_healthcard
+          - role: sat
             tags: install
-            when: nifi_healthcard
+            when: sat
 
-          - role: nifi_teacher_attendance
+          - role: diksha
             tags: install
-            when: nifi_teacher_attendance
+            when: diksha
 
-          - role: nifi_data_replay
+          - role: composite
             tags: install
-            when: nifi_data_replay
+            when: composite
 
-          - role: nifi_sat
+          - role: progresscard
             tags: install
-            when: nifi_sat
+            when: progresscard
 
-          - angular
-          - angular_admin
+          - role: dummy_connections  
+            tags: install
 
           - { role: nifi_scheduler, tags: install }
           - cqube_version
-          

@@ -4,8 +4,6 @@
   gather_facts: true
   remote_user: root
   vars_files:
-    - ../upgradation_config.yml  
-    - ../datasource_config.yml
     - ../memory_config.yml
     - ../.version
     
@@ -16,64 +14,60 @@
           - { role: kong, tags: update }
           - keycloak
           - nifi_install
-          - { role: nifi_params, tags: update } 
+          - { role: nifi_params, tags: update }
+            #- { role: nifi_data_sources, tags: update } 
 
-          - role: nifi_crc
-            tags: update
-            when: nifi_crc
-
-          - role: nifi_static
+          - role: cqube_data
             tags: update
 
-          - role: nifi_attendance
+          - role: static
             tags: update
-            when: nifi_attendance
 
-          - role: nifi_semester
+          - role: crc
             tags: update
-            when: nifi_semester
+            when: crc
 
-          - role: nifi_infra
+          - role: attendance
             tags: update
-            when: nifi_infra
+            when: attendance
 
-          - role: nifi_diksha
+          - role: infra
             tags: update
-            when: nifi_diksha
+            when: infra
 
-          - role: nifi_telemetry
+          - role: telemetry
             tags: update
-            when: nifi_telemetry
+            when: telemetry
 
-          - role: nifi_udise
+          - role: udise
             tags: update
-            when: nifi_udise
+            when: udise
 
-          - role: nifi_pat
+          - role: pat
             tags: update
-            when: nifi_pat
+            when: pat
 
-          - role: nifi_composite
+          - role: teacher_attendance
             tags: update
-            when: nifi_composite
+            when: teacher_attendance
 
-          - role: nifi_healthcard
+          - role: data_replay
             tags: update
-            when: nifi_healthcard
-
-          - role: nifi_teacher_attendance
+          
+          - role: sat
             tags: update
-            when: nifi_teacher_attendance
+            when: sat
 
-          - role: nifi_data_replay
+          - role: diksha
             tags: update
-            when: nifi_data_replay
+            when: diksha
 
-          - role: nifi_sat
+          - role: composite
             tags: update
-            when: nifi_sat
+            when: composite
 
-          - angular
-          - angular_admin
-
+          - role: progresscard
+            tags: update
+            when: progresscard
+  
           - cqube_version

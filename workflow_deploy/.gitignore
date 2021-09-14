@@ -3,3 +3,7 @@
 */*.tar
 config.yml
 upgradation_config.yml
+education_usecase_config.yml
+education_usecase_upgradation_config.yml
+test_usecase_config.yml
+test_usecase_upgradation_config.yml

@@ -1,0 +1,7 @@
+- name: Run teacher attendance python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py teacher_attendance_transformer teacher_attendance_parameters 4666"
+  tags: [ install, update ]
+
+- name: Connection of teacher attendance to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage teacher_attendance_transformer"  
+  tags: [ install, update ]

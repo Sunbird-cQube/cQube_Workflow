@@ -1,0 +1,42 @@
+<div class="main-panel" style="padding-top: 10px !important;">
+    <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector>
+    <div class="report-cards">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="healthCard" [routerLink]="!dataSource['progresscard'] ? ['/coming-soon'] :['/progressCard']"
+                    (click)="fetchTelemetry($event,'healthCard')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src="../../../../assets/images/ic_trending_up.svg"
+                                            alt="">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="healthCardViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{healthCardViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Progress Report</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.healthCardTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+</div>

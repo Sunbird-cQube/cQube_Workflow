@@ -1,0 +1,5 @@
+#- name: Run static python code
+#  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py static_data_transformer static_data_parameters 0"
+
+#- name: Connection of static to cqube data storage
+#  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage static_data_transformer"
