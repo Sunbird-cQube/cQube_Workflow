@@ -1284,7 +1284,38 @@ REFRESH MATERIALIZED VIEW  sat_mgmt_lo_p1_indicator_cluster;
 REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_all;
 REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_district;
 REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_block;
-REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_cluster;""",
+REFRESH MATERIALIZED VIEW  sat_lo_p1_indicator_cluster;
+
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_district;
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_block;
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_cluster;
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_school;
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_district_mgmt;
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_block_mgmt;
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_cluster_mgmt;
+REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_school_mgmt;
+REFRESH MATERIALIZED VIEW sat_stud_count_school_mgmt_year_semester;
+REFRESH MATERIALIZED VIEW sat_stud_count_school_grade_mgmt_year_semester;
+
+REFRESH MATERIALIZED VIEW semester_exam_district_year_semester;
+REFRESH MATERIALIZED VIEW semester_exam_block_year_semester;
+REFRESH MATERIALIZED VIEW semester_exam_cluster_year_semester;
+REFRESH MATERIALIZED VIEW semester_exam_school_year_semester;
+
+REFRESH MATERIALIZED VIEW semester_grade_district_year_semester;
+REFRESH MATERIALIZED VIEW semester_grade_block_year_semester;
+REFRESH MATERIALIZED VIEW semester_grade_cluster_year_semester;
+REFRESH MATERIALIZED VIEW semester_grade_school_year_semester;
+
+REFRESH MATERIALIZED VIEW semester_exam_district_mgmt_year_semester;
+REFRESH MATERIALIZED VIEW semester_exam_block_mgmt_year_semester;
+REFRESH MATERIALIZED VIEW semester_exam_cluster_mgmt_year_semester;
+REFRESH MATERIALIZED VIEW semester_exam_school_mgmt_year_semester;
+
+REFRESH MATERIALIZED VIEW semester_grade_district_mgmt_year_semester;
+REFRESH MATERIALIZED VIEW semester_grade_block_mgmt_year_semester;
+REFRESH MATERIALIZED VIEW semester_grade_cluster_mgmt_year_semester;
+REFRESH MATERIALIZED VIEW semester_grade_school_mgmt_year_semester;""",
 "semester_exam_subject_details_count_null":"""(select
 SUM(CASE when subject_id IS NULL THEN 1 ELSE 0 END) AS count_null_subject_id,
 SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
@@ -1692,5 +1723,127 @@ or obtained_marks IS NULL""",
       "allDistrictsFooter": "&"
     }
   }
-]"""
+]""",
+"sat_jolt_line_chart_state":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "state_performance": "@(1,academic_year).performance.[&1].state_performance",
+        "total_schools": "@(1,academic_year).performance.[&1].total_schools",
+        "total_students": "@(1,academic_year).performance.[&1].total_students",
+        "students_attended": "@(1,academic_year).performance.[&1].students_attended",
+        "semester": "@(1,academic_year).performance.[&1].semester",
+        "grade_wise_performance": "@(1,academic_year).Grades.@(1,semester)"
+      }
+    }
+	}
+]""",
+"sat_jolt_line_chart_school":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "school_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@school_name": "@(1,school_id).school_name[]",
+        "@state_performance": "@(1,school_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,school_id).performance.[&1].total_schools",
+        "@total_students": "@(1,school_id).performance.[&1].total_students",
+        "@students_attended": "@(1,school_id).performance.[&1].students_attended",
+        "semester": "@(1,school_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,school_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]""",
+"sat_jolt_line_chart_district":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "district_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@district_name": "@(1,district_id).district_name[]",
+        "@state_performance": "@(1,district_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,district_id).performance.[&1].total_schools",
+        "@total_students": "@(1,district_id).performance.[&1].total_students",
+        "@students_attended": "@(1,district_id).performance.[&1].students_attended",
+        "semester": "@(1,district_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,district_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]""",
+"sat_jolt_line_chart_cluster":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "cluster_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@cluster_name": "@(1,cluster_id).cluster_name[]",
+        "@state_performance": "@(1,cluster_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,cluster_id).performance.[&1].total_schools",
+        "@total_students": "@(1,cluster_id).performance.[&1].total_students",
+        "@students_attended": "@(1,cluster_id).performance.[&1].students_attended",
+        "semester": "@(1,cluster_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,cluster_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]""",
+"sat_jolt_line_chart_block":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "block_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@block_name": "@(1,block_id).block_name[]",
+        "@state_performance": "@(1,block_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,block_id).performance.[&1].total_schools",
+        "@total_students": "@(1,block_id).performance.[&1].total_students",
+        "@students_attended": "@(1,block_id).performance.[&1].students_attended",
+        "semester": "@(1,block_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,block_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]"""
 }

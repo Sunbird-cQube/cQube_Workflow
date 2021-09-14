@@ -73,8 +73,10 @@ NIFI_INPUT_OUTPUT_PORTS = {
                         {'OUTPUT_PORT': 'sat_s3_time_range_overall_category_vs_management_output_port','INPUT_PORT': 'sat_s3_time_range_overall_category_vs_management_input_port'},
                         {'OUTPUT_PORT': 'sat_s3_time_range_overall_category_vs_management_output_port2','INPUT_PORT': 'sat_s3_time_range_overall_category_vs_management_input_port2'},
                         {'OUTPUT_PORT': 'sat_save_output_s3_output_port','INPUT_PORT': 'sat_save_output_s3_input_port'},
-                         {'OUTPUT_PORT': 'sat_save_output_s3_output_port2','INPUT_PORT': 'sat_save_output_s3_input_port2'},
-                         {'OUTPUT_PORT': 'sat_save-s3-log_summary_output_port','INPUT_PORT': 'sat_save-s3-log_summary_input_port'}
+                        {'OUTPUT_PORT': 'sat_save_output_s3_output_port2','INPUT_PORT': 'sat_save_output_s3_input_port2'},
+                        {'OUTPUT_PORT': 'sat_save-s3-log_summary_output_port','INPUT_PORT': 'sat_save-s3-log_summary_input_port'},
+                        {'OUTPUT_PORT': 'sat_s3_trends_output_port','INPUT_PORT': 'sat_s3_trends_input_port'}
+
                          
                         ],
        'infra_transformer': [{'OUTPUT_PORT': 'infra_s3_on_premise_output_port', 'INPUT_PORT': 'infra_s3_on_premise_input_port'},

@@ -402,7 +402,7 @@ UPDATE student_attendance_trans
 ) INSERT INTO student_attendance_trans(attendance_id,student_id,school_id,year,month,'||_column||',created_on,updated_on)
        select s.attendance_id,s.student_id,s.school_id,s.year,s.month,'||_column ||',created_on,updated_on
        from s
-       where s.attendance_id not in (select attendance_id from upd)';
+       where s.attendance_id not in (select attendance_id from upd where month=s.month and year=s.year)';
 
 us_query := 'UPDATE student_attendance_meta sam
      set day_1 = CASE WHEN day_1 = False THEN
@@ -946,4 +946,8 @@ insert into del_data_source_details values('student_attendance','month,year','sc
 
 alter table student_attendance_exception_agg add column if not exists school_management_type varchar(100);
 alter table student_attendance_exception_agg add column if not exists school_category varchar(100);
+
+
+alter table student_attendance_trans drop constraint if exists student_attendance_trans_pkey;
+alter table student_attendance_trans add primary key(attendance_id,month,year);
 
