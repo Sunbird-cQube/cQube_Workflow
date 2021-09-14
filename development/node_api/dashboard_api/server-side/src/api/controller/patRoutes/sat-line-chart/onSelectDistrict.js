@@ -21,7 +21,7 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         }
         var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var mydata = [];
-
+        console.log(stateData[year]);
         if (stateData[year]) {
             var stdPerformance = [{
                 semesterId: 1,
@@ -106,7 +106,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
         }
 
         var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
-        console.log(districtData['2401']);
         var keys = Object.keys(districtData);
         var mydata = [];
 
@@ -153,7 +152,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     students_attended: undefined
                 }
                 let distPerformance = [districtData[key].Grades['1'][grade] ? districtData[key].Grades['1'][grade] : sem1, districtData[key].Grades['2'][grade] ? districtData[key].Grades['2'][grade] : sem2];
-                console.log(distPerformance)
                 distPerformance.map(data => {
                     stdPerformance.map(item => {
                         if (item.semesterId == data.semester) {

@@ -14,7 +14,7 @@ export const environment = {
   useCase: "education_usecase",
   diksha_columns: false,
   theme: "theme1",
-  mapName: "mapmyindia"
+  mapName: "googleMap"
 };
 
 /*

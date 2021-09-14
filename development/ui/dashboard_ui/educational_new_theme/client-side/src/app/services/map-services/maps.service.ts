@@ -216,15 +216,15 @@ export class MapService {
 
   // google marker initialsation
 
-  initGoogleMapMarker(color, scale, stroke) {
+  initGoogleMapMarker(color, scale, stroke){
     var circleIcon = {
       path: google.maps.SymbolPath.CIRCLE,
-      fillColor: color,
-      fillOpacity: 1,
-      scale: scale,
-      strokeColor: 'gray',
-      strokeWeight: stroke,
-    };
-    return circleIcon;
+     fillColor: color,
+     fillOpacity: 1,
+     scale: scale,
+     strokeColor: 'gray',
+     strokeWeight: stroke,
+   };
+   return circleIcon;
   }
 }
