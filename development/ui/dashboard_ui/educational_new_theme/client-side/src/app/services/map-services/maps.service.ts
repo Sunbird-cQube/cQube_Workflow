@@ -47,7 +47,7 @@ export class MapService {
           maxZoom: this.mapCenterLatlng.zoomLevel + 10,
         }
       ).addTo(globalMap);
-    } else {
+    } else{
       globalMap = new MapmyIndia.Map(map, { hasTip: false, autoPan: false, offset: [15, 20] }, {
         zoomControl: false,
         hybrid: false,
@@ -128,7 +128,7 @@ export class MapService {
   public getInfoFrom(object, value, levelWise, reportType, infraName, colorText) {
     var popupFood = [];
     var stringLine;
-    var selected = '';
+    var selected = '<span>';
     for (var key in object) {
       if (object[key] && typeof object[key] != 'number' && typeof object[key] == 'string' && object[key].includes('%')) {
         var split = object[key].split("% ");
@@ -212,5 +212,19 @@ export class MapService {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       }
     );
+  }
+
+  // google marker initialsation
+
+  initGoogleMapMarker(color, scale, stroke){
+    var circleIcon = {
+      path: google.maps.SymbolPath.CIRCLE,
+     fillColor: color,
+     fillOpacity: 1,
+     scale: scale,
+     strokeColor: 'gray',
+     strokeWeight: stroke,
+   };
+   return circleIcon;
   }
 }

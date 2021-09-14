@@ -20,9 +20,8 @@ router.post('/stateWise', auth.authController, async (req, res) => {
             fileName = `sat/trend_line_chart/state_${year}.json`;
         }
         var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-
         var mydata = [];
-
+        console.log(stateData[year]);
         if (stateData[year]) {
             var stdPerformance = [{
                 semesterId: 1,
@@ -107,7 +106,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
         }
 
         var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
-        console.log(districtData['2401']);
         var keys = Object.keys(districtData);
         var mydata = [];
 
@@ -128,10 +126,10 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 performance: ''
             }]
             if (grade == "") {
-                districtData[year].performance.map(data => {
+                districtData[key].performance.map(data => {
                     stdPerformance.map(item => {
                         if (item.semesterId == data.semester) {
-                            item.performance = data.state_performance;
+                            item.performance = data.district_performance;
                             item.studentCount = data.total_students;
                             item.studentAttended = data.students_attended
                             item.schoolCount = data.total_schools;
@@ -139,7 +137,31 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     })
                 });
             } else {
-
+                let sem1 = {
+                    semester: 1,
+                    percentage: "",
+                    total_schools: undefined,
+                    total_students: undefined,
+                    students_attended: undefined
+                }
+                let sem2 = {
+                    semester: 2,
+                    percentage: "",
+                    total_schools: undefined,
+                    total_students: undefined,
+                    students_attended: undefined
+                }
+                let distPerformance = [districtData[key].Grades['1'][grade] ? districtData[key].Grades['1'][grade] : sem1, districtData[key].Grades['2'][grade] ? districtData[key].Grades['2'][grade] : sem2];
+                distPerformance.map(data => {
+                    stdPerformance.map(item => {
+                        if (item.semesterId == data.semester) {
+                            item.performance = data.percentage;
+                            item.studentCount = data.total_students;
+                            item.studentAttended = data.students_attended
+                            item.schoolCount = data.total_schools;
+                        }
+                    })
+                });
             }
             let obj2 = {
                 districtId: key,

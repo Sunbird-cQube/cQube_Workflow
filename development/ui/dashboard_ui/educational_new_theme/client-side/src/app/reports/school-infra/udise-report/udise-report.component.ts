@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AppServiceComponent } from "../../../app.service";
-import { MapService, globalMap } from "src/app/services/map-services/maps.service";
+import { MapService, globalMap } from '../../../services/map-services/maps.service';
 import { UdiseReportService } from "../../../services/udise-report.service";
 import { Router } from "@angular/router";
 import * as L from "leaflet";
