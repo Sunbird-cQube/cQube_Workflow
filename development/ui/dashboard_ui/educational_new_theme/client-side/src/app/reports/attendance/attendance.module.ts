@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthGuard } from 'src/app/auth.guard';
 import { ComingSoonComponent } from 'src/app/common/coming-soon/coming-soon.component';
 import { StudentAttendanceChartComponent } from './student-attendance-chart/student-attendance-chart.component';
+import { AgmCoreModule } from '@agm/core';
 
 const sttendanceRoutes: Routes = [
   {
@@ -33,7 +34,8 @@ const sttendanceRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(sttendanceRoutes)
+    RouterModule.forChild(sttendanceRoutes),
+    AgmCoreModule
   ]
 })
 export class AttendancModule { }
