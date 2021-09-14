@@ -54,7 +54,7 @@ if [[ ! "$2" = /* ]] || [[ ! -d $2 ]]; then
     echo "Error - Please enter the absolute path or make sure the directory is present."; fail=1
     base_dir_status=1
 else
-   if [[ -e "$2/cqube/.cqube_config" ]] && [[ -e "$2/cqube/conf/base_installation_config.yml" ]]; then
+   if [[ -e "$2/cqube/.cqube_config" ]] && [[ -e "$2/cqube/conf/base_config.yml" ]]; then
         dir=$(cat $2/cqube/.cqube_config | grep CQUBE_BASE_DIR )
         base_dir_path=$(cut -d "=" -f2 <<< "$dir")
         if [[ ! "$2" == "$base_dir_path" ]]; then

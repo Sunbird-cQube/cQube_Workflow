@@ -3,10 +3,10 @@
 echo "Checking for Postgres ..."
 temp=$(psql -V > /dev/null 2>&1; echo $?)
 
-base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' upgradation_config.yml)
-db_user=$(awk ''/^db_user:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_upgradation_config.yml)
-db_name=$(awk ''/^db_name:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_upgradation_config.yml)
-db_password=$(awk ''/^db_password:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_upgradation_config.yml)
+base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+db_user=$(awk ''/^db_user:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
+db_name=$(awk ''/^db_name:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
+db_password=$(awk ''/^db_password:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
 
 export PGPASSWORD=$db_password
 
@@ -24,3 +24,14 @@ if [ $temp == 0 ]; then
         fi
      fi
 fi
+
+limit=2
+i=1
+for items in `ls $base_dir/cqube/postgres/backups | sort -r`
+do
+    if ! [ $i -le $limit ]; then
+        rm $base_dir/cqube/postgres/backups/$items
+    fi
+    i=`expr $i + 1`
+done
+
