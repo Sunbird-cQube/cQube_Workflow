@@ -507,6 +507,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>sat_management_trend_line</selectedRelationships>
                     <selectedRelationships>sat_trend_line</selectedRelationships>
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
@@ -1134,7 +1135,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
-                        <id>79474e53-cc15-365c-0000-000000000000</id>
+                        <id>d1dd3898-fea1-32b2-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -2907,7 +2908,7 @@
                     </bends>
                     <destination>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
-                        <id>d838e9df-821e-3e2c-0000-000000000000</id>
+                        <id>e826fffe-1a92-3aae-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -3025,6 +3026,31 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>f10e301d-38fa-3033-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>6f67211b-519a-3afa-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>534ab5e6-c3ae-3424-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>sat_management_all_subject_footer_year_semester</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>d1dd3898-fea1-32b2-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -6849,6 +6875,31 @@
                     <source>
                         <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
                         <id>eb1a2702-5764-32dc-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>e0f6c65a-ce70-3fab-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>79474e53-cc15-365c-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>6507f9c0-8e37-3fea-0000-000000000000</groupId>
+                        <id>d1dd3898-fea1-32b2-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -16577,7 +16628,7 @@ or(${query_type:startsWith('sat_management_exam_district_last'):or(${query_type:
                             </entry>
                             <entry>
 <key>sat_management_exam_year_semester</key>
-<value>${query_type:startsWith('sat_management_exam_school_year_semester'):or(${query_type:startsWith('sat_management_exam_cluster_year_semester'):or(${query_type:startsWith('sat_management_exam_block_year_semester'):or(${query_type:startsWith('sat_management_exam_school_year_semester')})})})}</value>
+<value>${query_type:startsWith('sat_management_exam_district_year_semester'):or(${query_type:startsWith('sat_management_exam_cluster_year_semester'):or(${query_type:startsWith('sat_management_exam_block_year_semester'):or(${query_type:startsWith('sat_management_exam_school_year_semester')})})})}</value>
                             </entry>
                             <entry>
 <key>sat_management_grade_subject_footer_time_range</key>
@@ -16600,7 +16651,7 @@ or(${query_type:startsWith('sat_management_grade_district_last'):or(${query_type
                             </entry>
                             <entry>
 <key>sat_management_grade_year_semester</key>
-<value>${query_type:startsWith('sat_management_grade_school_year_semester'):or(${query_type:startsWith('sat_management_grade_cluster_year_semester'):or(${query_type:startsWith('sat_management_grade_block_year_semester'):or(${query_type:startsWith('sat_management_grade_school_year_semester')})})})}</value>
+<value>${query_type:startsWith('sat_management_grade_district_year_semester'):or(${query_type:startsWith('sat_management_grade_cluster_year_semester'):or(${query_type:startsWith('sat_management_grade_block_year_semester'):or(${query_type:startsWith('sat_management_grade_school_year_semester')})})})}</value>
                             </entry>
                             <entry>
 <key>sat_management_learning_outcome[heat charts]</key>
@@ -17522,8 +17573,8 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                     <id>62f62baa-5b45-3c60-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>5360.0</x>
-                        <y>1344.0</y>
+                        <x>5336.0</x>
+                        <y>1352.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -19015,8 +19066,12 @@ ${query_type:startsWith('sat_management_exam_district'):ifElse(#{sat_exam_distri
 ${query_type:startsWith('sat_management_grade_school'):ifElse(#{sat_grade_school_jolt_spec},
 ${query_type:startsWith('sat_management_grade_cluster'):ifElse(#{sat_grade_cluster_jolt_spec},
 ${query_type:startsWith('sat_management_grade_block'):ifElse(#{sat_grade_block_jolt_spec},
-${query_type:startsWith('sat_management_grade_district'):ifElse(#{sat_grade_district_jolt_spec},'None')}
-)} )} )} )} )} )} )}</value>
+${query_type:startsWith('sat_management_grade_district'):ifElse(#{sat_grade_district_jolt_spec},
+${query_type:startsWith('sat_management_subject_footer_district'):ifElse(#{sat_subject_footer_district_jolt_spec},
+${query_type:startsWith('sat_management_subject_footer_block'):ifElse(#{sat_subject_footer_block_jolt_spec},
+${query_type:startsWith('sat_management_subject_footer_cluster'):ifElse(#{sat_subject_footer_cluster_jolt_spec},
+${query_type:startsWith('sat_management_subject_footer_school'):ifElse(#{sat_subject_footer_school_jolt_spec},'None')}
+)} )} )} )} )} )} )})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -24178,7 +24233,7 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_update_null_
                             </entry>
                             <entry>
 <key>sat_management_exam_year_semester</key>
-<value>${query_type:startsWith('sat_management_exam_school_year_semester'):or(${query_type:startsWith('sat_management_exam_cluster_year_semester'):or(${query_type:startsWith('sat_management_exam_block_year_semester'):or(${query_type:startsWith('sat_management_exam_school_year_semester')})})})}</value>
+<value>${query_type:startsWith('sat_management_exam_district_year_semester'):or(${query_type:startsWith('sat_management_exam_cluster_year_semester'):or(${query_type:startsWith('sat_management_exam_block_year_semester'):or(${query_type:startsWith('sat_management_exam_school_year_semester')})})})}</value>
                             </entry>
                             <entry>
 <key>sat_management_grade_subject_footer_year_semester</key>
@@ -24188,7 +24243,7 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_update_null_
                             </entry>
                             <entry>
 <key>sat_management_grade_year_semester</key>
-<value>${query_type:startsWith('sat_management_grade_school_year_semester'):or(${query_type:startsWith('sat_management_grade_cluster_year_semester'):or(${query_type:startsWith('sat_management_grade_block_year_semester'):or(${query_type:startsWith('sat_management_grade_school_year_semester')})})})}</value>
+<value>${query_type:startsWith('sat_management_grade_district_year_semester'):or(${query_type:startsWith('sat_management_grade_cluster_year_semester'):or(${query_type:startsWith('sat_management_grade_block_year_semester'):or(${query_type:startsWith('sat_management_grade_school_year_semester')})})})}</value>
                             </entry>
                             <entry>
 <key>sat_management_learning_outcome_all</key>
@@ -25841,8 +25896,8 @@ ${query_type:startsWith('sat_learning_outcome_p3_cluster'):ifElse('/block_id','N
                     <id>c1e8fff5-b176-35a8-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
-                        <x>7664.0</x>
-                        <y>1112.0</y>
+                        <x>7688.0</x>
+                        <y>1136.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -27482,6 +27537,68 @@ where ff_uuid= '${files_uuid}'</value>
                     <type>org.apache.nifi.processors.standard.ReplaceText</type>
                 </processors>
                 <processors>
+                    <id>d1dd3898-fea1-32b2-0000-000000000000</id>
+                    <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8840.0</x>
+                        <y>-2680.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>sat_management_all_subject_footer_year_semester</key>
+<value>
+    <name>sat_management_all_subject_footer_year_semester</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>sat_management_all_subject_footer_year_semester</key>
+<value>${query_type:startsWith('sat_management_subject_all_footer_year_semester')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>25</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>sat_management_route_before_jolt</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_all_subject_footer_year_semester</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>d52c5493-e6bd-3b05-0000-000000000000</id>
                     <parentGroupId>6507f9c0-8e37-3fea-0000-000000000000</parentGroupId>
                     <position>
@@ -27707,6 +27824,12 @@ WHERE ff_uuid = '${files_uuid}'</value>
 </value>
                             </entry>
                             <entry>
+<key>sat_management_trend_line</key>
+<value>
+    <name>sat_management_trend_line</name>
+</value>
+                            </entry>
+                            <entry>
 <key>sat_map_report_files</key>
 <value>
     <name>sat_map_report_files</name>
@@ -27796,6 +27919,14 @@ ${query_type:startsWith('sat_learning_outcome_p3_cluster')}
 <value>${query_type:startsWith('sat_management_learning_outcome')}</value>
                             </entry>
                             <entry>
+<key>sat_management_trend_line</key>
+<value>${query_type:startsWith('sat_management_line_chart_state'):or(
+${query_type:startsWith('sat_management_district_by_semester_year'):or(
+${query_type:startsWith('sat_management_block_by_semester_year'):or(
+${query_type:startsWith('sat_management_cluster_by_semester_year'):or(
+${query_type:startsWith('sat_management_school_by_semester_year')})})})})}</value>
+                            </entry>
+                            <entry>
 <key>sat_map_report_files</key>
 <value>${query_type:startsWith('sat_exam_school_all'):or(
 ${query_type:startsWith('sat_exam_cluster_all'):or(
@@ -27872,6 +28003,10 @@ or(${query_type:startsWith('sat_school_wise')})}</value>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>sat_management_learning_outcome</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>sat_management_trend_line</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -30301,7 +30436,7 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse('subject_id,grade'
                             </entry>
                             <entry>
 <key>category</key>
-<value>/school_category</value>
+<value>/overall_category</value>
                             </entry>
                         </properties>
                         <runDurationMillis>1000</runDurationMillis>
@@ -31079,5 +31214,5 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_semester_exa
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>09/13/2021 07:03:56 IST</timestamp>
+    <timestamp>09/15/2021 17:58:37 IST</timestamp>
 </template>
