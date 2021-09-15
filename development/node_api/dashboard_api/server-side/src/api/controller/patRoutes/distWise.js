@@ -48,9 +48,9 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 }
             } else {
                 if (grade) {
-                    fileName = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/district/${grade}.json`;
+                    fileName = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/district/${grade}.json`;
                     if (subject) {
-                        footerFile = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/all_subjects_footer.json`
+                        footerFile = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/all_subjects_footer.json`
                     }
                 } else {
                     fileName = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/district.json`;
@@ -92,7 +92,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
         var footer;
         var allSubjects = [];
         districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-       console.log(districtData.data[0])
         if (period != 'all') {
             if (grade && subject) {
                 footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
