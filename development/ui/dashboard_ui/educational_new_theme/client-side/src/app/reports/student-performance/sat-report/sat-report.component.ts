@@ -237,18 +237,6 @@ export class SatReportComponent implements OnInit {
       }
     }
   }
-  // getSemesters() {
-  //   this.service.semMetaData({ period: this.period }).subscribe((res) => {
-  //     this.semesters = res["data"];
-  //     console.log(this.semesters);
-  //     if (this.semesters.length > 0)
-  //       this.semester = this.semesters[this.semesters.length - 1].id;
-  //     this.levelWiseFilter();
-  //   }, err => {
-  //     this.semesters = [];
-  // this.commonService.loaderAndErr(this.semesters);
-  //   });
-  // }
 
   onSelectYear() {
     let obj = this.years.find(a => a['academic_year'] == this.year);
@@ -260,6 +248,8 @@ export class SatReportComponent implements OnInit {
   }
 
   semSelect() {
+    this.grade = undefined;
+    this.subject = undefined;
     this.levelWiseFilter();
     this.changeDetection.detectChanges();
   }
@@ -660,7 +650,7 @@ export class SatReportComponent implements OnInit {
 
                     for (let i = 0; i < this.blockMarkers.length; i++) {
                       if (this.period != 'all') {
-                        if (this.grade && !this.subject) {
+                        if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
                           this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
                           this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
                           this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
@@ -675,7 +665,7 @@ export class SatReportComponent implements OnInit {
                             this.blockMarkers.splice(index, 1);
                           }
                         }
-                        if (this.grade) {
+                        if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
                           this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
                           this.allSubjects.map(sub => {
                             if (this.blockMarkers[i].Subjects[`${sub}`])
@@ -867,7 +857,7 @@ export class SatReportComponent implements OnInit {
 
                     for (let i = 0; i < this.clusterMarkers.length; i++) {
                       if (this.period != 'all') {
-                        if (this.grade && !this.subject) {
+                        if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
                           this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
                           this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
                           this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
@@ -882,7 +872,7 @@ export class SatReportComponent implements OnInit {
                             this.clusterMarkers.splice(index, 1);
                           }
                         }
-                        if (this.grade) {
+                        if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
                           this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
                           this.allSubjects.map(sub => {
                             if (this.clusterMarkers[i].Subjects[`${sub}`])
@@ -1072,7 +1062,7 @@ export class SatReportComponent implements OnInit {
 
                     for (let i = 0; i < this.schoolMarkers.length; i++) {
                       if (this.period != 'all') {
-                        if (this.grade && !this.subject) {
+                        if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
                           this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
                           this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
                           this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
@@ -1087,7 +1077,7 @@ export class SatReportComponent implements OnInit {
                             this.schoolMarkers.splice(index, 1);
                           }
                         }
-                        if (this.grade) {
+                        if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
                           this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
                           this.allSubjects.map(sub => {
                             if (this.schoolMarkers[i].Subjects[`${sub}`])
