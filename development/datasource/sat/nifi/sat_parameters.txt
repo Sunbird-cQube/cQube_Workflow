@@ -1750,7 +1750,7 @@ or obtained_marks IS NULL""",
     "spec": {
       "*": {
         "@school_name": "@(1,school_id).school_name[]",
-        "@state_performance": "@(1,school_id).performance.[&1].district_performance",
+        "@school_performance": "@(1,school_id).performance.[&1].district_performance",
         "@total_schools": "@(1,school_id).performance.[&1].total_schools",
         "@total_students": "@(1,school_id).performance.[&1].total_students",
         "@students_attended": "@(1,school_id).performance.[&1].students_attended",
@@ -1777,7 +1777,7 @@ or obtained_marks IS NULL""",
     "spec": {
       "*": {
         "@district_name": "@(1,district_id).district_name[]",
-        "@state_performance": "@(1,district_id).performance.[&1].district_performance",
+        "@district_performance": "@(1,district_id).performance.[&1].district_performance",
         "@total_schools": "@(1,district_id).performance.[&1].total_schools",
         "@total_students": "@(1,district_id).performance.[&1].total_students",
         "@students_attended": "@(1,district_id).performance.[&1].students_attended",
@@ -1804,7 +1804,7 @@ or obtained_marks IS NULL""",
     "spec": {
       "*": {
         "@cluster_name": "@(1,cluster_id).cluster_name[]",
-        "@state_performance": "@(1,cluster_id).performance.[&1].district_performance",
+        "@cluster_performance": "@(1,cluster_id).performance.[&1].district_performance",
         "@total_schools": "@(1,cluster_id).performance.[&1].total_schools",
         "@total_students": "@(1,cluster_id).performance.[&1].total_students",
         "@students_attended": "@(1,cluster_id).performance.[&1].students_attended",
@@ -1831,7 +1831,7 @@ or obtained_marks IS NULL""",
     "spec": {
       "*": {
         "@block_name": "@(1,block_id).block_name[]",
-        "@state_performance": "@(1,block_id).performance.[&1].district_performance",
+        "@block_performance": "@(1,block_id).performance.[&1].district_performance",
         "@total_schools": "@(1,block_id).performance.[&1].total_schools",
         "@total_students": "@(1,block_id).performance.[&1].total_students",
         "@students_attended": "@(1,block_id).performance.[&1].students_attended",
