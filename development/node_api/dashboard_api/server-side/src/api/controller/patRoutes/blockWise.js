@@ -153,7 +153,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
                     footerFile = `${report}/school_management_category/${academic_year}/${month}/overall_category/${management}/district/grade_subject_footer.json`;
                 }
             } else {
-                fileName = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/block.json`;
+                fileName = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/block.json`;
                 footerFile = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/district/grade_subject_footer.json`;
             }
         } else {
@@ -167,7 +167,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
                 }
             } else {
                 fileName = `${report}/${academic_year}/${semester}/block/block.json`;
-                footerFile = `${report}/${period}/district/${semester}/grade_subject_footer.json`;
+                footerFile = `${report}/${academic_year}/${semester}/block/grade_subject_footer.json`;
             }
         }
         var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
