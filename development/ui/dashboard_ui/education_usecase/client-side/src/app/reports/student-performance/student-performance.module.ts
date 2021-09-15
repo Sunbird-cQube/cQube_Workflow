@@ -11,6 +11,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { SatReportComponent } from './sat-report/sat-report.component';
 import { SatHeatChartComponent } from './sat-heat-chart/sat-heat-chart.component';
 import { SatTrendsChartComponent } from './sat-trends-chart/sat-trends-chart.component';
+import { AgmCoreModule } from '@agm/core';
 
 const performRoute: Routes = [
   {
@@ -53,7 +54,8 @@ const performRoute: Routes = [
     CommonModule,
     FormsModule,
     NgbPaginationModule,
-    RouterModule.forChild(performRoute)
+    RouterModule.forChild(performRoute),
+    AgmCoreModule
   ]
 })
 export class StudentPerformanceModule { }

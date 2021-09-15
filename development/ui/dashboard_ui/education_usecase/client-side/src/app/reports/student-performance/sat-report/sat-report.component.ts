@@ -92,6 +92,8 @@ export class SatReportComponent implements OnInit {
   allSubjects = [];
   grade;
   subject;
+  mapName;
+  googleMapZoom = 7;
 
   distFilter = [];
   blockFilter = [];
@@ -153,12 +155,16 @@ export class SatReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mapName = this.commonService.mapName;
     this.period = "last_30_days";
     this.state = this.commonService.state;
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("satMap", [[this.lat, this.lng]]);
+    if (this.mapName == 'googlemap') {
+      document.getElementById('leafletMap').style.display = "none";
+    }
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
@@ -270,7 +276,7 @@ export class SatReportComponent implements OnInit {
           }, ...{ management: this.management, category: this.category }
         })
         .subscribe((res) => {
-          this.data = res["data"];
+          this.markers = this.data = res["data"];
           this.allDistricts = this.districtMarkers = this.data;
           this.allDistricts.sort((a, b) =>
             a.Details.district_name > b.Details.district_name
@@ -300,7 +306,7 @@ export class SatReportComponent implements OnInit {
         }, ...{ management: this.management, category: this.category }
       })
       .subscribe((res) => {
-        this.data = res["data"];
+        this.markers = this.data = res["data"];
         this.allBlocks = this.blockMarkers = this.data;
 
         if (!this.blockMarkers[0]["Subjects"]) {
@@ -323,7 +329,7 @@ export class SatReportComponent implements OnInit {
         }, ...{ management: this.management, category: this.category }
       })
       .subscribe((res) => {
-        this.data = res["data"];
+        this.markers = this.data = res["data"];
         this.allClusters = this.clusterMarkers = this.data;
 
         if (!this.clusterMarkers[0]["Subjects"]) {
@@ -408,6 +414,15 @@ export class SatReportComponent implements OnInit {
     this.onSelectYear();
   }
 
+  // google maps
+  mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
+    infoWindow.open();
+  }
+
+  mouseOutOnmaker(infoWindow, $event: MouseEvent) {
+    infoWindow.close();
+  }
+
   // to load all the districts for state data on the map
   districtWise() {
     try {
@@ -425,7 +440,7 @@ export class SatReportComponent implements OnInit {
       }
       this.reportData = [];
       this.level = "District";
-
+      this.googleMapZoom = 7;
       this.valueRange = undefined;
       this.selectedIndex = undefined;
       this.deSelect();
@@ -472,7 +487,7 @@ export class SatReportComponent implements OnInit {
               .subscribe(
                 (res) => {
                   this.myDistData = res;
-                  this.data = res["data"];
+                  this.markers = this.data = res["data"];
                   if (this.grade) {
                     this.allSubjects = res['subjects'];
                   }
@@ -566,6 +581,7 @@ export class SatReportComponent implements OnInit {
       this.districtId = undefined;
       this.blockId = undefined;
       this.level = "Block";
+      this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
         }_${this.subject ? this.subject : ""}_allBlocks_${this.commonService.dateAndTime
         }`;
@@ -618,7 +634,7 @@ export class SatReportComponent implements OnInit {
               .subscribe(
                 (res) => {
                   this.myBlockData = res["data"];
-                  this.data = res["data"];
+                  this.markers = this.data = res["data"];
                   if (this.grade) {
                     this.allSubjects = res['subjects'];
                   }
@@ -697,7 +713,7 @@ export class SatReportComponent implements OnInit {
                         );
                       }
 
-                      var markerIcon = this.attachColorsToMarkers(this.blockMarkers[i], color, this.colors, 0.01, 1, options.level);
+                      var markerIcon = this.attachColorsToMarkers(this.blockMarkers[i], color, this.colors, 4, 0.01, 1, options.level);
                       this.generateToolTip(
                         this.blockMarkers[i],
                         options.level,
@@ -775,6 +791,7 @@ export class SatReportComponent implements OnInit {
       this.blockId = undefined;
       this.clusterId = undefined;
       this.level = "Cluster";
+      this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
         }_${this.subject ? this.subject : ""}_allClusters_${this.commonService.dateAndTime
         }`;
@@ -826,7 +843,7 @@ export class SatReportComponent implements OnInit {
               })
               .subscribe(
                 (res) => {
-                  this.data = res["data"];
+                  this.markers = this.data = res["data"];
                   if (this.grade) {
                     this.allSubjects = res['subjects'];
                   }
@@ -904,7 +921,7 @@ export class SatReportComponent implements OnInit {
                         );
                       }
 
-                      var markerIcon = this.attachColorsToMarkers(this.clusterMarkers[i], color, this.colors, 0.01, 0.5, options.level);
+                      var markerIcon = this.attachColorsToMarkers(this.clusterMarkers[i], color, this.colors, 2, 0.01, 0.5, options.level);
                       this.generateToolTip(
                         this.clusterMarkers[i],
                         options.level,
@@ -983,6 +1000,7 @@ export class SatReportComponent implements OnInit {
       this.blockId = undefined;
       this.clusterId = undefined;
       this.level = "School";
+      this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
         }_${this.subject ? this.subject : ""}_allSchools_${this.commonService.dateAndTime
         }`;
@@ -1034,7 +1052,7 @@ export class SatReportComponent implements OnInit {
               })
               .subscribe(
                 (res) => {
-                  this.data = res["data"];
+                  this.markers = this.data = res["data"];
                   if (this.grade) {
                     this.allSubjects = res['subjects'];
                   }
@@ -1109,7 +1127,7 @@ export class SatReportComponent implements OnInit {
                         );
                       }
 
-                      var markerIcon = this.attachColorsToMarkers(this.schoolMarkers[i], color, this.colors, 0, 0.3, options.level);
+                      var markerIcon = this.attachColorsToMarkers(this.schoolMarkers[i], color, this.colors, 1, 0, 0.3, options.level);
                       this.generateToolTip(
                         this.schoolMarkers[i],
                         options.level,
@@ -1184,6 +1202,7 @@ export class SatReportComponent implements OnInit {
     this.blockId = undefined;
     this.reportData = [];
     this.level = "blockPerDistrict";
+    this.googleMapZoom = 9;
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
     var myData = this.distFilter.find(
@@ -1210,7 +1229,7 @@ export class SatReportComponent implements OnInit {
       })
       .subscribe(
         (res) => {
-          this.data = res["data"];
+          this.markers = this.data = res["data"];
           this.allGrades = res['grades'];
           if (this.grade)
             this.allSubjects = res['subjects'];
@@ -1307,6 +1326,7 @@ export class SatReportComponent implements OnInit {
     this.clusterId = undefined;
     this.reportData = [];
     this.level = "clusterPerBlock";
+    this.googleMapZoom = 11;
     this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_clusters_of_block_${blockId}_${this.commonService.dateAndTime
       }`;
@@ -1331,7 +1351,7 @@ export class SatReportComponent implements OnInit {
       })
       .subscribe(
         (res) => {
-          this.data = res["data"];
+          this.markers = this.data = res["data"];
           this.allGrades = res['grades'];
           if (this.grade)
             this.allSubjects = res['subjects'];
@@ -1437,6 +1457,7 @@ export class SatReportComponent implements OnInit {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.level = "schoolPerCluster";
+    this.googleMapZoom = 13;
     if (this.level != "schoolPerCluster") {
       this.subjectHidden = true;
       this.grade = undefined;
@@ -1480,7 +1501,7 @@ export class SatReportComponent implements OnInit {
             )
             .subscribe(
               (res) => {
-                this.data = res["data"];
+                this.markers = this.data = res["data"];
                 this.allGrades = res['grades'];
                 if (this.grade)
                   this.allSubjects = res['subjects'];
@@ -1598,97 +1619,97 @@ export class SatReportComponent implements OnInit {
       var color;
       var colors = [];
       this.allSubjects.sort();
-      if (data.length > 0) {
-        this.markers = data;
-        if (this.grade && this.subject) {
-          var filtererSubData = this.markers.filter(item => {
-            return item.Subjects[`${this.subject}`];
-          })
-          this.markers = filtererSubData;
-        }
-        for (let i = 0; i < this.markers.length; i++) {
-          if (this.period != 'all' && !this.valueRange) {
-            if (this.grade && !this.subject && this.markers[i].Subjects['Grade Performance']) {
-              this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
-              this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
-              this.markers[i].Details['total_schools'] = this.markers[i].Subjects['Grade Performance']['total_schools'];
+      // if (data.length > 0) {
+      this.markers = data;
+      if (this.grade && this.subject) {
+        var filtererSubData = this.markers.filter(item => {
+          return item.Subjects[`${this.subject}`];
+        })
+        this.markers = filtererSubData;
+      }
+      for (let i = 0; i < this.markers.length; i++) {
+        if (this.period != 'all' && !this.valueRange) {
+          if (this.grade && !this.subject && this.markers[i].Subjects['Grade Performance']) {
+            this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
+            this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
+            this.markers[i].Details['total_schools'] = this.markers[i].Subjects['Grade Performance']['total_schools'];
+          }
+          if (this.grade && this.subject) {
+            if (this.markers[i].Subjects[`${this.subject}`]) {
+              this.markers[i].Details['total_students'] = this.markers[i].Subjects[`${this.subject}`]['total_students'];
+              this.markers[i].Details['students_attended'] = this.markers[i].Subjects[`${this.subject}`]['students_attended'];
+              this.markers[i].Details['total_schools'] = this.markers[i].Subjects[`${this.subject}`]['total_schools'];
+            } else {
+              let index = this.markers.indexOf(this.markers[i]);
+              this.markers.splice(index, 1);
             }
-            if (this.grade && this.subject) {
-              if (this.markers[i].Subjects[`${this.subject}`]) {
-                this.markers[i].Details['total_students'] = this.markers[i].Subjects[`${this.subject}`]['total_students'];
-                this.markers[i].Details['students_attended'] = this.markers[i].Subjects[`${this.subject}`]['students_attended'];
-                this.markers[i].Details['total_schools'] = this.markers[i].Subjects[`${this.subject}`]['total_schools'];
-              } else {
-                let index = this.markers.indexOf(this.markers[i]);
-                this.markers.splice(index, 1);
-              }
-            }
-            if (this.grade) {
-              if (this.level != 'Block' && this.level != 'Cluster' && this.level != 'School' && this.markers[i].Subjects['Grade Performance']) {
+          }
+          if (this.grade) {
+            if (this.level != 'Block' && this.level != 'Cluster' && this.level != 'School' && this.markers[i].Subjects['Grade Performance']) {
+              this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
+              this.allSubjects.map(sub => {
+                if (this.markers[i].Subjects[`${sub}`])
+                  this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
+              })
+            } else {
+              if (this.markers[i].Subjects['Grade Performance']) {
                 this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
                 this.allSubjects.map(sub => {
                   if (this.markers[i].Subjects[`${sub}`])
                     this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
                 })
-              } else {
-                if (this.markers[i].Subjects['Grade Performance']) {
-                  this.markers[i].Subjects['Grade Performance'] = this.markers[i].Subjects['Grade Performance']['percentage']
-                  this.allSubjects.map(sub => {
-                    if (this.markers[i].Subjects[`${sub}`])
-                      this.markers[i].Subjects[`${sub}`] = this.markers[i].Subjects[`${sub}`]['percentage']
-                  })
-                }
               }
-            } else if (!this.grade && !this.subject) {
-              this.allGrades.map(grade => {
-                var myGrade = grade.grade;
-                if (this.markers[i]['Grade Wise Performance'][`${myGrade}`])
-                  this.markers[i]['Grade Wise Performance'][`${myGrade}`] = this.markers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-              })
             }
+          } else if (!this.grade && !this.subject) {
+            this.allGrades.map(grade => {
+              var myGrade = grade.grade;
+              if (this.markers[i]['Grade Wise Performance'][`${myGrade}`])
+                this.markers[i]['Grade Wise Performance'][`${myGrade}`] = this.markers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+            })
           }
-          if (!this.grade && !this.subject) {
-            color = this.commonService.color(
-              this.markers[i].Details,
-              "Performance"
-            );
-          } else if (this.grade && !this.subject) {
-            color = this.commonService.color(
-              this.markers[i].Subjects,
-              "Grade Performance"
-            );
-          } else if (this.grade && this.subject) {
-            color = this.commonService.color(
-              this.markers[i].Subjects,
-              `${this.subject}`
-            );
-          }
-          colors.push(color);
         }
-
-        if (this.selected != "absolute") {
-          this.colors = this.generateRelativeColors(this.markers)
-        }
-
-        // attach values to markers
-        for (let i = 0; i < this.markers.length; i++) {
-          var markerIcon = this.attachColorsToMarkers(this.markers[i], colors[i], this.colors, options.strokeWeight, 1, options.level);
-          // data to show on the tooltip for the desired levels
-          this.generateToolTip(
-            this.markers[i],
-            options.level,
-            markerIcon,
-            "latitude",
-            "longitude"
+        if (!this.grade && !this.subject) {
+          color = this.commonService.color(
+            this.markers[i].Details,
+            "Performance"
           );
-
-          // to download the report
-          this.fileName = fileName;
-          this.getDownloadableData(this.markers[i], options.level);
+        } else if (this.grade && !this.subject) {
+          color = this.commonService.color(
+            this.markers[i].Subjects,
+            "Grade Performance"
+          );
+        } else if (this.grade && this.subject) {
+          color = this.commonService.color(
+            this.markers[i].Subjects,
+            `${this.subject}`
+          );
         }
-        this.commonService.loaderAndErr(this.data);
-        this.changeDetection.detectChanges();
+        colors.push(color);
       }
+
+      if (this.selected != "absolute") {
+        this.colors = this.generateRelativeColors(this.markers)
+      }
+
+      // attach values to markers
+      for (let i = 0; i < this.markers.length; i++) {
+        var markerIcon = this.attachColorsToMarkers(this.markers[i], colors[i], this.colors, 6, options.strokeWeight, 1, options.level);
+        // data to show on the tooltip for the desired levels
+        this.generateToolTip(
+          this.markers[i],
+          options.level,
+          markerIcon,
+          "latitude",
+          "longitude"
+        );
+
+        // to download the report
+        this.fileName = fileName;
+        this.getDownloadableData(this.markers[i], options.level);
+      }
+      this.commonService.loaderAndErr(this.data);
+      this.changeDetection.detectChanges();
+      // }
     } catch (e) {
       console.log(e);
       this.errorHandling();
@@ -1717,8 +1738,36 @@ export class SatReportComponent implements OnInit {
   }
 
   //Attach colors to markers.........
-  attachColorsToMarkers(marker, color, colors, strock, border, level) {
+  attachColorsToMarkers(marker, color, colors, radius, strock, border, level) {
     if (marker != undefined) {
+      // google map circle icon
+      if (this.mapName == "googlemap") {
+        let markerColor = this.selected == "absolute"
+          ? color
+          : this.commonService.relativeColorGredient(
+            marker,
+            {
+              value: this.grade
+                ? marker.Subjects
+                  ? "Grade Performance"
+                  : this.grade
+                : this.grade && this.subject
+                  ? this.subject
+                  : "Performance",
+              selected: this.grade
+                ? "G"
+                : this.grade && this.subject
+                  ? "GS"
+                  : "all",
+              report: "reports",
+            },
+            colors
+          );
+
+        marker['icon'] = this.globalService.initGoogleMapMarker(markerColor, radius, border);
+      }
+
+
       var icon = this.globalService.initMarkers1(
         marker.Details.latitude,
         marker.Details.longitude,
@@ -1973,19 +2022,29 @@ export class SatReportComponent implements OnInit {
             .join(" <br>");
         }
       }
-      const popup = R.responsivePopup({
-        hasTip: false,
-        autoPan: false,
-        offset: [15, 20],
-      }).setContent(
-        "<b><u>Details</u></b>" +
+      var toolTip = "<b><u>Details</u></b>" +
         "<br>" +
         yourData1 +
         "<br><br><b><u>Semester Exam Score (%)</u></b>" +
         "<br>" +
-        yourData
-      );
-      markerIcon.addTo(globalMap).bindPopup(popup);
+        yourData;
+      if (this.mapName != 'googlemap') {
+        const popup = R.responsivePopup({
+          hasTip: false,
+          autoPan: false,
+          offset: [15, 20],
+        }).setContent(
+          "<b><u>Details</u></b>" +
+          "<br>" +
+          yourData1 +
+          "<br><br><b><u>Semester Exam Score (%)</u></b>" +
+          "<br>" +
+          yourData
+        );
+        markerIcon.addTo(globalMap).bindPopup(popup);
+      } else {
+        markers['label'] = toolTip;
+      }
     }
   }
 
@@ -2023,6 +2082,30 @@ export class SatReportComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
+    if (data.district_id && !data.block_id && !data.cluster_id) {
+      this.stateLevel = 1;
+      this.onDistrictSelect(data.district_id);
+    }
+    if (data.district_id && data.block_id && !data.cluster_id) {
+      this.stateLevel = 1;
+      this.districtHierarchy = {
+        distId: data.district_id,
+      };
+      this.onBlockSelect(data.block_id);
+    }
+    if (data.district_id && data.block_id && data.cluster_id) {
+      this.stateLevel = 1;
+      this.blockHierarchy = {
+        distId: data.district_id,
+        blockId: data.block_id,
+      };
+      this.onClusterSelect(data.cluster_id);
+    }
+  }
+
+  // clickMarker for Google map
+  onClick_AgmMarker(event, marker) {
+    var data = marker.Details;
     if (data.district_id && !data.block_id && !data.cluster_id) {
       this.stateLevel = 1;
       this.onDistrictSelect(data.district_id);

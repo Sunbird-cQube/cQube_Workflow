@@ -82,6 +82,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   public month;
   public element;
   params: any;
+  mapName;
+  googleMapZoom;
   yearMonth = true;
 
   timeRange = [
@@ -117,11 +119,15 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mapName = this.commonService.mapName
     this.state = this.commonService.state;
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("sarExpMap", [[this.lat, this.lng]]);
+    if (this.mapName == 'googlemap') {
+      document.getElementById('leafletMap').style.display = "none";
+    }
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -373,9 +379,19 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     //document.getElementById("home").style.display = "none";
   }
 
+  // google maps tooltip hover effect
+  mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
+    infoWindow.open();
+  }
+
+  mouseOutOnmaker(infoWindow, $event: MouseEvent) {
+    infoWindow.close();
+  }
+
   async districtWise() {
     this.commonAtStateLevel();
     this.level = "District";
+    this.googleMapZoom = 7;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -411,6 +427,21 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   id: this.markers[i]["district_id"],
                   name: this.markers[i]["district_name"],
                 });
+
+                // google map circle icon
+
+                if (this.mapName == "googlemap") {
+                  let markerColor = this.commonService.relativeColorGredient(
+                    sorted[i],
+                    {
+                      value: "percentage_schools_with_missing_data",
+                      report: "exception",
+                    },
+                    colors
+                  )
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                }
+
                 var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -479,6 +510,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
     this.commonAtStateLevel();
     this.level = "Block";
+    this.googleMapZoom = 7;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -515,6 +547,20 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["dist"],
                 });
+
+                // google map circle icon
+
+                if (this.mapName == "googlemap") {
+                  let markerColor = this.commonService.relativeColorGredient(
+                    sorted[i],
+                    {
+                      value: "percentage_schools_with_missing_data",
+                      report: "exception",
+                    },
+                    colors
+                  )
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 3.5, 1);
+                }
                 var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -581,6 +627,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     }
     this.commonAtStateLevel();
     this.level = "Cluster";
+    this.googleMapZoom = 7;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -632,6 +679,20 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["district_id"],
                 });
+
+                // google map circle icon
+
+                if (this.mapName == "googlemap") {
+                  let markerColor = this.commonService.relativeColorGredient(
+                    sorted[i],
+                    {
+                      value: "percentage_schools_with_missing_data",
+                      report: "exception",
+                    },
+                    colors
+                  )
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.5);
+                }
                 var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -704,6 +765,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     }
     this.commonAtStateLevel();
     this.level = "School";
+    this.googleMapZoom = 11;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -730,6 +792,20 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             if (this.markers.length !== 0) {
               for (let i = 0; i < this.markers.length; i++) {
                 this.districtsIds.push(sorted[i]["district_id"]);
+                // google map circle icon
+
+                if (this.mapName == "googlemap") {
+                  let markerColor = this.commonService.relativeColorGredient(
+                    sorted[i],
+                    {
+                      value: "percentage_schools_with_missing_data",
+                      report: "exception",
+                    },
+                    "red"
+                  )
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                }
+
                 var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
@@ -904,6 +980,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clickedMarker(event, marker.myJsonData);
   }
 
+  // clickMarker for Google map
+  onClick_AgmMarker(event, marker) {
+    this.markerData = marker;
+    this.clickedMarker(event, marker);
+  }
+
   distSelect(event, data) {
     var distData: any = {};
     this.districtData.find((a) => {
@@ -1011,6 +1093,20 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 id: this.markers[i]["block_id"],
                 name: this.markers[i]["block_name"],
               });
+
+              // google map circle icon
+
+              if (this.mapName == "googlemap") {
+                let markerColor = this.commonService.relativeColorGredient(
+                  sorted[i],
+                  {
+                    value: "percentage_schools_with_missing_data",
+                    report: "exception",
+                  },
+                  colors
+                )
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+              }
               var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
@@ -1201,6 +1297,21 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   blockId: sorted[i]["block_id"],
                 });
               }
+
+              // google map circle icon
+
+              if (this.mapName == "googlemap") {
+                let markerColor = this.commonService.relativeColorGredient(
+                  sorted[i],
+                  {
+                    value: "percentage_schools_with_missing_data",
+                    report: "exception",
+                  },
+                  colors
+                )
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+              }
+
               var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
@@ -1413,7 +1524,23 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               report: "exception",
             });
             this.markers = sorted;
+
             for (var i = 0; i < sorted.length; i++) {
+
+              // google map circle icon
+
+              if (this.mapName == "googlemap") {
+                let markerColor = this.commonService.relativeColorGredient(
+                  sorted[i],
+                  {
+                    value: "percentage_schools_with_missing_data",
+                    report: "exception",
+                  },
+                  colors
+                )
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+              }
+              // marker init
               var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
@@ -1507,8 +1634,15 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }
     });
 
+    let gmapObj = {};
+    Object.keys(orgObject).forEach((key) => {
+      if (key !== "icon") {
+        gmapObj[key] = orgObject[key];
+      }
+    })
+
     var yourData = this.globalService.getInfoFrom(
-      orgObject,
+      this.mapName == "googlemap" ? gmapObj : orgObject,
       "attendance",
       levelWise,
       "std-attd",
@@ -1516,12 +1650,18 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       undefined
     )
       .join(" <br>");
-    const popup = R.responsivePopup({
-      hasTip: false,
-      autoPan: false,
-      offset: [15, 20],
-    }).setContent(yourData);
-    markerIcon.addTo(globalMap).bindPopup(popup);
+    if (this.mapName == 'leafletMap') {
+      const popup = R.responsivePopup({
+        hasTip: false,
+        autoPan: false,
+        offset: [15, 20],
+      }).setContent(yourData);
+      markerIcon.addTo(globalMap).bindPopup(popup);
+    } else {
+      // this.googleTooltip.push(yourData)
+      markers['label'] = yourData;
+
+    }
   }
 
   getTelemetryData(data, event, level) { }

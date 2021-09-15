@@ -31,16 +31,6 @@ export class MapService {
   initMap(map, maxBounds) {
     if (this.mapName == 'leafletMap') {
       globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-      var data = mapData.default;
-      function applyCountryBorder(map) {
-        L.geoJSON(data[`${environment.stateName}`]['features'], {
-          color: "#6e6d6d",
-          weight: 2,
-          fillOpacity: 0,
-          fontWeight: "bold"
-        }).addTo(map);
-      }
-      applyCountryBorder(globalMap);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {
           subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -53,6 +43,16 @@ export class MapService {
         hybrid: false,
       }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
     }
+    var data = mapData.default;
+    function applyCountryBorder(map) {
+      L.geoJSON(data[`${environment.stateName}`]['features'], {
+        color: "#6e6d6d",
+        weight: 2,
+        fillOpacity: 0,
+        fontWeight: "bold"
+      }).addTo(map);
+    }
+    applyCountryBorder(globalMap);
   }
 
   restrictZoom(globalMap) {
