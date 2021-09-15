@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row reportHeader">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <div class="row" (window:resize)="commonService.onResize(level); onResize()">
+      <div class="row" (window:resize)="globalService.onResize(level); onResize()">
         <div class="col-sm-8">
           <div *ngIf="skul">
             <p id="dist">

@@ -111,5 +111,34 @@ export class PatReportService {
     this.service.logoutOnTokenExpire();
     return this.http.get(`${this.baseUrl}/pat/getYears`);
   }
+
+  //SAT line chart
+  getStateData(data) {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/sat-line-chart/stateWise`, data);
+  }
+
+  getDistrictData(data) {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/sat-line-chart/distWise`, data);
+  }
+
+  getBlockData(data) {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/sat-line-chart/blockWise`, data);
+  }
+
+  getClusterData(data) {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/sat-line-chart/clusterWise`, data);
+  }
+  getSchoolData(data) {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/sat-line-chart/schoolWise`, data);
+  }
+  getAcademicYears() {
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/line-chart/getDateRange`);
+  }
 }
 

@@ -88,7 +88,7 @@ router.post('/allClusterWise', auth.authController, async (req, res) => {
         var allSubjects = [];
         if (period != 'all') {
             if (subject) {
-                footerData = await s3File.readS3File(footerFile);
+                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
                 subjects();
             }
             if (grade && !subject || !grade && !subject) {
@@ -192,7 +192,7 @@ router.post('/clusterWise/:distId/:blockId', auth.authController, async (req, re
         var footer;
         if (period != 'all') {
             if (grad)
-                footerData = await s3File.readS3File(footerFile);
+                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
             if (grad && !subject) {
                 if (footerData && footerData[blockId])
                     footer = footerData[blockId][grad];

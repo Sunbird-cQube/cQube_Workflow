@@ -1758,7 +1758,12 @@ or obtained_marks IS NULL""",
         "@grade_wise_performance": "@(1,school_id).Grades.@(1,semester)"
       }
     }
-	}
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
  ]""",
 "sat_jolt_line_chart_district":"""[{
     "operation": "modify-overwrite-beta",
@@ -1780,7 +1785,12 @@ or obtained_marks IS NULL""",
         "@grade_wise_performance": "@(1,district_id).Grades.@(1,semester)"
       }
     }
-	}
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
  ]""",
 "sat_jolt_line_chart_cluster":"""[{
     "operation": "modify-overwrite-beta",
@@ -1802,7 +1812,12 @@ or obtained_marks IS NULL""",
         "@grade_wise_performance": "@(1,cluster_id).Grades.@(1,semester)"
       }
     }
-	}
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
  ]""",
 "sat_jolt_line_chart_block":"""[{
     "operation": "modify-overwrite-beta",
@@ -1824,6 +1839,11 @@ or obtained_marks IS NULL""",
         "@grade_wise_performance": "@(1,block_id).Grades.@(1,semester)"
       }
     }
-	}
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
  ]"""
 }

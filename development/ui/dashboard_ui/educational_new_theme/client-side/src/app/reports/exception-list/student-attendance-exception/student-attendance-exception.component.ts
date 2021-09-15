@@ -11,7 +11,8 @@ import { Router } from "@angular/router";
 import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
 import { KeycloakSecurityService } from "../../../keycloak-security.service";
-import { AppServiceComponent, globalMap } from "../../../app.service";
+import { AppServiceComponent } from "../../../app.service";
+import { MapService, globalMap } from '../../../services/map-services/maps.service';
 declare const $;
 
 @Component({
@@ -104,7 +105,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     public keyCloakSevice: KeycloakSecurityService,
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
-    private readonly _router: Router
+    private readonly _router: Router,
+    public globalService: MapService,
   ) { }
 
   width = window.innerWidth;
@@ -116,10 +118,10 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+    this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+    this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("sarExpMap", [[this.lat, this.lng]]);
+    this.globalService.initMap("sarExpMap", [[this.lat, this.lng]]);
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -409,7 +411,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   id: this.markers[i]["district_id"],
                   name: this.markers[i]["district_name"],
                 });
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.commonService.relativeColorGredient(
@@ -439,12 +441,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             );
             this.districtsNames = distNames;
 
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
             globalMap.setMaxBounds([
               [this.lat - 4.5, this.lng - 6],
               [this.lat + 3.5, this.lng + 6],
             ]);
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
             this.schoolCount = this.schoolCount
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -513,7 +515,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["dist"],
                 });
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.commonService.relativeColorGredient(
@@ -541,12 +543,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               );
               this.blocksNames = blockNames;
 
-              this.commonService.restrictZoom(globalMap);
+              this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              this.commonService.onResize(this.level);
+              this.globalService.onResize(this.level);
               this.schoolCount = this.schoolCount
                 .toString()
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -630,7 +632,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   name: this.markers[i]["block_name"],
                   distId: this.markers[i]["district_id"],
                 });
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.commonService.relativeColorGredient(
@@ -663,12 +665,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               );
               this.blocksNames = blockNames;
 
-              this.commonService.restrictZoom(globalMap);
+              this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              this.commonService.onResize(this.level);
+              this.globalService.onResize(this.level);
               this.schoolCount = this.schoolCount
                 .toString()
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -728,7 +730,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             if (this.markers.length !== 0) {
               for (let i = 0; i < this.markers.length; i++) {
                 this.districtsIds.push(sorted[i]["district_id"]);
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   "red",
@@ -751,7 +753,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 [this.lat - 4.5, this.lng - 6],
                 [this.lat + 3.5, this.lng + 6],
               ]);
-              this.commonService.onResize(this.level);
+              this.globalService.onResize(this.level);
               this.schoolCount = this.markers.length
                 .toString()
                 .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -797,8 +799,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.title = "";
     this.titleName = "";
     this.clustName = "";
-    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+    this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+    this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
@@ -986,10 +988,10 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
+            this.globalService.latitude = this.lat = Number(
               this.mylatlngData[0]["lat"]
             );
-            this.commonService.longitude = this.lng = Number(
+            this.globalService.longitude = this.lng = Number(
               this.mylatlngData[0]["lng"]
             );
 
@@ -1009,7 +1011,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 id: this.markers[i]["block_id"],
                 name: this.markers[i]["block_name"],
               });
-              var markerIcon = this.commonService.initMarkers1(
+              var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.commonService.relativeColorGredient(
@@ -1037,12 +1039,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             );
             this.blocksNames = blokName;
 
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
             this.schoolCount = this.schoolCount
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -1166,10 +1168,10 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
+            this.globalService.latitude = this.lat = Number(
               this.mylatlngData[0]["lat"]
             );
-            this.commonService.longitude = this.lng = Number(
+            this.globalService.longitude = this.lng = Number(
               this.mylatlngData[0]["lng"]
             );
             var clustNames = [];
@@ -1199,7 +1201,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                   blockId: sorted[i]["block_id"],
                 });
               }
-              var markerIcon = this.commonService.initMarkers1(
+              var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.commonService.relativeColorGredient(
@@ -1228,12 +1230,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             );
             this.clusterNames = clustNames;
 
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
             globalMap.setMaxBounds([
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
             this.schoolCount = this.schoolCount
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -1394,10 +1396,10 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
+            this.globalService.latitude = this.lat = Number(
               this.mylatlngData[0]["lat"]
             );
-            this.commonService.longitude = this.lng = Number(
+            this.globalService.longitude = this.lng = Number(
               this.mylatlngData[0]["lng"]
             );
 
@@ -1412,7 +1414,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             });
             this.markers = sorted;
             for (var i = 0; i < sorted.length; i++) {
-              var markerIcon = this.commonService.initMarkers1(
+              var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.commonService.relativeColorGredient(
@@ -1441,7 +1443,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               [this.lat - 1.5, this.lng - 3],
               [this.lat + 1.5, this.lng + 2],
             ]);
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
             this.schoolCount = this.markers.length
               .toString()
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -1505,15 +1507,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }
     });
 
-    var yourData = this.commonService
-      .getInfoFrom(
-        orgObject,
-        "attendance",
-        levelWise,
-        "std-attd",
-        undefined,
-        undefined
-      )
+    var yourData = this.globalService.getInfoFrom(
+      orgObject,
+      "attendance",
+      levelWise,
+      "std-attd",
+      undefined,
+      undefined
+    )
       .join(" <br>");
     const popup = R.responsivePopup({
       hasTip: false,

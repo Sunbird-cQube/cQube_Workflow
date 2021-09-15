@@ -4,7 +4,8 @@ import { TelemetryService } from '../../../services/telemetry.service';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import * as R from 'leaflet-responsive-popup';
-import { AppServiceComponent, globalMap } from '../../../app.service';
+import { AppServiceComponent } from '../../../app.service';
+import { MapService, globalMap } from '../../../services/map-services/maps.service';
 
 
 @Component({
@@ -83,6 +84,7 @@ export class TelemetryDataComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef,
+    public globalService: MapService,
   ) {
   }
 
@@ -95,10 +97,10 @@ export class TelemetryDataComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.lat = this.globalService.mapCenterLatlng.lat;
+    this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap('map', [[this.lat, this.lng]]);
+    this.globalService.initMap('map', [[this.lat, this.lng]]);
     globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
     document.getElementById('accessProgressCard').style.display = 'none';
     //document.getElementById('backBtn').style.display = 'none';
@@ -140,8 +142,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "District";
       this.districtId = undefined;
@@ -161,7 +163,7 @@ export class TelemetryDataComponent implements OnInit {
         timePeriod: this.timePeriod
       }
 
-      globalMap.setView(new L.LatLng(this.lat, this.lng), this.commonService.zoomLevel);
+      globalMap.setView(new L.LatLng(this.lat, this.lng), this.globalService.zoomLevel);
       // api call to get all the districts data
       if (this.myData) {
         this.myData.unsubscribe();
@@ -173,16 +175,13 @@ export class TelemetryDataComponent implements OnInit {
 
         // options to set for markers in the map
         let options = {
-          radius: this.commonService.zoomLevel,
-          fillOpacity: 1,
-          strokeWeight: 0.01,
-          mapZoom: this.commonService.zoomLevel,
+          mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
           level: 'District'
         }
         globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
-        this.commonService.onResize(options.level);
+        this.globalService.onResize(options.level);
         this.fileName = `${this.reportName}_allDistricts_${this.timePeriod}_${this.commonService.dateAndTime}`;
         this.genericFun(this.data, options, this.fileName);
 
@@ -206,8 +205,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "Block";
       this.commonService.errMsg();
@@ -228,7 +227,7 @@ export class TelemetryDataComponent implements OnInit {
         timePeriod: this.timePeriod
       }
 
-      globalMap.setView(new L.LatLng(this.lat, this.lng), this.commonService.zoomLevel);
+      globalMap.setView(new L.LatLng(this.lat, this.lng), this.globalService.zoomLevel);
       // api call to get the all clusters data
       if (this.myData) {
         this.myData.unsubscribe();
@@ -236,7 +235,7 @@ export class TelemetryDataComponent implements OnInit {
       this.myData = this.service.telemetryBlock(obj).subscribe(res => {
         this.data = res
         let options = {
-          mapZoom: this.commonService.zoomLevel,
+          mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
           level: "Block"
@@ -250,7 +249,7 @@ export class TelemetryDataComponent implements OnInit {
 
           if (this.blockMarkers.length !== 0) {
             for (let i = 0; i < this.blockMarkers.length; i++) {
-              var markerIcon = this.commonService.initMarkers1(this.blockMarkers[i].lat, this.blockMarkers[i].lng, "#42a7f5", 1, 1, options.level);
+              var markerIcon = this.globalService.initMarkers1(this.blockMarkers[i].lat, this.blockMarkers[i].lng, "#42a7f5", 1, 1, options.level);
               this.generateToolTip(this.blockMarkers[i], options.level, markerIcon, "lat", "lng");
             }
             // to download the report
@@ -261,7 +260,7 @@ export class TelemetryDataComponent implements OnInit {
             this.changeDetection.markForCheck();
           }
         }
-        this.commonService.onResize(options.level);
+        this.globalService.onResize(options.level);
       }, err => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
@@ -278,8 +277,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "Cluster";
       this.commonService.errMsg();
@@ -302,7 +301,7 @@ export class TelemetryDataComponent implements OnInit {
         timePeriod: this.timePeriod
       }
 
-      globalMap.setView(new L.LatLng(this.lat, this.lng), this.commonService.zoomLevel);
+      globalMap.setView(new L.LatLng(this.lat, this.lng), this.globalService.zoomLevel);
       // api call to get the all clusters data
       if (this.myData) {
         this.myData.unsubscribe();
@@ -310,7 +309,7 @@ export class TelemetryDataComponent implements OnInit {
       this.myData = this.service.telemetryCluster(obj).subscribe(res => {
         this.data = res
         let options = {
-          mapZoom: this.commonService.zoomLevel,
+          mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
           level: "Cluster"
@@ -324,7 +323,7 @@ export class TelemetryDataComponent implements OnInit {
 
           if (this.clusterMarkers.length !== 0) {
             for (let i = 0; i < this.clusterMarkers.length; i++) {
-              var markerIcon = this.commonService.initMarkers1(this.clusterMarkers[i].lat, this.clusterMarkers[i].lng, "#42a7f5", 1, 1, options.level);
+              var markerIcon = this.globalService.initMarkers1(this.clusterMarkers[i].lat, this.clusterMarkers[i].lng, "#42a7f5", 2, 1, options.level);
               this.generateToolTip(this.clusterMarkers[i], options.level, markerIcon, "lat", "lng");
             }
             // to download the report
@@ -335,7 +334,7 @@ export class TelemetryDataComponent implements OnInit {
             this.changeDetection.markForCheck();
           }
         }
-        this.commonService.onResize(options.level);
+        this.globalService.onResize(options.level);
       }, err => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
@@ -352,8 +351,8 @@ export class TelemetryDataComponent implements OnInit {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.level = "School";
       this.commonService.errMsg();
@@ -372,7 +371,7 @@ export class TelemetryDataComponent implements OnInit {
         timePeriod: this.timePeriod
       }
 
-      globalMap.setView(new L.LatLng(this.lat, this.lng), this.commonService.zoomLevel);
+      globalMap.setView(new L.LatLng(this.lat, this.lng), this.globalService.zoomLevel);
       // api call to get the all schools data
       if (this.myData) {
         this.myData.unsubscribe();
@@ -380,10 +379,10 @@ export class TelemetryDataComponent implements OnInit {
       this.myData = this.service.telemetrySchool(obj).subscribe(res => {
         this.data = res
         let options = {
-          mapZoom: this.commonService.zoomLevel,
+          mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
-          level: "school"
+          level: "School"
         }
         globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
 
@@ -394,7 +393,7 @@ export class TelemetryDataComponent implements OnInit {
           this.schoolMarkers = result;
           if (this.schoolMarkers.length !== 0) {
             for (let i = 0; i < this.schoolMarkers.length; i++) {
-              var markerIcon = this.commonService.initMarkers1(this.schoolMarkers[i].lat, this.schoolMarkers[i].lng, "#42a7f5", 1.5, 0, options.level);
+              var markerIcon = this.globalService.initMarkers1(this.schoolMarkers[i].lat, this.schoolMarkers[i].lng, "#42a7f5", 2, 0.3, options.level);
               this.generateToolTip(this.schoolMarkers[i], options.level, markerIcon, "lat", "lng");
             }
             // to download the report
@@ -405,7 +404,7 @@ export class TelemetryDataComponent implements OnInit {
             this.changeDetection.markForCheck();
           }
         }
-        this.commonService.onResize(options.level);
+        this.globalService.onResize(options.level);
       }, err => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
@@ -656,7 +655,7 @@ export class TelemetryDataComponent implements OnInit {
           strLng = "school_longitude";
         }
 
-        var markerIcon = this.commonService.initMarkers1(this.markers[i].lat, this.markers[i].lng, "#42a7f5", options.strokeWeight, 1, options.level);
+        var markerIcon = this.globalService.initMarkers1(this.markers[i].lat, this.markers[i].lng, "#42a7f5", options.strokeWeight, 1, options.level);
 
         // data to show on the tooltip for the desired levels
         if (options.level) {
@@ -747,7 +746,7 @@ export class TelemetryDataComponent implements OnInit {
     });
     var yourData;
     this.reportData.push(orgObject);
-    yourData = this.commonService.getInfoFrom(orgObject, "", level, "telemetry", undefined, undefined).join(" <br>");
+    yourData = this.globalService.getInfoFrom(orgObject, "", level, "telemetry", undefined, undefined).join(" <br>");
 
     //Generate dynamic tool-tip
     const popup = R.responsivePopup({ hasTip: false, autoPan: false, offset: [15, 20] }).setContent(

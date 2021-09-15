@@ -91,7 +91,7 @@ router.post('/dikshaGetCollectionData', auth.authController, async (req, res) =>
             fileName = `diksha/bar_chart_reports/${collection_type}/all_collections.json`;
             footerFile = `diksha/bar_chart_reports/${collection_type}/collection_footer.json`;
         }
-        var footerData = await s3File.readS3File(footerFile);
+        var footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
         footerData = footerData.collections[`${collection_name}`];
         var collectionData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         collectionData = collectionData.filter(a => {

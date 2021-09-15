@@ -1,12 +1,13 @@
 <div class="container-fluid">
     <div class="row reportHeader">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="row" (window:resize)="commonService.onResize(level);onResize()">
+            <div class="row" (window:resize)="globalService.onResize(level);onResize()">
                 <div class="col-sm-8 ">
                     <div *ngIf='skul'>
                         <p id="dist">
                             Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
-                                style="cursor: pointer;text-decoration: underline;" class="selected-level">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;"
+                                class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">

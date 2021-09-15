@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^3.0.0-beta.0",
     "@angular/animations": "~11.2.13",
     "@angular/cdk": "^11.2.12",
     "@angular/common": "~11.2.13",
@@ -61,7 +62,7 @@
     "@angular/cli": "~11.2.12",
     "@angular/compiler-cli": "~11.2.13",
     "@angular/language-service": "~11.2.13",
-    "@types/googlemaps": "^3.39.3",
+    "@types/googlemaps": "^3.39.12",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",

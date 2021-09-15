@@ -4,7 +4,8 @@ import { ExceptionReportService } from '../../../services/exception-report.servi
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import * as R from 'leaflet-responsive-popup';
-import { AppServiceComponent, globalMap } from '../../../app.service';
+import { AppServiceComponent } from '../../../app.service';
+import { MapService, globalMap } from '../../../services/map-services/maps.service';
 
 @Component({
   selector: 'app-pat-exception',
@@ -90,6 +91,7 @@ export class PATExceptionComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef,
+    public globalService: MapService,
   ) {
   }
 
@@ -103,10 +105,10 @@ export class PATExceptionComponent implements OnInit {
   ngOnInit() {
     this.commonService.errMsg();
     this.state = this.commonService.state;
-    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+    this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+    this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap('patExceMap', [[this.lat, this.lng]]);
+    this.globalService.initMap('patExceMap', [[this.lat, this.lng]]);
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -174,8 +176,8 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.districtId = undefined;
       this.commonService.errMsg();
       this.reportData = [];
@@ -214,22 +216,22 @@ export class PATExceptionComponent implements OnInit {
           }
           // options to set for markers in the map
           let options = {
-            radius: this.commonService.zoomLevel,
+            radius: this.globalService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
-            mapZoom: this.commonService.zoomLevel,
+            mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
             level: 'District'
           }
 
-          this.commonService.restrictZoom(globalMap);
+          this.globalService.restrictZoom(globalMap);
           globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
           this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allBlocks_${this.commonService.dateAndTime}`;
 
           this.genericFun(this.data, options, this.fileName);
-          this.commonService.onResize(this.level);
+          this.globalService.onResize(this.level);
           this.changeDetection.detectChanges();
 
           // sort the districtname alphabetically
@@ -257,8 +259,8 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.commonService.errMsg();
       this.level = "Block";
       this.schoolCount = '';
@@ -291,11 +293,11 @@ export class PATExceptionComponent implements OnInit {
         this.myData = this.service.patExceptionBlock({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
           this.data = res
           let options = {
-            radius: this.commonService.zoomLevel,
+            radius: this.globalService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
-            mapZoom: this.commonService.zoomLevel,
+            mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
             level: 'Block'
@@ -313,10 +315,10 @@ export class PATExceptionComponent implements OnInit {
                 return a != 'grade';
               });
             }
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
             globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
             this.genericFun(this.data, options, this.fileName);
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
             this.changeDetection.detectChanges();
 
           }
@@ -341,8 +343,8 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.commonService.errMsg();
       this.level = "Cluster";
       this.schoolCount = '';
@@ -377,11 +379,11 @@ export class PATExceptionComponent implements OnInit {
         this.myData = this.service.patExceptionCluster({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
           this.data = res
           let options = {
-            radius: this.commonService.zoomLevel,
+            radius: this.globalService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
-            mapZoom: this.commonService.zoomLevel,
+            mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
             level: 'Cluster'
@@ -400,11 +402,11 @@ export class PATExceptionComponent implements OnInit {
                 return a != 'grade';
               });
             }
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
             globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
             this.genericFun(this.data, options, this.fileName);
             // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
             this.changeDetection.detectChanges();
 
           }
@@ -429,8 +431,8 @@ export class PATExceptionComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
 
       this.commonService.errMsg();
       this.level = "School";
@@ -461,11 +463,11 @@ export class PATExceptionComponent implements OnInit {
         this.myData = this.service.patExceptionSchool({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
           this.data = res
           let options = {
-            radius: this.commonService.zoomLevel,
+            radius: this.globalService.zoomLevel,
             fillOpacity: 1,
             strokeWeight: 0.01,
             weight: 1,
-            mapZoom: this.commonService.zoomLevel,
+            mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
             level: 'School'
@@ -487,7 +489,7 @@ export class PATExceptionComponent implements OnInit {
             globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
             this.genericFun(this.data, options, this.fileName);
             // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
             this.changeDetection.detectChanges();
 
           }
@@ -550,23 +552,23 @@ export class PATExceptionComponent implements OnInit {
 
       // options to set for markers in the map
       let options = {
-        radius: this.commonService.zoomLevel,
+        radius: this.globalService.zoomLevel,
         fillOpacity: 1,
         strokeWeight: 0.01,
         weight: 1,
-        mapZoom: this.commonService.zoomLevel + 1,
+        mapZoom: this.globalService.zoomLevel + 1,
         centerLat: this.data['data'][0].block_latitude,
         centerLng: this.data['data'][0].block_longitude,
         level: 'blockPerDistrict'
       }
-      this.commonService.latitude = this.lat = options.centerLat;
-      this.commonService.longitude = this.lng = options.centerLng;
+      this.globalService.latitude = this.lat = options.centerLat;
+      this.globalService.longitude = this.lng = options.centerLng;
 
-      this.commonService.restrictZoom(globalMap);
+      this.globalService.restrictZoom(globalMap);
       globalMap.setMaxBounds([[options.centerLat - 1.5, options.centerLng - 3], [options.centerLat + 1.5, options.centerLng + 2]]);
       this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_${options.level}s_of_district_${districtId}_${this.commonService.dateAndTime}`;
       this.genericFun(this.data, options, this.fileName);
-      this.commonService.onResize(this.level);
+      this.globalService.onResize(this.level);
       this.changeDetection.detectChanges();
 
       // sort the blockname alphabetically
@@ -632,23 +634,23 @@ export class PATExceptionComponent implements OnInit {
 
       // options to set for markers in the map
       let options = {
-        radius: this.commonService.zoomLevel,
+        radius: this.globalService.zoomLevel,
         fillOpacity: 1,
         strokeWeight: 0.01,
         weight: 1,
-        mapZoom: this.commonService.zoomLevel + 3,
+        mapZoom: this.globalService.zoomLevel + 3,
         centerLat: this.data['data'][0].cluster_latitude,
         centerLng: this.data['data'][0].cluster_longitude,
         level: 'clusterPerBlock'
       }
-      this.commonService.latitude = this.lat = options.centerLat;
-      this.commonService.longitude = this.lng = options.centerLng;
+      this.globalService.latitude = this.lat = options.centerLat;
+      this.globalService.longitude = this.lng = options.centerLng;
 
-      this.commonService.restrictZoom(globalMap);
+      this.globalService.restrictZoom(globalMap);
       globalMap.setMaxBounds([[options.centerLat - 1.5, options.centerLng - 3], [options.centerLat + 1.5, options.centerLng + 2]]);
       this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_${options.level}s_of_block_${blockId}_${this.commonService.dateAndTime}`;
       this.genericFun(this.data, options, this.fileName);
-      this.commonService.onResize(this.level);
+      this.globalService.onResize(this.level);
       this.changeDetection.detectChanges();
 
       // sort the clusterName alphabetically
@@ -730,24 +732,24 @@ export class PATExceptionComponent implements OnInit {
 
         // options to set for markers in the map
         let options = {
-          radius: this.commonService.zoomLevel,
+          radius: this.globalService.zoomLevel,
           fillOpacity: 1,
           strokeWeight: 0.01,
           weight: 1,
-          mapZoom: this.commonService.zoomLevel + 5,
+          mapZoom: this.globalService.zoomLevel + 5,
           centerLat: this.data['data'][0].school_latitude,
           centerLng: this.data['data'][0].school_longitude,
           level: 'schoolPerCluster'
         }
-        this.commonService.latitude = this.lat = options.centerLat;
-        this.commonService.longitude = this.lng = options.centerLng;
+        this.globalService.latitude = this.lat = options.centerLat;
+        this.globalService.longitude = this.lng = options.centerLng;
 
         globalMap.doubleClickZoom.enable();
         globalMap.scrollWheelZoom.enable();
         globalMap.setMaxBounds([[options.centerLat - 1.5, options.centerLng - 3], [options.centerLat + 1.5, options.centerLng + 2]]);
         this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_${options.level}s_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
         this.genericFun(this.data, options, this.fileName);
-        this.commonService.onResize(this.level);
+        this.globalService.onResize(this.level);
         this.changeDetection.detectChanges();
       }, err => {
         this.data = [];
@@ -779,7 +781,7 @@ export class PATExceptionComponent implements OnInit {
         for (let i = 0; i < this.markers.length; i++) {
           this.schoolCount = this.schoolCount + parseInt(this.markers[i].total_schools_with_missing_data);
           this.getLatLng(options.level, this.markers[i]);
-          var markerIcon = this.commonService.initMarkers1(this.latitude, this.longitude, this.commonService.relativeColorGredient(this.markers[i], { value: 'percentage_schools_with_missing_data', report: 'exception' }, this.colors), options.strokeWeight, options.weight, options.level);
+          var markerIcon = this.globalService.initMarkers1(this.latitude, this.longitude, this.commonService.relativeColorGredient(this.markers[i], { value: 'percentage_schools_with_missing_data', report: 'exception' }, this.colors), options.strokeWeight, options.weight, options.level);
           if (markerIcon)
             this.generateToolTip(this.markers[i], options.level, markerIcon, this.strLat, this.strLng);
         }
@@ -915,10 +917,10 @@ export class PATExceptionComponent implements OnInit {
         }
       });
       this.reportData.push(detailSchool);
-      yourData = this.commonService.getInfoFrom(detailSchool, "percentage_schools_with_missing_data", level, "sem-exception", undefined, undefined).join(" <br>");
+      yourData = this.globalService.getInfoFrom(detailSchool, "percentage_schools_with_missing_data", level, "sem-exception", undefined, undefined).join(" <br>");
     } else {
       this.reportData.push(orgObject);
-      yourData = this.commonService.getInfoFrom(orgObject, "percentage_schools_with_missing_data", level, "sem-exception", undefined, undefined).join(" <br>");
+      yourData = this.globalService.getInfoFrom(orgObject, "percentage_schools_with_missing_data", level, "sem-exception", undefined, undefined).join(" <br>");
 
     }
     //Generate dynamic tool-tip

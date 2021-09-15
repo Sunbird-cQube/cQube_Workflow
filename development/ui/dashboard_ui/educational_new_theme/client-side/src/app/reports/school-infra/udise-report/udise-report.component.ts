@@ -6,7 +6,8 @@ import {
   ViewEncapsulation,
 } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { AppServiceComponent, globalMap } from "../../../app.service";
+import { AppServiceComponent } from "../../../app.service";
+import { MapService, globalMap } from '../../../services/map-services/maps.service';
 import { UdiseReportService } from "../../../services/udise-report.service";
 import { Router } from "@angular/router";
 import * as L from "leaflet";
@@ -96,7 +97,8 @@ export class UdiseReportComponent implements OnInit {
     public service: UdiseReportService,
     public router: Router,
     private changeDetection: ChangeDetectorRef,
-    private readonly _router: Router
+    private readonly _router: Router,
+    public globalService: MapService,
   ) {
     commonService.logoutOnTokenExpire();
     this.commonService.callProgressCard.subscribe(value => {
@@ -125,10 +127,10 @@ export class UdiseReportComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.lat = this.commonService.mapCenterLatlng.lat;
-    this.lng = this.commonService.mapCenterLatlng.lng;
+    this.lat = this.globalService.mapCenterLatlng.lat;
+    this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("udisemap", [[this.lat, this.lng]]);
+    this.globalService.initMap("udisemap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
@@ -245,8 +247,8 @@ export class UdiseReportComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.districtId = undefined;
       this.errMsg();
       this.indiceFilter = [];
@@ -277,7 +279,7 @@ export class UdiseReportComponent implements OnInit {
         let options = {
           fillOpacity: 1,
           strokeWeight: 0.05,
-          mapZoom: this.commonService.zoomLevel,
+          mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
           level: "District",
@@ -288,7 +290,7 @@ export class UdiseReportComponent implements OnInit {
         this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
         this.genericFun(this.data, options, this.fileName);
-        this.commonService.onResize(this.level);
+        this.globalService.onResize(this.level);
 
         // sort the districtname alphabetically
         this.districtMarkers.sort((a, b) =>
@@ -316,7 +318,7 @@ export class UdiseReportComponent implements OnInit {
             let options = {
               fillOpacity: 1,
               strokeWeight: 0.01,
-              mapZoom: this.commonService.zoomLevel,
+              mapZoom: this.globalService.zoomLevel,
               centerLat: this.lat,
               centerLng: this.lng,
               level: "District",
@@ -334,7 +336,7 @@ export class UdiseReportComponent implements OnInit {
             this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
             this.genericFun(this.data, options, this.fileName);
-            this.commonService.onResize(this.level);
+            this.globalService.onResize(this.level);
 
             // sort the districtname alphabetically
             this.districtMarkers.sort((a, b) =>
@@ -367,8 +369,8 @@ export class UdiseReportComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.errMsg();
       this.reportData = [];
       this.indiceFilter = [];
@@ -401,7 +403,7 @@ export class UdiseReportComponent implements OnInit {
           this.gettingIndiceFilters(this.data);
 
           let options = {
-            mapZoom: this.commonService.zoomLevel,
+            mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
             level: "Block",
@@ -431,7 +433,7 @@ export class UdiseReportComponent implements OnInit {
                     colors
                   );
                 }
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.blockMarkers[i].details.latitude,
                   this.blockMarkers[i].details.longitude,
                   this.setColor,
@@ -454,7 +456,7 @@ export class UdiseReportComponent implements OnInit {
                 this.getDownloadableData(this.blockMarkers[i], options.level);
               }
 
-              this.commonService.onResize(this.level);
+              this.globalService.onResize(this.level);
 
               //schoolCount
               this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -481,8 +483,8 @@ export class UdiseReportComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.errMsg();
       this.reportData = [];
       this.indiceFilter = [];
@@ -515,7 +517,7 @@ export class UdiseReportComponent implements OnInit {
           this.data = res["data"];
           this.gettingIndiceFilters(this.data);
           let options = {
-            mapZoom: this.commonService.zoomLevel,
+            mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
             level: "Cluster",
@@ -544,7 +546,7 @@ export class UdiseReportComponent implements OnInit {
                     colors
                   );
                 }
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.clusterMarkers[i].details.latitude,
                   this.clusterMarkers[i].details.longitude,
                   this.setColor,
@@ -570,7 +572,7 @@ export class UdiseReportComponent implements OnInit {
               //schoolCount
               this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-              this.commonService.onResize(this.level);
+              this.globalService.onResize(this.level);
 
               this.loaderAndErr();
               this.changeDetection.detectChanges();
@@ -595,8 +597,8 @@ export class UdiseReportComponent implements OnInit {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
-      this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-      this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+      this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+      this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.errMsg();
       this.reportData = [];
       this.indiceFilter = [];
@@ -629,7 +631,7 @@ export class UdiseReportComponent implements OnInit {
           this.data = res["data"];
           this.gettingIndiceFilters(this.data);
           let options = {
-            mapZoom: this.commonService.zoomLevel,
+            mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
             level: "School",
@@ -658,7 +660,7 @@ export class UdiseReportComponent implements OnInit {
                     colors
                   );
                 }
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.schoolMarkers[i].details.latitude,
                   this.schoolMarkers[i].details.longitude,
                   this.setColor,
@@ -681,7 +683,7 @@ export class UdiseReportComponent implements OnInit {
               }
               globalMap.doubleClickZoom.enable();
               globalMap.scrollWheelZoom.enable();
-              this.commonService.onResize(this.level);
+              this.globalService.onResize(this.level);
 
               //schoolCount
               this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -753,20 +755,20 @@ export class UdiseReportComponent implements OnInit {
         let options = {
           fillOpacity: 1,
           strokeWeight: 0.01,
-          mapZoom: this.commonService.zoomLevel + 1,
+          mapZoom: this.globalService.zoomLevel + 1,
           centerLat: this.data[0].details.latitude,
           centerLng: this.data[0].details.longitude,
           level: "blockPerDistrict",
         };
         this.dataOptions = options;
-        this.commonService.latitude = this.lat = options.centerLat;
-        this.commonService.longitude = this.lng = options.centerLng;
+        this.globalService.latitude = this.lat = options.centerLat;
+        this.globalService.longitude = this.lng = options.centerLng;
 
         //schoolCount
         this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
         this.genericFun(this.data, options, this.fileName);
-        this.commonService.onResize(this.level);
+        this.globalService.onResize(this.level);
 
         // sort the blockname alphabetically
         this.blockMarkers.sort((a, b) =>
@@ -850,20 +852,20 @@ export class UdiseReportComponent implements OnInit {
           let options = {
             fillOpacity: 1,
             strokeWeight: 0.01,
-            mapZoom: this.commonService.zoomLevel + 3,
+            mapZoom: this.globalService.zoomLevel + 3,
             centerLat: this.data[0].details.latitude,
             centerLng: this.data[0].details.longitude,
             level: "clusterPerBlock",
           };
           this.dataOptions = options;
-          this.commonService.latitude = this.lat = options.centerLat;
-          this.commonService.longitude = this.lng = options.centerLng;
+          this.globalService.latitude = this.lat = options.centerLat;
+          this.globalService.longitude = this.lng = options.centerLng;
 
           //schoolCount
           this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
           this.genericFun(this.data, options, this.fileName);
-          this.commonService.onResize(this.level);
+          this.globalService.onResize(this.level);
 
           // sort the clusterName alphabetically
           this.clusterMarkers.sort((a, b) =>
@@ -967,20 +969,20 @@ export class UdiseReportComponent implements OnInit {
               let options = {
                 fillOpacity: 1,
                 strokeWeight: 0.01,
-                mapZoom: this.commonService.zoomLevel + 5,
+                mapZoom: this.globalService.zoomLevel + 5,
                 centerLat: this.data[0].details.latitude,
                 centerLng: this.data[0].details.longitude,
                 level: "schoolPerCluster",
               };
               this.dataOptions = options;
-              this.commonService.latitude = this.lat = options.centerLat;
-              this.commonService.longitude = this.lng = options.centerLng;
+              this.globalService.latitude = this.lat = options.centerLat;
+              this.globalService.longitude = this.lng = options.centerLng;
 
               //schoolCount
               this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.genericFun(this.data, options, this.fileName);
-              this.commonService.onResize(this.level);
+              this.globalService.onResize(this.level);
               this.changeDetection.detectChanges();
 
             },
@@ -1024,7 +1026,7 @@ export class UdiseReportComponent implements OnInit {
             );
           }
           var markerIcon: any;
-          var markerIcon = this.commonService.initMarkers1(
+          var markerIcon = this.globalService.initMarkers1(
             this.markers[i].details.latitude,
             this.markers[i].details.longitude,
             this.setColor,
@@ -1061,7 +1063,7 @@ export class UdiseReportComponent implements OnInit {
           [options.centerLat + 1.5, options.centerLng + 2],
         ]);
       } else {
-        this.commonService.restrictZoom(globalMap);
+        this.globalService.restrictZoom(globalMap);
         globalMap.setMaxBounds([
           [options.centerLat - 4.5, options.centerLng - 6],
           [options.centerLat + 3.5, options.centerLng + 6],
@@ -1551,7 +1553,7 @@ export class UdiseReportComponent implements OnInit {
     }
 
     //adjusting marker size and other UI on screen resize:::::::::::
-    this.commonService.onResize(this.level);
+    this.globalService.onResize(this.level);
     this.commonService.loaderAndErr(markers)
     this.changeDetection.detectChanges();
   }

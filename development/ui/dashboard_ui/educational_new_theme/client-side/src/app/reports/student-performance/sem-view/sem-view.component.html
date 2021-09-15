@@ -1,12 +1,13 @@
 <div class="container-fluid">
     <div class="row reportHeader">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="row" (window:resize)="commonService.onResize(level);onResize()">
+            <div class="row" (window:resize)="globalService.onResize(level);onResize()">
                 <div class="col-sm-8">
                     <div *ngIf='skul'>
                         <p id="dist" style=" color: #284d8a;font-size: 18px; line-height: 1.2em; margin-top: 5px;">
                             Semester Report for: <span (click)="districtWise()"
-                                style="cursor: pointer;text-decoration: underline;" class="selected-level">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;"
+                                class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block" style=" color: #284d8a;font-size: 18px; line-height: 1.2em; margin-top: 5px;">

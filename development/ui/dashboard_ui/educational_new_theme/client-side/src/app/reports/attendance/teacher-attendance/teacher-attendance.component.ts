@@ -16,7 +16,8 @@ import { Router } from "@angular/router";
 import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
 import { KeycloakSecurityService } from "../../../keycloak-security.service";
-import { AppServiceComponent, globalMap } from "../../../app.service";
+import { AppServiceComponent } from "../../../app.service";
+import { MapService, globalMap } from '../../../services/map-services/maps.service';
 declare const $;
 
 @Component({
@@ -135,7 +136,8 @@ export class TeacherAttendanceComponent implements OnInit {
     public keyCloakSevice: KeycloakSecurityService,
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
-    private readonly _router: Router
+    private readonly _router: Router,
+    public globalService: MapService,
   ) { }
 
   getColor(data) {
@@ -156,10 +158,10 @@ export class TeacherAttendanceComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.commonService.state;
-    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+    this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+    this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.commonService.initMap("tarMap", [[this.lat, this.lng]]);
+    this.globalService.initMap("tarMap", [[this.lat, this.lng]]);
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.skul = true;
@@ -630,7 +632,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 });
 
                 //initialize markers with its latitude and longitude
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.selected == "absolute"
@@ -661,7 +663,7 @@ export class TeacherAttendanceComponent implements OnInit {
             );
             this.districtsNames = distNames;
 
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
 
             //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
@@ -670,7 +672,7 @@ export class TeacherAttendanceComponent implements OnInit {
             ]);
 
             //adjusting marker size and other UI on screen resize:::::::::::
-            this.commonService.onResize(this.levelWise);
+            this.globalService.onResize(this.levelWise);
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
           },
@@ -749,7 +751,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 });
 
                 //initialize markers with its latitude and longitude
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.selected == "absolute"
@@ -779,7 +781,7 @@ export class TeacherAttendanceComponent implements OnInit {
               );
               this.blocksNames = blockNames;
 
-              this.commonService.restrictZoom(globalMap);
+              this.globalService.restrictZoom(globalMap);
 
               //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
@@ -788,7 +790,7 @@ export class TeacherAttendanceComponent implements OnInit {
               ]);
 
               //adjusting marker size and other UI on screen resize:::::::::::
-              this.commonService.onResize(this.levelWise);
+              this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             }
@@ -883,7 +885,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 });
 
                 //initialize markers with its latitude and longitude
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.selected == "absolute"
@@ -918,7 +920,7 @@ export class TeacherAttendanceComponent implements OnInit {
               );
               this.blocksNames = blockNames;
 
-              this.commonService.restrictZoom(globalMap);
+              this.globalService.restrictZoom(globalMap);
 
               //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
@@ -927,7 +929,7 @@ export class TeacherAttendanceComponent implements OnInit {
               ]);
 
               //adjusting marker size and other UI on screen resize:::::::::::
-              this.commonService.onResize(this.levelWise);
+              this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             }
@@ -1003,7 +1005,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.districtsIds.push(sorted[i]["district_id"]);
 
                 //initialize markers with its latitude and longitude
-                var markerIcon = this.commonService.initMarkers1(
+                var markerIcon = this.globalService.initMarkers1(
                   this.markers[i].lat,
                   this.markers[i].lng,
                   this.selected == "absolute"
@@ -1038,7 +1040,7 @@ export class TeacherAttendanceComponent implements OnInit {
               ]);
 
               //adjusting marker size and other UI on screen resize:::::::::::
-              this.commonService.onResize(this.levelWise);
+              this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
             }
@@ -1080,8 +1082,8 @@ export class TeacherAttendanceComponent implements OnInit {
     this.title = "";
     this.titleName = "";
     this.clustName = "";
-    this.commonService.latitude = this.lat = this.commonService.mapCenterLatlng.lat;
-    this.commonService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
+    this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
+    this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
 
     //Setting map bound for scroll::::::::::::
     globalMap.setMaxBounds([
@@ -1283,10 +1285,10 @@ export class TeacherAttendanceComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
+            this.globalService.latitude = this.lat = Number(
               this.mylatlngData[0]["lat"]
             );
-            this.commonService.longitude = this.lng = Number(
+            this.globalService.longitude = this.lng = Number(
               this.mylatlngData[0]["lng"]
             );
 
@@ -1318,7 +1320,7 @@ export class TeacherAttendanceComponent implements OnInit {
               });
 
               //initialize markers with its latitude and longitude
-              var markerIcon = this.commonService.initMarkers1(
+              var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.selected == "absolute"
@@ -1347,7 +1349,7 @@ export class TeacherAttendanceComponent implements OnInit {
             );
             this.blocksNames = blokName;
 
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
 
             //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
@@ -1356,7 +1358,7 @@ export class TeacherAttendanceComponent implements OnInit {
             ]);
 
             //adjusting marker size and other UI on screen resize:::::::::::
-            this.commonService.onResize(this.levelWise);
+            this.globalService.onResize(this.levelWise);
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
           },
@@ -1485,10 +1487,10 @@ export class TeacherAttendanceComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
+            this.globalService.latitude = this.lat = Number(
               this.mylatlngData[0]["lat"]
             );
-            this.commonService.longitude = this.lng = Number(
+            this.globalService.longitude = this.lng = Number(
               this.mylatlngData[0]["lng"]
             );
             var clustNames = [];
@@ -1529,7 +1531,7 @@ export class TeacherAttendanceComponent implements OnInit {
               }
 
               //initialize markers with its latitude and longitude
-              var markerIcon = this.commonService.initMarkers1(
+              var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.selected == "absolute"
@@ -1559,7 +1561,7 @@ export class TeacherAttendanceComponent implements OnInit {
             );
             this.clusterNames = clustNames;
 
-            this.commonService.restrictZoom(globalMap);
+            this.globalService.restrictZoom(globalMap);
 
             //Setting map bound for scroll::::::::::::
             globalMap.setMaxBounds([
@@ -1568,7 +1570,7 @@ export class TeacherAttendanceComponent implements OnInit {
             ]);
 
             //adjusting marker size and other UI on screen resize:::::::::::
-            this.commonService.onResize(this.levelWise);
+            this.globalService.onResize(this.levelWise);
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
           },
@@ -1734,10 +1736,10 @@ export class TeacherAttendanceComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.commonService.latitude = this.lat = Number(
+            this.globalService.latitude = this.lat = Number(
               this.mylatlngData[0]["lat"]
             );
-            this.commonService.longitude = this.lng = Number(
+            this.globalService.longitude = this.lng = Number(
               this.mylatlngData[0]["lng"]
             );
 
@@ -1763,7 +1765,7 @@ export class TeacherAttendanceComponent implements OnInit {
               );
 
               //initialize markers with its latitude and longitude
-              var markerIcon = this.commonService.initMarkers1(
+              var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
                 this.selected == "absolute"
@@ -1797,7 +1799,7 @@ export class TeacherAttendanceComponent implements OnInit {
             ]);
 
             //adjusting marker size and other UI on screen resize:::::::::::
-            this.commonService.onResize(this.levelWise);
+            this.globalService.onResize(this.levelWise);
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
           },
@@ -1854,15 +1856,14 @@ export class TeacherAttendanceComponent implements OnInit {
       }
     });
 
-    var yourData = this.commonService
-      .getInfoFrom(
-        orgObject,
-        "attendance",
-        levelWise,
-        "std-attd",
-        undefined,
-        undefined
-      )
+    var yourData = this.globalService.getInfoFrom(
+      orgObject,
+      "attendance",
+      levelWise,
+      "std-attd",
+      undefined,
+      undefined
+    )
       .join(" <br>");
     const popup = R.responsivePopup({
       hasTip: false,
@@ -2068,7 +2069,7 @@ export class TeacherAttendanceComponent implements OnInit {
         this.teacherCount += markers[i] ? parseInt(markers[i]['number_of_teachers'].replace(',', '')) : 0;
 
         //initialize markers with its latitude and longitude
-        var markerIcon = this.commonService.initMarkers1(
+        var markerIcon = this.globalService.initMarkers1(
           markers[i].lat,
           markers[i].lng,
           this.selected == "absolute"
@@ -2117,7 +2118,7 @@ export class TeacherAttendanceComponent implements OnInit {
     }
 
     //adjusting marker size and other UI on screen resize:::::::::::
-    this.commonService.onResize(this.levelWise);
+    this.globalService.onResize(this.levelWise);
     this.commonService.loaderAndErr(markers)
     this.changeDetection.detectChanges();
   }

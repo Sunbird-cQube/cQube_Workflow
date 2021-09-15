@@ -272,6 +272,17 @@ router.use('/line-chart', onClusterSelect);
 const onSchoolSelect = require('./controller/attendanceRoutes/sttendance-line-chart/onSelectSchool');
 router.use('/line-chart', onSchoolSelect);
 
+//SAT Line-chart
+// src / api / controller / patRoutes / sat - line - chart / onSelectDistrict.js
+const satOnDistSelect = require('./controller/patRoutes/sat-line-chart/onSelectDistrict');
+router.use('/sat-line-chart', satOnDistSelect);
+const satOnBlockSelect = require('./controller/patRoutes/sat-line-chart/onSelectBlock');
+router.use('/sat-line-chart', satOnBlockSelect);
+const satOnClusterSelect = require('./controller/patRoutes/sat-line-chart/onSelectCluster');
+router.use('sat-/line-chart', satOnClusterSelect);
+const satOnSchoolSelect = require('./controller/patRoutes/sat-line-chart/onSelectSchool');
+router.use('sat-/line-chart', satOnSchoolSelect);
+
 const management_category_meta = require('./controller/attendanceRoutes/management_category_meta');
 router.use('/management-category-meta', management_category_meta);
 
