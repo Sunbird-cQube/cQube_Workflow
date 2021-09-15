@@ -13,7 +13,7 @@
 
 base_dir: /opt                            # provide the absolute path where cqube needs to be installed and served. Eg. /opt  ( in this case cqube will be installed under /opt/cqube)
 
-state_code:                                # Enter the 2 character (upper case) state code for which cQube is being deployed. Please refer state_list file. 
+state_code: GJ                               # Enter the 2 character (upper case) state code for which cQube is being deployed. Please refer state_list file. 
 
 # Diksha Columns
 
