@@ -18,6 +18,7 @@ export class LineChartComponent implements OnInit, OnChanges {
   @Input() counts = [];
   @Input() managementName;
   @Input() chartId;
+  @Input() reportName;
   constructor(private changeDetection: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -81,6 +82,7 @@ export class LineChartComponent implements OnInit, OnChanges {
   // }
 
   createChart() {
+    let reportName = this.reportName;
     var counts = this.counts;
     var academicYear = this.selectedYear;
     var level = this.level;
@@ -170,7 +172,7 @@ export class LineChartComponent implements OnInit, OnChanges {
         },
         formatter: function () {
           if (this.point.category != 0) {
-            return '<b>' + getPointCategoryName(this.point, level, counts, academicYear) + '</b>';
+            return '<b>' + getPointCategoryName(this.point, level, counts, academicYear, reportName) + '</b>';
           } else {
             return false;
           }
@@ -179,14 +181,27 @@ export class LineChartComponent implements OnInit, OnChanges {
     }
     this.Highcharts.chart(this.chartId, this.chartOptions);
 
-    function getPointCategoryName(point, level, counts, academicYear) {
+    function getPointCategoryName(point, level, counts, academicYear, reportName) {
       var obj = '';
-      obj = `<b>Acedmic Year:</b> ${academicYear} 
+      if (reportName == 'sar') {
+        obj = `<b>Acedmic Year:</b> ${academicYear} 
         <br><b>Month:</b> ${point.category}
         <br> ${`<b>${level} Name:</b> ${point.series.name}`}
         <br>${counts[point.series.index][point.index].schoolCount ? `<b>School Count:</b> ${counts[point.series.index][point.index].schoolCount}` : ''}
         <br>${counts[point.series.index][point.index].studentCount ? `<b>Student Count:</b> ${counts[point.series.index][point.index].studentCount}` : ''}
         <br> ${point.y !== null ? `<b>Attendance:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")} % ` : ''}`
+      }
+      if (reportName == 'sat') {
+        console.log(counts[point.series.index][point.index].grade);
+        obj = `<b>Acedmic Year:</b> ${academicYear} 
+        <br><b>Month:</b> ${point.category}
+        <br> ${`<b>${level} Name:</b> ${point.series.name}`}
+        ${counts[point.series.index][point.index].grade != "AllGrades" ? `<br><b>Grade:</b> ${counts[point.series.index][point.index].grade}` : ''}
+        <br>${counts[point.series.index][point.index].schoolCount ? `<b>School Count:</b> ${counts[point.series.index][point.index].schoolCount}` : ''}
+        <br>${counts[point.series.index][point.index].studentCount ? `<b>Student Count:</b> ${counts[point.series.index][point.index].studentCount}` : ''}
+        <br>${counts[point.series.index][point.index].studentAttended ? `<b>Student Attended:</b> ${counts[point.series.index][point.index].studentAttended}` : ''}
+        <br> ${point.y !== null ? `<b>Performance:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")} % ` : ''}`
+      }
       return obj;
     }
   }

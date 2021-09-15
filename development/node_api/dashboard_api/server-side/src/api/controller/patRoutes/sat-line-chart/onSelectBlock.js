@@ -19,7 +19,6 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             fileName = `sat/trend_line_chart/block/${districtId}_${year}.json`;
         }
         var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        console.log(blockData['241301']);
         var keys = Object.keys(blockData);
         var mydata = [];
 
@@ -82,11 +81,11 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             let obj2 = {
                 blockId: key,
                 blockName: blockData[key].block_name[0],
-                attendance: stdPerformance
+                performance: stdPerformance
             }
             mydata.push(obj2);
         });
-        logger.info('--- Trends dist wise api response sent ---');
+        logger.info('--- Trends block wise api response sent ---');
         res.status(200).send({ data: mydata });
     } catch (e) {
         logger.error(`Error :: ${e}`)

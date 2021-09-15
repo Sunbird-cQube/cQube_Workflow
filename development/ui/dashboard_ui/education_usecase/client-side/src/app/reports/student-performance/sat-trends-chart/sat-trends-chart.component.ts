@@ -16,7 +16,7 @@ export class SatTrendsChartComponent implements OnInit {
   chartId2 = 'chartid2';
 
   allGrades = [];
-  grade = "";
+  grade = "AllGrades";
 
   //For multi-select dropdown options::::::::::::::::::
   counts: any = [];
@@ -93,6 +93,8 @@ export class SatTrendsChartComponent implements OnInit {
           this.allGrades.sort((a, b) =>
             a.grade > b.grade ? 1 : b.grade > a.grade ? -1 : 0
           );
+          console.log(this.allGrades)
+          this.allGrades.unshift({ grade: 'AllGrades' });
         });
     this.service.getAcademicYears().subscribe(res => {
       this.years = Object.keys(res);
@@ -123,7 +125,7 @@ export class SatTrendsChartComponent implements OnInit {
       this.onHomeClick(true);
     } else if (this.level == 'District') {
       this.districtData = [];
-      this.service.getDistrictData({ ...{ year: this.selectedYear }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getDistrictData({ ...{ year: this.selectedYear }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.districtData = res['data'];
         var districtList = this.districtList.map(district => {
           if (this.selectedDistricts.includes(district.id)) {
@@ -140,7 +142,7 @@ export class SatTrendsChartComponent implements OnInit {
         this.currentData = [];
       });
       this.districtData1 = [];
-      this.service.getDistrictData({ ...{ year: this.selectedYear1 }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getDistrictData({ ...{ year: this.selectedYear1 }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.districtData1 = res['data'];
         this.getCurrentDistData1();
       }, err => {
@@ -148,7 +150,7 @@ export class SatTrendsChartComponent implements OnInit {
       });
     } else if (this.level == 'Block') {
       this.blockData = [];
-      this.service.getBlockData({ ...{ year: this.selectedYear, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getBlockData({ ...{ year: this.selectedYear, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.blockData = res['data'];
         var blockList = this.blockList.map(block => {
           if (this.selectedBlock.includes(block.id)) {
@@ -165,7 +167,7 @@ export class SatTrendsChartComponent implements OnInit {
         this.currentData = [];
       });
       this.blockData1 = [];
-      this.service.getBlockData({ ...{ year: this.selectedYear1, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getBlockData({ ...{ year: this.selectedYear1, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.blockData1 = res['data'];
         this.getCurrentBlockData1();
       }, err => {
@@ -173,7 +175,7 @@ export class SatTrendsChartComponent implements OnInit {
       })
     } else if (this.level == 'Cluster') {
       this.clusterData = [];
-      this.service.getClusterData({ ...{ year: this.selectedYear, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getClusterData({ ...{ year: this.selectedYear, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.clusterData = res['data'];
         var clusterList = this.clusterList.map(cluster => {
           if (this.selectedCluster.includes(cluster.id)) {
@@ -190,7 +192,7 @@ export class SatTrendsChartComponent implements OnInit {
         this.currentData = [];
       })
       this.clusterData1 = [];
-      this.service.getClusterData({ ...{ year: this.selectedYear1, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getClusterData({ ...{ year: this.selectedYear1, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.clusterData1 = res['data'];
         this.getCurrentClusterData1();
       }, err => {
@@ -198,7 +200,7 @@ export class SatTrendsChartComponent implements OnInit {
       })
     } else if (this.level == 'School') {
       this.schoolData = [];
-      this.service.getSchoolData({ ...{ year: this.selectedYear, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getSchoolData({ ...{ year: this.selectedYear, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.schoolData = res['data'];
         var schoolList = this.schoolList.map(school => {
           if (this.selectedSchool.includes(school.id)) {
@@ -215,7 +217,7 @@ export class SatTrendsChartComponent implements OnInit {
         this.currentData = [];
       })
       this.schoolData1 = [];
-      this.service.getSchoolData({ ...{ year: this.selectedYear1, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getSchoolData({ ...{ year: this.selectedYear1, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.schoolData1 = res['data'];
         this.getCurrentSchoolData1();
       }, err => {
@@ -225,7 +227,7 @@ export class SatTrendsChartComponent implements OnInit {
 
   }
 
-  onGradeSelect(grade){
+  onGradeSelect(grade) {
     this.grade = grade;
     this.currentColors = [];
     this.dataWithColors = [];
@@ -261,9 +263,8 @@ export class SatTrendsChartComponent implements OnInit {
   //this is to get state level data::::::::::
   getStateData() {
     this.level = 'State';
-    this.service.getStateData({ ...{ year: this.selectedYear }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe(res => {
+    this.service.getStateData({ ...{ year: this.selectedYear }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe(res => {
       this.data = res['data'];
-      console.log(this.data)
       var data = [];
       this.counts = [];
       var counts = [];
@@ -271,7 +272,7 @@ export class SatTrendsChartComponent implements OnInit {
       this.data.map(item => {
         item.performance.map(i => {
           data.push(i.performance);
-          counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, schoolCount: i.schoolCount, index: 0 });
+          counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount, index: 0 });
         });
         this.counts.push(counts);
         this.currentData.push({ data: data, name: this.state, color: '#00FF00' });
@@ -287,7 +288,7 @@ export class SatTrendsChartComponent implements OnInit {
 
   getStateData1() {
     this.level = 'State';
-    this.service.getStateData({ ...{ year: this.selectedYear1 }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe(res => {
+    this.service.getStateData({ ...{ year: this.selectedYear1 }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe(res => {
       this.data1 = res['data'];
       var data = [];
       this.counts1 = [];
@@ -296,13 +297,13 @@ export class SatTrendsChartComponent implements OnInit {
       this.data1.map(item => {
         item.performance.map(i => {
           data.push(i.performance);
-          counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, schoolCount: i.schoolCount, index: 0 });
+          counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount, index: 0 });
         });
         this.counts1.push(counts);
         this.currentData1.push({ data: data, name: this.state, color: '#00FF00' });
         this.commonService.loaderAndErr(this.currentData1);
       });
-      // this.getDistrictData1();
+      this.getDistrictData1();
     }, err => {
       this.data1 = [];
       this.currentData1 = [];
@@ -314,7 +315,7 @@ export class SatTrendsChartComponent implements OnInit {
   getDistrictData() {
     this.districtList = [];
     this.districtData = [];
-    this.service.getDistrictData({ ...{ year: this.selectedYear }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+    this.service.getDistrictData({ ...{ year: this.selectedYear }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
       this.districtData = res['data'];
       this.districtData.map(item => {
         this.districtList.push({ id: item.districtId, name: item.districtName });
@@ -327,7 +328,6 @@ export class SatTrendsChartComponent implements OnInit {
       if (this.multiSelect1)
         this.multiSelect1.checkedList = [];
       this.districtList = this.districtList.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-      // this.shareCheckedList(this.selectedDistricts);
     }, err => {
       this.currentData = [];
     })
@@ -335,7 +335,7 @@ export class SatTrendsChartComponent implements OnInit {
 
   getDistrictData1() {
     this.districtData1 = [];
-    this.service.getDistrictData({ ...{ year: this.selectedYear1 }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+    this.service.getDistrictData({ ...{ year: this.selectedYear1 }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
       this.districtData1 = res['data'];
     }, err => {
       this.currentData1 = [];
@@ -348,7 +348,7 @@ export class SatTrendsChartComponent implements OnInit {
     this.blockList = [];
     this.blockData = [];
     if (this.selectedDistricts.length == 1) {
-      this.service.getBlockData({ ...{ year: this.selectedYear, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getBlockData({ ...{ year: this.selectedYear, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.blockData = res['data'];
         this.blockData.map(item => {
           this.blockList.push({ id: item.blockId, name: item.blockName });
@@ -372,7 +372,7 @@ export class SatTrendsChartComponent implements OnInit {
 
   getBlockData1() {
     this.blockData1 = [];
-    this.service.getBlockData({ ...{ year: this.selectedYear1, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+    this.service.getBlockData({ ...{ year: this.selectedYear1, districtId: this.selectedDistricts[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
       this.blockData1 = res['data'];
     }, err => {
       this.currentData1 = [];
@@ -384,7 +384,7 @@ export class SatTrendsChartComponent implements OnInit {
     this.clusterList = [];
     this.clusterData = [];
     if (this.selectedBlock.length == 1) {
-      this.service.getClusterData({ ...{ year: this.selectedYear, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getClusterData({ ...{ year: this.selectedYear, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.clusterData = res['data'];
         this.clusterData.map(item => {
           this.clusterList.push({ id: item.clusterId, name: item.clusterName });
@@ -407,7 +407,7 @@ export class SatTrendsChartComponent implements OnInit {
 
   getClusterData1() {
     this.clusterData1 = [];
-    this.service.getClusterData({ ...{ year: this.selectedYear1, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+    this.service.getClusterData({ ...{ year: this.selectedYear1, blockId: this.selectedBlock[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
       this.clusterData1 = res['data'];
     }, err => {
       this.currentData1 = [];
@@ -419,7 +419,7 @@ export class SatTrendsChartComponent implements OnInit {
     this.schoolList = [];
     this.schoolData = [];
     if (this.selectedCluster.length == 1) {
-      this.service.getSchoolData({ ...{ year: this.selectedYear, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+      this.service.getSchoolData({ ...{ year: this.selectedYear, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
         this.schoolData = res['data'];
         this.schoolData.map(item => {
           this.schoolList.push({ id: item.schoolId, name: item.schoolName });
@@ -442,7 +442,7 @@ export class SatTrendsChartComponent implements OnInit {
 
   getSchoolData1() {
     this.schoolData1 = [];
-    this.service.getSchoolData({ ...{ year: this.selectedYear1, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade } }).subscribe((res: any) => {
+    this.service.getSchoolData({ ...{ year: this.selectedYear1, clusterId: this.selectedCluster[0] }, ...{ management: this.management, category: this.category, grade: this.grade != "AllGrades" ? this.grade : "" } }).subscribe((res: any) => {
       this.schoolData1 = res['data'];
     }, err => {
       this.currentData1 = [];
@@ -667,9 +667,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.districtId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData.push({ data: data, name: element.districtName, color: this.currentColors[index], index: index });
             }
@@ -696,9 +696,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.districtId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData1.push({ data: data, name: element.districtName, color: this.currentColors[index], index: index });
             }
@@ -726,9 +726,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.blockId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData.push({ data: data, name: element.blockName, color: this.currentColors[index], index: index });
             }
@@ -755,9 +755,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.blockId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData1.push({ data: data, name: element.blockName, color: this.currentColors[index], index: index });
             }
@@ -785,9 +785,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.clusterId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData.push({ data: data, name: element.clusterName, color: this.currentColors[index], index: index });
             }
@@ -814,9 +814,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.clusterId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData1.push({ data: data, name: element.clusterName, color: this.currentColors[index], index: index });
             }
@@ -844,9 +844,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.schoolId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData.push({ data: data, name: element.schoolName, color: this.currentColors[index], index: index });
             }
@@ -873,9 +873,9 @@ export class SatTrendsChartComponent implements OnInit {
           item.id.map(id => {
             if (id == element.schoolId) {
               var data = [];
-              element.attendance.map(i => {
-                data.push(i.attendance);
-                counts.push({ studentCount: i.studentCount, schoolCount: i.schoolCount });
+              element.performance.map(i => {
+                data.push(i.performance);
+                counts.push({ studentCount: i.studentCount, studentAttended: i.studentAttended, grade: this.grade, schoolCount: i.schoolCount });
               })
               this.currentData1.push({ data: data, name: element.schoolName, color: this.currentColors[index], index: index });
             }
