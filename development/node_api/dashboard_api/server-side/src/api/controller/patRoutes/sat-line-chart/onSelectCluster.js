@@ -5,125 +5,86 @@ const s3File = require('../../../lib/reads3File');
 
 router.post('/clusterWise', auth.authController, async (req, res) => {
     try {
-        logger.info('---Trends dist wise api ---');
+        logger.info('---Trends cluster wise api ---');
         var year = req.body.year;
         var blockId = req.body.blockId;
         var management = req.body.management;
         var category = req.body.category;
+        var grade = req.body.grade;
+
         let fileName;
         if (management != 'overall' && category == 'overall') {
             fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/cluster/${blockId}_${year}.json`;
         } else {
-            fileName = `attendance/trend_line_chart/cluster/${blockId}_${year}.json`;
+            fileName = `sat/trend_line_chart/cluster/${blockId}_${year}.json`;
         }
         var clusterData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var keys = Object.keys(clusterData);
         var mydata = [];
 
         keys.map(key => {
-            var attendanceTest = [{
-                monthId: 6,
-                month: 'June',
-                year: undefined,
+            var stdPerformance = [{
+                semesterId: 1,
+                year: year,
                 studentCount: undefined,
+                studentAttended: undefined,
                 schoolCount: undefined,
-                attendance: ''
+                performance: ''
             }, {
-                monthId: 7,
-                month: 'July',
-                year: undefined,
+                semesterId: 2,
+                year: year,
                 studentCount: undefined,
+                studentAttended: undefined,
                 schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 8,
-                month: 'August',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 9,
-                month: 'September',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 10,
-                month: 'October',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 11,
-                month: 'November',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 12,
-                month: 'December',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 1,
-                month: 'January',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 2,
-                month: 'February',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 3,
-                month: 'March',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 4,
-                month: 'April',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
-            }, {
-                monthId: 5,
-                month: 'May',
-                year: undefined,
-                studentCount: undefined,
-                schoolCount: undefined,
-                attendance: ''
+                performance: ''
             }]
-            clusterData[key].attendance.map(a => {
-                attendanceTest.map(item => {
-                    if (item.monthId == a.month) {
-                        item.attendance = a.attendance_percentage;
-                        item.year = a.year;
-                        item.studentCount = a.students_count;
-                        item.schoolCount = a.total_schools;
-                    }
-                })
-            });
+
+            if (grade == "") {
+                clusterData[key].performance.map(data => {
+                    stdPerformance.map(item => {
+                        if (item.semesterId == data.semester) {
+                            item.performance = data.district_performance;
+                            item.studentCount = data.total_students;
+                            item.studentAttended = data.students_attended
+                            item.schoolCount = data.total_schools;
+                        }
+                    })
+                });
+            } else {
+                let sem1 = {
+                    semester: 1,
+                    percentage: "",
+                    total_schools: undefined,
+                    total_students: undefined,
+                    students_attended: undefined
+                }
+                let sem2 = {
+                    semester: 2,
+                    percentage: "",
+                    total_schools: undefined,
+                    total_students: undefined,
+                    students_attended: undefined
+                }
+                let clusterPerformance = [clusterData[key].Grades['1'][grade] ? clusterData[key].Grades['1'][grade] : sem1, clusterData[key].Grades['2'][grade] ? clusterData[key].Grades['2'][grade] : sem2];
+                clusterPerformance.map(data => {
+                    stdPerformance.map(item => {
+                        if (item.semesterId == data.semester) {
+                            item.performance = data.percentage;
+                            item.studentCount = data.total_students;
+                            item.studentAttended = data.students_attended
+                            item.schoolCount = data.total_schools;
+                        }
+                    })
+                });
+            }
             let obj2 = {
                 clusterId: key,
                 clusterName: clusterData[key].cluster_name[0],
-                attendance: attendanceTest
+                performance: stdPerformance
             }
             mydata.push(obj2);
         });
-        logger.info('--- Trends dist wise api response sent ---');
+        logger.info('--- Trends cluster wise api response sent ---');
         res.status(200).send({ data: mydata });
     } catch (e) {
         logger.error(`Error :: ${e}`)

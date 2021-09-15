@@ -1,5 +1,4 @@
 const router = require('express').Router();
-var const_data = require('../../../lib/config');
 const { logger } = require('../../../lib/logger');
 const auth = require('../../../middleware/check-auth');
 const s3File = require('../../../lib/reads3File');
@@ -8,7 +7,6 @@ const groupArray = require('group-array');
 router.post('/stateWise', auth.authController, async (req, res) => {
     try {
         logger.info('---Trends state wise api ---');
-        console.log(req.body);
         var year = req.body.year;
         var management = req.body.management;
         var category = req.body.category;
@@ -21,7 +19,7 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         }
         var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var mydata = [];
-        console.log(stateData[year]);
+
         if (stateData[year]) {
             var stdPerformance = [{
                 semesterId: 1,

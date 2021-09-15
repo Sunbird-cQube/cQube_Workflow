@@ -82,7 +82,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 if (grade) {
                     fileName = `${report}/${academic_year}/${semester}/district/${grade}.json`;
                     if (subject) {
-                        footerFile = `${report}/${period}/${semester}/all_subjects_footer.json`;
+                        footerFile = `${report}/${academic_year}/${semester}/all_subjects_footer.json`;
                     }
                 } else {
                     fileName = `${report}/${academic_year}/${semester}/district/district.json`;
