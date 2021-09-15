@@ -10,21 +10,6 @@ db_password=$(awk ''/^db_password:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/c
 
 export PGPASSWORD=$db_password
 
-if [ $temp == 0 ]; then
-    version=`psql -V | head -n1 | cut -d" " -f3`
-    if [[ $(echo "$version >= 10.12" | bc) == 1 ]]
-    then
-        echo "WARNING - Postgres found, taking the backup to base directory.."
-        pg_dump -h localhost -U $db_user -F t $db_name > $base_dir/cqube/postgres/backups/`date +%Y%m%d%H%M`$bk_db_name.tar
-        if [[ ! $? == 0 ]]; then
-            echo "There is a problem dumping the database"; tput sgr0 ;
-	        exit 1
-        else
-            echo "Database backup is completed"
-        fi
-     fi
-fi
-
 limit=2
 i=1
 for items in `ls $base_dir/cqube/postgres/backups | sort -r`
@@ -35,3 +20,21 @@ do
     i=`expr $i + 1`
 done
 
+if [[ -e ".version" ]]; then
+    cqube_workflow_version=$(awk ''/^cqube_workflow_version:' /{ if ($2 !~ /#.*/) {print $2}}' .version)
+
+if [ $temp == 0 ]; then
+    version=`psql -V | head -n1 | cut -d" " -f3`
+    if [[ $(echo "$version >= 10.12" | bc) == 1 ]]
+    then
+        echo "WARNING - Postgres found, taking the backup to base directory.."
+        pg_dump -h localhost -U $db_user -F t $db_name > $base_dir/cqube/postgres/backups/$cqube_workflow_version`date +%Y%m%d%H%M`$bk_db_name.tar
+        if [[ ! $? == 0 ]]; then
+            echo "There is a problem dumping the database"; tput sgr0 ;
+	        exit 1
+        else
+            echo "Database backup is completed"
+        fi
+     fi
+fi
+fi
