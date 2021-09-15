@@ -34,10 +34,10 @@ ansible-playbook ../ansible/create_base.yml --tags "update" --extra-vars "@confi
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 ansible-playbook ../ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
                                                         --extra-vars "@config.yml" \
-                                                        --extra-vars "@$base_dir/cqube/conf/aws_s3_upgradation_config.yml" \
-                                                        --extra-vars "@$base_dir/cqube/conf/local_storage_upgradation_config.yml"\
+                                                        --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
+                                                        --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"\
 							--extra-vars "@datasource_config.yml" \
-							--extra-vars "usecase_name=educational_old_theme"
+							--extra-vars "usecase_name=educational_usecase_theme2"
 . "update_ui.sh"
 if [ $? = 0 ]; then
    echo "cQube Workflow upgraded successfully!!"
