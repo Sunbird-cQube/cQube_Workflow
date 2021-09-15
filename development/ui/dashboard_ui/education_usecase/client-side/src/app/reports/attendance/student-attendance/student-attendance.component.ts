@@ -172,7 +172,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("sarMap", [[this.lat, this.lng]]);
-    if (this.mapName == 'googleMap') {
+    if (this.mapName == 'googlemap') {
       document.getElementById('leafletMap').style.display = "none";
     }
     document.getElementById("accessProgressCard").style.display = "block";
@@ -679,7 +679,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                   // google map circle icon
 
-                  if (this.mapName == "googleMap") {
+                  if (this.mapName == "googlemap") {
                     let markerColor = this.selected == "absolute"
                       ? color
                       : this.commonService.relativeColorGredient(
@@ -818,7 +818,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                   // google map circle icon
 
-                  if (this.mapName == "googleMap") {
+                  if (this.mapName == "googlemap") {
                     let markerColor = this.selected == "absolute"
                       ? color
                       : this.commonService.relativeColorGredient(
@@ -971,7 +971,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                   // google map circle icon
 
-                  if (this.mapName == "googleMap") {
+                  if (this.mapName == "googlemap") {
                     let markerColor = this.selected == "absolute"
                       ? color
                       : this.commonService.relativeColorGredient(
@@ -1110,7 +1110,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                   // google map circle icon
 
-                  if (this.mapName == "googleMap") {
+                  if (this.mapName == "googlemap") {
                     let markerColor = this.selected == "absolute"
                       ? color
                       : this.commonService.relativeColorGredient(
@@ -1455,7 +1455,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                   // google map circle icon
 
-                  if (this.mapName == "googleMap") {
+                  if (this.mapName == "googlemap") {
                     let markerColor = this.selected == "absolute"
                       ? color
                       : this.commonService.relativeColorGredient(
@@ -1687,7 +1687,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                   // google map circle icon
 
-                  if (this.mapName == "googleMap") {
+                  if (this.mapName == "googlemap") {
                     let markerColor = this.selected == "absolute"
                       ? color
                       : this.commonService.relativeColorGredient(
@@ -1942,7 +1942,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                   // google map circle icon
 
-                  if (this.mapName == "googleMap") {
+                  if (this.mapName == "googlemap") {
                     let markerColor = this.selected == "absolute"
                       ? color
                       : this.commonService.relativeColorGredient(
@@ -2057,7 +2057,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
     var yourData = this.globalService.getInfoFrom(
 
-      this.mapName == "googleMap" ? gmapObj : orgObject,
+      this.mapName == "googlemap" ? gmapObj : orgObject,
       "attendance",
       levelWise,
       "std-attd",
@@ -2283,7 +2283,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
         // google map circle icon
 
-        // if(this.mapName == "googleMap"){
+        // if(this.mapName == "googlemap"){
         //   let markerColor =  this.selected == "absolute"
         //    ? color
         //    : this.commonService.relativeColorGredient(

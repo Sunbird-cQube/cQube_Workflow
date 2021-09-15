@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { PATExceptionComponent } from './pat-exception/pat-exception.component';
 import { StudentAttendanceExceptionComponent } from './student-attendance-exception/student-attendance-exception.component';
 import { TeacherAttendanceExceptionComponent } from './teacher-attendance-exception/teacher-attendance-exception.component';
+import { AgmCoreModule } from '@agm/core';
 
 const exceptionRoutes: Routes = [
   {
@@ -42,7 +43,8 @@ const exceptionRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(exceptionRoutes)
+    RouterModule.forChild(exceptionRoutes),
+    AgmCoreModule
   ]
 })
 export class ExceptionModule { }
