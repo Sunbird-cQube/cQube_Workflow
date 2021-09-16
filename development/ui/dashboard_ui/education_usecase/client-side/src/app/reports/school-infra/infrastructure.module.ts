@@ -8,6 +8,7 @@ import { InfraMapVisualisationComponent } from './infra-map-visualisation/infra-
 import { SchoolInfrastructureComponent } from './school-infrastructure/school-infrastructure.component';
 import { FormsModule } from '@angular/forms';
 import { UdiseReportComponent } from './udise-report/udise-report.component';
+import { AgmCoreModule } from '@agm/core';
 
 const infraRoutes: Routes = [
   {
@@ -36,7 +37,8 @@ const infraRoutes: Routes = [
     CommonModule,
     FormsModule,
     NgbDropdownModule,
-    RouterModule.forChild(infraRoutes)
+    RouterModule.forChild(infraRoutes),
+    AgmCoreModule
   ]
 })
 export class InfrastructureModule { }

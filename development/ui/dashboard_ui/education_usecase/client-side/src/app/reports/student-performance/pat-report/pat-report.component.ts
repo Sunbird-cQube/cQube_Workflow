@@ -170,7 +170,7 @@ export class PATReportComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.globalService.initMap("patMap", [[this.lat, this.lng]]);
     if (this.mapName == 'googlemap') {
-      document.getElementById('leafletMap').style.display = "none";
+      document.getElementById('leafletmap').style.display = "none";
     }
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
@@ -2119,6 +2119,9 @@ export class PATReportComponent implements OnInit {
 
   // clickMarker for Google map
   onClick_AgmMarker(marker) {
+    if (this.level == "schoolPerCluster") {
+      return false;
+    }
     let data = marker.Details;
     if (data.district_id && !data.block_id && !data.cluster_id) {
       this.stateLevel = 1;

@@ -78,6 +78,9 @@ export class TelemetryDataComponent implements OnInit {
   reportName = 'telemerty';
   level = "District";
 
+  mapName;
+  googleMapZoom = 7;
+
   constructor(
     public http: HttpClient,
     public service: TelemetryService,
@@ -96,11 +99,15 @@ export class TelemetryDataComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
     this.lat = this.globalService.mapCenterLatlng.lat;
     this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap('map', [[this.lat, this.lng]]);
+    if (this.mapName == 'googlemap') {
+      document.getElementById('leafletmap').style.display = "none";
+    }
     globalMap.setMaxBounds([[this.lat - 4.5, this.lng - 6], [this.lat + 3.5, this.lng + 6]]);
     document.getElementById('accessProgressCard').style.display = 'none';
     //document.getElementById('backBtn').style.display = 'none';
@@ -169,12 +176,13 @@ export class TelemetryDataComponent implements OnInit {
         this.myData.unsubscribe();
       }
       this.myData = this.service.telemetryDist(obj).subscribe(res => {
-        this.data = res;
+        this.markers = this.data = res;
         // to show only in dropdowns
         this.districtMarkers = this.data['data'];
 
         // options to set for markers in the map
         let options = {
+          radius: 6,
           mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
@@ -235,6 +243,7 @@ export class TelemetryDataComponent implements OnInit {
       this.myData = this.service.telemetryBlock(obj).subscribe(res => {
         this.data = res
         let options = {
+          radius: 4,
           mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
@@ -245,10 +254,16 @@ export class TelemetryDataComponent implements OnInit {
         if (this.data['data'].length > 0) {
           let result = this.data['data']
           this.blockMarkers = [];
-          this.blockMarkers = result;
+          this.markers = this.blockMarkers = result;
 
           if (this.blockMarkers.length !== 0) {
             for (let i = 0; i < this.blockMarkers.length; i++) {
+              // google map circle icon
+              if (this.mapName == "googlemap") {
+                let markerColor = "#42a7f5"
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, .5);
+              }
+
               var markerIcon = this.globalService.initMarkers1(this.blockMarkers[i].lat, this.blockMarkers[i].lng, "#42a7f5", 1, 1, options.level);
               this.generateToolTip(this.blockMarkers[i], options.level, markerIcon, "lat", "lng");
             }
@@ -309,6 +324,7 @@ export class TelemetryDataComponent implements OnInit {
       this.myData = this.service.telemetryCluster(obj).subscribe(res => {
         this.data = res
         let options = {
+          radius: 3,
           mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
@@ -319,10 +335,15 @@ export class TelemetryDataComponent implements OnInit {
         if (this.data['data'].length > 0) {
           let result = this.data['data']
           this.clusterMarkers = [];
-          this.clusterMarkers = result;
+          this.markers = this.clusterMarkers = result;
 
           if (this.clusterMarkers.length !== 0) {
             for (let i = 0; i < this.clusterMarkers.length; i++) {
+              // google map circle icon
+              if (this.mapName == "googlemap") {
+                let markerColor = "#42a7f5"
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, .5);
+              }
               var markerIcon = this.globalService.initMarkers1(this.clusterMarkers[i].lat, this.clusterMarkers[i].lng, "#42a7f5", 2, 1, options.level);
               this.generateToolTip(this.clusterMarkers[i], options.level, markerIcon, "lat", "lng");
             }
@@ -379,6 +400,7 @@ export class TelemetryDataComponent implements OnInit {
       this.myData = this.service.telemetrySchool(obj).subscribe(res => {
         this.data = res
         let options = {
+          radius: 1.5,
           mapZoom: this.globalService.zoomLevel,
           centerLat: this.lat,
           centerLng: this.lng,
@@ -390,9 +412,14 @@ export class TelemetryDataComponent implements OnInit {
         if (this.data['data'].length > 0) {
           let result = this.data['data']
 
-          this.schoolMarkers = result;
+          this.markers = this.schoolMarkers = result;
           if (this.schoolMarkers.length !== 0) {
             for (let i = 0; i < this.schoolMarkers.length; i++) {
+              // google map circle icon
+              if (this.mapName == "googlemap") {
+                let markerColor = "#42a7f5"
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, .5);
+              }
               var markerIcon = this.globalService.initMarkers1(this.schoolMarkers[i].lat, this.schoolMarkers[i].lng, "#42a7f5", 2, 0.3, options.level);
               this.generateToolTip(this.schoolMarkers[i], options.level, markerIcon, "lat", "lng");
             }
@@ -433,7 +460,7 @@ export class TelemetryDataComponent implements OnInit {
        this.myData.unsubscribe();
      }
      this.myData = this.service.semCompletionBlockPerDist(districtId).subscribe(res => {
-       this.data = res;
+       this.markers =this.data = res;
   
        this.blockMarkers = this.data['data'];
        // set hierarchy values
@@ -489,7 +516,7 @@ export class TelemetryDataComponent implements OnInit {
        this.myData.unsubscribe();
      }
      this.myData = this.service.semCompletionClusterPerBlock(this.districtHierarchy.distId, blockId).subscribe(res => {
-       this.data = res;
+       this.markers =this.data = res;
        this.clusterMarkers = this.data['data'];
        var myBlocks = [];
        this.blockMarkers.forEach(element => {
@@ -552,7 +579,7 @@ export class TelemetryDataComponent implements OnInit {
      }
      this.myData = this.service.semCompletionBlock().subscribe(result => {
        this.myData = this.service.semCompletionSchoolPerClustter(this.blockHierarchy.distId, this.blockHierarchy.blockId, clusterId).subscribe(res => {
-         this.data = res;
+         this.markers =this.data = res;
          this.schoolMarkers = this.data['data'];
   
          var markers = result['data'];
@@ -655,6 +682,11 @@ export class TelemetryDataComponent implements OnInit {
           strLng = "school_longitude";
         }
 
+        // google map circle icon
+        if (this.mapName == "googlemap") {
+          let markerColor = "#42a7f5"
+          this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, .5);
+        }
         var markerIcon = this.globalService.initMarkers1(this.markers[i].lat, this.markers[i].lng, "#42a7f5", options.strokeWeight, 1, options.level);
 
         // data to show on the tooltip for the desired levels
@@ -691,6 +723,15 @@ export class TelemetryDataComponent implements OnInit {
   onMouseOver(m, infowindow) {
     m.lastOpen = infowindow;
     m.lastOpen.open();
+  }
+
+  // google maps
+  mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
+    infoWindow.open();
+  }
+
+  mouseOutOnmaker(infoWindow, $event: MouseEvent) {
+    infoWindow.close();
   }
 
   //Hide tooltips on markers on mouse hover...
@@ -733,9 +774,19 @@ export class TelemetryDataComponent implements OnInit {
     this.popups(markerIcon, markers, level);
     var details = {};
     var orgObject = {};
-    Object.keys(markers).forEach(key => {
+    let remIcon = {};
+    if (this.mapName == 'googlemap') {
+      Object.keys(markers).forEach(key => {
+        if (key !== 'icon') {
+          remIcon[key] = markers[key];
+        }
+      });
+    } else {
+      remIcon = markers;
+    }
+    Object.keys(remIcon).forEach(key => {
       if (key !== lat) {
-        details[key] = markers[key];
+        details[key] = remIcon[key];
       }
     });
     Object.keys(details).forEach(key => {
@@ -749,8 +800,12 @@ export class TelemetryDataComponent implements OnInit {
     yourData = this.globalService.getInfoFrom(orgObject, "", level, "telemetry", undefined, undefined).join(" <br>");
 
     //Generate dynamic tool-tip
-    const popup = R.responsivePopup({ hasTip: false, autoPan: false, offset: [15, 20] }).setContent(
-      yourData);
-    markerIcon.addTo(globalMap).bindPopup(popup);
+    if (this.mapName != 'googlemap') {
+      const popup = R.responsivePopup({ hasTip: false, autoPan: false, offset: [15, 20] }).setContent(
+        yourData);
+      markerIcon.addTo(globalMap).bindPopup(popup);
+    } else {
+      markers["label"] = yourData
+    }
   }
 }

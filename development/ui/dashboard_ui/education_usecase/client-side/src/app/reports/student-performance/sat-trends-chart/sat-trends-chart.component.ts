@@ -93,7 +93,6 @@ export class SatTrendsChartComponent implements OnInit {
           this.allGrades.sort((a, b) =>
             a.grade > b.grade ? 1 : b.grade > a.grade ? -1 : 0
           );
-          console.log(this.allGrades)
           this.allGrades.unshift({ grade: 'AllGrades' });
         });
     this.service.getAcademicYears().subscribe(res => {

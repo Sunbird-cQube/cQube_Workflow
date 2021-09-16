@@ -173,7 +173,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.globalService.initMap("sarMap", [[this.lat, this.lng]]);
     if (this.mapName == 'googlemap') {
-      document.getElementById('leafletMap').style.display = "none";
+      document.getElementById('leafletmap').style.display = "none";
     }
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
@@ -1319,6 +1319,9 @@ export class StudengtAttendanceComponent implements OnInit {
 
   // clickMarker for Google map
   onClick_AgmMarker(event, marker) {
+    if (this.levelWise == "schoolPerCluster") {
+      return false;
+    }
     this.markerData = marker;
     this.clickedMarker(event, marker);
   }
@@ -2065,7 +2068,7 @@ export class StudengtAttendanceComponent implements OnInit {
       undefined
     )
       .join(" <br>");
-    if (this.mapName == 'leafletMap') {
+    if (this.mapName == 'leafletmap') {
       const popup = R.responsivePopup({
         hasTip: false,
         autoPan: false,

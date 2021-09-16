@@ -75,7 +75,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     NgbModule,
     NgCircleProgressModule.forRoot({}),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAoWRJHgQDrgv1VbSkY_uzW-taEWOiyUbw&region=US'
+      apiKey: 'AIzaSyCgRMQ5PGULR4FxFW6D1XaE0O06Zw5v2XQ&region=IN'
     })
   ],
   exports: [
