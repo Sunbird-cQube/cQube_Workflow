@@ -163,7 +163,7 @@ export class SatReportComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.globalService.initMap("satMap", [[this.lat, this.lng]]);
     if (this.mapName == 'googlemap') {
-      document.getElementById('leafletMap').style.display = "none";
+      document.getElementById('leafletmap').style.display = "none";
     }
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
@@ -2105,6 +2105,9 @@ export class SatReportComponent implements OnInit {
 
   // clickMarker for Google map
   onClick_AgmMarker(event, marker) {
+    if (this.level == "schoolPerCluster") {
+      return false;
+    }
     var data = marker.Details;
     if (data.district_id && !data.block_id && !data.cluster_id) {
       this.stateLevel = 1;

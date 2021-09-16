@@ -126,7 +126,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.globalService.initMap("sarExpMap", [[this.lat, this.lng]]);
     if (this.mapName == 'googlemap') {
-      document.getElementById('leafletMap').style.display = "none";
+      document.getElementById('leafletmap').style.display = "none";
     }
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
@@ -982,6 +982,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
   // clickMarker for Google map
   onClick_AgmMarker(event, marker) {
+    if (this.level == "schoolPerCluster") {
+      return false;
+    }
     this.markerData = marker;
     this.clickedMarker(event, marker);
   }
@@ -1650,7 +1653,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       undefined
     )
       .join(" <br>");
-    if (this.mapName == 'leafletMap') {
+    if (this.mapName == 'leafletmap') {
       const popup = R.responsivePopup({
         hasTip: false,
         autoPan: false,

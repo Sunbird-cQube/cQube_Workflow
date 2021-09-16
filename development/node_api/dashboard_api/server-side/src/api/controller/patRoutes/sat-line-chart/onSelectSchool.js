@@ -14,7 +14,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
 
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/school/${clusterId}_${year}.json`;
+            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/${management}/school/${clusterId}_${year}.json`;
         } else {
             fileName = `sat/trend_line_chart/school/${clusterId}_${year}.json`;
         }

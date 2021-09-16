@@ -90,6 +90,8 @@ export class InfraMapVisualisationComponent implements OnInit {
   colorGenData: any = [];
   reportName = "infrastructure_access_by_location";
   dateAndTime;
+  mapName;
+  googleMapZoom;
 
   constructor(
     public http: HttpClient,
@@ -127,11 +129,15 @@ export class InfraMapVisualisationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("infraMap", [[this.lat, this.lng]]);
+    if (this.mapName == 'googlemap') {
+      document.getElementById('leafletmap').style.display = "none";
+    }
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -195,7 +201,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   getDistricts(): void {
     this.service.infraMapDistWise({ management: this.management, category: this.category }).subscribe((res) => {
-      this.data = res["data"];
+      this.markers = this.data = res["data"];
       this.districtMarkers = this.data;
       this.districtMarkers.sort((a, b) =>
         a.details.district_name > b.details.district_name
@@ -209,7 +215,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   getBlocks(distId, blockId?: any): void {
     this.service.infraMapBlockWise(distId, { management: this.management, category: this.category }).subscribe((res) => {
-      this.data = res["data"];
+      this.markers = this.data = res["data"];
       this.blockMarkers = this.data;
       this.blockMarkers.sort((a, b) =>
         a.details.block_name > b.details.block_name
@@ -224,7 +230,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   getClusters(distId, blockId, clusterId): void {
     this.service.infraMapClusterWise(distId, blockId, { management: this.management, category: this.category }).subscribe((res) => {
-      this.data = res["data"];
+      this.markers = this.data = res["data"];
       this.clusterMarkers = this.data;
       this.clusterMarkers.sort((a, b) =>
         a.details.cluster_name > b.details.cluster_name
@@ -240,6 +246,16 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.infraData = "infrastructure_score";
     this.districtWise();
   }
+
+
+  // google maps
+  mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
+    infoWindow.open();
+  }
+
+  mouseOutOnmaker(infoWindow, $event: MouseEvent) {
+    infoWindow.close();
+  }
   // to load all the districts for state data on the map
   districtWise() {
     try {
@@ -251,6 +267,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.districtId = undefined;
       this.commonService.errMsg();
       this.level = "District";
+      this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_allDistricts_${this.commonService.dateAndTime}`;
 
       this.valueRange = undefined;
@@ -272,8 +289,10 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.gettingInfraFilters(this.data);
         // to show only in dropdowns
         this.districtMarkers = this.myDistData["data"];
+
         // options to set for markers in the map
         let options = {
+          radius: 6,
           fillOpacity: 1,
           strokeWeight: 0.01,
           mapZoom: this.globalService.zoomLevel,
@@ -311,7 +330,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.myData = this.service.infraMapDistWise({ management: this.management, category: this.category }).subscribe(
           (res) => {
             this.myDistData = res;
-            this.data = res["data"];
+            this.markers = this.data = res["data"];
             this.gettingInfraFilters(this.data);
 
             // to show only in dropdowns
@@ -319,6 +338,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
             // options to set for markers in the map
             let options = {
+              radius: 6,
               fillOpacity: 1,
               strokeWeight: 0.01,
               mapZoom: this.globalService.zoomLevel,
@@ -388,6 +408,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.districtId = undefined;
       this.blockId = undefined;
       this.level = "Block";
+      this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_allBlocks_${this.commonService.dateAndTime}`;
 
       this.valueRange = undefined;
@@ -411,9 +432,10 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.myData = this.service.infraMapAllBlockWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           this.myBlockData = res["data"];
-          this.data = res["data"];
+          this.markers = this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
+            radius: 4,
             mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
@@ -444,6 +466,14 @@ export class InfraMapVisualisationComponent implements OnInit {
                     colors
                   );
                 }
+
+                // google map circle icon
+
+                if (this.mapName == "googlemap") {
+                  let markerColor = color
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 1);
+                }
+
                 var markerIcon = this.globalService.initMarkers1(
                   this.blockMarkers[i].details.latitude,
                   this.blockMarkers[i].details.longitude,
@@ -509,6 +539,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.blockId = undefined;
       this.clusterId = undefined;
       this.level = "Cluster";
+      this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_allClusters_${this.commonService.dateAndTime}`;
 
       this.valueRange = undefined;
@@ -531,9 +562,10 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllClusterWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
-          this.data = res["data"];
+          this.markers = this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
+            radius: 2,
             mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
@@ -564,6 +596,14 @@ export class InfraMapVisualisationComponent implements OnInit {
                     colors
                   );
                 }
+                // google map circle icon
+
+                if (this.mapName == "googlemap") {
+                  let markerColor = color
+
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.5);
+                }
+
                 var markerIcon = this.globalService.initMarkers1(
                   this.clusterMarkers[i].details.latitude,
                   this.clusterMarkers[i].details.longitude,
@@ -627,6 +667,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.blockId = undefined;
       this.clusterId = undefined;
       this.level = "School";
+      this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_allSchools_${this.commonService.dateAndTime}`;
 
       this.valueRange = undefined;
@@ -649,9 +690,10 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllSchoolWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
-          this.data = res["data"];
+          this.markers = this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
+            radius: 1,
             mapZoom: this.globalService.zoomLevel,
             centerLat: this.lat,
             centerLng: this.lng,
@@ -682,6 +724,15 @@ export class InfraMapVisualisationComponent implements OnInit {
                     colors
                   );
                 }
+
+                // google map circle icon
+
+                if (this.mapName == "googlemap") {
+                  let markerColor = color
+
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.3);
+                }
+
                 var markerIcon = this.globalService.initMarkers1(
                   this.schoolMarkers[i].details.latitude,
                   this.schoolMarkers[i].details.longitude,
@@ -745,6 +796,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.blockId = undefined;
     this.reportData = [];
     this.level = "blockPerDistrict";
+    this.googleMapZoom = 9;
     this.blockMarkers = [];
 
     this.valueRange = undefined;
@@ -757,7 +809,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.myData = this.service.infraMapBlockWise(districtId, { management: this.management, category: this.category }).subscribe(
       (res) => {
-        this.data = res["data"];
+        this.markers = this.data = res["data"];
         this.gettingInfraFilters(this.data);
 
         this.blockMarkers = this.data;
@@ -782,6 +834,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
         // options to set for markers in the map
         let options = {
+          radius: 5,
           fillOpacity: 1,
           strokeWeight: 0.01,
           mapZoom: this.globalService.zoomLevel + 1,
@@ -833,7 +886,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.clusterId = undefined;
     this.reportData = [];
     this.level = "clusterPerBlock";
-
+    this.googleMapZoom = 11;
     this.valueRange = undefined;
     this.selectedIndex = undefined;
     this.deSelect();
@@ -847,7 +900,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       .infraMapClusterWise(this.districtHierarchy.distId, blockId, { management: this.management, category: this.category })
       .subscribe(
         (res) => {
-          this.data = res["data"];
+          this.markers = this.data = res["data"];
           this.gettingInfraFilters(this.data);
 
           this.clusterMarkers = this.data;
@@ -883,6 +936,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
           // options to set for markers in the map
           let options = {
+            radius: 5,
             fillOpacity: 1,
             strokeWeight: 0.01,
             mapZoom: this.globalService.zoomLevel + 3,
@@ -932,7 +986,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
     this.level = "schoolPerCluster";
-
+    this.googleMapZoom = 13;
     this.valueRange = undefined;
     this.selectedIndex = undefined;
     this.deSelect();
@@ -950,7 +1004,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              this.data = res["data"];
+              this.markers = this.data = res["data"];
               this.gettingInfraFilters(this.data);
 
               this.schoolMarkers = this.data;
@@ -1010,6 +1064,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
               // options to set for markers in the map
               let options = {
+                radius: 5,
                 fillOpacity: 1,
                 strokeWeight: 0.01,
                 mapZoom: this.globalService.zoomLevel + 5,
@@ -1056,52 +1111,59 @@ export class InfraMapVisualisationComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      if (data.length > 0) {
-        this.markers = data;
-        var colors = this.commonService.getRelativeColors(
-          this.markers,
-          this.infraData
-        );
-        // attach values to markers
-        for (var i = 0; i < this.markers.length; i++) {
-          var color;
-          if (this.selected == "absolute") {
-            color = this.commonService.colorGredient(
-              this.markers[i],
-              this.infraData
-            );
-          } else {
-            color = this.commonService.relativeColorGredient(
-              this.markers[i],
-              this.infraData,
-              colors
-            );
-          }
-          var markerIcon = this.globalService.initMarkers1(
-            this.markers[i].details.latitude,
-            this.markers[i].details.longitude,
-            color,
-            options.level == 'School' ? 0 : options.strokeWeight,
-            options.level == 'School' ? 0.3 : 1,
-            options.level
-          );
-
-          // data to show on the tooltip for the desired levels
-          this.generateToolTip(
+      this.markers = data;
+      var colors = this.commonService.getRelativeColors(
+        this.markers,
+        this.infraData
+      );
+      // attach values to markers
+      for (var i = 0; i < this.markers.length; i++) {
+        var color;
+        if (this.selected == "absolute") {
+          color = this.commonService.colorGredient(
             this.markers[i],
-            options.level,
-            markerIcon,
-            "latitude",
-            "longitude"
+            this.infraData
           );
-
-          // to download the report
-          this.fileName = fileName;
-          this.getDownloadableData(this.markers[i], options.level);
+        } else {
+          color = this.commonService.relativeColorGredient(
+            this.markers[i],
+            this.infraData,
+            colors
+          );
         }
-        this.commonService.loaderAndErr(data);
-        this.changeDetection.detectChanges();
+
+        // google map circle icon
+
+        if (this.mapName == "googlemap") {
+          let markerColor = color
+
+          this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, .5);
+        }
+
+        var markerIcon = this.globalService.initMarkers1(
+          this.markers[i].details.latitude,
+          this.markers[i].details.longitude,
+          color,
+          options.level == 'School' ? 0 : options.strokeWeight,
+          options.level == 'School' ? 0.3 : 1,
+          options.level
+        );
+
+        // data to show on the tooltip for the desired levels
+        this.generateToolTip(
+          this.markers[i],
+          options.level,
+          markerIcon,
+          "latitude",
+          "longitude"
+        );
+
+        // to download the report
+        this.fileName = fileName;
+        this.getDownloadableData(this.markers[i], options.level);
       }
+      this.commonService.loaderAndErr(data);
+      this.changeDetection.detectChanges();
     } catch (e) {
       data = [];
       this.commonService.loaderAndErr(data);
@@ -1215,19 +1277,37 @@ export class InfraMapVisualisationComponent implements OnInit {
     var yourData = this.globalService.getInfoFrom(ordered, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
 
-    const popup = R.responsivePopup({
-      hasTip: false,
-      autoPan: false,
-      offset: [15, 20],
-    }).setContent(
-      "<b><u>Details</u></b>" +
+    var toolTip = "<b><u>Details</u></b>" +
       "<br>" +
       yourData1 +
       "<br><br><b><u>School Infrastructure Metrics (% of schools)</u></b>" +
       "<br>" +
-      yourData
-    );
-    markerIcon.addTo(globalMap).bindPopup(popup);
+      yourData;
+
+    var toolTip = "<b><u>Details</u></b>" +
+      "<br>" +
+      yourData1 +
+      "<br><br><b><u>School Infrastructure Metrics (% of schools)</u></b>" +
+      "<br>" +
+      yourData;
+    if (this.mapName != 'googlemap') {
+      const popup = R.responsivePopup({
+        hasTip: false,
+        autoPan: false,
+        offset: [15, 20],
+      }).setContent(
+        "<b><u>Details</u></b>" +
+        "<br>" +
+        yourData1 +
+        "<br><br><b><u>School Infrastructure Metrics (% of schools)</u></b>" +
+        "<br>" +
+        yourData
+      );
+      markerIcon.addTo(globalMap).bindPopup(popup);
+    } else {
+      marker["label"] = toolTip
+    }
+
   }
 
   popups(markerIcon, markers, level) {
@@ -1265,6 +1345,35 @@ export class InfraMapVisualisationComponent implements OnInit {
   onClick_Marker(event) {
     this.infraFilter = [];
     var data = event.target.myJsonData.details;
+    if (data.district_id && !data.block_id && !data.cluster_id) {
+      this.stateLevel = 1;
+      this.onDistrictSelect(data.district_id);
+    }
+    if (data.district_id && data.block_id && !data.cluster_id) {
+      this.stateLevel = 1;
+      this.districtHierarchy = {
+        distId: data.district_id,
+      };
+      this.onBlockSelect(data.block_id);
+    }
+    if (data.district_id && data.block_id && data.cluster_id) {
+      this.stateLevel = 1;
+      this.blockHierarchy = {
+        distId: data.district_id,
+        blockId: data.block_id,
+      };
+      this.onClusterSelect(data.cluster_id);
+    }
+  }
+
+
+  // clickMarker for Google map
+  onClick_AgmMarker(event, marker) {
+    if (this.level == "schoolPerCluster") {
+      return false;
+    }
+    this.infraFilter = [];
+    var data = marker.details;
     if (data.district_id && !data.block_id && !data.cluster_id) {
       this.stateLevel = 1;
       this.onDistrictSelect(data.district_id);
