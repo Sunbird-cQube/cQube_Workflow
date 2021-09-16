@@ -297,6 +297,12 @@ else
 fi
 }
 
+check_map_name(){
+if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" ]]; then
+    echo "Error - Please enter either mapmyindia or googlemap or leafletmap for $1"; fail=1
+fi
+}
+
 get_config_values(){
 key=$1
 vals[$key]=$(awk ''/^$key:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
@@ -315,7 +321,7 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management"  "session_timeout")
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management"  "session_timeout" "map_name")
 
 # Create and empty array which will store the key and value pair from config file
 declare -A vals
@@ -326,9 +332,6 @@ realm_name=cQube
 
 # Getting base_dir
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
-
-
-
 
 check_mem
 # Check the version before starting validation
@@ -384,6 +387,13 @@ case $key in
           echo "Error - in $key. Unable to get the value. Please check."; fail=1
        else
           check_timeout $key $value
+       fi
+       ;;
+   map_name)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_map_name $key $value
        fi
        ;;
    *)
