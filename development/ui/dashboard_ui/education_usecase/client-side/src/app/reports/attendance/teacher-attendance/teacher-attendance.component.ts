@@ -1998,7 +1998,7 @@ export class TeacherAttendanceComponent implements OnInit {
       undefined
     )
       .join(" <br>");
-    if (this.mapName == 'leafletmap') {
+    if (this.mapName != 'googlemap') {
       const popup = R.responsivePopup({
         hasTip: false,
         autoPan: false,
@@ -2232,7 +2232,7 @@ export class TeacherAttendanceComponent implements OnInit {
           this.levelWise
         );
       }
-    
+
       stopLoader ? this.commonService.loaderAndErr(markers) : "";
       this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       this.teacherCount = this.teacherCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");

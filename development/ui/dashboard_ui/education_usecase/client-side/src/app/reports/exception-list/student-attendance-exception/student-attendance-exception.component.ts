@@ -1653,7 +1653,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       undefined
     )
       .join(" <br>");
-    if (this.mapName == 'leafletmap') {
+    if (this.mapName != 'googlemap') {
       const popup = R.responsivePopup({
         hasTip: false,
         autoPan: false,

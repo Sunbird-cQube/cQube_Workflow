@@ -84,9 +84,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.height = window.innerHeight;
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
+      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
     }
-    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
-    // this.levelWiseFilter();
   }
 
   public tableHead: any;
@@ -644,7 +643,7 @@ export class SchoolInfrastructureComponent implements OnInit {
             scaleLabel: {
               fontColor: "black",
               display: true,
-              labelString: obj.xAxis,
+              labelString: obj ? obj.xAxis : "",
               fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 14 : 10,
             }
           }],
@@ -661,7 +660,7 @@ export class SchoolInfrastructureComponent implements OnInit {
             scaleLabel: {
               fontColor: "black",
               display: true,
-              labelString: obj.yAxis,
+              labelString: obj ? obj.yAxis : "",
               fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 14 : 10,
             }
           }]
