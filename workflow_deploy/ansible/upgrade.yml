@@ -66,5 +66,8 @@
           - role: progresscard
             tags: update
             when: progresscard
+           
+          - role: dummy_connections  
+            tags: update  
   
           - cqube_version
