@@ -238,7 +238,7 @@ export class SatTrendsChartComponent implements OnInit {
     this.commonService.errMsg();
     if (!defYear) {
       this.selectedYear = this.years[0];
-      this.selectedYear1 = this.years[2];
+      this.selectedYear1 = this.years[1];
     }
     this.getStateData();
     this.getStateData1();
