@@ -101,21 +101,21 @@ export class MapService {
         }
       })
     } else {
-      if (level === "District") {
-        this.markerRadius = this.getMarkerRadius(18, 14, 10, 6);
-      }
-      if (level === "Block") {
-        this.markerRadius = this.getMarkerRadius(12, 10, 8, 5);
-      }
-      if (level === "Cluster") {
-        this.markerRadius = this.getMarkerRadius(5, 4, 3, 2);
-      }
-      if (level === "School") {
-        this.markerRadius = this.getMarkerRadius(3, 2.5, 2, 1);
-      }
-      if (level === "blockPerDistrict" || level === "clusterPerBlock" || level === "schoolPerCluster") {
-        this.markerRadius = this.getMarkerRadius(18, 14, 10, 5);
-      }
+      // if (level === "District") {
+      //   this.markerRadius = this.getMarkerRadius(18, 14, 10, 6);
+      // }
+      // if (level === "Block") {
+      //   this.markerRadius = this.getMarkerRadius(12, 10, 8, 5);
+      // }
+      // if (level === "Cluster") {
+      //   this.markerRadius = this.getMarkerRadius(5, 4, 3, 2);
+      // }
+      // if (level === "School") {
+      //   this.markerRadius = this.getMarkerRadius(3, 2.5, 2, 1);
+      // }
+      // if (level === "blockPerDistrict" || level === "clusterPerBlock" || level === "schoolPerCluster") {
+      //   this.markerRadius = this.getMarkerRadius(18, 14, 10, 5);
+      // }
     }
   }
 
@@ -234,7 +234,7 @@ export class MapService {
   }
 
   // google marker initialsation
-  public markerRadius;
+  // public markerRadius;
   public circleIcon
   initGoogleMapMarker(color, scale, stroke) {
     this.circleIcon = {

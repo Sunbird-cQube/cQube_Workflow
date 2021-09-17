@@ -78,7 +78,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     this.service.getYears().subscribe(res => {
       this.years = Object.keys(res);
       this.selectedYear = this.years[0];
-      this.selectedYear1 = this.years[2];
+      this.selectedYear1 = this.years[1];
       this.onResize();
       this.onHomeClick(false);
     }, err => {
@@ -211,7 +211,7 @@ export class StudentAttendanceChartComponent implements OnInit {
     this.commonService.errMsg();
     if (!defYear) {
       this.selectedYear = this.years[0];
-      this.selectedYear1 = this.years[2];
+      this.selectedYear1 = this.years[1];
     }
     this.getStateData();
     this.getStateData1();

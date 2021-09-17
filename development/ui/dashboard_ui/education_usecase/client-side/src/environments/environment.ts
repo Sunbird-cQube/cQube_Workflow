@@ -13,8 +13,8 @@ export const environment = {
   stateName: "GJ",
   useCase: "education_usecase",
   diksha_columns: false,
-  theme: "theme1",
-  mapName: "googlemap"
+  theme: "theme2",
+  mapName: "mapmyindia"
 };
 
 /*

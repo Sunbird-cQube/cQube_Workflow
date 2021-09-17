@@ -509,7 +509,7 @@ border-color:var(--theme-back-button-border-color);
     #block,
     #cluster,
     #school {
-        color: #262626;
+        color: var(--theme-report-heading-color);
         font-weight: 600;
         font-size: 32px;
         line-height: 1.2em;
@@ -580,7 +580,7 @@ border-color:var(--theme-back-button-border-color);
         border-radius: 4px;
         font-size: 22px !important;
         font-weight: bold;
-        background-color: rgb(152, 160, 163);
+        background: var(--theme-report-button-color);
     }
     #blockbtn,
     #clusterbtn,
@@ -590,7 +590,7 @@ border-color:var(--theme-back-button-border-color);
         font-size: 22px !important;
         width: 130px !important;
         padding: 4.3px !important;
-        background-color: rgb(152, 160, 163);
+       background: var(--theme-report-button-color);
     }
     .legends {
         width: 85%;
@@ -708,7 +708,7 @@ border-color:var(--theme-back-button-border-color);
     #block,
     #cluster,
     #school {
-        color: #262626;
+        color: var(--theme-report-heading-color);
         font-weight: 600;
         font-size: 38px !important;
         line-height: 1.2em;
@@ -779,7 +779,7 @@ border-color:var(--theme-back-button-border-color);
         border-radius: 6px;
         font-size: 32px !important;
         font-weight: bold;
-        background-color: rgb(152, 160, 163);
+        background: var(--theme-report-button-color);
     }
     #blockbtn,
     #clusterbtn,
@@ -788,7 +788,7 @@ border-color:var(--theme-back-button-border-color);
         font-size: 32px !important;
         width: 180px !important;
         padding: 6px !important;
-        background-color: rgb(152, 160, 163);
+        background: var(--theme-report-button-color);
         margin-top: -12.5px !important;
     }
     .legends {

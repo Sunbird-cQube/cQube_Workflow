@@ -23,7 +23,7 @@ export const themeProperties = {
         themeHeaderBackground: "#2ca8ff",
         themeSideNavBackground: "#92cbf3",
         themeSideNavUserInfo: "#d6e9f7",
-        themeReportHeaderBackground: "#ffebcc",
+        themeReportHeaderBackground: "#d6e9f7",
         themeLogoutButtonBackgroundColor: "#2ca8ff",
         themeButtonBorderColor: "#2ca8ff",
         themeBackButtonBackgroundColor: "#d6e9f7",

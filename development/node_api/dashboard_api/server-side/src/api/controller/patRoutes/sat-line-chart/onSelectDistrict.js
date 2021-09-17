@@ -66,10 +66,10 @@ router.post('/stateWise', auth.authController, async (req, res) => {
                 statePerformance.map(data => {
                     stdPerformance.map(item => {
                         if (item.semesterId == data.semester) {
-                            item.performance = data.percentage;
-                            item.studentCount = data.total_students;
-                            item.studentAttended = data.students_attended
-                            item.schoolCount = data.total_schools;
+                            item.performance = data.percentage ? data.percentage : "";
+                            item.studentCount = data.total_students ? data.total_students : "";
+                            item.studentAttended = data.students_attended ? data.students_attended : "";
+                            item.schoolCount = data.total_schools ? data.total_schools : "";
                         }
                     })
                 });
@@ -98,7 +98,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
         var grade = req.body.grade;
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/district/district_${year}.json`;
+            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/local_body/district/district_${year}.json`;
         } else {
             fileName = `sat/trend_line_chart/district/district_${year}.json`;
         }
