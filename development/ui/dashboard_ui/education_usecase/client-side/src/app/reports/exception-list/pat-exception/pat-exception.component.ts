@@ -80,7 +80,7 @@ export class PATExceptionComponent implements OnInit {
   allSubjects: string[];
   subject = '';
 
-  reportName = 'periodic_equalizer_test_exception';
+  reportName = 'periodic_assesment_test_exception';
   managementName;
   management;
   category;

@@ -62,7 +62,7 @@ export class PATLOTableComponent implements OnInit {
   months: string[];
   month: string = "";
 
-  reportName = "periodic_equalizer_test_loTable";
+  reportName = "periodic_assesment_test_loTable";
   managementName;
   management;
   category;
