@@ -38,8 +38,8 @@ check_timeout()
     else
         echo "Error - please enter proper value as mentioned in comments"; fail=1
     fi
-sed -i '/session_timeout_in_seconds:/d' ansible/roles/keycloak/vars/main.yml
-echo "session_timeout_in_seconds: $timeout_value" >> ansible/roles/keycloak/vars/main.yml
+sed -i '/session_timeout_in_seconds:/d' ../ansible/roles/keycloak/vars/main.yml
+echo "session_timeout_in_seconds: $timeout_value" >> ../ansible/roles/keycloak/vars/main.yml
 }
 
 check_static_datasource(){
@@ -77,19 +77,21 @@ if [[ ! "$base_dir" = /* ]] || [[ ! -d $base_dir ]]; then
     echo "Error - Please enter the absolute path or make sure the directory is present.";
     exit 1
 else
-   if [[ -e "$base_dir/cqube/.cqube_config" ]]; then
-        installed_ver=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_VERSION )
-        installed_version=$(cut -d "=" -f2 <<< "$installed_ver")
-         echo "Currently cQube $installed_version version is installed in this machine. Follow Upgradtion process if you want to upgrade."
-         echo "If you re-run the installation, all data will be lost"
-	 while true; do
-             read -p "Do you still want to re-run the installation (yes/no)? " yn
-             case $yn in
-                 yes) break;;
-                 no) exit;;
-                 * ) echo "Please answer yes or no.";;
-             esac
-         done
+   if [[ -e "$base_dir/cqube/.cqube_config" ]]; then   
+        installed_ver=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_WORKFLOW_VERSION )
+        installed_version=$(cut -d "=" -f2 <<< "$installed_ver") 
+	if [[ ! $installed_version == "" ]]; then	
+            echo "Currently cQube $installed_version version is installed in this machine. Follow Upgradtion process if you want to upgrade."
+            echo "If you re-run the installation, all data will be lost"
+	    while true; do
+                read -p "Do you still want to re-run the installation (yes/no)? " yn
+                case $yn in
+                    yes) break;;
+                    no) exit;;
+                    * ) echo "Please answer yes or no.";;
+                esac
+            done
+    	fi   
    fi
 fi
 }

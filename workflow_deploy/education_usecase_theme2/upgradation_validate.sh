@@ -43,8 +43,8 @@ check_timeout()
     else
         echo "Error - please enter proper value as mentioned in comments"; fail=1
     fi
-sed -i '/session_timeout_in_seconds:/d' ansible/roles/keycloak/vars/main.yml
-echo "session_timeout_in_seconds: $timeout_value" >> ansible/roles/keycloak/vars/main.yml
+sed -i '/session_timeout_in_seconds:/d' ../ansible/roles/keycloak/vars/main.yml
+echo "session_timeout_in_seconds: $timeout_value" >> ../ansible/roles/keycloak/vars/main.yml
 }
 
 check_state()
@@ -59,7 +59,15 @@ fi
 check_static_datasource(){
 if ! [[ $2 == "udise" || $2 == "state" ]]; then
     echo "Error - Please enter either udise or state for $1"; fail=1
+    if [[ -e "$2/cqube/.cqube_config" ]] ; then
+        static_dts=$(cat $2/cqube/.cqube_config | grep CQUBE_STATIC_DATASOURCE )
+        dts=$(cut -d "=" -f2 <<< "$static_dts")
+        if [[ ! "$2" == "$dts" ]]; then
+            echo "Error - Static_datasource should be same as previous installation static_datasource"; fail=1
+        fi
+    fi 
 fi
+
 }
 
 check_base_dir(){
