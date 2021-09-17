@@ -7,5 +7,8 @@ export const environment = {
   realm: "cQube",
   clientId: "cQube_Application",
   stateName: "GJ",
-  useCase :"uc2_edu"
+  useCase: "education_usecase",
+  diksha_columns: false,
+  theme: "theme1",
+  mapName: "googlemap"
 };

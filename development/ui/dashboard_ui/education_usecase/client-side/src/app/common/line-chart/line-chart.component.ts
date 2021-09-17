@@ -192,7 +192,6 @@ export class LineChartComponent implements OnInit, OnChanges {
         <br> ${point.y !== null ? `<b>Attendance:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")} % ` : ''}`
       }
       if (reportName == 'sat') {
-        console.log(counts[point.series.index][point.index].grade);
         obj = `<b>Acedmic Year:</b> ${academicYear} 
         <br><b>Month:</b> ${point.category}
         <br> ${`<b>${level} Name:</b> ${point.series.name}`}

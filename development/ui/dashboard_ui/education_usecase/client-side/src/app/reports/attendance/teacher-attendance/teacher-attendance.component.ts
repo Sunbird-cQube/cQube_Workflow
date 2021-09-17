@@ -166,7 +166,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.globalService.initMap("tarMap", [[this.lat, this.lng]]);
     if (this.mapName == 'googlemap') {
-      document.getElementById('leafletMap').style.display = "none";
+      document.getElementById('leafletmap').style.display = "none";
     }
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
@@ -288,7 +288,6 @@ export class TeacherAttendanceComponent implements OnInit {
         );
         var distNames = [];
         this.markers = sorted;
-        console.log(this.markers)
         if (this.markers.length > 0) {
           for (var i = 0; i < this.markers.length; i++) {
             if (this.myDistrict === this.markers[i]["district_id"]) {
@@ -659,7 +658,7 @@ export class TeacherAttendanceComponent implements OnInit {
                       colors
                     );
 
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 6, 1);
                 }
 
                 //initialize markers with its latitude and longitude
@@ -793,7 +792,7 @@ export class TeacherAttendanceComponent implements OnInit {
                       colors
                     );
 
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 4, 1);
                 }
 
                 //initialize markers with its latitude and longitude
@@ -942,7 +941,7 @@ export class TeacherAttendanceComponent implements OnInit {
                       colors
                     );
 
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 1, 0.3);
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.3);
                 }
 
                 //initialize markers with its latitude and longitude
@@ -1268,6 +1267,9 @@ export class TeacherAttendanceComponent implements OnInit {
 
   // clickMarker for Google map
   onClick_AgmMarker(event, marker) {
+    if (this.levelWise == "schoolPerCluster") {
+      return false;
+    }
     this.markerData = marker;
     this.clickedMarker(event, marker);
   }
@@ -1996,7 +1998,7 @@ export class TeacherAttendanceComponent implements OnInit {
       undefined
     )
       .join(" <br>");
-    if (this.mapName == 'leafletMap') {
+    if (this.mapName == 'leafletmap') {
       const popup = R.responsivePopup({
         hasTip: false,
         autoPan: false,
@@ -2153,7 +2155,6 @@ export class TeacherAttendanceComponent implements OnInit {
       markers = this.mylatlngData;
     }
 
-    this.markers = markers
     this.reportData = markers;
 
     var distNames = [];
@@ -2231,10 +2232,12 @@ export class TeacherAttendanceComponent implements OnInit {
           this.levelWise
         );
       }
+    
       stopLoader ? this.commonService.loaderAndErr(markers) : "";
       this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       this.teacherCount = this.teacherCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     }
+    this.markers = markers
 
     if (this.levelWise == "District") {
       distNames.sort((a, b) =>
