@@ -835,7 +835,7 @@ border-color:var(--theme-back-button-border-color);
     #download1{
         float: right;
         right: 30px !important;
-        top: 0px !important;
+        top: 8px !important;
         padding: 12px 20px 12px 20px !important;
         position: absolute !important;
         font-size: 28px !important;

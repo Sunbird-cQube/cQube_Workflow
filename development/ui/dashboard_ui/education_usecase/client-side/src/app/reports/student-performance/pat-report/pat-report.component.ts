@@ -97,7 +97,7 @@ export class PATReportComponent implements OnInit {
   distFilter = [];
   blockFilter = [];
   clusterFilter = [];
-  reportName = "periodic_equalizer_test";
+  reportName = "periodic_assesment_test";
   mapName;
   googleMapZoom = 7;
   globalMarker: any = [];

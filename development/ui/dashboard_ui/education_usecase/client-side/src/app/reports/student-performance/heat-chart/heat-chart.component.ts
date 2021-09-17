@@ -76,7 +76,7 @@ export class HeatChartComponent implements OnInit {
   pageSize = 40;
   currentPage = 1;
 
-  reportName = "periodic_equalizer_test_heatmap";
+  reportName = "periodic_assesment_test_heatmap";
   screenWidth: number;
 
   managementName;
