@@ -17,13 +17,6 @@
                CQUBE_STATIC_DATASOURCE={{ static_datasource }}
   tags: install
 
-- name: Updating the usecase_name to config file
-  lineinfile:
-    path: "{{ base_dir }}/cqube/.cqube_config"
-    insertafter: '^CQUBE_WORKFLOW_VERSION'
-    line: CQUBE_USECASE_NAME={{ usecase_name }}
-  tags: update
-
 - name: Updating the CQUBE_VERSION
   lineinfile: 
     regex: '^CQUBE_WORKFLOW_VERSION='
