@@ -9,6 +9,6 @@ export const environment = {
   stateName: "GJ",
   useCase: "education_usecase",
   diksha_columns: false,
-  theme: "theme2",
+  theme: "theme1",
   mapName: "googlemap"
 };

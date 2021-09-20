@@ -34,7 +34,7 @@ import { AuthGuard } from './auth.guard';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AgmCoreModule } from '@agm/core';
 import { SatTrendsChartComponent } from './reports/student-performance/sat-trends-chart/sat-trends-chart.component';
-// import { GoogleMapService } from './google-map.service';
+import { apiKeys } from './apis.config';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -77,7 +77,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     NgbModule,
     NgCircleProgressModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyA67tGmyF8ebAEdejkaGrcPYiPkBuTihTc&region=IN",
+      apiKey: apiKeys.googleApi,
     })
   ],
   exports: [
