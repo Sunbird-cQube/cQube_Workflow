@@ -180,11 +180,15 @@ export class SatReportComponent implements OnInit {
       }`;
 
     this.service.getYears().subscribe(res => {
+      try{
       res['data'].map(a => {
         this.years.push(a);
       })
       this.year = this.years[0]['academic_year'];
       this.onSelectYear();
+    }catch(e){
+        this.commonService.loaderAndErr([]);
+    }
     }, err => {
       this.commonService.loaderAndErr([]);
     });

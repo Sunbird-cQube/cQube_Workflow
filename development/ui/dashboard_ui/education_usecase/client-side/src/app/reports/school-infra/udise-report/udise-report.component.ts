@@ -287,38 +287,43 @@ export class UdiseReportComponent implements OnInit {
       this.clusterHidden = true;
       // api call to get all the districts data
       if (this.myDistData != undefined) {
-        this.markers = this.data = this.myDistData["data"];
-        this.gettingIndiceFilters(this.data);
+        try {
+          this.markers = this.data = this.myDistData["data"];
+          this.gettingIndiceFilters(this.data);
 
-        // to show only in dropdowns
-        this.districtMarkers = this.myDistData["data"];
-        // options to set for markers in the map
-        let options = {
-          radius: 6,
-          fillOpacity: 1,
-          strokeWeight: 0.05,
-          mapZoom: this.globalService.zoomLevel,
-          centerLat: this.lat,
-          centerLng: this.lng,
-          level: "District",
-        };
-        this.dataOptions = options;
+          // to show only in dropdowns
+          this.districtMarkers = this.myDistData["data"];
+          // options to set for markers in the map
+          let options = {
+            radius: 6,
+            fillOpacity: 1,
+            strokeWeight: 0.05,
+            mapZoom: this.globalService.zoomLevel,
+            centerLat: this.lat,
+            centerLng: this.lng,
+            level: "District",
+          };
+          this.dataOptions = options;
 
-        //schoolCount
-        this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          //schoolCount
+          this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-        this.genericFun(this.data, options, this.fileName);
-        this.globalService.onResize(this.level);
+          this.genericFun(this.data, options, this.fileName);
+          this.globalService.onResize(this.level);
 
-        // sort the districtname alphabetically
-        this.districtMarkers.sort((a, b) =>
-          a.details.District_Name > b.details.District_Name
-            ? 1
-            : b.details.District_Name > a.details.District_Name
-              ? -1
-              : 0
-        );
-        this.changeDetection.detectChanges();
+          // sort the districtname alphabetically
+          this.districtMarkers.sort((a, b) =>
+            a.details.District_Name > b.details.District_Name
+              ? 1
+              : b.details.District_Name > a.details.District_Name
+                ? -1
+                : 0
+          );
+          this.changeDetection.detectChanges();
+        } catch (e) {
+          this.data = [];
+          this.loaderAndErr();
+        }
       } else {
         if (this.myData) {
           this.myData.unsubscribe();
@@ -1279,7 +1284,11 @@ export class UdiseReportComponent implements OnInit {
   public level = "District";
   onIndiceSelect(data) {
     this.indiceData = data;
-    this.levelWiseFilter();
+    try {
+      this.levelWiseFilter();
+    } catch (e) {
+      this.loaderAndErr();
+    }
   }
 
   levelWiseFilter() {
@@ -1384,14 +1393,14 @@ export class UdiseReportComponent implements OnInit {
   //indice filters.....
   gettingIndiceFilters(data) {
     this.indiceFilter = [];
-    for (var i = 0; i < Object.keys(this.data[0].indices).length; i++) {
-      let val = Object.keys(this.data[0].indices)[i].replace(/_/g, " ");
+    for (var i = 0; i < Object.keys(data[0].indices).length; i++) {
+      let val = Object.keys(data[0].indices)[i].replace(/_/g, " ");
       if (val.includes("Index")) {
         val = val.replace("Index", "");
       }
       val = val.replace("Percent", "(%)");
       this.indiceFilter.push({
-        key: Object.keys(this.data[0].indices)[i],
+        key: Object.keys(data[0].indices)[i],
         value: val,
       });
     }

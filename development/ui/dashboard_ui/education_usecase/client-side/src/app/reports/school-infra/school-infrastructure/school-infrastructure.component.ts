@@ -578,7 +578,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1160 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1160 ? '56vh' : '46vh');
+  //ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1160 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1160 ? '56vh' : '46vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
       data: {

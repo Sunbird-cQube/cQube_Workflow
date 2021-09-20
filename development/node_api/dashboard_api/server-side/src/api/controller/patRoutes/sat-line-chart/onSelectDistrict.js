@@ -27,14 +27,14 @@ router.post('/stateWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: undefined
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: undefined
             }]
             if (grade == "") {
                 stateData[year].performance.map(data => {
@@ -64,22 +64,29 @@ router.post('/stateWise', auth.authController, async (req, res) => {
                 }
                 let statePerformance = [stateData[year].Grades['1'][grade] ? stateData[year].Grades['1'][grade] : sem1, stateData[year].Grades['2'][grade] ? stateData[year].Grades['2'][grade] : sem2];
                 statePerformance.map(data => {
-                    stdPerformance.map(item => {
-                        if (item.semesterId == data.semester) {
-                            item.performance = data.percentage ? data.percentage : "";
-                            item.studentCount = data.total_students ? data.total_students : "";
-                            item.studentAttended = data.students_attended ? data.students_attended : "";
-                            item.schoolCount = data.total_schools ? data.total_schools : "";
-                        }
-                    })
+                    if (data.percentage) {
+                        stdPerformance.map(item => {
+                            if (item.semesterId == data.semester) {
+                                item.performance = data.percentage ? data.percentage : "";
+                                item.studentCount = data.total_students ? data.total_students : "";
+                                item.studentAttended = data.students_attended ? data.students_attended : "";
+                                item.schoolCount = data.total_schools ? data.total_schools : "";
+                            }
+                        })
+                    }
                 });
             }
-            let obj2 = {
-                performance: stdPerformance
+            if (stdPerformance[0].performance || stdPerformance[1].performance) {
+                let obj2 = {
+                    performance: stdPerformance
+                }
+                mydata.push(obj2);
+                logger.info('--- Trends state wise api response sent ---');
+                res.status(200).send({ data: mydata });
+            } else {
+                logger.info('--- Trends state wise api response sent ---');
+                res.status(403).send({ errMsg: "Something went wrong" });
             }
-            mydata.push(obj2);
-            logger.info('--- Trends state wise api response sent ---');
-            res.status(200).send({ data: mydata });
         } else {
             res.status(403).send({ errMsg: "Something went wrong" });
         }
@@ -114,14 +121,14 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: undefined
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: undefined
             }]
             if (grade == "") {
                 districtData[key].performance.map(data => {
