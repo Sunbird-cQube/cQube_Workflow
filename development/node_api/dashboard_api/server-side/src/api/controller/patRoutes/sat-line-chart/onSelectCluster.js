@@ -29,14 +29,14 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: undefined
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: undefined
             }]
 
             if (grade == "") {
