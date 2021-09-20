@@ -175,15 +175,9 @@ export class CrcReportComponent implements OnInit {
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;
-    let x_axis = this.xAxisFilter.find((o) => o.key == this.xAxis);
-    let y_axis = this.yAxisFilter.find((o) => o.key == this.yAxis);
-    let obj = {
-      xAxis: x_axis.value,
-      yAxis: y_axis.value,
-    };
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
-      this.createChart(this.labels, this.chartData, this.tableHead, obj);
+      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
     }
   }
 
@@ -503,6 +497,7 @@ export class CrcReportComponent implements OnInit {
               yAxis: y_axis.value,
             };
             this.labels = labels;
+            this.obj = obj;
             this.createChart(labels, this.chartData, this.tableHead, obj);
             this.tableData = this.result;
             this.dtOptions = {
@@ -770,6 +765,7 @@ export class CrcReportComponent implements OnInit {
               yAxis: y_axis.value,
             };
             this.labels = labels;
+            this.obj = obj;
             this.createChart(labels, this.chartData, this.tableHead, obj);
             this.changeDetection.detectChanges();
             this.tableData = this.crcBlocksNames;
@@ -818,7 +814,7 @@ export class CrcReportComponent implements OnInit {
         (err) => {
           this.chartData = [];
           this.scatterChart.destroy();
-          this.createChart(this.labels, [], "", this.obj);
+          this.createChart([], [], "", {});
           $("#table").empty();
           this.changeDetection.detectChanges();
           this.commonService.loaderAndErr(this.chartData);
@@ -920,6 +916,7 @@ export class CrcReportComponent implements OnInit {
             yAxis: y_axis.value,
           };
           this.labels = labels;
+          this.obj = obj;
           this.createChart(labels, this.chartData, this.tableHead, obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcClusterNames;
@@ -968,7 +965,7 @@ export class CrcReportComponent implements OnInit {
         (err) => {
           this.chartData = [];
           this.scatterChart.destroy();
-          this.createChart(["clg"], [], "", {});
+          this.createChart([], [], "", {});
           $("#table").empty();
           this.changeDetection.detectChanges();
           this.commonService.loaderAndErr(this.chartData);
@@ -1072,6 +1069,7 @@ export class CrcReportComponent implements OnInit {
             yAxis: y_axis.value,
           };
           this.labels = labels;
+          this.obj = obj;
           this.createChart(labels, this.chartData, this.tableHead, obj);
           this.changeDetection.detectChanges();
           this.tableData = this.crcSchoolNames;
@@ -1120,7 +1118,7 @@ export class CrcReportComponent implements OnInit {
         (err) => {
           this.chartData = [];
           this.scatterChart.destroy();
-          this.createChart(["clg"], [], "", {});
+          this.createChart([], [], "", {});
           $("#table").empty();
           this.changeDetection.detectChanges();
           this.commonService.loaderAndErr(this.chartData);
