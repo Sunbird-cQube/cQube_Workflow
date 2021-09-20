@@ -90,6 +90,7 @@ export class SemesterExceptionComponent implements OnInit {
 
   mapName;
   googleMapZoom = 7;
+  geoJson = this.globalService.geoJson;
 
   constructor(
     public http: HttpClient,

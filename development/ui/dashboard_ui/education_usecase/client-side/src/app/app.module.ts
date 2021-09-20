@@ -32,9 +32,9 @@ import { LineChartComponent } from './common/line-chart/line-chart.component';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { AgmCoreModule, LAZY_MAPS_API_CONFIG } from '@agm/core';
+import { AgmCoreModule } from '@agm/core';
 import { SatTrendsChartComponent } from './reports/student-performance/sat-trends-chart/sat-trends-chart.component';
-import { GoogleMapService } from './google-map.service';
+import { apiKeys } from './apis.config';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -77,7 +77,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     NgbModule,
     NgCircleProgressModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: "",
+      apiKey: apiKeys.googleApi,
     })
   ],
   exports: [
@@ -96,7 +96,6 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
       multi: true
     },
     AuthGuard,
-    { provide: LAZY_MAPS_API_CONFIG, useClass: GoogleMapService }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -84,6 +84,8 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
   params: any;
   mapName;
   googleMapZoom;
+  geoJson = this.globalService.geoJson;
+
   yearMonth = true;
 
   reportName = "teacher_attendance_exception";
