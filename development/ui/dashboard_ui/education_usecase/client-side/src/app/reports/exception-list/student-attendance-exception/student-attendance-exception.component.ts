@@ -84,6 +84,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   params: any;
   mapName;
   googleMapZoom;
+  geoJson = this.globalService.geoJson;
+  
   yearMonth = true;
 
   timeRange = [

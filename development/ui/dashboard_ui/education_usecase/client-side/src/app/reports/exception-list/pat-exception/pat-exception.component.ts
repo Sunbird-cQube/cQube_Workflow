@@ -87,6 +87,7 @@ export class PATExceptionComponent implements OnInit {
 
   mapName;
   googleMapZoom = 7;
+  geoJson = this.globalService.geoJson;
 
   constructor(
     public http: HttpClient,

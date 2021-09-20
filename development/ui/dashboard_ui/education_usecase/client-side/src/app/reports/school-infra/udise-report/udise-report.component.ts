@@ -118,6 +118,9 @@ export class UdiseReportComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  geoJson = this.globalService.geoJson;
+
+
   colorGenData: any = [];
 
   width = window.innerWidth;
