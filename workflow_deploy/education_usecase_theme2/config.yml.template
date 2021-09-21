@@ -30,3 +30,5 @@ session_timeout: 7D                           # enter the value between 30 Minut
 
 map_name:                                 # Enter the map_name ( mapmyindia or googlemap or leafletmap )
 
+google_api_key:                          # Enter the google_api_key value here (if u selected map_name as googlemap fill the google_api_key value )
+
