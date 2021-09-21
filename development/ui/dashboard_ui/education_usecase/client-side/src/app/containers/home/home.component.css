@@ -84,7 +84,7 @@
 /*sidebar menu bottom */
 .user-logout{
   cursor: auto;
-  background-color: #FFE07B;
+  /* background-color: #FFE07B; */
   background: var(--theme-bg-sidenav-user-info);
   background-repeat: no-repeat;
   background-size: 45%;
@@ -297,7 +297,7 @@ border-color:var(--theme-button-border-color);
 }
 
 .mat-drawer{
-  background-color: #FFC400; 
+  background: var(--theme-bg-sidenav-color);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
 }
@@ -318,7 +318,7 @@ border-color:var(--theme-button-border-color);
 /*sidebar menu bottom */
 .user-logout{
   cursor: auto;
-  background-color: #FFE07B;
+  background: var(--theme-bg-sidenav-user-info);
   background-repeat: no-repeat;
   background-size: 45%;
   background-position: center right;
@@ -334,7 +334,7 @@ border-color:var(--theme-button-border-color);
   bottom:-8px !important;
   position:absolute !important; 
   cursor: auto;
-  background-color: #FFE07B !important;
+  background: var(--theme-bg-sidenav-user-info) !important;
   background-repeat: no-repeat !important;
   background-size: 45% !important;
   background-position: center right !important;
@@ -516,7 +516,7 @@ border-color:var(--theme-button-border-color);
   height:130px !important;
 }
 .mat-drawer{
-  background-color: #FFC400; 
+  background: var(--theme-bg-sidenav-color);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
 }
@@ -537,7 +537,7 @@ border-color:var(--theme-button-border-color);
 /*sidebar menu bottom */
 .user-logout{
   cursor: auto;
-  background-color: #FFE07B;
+  background: var(--theme-bg-sidenav-user-info);
   background-repeat: no-repeat;
   background-size: 45%;
   background-position: center right;
@@ -553,7 +553,7 @@ border-color:var(--theme-button-border-color);
   bottom:-10px !important;
   position:absolute !important; 
   cursor: auto;
-  background-color: #FFE07B !important;
+  background: var(--theme-bg-sidenav-user-info) !important;
   background-repeat: no-repeat !important;
   background-size: 45% !important;
   background-position: center right !important;
