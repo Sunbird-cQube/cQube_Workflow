@@ -1,7 +1,7 @@
 var const_data = require('./config');
 const { logger } = require('./logger');
 const fs = require('fs')
-var baseDir = `${process.env.OUTPUT_DIRECTORY}/`;
+var baseDir = `${process.env.OUTPUT_DIRECTORY}`;
 var storageType = `${process.env.STORAGE_TYPE}`;
 const readS3File = (s3Key) => {
     return new Promise((resolve, reject) => {

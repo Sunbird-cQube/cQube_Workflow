@@ -11,8 +11,6 @@
 /node_modules
 package-lock.json
 
-#
-src/app/apis.config.ts
 
 # profiling files
 chrome-profiler-events*.json
