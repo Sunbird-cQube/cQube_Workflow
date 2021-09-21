@@ -8,7 +8,6 @@ import { HttpResponse } from '@angular/common/http';
  * @param fileName name file should be saved as
  */
 export const saveFile = (blobContent: Blob, fileName: string, mimeType: string) => {
-  console.log(fileName);
     const blob = new Blob([blobContent], { type: mimeType });
     saveAs(blob, fileName);
 };
