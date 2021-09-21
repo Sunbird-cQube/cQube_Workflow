@@ -162,7 +162,10 @@ export class NifiShedularComponent implements OnInit {
       this.processorId = res['processorId'];
       this.service.nifiGetProcessorDetails(this.processorId).subscribe(details => {
         this.result = details;
-        this.data = this.result;
+        let processors = this.result.filter(a=>{
+          return a.name != "cQube_data_storage";
+        })
+        this.data = processors;
         for (let i = 0; i < this.result.length; i++) {
           this.showDay.push(true);
           this.showDate.push(true);

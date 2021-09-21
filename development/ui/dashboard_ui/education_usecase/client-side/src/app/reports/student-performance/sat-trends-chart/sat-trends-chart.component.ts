@@ -82,8 +82,7 @@ export class SatTrendsChartComponent implements OnInit {
       .gradeMetaData({
         period: 'all',
         report: "sat",
-        year: this.selectedYear,
-        sem: "sem_1",
+        year: this.selectedYear
       })
       .subscribe(
         (res) => {
@@ -96,7 +95,7 @@ export class SatTrendsChartComponent implements OnInit {
           this.allGrades.unshift({ grade: 'AllGrades' });
         });
     this.service.getAcademicYears().subscribe(res => {
-      this.years = Object.keys(res);
+      this.years = res['years'];
       this.selectedYear = this.years[0];
       this.selectedYear1 = this.years[1];
       this.onResize();
