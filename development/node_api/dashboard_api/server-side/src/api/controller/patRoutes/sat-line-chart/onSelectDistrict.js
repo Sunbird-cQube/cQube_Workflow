@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { logger } = require('../../../lib/logger');
 const auth = require('../../../middleware/check-auth');
 const s3File = require('../../../lib/reads3File');
-const groupArray = require('group-array');
 
 router.post('/stateWise', auth.authController, async (req, res) => {
     try {
@@ -188,11 +187,14 @@ router.post('/distWise', auth.authController, async (req, res) => {
 router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
-        let fileName = `attendance/student_attendance_meta.json`;
+        var fileName = `sat/metaData.json`;
         let data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
-        let date = groupArray(data, 'year');
+        let years = [];
+        data.map(a=>{
+            years.push(a.academic_year);
+        })
         logger.info('--- getDateRange response sent ---');
-        res.status(200).send(date);
+        res.status(200).send({years: years});
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

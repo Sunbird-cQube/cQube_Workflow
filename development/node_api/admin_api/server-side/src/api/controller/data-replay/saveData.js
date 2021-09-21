@@ -3,7 +3,7 @@ const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 var const_data = require('../../lib/config');
 const fs = require('fs');
-const storageType = require('../../lib/readFiles');
+const config = require('../../lib/readFiles');
 const inputDir = `${process.env.INPUT_DIRECTORY}/`;
 
 router.post('/', auth.authController, async (req, res) => {
@@ -12,6 +12,7 @@ router.post('/', auth.authController, async (req, res) => {
         //check if file is there, and append new data
         var formData = req.body.formData;
         var timeStamp = req.body.timeStamp;
+        let storageType = config.storageType;
         var fileName = `data_replay/data_replay_${timeStamp}.json`;
         if (req.body.dataType == 'retention') {
             formData = req.body.retData;

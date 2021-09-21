@@ -122,10 +122,6 @@ export class StudengtAttendanceComponent implements OnInit {
 
   geoJson = this.globalService.geoJson;
 
-  addMarker(event){
-    console.log(event);
-  }
-
   //options for timerange dropdown::::::
   timeRange = [
     { key: "overall", value: "Overall" },

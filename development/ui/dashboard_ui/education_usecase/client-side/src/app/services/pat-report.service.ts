@@ -138,7 +138,7 @@ export class PatReportService {
   }
   getAcademicYears() {
     this.service.logoutOnTokenExpire();
-    return this.http.get(`${this.baseUrl}/line-chart/getDateRange`);
+    return this.http.get(`${this.baseUrl}/sat-line-chart/getDateRange`);
   }
 }
 
