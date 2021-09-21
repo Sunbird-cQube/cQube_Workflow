@@ -57,6 +57,12 @@
     dest: "{{ base_dir }}/cqube/dashboard/client_side/src/environments/environment.prod.ts"
   tags: [ install, update ]
 
+- name: Configure the apis.config.ts
+  template:
+    src: apis.config.ts.j2
+    dest: "{{ base_dir }}/cqube/dashboard/client_side/src/app/apis.config.ts"
+  tags: [ install, update ]
+
 - name: Install Angular packages based on package.json.
   npm:
     path: "{{ base_dir }}/cqube/dashboard/client_side"
