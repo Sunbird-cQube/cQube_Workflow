@@ -181,6 +181,8 @@
         [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }">
         <agm-map [latitude]="lat" [longitude]="lng" [disableDefaultUI]="true" [zoom]="googleMapZoom"
           [ngStyle]="{height: width > 3820 ? '80vh': width > 2140 && width < 3820 ? '78vh': width > 1367 && width < 1920 ? '78vh':'69vh'}">
+          <agm-data-layer [geoJson]="geoJson" [style]="globalService.visualizePeakFactor">
+          </agm-data-layer>
           <agm-marker *ngFor="let marker of markers; let index=i" [latitude]="marker.Details.latitude"
             [longitude]="marker.Details.longitude" (mouseOver)="mouseOverOnmaker(infoWindow, $event)"
             (mouseOut)="mouseOutOnmaker(infoWindow, $event)" (markerClick)="onClick_AgmMarker( marker)"

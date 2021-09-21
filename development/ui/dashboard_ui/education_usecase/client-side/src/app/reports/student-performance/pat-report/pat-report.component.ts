@@ -153,6 +153,9 @@ export class PATReportComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  geoJson = this.globalService.geoJson;
+
+
   width = window.innerWidth;
   height = window.innerHeight;
   onResize() {

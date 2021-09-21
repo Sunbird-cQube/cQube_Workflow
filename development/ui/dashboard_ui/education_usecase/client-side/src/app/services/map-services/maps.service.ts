@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as config from '../../../assets/config.json';
 import * as mapData from '../../../assets/map.json';
+import * as  googleMapData from "../../../assets/googleMap.json";
+
 declare var MapmyIndia: any;
 declare var L: any;
 export var globalMap;
@@ -246,5 +248,35 @@ export class MapService {
       strokeWeight: stroke,
     };
     return this.circleIcon;
+  }
+
+  //goog
+  jsonMapData: any = googleMapData.default;
+  public geoJson = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        properties: {
+          color: "transparent",
+          ascii: "111"
+        },
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            this.jsonMapData[`${environment.stateName}`]['features'][0].geometry.coordinates[0]
+          ]
+        }
+      }
+    ]
+  };
+
+  public visualizePeakFactor(feature) {
+    const color = feature.getProperty("color");
+    return {
+      fillColor: color,
+      strokeWeight: 1,
+      strokeColor: "gray"
+    };
   }
 }

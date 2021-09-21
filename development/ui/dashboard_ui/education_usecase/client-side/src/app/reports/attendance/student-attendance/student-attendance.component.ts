@@ -13,6 +13,8 @@ import * as R from "leaflet-responsive-popup";
 import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { AppServiceComponent } from "../../../app.service";
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
+import { environment } from "src/environments/environment";
+
 declare const $;
 
 @Component({
@@ -116,6 +118,12 @@ export class StudengtAttendanceComponent implements OnInit {
   getColor(data) {
     this.selected = data;
     this.levelWiseFilter();
+  }
+
+  geoJson = this.globalService.geoJson;
+
+  addMarker(event){
+    console.log(event);
   }
 
   //options for timerange dropdown::::::

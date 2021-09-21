@@ -12524,8 +12524,8 @@
                     <id>30387558-4895-3a7f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>9712.0</x>
-                        <y>976.0</y>
+                        <x>9672.0</x>
+                        <y>968.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -20586,7 +20586,7 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                     <id>1b088777-9269-3acc-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>1560.0</x>
+                        <x>1552.0</x>
                         <y>-1168.0</y>
                     </position>
                     <bundle>
@@ -28056,6 +28056,7 @@ ${query_type:startsWith('sat_subject_footer_cluster_last_7_days'):ifElse('sat/la
 ${query_type:startsWith('sat_subject_footer_school_last_7_days'):ifElse('sat/last_7_days/school/sem_${partition_by_level}/grade_subject_footer.json',
 ${query_type:startsWith('sat_meta_last7'):ifElse('sat/last_7_days/sat_metadata.json',
 ${query_type:startsWith('sat_meta_semester_last7'):ifElse('sat/last_7_days/sat_semester_metadata.json',
+${query_type:startsWith('sat_meta_by_year_semester'):ifElse('sat/metaData.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_meta'):ifElse('sat/heatChart/metaData.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_district'):ifElse('sat/heatChart/questionIdLevel/${partition_by}/${partition_by_month}/districts/${partition_by_level}.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_all'):ifElse('sat/heatChart/questionIdLevel/${partition_by}/${partition_by_month}/allData.json',
@@ -28109,7 +28110,7 @@ ${query_type:startsWith('sat_subject_footer_cluster_year_semester'):ifElse('sat/
 ${query_type:startsWith('sat_subject_footer_school_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/grade_subject_footer.json','None')}
 )})} )}	)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
-)})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Bucket</key>
@@ -64042,5 +64043,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>09/15/2021 17:58:17 IST</timestamp>
+    <timestamp>09/20/2021 16:04:39 IST</timestamp>
 </template>
