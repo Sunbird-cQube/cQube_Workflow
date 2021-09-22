@@ -29,14 +29,14 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: undefined
+                performance: ""
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: undefined
+                performance: ""
             }]
 
             if (grade == "") {
@@ -65,7 +65,9 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                     total_students: undefined,
                     students_attended: undefined
                 }
-                let clusterPerformance = [clusterData[key].Grades['1'][grade] ? clusterData[key].Grades['1'][grade] : sem1, clusterData[key].Grades['2'][grade] ? clusterData[key].Grades['2'][grade] : sem2];
+                let data1 = clusterData[key].Grades && clusterData[key].Grades['1'] && clusterData[key].Grades['1'][grade] ? clusterData[key].Grades['1'][grade] : sem1;
+                let data2 = clusterData[key].Grades && clusterData[key].Grades['2'] && clusterData[key].Grades['2'][grade] ? clusterData[key].Grades['2'][grade] : sem2;
+                let clusterPerformance = [data1, data2];
                 clusterPerformance.map(data => {
                     stdPerformance.map(item => {
                         if (item.semesterId == data.semester) {
