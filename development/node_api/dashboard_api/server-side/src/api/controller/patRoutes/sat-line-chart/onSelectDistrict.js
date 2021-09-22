@@ -18,7 +18,6 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         }
         var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var mydata = [];
-
         if (stateData[year]) {
             var stdPerformance = [{
                 semesterId: 1,
@@ -61,10 +60,10 @@ router.post('/stateWise', auth.authController, async (req, res) => {
                     total_students: undefined,
                     students_attended: undefined
                 }
-                
+
                 let data1 = stateData[year].Grades && stateData[year].Grades['1'] && stateData[year].Grades['1'][grade] ? stateData[year].Grades['1'][grade] : sem1;
                 let data2 = stateData[year].Grades && stateData[year].Grades['2'] && stateData[year].Grades['2'][grade] ? stateData[year].Grades['2'][grade] : sem2;
-                let statePerformance = [data1,data2];
+                let statePerformance = [data1, data2];
                 statePerformance.map(data => {
                     if (data.percentage) {
                         stdPerformance.map(item => {
@@ -107,11 +106,10 @@ router.post('/distWise', auth.authController, async (req, res) => {
         var grade = req.body.grade;
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/local_body/district/district_${year}.json`;
+            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/${management}/district/district_${year}.json`;
         } else {
             fileName = `sat/trend_line_chart/district/district_${year}.json`;
         }
-
         var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
         var keys = Object.keys(districtData);
         var mydata = [];
