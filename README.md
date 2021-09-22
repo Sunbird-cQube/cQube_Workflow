@@ -1,17 +1,33 @@
-# Steps cQube_Workflow Installation:
+# cQube_Workflow Installation:
+
+### Steps cQube_Workflow Installation:
 
 - Open Terminal
 
 - Navigate to the directory where cQube_Workflow has been downloaded or cloned
 
+  ```
   cd cQube_Workflow/work_deploy/
-
-  git checkout release-2.0
-
-- Copy the config.yml.template to config.yml cp config.yml.template config.yml
-
-- Edit using nano config.yml
-
+  git checkout release-3.1
+  ```
+## Usecases folder structure
+  - education_usecase
+  - education_usecase_theme2
+    ### If user opting for education_usecase open the education_usecase folder 
+- Copy the config.yml.template to config.yml 
+  ```
+  cp config.yml.template config.yml
+  ```
+- Edit using ```nano config.yml```
+- enable datasources as true or false in datasource.yml and datasource_validation.sh, in datasource_validation.sh  An array of mandatory values should be same as datasource.yml file values. 
+   ### If user opting for educational_usecase open the educational_usecase_theme2 folder
+- Copy the config.yml.template to config.yml 
+  ```
+  cp config.yml.template config.yml
+  ```
+- Edit using ```nano config.yml```
+- enable datasources as true or false in datasource_config.yml and datasource_validation.sh, in datasource_validation.sh  An array of mandatory values should be same as datasource_config.yml file values.
+- if the user opting for new datasource.  should add new datasource name inside the datasource_config.yml file and datasource_validation.sh array list.
 - Fill the configuration details for the below mentioned list in config.yml (* all the values are mandatory)
 
 - cQube_Workflow installation process configuring the components in a sequence as mentioned below:
@@ -30,7 +46,9 @@
 
 - Give the following permission to the install.sh file
 
+  ```
   chmod u+x install.sh
+  ```
 
 - Install cQube using the non-root user with sudo privilege
 
@@ -38,9 +56,11 @@
 
 - Start the installation by running install.sh shell script file as mentioned below:
 
+  ```
   sudo ./install.sh
+  ```
 
-- Once installation is completed without any errors, you will be prompted the following message. CQube installed successfully!!
+- Once installation is completed without any errors, you will be prompted the following message. **CQube installed successfully!!**
 
 ## Steps Post Installation:
 
@@ -64,7 +84,6 @@ Open https://<domain_name> from the browser and login with admin credentials
 
 ## Uploading data to S3 Emission bucket:
 - Create cqube_emission directory and place the data files as shown in file structure below inside the cqube_emission folder.
-
 Master Files:
 ```
 cqube_emission
@@ -121,7 +140,6 @@ cqube_emission
 │   └── periodic_exam_grade_details.zip
 │       └── periodic_exam_grade_details.csv
 ```
-
 Transactional Files:
 ```
 cqube_emission
@@ -160,73 +178,61 @@ cqube_emission
   - location of the cqube_emission directory where the files are placed as below. Example: /home/ubuntu/cqube_emission/
   - emission_url ( https://<domain_name>/data Note: URL depends upon the server configured in firewall which includes SSL and reverse proxy location)
 - After completing the configuration. Save and close the file.
-
 - Execute the client.py file located in cQube/development/python/client/ directory, as mentioned below to emit the data files to s3_emission bucket.
-
+  ```
   python3 client.py
-- Finally see the output in https://<domain_name>
-
-# Upgradation:
-### cQube_Base Upgradation:
-
-- Open Terminal
-- Navigate to the directory where cQube has been downloaded or cloned
-cd cQube_Base/
- git checkout release-2.0
-- Copy the upgradation_config.yml.template to upgradation_config.yml cp upgradation_config.yml.template upgradation_config.yml
-
-- This script will update the below cQube components:
-
-  - Creates & Updates table,sequence,index in postgresql database
-  - Updates NodeJS server side code
-  - Updates Angular and Chart JS client side code
-  - Updates & configure Apache Nifi template
-  - Updates & configure Keycloak
-- Fill the configuration details in upgradation_config.yml (* all the values are mandatory, make sure to fill the same configuration details which were used during installation)
-
-- Edit using nano upgradation_config.yml
-
-- Save and Close the file
-
-- Give the following permission to the upgrade.sh file
-
-  chmod u+x upgrade.sh
-- Run the script to update cQube using the non-root user with sudo privilege
-Start the upgradation by running upgrade.sh shell script file as mentioned below:
-  sudo ./upgrade.sh
-
-Configuration filled in upgradation_config.yml will be validated first. If there is any error during validation, you will be prompted with the appropriate error message and the upgradation will be aborted. Refer the error message and solve the errors appropriately. Restart the upgradation processsudo ./upgrade.sh
-
-Once upgradation is completed without any errors, you will be prompted the following message. CQube upgraded successfully!!
+  ```
+- Finally see the output in ```https://<domain_name>```
 
 ### cQube_Workflow Upgradation:
 
 - Open Terminal
 - Navigate to the directory where cQube has been downloaded or cloned
-cd cQube_Workflow/work_deploy
- git checkout release-2.0
-- Copy the upgradation_config.yml.template to upgradation_config.yml cp upgradation_config.yml.template upgradation_config.yml
+  ```
+  cd cQube_Workflow/work_deploy
+  git checkout release-3.1
+  ```
+## Usecases folder structure
+  - education_usecase
+  - education_usecase_theme2
+### if user opting for education_usecase open the education_useacse folder 
+- Copy the config.yml.template to config.yml 
+  ```
+  cp config.yml.template config.yml
+  ```
+- Edit using ```nano config.yml```
+- enable datasources as true or false in datasource_config.yml and datasource_validation.sh, in datasource_validation.sh  An array of mandatory values should be same as datasource_config.yml file values. 
+### if user opting for education_usecase_theme2 open the education_usecase_theme2 folder
+- Copy the config.yml.template to config.yml 
+  ```
+  cp config.yml.template config.yml
+  ```
+- Edit using ```nano config.yml```
+- enable datasources as true or false in datasource_config.yml and datasource_validation.sh, in datasource_validation.sh  An array of mandatory values should be same as datasource_config.yml file values.
+- if the user opting for new datasource.  should add new datasource name inside the datasource_config.yml file and datasource_validation.sh array list.
+- Fill the configuration details for the below mentioned list in config.yml (* all the values are mandatory)
 
 - This script will update the below cQube components:
-
   - Creates & Updates table,sequence,index in postgresql database
   - Updates NodeJS server side code
   - Updates Angular and Chart JS client side code
   - Updates & configure Apache Nifi template
   - Updates & configure Keycloak
-- Fill the configuration details in upgradation_config.yml (* all the values are mandatory, make sure to fill the same configuration details which were used during installation)
+- Fill the configuration details in config.yml (* all the values are mandatory, make sure to fill the same configuration details which were used during installation)
 
-- Edit using nano upgradation_config.yml
+- Edit using ```nano config.yml```
 
 - Save and Close the file
 
 - Give the following permission to the upgrade.sh file
 
+  ```
   chmod u+x upgrade.sh
+  ```
 - Run the script to update cQube using the non-root user with sudo privilege
 Start the upgradation by running upgrade.sh shell script file as mentioned below:
-  sudo ./upgrade.sh
+  ```sudo ./upgrade.sh```
 
-Configuration filled in upgradation_config.yml will be validated first. If there is any error during validation, you will be prompted with the appropriate error message and the upgradation will be aborted. Refer the error message and solve the errors appropriately. Restart the upgradation process `sudo ./upgrade.sh`
+Configuration filled in config.yml will be validated first. If there is any error during validation, you will be prompted with the appropriate error message and the upgradation will be aborted. Refer the error message and solve the errors appropriately. Restart the upgradation process ```sudo ./upgrade.sh```
 
-Once upgradation is completed without any errors, you will be prompted the following message. CQube upgraded successfully!!
+Once upgradation is completed without any errors, you will be prompted the following message. **CQube upgraded successfully!!**
