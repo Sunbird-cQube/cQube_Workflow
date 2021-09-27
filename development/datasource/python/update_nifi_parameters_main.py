@@ -43,7 +43,7 @@ def get_parameter_context(parameter_context):
         return {"Error":"Failed to get parameter contexts","error":res.json()}
 
 
-def update_parameters(nifi_parameters):
+def update_parameter(nifi_parameters):
     '''
     Function will update parameter context 
     '''
