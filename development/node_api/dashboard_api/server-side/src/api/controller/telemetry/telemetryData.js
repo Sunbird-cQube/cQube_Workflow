@@ -7,62 +7,22 @@ var S3Append = require('s3-append').S3Append;
 var config = require('../../lib/config');
 const { format } = require('path');
 const s3File = require('../../lib/reads3File');
-
+const inputDir = `${process.env.INPUT_DIRECTORY}`;
+const writeFile = require('../../lib/uploadFile');
+var storageType = `${process.env.STORAGE_TYPE}`;
 
 router.post('/', auth.authController, async (req, res) => {
     try {
-        logger.info('--- telemetry api ---');
+        logger.info('--- set telemetry api ---');
         let year = req.body.date.year;
         let month = req.body.date.month;
         let date = req.body.date.date;
         let hour = req.body.date.hour;
-
-        //check if file is there, and append new data
-        var params = {
-            Bucket: const_data['getParams1']['Bucket'],
-            Key: `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`
-        };
-        
-        const_data['s3'].headObject(params, function (err, metadata) {
-            if (err) {
-                //=====================Upload new files..........
-                jsonexport(req.body.telemetryData, function (error, csv) {
-                    if (error) return console.error(error);
-                    var params1 = {
-                        Bucket: const_data['getParams1']['Bucket'],
-                        Key: `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`,
-                        Body: csv.replace(/,/g, '|')
-                    };
-                    const_data['s3'].upload(params1, function (err1, result) {
-                        if (err1) {
-                            res.status(500).json({ errMsg: "Internal error" });
-                        } else {
-                            logger.info('--- upload new file successful---');
-                            res.status(200).json({ msg: "Successfully uploaded file" });
-                        }
-                    });
-                });
-            } else {
-                const_data['s3'].getSignedUrl('getObject', params, (error, response) => {
-
-                    jsonexport(req.body.telemetryData, { includeHeaders: false }, function (error1, csv) {
-                        var service = new S3Append(config.appendConfig, `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`, format.csv);
-
-                        service.append(`\r${csv.replace(/,/g, '|')}`);
-
-                        service.flush()
-                            .then(function () {
-                                logger.info('--- appende new data successful---');
-                                res.status(200).json({ msg: "new data appended" });
-                            })
-                            .catch(function (err1) {
-                                res.status(500).json({ errMsg: "Internal error" });
-                            });
-                    });
-                });
-            }
-        });
-
+        let fileName = `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`;
+        var localPath = inputDir + fileName;
+        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData);
+        logger.info('--- response sent for set telemetry api ---');
+        res.status(200).json(response);
     } catch (e) {
         logger.error(`Error :: ${e}`);
         res.status(500).json({ errMsg: "Internal error. Please try again!!" });
@@ -71,56 +31,17 @@ router.post('/', auth.authController, async (req, res) => {
 
 router.post('/sar', auth.authController, async (req, res) => {
     try {
-        logger.info('--- telemetry api ---');
+        logger.info('---set SAR telemetry api ---');
         let year = req.body.date.year;
         let month = req.body.date.month;
         let date = req.body.date.date;
         let hour = req.body.date.hour;
-
-        //check if file is there, and append new data
-        var params = {
-            Bucket: const_data['getParams1']['Bucket'],
-            Key: `telemetry/telemetry_${year}_${month}_${date}_${hour}.csv`
-        };
-        const_data['s3'].headObject(params, function (err, metadata) {
-            if (err && err.code === 'NotFound') {
-                //=====================Upload new files..........
-                jsonexport(req.body.telemetryData, function (error, csv) {
-                    if (error) return console.error(error);
-                    var params1 = {
-                        Bucket: const_data['getParams1']['Bucket'],
-                        Key: `telemetry/telemetry_${year}_${month}_${date}_${hour}.csv`,
-                        Body: csv.replace(/,/g, '|')
-                    };
-                    const_data['s3'].upload(params1, function (err1, result) {
-                        if (err1) {
-                            res.status(500).json({ errMsg: "Internal error" });
-                        } else {
-                            logger.info('--- upload new file successful---');
-                            res.status(200).json({ msg: "Successfully uploaded file" });
-                        }
-                    });
-                });
-            } else {
-                const_data['s3'].getSignedUrl('getObject', params, (error, response) => {
-
-                    jsonexport(req.body.telemetryData, { includeHeaders: false }, function (error1, csv) {
-                        var service = new S3Append(config.appendConfig, `telemetry/telemetry_${year}_${month}_${date}_${hour}.csv`, format.csv);
-
-                        service.append(`\r${csv.replace(/,/g, '|')}`);
-
-                        service.flush()
-                            .then(function () {
-                                logger.info('--- appende new data successful---');
-                                res.status(200).json({ msg: "new data appended" });
-                            })
-                            .catch(function (err1) {
-                                res.status(500).json({ errMsg: "Internal error" });
-                            });
-                    });
-                });
-            }
-        });
+        
+        let fileName = `telemetry/telemetry_${year}_${month}_${date}_${hour}.csv`;
+        var localPath = inputDir + fileName;
+        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData);
+        logger.info('--- response sent for set SAR telemetry api ---');
+        res.status(200).json(response);
 
     } catch (e) {
         logger.error(`Error :: ${e}`);

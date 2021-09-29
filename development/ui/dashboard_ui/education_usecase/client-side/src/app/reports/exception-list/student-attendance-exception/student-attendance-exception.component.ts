@@ -85,7 +85,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   mapName;
   googleMapZoom;
   geoJson = this.globalService.geoJson;
-  
+
   yearMonth = true;
 
   timeRange = [
@@ -1671,7 +1671,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
   getTelemetryData(data, event, level) { }
 
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
 
     if (this.level === "Block") {
@@ -1688,7 +1688,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       data.value = null;
     }
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
 }
