@@ -166,7 +166,7 @@ export class CrcReportComponent implements OnInit {
     localStorage.removeItem("resData");
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
-        this.goToHealthCard();
+        this.goToprogressCard();
         this.commonService.setProgressCardValue(false);
       }
     })
@@ -176,7 +176,7 @@ export class CrcReportComponent implements OnInit {
   // public h = '44vh';
   onResize() {
     this.height = window.innerHeight;
-   // this.h = this.height > 1760 ? "60vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "52vh" : "42vh";
+    // this.h = this.height > 1760 ? "60vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "52vh" : "42vh";
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
       this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
@@ -1350,7 +1350,7 @@ export class CrcReportComponent implements OnInit {
     this.router.navigate(["home/dashboard"]);
   }
 
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
 
     if (this.dist) {
@@ -1368,7 +1368,7 @@ export class CrcReportComponent implements OnInit {
     }
     data["timePeriod"] = this.period;
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
 }

@@ -5,7 +5,7 @@ const s3File = require('../../lib/reads3File');
 
 router.post('/schoolWise', auth.authController, async (req, res) => {
     try {
-        logger.info('---healthCard school wise api ---');
+        logger.info('---progressCard school wise api ---');
         var blockId = req.body.blockId;
         var schoolId = req.body.id;
         var timePeriod = req.body.timePeriod;
@@ -14,9 +14,9 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         let fileName;
 
         if (management != 'overall' && category == 'overall') {
-            fileName = `healthCard/school_management_category/${timePeriod}/overall_category/${management}/school/${blockId}.json`;
+            fileName = `progressCard/school_management_category/${timePeriod}/overall_category/${management}/school/${blockId}.json`;
         } else {
-            fileName = `healthCard/school/${timePeriod}/${blockId}.json`;
+            fileName = `progressCard/school/${timePeriod}/${blockId}.json`;
         }
 
         var schoolData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
@@ -25,7 +25,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 return a;
             }
         });
-        logger.info('--- healthCard school wise api response sent ---');
+        logger.info('--- progressCard school wise api response sent ---');
         if (schoolData.length > 0) {
             schoolData[0] = deleteProps(schoolData[0], ['total_schools']);
             res.status(200).send({ schoolData });

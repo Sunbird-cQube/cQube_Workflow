@@ -5,7 +5,7 @@ const s3File = require('../../lib/reads3File');
 
 router.post('/clusterWise', auth.authController, async (req, res) => {
     try {
-        logger.info('---healthCard cluster wise api ---');
+        logger.info('---progressCard cluster wise api ---');
         var blockId = req.body.blockId;
         var clusterId = req.body.id;
         var timePeriod = req.body.timePeriod;
@@ -14,9 +14,9 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
         let fileName;
 
         if (management != 'overall' && category == 'overall') {
-            fileName = `healthCard/school_management_category/${timePeriod}/overall_category/${management}/cluster/${blockId}.json`;
+            fileName = `progressCard/school_management_category/${timePeriod}/overall_category/${management}/cluster/${blockId}.json`;
         } else {
-            fileName = `healthCard/cluster/${timePeriod}/${blockId}.json`;
+            fileName = `progressCard/cluster/${timePeriod}/${blockId}.json`;
         }
         var clusterData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         clusterData = clusterData.filter(a => {
@@ -24,7 +24,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 return a;
             }
         });
-        logger.info('--- healthCard cluster wise api response sent ---');
+        logger.info('--- progressCard cluster wise api response sent ---');
         if (clusterData.length > 0) {
             res.status(200).send({ clusterData });
         } else {

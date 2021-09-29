@@ -6,8 +6,8 @@ const s3File = require('../../lib/reads3File');
 router.post('/metaData', auth.authController, async (req, res) => {
     try {
         var { level } = req.body;
-        logger.info('---healthCard metadata api ---');
-        let fileName = `healthCard/${level}/metaData.json`;
+        logger.info('---progressCard metadata api ---');
+        let fileName = `progressCard/${level}/metaData.json`;
         var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var districtIds = [];
         var districtNames = [];
@@ -128,7 +128,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
             return unique;
         }, []);
 
-        logger.info('--- healthCard metadata api response sent ---');
+        logger.info('--- progressCard metadata api response sent ---');
         res.status(200).send({ districtIds, districtNames, districts, blockIds, blockNames, blocks, clusterIds, clusterNames, clusters, schoolIds, schoolNames, schools });
     } catch (e) {
         logger.error(`Error :: ${e}`)

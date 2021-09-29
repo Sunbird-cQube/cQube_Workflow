@@ -23,7 +23,7 @@ export class ProgressCardDashboardComponent implements OnInit {
   timePeriod;
 
 
-  healthCardViews;
+  progressCardViews;
 
   // diksha columns
   diksha_column =
@@ -104,8 +104,8 @@ export class ProgressCardDashboardComponent implements OnInit {
 
     views.forEach((element) => {
       let timeStr = this.removeUnderscore(element.time_range);
-      if (element.reportid == "healthCard") {
-        this.healthCardViews = element.number_of_views + " (" + timeStr + ")";
+      if (element.reportid == "progressCard") {
+        this.progressCardViews = element.number_of_views + " (" + timeStr + ")";
       }
 
     });

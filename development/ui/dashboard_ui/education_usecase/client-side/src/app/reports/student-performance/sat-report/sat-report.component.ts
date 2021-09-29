@@ -134,7 +134,7 @@ export class SatReportComponent implements OnInit {
   ) {
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
-        this.goToHealthCard();
+        this.goToprogressCard();
         this.commonService.setProgressCardValue(false);
       }
     })
@@ -2247,7 +2247,7 @@ export class SatReportComponent implements OnInit {
     this.commonService.loaderAndErr(this.data);
   }
 
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
 
     if (this.dist) {
@@ -2266,7 +2266,7 @@ export class SatReportComponent implements OnInit {
 
     data["timePeriod"] = this.period == "all" ? "overall" : this.period;
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
 
