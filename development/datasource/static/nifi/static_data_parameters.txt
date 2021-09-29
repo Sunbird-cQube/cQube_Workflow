@@ -89,7 +89,7 @@ over (partition by DistrictId) as rn from FLOWFILE) sq Where rn >1) group by Dis
 "static_process_rec_cluster":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(district_id+block_id+cluster_id+cluster_name))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(district_id,block_id,cluster_id,cluster_name)))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_cluster_exception":"""select school_id,school_name,block_id,district_id,cluster_id from school_hierarchy_details where cluster_name is null """,
@@ -176,7 +176,7 @@ from school_geo_master where school_latitude>0 or school_longitude>0 group by cl
 "static_process_rec_district":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(district_id+district_name))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(district_id,district_name)))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_save_block_mst_state":"""block_mst""",
@@ -421,7 +421,7 @@ or longitude like '0' or longitude like '0.0'""",
 "static_process_rec_block":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(district_id+block_name+block_id))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(district_id,block_name,block_id)))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_school_management_check_if_null":"""select * from flowfile
