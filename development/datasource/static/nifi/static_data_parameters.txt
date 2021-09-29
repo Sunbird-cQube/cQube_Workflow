@@ -100,7 +100,12 @@ over (partition by schoolid) as rn from FLOWFILE) sq Where rn =1""",
 from flowfile
 group by school_management_type_id,school_management_type having count(*) >1""",
 "static_process_rec_school_category":"""update log_summary as b
-set processed_records= a.processed_records from (select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(school_category_id+school_category))as processed_records from log_summary group by ff_uuid) as a
+set processed_records= a.processed_records
+from
+    (select ff_uuid,
+            (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(school_name,latitude,longitude)))as processed_records
+     from log_summary
+     group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
 "static_jolt_log_summary":"""[{
     "operation": "shift",
