@@ -1,0 +1,13 @@
+---
+crc: true
+attendance: true
+infra: true
+diksha: false
+telemetry: true
+udise: false
+pat: true
+composite: false
+progresscard: true
+teacher_attendance: false
+data_replay: true
+sat: true

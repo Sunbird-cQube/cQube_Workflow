@@ -1,0 +1,181 @@
+<div class="container-fluid">
+    <div class="row reportHeader">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row" (window:resize)="globalService.onResize(level);onResize()">
+                <div class="col-sm-8 ">
+                    <div *ngIf='skul'>
+                        <p id="dist">
+                            Semester Assessment Test Exception Report for: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;"
+                                class="selected-level">{{state}}</span></p>
+                    </div>
+                    <div *ngIf='dist'>
+                        <p id="block">
+                            Semester Assessment Test Exception Report for: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
+                            </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                                {{districtHierarchy.districtName}}</span> </p>
+                    </div>
+                    <div *ngIf="blok">
+                        <p id="cluster">
+                            Semester Assessment Test Exception Report for: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="onDistrictSelect(blockHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{blockHierarchy.districtName}}</span><span> | </span><span
+                                (click)="onBlockSelect(blockHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                                {{blockHierarchy.blockName}}</span></p>
+                    </div>
+
+                    <div *ngIf="clust">
+                        <p id="school">
+                            Semester Assessment Test Exception Report for: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="onDistrictSelect(clusterHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.districtName}}</span><span> | </span><span
+                                (click)="onBlockSelect(clusterHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
+                                {{clusterHierarchy.clusterName}}</span></p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <p id="errMsg" class="note">
+                            </p>
+                        </div>
+                        <div class="col-sm-5">
+                            <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                id="download1" (click)="downloadReport()">Download Report &nbsp; <i
+                                    class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="note">
+                        <strong> About the dashboard:</strong> This dashboard provides information about student's
+                        performance
+                        in the Semester Assessment Test Exception. The data has been collated at
+                        various
+                        administrative levels (i.e. District, Block, Cluster and School) and this dashboard allows you
+                        to view
+                        and download the data at these various administrative levels.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 " style="margin-bottom: 10px;">
+                    <select id="period" [(ngModel)]="period" (change)="onPeriodSelect()">
+                        <option [value]="period" disabled selected="selected">Choose TimeRange</option>
+                        <option *ngFor="let period of timeRange,  let i =index" [(ngValue)]="period.key">
+                            {{period.value}}
+                        </option>
+                    </select>
+
+                    <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                    </button>
+                    <button class="btn btn-secondary" id="clusterbtn"
+                        (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
+                    </button>
+                    <button class="btn btn-secondary" id="schoolbtn"
+                        (click)="schoolWise()">&nbsp;<strong>Schools</strong>
+                    </button>
+                    <select id="grades" [(ngModel)]="grade" (change)="onGradeSelect(grade)">
+                        <option [value]="grade" disabled selected="selected">Choose Grade</option>
+                        <option *ngFor="let grade of allGrades, let i =index" [(ngValue)]="grade.grade">
+                            <span *ngIf="grade.grade == 'all'; else other_content">
+                                All Grades
+                            </span>
+                            <ng-template #other_content> {{grade.grade}}</ng-template>
+                        </option>
+                    </select>
+                    <select [hidden]="grade == 'all'" id="subjects" [(ngModel)]="subject"
+                        (change)="onSubjectSelect(subject)">
+                        <option [value]="subject" disabled selected="selected">Choose a Subject</option>
+                        <option *ngFor="let subject of allSubjects,  let i =index" [(ngValue)]="allSubjects[i]">
+                            {{allSubjects[i]}}
+                        </option>
+                    </select>
+                    <select id="choose_semester" [(ngModel)]="semester" (change)="semSelect()">
+                        <option [value]="semester" disabled selected="selected">Choose semester</option>
+                        <option *ngFor="let sem of semesters" [(ngValue)]="sem.id">
+                            {{sem.name}}
+                        </option>
+                    </select>
+                    <select id="choose_dist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
+                        <option [value]="districtId" disabled selected="selected">Choose a District</option>
+                        <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
+                            {{dist.district_name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
+                        (change)="onBlockSelect(blockId)">
+                        <option [value]="blockId" disabled selected="selected">Choose a Block</option>
+                        <option *ngFor="let block of blockMarkers" [(ngValue)]="block.block_id">
+                            {{block.block_name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
+                        (change)="onClusterSelect(clusterId)">
+                        <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
+                        <option *ngFor="let cluster of clusterMarkers" [(ngValue)]="cluster.cluster_id"
+                            [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
+                            {{cluster.cluster_name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row reportContainer">
+        <div class="col-sm-12">
+            <div id="leafletmap">
+                <div id="patExceMap" style="width: 100%;"
+                    [ngStyle]="{height: width > 3820 ? '80vh': width > 2140 && width < 3820 ? '78vh': width > 1367 && width < 1920 ? '78vh':'69vh'}">
+                </div>
+            </div>
+            <!-- google map =============================-->
+            <div *ngIf="mapName == 'googlemap'" style="float: left; width: 100%;">
+                <agm-map [latitude]="lat" [longitude]="lng" [disableDoubleClickZoom]="true" [zoom]="googleMapZoom"
+                    [ngStyle]="{height: height > 1760 ? '83vh': height > 1160 && height < 1760 ? '80vh': height > 667 && height < 1160 ? '74vh':'70vh'}"
+                    [disableDefaultUI]="true">
+                    <agm-data-layer [geoJson]="geoJson" [style]="globalService.visualizePeakFactor">
+                    </agm-data-layer>
+                    <agm-marker *ngFor="let marker of markers; let index=i" [latitude]="marker.latitude"
+                        [longitude]="marker.longitude" (mouseOver)="mouseOverOnmaker(infoWindow, $event)"
+                        (mouseOut)="mouseOutOnmaker(infoWindow, $event)"
+                        (markerClick)="onClick_AgmMarker($event, marker)" [iconUrl]="marker.icon">
+                        <agm-info-window [disableAutoPan]="false" #infoWindow>
+                            <div class='agm-info-window-content' [innerHTML]="marker.label">
+                            </div>
+                        </agm-info-window>
+                    </agm-marker>
+                </agm-map>
+            </div>
+            <div id="logoContainer">
+                <p><span>Test data, Not representative</span> <span style="margin-left: 50px;">Test data, Not representative</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="footer">
+        <div class="col-sm-4">
+            <span id="schools" style="text-align: center;">Total School Not Received Data: {{schoolCount}}</span>
+        </div>
+        <div class="col-sm-4">
+            <span id="name" class="note" style="text-align: center;">Management Type: {{managementName}}</span>
+        </div>
+    </div>
+</div>
+<div id="spinner">
+    <div id="loader" class="loading">Loading&#8230;</div>
+</div>

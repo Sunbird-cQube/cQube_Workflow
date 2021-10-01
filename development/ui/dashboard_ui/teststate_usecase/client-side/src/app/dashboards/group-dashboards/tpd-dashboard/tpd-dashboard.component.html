@@ -1,0 +1,171 @@
+<div class="main-panel" style="padding-top: 10px !important;">
+    <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector>
+
+    <div class="report-cards">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="dcc" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/usage-by-course']"
+                    (click)="fetchTelemetry($event,'dcc')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="dccViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{dccViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Usage by Course</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.dccTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="dtr"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/usage-by-course-content']"
+                    (click)="fetchTelemetry($event,'dtr')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src=" ../../assets/images/ic_equalizer.svg" alt=""></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="dtrViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{dtrViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>Usage By Course Content</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.dtrTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="tdp-cp"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-course-progress']"
+                    (click)="fetchTelemetry($event,'tpd-cp')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="tpdcpViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{tpdcpViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>TPD Course Progress</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.tpdcpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="tpd-enroll"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-enrollment']"
+                    (click)="fetchTelemetry($event,'tpd-enroll')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src=" ../../assets/images/ic_equalizer.svg" alt=""></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="tpdenrollViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{tpdenrollViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>TPD Total Enrollment/Completion </h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.tpdcpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-completion']"
+                    (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="tpdcompViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{tpdcompViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>TPD Completion Percentage</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
