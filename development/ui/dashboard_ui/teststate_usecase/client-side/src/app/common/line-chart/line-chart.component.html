@@ -1,0 +1,11 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div (window:resize)="onResize()">
+                <div [id]="chartId" style="width: 100%; margin: 0 auto"
+                    [ngStyle]="{height: height > 1760 ? '76vh': height > 1160 && height < 1760 ? '74vh': height > 667 && height < 1160 ? '70vh':'66vh'}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

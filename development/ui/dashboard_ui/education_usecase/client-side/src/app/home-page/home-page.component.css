@@ -48,6 +48,10 @@ img{
 .outer{
   margin-top: 150px;
 }
+#demoText{
+  font-size: 35px;
+  margin-top: 5px;
+}
 
 @media screen and (min-width: 1920px){
   #header{
@@ -168,5 +172,18 @@ img{
 
   .outer{
     margin-top: 550px !important;
+  }
+  
+  #demoText{
+    font-size: 61px !important;
+    margin-top: 16px !important;
+  }
+}
+
+
+@media screen and (min-width: 2560px){
+  #demoText{
+    font-size: 56px !important;
+    margin-top: 13px !important;
   }
 }
