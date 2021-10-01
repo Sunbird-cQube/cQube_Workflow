@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-diksha-bar-chart',
@@ -50,6 +51,7 @@ export class DikshaBarChartComponent implements OnInit {
     public service: DikshaReportService,
     public commonService: AppServiceComponent,
     public router: Router,
+    private sanitizer: DomSanitizer
   ) {
   }
 
@@ -150,15 +152,6 @@ export class DikshaBarChartComponent implements OnInit {
     })
   }
 
-  //download raw file:::::::::::
-  downloadRawFile() {
-    this.service.downloadFile({ fileName: this.fileToDownload }).subscribe(res => {
-      window.open(`${res['downloadUrl']}`, "_blank");
-    }, err => {
-      alert("No Raw Data File Available in Bucket");
-    })
-  }
-
 
   time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
   fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
@@ -175,6 +168,23 @@ export class DikshaBarChartComponent implements OnInit {
     }
     //document.getElementById('home').style.display = "block";
   }
+
+  //download raw file:::::::::::
+  downloadRawFile() {
+    this.commonService.errMsg();
+    this.service.downloadFile({ fileName: this.fileToDownload }).subscribe(res => {
+      if (res['data']) {
+        this.commonService.download(this.time, res['data']);
+        this.commonService.loaderAndErr([]);
+      } else {
+        window.open(`${res['downloadUrl']}`, "_blank");
+        this.commonService.loaderAndErr([]);
+      }
+    }, err => {
+      alert("No Raw Data File Available in Bucket");
+    })
+  }
+
 
   //Get data based on selected collection:::::::::::::::
   getDataBasedOnCollections() {

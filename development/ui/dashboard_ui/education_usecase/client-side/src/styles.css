@@ -247,7 +247,8 @@ leaflet-right {
 #dist,
 #block,
 #cluster,
-#school {
+#school,
+#heading {
     color: var(--theme-report-heading-color);
     font-weight: 600;
     font-size: 18px;
@@ -508,7 +509,8 @@ border-color:var(--theme-back-button-border-color);
     #dist,
     #block,
     #cluster,
-    #school {
+    #school,
+    #heading {
         color: var(--theme-report-heading-color);
         font-weight: 600;
         font-size: 32px;
@@ -707,7 +709,8 @@ border-color:var(--theme-back-button-border-color);
     #dist,
     #block,
     #cluster,
-    #school {
+    #school,
+    #heading {
         color: var(--theme-report-heading-color);
         font-weight: 600;
         font-size: 38px !important;
