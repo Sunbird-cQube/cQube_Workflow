@@ -75,11 +75,9 @@ router.post('/:id', auth.authController, async function (req, res) {
         axios.post(usersUrl, newPass, { headers: headers }).then(resp => {
             res.status(201).json({ msg: "Password changed" });
         }).catch(error => {
-            console.log('password change failed')
+            logger.error('password change failed')
             res.status(409).json({ errMsg: error.response.data.errorMessage });
-        }).catch(error => {
-            res.status(409).json({ errMsg: error.response.data.errorMessage });
-        })
+        });
     } catch (e) {
         logger.error(`Error :: ${e}`);
         res.status(500).json({ errMsg: "Internal error. Please try again!!" });

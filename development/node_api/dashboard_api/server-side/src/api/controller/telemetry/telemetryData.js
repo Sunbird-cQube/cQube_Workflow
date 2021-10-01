@@ -7,7 +7,7 @@ var S3Append = require('s3-append').S3Append;
 var config = require('../../lib/config');
 const { format } = require('path');
 const s3File = require('../../lib/reads3File');
-const inputDir = `${process.env.INPUT_DIRECTORY}`;
+const inputDir = `${process.env.EMISSION_DIRECTORY}`;
 const writeFile = require('../../lib/uploadFile');
 var storageType = `${process.env.STORAGE_TYPE}`;
 
