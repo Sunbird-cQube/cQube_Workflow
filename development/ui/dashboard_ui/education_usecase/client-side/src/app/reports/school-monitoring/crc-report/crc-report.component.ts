@@ -580,8 +580,6 @@ export class CrcReportComponent implements OnInit {
     }
     this.reportData = [];
     this.commonService.errMsg();
-    var element1: any = document.getElementsByClassName("dwnld");
-    // element1[0].disabled = true;
     this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_allBlocks_${this.commonService.dateAndTime}`;
     if (this.myData) {
       this.myData.unsubscribe();
@@ -598,7 +596,6 @@ export class CrcReportComponent implements OnInit {
           this.reportData = res["visits"];
           if (res !== null) {
             document.getElementById("spinner").style.display = "none";
-            element1[0].disabled = false;
           }
           this.downloadReport();
           this.changeDetection.markForCheck();
@@ -618,8 +615,6 @@ export class CrcReportComponent implements OnInit {
     }
     this.reportData = [];
     this.commonService.errMsg();
-    var element1: any = document.getElementsByClassName("dwnld");
-    // element1[0].disabled = true;
     this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_allClusters_${this.commonService.dateAndTime}`;
     if (this.myData) {
       this.myData.unsubscribe();
@@ -636,7 +631,6 @@ export class CrcReportComponent implements OnInit {
           this.reportData = res["visits"];
           if (res !== null) {
             document.getElementById("spinner").style.display = "none";
-            element1[0].disabled = false;
           }
           this.downloadReport();
           this.changeDetection.markForCheck();
@@ -656,8 +650,6 @@ export class CrcReportComponent implements OnInit {
     }
     this.reportData = [];
     this.commonService.errMsg();
-    var element1: any = document.getElementsByClassName("dwnld");
-    // element1[0].disabled = true;
     this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_allSchools_${this.commonService.dateAndTime}`;
     if (this.myData) {
       this.myData.unsubscribe();
@@ -674,7 +666,6 @@ export class CrcReportComponent implements OnInit {
           this.reportData = res["visits"];
           if (res !== null) {
             document.getElementById("spinner").style.display = "none";
-            element1[0].disabled = false;
           }
           this.downloadReport();
           this.changeDetection.markForCheck();
