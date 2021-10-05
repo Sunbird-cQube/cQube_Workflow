@@ -1237,7 +1237,7 @@ export class SemViewComponent implements OnInit {
     // );
   }
 
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
 
     if (this.dist) {
@@ -1254,7 +1254,7 @@ export class SemViewComponent implements OnInit {
       data.value = null;
     }
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
 

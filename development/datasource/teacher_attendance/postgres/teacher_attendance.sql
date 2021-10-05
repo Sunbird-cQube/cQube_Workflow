@@ -419,6 +419,7 @@ d_query text;
 res text;
 u_query text;
 m_query text;
+update_query text;
 _cols text:='select string_agg(days_to_be_processed'||'||''  ''||'''||'boolean'''||','','') from teacher_attendance_meta_temp where month='||month||' and year='||year;
 col_name text;
 d_meta text;
@@ -457,7 +458,9 @@ EXECUTE c_query;
 
 
 m_query:='update teacher_attendance_meta_temp set to_run=False where (extract(dow from processed_date)=0 and month='||month||' and year='||year||')';
+update_query:='update teacher_attendance_meta_temp set to_run=False where (processed_date>=CURRENT_DATE and month='||month||' and year='||year||')';
 EXECUTE m_query;
+EXECUTE update_query;
 EXECUTE _cols into col_name;
 d_meta:='drop table if exists teacher_attendance_meta_stg';
 EXECUTE d_meta;

@@ -14,7 +14,7 @@ export class ManagementSelectorComponent implements OnInit {
   constructor(public service: AppServiceComponent, public changeDetection: ChangeDetectorRef) { }
 
   //Management and category
-  @Input() managements = [];
+  @Input() managements: any = [];
   @Input() public management = JSON.parse(localStorage.getItem('management')) ? JSON.parse(localStorage.getItem('management')).id : "";;
   categories = [];
   public category;
@@ -36,8 +36,9 @@ export class ManagementSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.managements = JSON.parse(localStorage.getItem('managements'))
-    if (!this.managements) {
+    this.getDefault();
+    this.managements = JSON.parse(localStorage.getItem('managements')) ? JSON.parse(localStorage.getItem('managements')) : [];
+    if (!this.managements.length) {
       this.service.management_category_metaData().subscribe((res) => {
         this.managements = res["mydata"].management;
         this.managements.unshift({ id: "overall", value: "Overall" });
@@ -64,11 +65,9 @@ export class ManagementSelectorComponent implements OnInit {
         }
         document.getElementById("spinner").style.display = "none";
       });
-
     } else {
       document.getElementById("spinner").style.display = "none";
     }
-    this.getDefault();
   }
 
   getDefault() {
@@ -80,7 +79,6 @@ export class ManagementSelectorComponent implements OnInit {
   }
 
   setDefault() {
-    this.changeDetection.detectChanges();
     if (localStorage.getItem('management') == null) {
       this.management = this.managementType;
       this.category = this.categoryType;
@@ -100,7 +98,7 @@ export class ManagementSelectorComponent implements OnInit {
       this.category = JSON.parse(localStorage.getItem('category')).id;
     }
     if (this.managementType) {
-      if (this.managements.length <= 0) {
+      if (this.managements.length == 0) {
         this.managements.push({ id: this.managementType, value: this.service.changeingStringCases(this.managementType.replace(/_/g, ' ')) })
       }
     } else {

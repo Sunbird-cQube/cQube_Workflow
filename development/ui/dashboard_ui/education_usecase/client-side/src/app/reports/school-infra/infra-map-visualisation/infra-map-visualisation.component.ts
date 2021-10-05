@@ -104,7 +104,7 @@ export class InfraMapVisualisationComponent implements OnInit {
   ) {
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
-        this.goToHealthCard();
+        this.goToprogressCard();
         this.commonService.setProgressCardValue(false);
       }
     })
@@ -1496,7 +1496,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
   }
 
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
     if (this.dist) {
       data.level = "district";
@@ -1512,7 +1512,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       data.value = null;
     }
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
 

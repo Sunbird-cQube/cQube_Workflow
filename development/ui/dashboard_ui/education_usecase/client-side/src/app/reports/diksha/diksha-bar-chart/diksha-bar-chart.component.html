@@ -16,6 +16,12 @@
                             </p>
                         </div>
 
+                        <span id="rawDownload" class="note"
+                            style="cursor: pointer; float: right; margin: 8px 20px 0px 0px; text-decoration: underline;"
+                            *ngIf="reportData.length > 0" (click)="downloadRawFile()"><strong>Download Raw
+                                File</strong></span>
+
+                        <!-- <a href="" target="_blank" download="overall.csv">Download</a> -->
 
                         <div class="col sm-5">
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
@@ -23,9 +29,6 @@
                                     class="fa fa-arrow-down" aria-hidden="true"></i>
                             </button>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>

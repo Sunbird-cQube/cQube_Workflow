@@ -3,7 +3,8 @@ const { logger } = require('../lib/logger');
 const auth = require('../middleware/check-auth');
 var const_data = require('../lib/config');
 const readFile = require("../lib/reads3File");
-var baseDir = `${process.env.OUTPUT_DIRECTORY}/`;
+const csv = require('csvtojson')
+var baseDir = `${process.env.OUTPUT_DIRECTORY}`;
 
 router.post('/', auth.authController, async (req, res) => {
     try {
@@ -30,8 +31,10 @@ router.post('/', auth.authController, async (req, res) => {
                 }
             });
         } else {
+            logger.info(" ---- file download data sent.. ----");
             var fileName = baseDir + req.body.fileName;
-            res.status(200).send({ downloadUrl: fileName })
+            const jsonArray = await csv().fromFile(fileName);
+            res.status(200).send({ downloadUrl: fileName, data: jsonArray })
         }
     } catch (e) {
         logger.error(`Error :: ${e}`);

@@ -1,15 +1,15 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from 'src/app/app.service';
-import { HealthCardService } from 'src/app/services/health-card.service';
 import * as _ from "lodash"
+import { progressCardService } from 'src/app/services/progress-card.service';
 
 @Component({
-  selector: 'app-health-card',
-  templateUrl: './health-card.component.html',
-  styleUrls: ['./health-card.component.css']
+  selector: 'app-progress-card',
+  templateUrl: './progress-card.component.html',
+  styleUrls: ['./progress-card.component.css']
 })
-export class HealthCardComponent implements OnInit, AfterViewInit {
+export class progressCardComponent implements OnInit, AfterViewInit {
   innerWidth = 772;
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -32,7 +32,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   clusterIds = [];
   schoolIds = [];
   districtObjArr = [];
-  healthCardData = {};
+  progressCardData = {};
 
 
   schoolInfra = [];
@@ -114,7 +114,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   category;
 
 
-  constructor(private cdr: ChangeDetectorRef, public commonService: AppServiceComponent, public service: HealthCardService, private readonly _router: Router, private readonly _cd: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef, public commonService: AppServiceComponent, public service: progressCardService, private readonly _router: Router, private readonly _cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
@@ -128,7 +128,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
       this.managementName.replace(/_/g, " ")
     );
 
-    this.params = JSON.parse(sessionStorage.getItem('health-card-info'));
+    this.params = JSON.parse(sessionStorage.getItem('progress-card-info'));
 
     if (this.params) {
       if (this.params.timePeriod == 'overall' || this.params.timePeriod == 'last_30_days') {
@@ -186,7 +186,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     document.getElementById('myInput')['value'] = '';
     this.placeHolder = "First Choose Level From Drop-down";
     this.service.stateData({ ...{ timePeriod: this.period }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-      this.healthCardData = res['data'];
+      this.progressCardData = res['data'];
       this.schoolInfra = ['infra_score'];
       this.schoolInfraKey = ['Infrastructure Score'];
       this.schoolInfraRank = ['district_level_rank_within_the_state'];
@@ -206,8 +206,8 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
       this.patPerformanceKeys = ['Performance'];
       this.patPerformanceCategory = ['value_below_33', 'value_between_33_60', 'value_between_60_75', 'value_above_75'];
       this.patPerformanceCategoryKay = ['Schools Less Than 33%', 'Schools Between 33% to 60%', 'Schools Between 60% to 75%', 'Schools Above 75%'];
-      // if(this.healthCardData['crc_visit'])
-      //   this.crcVisit = Object.keys(this.healthCardData['crc_visit']);
+      // if(this.progressCardData['crc_visit'])
+      //   this.crcVisit = Object.keys(this.progressCardData['crc_visit']);
       // this.crcVisitKeys = [];
 
       this.crcVisit = ['schools_0', 'schools_1_2', 'schools_3_5', 'schools_6_10', 'schools_10'];
@@ -218,7 +218,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
       this.UDISECategory = ['value_below_33', 'value_between_33_60', 'value_between_60_75', 'value_above_75'];
       this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
-      this.showData(this.healthCardData);
+      this.showData(this.progressCardData);
       document.getElementById('spinner').style.display = 'none';
     }, err => {
       this.err = true;
@@ -261,7 +261,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
 
         this.selectedLevelData = dist;
         this.service.districtWiseData({ ...{ id: id, timePeriod: this.period }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-          this.healthCardData = res['districtData'][0];
+          this.progressCardData = res['districtData'][0];
           this.schoolInfra = ['infra_score'];
           this.schoolInfraKey = ['Infrastructure Score'];
           this.schoolInfraRank = ['district_level_rank_within_the_state'];
@@ -290,7 +290,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
           this.UDISECategory = ['value_below_33', 'value_between_33_60', 'value_between_60_75', 'value_above_75'];
           this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
-          this.showData(this.healthCardData);
+          this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
           this.err = true;
@@ -317,7 +317,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
 
         this.selectedLevelData = block;
         this.service.blockWiseData({ ...{ id: id, timePeriod: this.period }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-          this.healthCardData = res['blockData'][0];
+          this.progressCardData = res['blockData'][0];
           this.schoolInfra = ['infra_score'];
           this.schoolInfraKey = ['Infrastructure Score'];
           this.schoolInfraRank = ['block_level_rank_within_the_state', 'block_level_rank_within_the_district'];
@@ -344,7 +344,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
           this.UDISECategory = ['value_below_33', 'value_between_33_60', 'value_between_60_75', 'value_above_75'];
           this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
-          this.showData(this.healthCardData);
+          this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
           this.err = true;
@@ -373,7 +373,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
 
         this.selectedLevelData = cluster;
         this.service.clusterWiseData({ ...{ id: id, blockId: blkId, timePeriod: this.period }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-          this.healthCardData = res['clusterData'][0];
+          this.progressCardData = res['clusterData'][0];
           this.schoolInfra = ['infra_score'];
           this.schoolInfraKey = ['Infrastructure Score'];
           this.schoolInfraRank = ['cluster_level_rank_within_the_state', 'cluster_level_rank_within_the_district', 'cluster_level_rank_within_the_block'];
@@ -400,7 +400,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
           this.UDISECategory = ['value_below_33', 'value_between_33_60', 'value_between_60_75', 'value_above_75'];
           this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
-          this.showData(this.healthCardData);
+          this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
           this.err = true;
@@ -428,7 +428,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
           }
         }
         this.service.schoolWiseData({ ...{ id: id, blockId: blok, timePeriod: this.period }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-          this.healthCardData = res['schoolData'][0];
+          this.progressCardData = res['schoolData'][0];
           this.schoolInfra = ['infra_score'];
           this.schoolInfraKey = ['Infrastructure Score'];
           this.schoolInfraRank = ['school_level_rank_within_the_state', 'school_level_rank_within_the_district', 'school_level_rank_within_the_block', 'school_level_rank_within_the_cluster'];
@@ -455,7 +455,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
           this.UDISECategory = ['value_below_33', 'value_between_33_60', 'value_between_60_75', 'value_above_75'];
           this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
-          this.showData(this.healthCardData);
+          this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
           this.err = true;
@@ -494,15 +494,15 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
   udiseRankMatrixValue;
   crcRankMatrixValue;
 
-  showData(healthCardData) {
+  showData(progressCardData) {
     if (this.level != 'state') {
       if (this.level != 'school')
-        healthCardData['total_schools'] = healthCardData['total_schools'] ? healthCardData['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
-      healthCardData['total_students'] = healthCardData['total_students'] ? healthCardData['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
-      if (healthCardData['school_management_type'])
-        healthCardData['school_management_type'] = this.commonService.changeingStringCases(healthCardData['school_management_type'].replace(/_/g, ' '))
+        progressCardData['total_schools'] = progressCardData['total_schools'] ? progressCardData['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
+      progressCardData['total_students'] = progressCardData['total_students'] ? progressCardData['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "";
+      if (progressCardData['school_management_type'])
+        progressCardData['school_management_type'] = this.commonService.changeingStringCases(progressCardData['school_management_type'].replace(/_/g, ' '))
       this.updatedKeys = [];
-      this.keys = Object.keys(healthCardData);
+      this.keys = Object.keys(progressCardData);
       let index = this.keys.indexOf('district_id');
       if (index > -1) {
         this.keys.splice(index, 1);
@@ -520,7 +520,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.keys.splice(index, 1);
       }
       this.keys = this.keys.filter(key => {
-        if (typeof healthCardData[`${key}`] != 'object') {
+        if (typeof progressCardData[`${key}`] != 'object') {
           let myKey = this.stringConverter(key);
           this.updatedKeys.push(myKey);
           return key;
@@ -528,11 +528,11 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
       });
     } else {
       this.updatedKeys = [];
-      healthCardData['basic_details']['total_schools'] = !healthCardData['basic_details']['total_schools'] ? "" : healthCardData['basic_details']['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      healthCardData['basic_details']['total_students'] = !healthCardData['basic_details']['total_students'] ? "" : healthCardData['basic_details']['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      if (healthCardData['basic_details']['school_management_type'])
-        healthCardData['basic_details']['school_management_type'] = this.commonService.changeingStringCases(healthCardData['basic_details']['school_management_type'].replace(/_/g, ' '))
-      this.keys = Object.keys(healthCardData['basic_details']);
+      progressCardData['basic_details']['total_schools'] = !progressCardData['basic_details']['total_schools'] ? "" : progressCardData['basic_details']['total_schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      progressCardData['basic_details']['total_students'] = !progressCardData['basic_details']['total_students'] ? "" : progressCardData['basic_details']['total_students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      if (progressCardData['basic_details']['school_management_type'])
+        progressCardData['basic_details']['school_management_type'] = this.commonService.changeingStringCases(progressCardData['basic_details']['school_management_type'].replace(/_/g, ' '))
+      this.keys = Object.keys(progressCardData['basic_details']);
       this.keys = this.keys.filter(key => {
         let myKey = this.stringConverter(key);
         this.updatedKeys.push(myKey);
@@ -558,10 +558,10 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.infraTooltipMetrics = [];
     this.semPerformTooltip = [];
     this.semPerformTooltipKeys = [];
-    if (healthCardData['school_infrastructure'] && healthCardData['school_infrastructure'] != null) {
-      /* if(healthCardData['school_infrastructure']['school_management_type'])
-        healthCardData['school_infrastructure']['school_management_type'] = this.commonService.changeingStringCases(healthCardData['school_infrastructure']['school_management_type'].replace(/_/g, ' ')) */
-      this.tooltipInfra = Object.keys(healthCardData['school_infrastructure']);
+    if (progressCardData['school_infrastructure'] && progressCardData['school_infrastructure'] != null) {
+      /* if(progressCardData['school_infrastructure']['school_management_type'])
+        progressCardData['school_infrastructure']['school_management_type'] = this.commonService.changeingStringCases(progressCardData['school_infrastructure']['school_management_type'].replace(/_/g, ' ')) */
+      this.tooltipInfra = Object.keys(progressCardData['school_infrastructure']);
       this.tooltipInfra = this.tooltipInfra.filter((key) => {
         return !this.schoolInfra.includes(key) && !this.schoolAttendanceCategory.includes(key) && !this.schoolInfraRank.includes(key) && key != 'areas_to_focus' && key !== 'school_management_type';
       });
@@ -570,7 +570,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.toolTipInfraKeys.push(myKey);
       });
 
-      this.infraColor = this.service.colorGredient(healthCardData['school_infrastructure']['infra_score']);
+      this.infraColor = this.service.colorGredient(progressCardData['school_infrastructure']['infra_score']);
       this.toolTipInfraKeys.map(key => {
         this.infraTooltipMetrics.push(key.includes('Percent'));
       });
@@ -578,13 +578,13 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
       if (index !== -1) {
         this.tooltipInfra.splice(index, 1);
       }
-      this.infraRankMatrixValue = healthCardData['school_infrastructure']['state_level_score'] * 10;
+      this.infraRankMatrixValue = progressCardData['school_infrastructure']['state_level_score'] * 10;
       this.infraRankMatrixColor = this.service.colorRankMatrics(this.infraRankMatrixValue);
     }
-    if (healthCardData['student_attendance'] && healthCardData['student_attendance'] != null) {
-      /* if(healthCardData['student_attendance']['school_management_type'])
-        healthCardData['student_attendance']['school_management_type'] = this.commonService.changeingStringCases(healthCardData['student_attendance']['school_management_type'].replace(/_/g, ' ')) */
-      this.tooltipStdAttendance = Object.keys(healthCardData['student_attendance']);
+    if (progressCardData['student_attendance'] && progressCardData['student_attendance'] != null) {
+      /* if(progressCardData['student_attendance']['school_management_type'])
+        progressCardData['student_attendance']['school_management_type'] = this.commonService.changeingStringCases(progressCardData['student_attendance']['school_management_type'].replace(/_/g, ' ')) */
+      this.tooltipStdAttendance = Object.keys(progressCardData['student_attendance']);
       this.tooltipStdAttendance = this.tooltipStdAttendance.filter((key) => {
         return !this.schoolAttendance.includes(key) && !this.schoolAttendanceCategory.includes(key) && !this.schoolInfraRank.includes(key) && key !== 'school_management_type';
       });
@@ -592,14 +592,14 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         myKey = this.stringConverter(key);
         this.tooltipStdAttendanceKeys.push(myKey);
       });
-      this.stdAttendanceColor = this.service.colorGredient(healthCardData['student_attendance']['attendance']);
-      this.stdAttdRankMatrixValue = healthCardData['student_attendance']['state_level_score'] * 10;
+      this.stdAttendanceColor = this.service.colorGredient(progressCardData['student_attendance']['attendance']);
+      this.stdAttdRankMatrixValue = progressCardData['student_attendance']['state_level_score'] * 10;
       this.stdAttdRankMatrixColor = this.service.colorRankMatrics(this.stdAttdRankMatrixValue);
     }
-    if (healthCardData['student_semester'] && healthCardData['student_semester'] != null) {
-      /* if(healthCardData['student_semester']['school_management_type'])
-        healthCardData['student_semester']['school_management_type'] = this.commonService.changeingStringCases(healthCardData['student_semester']['school_management_type'].replace(/_/g, ' ')) */
-      this.tooltimSem = Object.keys(healthCardData['student_semester']);
+    if (progressCardData['student_semester'] && progressCardData['student_semester'] != null) {
+      /* if(progressCardData['student_semester']['school_management_type'])
+        progressCardData['student_semester']['school_management_type'] = this.commonService.changeingStringCases(progressCardData['student_semester']['school_management_type'].replace(/_/g, ' ')) */
+      this.tooltimSem = Object.keys(progressCardData['student_semester']);
       this.tooltimSem = this.tooltimSem.filter((key) => {
         return !this.semPerformance.includes(key) && !this.semPerformancePercent.includes(key) && !this.schoolAttendanceCategory.includes(key) && !this.schoolInfraRank.includes(key) && key !== 'grade_wise_performance' && key !== 'school_management_type';
       });
@@ -607,39 +607,39 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         myKey = this.stringConverter(key);
         this.tooltipSemKeys.push(myKey);
       });
-      if (healthCardData['student_semester']['grade_wise_performance']) {
-        const ordered = Object.keys(healthCardData['student_semester']['grade_wise_performance']).sort().reduce(
+      if (progressCardData['student_semester']['grade_wise_performance']) {
+        const ordered = Object.keys(progressCardData['student_semester']['grade_wise_performance']).sort().reduce(
           (obj, key) => {
-            obj[key] = healthCardData['student_semester']['grade_wise_performance'][key];
+            obj[key] = progressCardData['student_semester']['grade_wise_performance'][key];
             return obj;
           },
           {}
         );
-        healthCardData['student_semester']['grade_wise_performance'] = ordered;
-        this.semPerformTooltip = Object.keys(healthCardData['student_semester']['grade_wise_performance']);
+        progressCardData['student_semester']['grade_wise_performance'] = ordered;
+        this.semPerformTooltip = Object.keys(progressCardData['student_semester']['grade_wise_performance']);
         this.semPerformTooltip.filter(key => {
           myKey = this.stringConverter(key);
           this.semPerformTooltipKeys.push(myKey);
         });
       }
-      this.semColor = this.service.colorGredient(healthCardData['student_semester']['performance']);
-      this.semRankMatrixValue = healthCardData['student_semester']['state_level_score'] * 10;
+      this.semColor = this.service.colorGredient(progressCardData['student_semester']['performance']);
+      this.semRankMatrixValue = progressCardData['student_semester']['state_level_score'] * 10;
       this.semRankMatrixColor = this.service.colorRankMatrics(this.semRankMatrixValue);
     }
-    if (healthCardData['pat_performance'] && healthCardData['pat_performance'] != null) {
-      /* if(healthCardData['pat_performance']['school_management_type'])
-        healthCardData['pat_performance']['school_management_type'] = this.commonService.changeingStringCases(healthCardData['pat_performance']['school_management_type'].replace(/_/g, ' ')) */
-      this.tooltipPat = Object.keys(healthCardData['pat_performance']);
-      if (healthCardData['pat_performance']['grade_wise_performance']) {
-        const ordered = Object.keys(healthCardData['pat_performance']['grade_wise_performance']).sort().reduce(
+    if (progressCardData['pat_performance'] && progressCardData['pat_performance'] != null) {
+      /* if(progressCardData['pat_performance']['school_management_type'])
+        progressCardData['pat_performance']['school_management_type'] = this.commonService.changeingStringCases(progressCardData['pat_performance']['school_management_type'].replace(/_/g, ' ')) */
+      this.tooltipPat = Object.keys(progressCardData['pat_performance']);
+      if (progressCardData['pat_performance']['grade_wise_performance']) {
+        const ordered = Object.keys(progressCardData['pat_performance']['grade_wise_performance']).sort().reduce(
           (obj, key) => {
-            obj[key] = healthCardData['pat_performance']['grade_wise_performance'][key];
+            obj[key] = progressCardData['pat_performance']['grade_wise_performance'][key];
             return obj;
           },
           {}
         );
-        healthCardData['pat_performance']['grade_wise_performance'] = ordered;
-        this.patPerformTooltip = Object.keys(healthCardData['pat_performance']['grade_wise_performance']);
+        progressCardData['pat_performance']['grade_wise_performance'] = ordered;
+        this.patPerformTooltip = Object.keys(progressCardData['pat_performance']['grade_wise_performance']);
         this.patPerformTooltip.filter(key => {
           myKey = this.stringConverter(key);
           this.patPerformTooltipKeys.push(myKey);
@@ -657,17 +657,17 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
       let i = this.tooltipPat.indexOf('grade_wise_performance');
       this.tooltipPat.splice(i, 1);
       if (this.level == 'state') {
-        this.patColor = this.service.colorGredient(healthCardData['pat_performance'][`school_performance`]);
+        this.patColor = this.service.colorGredient(progressCardData['pat_performance'][`school_performance`]);
       } else {
-        this.patColor = this.service.colorGredient(healthCardData['pat_performance'][`${this.level}_performance`]);
+        this.patColor = this.service.colorGredient(progressCardData['pat_performance'][`${this.level}_performance`]);
       }
-      this.patRankMatrixValue = healthCardData['pat_performance']['state_level_score'] * 10;
+      this.patRankMatrixValue = progressCardData['pat_performance']['state_level_score'] * 10;
       this.patRankMatrixColor = this.service.colorRankMatrics(this.patRankMatrixValue);
     }
-    if (healthCardData['crc_visit'] && healthCardData['crc_visit'] != null) {
-      /* if(healthCardData['crc_visit']['school_management_type'])
-        healthCardData['crc_visit']['school_management_type'] = this.commonService.changeingStringCases(healthCardData['crc_visit']['school_management_type'].replace(/_/g, ' ')) */
-      this.tooltipCrc = Object.keys(healthCardData['crc_visit']);
+    if (progressCardData['crc_visit'] && progressCardData['crc_visit'] != null) {
+      /* if(progressCardData['crc_visit']['school_management_type'])
+        progressCardData['crc_visit']['school_management_type'] = this.commonService.changeingStringCases(progressCardData['crc_visit']['school_management_type'].replace(/_/g, ' ')) */
+      this.tooltipCrc = Object.keys(progressCardData['crc_visit']);
       this.tooltipCrc = this.tooltipCrc.filter((key) => {
         return !this.crcVisit.includes(key) && key !== 'school_management_type';
       });
@@ -677,14 +677,14 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
         this.tooltipCrcKeys.push(myKey);
       });
 
-      this.crcColor = this.service.colorGredient(healthCardData['crc_visit']['visit_score']);
-      this.crcRankMatrixValue = healthCardData['crc_visit']['state_level_score'] * 10;
+      this.crcColor = this.service.colorGredient(progressCardData['crc_visit']['visit_score']);
+      this.crcRankMatrixValue = progressCardData['crc_visit']['state_level_score'] * 10;
       this.crcRankMatrixColor = this.service.colorRankMatrics(this.crcRankMatrixValue);
     }
-    if (healthCardData['udise'] && healthCardData['udise'] != null) {
-      /* if(healthCardData['udise']['school_management_type'])
-        healthCardData['udise']['school_management_type'] = this.commonService.changeingStringCases(healthCardData['udise']['school_management_type'].replace(/_/g, ' ')) */
-      this.tooltipUDISE = Object.keys(healthCardData['udise']);
+    if (progressCardData['udise'] && progressCardData['udise'] != null) {
+      /* if(progressCardData['udise']['school_management_type'])
+        progressCardData['udise']['school_management_type'] = this.commonService.changeingStringCases(progressCardData['udise']['school_management_type'].replace(/_/g, ' ')) */
+      this.tooltipUDISE = Object.keys(progressCardData['udise']);
       this.tooltipUDISE = this.tooltipUDISE.filter((key) => {
         return !this.UDISE.includes(key) && !this.UDISECategory.includes(key) && !this.schoolInfraRank.includes(key) && key != "district_latitude" && key != "block_latitude" && key != "cluster_latitude" && key != "school_latitude" && key != "district_longitude" && key != "block_longitude" && key != "cluster_longitude" && key != "school_longitude" && key !== 'school_management_type';
       });
@@ -696,8 +696,8 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
       if (index !== -1) {
         this.tooltipUDISE.splice(index, 1);
       }
-      this.udiseColor = this.service.colorGredient(healthCardData['udise']['school_infrastructure']);
-      this.udiseRankMatrixValue = healthCardData['udise']['state_level_score'] * 10;
+      this.udiseColor = this.service.colorGredient(progressCardData['udise']['school_infrastructure']);
+      this.udiseRankMatrixValue = progressCardData['udise']['state_level_score'] * 10;
       this.udiseRankMatrixColor = this.service.colorRankMatrics(this.udiseRankMatrixValue);
     }
   }
@@ -756,7 +756,7 @@ export class HealthCardComponent implements OnInit, AfterViewInit {
     this.exist = true;
     this.cdr.detectChanges();
     document.getElementById('spinner').style.display = 'block';
-    sessionStorage.removeItem('health-card-info');
+    sessionStorage.removeItem('progress-card-info');
     this.allData = [];
     this.ids = [];
     this.names = [];

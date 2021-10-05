@@ -5,19 +5,19 @@ const s3File = require('../../lib/reads3File');
 
 router.post('/stateData', auth.authController, async (req, res) => {
     try {
-        logger.info('---healthCard stateData api ---');
+        logger.info('---progressCard stateData api ---');
         var timePeriod = req.body.timePeriod;
         var management = req.body.management;
         var category = req.body.category;
         let fileName;
 
         if (management != 'overall' && category == 'overall') {
-            fileName = `healthCard/school_management_category/${timePeriod}/overall_category/${management}/stateData.json`;
+            fileName = `progressCard/school_management_category/${timePeriod}/overall_category/${management}/stateData.json`;
         } else {
-            fileName = `healthCard/${timePeriod}/state.json`;
+            fileName = `progressCard/${timePeriod}/state.json`;
         }
         var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        logger.info('--- healthCard stateData api response sent ---');
+        logger.info('--- progressCard stateData api response sent ---');
         res.status(200).send({ data });
     } catch (e) {
         logger.error(`Error :: ${e}`)
