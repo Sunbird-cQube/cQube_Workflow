@@ -181,7 +181,6 @@ export class CrcReportComponent implements OnInit {
       this.scatterChart.destroy();
       this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
     }
-    console.log(this.obj, this.labels)
   }
 
   ngOnInit() {
