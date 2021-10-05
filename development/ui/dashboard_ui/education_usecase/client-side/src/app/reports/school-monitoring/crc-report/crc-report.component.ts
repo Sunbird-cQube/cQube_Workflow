@@ -173,10 +173,10 @@ export class CrcReportComponent implements OnInit {
   }
 
   height = window.innerHeight;
-  // public h = '44vh';
+  public h;
   onResize() {
     this.height = window.innerHeight;
-    // this.h = this.height > 1760 ? "60vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "52vh" : "42vh";
+    this.h = this.height > 1760 ? "60vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "52vh" : "44vh";
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
       this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
@@ -1137,16 +1137,7 @@ export class CrcReportComponent implements OnInit {
 
   createChart(labels, chartData, name, obj) {
     var ctx = $("#myChart");
-    // ctx.attr(
-    // "height",
-    // this.height > 1760
-    //   ? "60vh"
-    //   : this.height > 1160 && this.height < 1760
-    //     ? "60vh"
-    //     : this.height > 667 && this.height < 1160
-    //       ? "52vh"
-    //       : "44vh"
-    // );
+    ctx.attr("height", this.h);
     this.scatterChart = new Chart("myChart", {
       type: "scatter",
       data: {
