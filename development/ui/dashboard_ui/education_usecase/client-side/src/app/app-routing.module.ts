@@ -4,7 +4,7 @@ import { HomeComponent } from './containers/home/home.component';
 import { AuthGuard } from './auth.guard';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ComingSoonComponent } from './common/coming-soon/coming-soon.component';
-import { HealthCardComponent } from './reports/healthCard/health-card/health-card.component';
+import { progressCardComponent } from './reports/progressCard/progress-card/progress-card.component';
 
 var routes: Routes = [
   {
@@ -22,7 +22,7 @@ var routes: Routes = [
         path: 'coming-soon', component: ComingSoonComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all']
       },
       {
-        path: 'progressCard', component: HealthCardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all']
+        path: 'progressCard', component: progressCardComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all']
       },
       {
         path: 'diksha', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all'], loadChildren: () => import('./reports/diksha/diksha.module').then(m => m.DikshaModule)

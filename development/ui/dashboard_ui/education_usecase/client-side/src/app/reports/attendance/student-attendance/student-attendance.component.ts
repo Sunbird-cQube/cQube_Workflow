@@ -147,7 +147,7 @@ export class StudengtAttendanceComponent implements OnInit {
   ) {
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
-        this.goToHealthCard();
+        this.goToprogressCard();
         this.commonService.setProgressCardValue(false);
       }
     })
@@ -2139,7 +2139,7 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   // This function is to redirected to correct progress card view:::::
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
     if (this.levelWise === "blockPerDistrict") {
       data.level = "district";
@@ -2156,7 +2156,7 @@ export class StudengtAttendanceComponent implements OnInit {
     }
     data["timePeriod"] = this.period;
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
 

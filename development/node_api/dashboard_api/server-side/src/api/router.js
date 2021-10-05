@@ -179,20 +179,20 @@ router.use('/showBlockTelemetry', showBlockTelemetry);
 router.use('/showClusterTelemetry', showClusterTelemetry);
 router.use('/showSchoolTelemetry', showSchoolTelemetry);
 
-// healthCard
-const healthCardMeta = require('./controller/healthCard/metadata');
-const stateData = require('./controller/healthCard/stateData');
-const districtHealthCard = require('./controller/healthCard/districtWise');
-const blockHealthCard = require('./controller/healthCard/blockWise');
-const clusterHealthCard = require('./controller/healthCard/clusterWise');
-const schoolHealthCard = require('./controller/healthCard/schoolWise');
+// progressCard
+const progressCardMeta = require('./controller/progressCard/metadata');
+const stateData = require('./controller/progressCard/stateData');
+const districtprogressCard = require('./controller/progressCard/districtWise');
+const blockprogressCard = require('./controller/progressCard/blockWise');
+const clusterprogressCard = require('./controller/progressCard/clusterWise');
+const schoolprogressCard = require('./controller/progressCard/schoolWise');
 
-router.use('/healthCard', healthCardMeta);
-router.use('/healthCard', stateData);
-router.use('/healthCard', districtHealthCard);
-router.use('/healthCard', blockHealthCard);
-router.use('/healthCard', clusterHealthCard);
-router.use('/healthCard', schoolHealthCard);
+router.use('/progressCard', progressCardMeta);
+router.use('/progressCard', stateData);
+router.use('/progressCard', districtprogressCard);
+router.use('/progressCard', blockprogressCard);
+router.use('/progressCard', clusterprogressCard);
+router.use('/progressCard', schoolprogressCard);
 
 //Udise......
 router.use('/udise', UDISE_dist_wise);

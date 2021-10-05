@@ -42,35 +42,6 @@
           </div>
         </div>
         <div class="col-sm-5">
-          <!-- <div class="row"> -->
-          <!-- <div class="col-sm-4">
-                    <p id="errMsg" class="note">
-                    </p>
-                </div>
-                <div class="col-sm-8">
-                    <div *ngIf="skul; else ng_else" style="float: right; " id="select">
-                            <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
-                                id="download1" (click)="downloadReportofState(downloadType)">Download Report &nbsp; <i class="fa fa-arrow-down"
-                                    aria-hidden="true"></i>
-                            </button>
-                        <select *ngIf="reportData.length>0" class="dwnld" id="downloader" [(ngModel)]="downloadType"
-                            name="downloadType">
-                            <option [value]="downloadType" disabled selected="selected"> Download Report</option>
-                            <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
-                                {{md}} Report
-                            </option>
-                        </select>
-                    </div>
-
-                    <ng-template #ng_else>
-                        <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
-                            id="download1" (click)="downloadReport()">Download Report &nbsp; <i class="fa fa-arrow-down"
-                                aria-hidden="true"></i>
-                        </button>
-                    </ng-template>
-                    
-
-                </div> -->
           <div class="row">
             <div class="col-sm-4">
               <p id="errMsg" class="note"></p>

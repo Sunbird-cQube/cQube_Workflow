@@ -15,11 +15,6 @@ router.post('/', auth.authController, async (req, res) => {
             var name = changeingStringCases(item.replace(/_/g, ' '));
             management.push({ id: item, value: name });
         });
-        // metaData.category.filter(item => {
-        //     var name = changeingStringCases(item.replace(/_/g, ' '));
-        //     category.push({ id: item, value: name });
-        // });
-
         function changeingStringCases(str) {
             return str.replace(
                 /\w\S*/g,

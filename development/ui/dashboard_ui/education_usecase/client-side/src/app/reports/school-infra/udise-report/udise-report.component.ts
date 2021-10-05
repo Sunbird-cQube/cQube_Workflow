@@ -105,7 +105,7 @@ export class UdiseReportComponent implements OnInit {
     commonService.logoutOnTokenExpire();
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
-        this.goToHealthCard();
+        this.goToprogressCard();
         this.commonService.setProgressCardValue(false);
       }
     })
@@ -331,58 +331,58 @@ export class UdiseReportComponent implements OnInit {
       //     this.loaderAndErr();
       //   }
       // } else {
-        if (this.myData) {
-          this.myData.unsubscribe();
+      if (this.myData) {
+        this.myData.unsubscribe();
+      }
+      this.myData = this.service.udise_dist_wise({ management: this.management, category: this.category }).subscribe(
+        (res) => {
+          this.myDistData = res;
+          this.markers = this.data = res["data"];
+          this.gettingIndiceFilters(this.data);
+
+          // to show only in dropdowns
+          this.districtMarkers = this.data;
+
+          // options to set for markers in the map
+          let options = {
+            radius: 6,
+            fillOpacity: 1,
+            strokeWeight: 0.01,
+            mapZoom: this.globalService.zoomLevel,
+            centerLat: this.lat,
+            centerLng: this.lng,
+            level: "District",
+          };
+          this.dataOptions = options;
+          this.data.sort((a, b) =>
+            `${a[this.indiceData]}` > `${b[this.indiceData]}`
+              ? 1
+              : `${b[this.indiceData]}` > `${a[this.indiceData]}`
+                ? -1
+                : 0
+          );
+
+          //schoolCount
+          this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+          this.genericFun(this.data, options, this.fileName);
+          this.globalService.onResize(this.level);
+
+          // sort the districtname alphabetically
+          this.districtMarkers.sort((a, b) =>
+            a.details.District_Name > b.details.District_Name
+              ? 1
+              : b.details.District_Name > a.details.District_Name
+                ? -1
+                : 0
+          );
+          this.changeDetection.detectChanges();
+        },
+        (err) => {
+          this.data = [];
+          this.loaderAndErr();
         }
-        this.myData = this.service.udise_dist_wise({ management: this.management, category: this.category }).subscribe(
-          (res) => {
-            this.myDistData = res;
-            this.markers = this.data = res["data"];
-            this.gettingIndiceFilters(this.data);
-
-            // to show only in dropdowns
-            this.districtMarkers = this.data;
-
-            // options to set for markers in the map
-            let options = {
-              radius: 6,
-              fillOpacity: 1,
-              strokeWeight: 0.01,
-              mapZoom: this.globalService.zoomLevel,
-              centerLat: this.lat,
-              centerLng: this.lng,
-              level: "District",
-            };
-            this.dataOptions = options;
-            this.data.sort((a, b) =>
-              `${a[this.indiceData]}` > `${b[this.indiceData]}`
-                ? 1
-                : `${b[this.indiceData]}` > `${a[this.indiceData]}`
-                  ? -1
-                  : 0
-            );
-
-            //schoolCount
-            this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
-            this.genericFun(this.data, options, this.fileName);
-            this.globalService.onResize(this.level);
-
-            // sort the districtname alphabetically
-            this.districtMarkers.sort((a, b) =>
-              a.details.District_Name > b.details.District_Name
-                ? 1
-                : b.details.District_Name > a.details.District_Name
-                  ? -1
-                  : 0
-            );
-            this.changeDetection.detectChanges();
-          },
-          (err) => {
-            this.data = [];
-            this.loaderAndErr();
-          }
-        );
+      );
       // }
 
       // adding the markers to the map layers
@@ -1572,7 +1572,7 @@ export class UdiseReportComponent implements OnInit {
     this.commonService.download(this.fileName, this.reportData);
   }
 
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
 
     if (this.level === "blockPerDistrict") {
@@ -1589,7 +1589,7 @@ export class UdiseReportComponent implements OnInit {
       data.value = null;
     }
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
   public legendColors: any = [
