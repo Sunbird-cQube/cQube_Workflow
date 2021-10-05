@@ -27,7 +27,7 @@ if [ $temp == 0 ]; then
     if [[ $(echo "$version >= 10.12" | bc) == 1 ]]
     then
         echo "WARNING - Postgres found, taking the backup to base directory.."
-        pg_dump -h localhost -U $db_user -F t $db_name > $base_dir/cqube/postgres/backups/$cqube_workflow_version`date +%Y%m%d%H%M`$bk_db_name.tar
+        pg_dump -h localhost -U $db_user -F t $db_name > $base_dir/cqube/postgres/backups/cqube_${last_version}_`date +%Y%m%d%H%M`$bk_db_name.tar
         if [[ ! $? == 0 ]]; then
             echo "There is a problem dumping the database"; tput sgr0 ;
 	        exit 1

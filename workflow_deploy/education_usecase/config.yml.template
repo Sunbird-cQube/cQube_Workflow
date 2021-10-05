@@ -20,12 +20,17 @@ state_code:                               # Enter the 2 character (upper case) s
 #Enter the value as `true`,  if content_gradelevel & collection_gradelevel columns are available.
 #Enter the value as `false`, if content_gradelevel & collection_gradelevel columns are not available.
 
-diksha_columns: false                    # Enter `true` or `false`. 
+diksha_columns: false                    # Enter true or false. 
 
-static_datasource:                       # Enter `udise` or `state`
+static_datasource:                       # Enter udise or state
 
 management:                              # Enter the management
 
-session_timeout: 7D                           # enter the value between 30 Minutes to 3650 Days. Eg. For minutes `60M`  Eg. For days `15D`. Make sure M and D should be mentioned upper case.
+session_timeout: 7D                      # enter the value between 30 Minutes to 3650 Days. Eg. For minutes `60M`  Eg. For days `15D`. Make sure M and D should be mentioned upper case.
 
+map_name: leafletmap                                # Enter the map_name ( mapmyindia or googlemap or leafletmap )
+
+google_api_key: remove_this_key_value                        # Enter the google_api_key  here (if you selected map_name as googlemap replace `remove_this_key_value` with the actual googlemaps api key )
+ 
+theme:                                    # Enter the theme ( theme1 or theme2 or theme3 )
 

@@ -3,9 +3,6 @@
   hosts: localhost
   gather_facts: true
   remote_user: root
-  vars_files:
-    - ../memory_config.yml
-    - ../.version
     
   roles: 
           - datasource
@@ -69,5 +66,8 @@
           - role: progresscard
             tags: update
             when: progresscard
+           
+          - role: dummy_connections  
+            tags: update  
   
           - cqube_version

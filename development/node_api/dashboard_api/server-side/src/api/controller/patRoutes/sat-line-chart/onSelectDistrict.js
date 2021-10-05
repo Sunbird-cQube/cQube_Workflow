@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { logger } = require('../../../lib/logger');
 const auth = require('../../../middleware/check-auth');
 const s3File = require('../../../lib/reads3File');
-const groupArray = require('group-array');
 
 router.post('/stateWise', auth.authController, async (req, res) => {
     try {
@@ -13,13 +12,12 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         var grade = req.body.grade;
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/state_${year}.json`;
+            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/${management}/state_${year}.json`;
         } else {
             fileName = `sat/trend_line_chart/state_${year}.json`;
         }
         var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var mydata = [];
-
         if (stateData[year]) {
             var stdPerformance = [{
                 semesterId: 1,
@@ -27,14 +25,14 @@ router.post('/stateWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }]
             if (grade == "") {
                 stateData[year].performance.map(data => {
@@ -62,24 +60,34 @@ router.post('/stateWise', auth.authController, async (req, res) => {
                     total_students: undefined,
                     students_attended: undefined
                 }
-                let statePerformance = [stateData[year].Grades['1'][grade] ? stateData[year].Grades['1'][grade] : sem1, stateData[year].Grades['2'][grade] ? stateData[year].Grades['2'][grade] : sem2];
+
+                let data1 = stateData[year].Grades && stateData[year].Grades['1'] && stateData[year].Grades['1'][grade] ? stateData[year].Grades['1'][grade] : sem1;
+                let data2 = stateData[year].Grades && stateData[year].Grades['2'] && stateData[year].Grades['2'][grade] ? stateData[year].Grades['2'][grade] : sem2;
+                let statePerformance = [data1, data2];
                 statePerformance.map(data => {
-                    stdPerformance.map(item => {
-                        if (item.semesterId == data.semester) {
-                            item.performance = data.percentage;
-                            item.studentCount = data.total_students;
-                            item.studentAttended = data.students_attended
-                            item.schoolCount = data.total_schools;
-                        }
-                    })
+                    if (data.percentage) {
+                        stdPerformance.map(item => {
+                            if (item.semesterId == data.semester) {
+                                item.performance = data.percentage ? data.percentage : "";
+                                item.studentCount = data.total_students ? data.total_students : "";
+                                item.studentAttended = data.students_attended ? data.students_attended : "";
+                                item.schoolCount = data.total_schools ? data.total_schools : "";
+                            }
+                        })
+                    }
                 });
             }
-            let obj2 = {
-                performance: stdPerformance
+            if (stdPerformance[0].performance || stdPerformance[1].performance) {
+                let obj2 = {
+                    performance: stdPerformance
+                }
+                mydata.push(obj2);
+                logger.info('--- Trends state wise api response sent ---');
+                res.status(200).send({ data: mydata });
+            } else {
+                logger.info('--- Trends state wise api response sent ---');
+                res.status(403).send({ errMsg: "Something went wrong" });
             }
-            mydata.push(obj2);
-            logger.info('--- Trends state wise api response sent ---');
-            res.status(200).send({ data: mydata });
         } else {
             res.status(403).send({ errMsg: "Something went wrong" });
         }
@@ -98,11 +106,10 @@ router.post('/distWise', auth.authController, async (req, res) => {
         var grade = req.body.grade;
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/district/district_${year}.json`;
+            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/${management}/district/district_${year}.json`;
         } else {
             fileName = `sat/trend_line_chart/district/district_${year}.json`;
         }
-
         var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
         var keys = Object.keys(districtData);
         var mydata = [];
@@ -114,14 +121,14 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }]
             if (grade == "") {
                 districtData[key].performance.map(data => {
@@ -149,7 +156,9 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     total_students: undefined,
                     students_attended: undefined
                 }
-                let distPerformance = [districtData[key].Grades['1'][grade] ? districtData[key].Grades['1'][grade] : sem1, districtData[key].Grades['2'][grade] ? districtData[key].Grades['2'][grade] : sem2];
+                let data1 = districtData[key].Grades && districtData[key].Grades['1'] && districtData[key].Grades['1'][grade] ? districtData[key].Grades['1'][grade] : sem1;
+                let data2 = districtData[key].Grades && districtData[key].Grades['2'] && districtData[key].Grades['2'][grade] ? districtData[key].Grades['2'][grade] : sem2;
+                let distPerformance = [data1, data2];
                 distPerformance.map(data => {
                     stdPerformance.map(item => {
                         if (item.semesterId == data.semester) {
@@ -181,11 +190,14 @@ router.post('/distWise', auth.authController, async (req, res) => {
 router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
-        let fileName = `attendance/student_attendance_meta.json`;
+        var fileName = `sat/metaData.json`;
         let data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
-        let date = groupArray(data, 'year');
+        let years = [];
+        data.map(a => {
+            years.push(a.academic_year);
+        })
         logger.info('--- getDateRange response sent ---');
-        res.status(200).send(date);
+        res.status(200).send({ years: years });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as config from '../../../assets/config.json';
 import * as mapData from '../../../assets/map.json';
+import * as  googleMapData from "../../../assets/googleMap.json";
+
 declare var MapmyIndia: any;
 declare var L: any;
 export var globalMap;
@@ -29,30 +31,30 @@ export class MapService {
 
   //Initialisation of Map  
   initMap(map, maxBounds) {
-    if (this.mapName == 'leafletMap') {
+    if (this.mapName == 'leafletmap') {
       globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-      var data = mapData.default;
-      function applyCountryBorder(map) {
-        L.geoJSON(data[`${environment.stateName}`]['features'], {
-          color: "#6e6d6d",
-          weight: 2,
-          fillOpacity: 0,
-          fontWeight: "bold"
-        }).addTo(map);
-      }
-      applyCountryBorder(globalMap);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {
           subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
           maxZoom: this.mapCenterLatlng.zoomLevel + 10,
         }
       ).addTo(globalMap);
-    } else{
+    } else {
       globalMap = new MapmyIndia.Map(map, { hasTip: false, autoPan: false, offset: [15, 20] }, {
         zoomControl: false,
         hybrid: false,
       }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
     }
+    var data = mapData.default;
+    function applyCountryBorder(map) {
+      L.geoJSON(data[`${environment.stateName}`]['features'], {
+        color: "#6e6d6d",
+        weight: 2,
+        fillOpacity: 0,
+        fontWeight: "bold"
+      }).addTo(map);
+    }
+    applyCountryBorder(globalMap);
   }
 
   restrictZoom(globalMap) {
@@ -80,24 +82,43 @@ export class MapService {
     return undefined;
   }
 
+
   setMarkerRadius(level) {
-    this.markersIcons.map(markerIcon => {
-      if (level === "District") {
-        markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 6));
-      }
-      if (level === "Block") {
-        markerIcon.setRadius(this.getMarkerRadius(12, 10, 8, 5));
-      }
-      if (level === "Cluster") {
-        markerIcon.setRadius(this.getMarkerRadius(5, 4, 3, 2));
-      }
-      if (level === "School") {
-        markerIcon.setRadius(this.getMarkerRadius(3, 2.5, 2, 1));
-      }
-      if (level === "blockPerDistrict" || level === "clusterPerBlock" || level === "schoolPerCluster") {
-        markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 5));
-      }
-    })
+    if (this.mapName != 'googlemap') {
+      this.markersIcons.map(markerIcon => {
+        if (level === "District") {
+          markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 6));
+        }
+        if (level === "Block") {
+          markerIcon.setRadius(this.getMarkerRadius(12, 10, 8, 5));
+        }
+        if (level === "Cluster") {
+          markerIcon.setRadius(this.getMarkerRadius(5, 4, 3, 2));
+        }
+        if (level === "School") {
+          markerIcon.setRadius(this.getMarkerRadius(3, 2.5, 2, 1));
+        }
+        if (level === "blockPerDistrict" || level === "clusterPerBlock" || level === "schoolPerCluster") {
+          markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 5));
+        }
+      })
+    } else {
+      // if (level === "District") {
+      //   this.markerRadius = this.getMarkerRadius(18, 14, 10, 6);
+      // }
+      // if (level === "Block") {
+      //   this.markerRadius = this.getMarkerRadius(12, 10, 8, 5);
+      // }
+      // if (level === "Cluster") {
+      //   this.markerRadius = this.getMarkerRadius(5, 4, 3, 2);
+      // }
+      // if (level === "School") {
+      //   this.markerRadius = this.getMarkerRadius(3, 2.5, 2, 1);
+      // }
+      // if (level === "blockPerDistrict" || level === "clusterPerBlock" || level === "schoolPerCluster") {
+      //   this.markerRadius = this.getMarkerRadius(18, 14, 10, 5);
+      // }
+    }
   }
 
   getMarkerRadius(rad1, rad2, rad3, rad4) {
@@ -215,16 +236,47 @@ export class MapService {
   }
 
   // google marker initialsation
-
-  initGoogleMapMarker(color, scale, stroke){
-    var circleIcon = {
+  // public markerRadius;
+  public circleIcon
+  initGoogleMapMarker(color, scale, stroke) {
+    this.circleIcon = {
       path: google.maps.SymbolPath.CIRCLE,
-     fillColor: color,
-     fillOpacity: 1,
-     scale: scale,
-     strokeColor: 'gray',
-     strokeWeight: stroke,
-   };
-   return circleIcon;
+      fillColor: color,
+      fillOpacity: 1,
+      scale: scale,
+      strokeColor: 'gray',
+      strokeWeight: stroke,
+    };
+    return this.circleIcon;
+  }
+
+  //goog
+  jsonMapData: any = googleMapData.default;
+  public geoJson = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        properties: {
+          color: "transparent",
+          ascii: "111"
+        },
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            this.jsonMapData[`${environment.stateName}`]['features'][0].geometry.coordinates[0]
+          ]
+        }
+      }
+    ]
+  };
+
+  public visualizePeakFactor(feature) {
+    const color = feature.getProperty("color");
+    return {
+      fillColor: color,
+      strokeWeight: 1,
+      strokeColor: "gray"
+    };
   }
 }

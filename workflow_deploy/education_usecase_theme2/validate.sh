@@ -38,8 +38,8 @@ check_timeout()
     else
         echo "Error - please enter proper value as mentioned in comments"; fail=1
     fi
-sed -i '/session_timeout_in_seconds:/d' ansible/roles/keycloak/vars/main.yml
-echo "session_timeout_in_seconds: $timeout_value" >> ansible/roles/keycloak/vars/main.yml
+sed -i '/session_timeout_in_seconds:/d' ../ansible/roles/keycloak/vars/main.yml
+echo "session_timeout_in_seconds: $timeout_value" >> ../ansible/roles/keycloak/vars/main.yml
 }
 
 check_static_datasource(){
@@ -78,20 +78,23 @@ if [[ ! "$base_dir" = /* ]] || [[ ! -d $base_dir ]]; then
     exit 1
 else
    if [[ -e "$base_dir/cqube/.cqube_config" ]]; then
-        installed_ver=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_VERSION )
+        installed_ver=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_WORKFLOW_VERSION )
         installed_version=$(cut -d "=" -f2 <<< "$installed_ver")
-         echo "Currently cQube $installed_version version is installed in this machine. Follow Upgradtion process if you want to upgrade."
-         echo "If you re-run the installation, all data will be lost"
-	 while true; do
-             read -p "Do you still want to re-run the installation (yes/no)? " yn
-             case $yn in
-                 yes) break;;
-                 no) exit;;
-                 * ) echo "Please answer yes or no.";;
-             esac
-         done
+	if [[ ! $installed_version == "" ]]; then
+            echo "Currently cQube $installed_version version is installed in this machine. Follow Upgradtion process if you want to upgrade."
+            echo "If you re-run the installation, all data will be lost"
+            while true; do
+                read -p "Do you still want to re-run the installation (yes/no)? " yn
+                case $yn in
+                    yes) break;;
+                    no) exit;;
+                    * ) echo "Please answer yes or no.";;
+                esac
+            done
+        fi
    fi
 fi
+
 }
 
 check_kc_config_otp(){
@@ -150,8 +153,26 @@ if [ $temp == 0 ]; then
      fi
 fi
 }
+check_map_name(){
+if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" ]]; then
+    echo "Error - Please enter either mapmyindia or googlemap or leafletmap for $1"; fail=1
+fi
+}
 
+check_google_api_key(){
+if [[ $map_name == "googlemap" ]]; then
+    if [[ -z $2 ]]; then
+        echo "Error - Please enter google_api_key value it should not be empty $1"; fail=1
+    else
+    google_api_status=`curl -X POST https://language.googleapis.com/v1/documents:analyzeEntities\?key\=$2 -o /dev/null -s -w "%{http_code}\n"`
 
+    if [[ $google_api_status == 400 ]]; then
+         echo "Error - Invalid google api key. Please check the $1 value." ; fail=1
+    fi
+	    
+   fi
+fi
+}
 
 get_config_values(){
 key=$1
@@ -171,13 +192,14 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout") 
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout" "map_name" "google_api_key") 
 
 # Create and empty array which will store the key and value pair from config file
 declare -A vals
 
 
 # Getting base_dir
+map_name=$(awk ''/^map_name:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 check_mem
 check_version 
@@ -233,6 +255,16 @@ case $key in
        else
           check_timeout $key $value
        fi
+       ;;
+   map_name)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_map_name $key $value
+       fi
+       ;;
+   google_api_key)
+          check_google_api_key $key $value
        ;;
    *)
        if [[ $value == "" ]]; then

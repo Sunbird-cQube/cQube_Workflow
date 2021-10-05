@@ -14,7 +14,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/block/${districtId}_${year}.json`;
+            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/${management}/block/${districtId}_${year}.json`;
         } else {
             fileName = `sat/trend_line_chart/block/${districtId}_${year}.json`;
         }
@@ -29,14 +29,14 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }]
 
             if (grade == "") {
@@ -65,7 +65,9 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                     total_students: undefined,
                     students_attended: undefined
                 }
-                let blockPerformance = [blockData[key].Grades['1'][grade] ? blockData[key].Grades['1'][grade] : sem1, blockData[key].Grades['2'][grade] ? blockData[key].Grades['2'][grade] : sem2];
+                let data1 = blockData[key].Grades && blockData[key].Grades['1'] && blockData[key].Grades['1'][grade] ? blockData[key].Grades['1'][grade] : sem1;
+                let data2 = blockData[key].Grades && blockData[key].Grades['2'] && blockData[key].Grades['2'][grade] ? blockData[key].Grades['2'][grade] : sem2;
+                let blockPerformance = [data1, data2];
                 blockPerformance.map(data => {
                     stdPerformance.map(item => {
                         if (item.semesterId == data.semester) {

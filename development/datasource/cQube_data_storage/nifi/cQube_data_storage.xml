@@ -12433,8 +12433,8 @@
                     <id>1444d51d-1cd0-379f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>11336.0</x>
-                        <y>-608.0</y>
+                        <x>11352.0</x>
+                        <y>-664.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -12524,8 +12524,8 @@
                     <id>30387558-4895-3a7f-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>9712.0</x>
-                        <y>976.0</y>
+                        <x>9672.0</x>
+                        <y>968.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -12841,7 +12841,7 @@
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>sat-s3-trends-input-port</name>
+                    <name>sat_s3_trends_input_port</name>
                     <state>STOPPED</state>
                     <type>INPUT_PORT</type>
                 </inputPorts>
@@ -13212,8 +13212,8 @@
                     <id>16e1ec63-382b-3811-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>11456.0</x>
-                        <y>-120.0</y>
+                        <x>11592.0</x>
+                        <y>-216.0</y>
                     </position>
                     <height>184.0</height>
                     <label>S3 </label>
@@ -14532,6 +14532,17 @@
                     <width>392.0</width>
                 </labels>
                 <labels>
+                    <id>c19d0ddd-3586-3c0d-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>28632.0</x>
+                        <y>-1040.0</y>
+                    </position>
+                    <height>240.0</height>
+                    <style/>
+                    <width>360.0</width>
+                </labels>
+                <labels>
                     <id>c229e670-4f30-3843-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -14997,7 +15008,7 @@
                     <id>fc1678b3-9327-3c4a-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10504.0</x>
+                        <x>10496.0</x>
                         <y>-216.0</y>
                     </position>
                     <height>184.0</height>
@@ -18189,7 +18200,7 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                         <properties>
                             <entry>
 <key>Directory</key>
-<value>#{output_directory}${directory}/</value>
+<value>#{output_directory}${directory}</value>
                             </entry>
                             <entry>
 <key>Conflict Resolution Strategy</key>
@@ -20586,7 +20597,7 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                     <id>1b088777-9269-3acc-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>1560.0</x>
+                        <x>1552.0</x>
                         <y>-1168.0</y>
                     </position>
                     <bundle>
@@ -21371,32 +21382,32 @@ VALUES
                             </entry>
                             <entry>
 <key>filename</key>
-<value>${query_type:startsWith('health_card_index_state_all'):ifElse('healthCard/stateData.json',
-${query_type:startsWith('health_card_index_meta_district'):ifElse('healthCard/district/metaData.json',
-${query_type:startsWith('health_card_index_meta_block'):ifElse('healthCard/block/metaData.json',
-${query_type:startsWith('health_card_index_meta_cluster'):ifElse('healthCard/cluster/metaData.json',
-${query_type:startsWith('health_card_index_meta_school'):ifElse('healthCard/school/metaData.json',
-${query_type:startsWith('health_card_index_state_overall'):ifElse('healthCard/overall/state.json',
-${query_type:startsWith('health_card_index_district_overall'):ifElse('healthCard/district/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_block_overall'):ifElse('healthCard/block/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_cluster_overall'):ifElse('healthCard/cluster/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_school_overall'):ifElse('healthCard/school/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_state_last_30_days'):ifElse('healthCard/last_30_days/state.json',
-${query_type:startsWith('health_card_index_district_last_30_days'):ifElse('healthCard/district/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_block_last_30_days'):ifElse('healthCard/block/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_cluster_last_30_days'):ifElse('healthCard/cluster/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_school_last_30_days'):ifElse('healthCard/school/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_state_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/stateData.json',
-${query_type:startsWith('health_card_management_index_school_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/school/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_cluster_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/cluster/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_block_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/block/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_district_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/district/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_state_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/stateData.json',
-${query_type:startsWith('health_card_management_index_school_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/school/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_cluster_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/cluster/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_block_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/block/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_district_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/district/${partition_by_level}.json','None')}
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
+<value>${query_type:startsWith('progress_card_index_state_all'):ifElse('progressCard/stateData.json',
+${query_type:startsWith('progress_card_index_meta_district'):ifElse('progressCard/district/metaData.json',
+${query_type:startsWith('progress_card_index_meta_block'):ifElse('progressCard/block/metaData.json',
+${query_type:startsWith('progress_card_index_meta_cluster'):ifElse('progressCard/cluster/metaData.json',
+${query_type:startsWith('progress_card_index_meta_school'):ifElse('progressCard/school/metaData.json',
+${query_type:startsWith('progress_card_index_state_overall'):ifElse('progressCard/overall/state.json',
+${query_type:startsWith('progress_card_index_district_overall'):ifElse('progressCard/district/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_block_overall'):ifElse('progressCard/block/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_cluster_overall'):ifElse('progressCard/cluster/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_school_overall'):ifElse('progressCard/school/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_state_last_30_days'):ifElse('progressCard/last_30_days/state.json',
+${query_type:startsWith('progress_card_index_district_last_30_days'):ifElse('progressCard/district/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_block_last_30_days'):ifElse('progressCard/block/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_cluster_last_30_days'):ifElse('progressCard/cluster/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_school_last_30_days'):ifElse('progressCard/school/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_state_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/stateData.json',
+${query_type:startsWith('progress_card_management_index_school_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/school/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_cluster_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/cluster/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_block_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/block/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_district_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/district/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_state_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/stateData.json',
+${query_type:startsWith('progress_card_management_index_school_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/school/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_cluster_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/cluster/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_block_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/block/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_district_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/district/${partition_by_level}.json','None')}
+    )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -28056,6 +28067,7 @@ ${query_type:startsWith('sat_subject_footer_cluster_last_7_days'):ifElse('sat/la
 ${query_type:startsWith('sat_subject_footer_school_last_7_days'):ifElse('sat/last_7_days/school/sem_${partition_by_level}/grade_subject_footer.json',
 ${query_type:startsWith('sat_meta_last7'):ifElse('sat/last_7_days/sat_metadata.json',
 ${query_type:startsWith('sat_meta_semester_last7'):ifElse('sat/last_7_days/sat_semester_metadata.json',
+${query_type:startsWith('sat_meta_by_year_semester'):ifElse('sat/metaData.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_meta'):ifElse('sat/heatChart/metaData.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_district'):ifElse('sat/heatChart/questionIdLevel/${partition_by}/${partition_by_month}/districts/${partition_by_level}.json',
 ${query_type:startsWith('sat_learning_outcome_p1_question_all'):ifElse('sat/heatChart/questionIdLevel/${partition_by}/${partition_by_month}/allData.json',
@@ -28109,7 +28121,7 @@ ${query_type:startsWith('sat_subject_footer_cluster_year_semester'):ifElse('sat/
 ${query_type:startsWith('sat_subject_footer_school_year_semester'):ifElse('sat/${partition_by}/sem_${partition_by_level}/school/grade_subject_footer.json','None')}
 )})} )}	)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} 
-)})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Bucket</key>
@@ -29885,16 +29897,11 @@ ${query_type:startsWith('diksha_tpd_r2_raw_overall'):ifElse('diksha_raw_data/tpd
                             </entry>
                             <entry>
 <key>filename</key>
-<value>${query_type:startsWith('comp_school_wise'):ifElse('composite/comp_school.json',
-${query_type:startsWith('comp_cluster_wise'):ifElse('composite/comp_cluster.json',
-${query_type:startsWith('comp_block_wise'):ifElse('composite/comp_block.json',
-${query_type:startsWith('comp_district_wise'):ifElse('composite/comp_district.json',
-${query_type:startsWith('comp_management_school_wise'):ifElse('composite/school_management_category/overall_category/${management}/comp_school.json',
+<value>${query_type:startsWith('comp_school_wise'):ifElse('composite/comp_school.json',${query_type:startsWith('comp_cluster_wise'):ifElse('composite/comp_cluster.json',${query_type:startsWith('comp_block_wise'):ifElse('composite/comp_block.json',${query_type:startsWith('comp_district_wise'):ifElse('composite/comp_district.json',${query_type:startsWith('comp_management_school_wise'):ifElse('composite/school_management_category/overall_category/${management}/comp_school.json',
 ${query_type:startsWith('comp_management_cluster_wise'):ifElse('composite/school_management_category/overall_category/${management}/comp_cluster.json',
 ${query_type:startsWith('comp_management_block_wise'):ifElse('composite/school_management_category/overall_category/${management}/comp_block.json',
 ${query_type:startsWith('comp_management_district_wise'):ifElse('composite/school_management_category/overall_category/${management}/comp_district.json','None')}
-)} )} )} )} )} )} )}
-</value>
+)} )} )} )} )} )} )}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -32768,23 +32775,39 @@ Sucessfully fetched ${filename} from ${absolute.path}.</value>
                             </entry>
                             <entry>
 <key>filename</key>
-<value>${query_type:startsWith('tch_att_management_category_district_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${management}/${category}/district.json',
-${query_type:startsWith('tch_att_management_category_block_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${management}/${category}/block.json',
-${query_type:startsWith('tch_att_management_category_cluster_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${management}/${category}/cluster.json',
-${query_type:startsWith('tch_att_management_category_school_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${management}/${category}/school.json',
-${query_type:startsWith('tch_att_management_category_district_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_category/${management}/${category}/district.json',
-${query_type:startsWith('tch_att_management_category_block_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_category/${management}/${category}/block.json',
-${query_type:startsWith('tch_att_management_category_cluster_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_cateory/${management}/${category}/cluster.json',
-${query_type:startsWith('tch_att_management_category_school_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_category/${management}/${category}/school.json',
-${query_type:startsWith('tch_att_management_category_district_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${management}/${category}/district.json',
-${query_type:startsWith('tch_att_management_category_block_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${management}/${category}/block.json',
-${query_type:startsWith('tch_att_management_category_cluster_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${management}/${category}/cluster.json',
-${query_type:startsWith('tch_att_management_category_school_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${management}/${category}/school.json',
-${query_type:startsWith('tch_att_management_category_district_overall'):ifElse('teacher_attendance/overall/school_management_category/${management}/${category}/district.json',
-${query_type:startsWith('tch_att_management_category_block_overall'):ifElse('teacher_attendance/overall/school_management_category/${management}/${category}/block.json',
-${query_type:startsWith('tch_att_management_category_cluster_overall'):ifElse('teacher_attendance/overall/school_management_category/${management}/${category}/cluster.json',
-${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('teacher_attendance/overall/school_management_category/${management}/${category}/school.json','None')} )} )} )} )} )} )} 
-)} )} )} )} )} )} )} )} )}</value>
+<value>${query_type:startsWith('tch_att_management_category_district_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${category}/${management}/district.json',
+${query_type:startsWith('tch_att_management_category_block_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${category}/${management}/block.json',
+${query_type:startsWith('tch_att_management_category_cluster_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${category}/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_category_school_last_day'):ifElse('teacher_attendance/last_day/school_management_category/${category}/${management}/school.json',
+${query_type:startsWith('tch_att_management_category_district_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_category/${category}/${management}/district.json',
+${query_type:startsWith('tch_att_management_category_block_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_category/${category}/${management}/block.json',
+${query_type:startsWith('tch_att_management_category_cluster_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_category/${category}/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_category_school_last_7_days'):ifElse('teacher_attendance/last_7_days/school_management_category/${category}/${management}/school.json',
+${query_type:startsWith('tch_att_management_category_district_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${category}/${management}/district.json',
+${query_type:startsWith('tch_att_management_category_block_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${category}/${management}/block.json',
+${query_type:startsWith('tch_att_management_category_cluster_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${category}/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_category_school_last_30_days'):ifElse('teacher_attendance/last_30_days/school_management_category/${category}/${management}/school.json',
+${query_type:startsWith('tch_att_management_category_district_overall'):ifElse('teacher_attendance/overall/school_management_category/${category}/${management}/district.json',
+${query_type:startsWith('tch_att_management_category_block_overall'):ifElse('teacher_attendance/overall/school_management_category/${category}/${management}/block.json',
+${query_type:startsWith('tch_att_management_category_cluster_overall'):ifElse('teacher_attendance/overall/school_management_category/${category}/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('teacher_attendance/overall/school_management_category/${category}/${management}/school.json',
+${query_type:startsWith('tch_att_management_exception_district_last_day'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_day/overall_category/${management}/district.json',
+${query_type:startsWith('tch_att_management_exception_district_last_7_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_7_days/overall_category/${management}/district.json',
+${query_type:startsWith('tch_att_management_exception_district_last_30_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_30_days/overall_category/${management}/district.json',
+${query_type:startsWith('tch_att_management_exception_district_overall'):ifElse('exception_list/teacher_attendance_completion/school_management_category/overall/overall_category/${management}/district.json',
+${query_type:startsWith('tch_att_management_exception_block_last_day'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_day/overall_category/${management}/block.json',
+${query_type:startsWith('tch_att_management_exception_block_last_7_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_7_days/overall_category/${management}/block.json',
+${query_type:startsWith('tch_att_management_exception_block_last_30_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_30_days/overall_category/${management}/block.json',
+${query_type:startsWith('tch_att_management_exception_block_overall'):ifElse('exception_list/teacher_attendance_completion/school_management_category/overall/overall_category/${management}/block.json',
+${query_type:startsWith('tch_att_management_exception_cluster_last_day'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_day/overall_category/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_exception_cluster_last_7_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_7_days/overall_category/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_exception_cluster_last_30_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_30_days/overall_category/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_exception_cluster_overall'):ifElse('exception_list/teacher_attendance_completion/school_management_category/overall/overall_category/${management}/cluster.json',
+${query_type:startsWith('tch_att_management_exception_school_last_day'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_day/overall_category/${management}/school.json',
+${query_type:startsWith('tch_att_management_exception_school_last_7_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_7_days/overall_category/${management}/school.json',
+${query_type:startsWith('tch_att_management_exception_school_last_30_days'):ifElse('exception_list/teacher_attendance_completion/school_management_category/last_30_days/overall_category/${management}/school.json',
+${query_type:startsWith('tch_att_management_exception_school_overall'):ifElse('exception_list/teacher_attendance_completion/school_management_category/overall/overall_category/${management}/school.json','None')} )} )} )} )} )} )} 
+)} )} )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -45240,8 +45263,8 @@ or(${path:startsWith('data_replay/')})})})}</value>
                     <id>9d900205-06d5-3d9d-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>11480.0</x>
-                        <y>-80.0</y>
+                        <x>11616.0</x>
+                        <y>-176.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-aws-nar</artifact>
@@ -49728,7 +49751,7 @@ ${query_type:startsWith('sat_management_subject_footer_district_last_7_days'):if
                         <properties>
                             <entry>
 <key>Directory</key>
-<value>#{output_directory}${directory}/</value>
+<value>#{output_directory}${directory}</value>
                             </entry>
                             <entry>
 <key>Conflict Resolution Strategy</key>
@@ -51603,31 +51626,31 @@ VALUES
                         <properties>
                             <entry>
 <key>Object Key</key>
-<value>${query_type:startsWith('health_card_index_state_all'):ifElse('healthCard/stateData.json',
-${query_type:startsWith('health_card_index_meta_district'):ifElse('healthCard/district/metaData.json',
-${query_type:startsWith('health_card_index_meta_block'):ifElse('healthCard/block/metaData.json',
-${query_type:startsWith('health_card_index_meta_cluster'):ifElse('healthCard/cluster/metaData.json',
-${query_type:startsWith('health_card_index_meta_school'):ifElse('healthCard/school/metaData.json',
-${query_type:startsWith('health_card_index_state_overall'):ifElse('healthCard/overall/state.json',
-${query_type:startsWith('health_card_index_district_overall'):ifElse('healthCard/district/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_block_overall'):ifElse('healthCard/block/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_cluster_overall'):ifElse('healthCard/cluster/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_school_overall'):ifElse('healthCard/school/overall/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_state_last_30_days'):ifElse('healthCard/last_30_days/state.json',
-${query_type:startsWith('health_card_index_district_last_30_days'):ifElse('healthCard/district/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_block_last_30_days'):ifElse('healthCard/block/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_cluster_last_30_days'):ifElse('healthCard/cluster/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_index_school_last_30_days'):ifElse('healthCard/school/last_30_days/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_state_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/stateData.json',
-${query_type:startsWith('health_card_management_index_school_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/school/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_cluster_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/cluster/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_block_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/block/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_district_overall'):ifElse('healthCard/school_management_category/overall/overall_category/${management}/district/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_state_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/stateData.json',
-${query_type:startsWith('health_card_management_index_school_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/school/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_cluster_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/cluster/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_block_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/block/${partition_by_level}.json',
-${query_type:startsWith('health_card_management_index_district_last_30_days'):ifElse('healthCard/school_management_category/last_30_days/overall_category/${management}/district/${partition_by_level}.json','None')}
+<value>${query_type:startsWith('progress_card_index_state_all'):ifElse('progressCard/stateData.json',
+${query_type:startsWith('progress_card_index_meta_district'):ifElse('progressCard/district/metaData.json',
+${query_type:startsWith('progress_card_index_meta_block'):ifElse('progressCard/block/metaData.json',
+${query_type:startsWith('progress_card_index_meta_cluster'):ifElse('progressCard/cluster/metaData.json',
+${query_type:startsWith('progress_card_index_meta_school'):ifElse('progressCard/school/metaData.json',
+${query_type:startsWith('progress_card_index_state_overall'):ifElse('progressCard/overall/state.json',
+${query_type:startsWith('progress_card_index_district_overall'):ifElse('progressCard/district/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_block_overall'):ifElse('progressCard/block/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_cluster_overall'):ifElse('progressCard/cluster/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_school_overall'):ifElse('progressCard/school/overall/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_state_last_30_days'):ifElse('progressCard/last_30_days/state.json',
+${query_type:startsWith('progress_card_index_district_last_30_days'):ifElse('progressCard/district/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_block_last_30_days'):ifElse('progressCard/block/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_cluster_last_30_days'):ifElse('progressCard/cluster/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_index_school_last_30_days'):ifElse('progressCard/school/last_30_days/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_state_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/stateData.json',
+${query_type:startsWith('progress_card_management_index_school_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/school/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_cluster_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/cluster/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_block_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/block/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_district_overall'):ifElse('progressCard/school_management_category/overall/overall_category/${management}/district/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_state_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/stateData.json',
+${query_type:startsWith('progress_card_management_index_school_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/school/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_cluster_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/cluster/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_block_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/block/${partition_by_level}.json',
+${query_type:startsWith('progress_card_management_index_district_last_30_days'):ifElse('progressCard/school_management_category/last_30_days/overall_category/${management}/district/${partition_by_level}.json','None')}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
                             </entry>
                             <entry>
@@ -57034,8 +57057,8 @@ ${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('a
                     <id>d7e2d6aa-7844-3a31-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>11280.0</x>
-                        <y>-416.0</y>
+                        <x>11304.0</x>
+                        <y>-512.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -64042,5 +64065,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>09/13/2021 07:03:31 IST</timestamp>
+    <timestamp>09/21/2021 17:02:47 IST</timestamp>
 </template>

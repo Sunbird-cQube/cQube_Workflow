@@ -14,7 +14,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
 
         let fileName;
         if (management != 'overall' && category == 'overall') {
-            fileName = `attendance/trend_line_chart/school_management_category/overall_category/overall/${management}/school/${clusterId}_${year}.json`;
+            fileName = `sat/trend_line_chart/school_management_category/overall_category/overall/${management}/school/${clusterId}_${year}.json`;
         } else {
             fileName = `sat/trend_line_chart/school/${clusterId}_${year}.json`;
         }
@@ -29,14 +29,14 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }, {
                 semesterId: 2,
                 year: year,
                 studentCount: undefined,
                 studentAttended: undefined,
                 schoolCount: undefined,
-                performance: ''
+                performance: ""
             }]
 
             if (grade == "") {
@@ -65,8 +65,10 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     total_students: undefined,
                     students_attended: undefined
                 }
-                let clusterPerformance = [schoolData[key].Grades['1'][grade] ? schoolData[key].Grades['1'][grade] : sem1, schoolData[key].Grades['2'][grade] ? schoolData[key].Grades['2'][grade] : sem2];
-                clusterPerformance.map(data => {
+                let data1 = schoolData[key].Grades && schoolData[key].Grades['1'] && schoolData[key].Grades['1'][grade] ? schoolData[key].Grades['1'][grade] : sem1;
+                let data2 = schoolData[key].Grades && schoolData[key].Grades['2'] && schoolData[key].Grades['2'][grade] ? schoolData[key].Grades['2'][grade] : sem2;
+                let schoolPerformance = [data1, data2];
+                schoolPerformance.map(data => {
                     stdPerformance.map(item => {
                         if (item.semesterId == data.semester) {
                             item.performance = data.percentage;

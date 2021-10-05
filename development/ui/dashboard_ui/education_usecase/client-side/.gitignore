@@ -11,9 +11,6 @@
 /node_modules
 package-lock.json
 
-#environment files
-./src/environments/environment.ts
-./src/environments/environment.prod.ts
 
 # profiling files
 chrome-profiler-events*.json

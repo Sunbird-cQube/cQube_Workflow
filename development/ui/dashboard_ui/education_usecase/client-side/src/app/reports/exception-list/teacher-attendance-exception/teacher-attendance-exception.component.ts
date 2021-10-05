@@ -84,6 +84,8 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
   params: any;
   mapName;
   googleMapZoom;
+  geoJson = this.globalService.geoJson;
+
   yearMonth = true;
 
   reportName = "teacher_attendance_exception";
@@ -126,8 +128,8 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("tarExpMap", [[this.lat, this.lng]]);
-    if (this.mapName == 'googleMap') {
-      document.getElementById('leafletMap').style.display = "none";
+    if (this.mapName == 'googlemap') {
+      document.getElementById('leafletmap').style.display = "none";
     }
     globalMap.setMaxBounds([
       [this.lat - 4.5, this.lng - 6],
@@ -375,14 +377,14 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     //document.getElementById("home").style.display = "none";
   }
 
-// google maps tooltip hover effect
-mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
-  infoWindow.open();
-}
+  // google maps tooltip hover effect
+  mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
+    infoWindow.open();
+  }
 
-mouseOutOnmaker(infoWindow, $event: MouseEvent) {
-  infoWindow.close();
-}
+  mouseOutOnmaker(infoWindow, $event: MouseEvent) {
+    infoWindow.close();
+  }
 
   async districtWise() {
     this.commonAtStateLevel();
@@ -424,9 +426,8 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
                   name: this.markers[i]["district_name"],
                 });
 
-                 // google map circle icon
-
-                 if (this.mapName == "googleMap") {
+                // google map circle icon
+                if (this.mapName == "googlemap") {
                   let markerColor = this.commonService.relativeColorGredient(
                     sorted[i],
                     {
@@ -542,9 +543,9 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
                   distId: this.markers[i]["dist"],
                 });
 
-                 // google map circle icon
+                // google map circle icon
 
-                 if (this.mapName == "googleMap") {
+                if (this.mapName == "googlemap") {
                   let markerColor = this.commonService.relativeColorGredient(
                     sorted[i],
                     {
@@ -675,9 +676,9 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
                   distId: this.markers[i]["district_id"],
                 });
 
-                 // google map circle icon
+                // google map circle icon
 
-                 if (this.mapName == "googleMap") {
+                if (this.mapName == "googlemap") {
                   let markerColor = this.commonService.relativeColorGredient(
                     sorted[i],
                     {
@@ -787,14 +788,14 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
 
             this.markers = sorted;
 
-            
+
             if (this.markers.length !== 0) {
               for (let i = 0; i < this.markers.length; i++) {
                 this.districtsIds.push(sorted[i]["district_id"]);
-                  
+
                 // google map circle icon
 
-                if (this.mapName == "googleMap") {
+                if (this.mapName == "googlemap") {
                   let markerColor = this.commonService.relativeColorGredient(
                     sorted[i],
                     {
@@ -982,6 +983,9 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
 
   // clickMarker for Google map
   onClick_AgmMarker(event, marker) {
+    if (this.level == "schoolPerCluster") {
+      return false;
+    }
     this.markerData = marker;
     this.clickedMarker(event, marker);
   }
@@ -1094,10 +1098,10 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
                 id: this.markers[i]["block_id"],
                 name: this.markers[i]["block_name"],
               });
-               
+
               // google map circle icon
 
-              if (this.mapName == "googleMap") {
+              if (this.mapName == "googlemap") {
                 let markerColor = this.commonService.relativeColorGredient(
                   sorted[i],
                   {
@@ -1304,7 +1308,7 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
 
               // google map circle icon
 
-              if (this.mapName == "googleMap") {
+              if (this.mapName == "googlemap") {
                 let markerColor = this.commonService.relativeColorGredient(
                   sorted[i],
                   {
@@ -1532,7 +1536,7 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
 
               // google map circle icon
 
-              if (this.mapName == "googleMap") {
+              if (this.mapName == "googlemap") {
                 let markerColor = this.commonService.relativeColorGredient(
                   sorted[i],
                   {
@@ -1645,7 +1649,7 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
     })
 
     var yourData = this.globalService.getInfoFrom(
-      this.mapName == "googleMap" ? gmapObj : orgObject,
+      this.mapName == "googlemap" ? gmapObj : orgObject,
       "attendance",
       levelWise,
       "std-attd",
@@ -1653,18 +1657,16 @@ mouseOutOnmaker(infoWindow, $event: MouseEvent) {
       undefined
     )
       .join(" <br>");
-      if (this.mapName == 'leafletMap') {
-    const popup = R.responsivePopup({
-      hasTip: false,
-      autoPan: false,
-      offset: [15, 20],
-    }).setContent(yourData);
-    markerIcon.addTo(globalMap).bindPopup(popup);
-  }else {
-    // this.googleTooltip.push(yourData)
-    markers['label'] = yourData;
-
-  }
+    if (this.mapName != 'googlemap') {
+      const popup = R.responsivePopup({
+        hasTip: false,
+        autoPan: false,
+        offset: [15, 20],
+      }).setContent(yourData);
+      markerIcon.addTo(globalMap).bindPopup(popup);
+    } else {
+      markers['label'] = yourData;
+    }
   }
 
   getTelemetryData(data, event, level) { }

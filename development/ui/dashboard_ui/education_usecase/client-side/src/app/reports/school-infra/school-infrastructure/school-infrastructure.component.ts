@@ -84,9 +84,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.height = window.innerHeight;
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
+      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
     }
-    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
-    // this.levelWiseFilter();
   }
 
   public tableHead: any;
@@ -579,7 +578,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   obj: any;
   createChart(labels, chartData, name, obj) {
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1160 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1160 ? '56vh' : '46vh');
+  //ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1160 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1160 ? '56vh' : '46vh');
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
       data: {
@@ -644,7 +643,7 @@ export class SchoolInfrastructureComponent implements OnInit {
             scaleLabel: {
               fontColor: "black",
               display: true,
-              labelString: obj.xAxis,
+              labelString: obj ? obj.xAxis : "",
               fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 14 : 10,
             }
           }],
@@ -661,7 +660,7 @@ export class SchoolInfrastructureComponent implements OnInit {
             scaleLabel: {
               fontColor: "black",
               display: true,
-              labelString: obj.yAxis,
+              labelString: obj ? obj.yAxis : "",
               fontSize: this.height > 1760 ? 32 : this.height > 1160 && this.height < 1760 ? 22 : this.height > 667 && this.height < 1160 ? 14 : 10,
             }
           }]

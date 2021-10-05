@@ -143,35 +143,32 @@
         </div>
     </div>
     <div class="row reportContainer">
-         <!--Map visualization=====================-->
+        <!--Map visualization=====================-->
         <div class="col-sm-12">
-            <div id="leafletMap">
+            <div id="leafletmap">
                 <div #mapContainer id="sarExpMap" class="active" style="width: 100%;"
-                [ngStyle]="{height: width > 3820 ? '80vh': width > 2140 && width < 3820 ? '78vh': width > 1367 && width < 1920 ? '78vh':'69vh'}">
+                    [ngStyle]="{height: width > 3820 ? '80vh': width > 2140 && width < 3820 ? '78vh': width > 1367 && width < 1920 ? '78vh':'69vh'}">
+                </div>
             </div>
-            </div>
-            
-            <div *ngIf="mapName === 'googleMap'">
-                <agm-map [latitude]="lat" [longitude]="lng" [zoom] = "googleMapZoom"
-                [ngStyle]="{height: width > 3820 ? '80vh': width > 2140 && width < 3820 ? '78vh': width > 1367 && width < 1920 ? '78vh':'69vh'}"
-                >
-                    <agm-marker *ngFor="let marker of markers; let index=i" 
-                [latitude]="marker.lat" 
-                [longitude]="marker.lng"
-                (mouseOver)="mouseOverOnmaker(infoWindow, $event)" 
-                (mouseOut)="mouseOutOnmaker(infoWindow, $event)"
-                (markerClick)="onClick_AgmMarker($event, marker)"
-                [iconUrl] = "marker.icon"
-                >
-                    <agm-info-window [disableAutoPan]="false" #infoWindow>
-                        <div class='agm-info-window-content' [innerHTML] = "marker.label">
-                        </div>
-                    </agm-info-window>
-                </agm-marker>
+
+            <div *ngIf="mapName === 'googlemap'">
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="googleMapZoom" [disableDefaultUI]="true"
+                    [ngStyle]="{height: width > 3820 ? '80vh': width > 2140 && width < 3820 ? '78vh': width > 1367 && width < 1920 ? '78vh':'69vh'}">
+                    <agm-data-layer [geoJson]="geoJson" [style]="globalService.visualizePeakFactor">
+                    </agm-data-layer>
+                    <agm-marker *ngFor="let marker of markers; let index=i" [latitude]="marker.lat"
+                        [longitude]="marker.lng" (mouseOver)="mouseOverOnmaker(infoWindow, $event)"
+                        (mouseOut)="mouseOutOnmaker(infoWindow, $event)"
+                        (markerClick)="onClick_AgmMarker($event, marker)" [iconUrl]="marker.icon">
+                        <agm-info-window [disableAutoPan]="false" #infoWindow>
+                            <div class='agm-info-window-content' [innerHTML]="marker.label">
+                            </div>
+                        </agm-info-window>
+                    </agm-marker>
 
                 </agm-map>
             </div>
-           
+
         </div>
     </div>
     <div class="row" id="footer">

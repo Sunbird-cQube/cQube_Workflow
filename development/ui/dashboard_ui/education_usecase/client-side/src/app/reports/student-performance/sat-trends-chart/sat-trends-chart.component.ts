@@ -71,7 +71,8 @@ export class SatTrendsChartComponent implements OnInit {
   ngOnInit(): void {
     //document.getElementById('home').style.display = 'none';
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
+
     this.state = this.commonService.state;
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -82,8 +83,7 @@ export class SatTrendsChartComponent implements OnInit {
       .gradeMetaData({
         period: 'all',
         report: "sat",
-        year: this.selectedYear,
-        sem: "sem_1",
+        year: this.selectedYear
       })
       .subscribe(
         (res) => {
@@ -93,13 +93,12 @@ export class SatTrendsChartComponent implements OnInit {
           this.allGrades.sort((a, b) =>
             a.grade > b.grade ? 1 : b.grade > a.grade ? -1 : 0
           );
-          console.log(this.allGrades)
           this.allGrades.unshift({ grade: 'AllGrades' });
         });
     this.service.getAcademicYears().subscribe(res => {
-      this.years = Object.keys(res);
+      this.years = res['years'];
       this.selectedYear = this.years[0];
-      this.selectedYear1 = this.years[2];
+      this.selectedYear1 = this.years[1];
       this.onResize();
       this.onHomeClick(false);
     }, err => {
@@ -239,7 +238,7 @@ export class SatTrendsChartComponent implements OnInit {
     this.commonService.errMsg();
     if (!defYear) {
       this.selectedYear = this.years[0];
-      this.selectedYear1 = this.years[2];
+      this.selectedYear1 = this.years[1];
     }
     this.getStateData();
     this.getStateData1();

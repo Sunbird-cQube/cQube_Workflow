@@ -34,10 +34,12 @@ import { AuthGuard } from './auth.guard';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AgmCoreModule } from '@agm/core';
 import { SatTrendsChartComponent } from './reports/student-performance/sat-trends-chart/sat-trends-chart.component';
+import { apiKeys } from './apis.config';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
 }
+
 
 @NgModule({
   declarations: [
@@ -73,9 +75,9 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
-    NgCircleProgressModule.forRoot({}),
+    NgCircleProgressModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAoWRJHgQDrgv1VbSkY_uzW-taEWOiyUbw&region=US'
+      apiKey: apiKeys.googleApi,
     })
   ],
   exports: [
@@ -93,7 +95,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
       useClass: AuthInterceptor,
       multi: true
     },
-    AuthGuard
+    AuthGuard,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -962,3 +962,5 @@ create table if not exists teacher_attendance_exception_agg
 	updated_on TIMESTAMP without time zone,
 primary key(school_id,month,year));
 
+alter table teacher_attendance_exception_agg add column if not exists school_management_type varchar(100);
+alter table teacher_attendance_exception_agg add column if not exists school_category varchar(100);

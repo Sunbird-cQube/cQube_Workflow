@@ -101,7 +101,11 @@
  }
 
  #timePeriod, #district, #block.select-control, #cluster.select-control {
-    padding: 5px;color: white; border-radius: 4px; font-size: 11px; font-weight: bold;
+    padding: 5px;
+    color: white; 
+    border-radius: 4px; 
+    font-size: 11px; 
+    font-weight: bold;
      background:var(--theme-report-button-color);
     margin-top: 0 !important;
  }
@@ -116,7 +120,7 @@
     }
 
     #timePeriod, #district, #block.select-control, #cluster.select-control {
-        padding: 15px !important;
+        padding: 6px !important;
         font-size: 1.5rem !important;
         margin-top: 0 !important;
     }
@@ -153,7 +157,7 @@
     }
 
     #timePeriod, #district, #block.select-control, #cluster.select-control {
-        padding: 15px !important;
+        padding: 13px !important;
         font-size: 1.8rem !important;
         margin-top: 0 !important;
     }

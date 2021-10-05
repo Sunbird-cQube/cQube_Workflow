@@ -7,6 +7,7 @@ import { TelemetryDataComponent } from './telemetry/telemetry-data/telemetry-dat
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AgmCoreModule } from '@agm/core';
 
 
 const otherRoutes = [
@@ -48,7 +49,8 @@ const otherRoutes = [
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(otherRoutes)
+    RouterModule.forChild(otherRoutes),
+    AgmCoreModule
   ]
 })
 export class ReportsModule { }

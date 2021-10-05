@@ -22,7 +22,7 @@
         border-radius: 4px;
         font-size: 22px !important;
         font-weight: bold;
-        background-color: rgb(152, 160, 163);
+        background: var(--theme-report-button-color);
     }
   }
   
@@ -42,7 +42,7 @@
       border-radius: 6px;
       font-size: 32px !important;
       font-weight: bold;
-      background-color: rgb(152, 160, 163);
+      background: var(--theme-report-button-color);
     }
   }
 
@@ -55,7 +55,7 @@
     border-radius: 4px;
     font-size: 11px;
     font-weight: bold;
-    background-color: rgb(152, 160, 163);
+    background: var(--theme-report-button-color);
   }
 
   @media only screen and (min-width: 2540px) {
@@ -135,7 +135,7 @@
          position: fixed;
          width: calc(100% - 25px);
          z-index: 999;
-         background-color: #F5F5F5;
+         background:var(--theme-report-header-bg-color);
       }
       .reportContainer1{
          margin-top: 220px !important;
@@ -148,7 +148,7 @@
          position: fixed;
          width: calc(100% - 25px);
          z-index: 999;
-         background-color: #F5F5F5;
+         background:var(--theme-report-header-bg-color);
       }
       .reportContainer1{
          margin-top: 250px !important;

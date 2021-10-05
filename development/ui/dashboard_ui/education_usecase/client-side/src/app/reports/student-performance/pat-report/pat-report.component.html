@@ -165,7 +165,7 @@
   </div>
   <div class="row reportContainer">
     <div class="col-sm-12">
-      <div style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }">
+      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }">
         <div #mapContainer id="patMap" class="active" style="width: 100%" [ngStyle]="{
             height:
               height > 1760
@@ -176,6 +176,24 @@
                 ? '74vh'
                 : '69vh'
           }"></div>
+      </div>
+      <div *ngIf="mapName === 'googlemap'" style="float: left"
+        [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }">
+        <agm-map [latitude]="lat" [longitude]="lng" [disableDefaultUI]="true" [zoom]="googleMapZoom"
+          [ngStyle]="{height: width > 3820 ? '80vh': width > 2140 && width < 3820 ? '78vh': width > 1367 && width < 1920 ? '78vh':'69vh'}">
+          <agm-data-layer [geoJson]="geoJson" [style]="globalService.visualizePeakFactor">
+          </agm-data-layer>
+          <agm-marker *ngFor="let marker of markers; let index=i" [latitude]="marker.Details.latitude"
+            [longitude]="marker.Details.longitude" (mouseOver)="mouseOverOnmaker(infoWindow, $event)"
+            (mouseOut)="mouseOutOnmaker(infoWindow, $event)" (markerClick)="onClick_AgmMarker( marker)"
+            [iconUrl]="marker.icon">
+            <agm-info-window [disableAutoPan]="false" #infoWindow>
+              <div class='agm-info-window-content' [innerHTML]="marker.label">
+              </div>
+            </agm-info-window>
+          </agm-marker>
+
+        </agm-map>
       </div>
       <div *ngIf="selected == 'absolute'" style="float: left; width: 9%; margin-left: 1%; margin-top: 1%">
         <h5 id="legend" style="margin-left: 15%">
@@ -225,14 +243,14 @@
       <span id="name" class="note" style="text-align: center">Management Type: {{ managementName }}</span>
     </div>
     <div class="col-sm-2" *ngIf="period != 'all'">
-      <span id="schools" style="text-align: center">Number of Schools: {{ schoolCount }}</span>
+      <span id="schools" class="note" style="text-align: center">Number of Schools: {{ schoolCount }}</span>
     </div>
-    <div class="col-sm-2" *ngIf="period != 'all'">
-      <span id="students" style="text-align: center">Number of Students: {{ studentCount }}</span>
+    <div class="col-sm-2"  *ngIf="period != 'all'">
+      <span id="students" class="note" style="text-align: center">Number of Students: {{ studentCount }}</span>
     </div>
-    <div class="col-sm-3" *ngIf="period != 'all'">
-      <span id="studentsAttended" style="text-align: center">Number of Students Attended: {{ studentAttended }}</span>
-    </div>
+    <div class="col-sm-3"  *ngIf="period != 'all'">
+      <span id="studentsAttended" class="note" style="text-align: center">Number of Students Attended: {{ studentAttended }}</span>
+    </div> 
   </div>
 </div>
 <div id="spinner">

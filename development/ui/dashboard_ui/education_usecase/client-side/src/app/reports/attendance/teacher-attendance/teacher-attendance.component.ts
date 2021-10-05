@@ -147,6 +147,9 @@ export class TeacherAttendanceComponent implements OnInit {
     this.levelWiseFilter();
   }
 
+  geoJson = this.globalService.geoJson;
+
+
   width = window.innerWidth;
   height = window.innerHeight;
   onResize(event) {
@@ -165,8 +168,8 @@ export class TeacherAttendanceComponent implements OnInit {
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("tarMap", [[this.lat, this.lng]]);
-    if (this.mapName == 'googleMap') {
-      document.getElementById('leafletMap').style.display = "none";
+    if (this.mapName == 'googlemap') {
+      document.getElementById('leafletmap').style.display = "none";
     }
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
@@ -288,7 +291,6 @@ export class TeacherAttendanceComponent implements OnInit {
         );
         var distNames = [];
         this.markers = sorted;
-        console.log(this.markers)
         if (this.markers.length > 0) {
           for (var i = 0; i < this.markers.length; i++) {
             if (this.myDistrict === this.markers[i]["district_id"]) {
@@ -426,8 +428,8 @@ export class TeacherAttendanceComponent implements OnInit {
     );
   }
 
-   // google maps
-   mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
+  // google maps
+  mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
     infoWindow.open();
   }
 
@@ -650,17 +652,17 @@ export class TeacherAttendanceComponent implements OnInit {
 
                 // google map circle icon
 
-         if (this.mapName == "googleMap") {
-          let markerColor = this.selected == "absolute"
-            ? color
-            : this.commonService.relativeColorGredient(
-              sorted[i],
-              { value: "attendance", report: "reports" },
-              colors
-            );
+                if (this.mapName == "googlemap") {
+                  let markerColor = this.selected == "absolute"
+                    ? color
+                    : this.commonService.relativeColorGredient(
+                      sorted[i],
+                      { value: "attendance", report: "reports" },
+                      colors
+                    );
 
-          this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
-        }
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 6, 1);
+                }
 
                 //initialize markers with its latitude and longitude
                 var markerIcon = this.globalService.initMarkers1(
@@ -782,19 +784,19 @@ export class TeacherAttendanceComponent implements OnInit {
                   distId: this.markers[i]["dist"],
                 });
 
-                  // google map circle icon
+                // google map circle icon
 
-              if (this.mapName == "googleMap") {
-                let markerColor = this.selected == "absolute"
-                 ? color
-                 : this.commonService.relativeColorGredient(
-                 sorted[i],
-                { value: "attendance", report: "reports" },
-                colors
-               );
+                if (this.mapName == "googlemap") {
+                  let markerColor = this.selected == "absolute"
+                    ? color
+                    : this.commonService.relativeColorGredient(
+                      sorted[i],
+                      { value: "attendance", report: "reports" },
+                      colors
+                    );
 
-              this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
-              }
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 4, 1);
+                }
 
                 //initialize markers with its latitude and longitude
                 var markerIcon = this.globalService.initMarkers1(
@@ -931,19 +933,19 @@ export class TeacherAttendanceComponent implements OnInit {
                   distId: this.markers[i]["district_id"],
                 });
 
-                    // google map circle icon
+                // google map circle icon
 
-              if (this.mapName == "googleMap") {
-                let markerColor = this.selected == "absolute"
-                 ? color
-                 : this.commonService.relativeColorGredient(
-                 sorted[i],
-                { value: "attendance", report: "reports" },
-                colors
-               );
+                if (this.mapName == "googlemap") {
+                  let markerColor = this.selected == "absolute"
+                    ? color
+                    : this.commonService.relativeColorGredient(
+                      sorted[i],
+                      { value: "attendance", report: "reports" },
+                      colors
+                    );
 
-              this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 1, 0.3);
-              }
+                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.3);
+                }
 
                 //initialize markers with its latitude and longitude
                 var markerIcon = this.globalService.initMarkers1(
@@ -1066,7 +1068,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 );
                 this.districtsIds.push(sorted[i]["district_id"]);
 
-                if (this.mapName == "googleMap") {
+                if (this.mapName == "googlemap") {
                   let markerColor = this.selected == "absolute"
                     ? color
                     : this.commonService.relativeColorGredient(
@@ -1268,6 +1270,9 @@ export class TeacherAttendanceComponent implements OnInit {
 
   // clickMarker for Google map
   onClick_AgmMarker(event, marker) {
+    if (this.levelWise == "schoolPerCluster") {
+      return false;
+    }
     this.markerData = marker;
     this.clickedMarker(event, marker);
   }
@@ -1400,19 +1405,19 @@ export class TeacherAttendanceComponent implements OnInit {
                 name: this.markers[i]["block_name"],
               });
 
-                  // google map circle icon
+              // google map circle icon
 
-                  if (this.mapName == "googleMap") {
-                    let markerColor = this.selected == "absolute"
-                     ? color
-                     : this.commonService.relativeColorGredient(
-                     sorted[i],
+              if (this.mapName == "googlemap") {
+                let markerColor = this.selected == "absolute"
+                  ? color
+                  : this.commonService.relativeColorGredient(
+                    sorted[i],
                     { value: "attendance", report: "reports" },
                     colors
-                   );
-    
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
-                  }
+                  );
+
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+              }
 
               //initialize markers with its latitude and longitude
               var markerIcon = this.globalService.initMarkers1(
@@ -1626,19 +1631,19 @@ export class TeacherAttendanceComponent implements OnInit {
                 });
               }
 
-                  // google map circle icon
+              // google map circle icon
 
-                  if (this.mapName == "googleMap") {
-                    let markerColor = this.selected == "absolute"
-                     ? color
-                     : this.commonService.relativeColorGredient(
-                     sorted[i],
+              if (this.mapName == "googlemap") {
+                let markerColor = this.selected == "absolute"
+                  ? color
+                  : this.commonService.relativeColorGredient(
+                    sorted[i],
                     { value: "attendance", report: "reports" },
                     colors
-                   );
-    
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
-                  }
+                  );
+
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+              }
 
               //initialize markers with its latitude and longitude
               var markerIcon = this.globalService.initMarkers1(
@@ -1874,20 +1879,20 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.markers[i],
                 "attendance"
               );
-              
-                  // google map circle icon
 
-                  if (this.mapName == "googleMap") {
-                    let markerColor = this.selected == "absolute"
-                     ? color
-                     : this.commonService.relativeColorGredient(
-                     sorted[i],
+              // google map circle icon
+
+              if (this.mapName == "googlemap") {
+                let markerColor = this.selected == "absolute"
+                  ? color
+                  : this.commonService.relativeColorGredient(
+                    sorted[i],
                     { value: "attendance", report: "reports" },
                     colors
-                   );
-    
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
-                  }
+                  );
+
+                this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+              }
               //initialize markers with its latitude and longitude
               var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
@@ -1988,7 +1993,7 @@ export class TeacherAttendanceComponent implements OnInit {
     })
 
     var yourData = this.globalService.getInfoFrom(
-      this.mapName == "googleMap" ? gmapObj : orgObject,
+      this.mapName == "googlemap" ? gmapObj : orgObject,
       "attendance",
       levelWise,
       "std-attd",
@@ -1996,18 +2001,18 @@ export class TeacherAttendanceComponent implements OnInit {
       undefined
     )
       .join(" <br>");
-      if (this.mapName == 'leafletMap') {
-    const popup = R.responsivePopup({
-      hasTip: false,
-      autoPan: false,
-      offset: [15, 20],
-    }).setContent(yourData);
-    markerIcon.addTo(globalMap).bindPopup(popup);
-  }else {
-    // this.googleTooltip.push(yourData)
-    markers['label'] = yourData;
+    if (this.mapName != 'googlemap') {
+      const popup = R.responsivePopup({
+        hasTip: false,
+        autoPan: false,
+        offset: [15, 20],
+      }).setContent(yourData);
+      markerIcon.addTo(globalMap).bindPopup(popup);
+    } else {
+      // this.googleTooltip.push(yourData)
+      markers['label'] = yourData;
 
-  }
+    }
   }
 
   getTelemetryData(data, event, level) {
@@ -2231,10 +2236,12 @@ export class TeacherAttendanceComponent implements OnInit {
           this.levelWise
         );
       }
+
       stopLoader ? this.commonService.loaderAndErr(markers) : "";
       this.schoolCount = this.schoolCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       this.teacherCount = this.teacherCount.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     }
+    this.markers = markers
 
     if (this.levelWise == "District") {
       distNames.sort((a, b) =>

@@ -73,8 +73,7 @@
 
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="isdata"
-                    [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/exception/download-missing-data']"
+                <span id="isdata" [routerLink]="['/exception/download-missing-data']"
                     (click)="fetchTelemetry($event,'isdata')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -143,7 +142,7 @@
 
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <span id="tarExp"
-                    [routerLink]="!dataSource['attendance'] ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
+                    [routerLink]="!dataSource['teacher_attendance'] ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
                     (click)="fetchTelemetry($event,'tarExp')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
