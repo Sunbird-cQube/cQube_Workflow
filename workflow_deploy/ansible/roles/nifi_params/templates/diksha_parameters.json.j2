@@ -65,8 +65,12 @@
                 "parameter":{"name":"data_storage_type",
                         "value":"{{ storage_type }}"
                             }
+            },
+            {
+                "parameter":{"name":"diksha_columns",
+                        "value":"{% if diksha_columns == True %}true{% endif %}{% if diksha_columns == False %}false{% endif %}"
+                            }
             }
-
 
         ]
 

@@ -247,7 +247,8 @@ leaflet-right {
 #dist,
 #block,
 #cluster,
-#school {
+#school,
+#heading {
     color: var(--theme-report-heading-color);
     font-weight: 600;
     font-size: 18px;
@@ -279,14 +280,14 @@ leaflet-right {
     display: none;
 }
 
-#patHealthcard,
-#infraHealthcard,
-#satHealthcard,
-#udiseHealthcard,
-#stdHealthCard,
+#patprogressCard,
+#infraprogressCard,
+#satprogressCard,
+#udiseprogressCard,
+#stdprogressCard,
 #downloadRaw,
 #rawDownload,
-#crcHealthcard {
+#crcprogressCard {
     font-weight: bold;
     text-decoration: underline;
     font-size: 13px;
@@ -508,7 +509,8 @@ border-color:var(--theme-back-button-border-color);
     #dist,
     #block,
     #cluster,
-    #school {
+    #school,
+    #heading {
         color: var(--theme-report-heading-color);
         font-weight: 600;
         font-size: 32px;
@@ -530,14 +532,14 @@ border-color:var(--theme-back-button-border-color);
         color: #3100cc;
         display: none;
     }
-    #patHealthcard,
-    #infraHealthcard,
-    #satHealthcard,
-    #udiseHealthcard,
-    #stdHealthCard,
+    #patprogressCard,
+    #infraprogressCard,
+    #satprogressCard,
+    #udiseprogressCard,
+    #stdprogressCard,
     #downloadRaw,
     #rawDownload,
-    #crcHealthcard {
+    #crcprogressCard {
         font-weight: bold;
         text-decoration: underline;
         font-size: 22px !important;
@@ -707,7 +709,8 @@ border-color:var(--theme-back-button-border-color);
     #dist,
     #block,
     #cluster,
-    #school {
+    #school,
+    #heading {
         color: var(--theme-report-heading-color);
         font-weight: 600;
         font-size: 38px !important;
@@ -729,14 +732,14 @@ border-color:var(--theme-back-button-border-color);
         color: #3100cc;
         display: none;
     }
-    #patHealthcard,
-    #infraHealthcard,
-    #satHealthcard,
-    #udiseHealthcard,
-    #stdHealthCard,
+    #patprogressCard,
+    #infraprogressCard,
+    #satprogressCard,
+    #udiseprogressCard,
+    #stdprogressCard,
     #downloadRaw,
     #rawDownload,
-    #crcHealthcard {
+    #crcprogressCard {
         font-weight: bold;
         text-decoration: underline;
         font-size: 30px !important;

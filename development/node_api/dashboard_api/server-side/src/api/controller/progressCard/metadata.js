@@ -6,8 +6,8 @@ const s3File = require('../../lib/reads3File');
 router.post('/metaData', auth.authController, async (req, res) => {
     try {
         var { level } = req.body;
-        logger.info('---healthCard metadata api ---');
-        let fileName = `healthCard/${level}/metaData.json`;
+        logger.info('---progressCard metadata api ---');
+        let fileName = `progressCard/${level}/metaData.json`;
         var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
         var districtIds = [];
         var districtNames = [];
@@ -60,7 +60,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         districts = districts.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }
@@ -80,7 +80,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         blocks = blocks.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }
@@ -100,7 +100,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         clusters = clusters.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }
@@ -121,14 +121,14 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         schools = schools.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }
             return unique;
         }, []);
 
-        logger.info('--- healthCard metadata api response sent ---');
+        logger.info('--- progressCard metadata api response sent ---');
         res.status(200).send({ districtIds, districtNames, districts, blockIds, blockNames, blocks, clusterIds, clusterNames, clusters, schoolIds, schoolNames, schools });
     } catch (e) {
         logger.error(`Error :: ${e}`)

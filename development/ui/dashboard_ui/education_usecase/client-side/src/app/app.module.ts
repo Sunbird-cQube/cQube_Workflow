@@ -18,11 +18,10 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { InfoComponent } from './common/info/info.component';
 import { DikshaChartComponent } from './reports/diksha/diksha-chart/diksha-chart.component';
-import { HealthCardComponent } from './reports/healthCard/health-card/health-card.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgCircleProgressModule } from 'ng-circle-progress';
-import { BubblesComponent } from './reports/healthCard/bubbles/bubbles.component';
-import { ProgressCircleComponent } from './reports/healthCard/progress-circle/progress-circle.component';
+import { BubblesComponent } from './reports/progressCard/bubbles/bubbles.component';
+import { ProgressCircleComponent } from './reports/progressCard/progress-circle/progress-circle.component';
 import { MapLegendsComponent } from './common/map-legends/map-legends.component';
 import { MultiSelectComponent } from './common/multi-select/multi-select.component';
 import { DikshaTPDContentProgressComponent } from './reports/diksha/tpd/diksha-tpd-course-progress/diksha-tpd-content-progress.component';
@@ -35,6 +34,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { AgmCoreModule } from '@agm/core';
 import { SatTrendsChartComponent } from './reports/student-performance/sat-trends-chart/sat-trends-chart.component';
 import { apiKeys } from './apis.config';
+import { progressCardComponent } from './reports/progressCard/progress-card/progress-card.component';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -48,7 +48,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     HomePageComponent,
     InfoComponent,
     DikshaChartComponent,
-    HealthCardComponent,
+    progressCardComponent,
     BubblesComponent,
     ProgressCircleComponent,
     MapLegendsComponent,

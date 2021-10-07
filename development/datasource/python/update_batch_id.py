@@ -10,11 +10,15 @@ def update_parameter_ctx(pc_var, parameter_name, jolt_spec):
     pc = get_parameter_context(pc_var)
 
     # create parameter
-    par_data = parameter_list_builder(parameter_name, jolt_spec)
+    par_data = {"revision":{"clientId":"","version":""},"id":"","component":{"id":"","name":"","description":"","parameters":[]}}
+    parameter = parameter_list_builder(parameter_name, jolt_spec)
+    par_data['component']['parameters'].append(parameter)
     par_data['revision']['version'] = pc['version']
     par_data['id'] = pc['id']
     par_data['component']['id'] = pc['id']
     par_data['component']['name'] = pc['name']
+    
+    
 
     # update the parameter into NiFi
     up_status = update_parameters(par_data)

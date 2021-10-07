@@ -113,7 +113,7 @@
 
 @media only screen and (min-width: 2540px) {
   .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 49vh !important;
+      max-height: 55vh !important;
       font-size: 22px !important;
   }
 
@@ -151,7 +151,7 @@
 
 @media only screen and (min-width: 3840px) {
       .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 58vh !important;
+      max-height: 63vh !important;
       font-size: 30px !important;
   }
   .myDiv .dataTables_wrapper .dataTables_scrollHead{

@@ -60,7 +60,7 @@
 
   @media only screen and (min-width: 2540px) {
     .myDiv .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 48vh !important;
+        max-height: 52vh !important;
         font-size: 22px !important;
     }
   
@@ -75,7 +75,7 @@
   
   @media only screen and (min-width: 3840px) {
         .myDiv .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 55vh !important;
+        max-height: 60vh !important;
         font-size: 30px !important;
     }
     .myDiv .dataTables_wrapper .dataTables_scrollHead{
@@ -126,7 +126,7 @@
     background:var(--theme-report-header-bg-color);
   }
   .reportContainer1{
-    margin-top: 140px;
+    margin-top: 120px;
   }
   
   @media screen and (min-width: 2140px) {
@@ -138,7 +138,7 @@
          background:var(--theme-report-header-bg-color);
       }
       .reportContainer1{
-         margin-top: 220px !important;
+         margin-top: 200px !important;
       }
   }
   
@@ -151,6 +151,6 @@
          background:var(--theme-report-header-bg-color);
       }
       .reportContainer1{
-         margin-top: 250px !important;
+         margin-top: 220px !important;
       }
   }

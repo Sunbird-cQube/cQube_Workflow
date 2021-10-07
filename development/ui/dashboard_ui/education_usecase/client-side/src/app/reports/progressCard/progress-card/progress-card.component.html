@@ -23,21 +23,21 @@
                                                             *ngIf=" i%2==0 && level !='state' && level !='school'">{{updatedKeys[i]}}
                                                             : &nbsp;&nbsp;</small>
                                                         <strong *ngIf=" i%2==0 && level !='state' && level !='school'">
-                                                            {{healthCardData[key]}}</strong>
+                                                            {{progressCardData[key]}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small *ngIf="i%2==0 && level =='school'">{{updatedKeys[i]}} :
                                                             &nbsp;&nbsp;
                                                         </small>
                                                         <strong *ngIf="i%2==0 && level =='school'">
-                                                            {{healthCardData[key]}}</strong>
+                                                            {{progressCardData[key]}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small
-                                                            *ngIf="i%2==0 && i!=0 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
+                                                            *ngIf="i%2==0 && i!=0 && level =='state' && progressCardData['basic_details']">{{updatedKeys[i]}}
                                                             : &nbsp;&nbsp;</small>
                                                         <strong
-                                                            *ngIf="i%2==0 && i!=0 && level =='state' && healthCardData['basic_details']">{{healthCardData['basic_details'][key]}}</strong>
+                                                            *ngIf="i%2==0 && i!=0 && level =='state' && progressCardData['basic_details']">{{progressCardData['basic_details'][key]}}</strong>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -49,33 +49,33 @@
                                                 <tbody>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small
-                                                            *ngIf=" i%2==1 && i==1 && level =='state' && healthCardData['basic_details']">State
+                                                            *ngIf=" i%2==1 && i==1 && level =='state' && progressCardData['basic_details']">State
                                                             ID : &nbsp;&nbsp;</small>
                                                         <strong
-                                                            *ngIf=" i%2==1 && i==1 && level =='state' && healthCardData['basic_details']">
-                                                            {{healthCardData['basic_details']['state_id']}}</strong>
+                                                            *ngIf=" i%2==1 && i==1 && level =='state' && progressCardData['basic_details']">
+                                                            {{progressCardData['basic_details']['state_id']}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small
                                                             *ngIf="i%2==1 && level !='state' && level !='school'">{{updatedKeys[i]}}
                                                             : &nbsp;&nbsp;</small>
                                                         <strong *ngIf=" i%2==1 && level !='state' && level !='school'">
-                                                            {{healthCardData[key]}}</strong>
+                                                            {{progressCardData[key]}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small *ngIf="i%2==1 && level =='school'">{{updatedKeys[i]}} :
                                                             &nbsp;&nbsp;
                                                         </small>
                                                         <strong *ngIf="i%2==1 && level =='school'">
-                                                            {{healthCardData[key]}}</strong>
+                                                            {{progressCardData[key]}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small
-                                                            *ngIf="i%2==1 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
+                                                            *ngIf="i%2==1 && level =='state' && progressCardData['basic_details']">{{updatedKeys[i]}}
                                                             : &nbsp;&nbsp;</small>
                                                         <strong
-                                                            *ngIf="i%2==1 && level =='state' && healthCardData['basic_details']">
-                                                            {{healthCardData['basic_details'][key]}}</strong>
+                                                            *ngIf="i%2==1 && level =='state' && progressCardData['basic_details']">
+                                                            {{progressCardData['basic_details'][key]}}</strong>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -92,32 +92,32 @@
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small
-                                                            *ngIf="i==1 && level =='state' && healthCardData['basic_details']">State
+                                                            *ngIf="i==1 && level =='state' && progressCardData['basic_details']">State
                                                             ID : &nbsp;&nbsp;</small>
                                                         <strong
-                                                            *ngIf="i==1 && level =='state' && healthCardData['basic_details']">
-                                                            {{healthCardData['basic_details']['state_id']}}</strong>
+                                                            *ngIf="i==1 && level =='state' && progressCardData['basic_details']">
+                                                            {{progressCardData['basic_details']['state_id']}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small
                                                             *ngIf="level !='state' && level !='school'">{{updatedKeys[i]}}
                                                             : &nbsp;&nbsp;</small>
                                                         <strong *ngIf="level !='state' && level !='school'">
-                                                            {{healthCardData[key]}}</strong>
+                                                            {{progressCardData[key]}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small *ngIf="level =='school'">{{updatedKeys[i]}} :
                                                             &nbsp;&nbsp;
                                                         </small>
                                                         <strong *ngIf="level =='school'">
-                                                            {{healthCardData[key]}}</strong>
+                                                            {{progressCardData[key]}}</strong>
                                                     </tr>
                                                     <tr *ngFor="let key of keys; let i=index">
                                                         <small
-                                                            *ngIf="i!=0 && level =='state' && healthCardData['basic_details']">{{updatedKeys[i]}}
+                                                            *ngIf="i!=0 && level =='state' && progressCardData['basic_details']">{{updatedKeys[i]}}
                                                             : &nbsp;&nbsp;</small>
                                                         <strong
-                                                            *ngIf="i!=0 && level =='state' && healthCardData['basic_details']">{{healthCardData['basic_details'][key]}}</strong>
+                                                            *ngIf="i!=0 && level =='state' && progressCardData['basic_details']">{{progressCardData['basic_details'][key]}}</strong>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -200,14 +200,14 @@
                     <div [ngStyle]="{'min-height': height }" class="card">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div *ngIf="healthCardData['student_attendance']" ngbDropdown
-                                    class="d-inline-block healthcard-tooltip" [placement]="placement"
+                                <div *ngIf="progressCardData['student_attendance']" ngbDropdown
+                                    class="d-inline-block progressCard-tooltip" [placement]="placement"
                                     id="attTooltipBtn">
-                                    <button class="btn btn-outline-primary healthcard-tooltip-btn" id="dropdownBasic1"
+                                    <button class="btn btn-outline-primary progressCard-tooltip-btn" id="dropdownBasic1"
                                         ngbDropdownToggle>
                                         <em class="fa fa-info-circle" style="color: #75758d;"></em>
                                     </button>
-                                    <div style="border-radius: 10px;" class="healthcard-tooltip-dropdown"
+                                    <div style="border-radius: 10px;" class="progressCard-tooltip-dropdown"
                                         ngbDropdownMenu id="attTooltip" aria-labelledby="dropdownBasic1">
                                         <div class="dropdown-content" id="div1"
                                             style="height: 250px;width: 320px; position:relative; border-radius: 10px;border: 1px solid gray; padding: 5px 5px 5px 5px; margin-right: 8px;">
@@ -226,7 +226,7 @@
                                                                 *ngFor="let key of tooltipStdAttendance;let i=index">
                                                                 <td>{{tooltipStdAttendanceKeys[i]}}</td>
                                                                 <td>:</td>
-                                                                <td>{{healthCardData['student_attendance'][key]}}
+                                                                <td>{{progressCardData['student_attendance'][key]}}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -239,13 +239,13 @@
                                 <h6 class="headings"> Student Attendance
                                 </h6>
                                 <div>
-                                    <app-bubbles *ngIf="level != 'state' && healthCardData['student_attendance']"
-                                        [cardData]="healthCardData['student_attendance']"
+                                    <app-bubbles *ngIf="level != 'state' && progressCardData['student_attendance']"
+                                        [cardData]="progressCardData['student_attendance']"
                                         [color]="stdAttdRankMatrixColor" [Value]="stdAttdRankMatrixValue"></app-bubbles>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['student_attendance']">
+                        <div class="row" *ngIf="progressCardData['student_attendance']">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <strong class="fon-siz-15rem"
@@ -253,7 +253,7 @@
                                     </strong>
                                     <div class="progress-circle-container" style="font-weight: bold; ">
                                         <app-progress-circle
-                                            [value]="healthCardData['student_attendance']['attendance']"
+                                            [value]="progressCardData['student_attendance']['attendance']"
                                             [color]="stdAttendanceColor"></app-progress-circle>
                                     </div>
                                 </div>
@@ -270,7 +270,7 @@
                                                 <td *ngIf="level != 'state'">{{schoolInfraRankKye[i]}} level</td>
                                                 <td *ngIf="level != 'state'">:</td>
                                                 <td *ngIf="level != 'state'">
-                                                    {{healthCardData['student_attendance'][attendance]}}
+                                                    {{progressCardData['student_attendance'][attendance]}}
                                                 </td>
                                             </tr>
                                         </thead>
@@ -278,7 +278,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['student_attendance']">
+                        <div class="row" *ngIf="progressCardData['student_attendance']">
                             <div class="col-sm-12">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <table class="metric-values-table">
@@ -297,17 +297,17 @@
                                                     {{schoolAttendanceCategoryKey[i]}}</td>
                                                 <td *ngIf="level != 'school'">:</td>
                                                 <td *ngIf="level != 'school'">
-                                                    {{healthCardData['student_attendance'][attendance]}}</td>
+                                                    {{progressCardData['student_attendance'][attendance]}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="!healthCardData['student_attendance']" class="notFound"> No Data Available
+                        <div *ngIf="!progressCardData['student_attendance']" class="notFound"> No Data Available
                         </div>
                     </div>
-                    <div *ngIf="healthCardData['student_attendance']">
+                    <div *ngIf="progressCardData['student_attendance']">
                         <p *ngIf="showLink" class="link access-report-link" id="attdLink"><a href="javascript:void(0)"
                                 (click)="goToReport('/attendance/student-attendance')">Click
                                 to Access
@@ -318,14 +318,14 @@
                     <div [ngStyle]="{'min-height': height }" class="card">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div *ngIf="healthCardData['student_semester']" ngbDropdown
-                                    class="d-inline-block healthcard-tooltip" [placement]="placement"
+                                <div *ngIf="progressCardData['student_semester']" ngbDropdown
+                                    class="d-inline-block progressCard-tooltip" [placement]="placement"
                                     id="semTooltipBtn">
-                                    <button class="btn btn-outline-primary healthcard-tooltip-btn" id="dropdownBasic2"
+                                    <button class="btn btn-outline-primary progressCard-tooltip-btn" id="dropdownBasic2"
                                         ngbDropdownToggle>
                                         <em class="fa fa-info-circle" style="color: #75758d;"></em>
                                     </button>
-                                    <div style="border-radius: 10px;" class="healthcard-tooltip-dropdown"
+                                    <div style="border-radius: 10px;" class="progressCard-tooltip-dropdown"
                                         ngbDropdownMenu id="semTooltip" aria-labelledby="dropdownBasic2">
                                         <div class="dropdown-content" id="div1"
                                             style="height: 250px;width: 320px; position:relative; border-radius: 10px;border: 1px solid gray; padding: 5px 5px 5px 5px; margin-right: 8px;">
@@ -344,14 +344,14 @@
                                                             <tr class="tooltip-values-row" style="font-size: 12px;"
                                                                 *ngFor="let key of tooltimSem;let i=index">
                                                                 <td
-                                                                    *ngIf="i<=semLength && healthCardData['student_semester'][key]">
+                                                                    *ngIf="i<=semLength && progressCardData['student_semester'][key]">
                                                                     {{tooltipSemKeys[i]}}</td>
                                                                 <td
-                                                                    *ngIf="i<=semLength && healthCardData['student_semester'][key]">
+                                                                    *ngIf="i<=semLength && progressCardData['student_semester'][key]">
                                                                     :</td>
                                                                 <td
-                                                                    *ngIf="i<=semLength && healthCardData['student_semester'][key]">
-                                                                    {{healthCardData['student_semester'][key]}}</td>
+                                                                    *ngIf="i<=semLength && progressCardData['student_semester'][key]">
+                                                                    {{progressCardData['student_semester'][key]}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="3">
@@ -364,26 +364,26 @@
                                                             <tr class="tooltip-values-row" style="font-size: 12px;"
                                                                 *ngFor="let key of tooltimSem;let i=index">
                                                                 <td
-                                                                    *ngIf="i>semLength && healthCardData['student_semester'][key] && level !='state'">
+                                                                    *ngIf="i>semLength && progressCardData['student_semester'][key] && level !='state'">
                                                                     {{tooltipSemKeys[i]}}</td>
                                                                 <td
-                                                                    *ngIf="i>semLength && healthCardData['student_semester'][key] && level !='state'">
+                                                                    *ngIf="i>semLength && progressCardData['student_semester'][key] && level !='state'">
                                                                     :</td>
                                                                 <td
-                                                                    *ngIf="i>semLength && healthCardData['student_semester'][key] && level !='state'">
-                                                                    {{healthCardData['student_semester'][key]}} %
+                                                                    *ngIf="i>semLength && progressCardData['student_semester'][key] && level !='state'">
+                                                                    {{progressCardData['student_semester'][key]}} %
                                                                 </td>
                                                             </tr>
                                                             <tr class="tooltip-values-row" style="font-size: 12px;"
                                                                 *ngFor="let key of semPerformTooltip;let i=index">
                                                                 <ng-container
-                                                                    *ngIf="healthCardData['student_semester']['grade_wise_performance'][key]">
+                                                                    *ngIf="progressCardData['student_semester']['grade_wise_performance'][key]">
                                                                     <td>
                                                                         {{semPerformTooltipKeys[i]}}</td>
                                                                     <td>
                                                                         :</td>
                                                                     <td>
-                                                                        {{healthCardData['student_semester']['grade_wise_performance'][key]}}
+                                                                        {{progressCardData['student_semester']['grade_wise_performance'][key]}}
                                                                         %
                                                                     </td>
                                                                 </ng-container>
@@ -398,20 +398,21 @@
                                 <h6 class="headings"> Semester Performance
                                 </h6>
                                 <div>
-                                    <app-bubbles *ngIf="level != 'state' && healthCardData['student_semester']"
-                                        [cardData]="healthCardData['student_semester']" [color]="semRankMatrixColor"
+                                    <app-bubbles *ngIf="level != 'state' && progressCardData['student_semester']"
+                                        [cardData]="progressCardData['student_semester']" [color]="semRankMatrixColor"
                                         [Value]="semRankMatrixValue"></app-bubbles>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['student_semester']">
+                        <div class="row" *ngIf="progressCardData['student_semester']">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <strong class="fon-siz-15rem"
                                         style="font-size: 15px;line-height: 2em; font-weight: bold;"> Performance
                                     </strong>
                                     <div class="progress-circle-container" style="font-weight: bold; ">
-                                        <app-progress-circle [value]="healthCardData['student_semester']['performance']"
+                                        <app-progress-circle
+                                            [value]="progressCardData['student_semester']['performance']"
                                             [color]="semColor"></app-progress-circle>
                                     </div>
                                 </div>
@@ -427,7 +428,8 @@
                                             <tr *ngFor="let sem of schoolInfraRank; let i=index">
                                                 <td *ngIf="level != 'state'">{{schoolInfraRankKye[i]}} level</td>
                                                 <td *ngIf="level != 'state'">:</td>
-                                                <td *ngIf="level != 'state'">{{healthCardData['student_semester'][sem]}}
+                                                <td *ngIf="level != 'state'">
+                                                    {{progressCardData['student_semester'][sem]}}
                                                 </td>
                                             </tr>
                                         </thead>
@@ -435,7 +437,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['student_semester']">
+                        <div class="row" *ngIf="progressCardData['student_semester']">
                             <div class="col-sm-12">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <table class="metric-values-table">
@@ -454,18 +456,18 @@
                                                     {{semPerformanceCategoryKey[i]}}</td>
                                                 <td *ngIf="level != 'school'">:</td>
                                                 <td *ngIf="level != 'school'">
-                                                    {{healthCardData['student_semester'][sem] ?
-                                                    healthCardData['student_semester'][sem] : '-'}}</td>
+                                                    {{progressCardData['student_semester'][sem] ?
+                                                    progressCardData['student_semester'][sem] : '-'}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="!healthCardData['student_semester']" class="notFound"> No Data Available
+                        <div *ngIf="!progressCardData['student_semester']" class="notFound"> No Data Available
                         </div>
                     </div>
-                    <div *ngIf="healthCardData['student_semester']">
+                    <div *ngIf="progressCardData['student_semester']">
                         <p *ngIf="showLink" class="link access-report-link" id="semLink">
                             <a href="javascript:void(0)" (click)="goToReport('/student-performance/sat-report')">Click
                                 to Access
@@ -477,14 +479,14 @@
                     <div [ngStyle]="{'min-height': height }" class="card">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div *ngIf="healthCardData['pat_performance']" ngbDropdown
-                                    class="d-inline-block healthcard-tooltip" [placement]="placement"
+                                <div *ngIf="progressCardData['pat_performance']" ngbDropdown
+                                    class="d-inline-block progressCard-tooltip" [placement]="placement"
                                     id="patTooltipBtn">
-                                    <button class="btn btn-outline-primary healthcard-tooltip-btn" id="dropdownBasic3"
+                                    <button class="btn btn-outline-primary progressCard-tooltip-btn" id="dropdownBasic3"
                                         ngbDropdownToggle>
                                         <em class="fa fa-info-circle" style="color: #75758d;"></em>
                                     </button>
-                                    <div style="border-radius: 10px;" class="healthcard-tooltip-dropdown"
+                                    <div style="border-radius: 10px;" class="progressCard-tooltip-dropdown"
                                         ngbDropdownMenu id="patTooltip" aria-labelledby="dropdownBasic3">
                                         <div class="dropdown-content" id="div1"
                                             style="height: 250px;width: 320px; position:relative; border-radius: 10px;border: 1px solid gray; padding: 5px 5px 5px 5px; margin-right: 8px;">
@@ -503,10 +505,10 @@
                                                                 *ngFor="let key of tooltipPat;let i=index">
                                                                 <td>{{tooltipPatKeys[i]}}</td>
                                                                 <td>:</td>
-                                                                <td>{{healthCardData['pat_performance'][key]}}</td>
+                                                                <td>{{progressCardData['pat_performance'][key]}}</td>
                                                             </tr>
                                                             <ng-container
-                                                                *ngIf="healthCardData['pat_performance']['grade_wise_performance']">
+                                                                *ngIf="progressCardData['pat_performance']['grade_wise_performance']">
                                                                 <tr>
                                                                     <td colspan="3">
                                                                         <strong class="tooltip-table-header-txt"
@@ -518,14 +520,14 @@
                                                                     *ngFor="let key of patPerformTooltip;let i=index">
 
                                                                     <td
-                                                                        *ngIf="healthCardData['pat_performance']['grade_wise_performance'][key]">
+                                                                        *ngIf="progressCardData['pat_performance']['grade_wise_performance'][key]">
                                                                         {{patPerformTooltipKeys[i]}}</td>
                                                                     <td
-                                                                        *ngIf="healthCardData['pat_performance']['grade_wise_performance'][key]">
+                                                                        *ngIf="progressCardData['pat_performance']['grade_wise_performance'][key]">
                                                                         :</td>
                                                                     <td
-                                                                        *ngIf="healthCardData['pat_performance']['grade_wise_performance'][key]">
-                                                                        {{healthCardData['pat_performance']['grade_wise_performance'][key]}}
+                                                                        *ngIf="progressCardData['pat_performance']['grade_wise_performance'][key]">
+                                                                        {{progressCardData['pat_performance']['grade_wise_performance'][key]}}
                                                                         %
                                                                     </td>
                                                                 </tr>
@@ -539,13 +541,13 @@
                                 </div>
                                 <h6 class="headings"> PAT Performance </h6>
                                 <div>
-                                    <app-bubbles *ngIf="level != 'state' && healthCardData['pat_performance']"
-                                        [cardData]="healthCardData['pat_performance']" [color]="patRankMatrixColor"
+                                    <app-bubbles *ngIf="level != 'state' && progressCardData['pat_performance']"
+                                        [cardData]="progressCardData['pat_performance']" [color]="patRankMatrixColor"
                                         [Value]="patRankMatrixValue"></app-bubbles>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['pat_performance']">
+                        <div class="row" *ngIf="progressCardData['pat_performance']">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <strong class="fon-siz-15rem"
@@ -553,7 +555,7 @@
                                     </strong>
                                     <div class="progress-circle-container" style="font-weight: bold; ">
                                         <app-progress-circle
-                                            [value]=" level == 'state' ? healthCardData['pat_performance']['school_performance'] : healthCardData['pat_performance'][level+'_performance']"
+                                            [value]=" level == 'state' ? progressCardData['pat_performance']['school_performance'] : progressCardData['pat_performance'][level+'_performance']"
                                             [color]="patColor"></app-progress-circle>
                                     </div>
                                 </div>
@@ -569,7 +571,8 @@
                                             <tr *ngFor="let pat of schoolInfraRank; let i=index">
                                                 <td *ngIf="level != 'state'">{{schoolInfraRankKye[i]}} level</td>
                                                 <td *ngIf="level != 'state'">:</td>
-                                                <td *ngIf="level != 'state'">{{healthCardData['pat_performance'][pat]}}
+                                                <td *ngIf="level != 'state'">
+                                                    {{progressCardData['pat_performance'][pat]}}
                                                 </td>
                                             </tr>
                                         </thead>
@@ -577,7 +580,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['pat_performance']">
+                        <div class="row" *ngIf="progressCardData['pat_performance']">
                             <div class="col-sm-12">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <table class="metric-values-table">
@@ -596,18 +599,18 @@
                                                     {{semPerformanceCategoryKey[i]}}</td>
                                                 <td *ngIf="level != 'school'">:</td>
                                                 <td *ngIf="level != 'school'">
-                                                    {{healthCardData['pat_performance'][pat] ?
-                                                    healthCardData['pat_performance'][pat] : '-'}}</td>
+                                                    {{progressCardData['pat_performance'][pat] ?
+                                                    progressCardData['pat_performance'][pat] : '-'}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="!healthCardData['pat_performance']" class="notFound"> No Data Available
+                        <div *ngIf="!progressCardData['pat_performance']" class="notFound"> No Data Available
                         </div>
                     </div>
-                    <div *ngIf="healthCardData['pat_performance']">
+                    <div *ngIf="progressCardData['pat_performance']">
                         <p *ngIf="showLink" class="link access-report-link" id="patLink">
                             <a href="javascript:void(0)" (click)="goToReport('/student-performance/pat-report')">Click
                                 to Access
@@ -621,14 +624,14 @@
                     <div [ngStyle]="{'min-height': height }" class="card">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div *ngIf="healthCardData['school_infrastructure']" ngbDropdown
-                                    class="d-inline-block healthcard-tooltip" [placement]="placement"
+                                <div *ngIf="progressCardData['school_infrastructure']" ngbDropdown
+                                    class="d-inline-block progressCard-tooltip" [placement]="placement"
                                     id="infraTooltipBtn">
-                                    <button class="btn btn-outline-primary healthcard-tooltip-btn" id="dropdownBasic4"
+                                    <button class="btn btn-outline-primary progressCard-tooltip-btn" id="dropdownBasic4"
                                         ngbDropdownToggle>
                                         <em class="fa fa-info-circle" style="color: #75758d;"></em>
                                     </button>
-                                    <div style="border-radius: 10px;" class="healthcard-tooltip-dropdown"
+                                    <div style="border-radius: 10px;" class="progressCard-tooltip-dropdown"
                                         ngbDropdownMenu id="infraTooltip" aria-labelledby="dropdownBasic4">
                                         <div class="dropdown-content" id="div1"
                                             style="height: 250px;width: 320px; position:relative; border-radius: 10px;border: 1px solid gray; padding: 5px 5px 5px 5px; margin-right: 8px;">
@@ -650,7 +653,7 @@
                                                                 <td *ngIf="i== 0 && level =='state'">:
                                                                 </td>
                                                                 <td *ngIf="i== 0 && level =='state'">
-                                                                    {{healthCardData['school_infrastructure'][infra]}}
+                                                                    {{progressCardData['school_infrastructure'][infra]}}
                                                                 </td>
                                                             </tr>
                                                             <tr class="tooltip-values-row" style="font-size: 12px;"
@@ -659,7 +662,7 @@
                                                                     {{toolTipInfraKeys[i]}}</td>
                                                                 <td *ngIf="i <= infraLength  && level !='state'">:</td>
                                                                 <td *ngIf="i <= infraLength  && level !='state'">
-                                                                    {{healthCardData['school_infrastructure'][infra]}}
+                                                                    {{progressCardData['school_infrastructure'][infra]}}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -679,11 +682,12 @@
                                                                     :</td>
                                                                 <td
                                                                     *ngIf="i> infraLength && infraTooltipMetrics[i] && infra != 'total_schools_data_received'">
-                                                                    {{healthCardData['school_infrastructure'][infra]}} %
+                                                                    {{progressCardData['school_infrastructure'][infra]}}
+                                                                    %
                                                                 </td>
                                                                 <td
                                                                     *ngIf="i> infraLength && !infraTooltipMetrics[i] && infra != 'total_schools_data_received'">
-                                                                    {{healthCardData['school_infrastructure'][infra]}}
+                                                                    {{progressCardData['school_infrastructure'][infra]}}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -696,13 +700,13 @@
                                 <h6 class="headings"> School Infrastructure
                                 </h6>
                                 <div>
-                                    <app-bubbles *ngIf="level != 'state' && healthCardData['school_infrastructure']"
-                                        [cardData]="healthCardData['school_infrastructure']"
+                                    <app-bubbles *ngIf="level != 'state' && progressCardData['school_infrastructure']"
+                                        [cardData]="progressCardData['school_infrastructure']"
                                         [color]="infraRankMatrixColor" [Value]="infraRankMatrixValue"></app-bubbles>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['school_infrastructure']">
+                        <div class="row" *ngIf="progressCardData['school_infrastructure']">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <strong class="fon-siz-15rem"
@@ -711,7 +715,7 @@
                                     </strong>
                                     <div class="progress-circle-container" style="font-weight: bold; ">
                                         <app-progress-circle
-                                            [value]="healthCardData['school_infrastructure']['infra_score']"
+                                            [value]="progressCardData['school_infrastructure']['infra_score']"
                                             [color]="infraColor"></app-progress-circle>
                                     </div>
                                 </div>
@@ -730,7 +734,7 @@
                                                 </td>
                                                 <td *ngIf="level != 'state'">:</td>
                                                 <td *ngIf="level != 'state'">
-                                                    <span>{{healthCardData['school_infrastructure'][infra]}} </span>
+                                                    <span>{{progressCardData['school_infrastructure'][infra]}} </span>
                                                 </td>
                                             </tr>
                                         </thead>
@@ -738,22 +742,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['school_infrastructure']">
+                        <div class="row" *ngIf="progressCardData['school_infrastructure']">
                             <div class="col-sm-12">
                                 <strong class="mar-lef-35 metric-name" style="margin-left: 20px;">Areas To Focus
                                 </strong>
                                 <ul class="metric-list-values"
                                     style="font-weight: normal; list-style-type:none;margin-left: 0px;">
                                     <li
-                                        *ngFor="let list of healthCardData['school_infrastructure']['areas_to_focus'], let i=index">
-                                        {{healthCardData['school_infrastructure']['areas_to_focus'][i]}}</li>
+                                        *ngFor="let list of progressCardData['school_infrastructure']['areas_to_focus'], let i=index">
+                                        {{progressCardData['school_infrastructure']['areas_to_focus'][i]}}</li>
                                 </ul>
                             </div>
                         </div>
-                        <div *ngIf="!healthCardData['school_infrastructure']" class="notFound"> No Data Available
+                        <div *ngIf="!progressCardData['school_infrastructure']" class="notFound"> No Data Available
                         </div>
                     </div>
-                    <div *ngIf="healthCardData['school_infrastructure']">
+                    <div *ngIf="progressCardData['school_infrastructure']">
                         <p *ngIf="showLink" class="link access-report-link" id="infraLink"><a href="javascript: void(0)"
                                 (click)="goToReport('/infrastructure/school-infra-map')">Click to Access
                                 Report</a>
@@ -764,14 +768,14 @@
                     <div [ngStyle]="{'min-height': height }" class="card">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div *ngIf="healthCardData['udise']" ngbDropdown
-                                    class="d-inline-block healthcard-tooltip" [placement]="placement"
+                                <div *ngIf="progressCardData['udise']" ngbDropdown
+                                    class="d-inline-block progressCard-tooltip" [placement]="placement"
                                     id="udiseTooltipBtn">
-                                    <button class="btn btn-outline-primary healthcard-tooltip-btn" id="dropdownBasic5"
+                                    <button class="btn btn-outline-primary progressCard-tooltip-btn" id="dropdownBasic5"
                                         ngbDropdownToggle>
                                         <em class="fa fa-info-circle" style="color: #75758d;"></em>
                                     </button>
-                                    <div style="border-radius: 10px;" class="healthcard-tooltip-dropdown"
+                                    <div style="border-radius: 10px;" class="progressCard-tooltip-dropdown"
                                         ngbDropdownMenu id="udiseTooltip" aria-labelledby="dropdownBasic5">
                                         <div class="dropdown-content" id="div1"
                                             style="height: 250px;width: 320px; position:relative; border-radius: 10px;border: 1px solid gray; padding: 5px 5px 5px 5px; margin-right: 8px;">
@@ -792,7 +796,7 @@
                                                                     {{tooltipUDISEKyes[i]}}</td>
                                                                 <td *ngIf="i<=udiseLength && level !='state'">:</td>
                                                                 <td *ngIf="i<=udiseLength && level !='state'">
-                                                                    {{healthCardData['udise'][key]}}
+                                                                    {{progressCardData['udise'][key]}}
                                                                 </td>
                                                             </tr>
                                                             <tr class="tooltip-values-row" style="font-size: 12px;"
@@ -802,7 +806,7 @@
                                                                 <td *ngIf="key == 'total_schools' && level =='state'">:
                                                                 </td>
                                                                 <td *ngIf="key == 'total_schools' && level =='state'">
-                                                                    {{healthCardData['udise'][key]}}
+                                                                    {{progressCardData['udise'][key]}}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -815,15 +819,15 @@
                                                             <tr class="tooltip-values-row" style="font-size: 12px;"
                                                                 *ngFor="let key of tooltipUDISE;let i=index">
                                                                 <td
-                                                                    *ngIf="i>udiseLength && healthCardData['udise'][key] && key != 'total_schools'">
+                                                                    *ngIf="i>udiseLength && progressCardData['udise'][key] && key != 'total_schools'">
                                                                     {{tooltipUDISEKyes[i]}}</td>
                                                                 <td
-                                                                    *ngIf="i>udiseLength && healthCardData['udise'][key] && key != 'total_schools'">
+                                                                    *ngIf="i>udiseLength && progressCardData['udise'][key] && key != 'total_schools'">
                                                                     :
                                                                 </td>
                                                                 <td
-                                                                    *ngIf="i>udiseLength && healthCardData['udise'][key] && key != 'total_schools'">
-                                                                    {{healthCardData['udise'][key]}} %
+                                                                    *ngIf="i>udiseLength && progressCardData['udise'][key] && key != 'total_schools'">
+                                                                    {{progressCardData['udise'][key]}} %
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -836,13 +840,13 @@
                                 <h6 class="headings"> UDISE
                                 </h6>
                                 <div>
-                                    <app-bubbles *ngIf="level != 'state' && healthCardData['udise']"
-                                        [cardData]="healthCardData['udise']" [color]="udiseRankMatrixColor"
+                                    <app-bubbles *ngIf="level != 'state' && progressCardData['udise']"
+                                        [cardData]="progressCardData['udise']" [color]="udiseRankMatrixColor"
                                         [Value]="udiseRankMatrixValue"></app-bubbles>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['udise']">
+                        <div class="row" *ngIf="progressCardData['udise']">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <strong class="fon-siz-15rem"
@@ -850,7 +854,7 @@
                                         Score
                                     </strong>
                                     <div class="progress-circle-container" style="font-weight: bold; ">
-                                        <app-progress-circle [value]="healthCardData['udise']['infrastructure_score']"
+                                        <app-progress-circle [value]="progressCardData['udise']['infrastructure_score']"
                                             [color]="udiseColor"></app-progress-circle>
                                     </div>
                                 </div>
@@ -866,7 +870,7 @@
                                             <tr *ngFor="let key of schoolInfraRank; let i=index">
                                                 <td *ngIf="level != 'state'">{{schoolInfraRankKye[i]}} level</td>
                                                 <td *ngIf="level != 'state'">:</td>
-                                                <td *ngIf="level != 'state'">{{healthCardData['udise'][key]}}
+                                                <td *ngIf="level != 'state'">{{progressCardData['udise'][key]}}
                                                 </td>
                                             </tr>
                                         </thead>
@@ -874,7 +878,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['udise']">
+                        <div class="row" *ngIf="progressCardData['udise']">
                             <div class="col-sm-12">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <table class="metric-values-table">
@@ -893,17 +897,17 @@
                                                     {{UDISECategoryKey[i]}}</td>
                                                 <td *ngIf="level != 'school'">:</td>
                                                 <td *ngIf="level != 'school'">
-                                                    {{healthCardData['udise'][key]}}</td>
+                                                    {{progressCardData['udise'][key]}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="!healthCardData['udise']" class="notFound"> No Data Available
+                        <div *ngIf="!progressCardData['udise']" class="notFound"> No Data Available
                         </div>
                     </div>
-                    <div *ngIf="healthCardData['udise']">
+                    <div *ngIf="progressCardData['udise']">
                         <p *ngIf="showLink" class="link access-report-link" id="udiseLink"><a href="javascript: void(0)"
                                 (click)="goToReport('/infrastructure/udise-report')">Click to Access
                                 Report</a>
@@ -914,14 +918,14 @@
                     <div [ngStyle]="{'min-height': height }" class="card">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div *ngIf="healthCardData['crc_visit']" ngbDropdown
-                                    class="d-inline-block healthcard-tooltip" [placement]="placement"
+                                <div *ngIf="progressCardData['crc_visit']" ngbDropdown
+                                    class="d-inline-block progressCard-tooltip" [placement]="placement"
                                     id="crcTooltipBtn">
-                                    <button class="btn btn-outline-primary healthcard-tooltip-btn" id="dropdownBasic6"
+                                    <button class="btn btn-outline-primary progressCard-tooltip-btn" id="dropdownBasic6"
                                         ngbDropdownToggle>
                                         <em class="fa fa-info-circle" style="color: #75758d;"></em>
                                     </button>
-                                    <div style="border-radius: 10px;" class="healthcard-tooltip-dropdown"
+                                    <div style="border-radius: 10px;" class="progressCard-tooltip-dropdown"
                                         ngbDropdownMenu id="crcTooltip" aria-labelledby="dropdownBasic6">
                                         <div class="dropdown-content" id="div1"
                                             style="height: 250px;width: 320px; position:relative; border-radius: 10px;border: 1px solid gray; padding: 5px 5px 5px 5px; margin-right: 8px;">
@@ -941,7 +945,7 @@
                                                                 <td *ngIf="i<=crcLength">{{tooltipCrcKeys[i]}}</td>
                                                                 <td *ngIf="i<=crcLength">:</td>
                                                                 <td *ngIf="i<=crcLength">
-                                                                    {{healthCardData['crc_visit'][key]}}</td>
+                                                                    {{progressCardData['crc_visit'][key]}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="3">
@@ -956,10 +960,10 @@
                                                                 <td *ngIf="i >crcLength">:</td>
                                                                 <td
                                                                     *ngIf="i >crcLength && tooltipCrcKeys[i].includes('Percent')">
-                                                                    {{healthCardData['crc_visit'][key]}} %</td>
+                                                                    {{progressCardData['crc_visit'][key]}} %</td>
                                                                 <td
                                                                     *ngIf="i >crcLength  && !tooltipCrcKeys[i].includes('Percent')">
-                                                                    {{healthCardData['crc_visit'][key]}}</td>
+                                                                    {{progressCardData['crc_visit'][key]}}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -971,20 +975,20 @@
                                 <h6 class="headings"> CRC Visits
                                 </h6>
                                 <div>
-                                    <app-bubbles *ngIf="level != 'state' && healthCardData['crc_visit']"
-                                        [cardData]="healthCardData['crc_visit']" [color]="crcRankMatrixColor"
+                                    <app-bubbles *ngIf="level != 'state' && progressCardData['crc_visit']"
+                                        [cardData]="progressCardData['crc_visit']" [color]="crcRankMatrixColor"
                                         [Value]="crcRankMatrixValue"></app-bubbles>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['crc_visit']">
+                        <div class="row" *ngIf="progressCardData['crc_visit']">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <div class="mar-lef-35" style="margin-left: 15px;">
                                     <strong class="fon-siz-15rem"
                                         style="font-size: 15px;line-height: 2em; font-weight: bold;">Total Visit Score
                                     </strong>
                                     <div class="progress-circle-container" style="font-weight: bold; ">
-                                        <app-progress-circle [value]="healthCardData['crc_visit']['visit_score']"
+                                        <app-progress-circle [value]="progressCardData['crc_visit']['visit_score']"
                                             [color]="crcColor"></app-progress-circle>
                                     </div>
                                 </div>
@@ -1000,7 +1004,7 @@
                                             <tr *ngFor="let key of schoolInfraRank; let i=index">
                                                 <td *ngIf="level != 'state'">{{schoolInfraRankKye[i]}} level</td>
                                                 <td *ngIf="level != 'state'">:</td>
-                                                <td *ngIf="level != 'state'">{{healthCardData['crc_visit'][key]}}
+                                                <td *ngIf="level != 'state'">{{progressCardData['crc_visit'][key]}}
                                                 </td>
                                             </tr>
                                         </thead>
@@ -1008,7 +1012,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="healthCardData['crc_visit']">
+                        <div class="row" *ngIf="progressCardData['crc_visit']">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <strong class="metric-name mar-lef-35"
                                     style="margin-left: 15px; font-size: 15px;line-height: 2em;">Schools
@@ -1026,22 +1030,22 @@
                                             <td>Percentage</td>
                                         </tr>
                                         <tr *ngFor="let crc of crcVisit; let i=index">
-                                            <td *ngIf="level =='school' && healthCardData['crc_visit'][crc] > 0">
+                                            <td *ngIf="level =='school' && progressCardData['crc_visit'][crc] > 0">
                                                 <span>{{crcVisitKeys[i].replace("Schools", "School")}}</span>
                                             </td>
                                             <td *ngIf="level !='school'"> <span>{{crcVisitKeys[i]}}</span></td>
                                             <td *ngIf="level !='school'">:</td>
-                                            <td *ngIf="level !='school'"> <span>{{healthCardData['crc_visit'][crc]}}
+                                            <td *ngIf="level !='school'"> <span>{{progressCardData['crc_visit'][crc]}}
                                                 </span></td>
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
                         </div>
-                        <div *ngIf="!healthCardData['crc_visit']" class="notFound"> No Data Available
+                        <div *ngIf="!progressCardData['crc_visit']" class="notFound"> No Data Available
                         </div>
                     </div>
-                    <div *ngIf="healthCardData['crc_visit']">
+                    <div *ngIf="progressCardData['crc_visit']">
                         <p *ngIf="showLink" class="link access-report-link" id="crcLink"><a href="javascript: void(0)"
                                 (click)="goToReport('/crc/crc-report')">Click to Access
                                 Report</a>

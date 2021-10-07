@@ -46,7 +46,7 @@ export class DataSourcesService {
   //   tpdcpViews: "",
   //   tpdenrollViews: "",
   //   tpdcompViews: "",
-  //   healthCardViews: "",
+  //   progressCardViews: "",
   //   patExcptViews: "",
   //   sarExcptViews: "",
   //   tarExpViews: "",
@@ -213,8 +213,8 @@ export class DataSourcesService {
   //     if (element.reportid == "tpd-comp") {
   //       this.reportWiseViews.tpdcompViews = element.number_of_views + " (" + timeStr + ")";
   //     }
-  //     if (element.reportid == "healthCard") {
-  //       this.reportWiseViews.healthCardViews = element.number_of_views + " (" + timeStr + ")";
+  //     if (element.reportid == "progressCard") {
+  //       this.reportWiseViews.progressCardViews = element.number_of_views + " (" + timeStr + ")";
   //     }
   //     if (element.reportid == "patExcpt") {
   //       this.reportWiseViews.patExcptViews = element.number_of_views + " (" + timeStr + ")";

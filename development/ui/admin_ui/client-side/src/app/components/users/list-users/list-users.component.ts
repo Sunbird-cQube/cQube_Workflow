@@ -15,7 +15,7 @@ export class ListUsersComponent implements OnInit {
   err;
   currentDate = `${(new Date()).getFullYear()}-${("0" + ((new Date()).getMonth() + 1)).slice(-2)}-${("0" + ((new Date()).getDate())).slice(-2)} ${(new Date()).toLocaleTimeString('en-IN', { hour12: false })}`;
 
-  constructor(private router: Router, private service: UsersService) { }
+  constructor(private service: UsersService) { }
 
   ngOnInit(): void {
     document.getElementById('backBtn').style.display = "none";
@@ -43,7 +43,8 @@ export class ListUsersComponent implements OnInit {
       });
       document.getElementById('spinner').style.display = 'none';
     }, err => {
-      this.err = "No data found";
+      this.err = "Something went wrong while fetching users";
+      document.getElementById('spinner').style.display = 'none';
     })
   }
 

@@ -6,7 +6,7 @@ import { KeycloakSecurityService } from '../keycloak-security.service';
 @Injectable({
   providedIn: 'root'
 })
-export class HealthCardService {
+export class progressCardService {
   public baseUrl;
   public telemetryData = [];
 
@@ -16,32 +16,32 @@ export class HealthCardService {
 
   metaData(level) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/healthCard/metaData`, { level });
+    return this.http.post(`${this.baseUrl}/progressCard/metaData`, { level });
   }
 
   stateData(data) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/healthCard/stateData`, data);
+    return this.http.post(`${this.baseUrl}/progressCard/stateData`, data);
   }
 
   districtWiseData(data) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/healthCard/distWise`, data);
+    return this.http.post(`${this.baseUrl}/progressCard/distWise`, data);
   }
 
   blockWiseData(data) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/healthCard/blockWise`, data);
+    return this.http.post(`${this.baseUrl}/progressCard/blockWise`, data);
   }
 
   clusterWiseData(data) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/healthCard/clusterWise`, data);
+    return this.http.post(`${this.baseUrl}/progressCard/clusterWise`, data);
   }
 
   schoolWiseData(data) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/healthCard/schoolWise`, data);
+    return this.http.post(`${this.baseUrl}/progressCard/schoolWise`, data);
   }
 
   public colors = {

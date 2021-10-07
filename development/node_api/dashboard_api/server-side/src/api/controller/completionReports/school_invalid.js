@@ -2,6 +2,8 @@ const router = require('express').Router();
 const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 var const_data = require('../../lib/config');
+const readFile = require("../../lib/reads3File");
+var baseDir = `${process.env.OUTPUT_DIRECTORY}`;
 
 router.post('/school_invalid_data', auth.authController, async (req, res) => {
     try {
@@ -16,26 +18,32 @@ router.post('/school_invalid_data', auth.authController, async (req, res) => {
             fileName = `exception_list/school_invalid_data.csv`;
         }
 
-        const params = {
-            Bucket: process.env.OUTPUT_BUCKET,
-            Key: fileName,
-            Expires: 60 * 5
-        };
-        const params1 = {
-            Bucket: const_data['getParams']['Bucket'],
-            Key: fileName
-        };
-        var url;
-        const_data['s3'].headObject(params1, async (err, metadata) => {
-            if (!err) {
-                url = await const_data['s3'].getSignedUrl('getObject', params);
-                logger.info(" ---- file download url sent.. ----");
-                res.status(200).send({ downloadUrl: url })
-            } else {
-                // logger.info(" ---- file download url sent.. ----");
-                res.status(403).send({ errMsg: "No such file available" });
-            }
-        });
+        if (readFile.storageType == "s3") {
+            const params = {
+                Bucket: process.env.OUTPUT_BUCKET,
+                Key: fileName,
+                Expires: 60 * 5
+            };
+            const params1 = {
+                Bucket: const_data['getParams']['Bucket'],
+                Key: fileName
+            };
+            var url;
+            const_data['s3'].headObject(params1, async (err, metadata) => {
+                if (!err) {
+                    url = await const_data['s3'].getSignedUrl('getObject', params);
+                    logger.info(" ---- file download url sent.. ----");
+                    res.status(200).send({ downloadUrl: url })
+                } else {
+                    // logger.info(" ---- file download url sent.. ----");
+                    res.status(403).send({ errMsg: "No such file available" });
+                }
+            });
+        } else {
+            logger.info(" ---- file download url sent.. ----");
+            var file = baseDir + fileName;
+            res.status(200).send({ downloadUrl: file })
+        }
     } catch (e) {
         logger.error(`Error :: ${e}`);
         res.status(500).json({ errMsg: "Internal error. Please try again!!" });

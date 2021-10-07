@@ -24,7 +24,7 @@ export const dashboardReportDescriptions = {
     lotableTooltip: "This dashboard provides insights on student performance at the learning outcome level.",
     tpdtpTooltip: "This dashboard provides details on district-wise TPD course enrolment progress broken at the individual course level.",
     tpdcpTooltip: "This dashboard provides details on district-wise TPD course enrolment progress broken at the individual course level.",
-    healthCardTooltip: "This dashboard brings metrics from other dashboards and allows users to correlate various metrics among each other.",
+    progressCardTooltip: "This dashboard brings metrics from other dashboards and allows users to correlate various metrics among each other.",
     patExcptTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their periodic assessment scores.",
     tarExpTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their teacher attendance data.",
     sarExcptTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their student attendance data.",

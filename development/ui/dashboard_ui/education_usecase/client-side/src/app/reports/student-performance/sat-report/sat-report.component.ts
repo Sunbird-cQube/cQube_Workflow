@@ -134,7 +134,7 @@ export class SatReportComponent implements OnInit {
   ) {
     this.commonService.callProgressCard.subscribe(value => {
       if (value) {
-        this.goToHealthCard();
+        this.goToprogressCard();
         this.commonService.setProgressCardValue(false);
       }
     })
@@ -159,7 +159,7 @@ export class SatReportComponent implements OnInit {
 
   ngOnInit() {
     this.mapName = this.commonService.mapName;
-    this.period = "last_30_days";
+    // this.period = "last_30_days";
     this.state = this.commonService.state;
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
@@ -178,76 +178,85 @@ export class SatReportComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
 
-    this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
-      }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
-      }`;
-
-    this.service.getYears().subscribe(res => {
-      try {
-        res['data'].map(a => {
-          this.years.push(a);
-        })
-        this.year = this.years[0]['academic_year'];
-        this.onSelectYear();
-      } catch (e) {
-        this.commonService.loaderAndErr([]);
-      }
-    }, err => {
-      this.commonService.loaderAndErr([]);
-    });
-
-    if (params) {
-      this.changeDetection.detectChanges();
-      if (params.timePeriod == "overall") {
-        params.timePeriod = "all";
-      }
-      this.period = params.timePeriod;
-    }
-
     if (params && params.level) {
       this.changeDetection.detectChanges();
-      let data = params.data;
-      if (params.level === "district") {
-        this.districtHierarchy = {
-          distId: data.id,
-        };
-
-        this.districtId = data.id;
-        this.getDistricts(params.level);
-      } else if (params.level === "block") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
-
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.id,
-        };
-
-        this.districtId = data.districtId;
-        this.blockId = data.id;
-        this.getDistricts(params.level);
-      } else if (params.level === "cluster") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
-
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-        };
-
-        this.clusterHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-          clusterId: data.id,
-        };
-
-        this.districtId = data.districtId;
-        this.blockId = data.blockId;
-        this.clusterId = data.id;
-        this.getDistricts(params.level);
+      if (params.timePeriod == "overall") {
+        params.timePeriod = "overall";
       }
+      this.service.getYears().subscribe(res => {
+        try {
+          res['data'].map(a => {
+            this.years.push(a);
+          })
+          this.year = this.years[0]['academic_year'];
+          let obj = this.years.find(a => a['academic_year'] == this.year);
+          this.semesters = obj['semester'];
+          if (this.semesters.length) {
+            this.semester = this.semesters[this.semesters.length - 1].id;
+          }
+          this.changeDetection.detectChanges();
+          let data = params.data;
+          if (params.level === "district") {
+            this.districtHierarchy = {
+              distId: data.id,
+            };
+
+            this.districtId = data.id;
+            this.getDistricts(params.level);
+          } else if (params.level === "block") {
+            this.districtHierarchy = {
+              distId: data.districtId,
+            };
+
+            this.blockHierarchy = {
+              distId: data.districtId,
+              blockId: data.id,
+            };
+
+            this.districtId = data.districtId;
+            this.blockId = data.id;
+            this.getDistricts(params.level);
+          } else if (params.level === "cluster") {
+            this.districtHierarchy = {
+              distId: data.districtId,
+            };
+
+            this.blockHierarchy = {
+              distId: data.districtId,
+              blockId: data.blockId,
+            };
+
+            this.clusterHierarchy = {
+              distId: data.districtId,
+              blockId: data.blockId,
+              clusterId: data.id,
+            };
+
+            this.districtId = data.districtId;
+            this.blockId = data.blockId;
+            this.clusterId = data.id;
+            this.getDistricts(params.level);
+          }
+        } catch (e) {
+          this.commonService.loaderAndErr([]);
+        }
+      }, err => {
+        this.commonService.loaderAndErr([]);
+      });
+    } else {
+      this.service.getYears().subscribe(res => {
+        try {
+          res['data'].map(a => {
+            this.years.push(a);
+          })
+          this.year = this.years[0]['academic_year'];
+          this.onSelectYear();
+        } catch (e) {
+          this.commonService.loaderAndErr([]);
+        }
+      }, err => {
+        this.commonService.loaderAndErr([]);
+      });
     }
   }
 
@@ -268,45 +277,43 @@ export class SatReportComponent implements OnInit {
   }
 
   getDistricts(level): void {
-    this.service.semMetaData({ period: this.period }).subscribe((res) => {
-      this.semesters = res["data"];
-      this.semester = this.semesters[this.semesters.length - 1].id;
+    // this.service.semMetaData({ period: this.period }).subscribe((res) => {
+    //   this.semesters = res["data"];
+    //   this.semester = this.semesters[this.semesters.length - 1].id;
 
-      this.service
-        .PATDistWiseData({
-          ...{
-            grade: this.grade,
-            period: this.period,
-            report: "sat",
-            year: this.year,
-            sem: this.semester,
-          }, ...{ management: this.management, category: this.category }
-        })
-        .subscribe((res) => {
-          this.markers = this.data = res["data"];
-          this.allDistricts = this.districtMarkers = this.data;
-          this.allDistricts.sort((a, b) =>
-            a.Details.district_name > b.Details.district_name
-              ? 1
-              : b.Details.district_name > a.Details.district_name
-                ? -1
-                : 0
-          );
-          if (!this.districtMarkers[0]["Subjects"]) {
-            this.distFilter = this.districtMarkers;
-          }
+    this.service
+      .PATDistWiseData({
+        ...{
+          grade: this.grade,
+          report: "sat",
+          year: this.year,
+          sem: this.semester,
+        }, ...{ management: this.management, category: this.category }
+      })
+      .subscribe((res) => {
+        this.markers = this.data = res["data"];
+        this.allDistricts = this.districtMarkers = this.data;
+        this.allDistricts.sort((a, b) =>
+          a.Details.district_name > b.Details.district_name
+            ? 1
+            : b.Details.district_name > a.Details.district_name
+              ? -1
+              : 0
+        );
+        if (!this.districtMarkers[0]["Subjects"]) {
+          this.distFilter = this.districtMarkers;
+        }
 
-          if (level == "district") this.ondistLinkClick(this.districtId);
-          else this.getBlocks(level, this.districtId, this.blockId);
-        });
-    });
+        if (level == "district") this.ondistLinkClick(this.districtId);
+        else this.getBlocks(level, this.districtId, this.blockId);
+      });
+    // });
   }
 
   getBlocks(level, distId, blockId?: any): void {
     this.service
       .PATBlocksPerDistData(distId, {
         ...{
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -329,7 +336,6 @@ export class SatReportComponent implements OnInit {
     this.service
       .PATClustersPerBlockData(distId, blockId, {
         ...{
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -347,25 +353,25 @@ export class SatReportComponent implements OnInit {
       });
   }
 
-  onPeriodSelect() {
-    document.getElementById("spinner").style.display = "block";
-    this.grade = undefined;
-    this.subject = undefined;
-    this.subjectHidden = true;
-    this.service.semMetaData({ period: this.period }).subscribe((res) => {
-      this.semesters = res["data"];
-      // if (this.semesters.length > 0)
-      //   this.semester = this.semesters[this.semesters.length - 1].id;
-      this.levelWiseFilter();
-    });
-  }
+  // onPeriodSelect() {
+  // document.getElementById("spinner").style.display = "block";
+  // this.grade = undefined;
+  // this.subject = undefined;
+  // this.subjectHidden = true;
+  // this.service.semMetaData({ period: this.period }).subscribe((res) => {
+  //   this.semesters = res["data"];
+  //   // if (this.semesters.length > 0)
+  //   //   this.semester = this.semesters[this.semesters.length - 1].id;
+  //   this.levelWiseFilter();
+  // });
+  // }
 
   onGradeSelect(data) {
     if (this.semester == "") {
       alert("Please select semester!");
       return;
     }
-    this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject ? this.subject : ""
+    this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade}_${this.subject ? this.subject : ""
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
@@ -377,7 +383,7 @@ export class SatReportComponent implements OnInit {
       alert("Please select semester!");
       return;
     }
-    this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject}_all${this.level}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade}_${this.subject}_all${this.level}_${this.commonService.dateAndTime}`;
     this.subject = data;
     this.levelWiseFilter();
   }
@@ -405,14 +411,12 @@ export class SatReportComponent implements OnInit {
     if (this.level == "schoolPerCluster") {
       this.onClusterSelect(this.clusterId);
     }
+    sessionStorage.removeItem("report-level-info")
   }
 
   linkClick() {
     //document.getElementById("home").style.display = "none";
-    this.period = 'last_30_days';
-    this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
-      }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
-      }`;
+    // this.period = 'last_30_days';
     this.grade = undefined;
     this.subject = undefined;
     this.subjectHidden = true;
@@ -452,6 +456,10 @@ export class SatReportComponent implements OnInit {
       this.selectedIndex = undefined;
       this.deSelect();
 
+      this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
+        }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
+        }`;
+
       // these are for showing the hierarchy names based on selection
       this.skul = true;
       this.dist = false;
@@ -463,7 +471,6 @@ export class SatReportComponent implements OnInit {
       this.clusterHidden = true;
       this.service
         .gradeMetaData({
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -485,7 +492,6 @@ export class SatReportComponent implements OnInit {
                 ...{
                   grade: this.grade,
                   subject: this.subject,
-                  period: this.period,
                   report: "sat",
                   year: this.year,
                   sem: this.semester,
@@ -589,7 +595,7 @@ export class SatReportComponent implements OnInit {
       this.blockId = undefined;
       this.level = "Block";
       this.googleMapZoom = 7;
-      this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
+      this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
         }_${this.subject ? this.subject : ""}_allBlocks_${this.commonService.dateAndTime
         }`;
 
@@ -609,7 +615,6 @@ export class SatReportComponent implements OnInit {
 
       this.service
         .gradeMetaData({
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -632,7 +637,6 @@ export class SatReportComponent implements OnInit {
                 ...{
                   grade: this.grade,
                   subject: this.subject,
-                  period: this.period,
                   report: "sat",
                   year: this.year,
                   sem: this.semester,
@@ -672,36 +676,36 @@ export class SatReportComponent implements OnInit {
                     }
 
                     for (let i = 0; i < this.blockMarkers.length; i++) {
-                      if (this.period != 'all') {
-                        if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
-                          this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
-                          this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
-                          this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
-                        }
-                        if (this.grade && this.subject) {
-                          if (this.blockMarkers[i].Subjects[`${this.subject}`]) {
-                            this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_students'];
-                            this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects[`${this.subject}`]['students_attended'];
-                            this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_schools'];
-                          } else {
-                            let index = this.blockMarkers.indexOf(this.blockMarkers[i]);
-                            this.blockMarkers.splice(index, 1);
-                          }
-                        }
-                        if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
-                          this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
-                          this.allSubjects.map(sub => {
-                            if (this.blockMarkers[i].Subjects[`${sub}`])
-                              this.blockMarkers[i].Subjects[`${sub}`] = this.blockMarkers[i].Subjects[`${sub}`]['percentage']
-                          })
-                        } else if (!this.grade && !this.subject) {
-                          this.allGrades.map(grade => {
-                            var myGrade = grade.grade;
-                            if (this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`])
-                              this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-                          })
+                      // if (this.period != 'all') {
+                      if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
+                        this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
+                        this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
+                        this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
+                      }
+                      if (this.grade && this.subject) {
+                        if (this.blockMarkers[i].Subjects[`${this.subject}`]) {
+                          this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                          this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                          this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                        } else {
+                          let index = this.blockMarkers.indexOf(this.blockMarkers[i]);
+                          this.blockMarkers.splice(index, 1);
                         }
                       }
+                      if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
+                        this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
+                        this.allSubjects.map(sub => {
+                          if (this.blockMarkers[i].Subjects[`${sub}`])
+                            this.blockMarkers[i].Subjects[`${sub}`] = this.blockMarkers[i].Subjects[`${sub}`]['percentage']
+                        })
+                      } else if (!this.grade && !this.subject) {
+                        this.allGrades.map(grade => {
+                          var myGrade = grade.grade;
+                          if (this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                            this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                        })
+                      }
+                      // }
                       var color;
                       if (!this.grade && !this.subject) {
                         color = this.commonService.color(
@@ -799,7 +803,7 @@ export class SatReportComponent implements OnInit {
       this.clusterId = undefined;
       this.level = "Cluster";
       this.googleMapZoom = 7;
-      this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
+      this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
         }_${this.subject ? this.subject : ""}_allClusters_${this.commonService.dateAndTime
         }`;
 
@@ -819,7 +823,6 @@ export class SatReportComponent implements OnInit {
 
       this.service
         .gradeMetaData({
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -842,7 +845,6 @@ export class SatReportComponent implements OnInit {
                 ...{
                   grade: this.grade,
                   subject: this.subject,
-                  period: this.period,
                   report: "sat",
                   year: this.year,
                   sem: this.semester,
@@ -880,36 +882,36 @@ export class SatReportComponent implements OnInit {
                     }
 
                     for (let i = 0; i < this.clusterMarkers.length; i++) {
-                      if (this.period != 'all') {
-                        if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
-                          this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
-                          this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
-                          this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
-                        }
-                        if (this.grade && this.subject) {
-                          if (this.clusterMarkers[i].Subjects[`${this.subject}`]) {
-                            this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_students'];
-                            this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['students_attended'];
-                            this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_schools'];
-                          } else {
-                            let index = this.clusterMarkers.indexOf(this.clusterMarkers[i]);
-                            this.clusterMarkers.splice(index, 1);
-                          }
-                        }
-                        if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
-                          this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
-                          this.allSubjects.map(sub => {
-                            if (this.clusterMarkers[i].Subjects[`${sub}`])
-                              this.clusterMarkers[i].Subjects[`${sub}`] = this.clusterMarkers[i].Subjects[`${sub}`]['percentage']
-                          })
-                        } else if (!this.grade && !this.subject) {
-                          this.allGrades.map(grade => {
-                            var myGrade = grade.grade;
-                            if (this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`])
-                              this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-                          })
+                      // if (this.period != 'all') {
+                      if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                        this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
+                        this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
+                        this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
+                      }
+                      if (this.grade && this.subject) {
+                        if (this.clusterMarkers[i].Subjects[`${this.subject}`]) {
+                          this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                          this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                          this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                        } else {
+                          let index = this.clusterMarkers.indexOf(this.clusterMarkers[i]);
+                          this.clusterMarkers.splice(index, 1);
                         }
                       }
+                      if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                        this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
+                        this.allSubjects.map(sub => {
+                          if (this.clusterMarkers[i].Subjects[`${sub}`])
+                            this.clusterMarkers[i].Subjects[`${sub}`] = this.clusterMarkers[i].Subjects[`${sub}`]['percentage']
+                        })
+                      } else if (!this.grade && !this.subject) {
+                        this.allGrades.map(grade => {
+                          var myGrade = grade.grade;
+                          if (this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                            this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                        })
+                      }
+                      // }
                       var color;
                       if (!this.grade && !this.subject) {
                         color = this.commonService.color(
@@ -1008,7 +1010,7 @@ export class SatReportComponent implements OnInit {
       this.clusterId = undefined;
       this.level = "School";
       this.googleMapZoom = 7;
-      this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
+      this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
         }_${this.subject ? this.subject : ""}_allSchools_${this.commonService.dateAndTime
         }`;
 
@@ -1028,7 +1030,6 @@ export class SatReportComponent implements OnInit {
 
       this.service
         .gradeMetaData({
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -1051,7 +1052,6 @@ export class SatReportComponent implements OnInit {
                 ...{
                   grade: this.grade,
                   subject: this.subject,
-                  period: this.period,
                   report: "sat",
                   year: this.year,
                   sem: this.semester,
@@ -1086,36 +1086,36 @@ export class SatReportComponent implements OnInit {
                     }
 
                     for (let i = 0; i < this.schoolMarkers.length; i++) {
-                      if (this.period != 'all') {
-                        if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
-                          this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
-                          this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
-                          this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
-                        }
-                        if (this.grade && this.subject) {
-                          if (this.schoolMarkers[i].Subjects[`${this.subject}`]) {
-                            this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_students'];
-                            this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['students_attended'];
-                            this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_schools'];
-                          } else {
-                            let index = this.schoolMarkers.indexOf(this.schoolMarkers[i]);
-                            this.schoolMarkers.splice(index, 1);
-                          }
-                        }
-                        if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
-                          this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
-                          this.allSubjects.map(sub => {
-                            if (this.schoolMarkers[i].Subjects[`${sub}`])
-                              this.schoolMarkers[i].Subjects[`${sub}`] = this.schoolMarkers[i].Subjects[`${sub}`]['percentage']
-                          })
-                        } else if (!this.grade && !this.subject) {
-                          this.allGrades.map(grade => {
-                            var myGrade = grade.grade;
-                            if (this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`])
-                              this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-                          })
+                      // if (this.period != 'all') {
+                      if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                        this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
+                        this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
+                        this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
+                      }
+                      if (this.grade && this.subject) {
+                        if (this.schoolMarkers[i].Subjects[`${this.subject}`]) {
+                          this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                          this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                          this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                        } else {
+                          let index = this.schoolMarkers.indexOf(this.schoolMarkers[i]);
+                          this.schoolMarkers.splice(index, 1);
                         }
                       }
+                      if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                        this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
+                        this.allSubjects.map(sub => {
+                          if (this.schoolMarkers[i].Subjects[`${sub}`])
+                            this.schoolMarkers[i].Subjects[`${sub}`] = this.schoolMarkers[i].Subjects[`${sub}`]['percentage']
+                        })
+                      } else if (!this.grade && !this.subject) {
+                        this.allGrades.map(grade => {
+                          var myGrade = grade.grade;
+                          if (this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                            this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                        })
+                      }
+                      // }
                       var color;
                       if (!this.grade && !this.subject) {
                         color = this.commonService.color(
@@ -1210,7 +1210,7 @@ export class SatReportComponent implements OnInit {
     this.reportData = [];
     this.level = "blockPerDistrict";
     this.googleMapZoom = 9;
-    this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
+    this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
     var myData = this.distFilter.find(
       (a) => a.Details.district_id == districtId
@@ -1227,7 +1227,6 @@ export class SatReportComponent implements OnInit {
     this.myData = this.service
       .PATBlocksPerDistData(districtId, {
         ...{
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -1334,7 +1333,7 @@ export class SatReportComponent implements OnInit {
     this.reportData = [];
     this.level = "clusterPerBlock";
     this.googleMapZoom = 11;
-    this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
+    this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_clusters_of_block_${blockId}_${this.commonService.dateAndTime
       }`;
 
@@ -1349,7 +1348,6 @@ export class SatReportComponent implements OnInit {
     this.myData = this.service
       .PATClustersPerBlockData(this.districtHierarchy.distId, blockId, {
         ...{
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -1486,7 +1484,6 @@ export class SatReportComponent implements OnInit {
       .PATBlockWiseData({
         ...{
           grade: this.grade,
-          period: this.period,
           report: "sat",
           year: this.year,
           sem: this.semester,
@@ -1501,7 +1498,7 @@ export class SatReportComponent implements OnInit {
               clusterId,
               {
                 ...{
-                  period: this.period, report: "sat",
+                  report: "sat",
                   year: this.year, sem: this.semester, grade: this.grade, subject: this.subject
                 }, ...{ management: this.management, category: this.category }
               }
@@ -1589,7 +1586,7 @@ export class SatReportComponent implements OnInit {
                 this.globalService.longitude = this.lng = options.centerLng;
 
                 this.level = options.level;
-                this.fileName = `${this.reportName}_${this.period}_${this.grade ? this.grade : "allGrades"
+                this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
                   }_${this.subject ? this.subject : ""}_schools_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
 
                 globalMap.doubleClickZoom.enable();
@@ -1635,7 +1632,7 @@ export class SatReportComponent implements OnInit {
         this.markers = filtererSubData;
       }
       for (let i = 0; i < this.markers.length; i++) {
-        if (this.period != 'all' && !this.valueRange) {
+        if (!this.valueRange) {
           if (this.grade && !this.subject && this.markers[i].Subjects['Grade Performance']) {
             this.markers[i].Details['total_students'] = this.markers[i].Subjects['Grade Performance']['total_students'];
             this.markers[i].Details['students_attended'] = this.markers[i].Subjects['Grade Performance']['students_attended'];
@@ -1823,49 +1820,49 @@ export class SatReportComponent implements OnInit {
           details[key] = markers.Details[key];
         }
       });
-      if (this.period == 'all') {
-        Object.keys(details).forEach((key) => {
-          if (key !== "total_students") {
-            data1[key] = details[key];
-          }
-        });
-        Object.keys(data1).forEach((key) => {
-          if (key !== "total_schools") {
-            data2[key] = data1[key];
-          }
-        });
-        Object.keys(data2).forEach((key) => {
-          if (key !== "students_attended") {
-            data3[key] = data2[key];
-          }
-        });
-      } else {
-        data3 = details;
-      }
+      // if (this.period == 'all') {
+      //   Object.keys(details).forEach((key) => {
+      //     if (key !== "total_students") {
+      //       data1[key] = details[key];
+      //     }
+      //   });
+      //   Object.keys(data1).forEach((key) => {
+      //     if (key !== "total_schools") {
+      //       data2[key] = data1[key];
+      //     }
+      //   });
+      //   Object.keys(data2).forEach((key) => {
+      //     if (key !== "students_attended") {
+      //       data3[key] = data2[key];
+      //     }
+      //   });
+      // } else {
+      data3 = details;
+      // }
       Object.keys(data3).forEach((key) => {
         if (key !== lng) {
           orgObject[key] = data3[key];
         }
       });
-      if (this.period != 'all') {
-        if (level != "School" || level != "schoolPerCluster") {
-          if (orgObject["total_schools"] != null) {
-            orgObject["total_schools"] = orgObject["total_schools"]
-              .toString()
-              .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-          }
-        }
-        if (orgObject["total_students"] != null) {
-          orgObject["total_students"] = orgObject["total_students"]
-            .toString()
-            .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        }
-        if (orgObject["students_attended"] != null) {
-          orgObject["students_attended"] = orgObject["students_attended"]
+      // if (this.period != 'all') {
+      if (level != "School" || level != "schoolPerCluster") {
+        if (orgObject["total_schools"] != null) {
+          orgObject["total_schools"] = orgObject["total_schools"]
             .toString()
             .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
         }
       }
+      if (orgObject["total_students"] != null) {
+        orgObject["total_students"] = orgObject["total_students"]
+          .toString()
+          .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      }
+      if (orgObject["students_attended"] != null) {
+        orgObject["students_attended"] = orgObject["students_attended"]
+          .toString()
+          .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      }
+      // }
       var yourData1;
       if (this.grade) {
         yourData1 = this.globalService
@@ -1893,15 +1890,15 @@ export class SatReportComponent implements OnInit {
       var yourData;
       var ordered;
       var mylevel;
-      if (this.period != 'all') {
-        if (level == "District" || level == 'Block' || level == 'Cluster' || level == 'School') {
-          mylevel = level;
-        }
-      } else {
-        if (level == "District") {
-          mylevel = level;
-        }
+      // if (this.period != 'all') {
+      if (level == "District" || level == 'Block' || level == 'Cluster' || level == 'School') {
+        mylevel = level;
       }
+      // } else {
+      //   if (level == "District") {
+      //     mylevel = level;
+      //   }
+      // }
       if (level == "blockPerDistrict") {
         mylevel = level;
       } else if (level == "clusterPerBlock") {
@@ -2247,7 +2244,7 @@ export class SatReportComponent implements OnInit {
     this.commonService.loaderAndErr(this.data);
   }
 
-  goToHealthCard(): void {
+  goToprogressCard(): void {
     let data: any = {};
 
     if (this.dist) {
@@ -2264,9 +2261,9 @@ export class SatReportComponent implements OnInit {
       data.value = null;
     }
 
-    data["timePeriod"] = this.period == "all" ? "overall" : this.period;
+    data["timePeriod"] = "overall";
 
-    sessionStorage.setItem("health-card-info", JSON.stringify(data));
+    sessionStorage.setItem("progress-card-info", JSON.stringify(data));
     this._router.navigate(["/progressCard"]);
   }
 

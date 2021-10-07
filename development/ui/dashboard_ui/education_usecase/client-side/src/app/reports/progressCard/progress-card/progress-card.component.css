@@ -59,32 +59,32 @@ p a {
 }
 
 
-.healthcard-tooltip {
+.progressCard-tooltip {
   position: absolute;
   left: 10px;
   top: -3px;
 }
 
-.healthcard-tooltip-btn {
+.progressCard-tooltip-btn {
   background: transparent !important;
   padding: 0;
   border: none;
 }
 
-.healthcard-tooltip-btn:hover,
-.healthcard-tooltip-btn:active {
+.progressCard-tooltip-btn:hover,
+.progressCard-tooltip-btn:active {
   background-color: transparent !important;
 }
 
-.healthcard-tooltip-btn:focus {
+.progressCard-tooltip-btn:focus {
   box-shadow: none !important;
 }
 
-.healthcard-tooltip-btn::after {
+.progressCard-tooltip-btn::after {
   display: none;
 }
 
-.healthcard-tooltip-dropdown {
+.progressCard-tooltip-dropdown {
   /* width: 300px !important; */
   padding-left: 10px;
   font-size: 13px;
@@ -92,7 +92,7 @@ p a {
 }
 
 /* This bridges the gap so you can mouse into the tooltip without it disappearing */
-.healthcard-tooltip-dropdown:before {
+.progressCard-tooltip-dropdown:before {
   top: 20px;
   content: " ";
   display: block;
@@ -103,7 +103,7 @@ p a {
 }
 
 /* CSS Triangles - see Trevor's post */
-.healthcard-tooltip-dropdown:after {
+.progressCard-tooltip-dropdown:after {
   border-left: solid transparent 10px;
   border-right: solid transparent 10px;
   border-bottom: solid white 10px;
@@ -314,7 +314,7 @@ select:focus {
     font-size: 1.2rem !important;
   }
 
-  .healthcard-tooltip-dropdown .dropdown-content {
+  .progressCard-tooltip-dropdown .dropdown-content {
     width: 400px !important;
     height: 350px !important;
   }
@@ -426,7 +426,7 @@ select:focus {
     font-size: 2rem !important;
   }
 
-  .healthcard-tooltip-dropdown .dropdown-content {
+  .progressCard-tooltip-dropdown .dropdown-content {
     width: 600px !important;
     height: 32vh !important;
   }
