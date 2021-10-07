@@ -8,7 +8,7 @@
   }
 
   #dist, #block:not(.select-control), #cluster:not(.select-control), #school:not(.select-control) {
-    color: #262626;font-size: 18px !important; line-height: 1.2em; margin-top: 5px;
+    font-size: 18px !important; line-height: 1.2em; margin-top: 5px;
  }
 
  #year, #month, #grade, #subject, #examDate, #viewBy, #district, #block.select-control, #cluster.select-control {
@@ -83,13 +83,17 @@
     }
   }
 
-  /* @media only screen and (min-width: 2520px) {
+
+/* .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
+      height: 48vh;
+}
+@media only screen and (min-width: 2520px) {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
         height: 74vh !important;
     }
 }
 
-@media only screen and (min-width: 3800px) {
+@media only screen and (min-width: 3840px) {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
         height: 80vh !important;
     }
@@ -106,4 +110,49 @@ table.dataTable th, table.dataTable td {
 .tooltip-inner {
   white-space:pre;
   max-width:none;
+}
+
+
+
+
+.reportHeader1{
+    top: 45px;
+    position: fixed;
+    width: calc(100% - 25px);
+    z-index: 999;
+    background-color: var(--theme-report-header-bg-color);
+ }
+ .reportContainer1{
+    margin-top: 88px;
+ }
+ 
+ 
+ @media screen and (min-width: 2140px) {
+     .reportHeader1{
+         top: 70px !important;
+         position: fixed;
+         width: calc(100% - 25px);
+         z-index: 999;
+         background: var(--theme-report-header-bg-color);
+      }
+      .reportContainer1{
+         margin-top: 150px !important;
+      }
+ }
+ 
+ @media screen and (min-width: 3820px) {
+     .reportHeader1{
+         top: 120px !important;
+         position: fixed;
+         width: calc(100% - 25px);
+         z-index: 999;
+         background:var(--theme-report-header-bg-color);
+      }
+      .reportContainer1{
+         margin-top: 200px !important;
+      }
+ }
+ 
+.selected-level{
+    color: var(--theme-report-selected-level-color) !important;
 }

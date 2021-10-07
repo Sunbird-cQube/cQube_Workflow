@@ -84,41 +84,47 @@ export class PATLOTableComponent implements OnInit {
   ) {
     service.PATHeatMapMetaData({ report: "pat" }).subscribe(
       (res) => {
-        this.metaData = res["data"];
-        for (let i = 0; i < this.metaData.length; i++) {
-          this.years.push(this.metaData[i]["academic_year"]);
-        }
-        this.year = this.years[this.years.length - 1];
-        let i;
-        for (i = 0; i < this.metaData.length; i++) {
-          if (this.metaData[i]["academic_year"] == this.year) {
-            this.months = Object.keys(res["data"][i].data.months);
-            this.grades = this.metaData[i].data["grades"];
-            this.subjects = this.metaData[i].data["subjects"];
-            this.allViews = this.metaData[i].data["viewBy"];
-            break;
+        try {
+          this.metaData = res["data"];
+          for (let i = 0; i < this.metaData.length; i++) {
+            this.years.push(this.metaData[i]["academic_year"]);
           }
+          this.year = this.years[this.years.length - 1];
+          let i;
+          for (i = 0; i < this.metaData.length; i++) {
+            if (this.metaData[i]["academic_year"] == this.year) {
+              this.months = Object.keys(res["data"][i].data.months);
+              this.grades = this.metaData[i].data["grades"];
+              this.subjects = this.metaData[i].data["subjects"];
+              this.allViews = this.metaData[i].data["viewBy"];
+              break;
+            }
+          }
+          this.month = this.months[this.months.length - 1];
+          this.examDates = this.metaData[i].data["months"][`${this.month}`][
+            "examDate"
+          ];
+          this.grades = [
+            { grade: "all" },
+            ...this.grades.filter((item) => item !== { grade: "all" }),
+          ];
+          this.subjects = [
+            { subject: "all" },
+            ...this.subjects.filter((item) => item !== { subject: "all" }),
+          ];
+          this.examDates = [
+            { exam_date: "all" },
+            ...this.examDates.filter((item) => item !== { exam_date: "all" }),
+          ];
+
+          this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+
+          this.commonFunc();
+        } catch (e) {
+          this.metaData = [];
+          this.commonService.loaderAndErr(this.metaData);
         }
-        this.month = this.months[this.months.length - 1];
-        this.examDates = this.metaData[i].data["months"][`${this.month}`][
-          "examDate"
-        ];
-        this.grades = [
-          { grade: "all" },
-          ...this.grades.filter((item) => item !== { grade: "all" }),
-        ];
-        this.subjects = [
-          { subject: "all" },
-          ...this.subjects.filter((item) => item !== { subject: "all" }),
-        ];
-        this.examDates = [
-          { exam_date: "all" },
-          ...this.examDates.filter((item) => item !== { exam_date: "all" }),
-        ];
 
-        this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-
-        this.commonFunc();
       },
       (err) => {
         this.metaData = [];
