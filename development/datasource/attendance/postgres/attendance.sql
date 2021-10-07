@@ -97,7 +97,15 @@ _count int;
 rec_query text;
 rec_exists boolean;
 error_msg text;
+validation text;
+validation_res boolean;
 BEGIN
+validation:='select case when date_part(''month'',CURRENT_DATE)<'||month||' or date_part(''year'',CURRENT_DATE)<'||year||' then True ELSE FALSE END';
+EXECUTE validation into validation_res;
+IF validation_res=True THEN
+    return 'Data emitted is future data - it has the data for month '||month||' and year '||year||'';
+END IF;
+
 cnt_query:='select count(*) from student_attendance_meta where month='||month||' and year='||year;
 rec_query:='select EXISTS(select 1 from student_attendance_temp where month= '||month||' and year = '||year||')';
 EXECUTE rec_query into rec_exists;
@@ -126,7 +134,7 @@ EXECUTE c_query;
 
 
 m_query:='update student_attendance_meta_temp set to_run=False where (extract(dow from processed_date)=0 and month='||month||' and year='||year||')';
-update_query:='update student_attendance_meta_temp set to_run=False where (processed_date>=CURRENT_DATE and month='||month||' and year='||year||')';
+update_query:='update student_attendance_meta_temp set to_run=False where (processed_date>CURRENT_DATE and month='||month||' and year='||year||')';
 EXECUTE m_query;
 EXECUTE update_query;
 EXECUTE _cols into col_name;
