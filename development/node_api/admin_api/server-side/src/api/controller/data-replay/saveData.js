@@ -4,7 +4,7 @@ const auth = require('../../middleware/check-auth');
 var const_data = require('../../lib/config');
 const fs = require('fs');
 const config = require('../../lib/readFiles');
-const inputDir = `${process.env.INPUT_DIRECTORY}/`;
+const inputDir = `${process.env.EMISSION_DIRECTORY}/`;
 
 router.post('/', auth.authController, async (req, res) => {
     try {
