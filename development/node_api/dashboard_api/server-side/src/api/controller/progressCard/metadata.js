@@ -60,7 +60,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         districts = districts.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }
@@ -80,7 +80,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         blocks = blocks.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }
@@ -100,7 +100,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         clusters = clusters.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }
@@ -121,7 +121,7 @@ router.post('/metaData', auth.authController, async (req, res) => {
 
         schools = schools.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
-                if (!unique.some(obj => obj.id === o.id && obj.name === o.name)) {
+                if (!unique.some(obj => obj.id === o.id)) {
                     unique.push(o);
                 }
             }

@@ -79,7 +79,6 @@ router.post('/setRoles', auth.authController, async (req, res) => {
             "Content-Type": "application/json",
             "Authorization": req.headers.token
         }
-
         // check the default required actions enable for keycloak
         var actionsUrl = `${host}/auth/admin/realms/${realm}/authentication/required-actions`;
 
@@ -102,8 +101,10 @@ router.post('/setRoles', auth.authController, async (req, res) => {
                     name: req.body.role.name
                 }
             ];
+            let otpConfig = req.body.otpConfig;
             // check for required actions configured -- CONFIGURE_TOTP and update the user for two factor auth
-            if (requiredActions[0].alias == 'CONFIGURE_TOTP' && requiredActions[0].enabled == true) {
+            if (otpConfig && req.body.role.name == 'report_viewer' && requiredActions[0].alias == 'CONFIGURE_TOTP' && requiredActions[0].enabled == true
+                || req.body.role.name == 'admin' && requiredActions[0].alias == 'CONFIGURE_TOTP' && requiredActions[0].enabled == true) {
                 // assign two factor auth only for admin and report_viewer roles not for emission user
                 if (req.body.role.name != 'emission') {
                     actionsRequired.requiredActions.push('CONFIGURE_TOTP')
@@ -183,7 +184,6 @@ router.post('/getToken', async (req, res, next) => {
     });
 
 })
-
 
 
 module.exports = router;

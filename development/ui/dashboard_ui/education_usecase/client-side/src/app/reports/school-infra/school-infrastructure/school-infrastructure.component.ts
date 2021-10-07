@@ -80,8 +80,10 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   height = window.innerHeight;
+  public h;
   onResize() {
     this.height = window.innerHeight;
+    this.h = this.height > 1760 ? "62vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "55vh" : "50vh";
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
       this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
@@ -567,7 +569,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       $("#table").append(body);
       $('#table').DataTable({
         destroy: true, bLengthChange: false, bInfo: false,
-        bPaginate: false, scrollY: '34vh', scrollX: true,
+        bPaginate: false, scrollY: '38vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
         responsive: true,
       });
@@ -577,8 +579,8 @@ export class SchoolInfrastructureComponent implements OnInit {
   labels: any;
   obj: any;
   createChart(labels, chartData, name, obj) {
-    var ctx = $('#myChart');
-  //ctx.attr('height', this.height > 1900 ? '64vh' : this.height < 1900 && this.height > 1760 ? '60vh' : this.height > 1160 && this.height < 1720 ? '54vh' : this.height > 667 && this.height < 1160 ? '56vh' : '46vh');
+    var ctx = $("#myChart");
+    ctx.attr("height", this.h);
     this.scatterChart = new Chart('myChart', {
       type: 'scatter',
       data: {
