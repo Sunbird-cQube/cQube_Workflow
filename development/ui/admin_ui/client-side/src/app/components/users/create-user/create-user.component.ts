@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
-import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-create-user',
@@ -22,7 +22,8 @@ export class CreateUserComponent implements OnInit {
   token;
   emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  constructor(private service: UsersService, private router: Router) { }
+  otpConfig = environment.otpConfig;
+  constructor(private service: UsersService) { }
 
   onSelectRole() {
     this.roleId = this.logData['roleid'];
@@ -87,7 +88,7 @@ export class CreateUserComponent implements OnInit {
         this.errMail = undefined;
         setTimeout(() => {
           this.service.getCreatedUser(currUser).subscribe(user => {
-            this.service.addRole(user['id'], this.selectedRole).subscribe();
+            this.service.addRole(user['id'], this.selectedRole, this.otpConfig).subscribe();
           });
           formData.resetForm();
           document.getElementById('spinner').style.display = 'none';
