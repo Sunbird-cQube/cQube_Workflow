@@ -877,7 +877,7 @@ border-color:var(--theme-back-button-border-color);
 /*/////////////////TABLE CONTROL CSS////////////////////////*/
 
 .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-    max-height: 44vh !important;
+    max-height: 60vh !important;
     font-size: 12px !important;
 }
 
@@ -917,7 +917,7 @@ border-color:var(--theme-back-button-border-color);
 
 @media only screen and (min-width: 2560px) {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 54vh !important;
+        max-height: 70vh !important;
         font-size: 22px !important;
     }
 
@@ -958,7 +958,7 @@ border-color:var(--theme-back-button-border-color);
 
 @media only screen and (min-width: 3840px) {
     .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        max-height: 58vh !important;
+        max-height: 74vh !important;
         font-size: 32px !important;
     }
     .dataTableCustom .dataTables_wrapper .dataTables_scrollHead{

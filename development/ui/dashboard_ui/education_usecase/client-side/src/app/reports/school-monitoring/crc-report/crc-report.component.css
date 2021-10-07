@@ -33,6 +33,17 @@
 }
 
 /*====================================================================*/
+table{
+  /* margin: 0 auto; */
+  width: 100% !important;
+  clear : both;
+  border-collapse: collapse;
+  table-layout: fixed;
+  word-wrap: break-word;
+  word-break: break-all;
+  border: 1px solid gray;
+  
+}
 
 .dataTables_scroll,
 .dataTables_scrollHead {
@@ -40,9 +51,18 @@
   text-align: center;
   width: 100%;
   border: 1px solid gray;
-  white-space: nowrap !important;
+  /* white-space: nowrap !important; */
 }
 
+.dataTables_scroll,
+.dataTables_scrollHead,
+.dataTables_scrollHeadInner {
+  width: 100% !important;
+}
+
+.dataTables_scrollBody{
+  overflow: hidden !important;
+}
 #downloader{
   margin-top: 5px;
   margin-right: 15px;
@@ -64,6 +84,13 @@
     width: 100%;
     border: 1px solid gray;
   }
+ 
+  .dataTables_scroll,
+.dataTables_scrollHead,
+.dataTables_scrollHeadInner {
+  width: 100%;
+}
+
 }
 
 @media screen and (min-width: 2500px) {
@@ -73,6 +100,14 @@
     text-align: center;
     width: 100%;
     border: 1px solid gray;
+  }
+
+  
+  /* added */
+  .dataTables_scroll,
+  .dataTables_scrollHead,
+  .dataTables_scrollHeadInner {
+    width: 100%;
   }
 
   #downloader{
@@ -96,6 +131,11 @@
     width: 100%;
     border: 1px solid gray;
   }
+  /* added */
+  .dataTables_scroll,
+  .dataTables_scrollHead, .dataTables_scrollHeadInner {
+    width: 100%;
+  }
 
   #downloader{
     margin-top: 6px !important;
@@ -113,12 +153,17 @@
 
 @media only screen and (min-width: 2540px) {
   .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 55vh !important;
+      /* max-height: 55vh !important; */
       font-size: 22px !important;
   }
 
   .myDiv .dataTables_wrapper .dataTables_scrollHead{
       font-size: 22px !important;
+  }
+
+  /* added */
+  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner{
+    width: 100%;
   }
 
   .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
@@ -151,11 +196,16 @@
 
 @media only screen and (min-width: 3840px) {
       .myDiv .dataTables_wrapper .dataTables_scrollBody {
-      max-height: 63vh !important;
+      /* max-height: 63vh !important; */
       font-size: 30px !important;
   }
   .myDiv .dataTables_wrapper .dataTables_scrollHead{
       font-size: 30px !important;
+  }
+
+  /* added */
+  .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner{
+    width: 100%;
   }
 
   .myDiv .dataTables_wrapper .dataTables_scrollHead .dataTables_scrollHeadInner table thead tr .rank{
@@ -220,7 +270,7 @@ font-size: 11px;
   background:var(--theme-report-header-bg-color);
 }
 .reportContainer1{
-  margin-top: 140px;
+  margin-top: 180px;
 }
 
 @media screen and (min-width: 2140px) {
@@ -232,7 +282,7 @@ font-size: 11px;
        background:var(--theme-report-header-bg-color);
     }
     .reportContainer1{
-       margin-top: 220px !important;
+       margin-top: 280px !important;
     }
 }
 
@@ -245,6 +295,6 @@ font-size: 11px;
        background:var(--theme-report-header-bg-color);
     }
     .reportContainer1{
-       margin-top: 250px !important;
+       margin-top: 300px !important;
     }
 }
