@@ -83,13 +83,14 @@
                         </option>
                     </select>
 
-                    <select id="subject" class="select-control" [(ngModel)]="subject" (change)="selectedSubject()">
+                    <select *ngIf="gradeSelected" id="subject" class="select-control" [(ngModel)]="subject"
+                        (change)="selectedSubject()">
                         <option [value]="subject" disabled selected="selected">Choose a Subject</option>
-                        <option *ngFor="let subject of subjects, let i =index" [(ngValue)]="subject.subject">
-                            <span *ngIf="subject.subject == 'all'; else other_content">
+                        <option *ngFor="let subject of subjects, let i =index" [(ngValue)]="subjects[i]">
+                            <span *ngIf="subjects[i] == 'all'; else other_content">
                                 All Subjects
                             </span>
-                            <ng-template #other_content> {{subject.subject}}</ng-template>
+                            <ng-template #other_content> {{subjects[i]}}</ng-template>
                         </option>
                     </select>
 

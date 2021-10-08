@@ -14,7 +14,8 @@ export const environment = {
   useCase: "education_usecase",
   diksha_columns: false,
   theme: "theme2",
-  mapName: "mapmyindia"
+  mapName: "mapmyindia",
+  progressCardConfig: ['33', '33_60', '60_75', '75']
 };
 
 /*
