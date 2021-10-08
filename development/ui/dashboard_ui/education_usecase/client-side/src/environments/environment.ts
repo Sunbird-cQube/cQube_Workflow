@@ -15,7 +15,8 @@ export const environment = {
   diksha_columns: false,
   theme: "theme2",
   mapName: "mapmyindia",
-  progressCardConfig: ['33', '33_60', '60_75', '75']
+  progressCardConfig: ['33', '33_60', '60_75', '75'],
+  keycloak_config_otp: false
 };
 
 /*

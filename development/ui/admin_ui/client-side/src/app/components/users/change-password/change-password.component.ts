@@ -16,6 +16,8 @@ export class ChangePasswordComponent implements OnInit {
   public err;
   public successMsg;
   public isDisabled;
+  otpConfig = environment.keycloak_config_otp;
+  roleIds: any = [];
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
     this.changePasswdData['userName'] = localStorage.getItem('userName');
@@ -24,6 +26,9 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
+    this.service.getRoles().subscribe(res => {
+      this.roleIds = res['roles'];
+    });
   }
 
   onSubmit(formData: NgForm) {
@@ -35,19 +40,25 @@ export class ChangePasswordComponent implements OnInit {
         document.getElementById('spinner').style.display = 'none';
       } else {
         this.service.changePassword(this.changePasswdData, localStorage.getItem('user_id')).subscribe(res => {
-          document.getElementById('success').style.display = "Block";
-          this.err = '';
-          this.successMsg = res['msg'] + "\n" + " please login again...";
-          document.getElementById('spinner').style.display = 'none';
-          this.isDisabled = true;
-          formData.resetForm();
-          setTimeout(() => {
-            localStorage.clear();
-            let options = {
-              redirectUri: environment.appUrl
-            }
-            this.keycloakService.kc.logout(options);
-          }, 2000);
+          this.service.addRole(localStorage.getItem('user_id'), this.roleIds.find(o => o.name == 'admin'), this.otpConfig).subscribe(r => {
+            document.getElementById('success').style.display = "Block";
+            this.err = '';
+            this.successMsg = res['msg'] + "\n" + " please login again...";
+            document.getElementById('spinner').style.display = 'none';
+            this.isDisabled = true;
+            formData.resetForm();
+            setTimeout(() => {
+              localStorage.clear();
+              let options = {
+                redirectUri: environment.appUrl
+              }
+              this.keycloakService.kc.logout(options);
+            }, 2000);
+          }, err => {
+            this.err = "Something went wrong"
+            document.getElementById('spinner').style.display = 'none';
+          });
+
         }, err => {
           this.err = "Something went wrong"
           document.getElementById('spinner').style.display = 'none';
