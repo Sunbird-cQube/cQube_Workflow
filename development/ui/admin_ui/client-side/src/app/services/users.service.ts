@@ -19,7 +19,7 @@ export class UsersService {
 
   changePassword(data, id) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/changePassword/${id}`, data );
+    return this.http.post(`${this.baseUrl}/changePassword/${id}`, data);
   }
 
   allUsers() {
@@ -38,9 +38,9 @@ export class UsersService {
     return this.http.get(`${this.baseUrl}/addUser/roles`);
   }
 
-  addRole(id, role) {
+  addRole(id, role, otpConfig) {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/addUser/setRoles`, { userId: id, role: role });
+    return this.http.post(`${this.baseUrl}/addUser/setRoles`, { userId: id, role: role, otpConfig: otpConfig });
 
   }
 

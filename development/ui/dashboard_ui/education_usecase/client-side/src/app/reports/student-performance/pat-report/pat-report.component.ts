@@ -417,7 +417,7 @@ export class PATReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    this.subject = "";
+    // this.subject = "";
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
@@ -480,9 +480,9 @@ export class PATReportComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.districtId = undefined;
       if (this.level != "District") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
 
       this.valueRange = undefined;
@@ -598,9 +598,9 @@ export class PATReportComponent implements OnInit {
 
   blockClick() {
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.blockWise();
     } else {
       this.blockWise();
@@ -621,9 +621,9 @@ export class PATReportComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.commonService.errMsg();
       if (this.level != "Block") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
 
       this.valueRange = undefined;
@@ -804,9 +804,9 @@ export class PATReportComponent implements OnInit {
 
   clusterClick() {
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.clusterWise();
     } else {
       this.clusterWise();
@@ -827,9 +827,9 @@ export class PATReportComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.commonService.errMsg();
       if (this.level != "Cluster") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
 
       this.valueRange = undefined;
@@ -1010,9 +1010,9 @@ export class PATReportComponent implements OnInit {
 
   schoolClick() {
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.schoolWise();
     } else {
       this.schoolWise();
@@ -1033,9 +1033,9 @@ export class PATReportComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.commonService.errMsg();
       if (this.level != "School") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
 
       this.valueRange = undefined;
@@ -1217,9 +1217,9 @@ export class PATReportComponent implements OnInit {
 
   ondistLinkClick(districtId) {
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.onDistrictSelect(districtId);
     } else {
       this.onDistrictSelect(districtId);
@@ -1240,9 +1240,9 @@ export class PATReportComponent implements OnInit {
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
     if (this.level != "blockPerDistrict") {
-      this.subjectHidden = true;
-      this.grade = undefined;
-      this.subject = undefined;
+      // this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
     }
 
     this.valueRange = undefined;
@@ -1344,9 +1344,9 @@ export class PATReportComponent implements OnInit {
 
   onblockLinkClick(blockId) {
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.onBlockSelect(blockId);
     } else {
       this.onBlockSelect(blockId);
@@ -1367,9 +1367,9 @@ export class PATReportComponent implements OnInit {
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
     if (this.level != "clusterPerBlock") {
-      this.subjectHidden = true;
-      this.grade = undefined;
-      this.subject = undefined;
+      // this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
     }
 
     this.valueRange = undefined;
@@ -1484,9 +1484,9 @@ export class PATReportComponent implements OnInit {
 
   onclusterLinkClick(clusterId) {
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.onClusterSelect(clusterId);
     } else {
       this.onClusterSelect(clusterId);
@@ -1508,9 +1508,9 @@ export class PATReportComponent implements OnInit {
     this.level = "schoolPerCluster";
     this.globalMarker = 13;
     if (this.level != "schoolPerCluster") {
-      this.subjectHidden = true;
-      this.grade = undefined;
-      this.subject = undefined;
+      // this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
     }
     this.valueRange = undefined;
     this.selectedIndex = undefined;

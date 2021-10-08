@@ -270,8 +270,8 @@ export class SatReportComponent implements OnInit {
   }
 
   semSelect() {
-    this.grade = undefined;
-    this.subject = undefined;
+    // this.grade = undefined;
+    // this.subject = undefined;
     this.levelWiseFilter();
     this.changeDetection.detectChanges();
   }
@@ -375,7 +375,7 @@ export class SatReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    this.subject = "";
+    // this.subject = "";
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
@@ -445,9 +445,9 @@ export class SatReportComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.districtId = undefined;
       if (this.level != "District") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
       this.reportData = [];
       this.level = "District";
@@ -567,9 +567,9 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.blockWise();
     } else {
       this.blockWise();
@@ -585,9 +585,9 @@ export class SatReportComponent implements OnInit {
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       if (this.level != "Block") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
       this.allGrades = [];
       this.reportData = [];
@@ -774,9 +774,9 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.clusterWise();
     } else {
       this.clusterWise();
@@ -792,9 +792,9 @@ export class SatReportComponent implements OnInit {
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       if (this.level != "Cluster") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
       this.allGrades = [];
       this.reportData = [];
@@ -981,9 +981,9 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.schoolWise();
     } else {
       this.schoolWise();
@@ -999,9 +999,9 @@ export class SatReportComponent implements OnInit {
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       if (this.level != "School") {
-        this.subjectHidden = true;
-        this.grade = undefined;
-        this.subject = undefined;
+        // this.subjectHidden = true;
+        // this.grade = undefined;
+        // this.subject = undefined;
       }
       this.allGrades = [];
       this.reportData = [];
@@ -1187,9 +1187,9 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.onDistrictSelect(districtId);
     } else {
       this.onDistrictSelect(districtId);
@@ -1202,9 +1202,9 @@ export class SatReportComponent implements OnInit {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     if (this.level != "blockPerDistrict") {
-      this.subjectHidden = true;
-      this.grade = undefined;
-      this.subject = undefined;
+      // this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
     }
     this.blockId = undefined;
     this.reportData = [];
@@ -1310,9 +1310,9 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.onBlockSelect(blockId);
     } else {
       this.onBlockSelect(blockId);
@@ -1325,9 +1325,9 @@ export class SatReportComponent implements OnInit {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     if (this.level != "clusterPerBlock") {
-      this.subjectHidden = true;
-      this.grade = undefined;
-      this.subject = undefined;
+      // this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
     }
     this.clusterId = undefined;
     this.reportData = [];
@@ -1447,9 +1447,9 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      this.grade = undefined;
-      this.subject = undefined;
-      this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
+      // this.subjectHidden = true;
       this.onClusterSelect(clusterId);
     } else {
       this.onClusterSelect(clusterId);
@@ -1464,9 +1464,9 @@ export class SatReportComponent implements OnInit {
     this.level = "schoolPerCluster";
     this.googleMapZoom = 13;
     if (this.level != "schoolPerCluster") {
-      this.subjectHidden = true;
-      this.grade = undefined;
-      this.subject = undefined;
+      // this.subjectHidden = true;
+      // this.grade = undefined;
+      // this.subject = undefined;
     }
     var myData = this.clusterFilter.find(
       (a) => a.Details.cluster_id == clusterId
