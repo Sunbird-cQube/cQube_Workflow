@@ -419,7 +419,7 @@ export class SatReportComponent implements OnInit {
     // this.period = 'last_30_days';
     this.grade = undefined;
     this.subject = undefined;
-    // this.subjectHidden = true;
+    this.subjectHidden = true;
     this.level = "District";
     this.year = this.years[0]['academic_year'];
     this.onSelectYear();

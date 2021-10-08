@@ -165,7 +165,7 @@ export class SatHeatChartComponent implements OnInit {
     );
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
   }
 
   onChangePage() {
@@ -566,6 +566,8 @@ export class SatHeatChartComponent implements OnInit {
     } else {
       this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
       if (this.grade !== 'all') {
+        // this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
+        // this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
         this.gradeSelected = true;
       } else {
         this.resetOnAllGrades();

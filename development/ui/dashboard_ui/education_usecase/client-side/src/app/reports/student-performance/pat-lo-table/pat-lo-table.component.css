@@ -12,7 +12,7 @@
  }
 
  #year, #month, #grade, #subject, #examDate, #viewBy, #district, #block.select-control, #cluster.select-control {
-    margin-right: 10px; padding: 5px;color: white; border-radius: 4px; font-size: 11px; font-weight: bold; background-color: rgb(152, 160, 163);
+    margin-right: 10px; padding: 5px;color: white; border-radius: 4px; font-size: 11px; font-weight: bold; background-color: var(--theme-report-button-color);
     margin-top: 0 !important;
  }
   

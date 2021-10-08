@@ -75,6 +75,7 @@ export class PATLOTableComponent implements OnInit {
   validTransactions: any;
   table: any = undefined;
   updatedTable: any = [];
+  gradeSelected: boolean;
 
   constructor(
     public http: HttpClient,
@@ -95,7 +96,7 @@ export class PATLOTableComponent implements OnInit {
             if (this.metaData[i]["academic_year"] == this.year) {
               this.months = Object.keys(res["data"][i].data.months);
               this.grades = this.metaData[i].data["grades"];
-              this.subjects = this.metaData[i].data["subjects"];
+              // this.subjects = this.metaData[i].data["subjects"];
               this.allViews = this.metaData[i].data["viewBy"];
               break;
             }
@@ -108,10 +109,10 @@ export class PATLOTableComponent implements OnInit {
             { grade: "all" },
             ...this.grades.filter((item) => item !== { grade: "all" }),
           ];
-          this.subjects = [
-            { subject: "all" },
-            ...this.subjects.filter((item) => item !== { subject: "all" }),
-          ];
+          // this.subjects = [
+          //   { subject: "all" },
+          //   ...this.subjects.filter((item) => item !== { subject: "all" }),
+          // ];
           this.examDates = [
             { exam_date: "all" },
             ...this.examDates.filter((item) => item !== { exam_date: "all" }),
@@ -166,7 +167,7 @@ export class PATLOTableComponent implements OnInit {
       if (metaData[i]["academic_year"] == this.year) {
         this.months = Object.keys(this.metaData[i].data.months);
         this.grades = metaData[i].data["grades"];
-        this.subjects = metaData[i].data["subjects"];
+        // this.subjects = metaData[i].data["subjects"];
         this.allViews = metaData[i].data["viewBy"];
         break;
       }
@@ -184,10 +185,10 @@ export class PATLOTableComponent implements OnInit {
       { grade: "all" },
       ...this.grades.filter((item) => item !== { grade: "all" }),
     ];
-    this.subjects = [
-      { subject: "all" },
-      ...this.subjects.filter((item) => item !== { subject: "all" }),
-    ];
+    // this.subjects = [
+    //   { subject: "all" },
+    //   ...this.subjects.filter((item) => item !== { subject: "all" }),
+    // ];
   }
 
   resetToInitPage() {
@@ -207,6 +208,7 @@ export class PATLOTableComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.year = this.years[this.years.length - 1];
+    this.gradeSelected = false;
     this.commonFunc();
     //document.getElementById("home").style.display = "none";
   }
@@ -425,6 +427,17 @@ export class PATLOTableComponent implements OnInit {
     if (!this.month && this.month === '') {
       alert("Please select month!");
       return;
+    } else {
+      this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+      if (this.grade !== "all") {
+        this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
+        this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
+        this.gradeSelected = true;
+      } else {
+        this.grade = "all";
+        this.resetToInitPage();
+      }
+      this.levelWiseFilter();
     }
 
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
