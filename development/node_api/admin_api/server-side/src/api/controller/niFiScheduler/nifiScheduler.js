@@ -223,27 +223,44 @@ router.post('/scheduleProcessor/:id/:name', auth.authController, async (req, res
 
             await schedule.scheduleJob(groupName + '_start', schedulerTime, async function () {
                 var processorsList = await axios.get(`${process.env.NIFI_URL}/process-groups/root/process-groups`);
+                let groupId1;
                 processorsList.data.processGroups.map(process => {
                     if (groupName == process.component.name) {
                         groupId = process.component.id;
                     }
+
+                    if ('cQube_data_storage' == process.component.name) {
+                        groupId1 = process.component.id;
+                    }
                 })
                 url = `${process.env.NIFI_URL}/flow/process-groups/${groupId}`;
+                let url1 = `${process.env.NIFI_URL}/flow/process-groups/${groupId1}`;
                 logger.info(`--- ${groupName} - Nifi processor group scheduling started ---`);
-                let response = await startFun(url, groupId, state);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling started ---`);
+                let response = await startFun(url, groupId);
+                let response1 = await startFun(url1, groupId1);
                 logger.info(JSON.stringify(response))
+                logger.info(JSON.stringify(response1))
                 logger.info(`--- ${groupName} - Nifi processor group scheduling completed ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling completed ---`);
             });
             await schedule.scheduleJob(groupName + '_stop', stopTime, async function () {
                 var processorsList = await axios.get(`${process.env.NIFI_URL}/process-groups/root/process-groups`);
+                let groupId1;
                 processorsList.data.processGroups.map(process => {
                     if (groupName == process.component.name) {
                         groupId = process.component.id;
                     }
+                    if ('cQube_data_storage' == process.component.name) {
+                        groupId1 = process.component.id;
+                    }
                 })
                 url = `${process.env.NIFI_URL}/flow/process-groups/${groupId}`;
+                let url1 = `${process.env.NIFI_URL}/flow/process-groups/${groupId1}`;
                 logger.info(`--- ${groupName} - Nifi processor group scheduling stopping initiated ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling stopping initiated ---`);
                 let response = await stopFun(url, groupId);
+                let response1 = await stopFun(url1, groupId1);
                 await changePermission();
                 schedularData = JSON.parse(fs.readFileSync(filePath));
                 schedularData.forEach(myJob => {
@@ -265,10 +282,12 @@ router.post('/scheduleProcessor/:id/:name', auth.authController, async (req, res
                     });
                 }, 120000);
                 logger.info(JSON.stringify(response))
+                logger.info(JSON.stringify(response1))
                 logger.info(`--- ${groupName} - Nifi processor group scheduling stopping completed ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling stopping completed ---`);
             });
         }
-        const startFun = (nifiurl, groupid, input_state) => {
+        const startFun = (nifiurl, groupid) => {
             return new Promise(async (resolve, reject) => {
                 try {
                     let result = await axios.put(nifiurl, {
@@ -466,27 +485,44 @@ router.post('/scheduleNiFiProcessor/:id/:name', async (req, res) => {
 
             await schedule.scheduleJob(groupName + '_start', schedulerTime, async function () {
                 var processorsList = await axios.get(`${process.env.NIFI_URL}/process-groups/root/process-groups`);
+                let groupId1;
                 processorsList.data.processGroups.map(process => {
                     if (groupName == process.component.name) {
                         groupId = process.component.id;
                     }
+
+                    if ('cQube_data_storage' == process.component.name) {
+                        groupId1 = process.component.id;
+                    }
                 })
                 url = `${process.env.NIFI_URL}/flow/process-groups/${groupId}`;
+                let url1 = `${process.env.NIFI_URL}/flow/process-groups/${groupId1}`;
                 logger.info(`--- ${groupName} - Nifi processor group scheduling started ---`);
-                let response = await startFun(url, groupId, state);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling started ---`);
+                let response = await startFun(url, groupId);
+                let response1 = await startFun(url1, groupId1);
                 logger.info(JSON.stringify(response))
+                logger.info(JSON.stringify(response1))
                 logger.info(`--- ${groupName} - Nifi processor group scheduling completed ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling completed ---`);
             });
             await schedule.scheduleJob(groupName + '_stop', stopTime, async function () {
                 var processorsList = await axios.get(`${process.env.NIFI_URL}/process-groups/root/process-groups`);
+                let groupId1;
                 processorsList.data.processGroups.map(process => {
                     if (groupName == process.component.name) {
                         groupId = process.component.id;
                     }
+                    if ('cQube_data_storage' == process.component.name) {
+                        groupId1 = process.component.id;
+                    }
                 })
                 url = `${process.env.NIFI_URL}/flow/process-groups/${groupId}`;
+                let url1 = `${process.env.NIFI_URL}/flow/process-groups/${groupId1}`;
                 logger.info(`--- ${groupName} - Nifi processor group scheduling stopping initiated ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling stopping initiated ---`);
                 let response = await stopFun(url, groupId);
+                let response1 = await stopFun(url1, groupId1);
                 await changePermission();
                 schedularData = JSON.parse(fs.readFileSync(filePath));
                 schedularData.forEach(myJob => {
@@ -508,10 +544,12 @@ router.post('/scheduleNiFiProcessor/:id/:name', async (req, res) => {
                     });
                 }, 120000);
                 logger.info(JSON.stringify(response))
+                logger.info(JSON.stringify(response1))
                 logger.info(`--- ${groupName} - Nifi processor group scheduling stopping completed ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling stopping completed ---`);
             });
         }
-        const startFun = (nifiurl, groupid, input_state) => {
+        const startFun = (nifiurl, groupid) => {
             return new Promise(async (resolve, reject) => {
                 try {
                     let result = await axios.put(nifiurl, {
