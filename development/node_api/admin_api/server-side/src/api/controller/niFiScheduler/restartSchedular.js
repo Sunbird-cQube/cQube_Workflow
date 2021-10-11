@@ -24,8 +24,8 @@ exports.restartNifiProcess = async function () {
                 }
 
                 logger.info('Rescheduling jobs due to nodejs restart');
-                if(myJob.state == "RUNNING"){
-                   await stoppingJob(myJob, schedularData);
+                if (myJob.state == "RUNNING") {
+                    await stoppingJob(myJob, schedularData);
                 }
                 await rescheduleJob(myJob, schedulerTime, schedularData);
                 await stoppingJob(myJob, schedularData);
@@ -41,14 +41,20 @@ const rescheduleJob = (myJob, schedulerTime, schedularData) => {
         try {
             await schedule.scheduleJob(myJob.groupName + '_start', schedulerTime, async function () {
                 var processorsList = await axios.get(`${process.env.NIFI_URL}/process-groups/root/process-groups`);
+                let groupId1;
                 processorsList.data.processGroups.map(process => {
                     if (myJob.groupName == process.component.name) {
                         myJob.groupId = process.component.id;
                     }
+                    if ('cQube_data_storage' == process.component.name) {
+                        groupId1 = process.component.id;
+                    }
                 })
                 let url = `${process.env.NIFI_URL}/flow/process-groups/${myJob.groupId}`;
+                let url1 = `${process.env.NIFI_URL}/flow/process-groups/${groupId1}`;
                 logger.info(`--- ${myJob.groupName} - Nifi processor group scheduling started ---`);
-                let response = await startFun(url, myJob.groupId, "RUNNING");
+                let response = await startFun(url, myJob.groupId);
+                let response1 = await startFun(url1, groupId1);
                 myJob.state = "RUNNING";
                 myJob.scheduleUpdatedAt = `${new Date()}`;
                 await fs.writeFile(filePath, JSON.stringify(schedularData), function (err) {
@@ -57,7 +63,9 @@ const rescheduleJob = (myJob, schedulerTime, schedularData) => {
                     resolve(true);
                 });
                 logger.info(JSON.stringify(response))
+                logger.info(JSON.stringify(response1))
                 logger.info(`--- ${myJob.groupName} - Nifi processor group scheduling completed ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling completed ---`);
             });
         } catch (e) {
             reject(e);
@@ -81,14 +89,22 @@ const stoppingJob = (myJob, schedularData) => {
             await schedule.scheduleJob(myJob.groupName + '_stop', stopTime, async function () {
 
                 var processorsList = await axios.get(`${process.env.NIFI_URL}/process-groups/root/process-groups`);
+                let groupId1;
                 processorsList.data.processGroups.map(process => {
                     if (myJob.groupName == process.component.name) {
                         myJob.groupId = process.component.id;
                     }
+
+                    if ('cQube_data_storage' == process.component.name) {
+                        groupId1 = process.component.id;
+                    }
                 })
                 let url = `${process.env.NIFI_URL}/flow/process-groups/${myJob.groupId}`;
+                let url1 = `${process.env.NIFI_URL}/flow/process-groups/${groupId1}`;
                 logger.info(`--- ${myJob.groupName} - Nifi processor group scheduling stopping initiated ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling stopping initiated ---`);
                 let response = await stopFun(url, myJob.groupId);
+                let response1 = await stopFun(url1, groupId1);
                 myJob.state = "STOPPED";
                 myJob.scheduleUpdatedAt = `${new Date()}`;
                 await changePermission();
@@ -106,7 +122,9 @@ const stoppingJob = (myJob, schedularData) => {
                     resolve("Restart process - Job has been Stopped");
                 }, 120000);
                 logger.info(JSON.stringify(response))
+                logger.info(JSON.stringify(response1))
                 logger.info(`--- ${myJob.groupName} - Nifi processor group scheduling stopping completed ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling stopping completed ---`);
             });
 
         } catch (e) {
@@ -115,12 +133,12 @@ const stoppingJob = (myJob, schedularData) => {
     })
 }
 
-const startFun = (url, groupId, state) => {
+const startFun = (url, groupId) => {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await axios.put(url, {
                 id: groupId,
-                state: state,
+                state: 'RUNNING',
                 disconnectedNodeAcknowledged: false
             });
             resolve(result.data)
