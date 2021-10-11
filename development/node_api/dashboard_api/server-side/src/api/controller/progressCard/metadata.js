@@ -127,7 +127,6 @@ router.post('/metaData', auth.authController, async (req, res) => {
             }
             return unique;
         }, []);
-
         logger.info('--- progressCard metadata api response sent ---');
         res.status(200).send({ districtIds, districtNames, districts, blockIds, blockNames, blocks, clusterIds, clusterNames, clusters, schoolIds, schoolNames, schools });
     } catch (e) {

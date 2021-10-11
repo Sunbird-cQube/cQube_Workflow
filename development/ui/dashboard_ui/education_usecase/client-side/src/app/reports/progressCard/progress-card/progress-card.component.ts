@@ -34,7 +34,7 @@ export class progressCardComponent implements OnInit, AfterViewInit {
   schoolIds = [];
   districtObjArr = [];
   progressCardData = {};
-  
+
 
 
   schoolInfra = [];
@@ -113,8 +113,30 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
   // for Progress card category values
   progressCardValues = environment.progressCardConfig;
-  progressCardCategory = [`value_below_${this.progressCardValues[0]}`, `value_between_${this.progressCardValues[1]}`, `value_between_${this.progressCardValues[2]}`, `value_above_${this.progressCardValues[3]}`];
-  
+  // progressCardCategory = [`value_below_${this.progressCardValues[0]}`, `value_between_${this.progressCardValues[1]}`, `value_between_${this.progressCardValues[2]}`, `value_above_${this.progressCardValues[3]}`];
+
+  progressCardCategory = ["poor", "average", "good", "excellent"];
+
+  AttendanceCategoryKey = [`Attendance Less Than ${this.progressCardValues[0]}%`,
+  `Attendance Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
+  `Attendance Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Attendance Above ${this.progressCardValues[3]}%`];
+
+  performanceCategoryKey = [`Performance Less Than ${this.progressCardValues[0]}%`,
+  `Performance Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
+  `Performance Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Performance Above ${this.progressCardValues[3]}%`];
+
+  schoolCategoryKey = [`Schools Less Than ${this.progressCardValues[0]}%`,
+  `Schools Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
+  `Schools Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Schools Above ${this.progressCardValues[3]}%`];
+
+  infraCategoryKey = [`Infrastructure Score Less Than ${this.progressCardValues[0]}%`,
+  `Infrastructure Score Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
+  `Infrastructure Score Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Infrastructure Score Above ${this.progressCardValues[3]}%`];
+
 
   managementName;
   management;
@@ -124,7 +146,6 @@ export class progressCardComponent implements OnInit, AfterViewInit {
   constructor(private cdr: ChangeDetectorRef, public commonService: AppServiceComponent, public service: progressCardService, private readonly _router: Router, private readonly _cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log(this.progressCardCategory)
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('myInput')['disabled'] = true;
@@ -202,30 +223,20 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
       this.schoolAttendance = ['attendance'];
       this.schoolAttendanceKeys = ['Attendance'];
-      this.schoolAttendanceCategory = ['poor', 'average', 'good', 'excellent'];
-      // this.schoolAttendanceCategory = this.progressCardCategory;
-      this.schoolAttendanceCategoryKey = [`Attendance Less Than ${this.progressCardValues[0]}%`, 
-                                          `Attendance Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`, 
-                                          `Attendance Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
-                                           `Attendance Above ${this.progressCardValues[3]}%`];
-
+      // this.schoolAttendanceCategory = ['poor', 'average', 'good', 'excellent'];
+      this.schoolAttendanceCategory = this.progressCardCategory;
+      this.schoolAttendanceCategoryKey = this.AttendanceCategoryKey
       this.semPerformance = ['performance'];
       this.semPerformanceKeys = ['Performance']
-      this.semPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
-      // this.semPerformanceCategory = this.progressCardCategory;
-      this.semPerformanceCategoryKey = [`Performance Less Than ${this.progressCardValues[0]}%`, 
-                                        `Performance Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`, 
-                                        `Performance Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`, 
-                                        `Performance Above ${this.progressCardValues[3]}%`];
+      // this.semPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
+      this.semPerformanceCategory = this.progressCardCategory;
+      this.semPerformanceCategoryKey = this.performanceCategoryKey;
 
       this.patPerformance = ['school_performance'];
       this.patPerformanceKeys = ['Performance'];
-      this.patPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
-      // this.patPerformanceCategory = this.progressCardCategory;
-      this.patPerformanceCategoryKay = [`Schools Less Than ${this.progressCardValues[0]}%`, 
-                                        `Schools Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`, 
-                                        `Schools Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`, 
-                                        `Schools Above ${this.progressCardValues[3]}%`];
+      // this.patPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
+      this.patPerformanceCategory = this.progressCardCategory;
+      this.patPerformanceCategoryKay = this.schoolCategoryKey;
       // if(this.progressCardData['crc_visit'])
       //   this.crcVisit = Object.keys(this.progressCardData['crc_visit']);
       // this.crcVisitKeys = [];
@@ -235,12 +246,9 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
       this.UDISE = ['infrastructure_score'];
       this.UDISEKeys = ['Infrastructure Score'];
-      this.UDISECategory = ['poor', 'average', 'good', 'excellent'];
-      // this.UDISECategory = this.progressCardCategory;
-      this.UDISECategoryKey = [`Infrastructure Score Less Than ${this.progressCardValues[0]}%`, 
-                               `Infrastructure Score Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`, 
-                               `Infrastructure Score Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`, 
-                               `Infrastructure Score Above ${this.progressCardValues[3]}%`];
+      // this.UDISECategory = ['poor', 'average', 'good', 'excellent'];
+      this.UDISECategory = this.progressCardCategory;
+      this.UDISECategoryKey = this.infraCategoryKey;
 
       this.showData(this.progressCardData);
       document.getElementById('spinner').style.display = 'none';
@@ -293,27 +301,31 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
           this.schoolAttendance = ['attendance'];
           this.schoolAttendanceKeys = ['Attendance'];
-          this.schoolAttendanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
-
+          this.schoolAttendanceCategory = this.progressCardCategory;
+          // this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
+          this.schoolAttendanceCategoryKey = this.AttendanceCategoryKey;
           this.semPerformance = ['performance'];
           this.semPerformanceKeys = ['Performance']
-          this.semPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
+          this.semPerformanceCategory = this.progressCardCategory;
+          // this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
+          this.semPerformanceCategoryKey = this.performanceCategoryKey;
 
           this.patPerformance = ['district_performance'];
           this.patPerformanceKeys = ['Performance'];
-          this.patPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.patPerformanceCategoryKay = ['Schools Less Than 33%', 'Schools Between 33% to 60%', 'Schools Between 60% to 75%', 'Schools Above 75%'];
+          // this.patPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
+          this.patPerformanceCategory = this.progressCardCategory;
+          // this.patPerformanceCategoryKay = ['Schools Less Than 33%', 'Schools Between 33% to 60%', 'Schools Between 60% to 75%', 'Schools Above 75%'];
+          this.patPerformanceCategoryKay = this.schoolCategoryKey;
 
           this.crcVisit = ['schools_0', 'schools_1_2', 'schools_3_5', 'schools_6_10', 'schools_10'];
           this.crcVisitKeys = ['Schools Visited 0 Times', 'Schools Visited 1-2 Times', 'Schools Visited 3-5 Times', 'Schools Visited 6-10 Times', 'Schools Visited more Than 10 Times'];
 
           this.UDISE = ['infrastructure_score'];
           this.UDISEKeys = ['Infrastructure Score'];
-          this.UDISECategory = ['poor', 'average', 'good', 'excellent'];
-          this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
+          this.UDISECategory = this.progressCardCategory;
+          // this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
+          this.UDISECategoryKey = this.infraCategoryKey;
           this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
@@ -349,13 +361,14 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
           this.schoolAttendance = ['attendance'];
           this.schoolAttendanceKeys = ['Attendance'];
-          this.schoolAttendanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
-
+          this.schoolAttendanceCategory = this.progressCardCategory;
+          // this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
+          this.schoolAttendanceCategoryKey = this.AttendanceCategoryKey;
           this.semPerformance = ['performance'];
           this.semPerformanceKeys = ['Performance'];
-          this.semPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
+          this.semPerformanceCategory = this.progressCardCategory;
+          // this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
+          this.semPerformanceCategoryKey = this.performanceCategoryKey;
 
           this.patPerformance = ['block_performance'];
           this.patPerformanceKeys = ['Performance'];
@@ -365,9 +378,9 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
           this.UDISE = ['infrastructure_score'];
           this.UDISEKeys = ['Infrastructure Score'];
-          this.UDISECategory = ['poor', 'average', 'good', 'excellent'];
-          this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
-
+          this.UDISECategory = this.progressCardCategory;
+          // this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
+          this.UDISECategoryKey = this.infraCategoryKey;
           this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
@@ -405,14 +418,16 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
           this.schoolAttendance = ['attendance'];
           this.schoolAttendanceKeys = ['Attendance'];
-          this.schoolAttendanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
+          this.schoolAttendanceCategory = this.progressCardCategory;
+          // this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
+          this.schoolAttendanceCategoryKey = this.AttendanceCategoryKey;
 
           this.semPerformance = ['performance'];
           this.semPerformanceKeys = ['Performance'];
-          this.semPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
+          this.semPerformanceCategory = this.progressCardCategory;
+          // this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
 
+          this.semPerformanceCategoryKey = this.performanceCategoryKey;
           this.patPerformance = ['cluster_performance'];
           this.patPerformanceKeys = ['Performance'];
 
@@ -421,9 +436,10 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
           this.UDISE = ['infrastructure_score'];
           this.UDISEKeys = ['Infrastructure Score'];
-          this.UDISECategory = ['poor', 'average', 'good', 'excellent'];
-          this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
+          this.UDISECategory = this.progressCardCategory;
+          // this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
+          this.UDISECategoryKey = this.infraCategoryKey;
           this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
@@ -460,14 +476,15 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
           this.schoolAttendance = ['attendance'];
           this.schoolAttendanceKeys = ['Attendance'];
-          this.schoolAttendanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
-
+          this.schoolAttendanceCategory = this.progressCardCategory;
+          // this.schoolAttendanceCategoryKey = ['Attendance Less Than 33%', 'Attendance Between 33% to 60%', 'Attendance Between 60% to 75%', 'Attendance Above 75%'];
+          this.schoolAttendanceCategoryKey = this.AttendanceCategoryKey;
           this.semPerformance = ['performance'];
           this.semPerformanceKeys = ['Performance'];
-          this.semPerformanceCategory = ['poor', 'average', 'good', 'excellent'];
-          this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
+          this.semPerformanceCategory = this.progressCardCategory;
+          // this.semPerformanceCategoryKey = ['Performance Less Than 33%', 'Performance Between 33% to 60%', 'Performance Between 60% to 75%', 'Performance Above 75%'];
 
+          this.semPerformanceCategoryKey = this.performanceCategoryKey;
           this.patPerformance = ['school_performance'];
           this.patPerformanceKeys = ['Performance'];
 
@@ -476,9 +493,10 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
           this.UDISE = ['infrastructure_score'];
           this.UDISEKeys = ['Infrastructure Score'];
-          this.UDISECategory = ['poor', 'average', 'good', 'excellent'];
-          this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
+          this.UDISECategory = this.progressCardCategory;
+          // this.UDISECategoryKey = ['Infrastructure Score Less Than 33%', 'Infrastructure Score Between 33% to 60%', 'Infrastructure Score Between 60% to 75%', 'Infrastructure Score Above 75%'];
 
+          this.UDISECategoryKey = this.infraCategoryKey;
           this.showData(this.progressCardData);
           document.getElementById('spinner').style.display = 'none';
         }, err => {
