@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row reportHeader">
+    <div class="row reportHeader1">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row" (window:resize)="onResize()">
                 <div class="col-sm-9 ">
@@ -83,13 +83,14 @@
                         </option>
                     </select>
 
-                    <select id="subject" class="select-control" [(ngModel)]="subject" (change)="selectedSubject()">
+                    <select *ngIf="gradeSelected" id="subject" class="select-control" [(ngModel)]="subject"
+                        (change)="selectedSubject()">
                         <option [value]="subject" disabled selected="selected">Choose a Subject</option>
-                        <option *ngFor="let subject of subjects, let i =index" [(ngValue)]="subject.subject">
-                            <span *ngIf="subject.subject == 'all'; else other_content">
+                        <option *ngFor="let subject of subjects, let i =index" [(ngValue)]="subjects[i]">
+                            <span *ngIf="subjects[i] == 'all'; else other_content">
                                 All Subjects
                             </span>
-                            <ng-template #other_content> {{subject.subject}}</ng-template>
+                            <ng-template #other_content> {{subjects[i]}}</ng-template>
                         </option>
                     </select>
 
@@ -137,7 +138,7 @@
             </div>
         </div>
     </div>
-    <div class="row reportContainer" id="initTable" style="display: block;">
+    <div class="row reportContainer1" id="initTable" style="display: block;">
         <div class="col-sm-12 dataTableCustom">
             <table #dataTable id="LOtable" class="display responsive cell-border"
                 style="text-align: center;  width: 100%; border: 1px solid gray;">

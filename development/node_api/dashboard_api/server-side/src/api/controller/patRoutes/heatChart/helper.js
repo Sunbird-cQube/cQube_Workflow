@@ -41,25 +41,25 @@ const generalFun = (grade, data, level, viewBy) => {
                     let date = item.exam_date.split('-')
                     let label = grade == "" ? "Grade" + item.grade + "/"
                         + date[0] + "-" + date[1] + "/"
-                        + item.subject_name:"";
+                        + item.subject_name : "";
 
                     label += grade != "" ? viewBy == "indicator" ? "/" + item.indicator : "/" + item.question_id : ''
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                     let label1 = []
-                    if (item.students_attended) {
-                        label1 = item.exam_date + "/"
-                            + "Grade" + item.grade + "/"
-                            + item.subject_name + "/"
-                            + item.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") + "/"
-                            + item.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") + "/"
-                            + item.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") + "/"
-                    } else {
-                        label1 = item.exam_date + "/"
-                            + "Grade" + item.grade + "/"
-                            + item.subject_name + "/"
-                            + item.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") + "/"
-                            + item.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") + "/"
-                    }
+                    // if (item.students_attended) {
+                    label1 = item.exam_date + "/"
+                        + "Grade" + item.grade + "/"
+                        + item.subject_name + "/"
+                        + item.students_attended ? item.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "0" + "/"
+                            + item.total_schools ? item.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "0" + "/"
+                                + item.total_students ? item.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : "0" + "/"
+                    // } else {
+                    //     label1 = item.exam_date + "/"
+                    //         + "Grade" + item.grade + "/"
+                    //         + item.subject_name + "/"
+                    //         + item.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") + "/"
+                    //         + item.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") + "/"
+                    // }
                     label1 += grade != "" ? viewBy == "indicator" ? "/" + item.indicator : "/" + item.question_id : ''
 
                     arr1[label1] = arr1.hasOwnProperty(label1) ? [...arr1[label1], ...[item]] : [item];

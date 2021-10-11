@@ -1,14 +1,14 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <h4 id="head" style=" color: #284d8a;;">Users List</h4>
-            <p id="err">{{err}}</p>
+            <p *ngIf="err" id="err" style="color: red; text-align: center; margin-top: 15%;">{{err}}</p>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <!-- <div style="border: 1px solid gray; padding: 1%;"> -->
-            <table #DataTable id="table" class="display nowrap" width="100%"
+            <table *ngIf="!err" #DataTable id="table" class="display nowrap" width="100%"
                 style="font-size: 11px; text-align: center;">
                 <thead>
                     <tr>
