@@ -245,10 +245,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Showing district data based on selected id:::::::::::::::::
   distLinkClick(districtId) {
     this.onDistSelect(districtId);
-    this.collectionName = '';
+    // this.collectionName = '';
   }
   onDistSelect(districtId) {
     this.emptyChart();
+    this.commonService.errMsg();
     //document.getElementById('home').style.display = "block";
     this.globalId = districtId;
     this.blockHidden = false;
@@ -260,12 +261,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.blocks = [];
     this.clusters = [];
-    this.collectionNames = [];
+    // this.collectionNames = [];
     this.blockId = undefined;
     this.clusterId = undefined;
     this.yAxisLabel = "Block Names"
-    this.listCollectionNames();
+    // this.listCollectionNames();
     this.service.tpdBlockEnrollCompAll({ timePeriod: this.timePeriod, districtId: districtId }).subscribe(async (res) => {
+      console.log(res);
       this.result = res['chartData'];
       this.districtHierarchy = {
         distId: res['downloadData'][0].district_id,
@@ -286,10 +288,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Showing block data based on selected id:::::::::::::::::
   blockLinkClick(blockId) {
     this.onBlockSelect(blockId);
-    this.collectionName = '';
+    // this.collectionName = '';
   }
   onBlockSelect(blockId) {
     this.emptyChart();
+    this.commonService.errMsg();
     //document.getElementById('home').style.display = "block";
     this.globalId = blockId;
     this.blockHidden = false;
@@ -300,10 +303,10 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blok = true;
     this.clust = false;
     this.clusters = [];
-    this.collectionNames = [];
+    // this.collectionNames = [];
     this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names"
-    this.listCollectionNames();
+    // this.listCollectionNames();
     this.service.tpdClusterEnrollCompAll({ timePeriod: this.timePeriod, blockId: blockId }).subscribe(async (res) => {
       this.result = res['chartData'];
       this.blockHierarchy = {
@@ -327,10 +330,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Showing cluster data based on selected id:::::::::::::::::
   clusterLinkClick(clusterId) {
     this.onClusterSelect(clusterId);
-    this.collectionName = '';
+    // this.collectionName = '';
   }
   onClusterSelect(clusterId) {
     this.emptyChart();
+    this.commonService.errMsg();
     //document.getElementById('home').style.display = "block";
     this.globalId = this.blockId;
     this.level = "school"
@@ -338,9 +342,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.dist = false;
     this.blok = false;
     this.clust = true;
-    this.collectionNames = [];
+    // this.collectionNames = [];
     this.yAxisLabel = "School Names"
-    this.listCollectionNames();
+    // this.listCollectionNames();
     this.service.tpdSchoolEnrollCompAll({ timePeriod: this.timePeriod, blockId: this.blockId, clusterId: clusterId }).subscribe(async (res) => {
       this.result = res['chartData'];
       this.clusterHierarchy = {
