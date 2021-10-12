@@ -311,6 +311,7 @@ if __name__ == "__main__":
         'static_data_transformer': ['cQube_s3_static', 'postgres_static'],
         'crc_transformer': ['cQube_s3_crc', 'postgres_crc'],
         'student_attendance_transformer': ['cQube_s3_stud_att', 'postgres_stud_att'],
+        'teacher_attendance_transformer': ['cQube_s3_tch_att', 'postgres_tch_att'],
         'sat_transformer': ['cQube_s3_sat', 'postgres_sat'],
         'cqube_telemetry_transformer': ['cQube_s3_cqube_telemetry', 'postgres_cqube_telemetry'],
         'udise_transformer': ['cQube_s3_udise', 'postgres_udise'],
