@@ -29,7 +29,6 @@ def disable_processor(processor_group_name, data_storage_type):
 if __name__ == "__main__":
     """[summary]
     sys arguments = 1.Processor group name. 2.Data storage type
-    Run this code after installing required data sources, 
     Disables the processor based on data storage type
     Ex: python nifi_disable_processor.py student_attendance_transformer s3
     """
