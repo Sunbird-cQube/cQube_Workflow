@@ -27,7 +27,6 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById('accessProgressCard').style.display = 'none';
-    console.log(this.keycloakService.kc.tokenParsed)
     this.service.getRoles().subscribe(res => {
       this.roleIds = res['roles'];
     });

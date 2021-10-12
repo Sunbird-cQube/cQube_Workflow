@@ -156,7 +156,7 @@ router.post('/schoolWise/:distId/:blockId/:clusterId', auth.authController, asyn
                 }
             } else {
                 fileName = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/school.json`;
-                footerFile = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/cluster/grade_subject_footer.json`;
+                footerFile = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/cluster/grade_subject_footer.json`;
             }
         } else {
             if (report == 'pat') {

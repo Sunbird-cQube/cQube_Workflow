@@ -154,7 +154,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
                 }
             } else {
                 fileName = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/block.json`;
-                footerFile = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/district/grade_subject_footer.json`;
+                footerFile = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/district/grade_subject_footer.json`;
             }
         } else {
             if (report == 'pat') {

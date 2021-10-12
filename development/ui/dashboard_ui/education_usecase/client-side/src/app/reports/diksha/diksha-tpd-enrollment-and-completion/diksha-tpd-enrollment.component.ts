@@ -108,6 +108,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.yAxisLabel = "District Names";
+    this.collectionName = '';
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     this.emptyChart();
@@ -267,7 +268,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.yAxisLabel = "Block Names"
     // this.listCollectionNames();
     this.service.tpdBlockEnrollCompAll({ timePeriod: this.timePeriod, districtId: districtId }).subscribe(async (res) => {
-      console.log(res);
       this.result = res['chartData'];
       this.districtHierarchy = {
         distId: res['downloadData'][0].district_id,

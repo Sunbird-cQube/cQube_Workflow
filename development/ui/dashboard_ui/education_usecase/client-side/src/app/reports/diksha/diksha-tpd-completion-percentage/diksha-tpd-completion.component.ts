@@ -100,6 +100,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.yAxisLabel = "District Names"
+    this.collectionName = '';
     this.emptyChart();
     this.getAllData()
   }
