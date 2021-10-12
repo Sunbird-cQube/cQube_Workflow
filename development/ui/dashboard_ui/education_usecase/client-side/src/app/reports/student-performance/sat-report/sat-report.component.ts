@@ -1541,7 +1541,6 @@ export class SatReportComponent implements OnInit {
       var color;
       var colors = [];
       this.allSubjects.sort();
-      // if (data.length > 0) {
       this.markers = data;
       if (this.grade && this.subject) {
         var filtererSubData = this.markers.filter(item => {
@@ -1631,7 +1630,6 @@ export class SatReportComponent implements OnInit {
       }
       this.commonService.loaderAndErr(this.data);
       this.changeDetection.detectChanges();
-      // }
     } catch (e) {
       console.log(e);
       this.errorHandling();
