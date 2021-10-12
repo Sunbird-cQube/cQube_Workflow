@@ -10,5 +10,7 @@ export const environment = {
   diksha_columns: {% if diksha_columns == True %}true{% endif %}{% if diksha_columns == False %}false{% endif %},
   useCase: "{{ usecase_name }}",
   mapName: "{{ map_name }}",
-  theme: "{{ theme }}"
+  theme: "{{ theme }}",
+  progressCardConfig: ['33', '33_60', '60_75', '75'],
+  keycloak_config_otp: "{{ keycloak_config_otp }}"
 };
