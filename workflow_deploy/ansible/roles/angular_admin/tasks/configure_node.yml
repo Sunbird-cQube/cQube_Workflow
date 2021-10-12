@@ -20,7 +20,7 @@
   tags: [ install, update ]
 
 - name: copying admin's server-side script
-  shell: "cp -R ../../development/admin/server-side/* {{base_dir}}/cqube/admin_dashboard/server_side"
+  shell: "cp -R ../../development/node_api/admin_api/server-side/* {{base_dir}}/cqube/admin_dashboard/server_side"
   tags: [ install, update ]
 
 - name: NodeJS dependencies install

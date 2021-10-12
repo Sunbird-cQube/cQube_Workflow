@@ -38,11 +38,11 @@
   tags: [ install, update ]
 
 - name: copying maps script
-  shell: "cp -R ../../development/angular/maps/{{state_code}}.json ../../development/angular/client-side/src/assets/map.json"
+  shell: "cp -R ../../development/ui/dashboard_ui/maps/{{state_code}}.json ../../development/ui/dashboard_ui/{{usecase_name}}/client-side/src/assets/map.json"
   tags: [ install, update ]
 
 - name: copying client-side script
-  shell: "cp -R ../../development/angular/client-side/* {{base_dir}}/cqube/dashboard/client_side"
+  shell: "cp -R ../../development/ui/dashboard_ui/{{usecase_name}}/client-side/* {{base_dir}}/cqube/dashboard/client_side"
   tags: [ install, update ]
 
 - name: Configure the environment.ts
@@ -55,6 +55,12 @@
   template:
     src: environment.prod.ts.j2
     dest: "{{ base_dir }}/cqube/dashboard/client_side/src/environments/environment.prod.ts"
+  tags: [ install, update ]
+
+- name: Configure the apis.config.ts
+  template:
+    src: apis.config.ts.j2
+    dest: "{{ base_dir }}/cqube/dashboard/client_side/src/app/apis.config.ts"
   tags: [ install, update ]
 
 - name: Install Angular packages based on package.json.

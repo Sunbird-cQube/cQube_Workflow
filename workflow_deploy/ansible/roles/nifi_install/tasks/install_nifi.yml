@@ -8,51 +8,244 @@
     - nifi_templates
     - nifi_json_files
   tags: [ install, update ]
-   
-- name: Copying the nifi templetes to nifi directory
+
+- name: Copying the cQube_data_storage nifi templetes to nifi directory
   copy:
-    src: ../../development/nifi/{{ item }}
+    src: ../../development/datasource/cQube_data_storage/nifi/{{ item }}
     dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
     mode: "0644"
   with_items:
     - cQube_data_storage.xml
-    - composite_transformer.xml
-    - cqube_telemetry_transformer.xml
-    - crc_transformer.xml
-    - data_replay_transformer.xml
-    - diksha_transformer.xml
-    - progresscard_transformer.xml
-    - infra_transformer.xml
-    - pat_transformer.xml
-    - sat_transformer.xml
-    - semester_transformer.xml
-    - static_data_transformer.xml
-    - student_attendance_transformer.xml
-    - teacher_attendance_transformer.xml
-    - udise_transformer.xml
   tags: [ install, update ]
 
 
-- name: Copying the query files to nifi directory
+- name: Copying the static nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/static/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - static_data_transformer.xml
+  tags: [ install, update ]
+  
+   
+- name: Copying the crc nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/crc/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - crc_transformer.xml
+  tags: [ install, update ]
+
+- name: Copying the attendance nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/attendance/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - student_attendance_transformer.xml
+  tags: [ install, update ]  
+
+- name: Copying the infra nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/infra/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - infra_transformer.xml
+  tags: [ install, update ]
+
+- name: Copying the telemetry nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/telemetry/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - cqube_telemetry_transformer.xml
+  tags: [ install, update ]
+
+- name: Copying the udise nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/udise/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - udise_transformer.xml
+  tags: [ install, update ]  
+
+- name: Copying the pat nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/pat/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - pat_transformer.xml
+  tags: [ install, update ]
+
+- name: Copying the composite nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/composite/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - composite_transformer.xml
+  tags: [ install, update ]
+
+- name: Copying the progresscard nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/progresscard/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - progress_card_transformer.xml
+  tags: [ install, update ]  
+
+- name: Copying the teacher_attendance nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/teacher_attendance/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - teacher_attendance_transformer.xml
+  tags: [ install, update ]
+
+- name: Copying the data_replay nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/data_replay/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - data_replay_transformer.xml
+  tags: [ install, update ]  
+
+- name: Copying the sat nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/sat/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - sat_transformer.xml
+  tags: [ install, update ]
+
+- name: Copying the diksha nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/diksha/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - diksha_transformer.xml
+  tags: [ install, update ]  
+  
+- name: Copying the crc query files to nifi directory
   copy: 
-    src: ../../development/nifi/reports_queries/{{ item }}
+    src: ../../development/datasource/crc/nifi/{{ item }}
     dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
     mode: "0644"
   with_items:
     - crc_queries.json
+  tags: [ install, update ]
+
+- name: Copying the attendance query files to nifi directory
+  copy:
+    src: ../../development/datasource/attendance/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
     - student_attendance_queries.json
-    - student_assessment_queries.json
-    - diksha_summary_rollup_queries_all.json
-    - diksha_summary_rollup_queries_less.json
-    - diksha_tpd_queries.json
-    - composite_queries.json
-    - pat_queries.json
+  tags: [ install, update ]  
+
+  #- name: Copying the infra query files to nifi directory
+  #copy:
+  #  src: ../../development/datasource/infra/nifi/{{ item }}
+  # dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+  # mode: "0644"
+  #with_items:
+  # - infra_queries.json
+  #tags: [ install, update ]
+
+  #- name: Copying the telemetry query files to nifi directory
+  #copy:
+  # src: ../../development/datasource/telemetry/nifi/{{ item }}
+  # dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+  # mode: "0644"
+  #with_items:
+  # - telemetry_queries.json
+  #tags: [ install, update ]
+
+- name: Copying the udise query files to nifi directory
+  copy:
+    src: ../../development/datasource/udise/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
     - udise_queries.json
+  tags: [ install, update ]  
+  
+- name: Copying the pat query files to nifi directory
+  copy:
+    src: ../../development/datasource/pat/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
+    - pat_queries.json
+  tags: [ install, update ]
+
+- name: Copying the composite query files to nifi directory
+  copy:
+    src: ../../development/datasource/composite/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
+    - composite_queries.json
+  tags: [ install, update ]  
+
+- name: Copying the progresscard query files to nifi directory
+  copy:
+    src: ../../development/datasource/progresscard/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
     - progress_card_queries.json
+  tags: [ install, update ]  
+
+- name: Copying the teacher_attendance query files to nifi directory
+  copy:
+    src: ../../development/datasource/teacher_attendance/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
     - teacher_attendance_queries.json
+  tags: [ install, update ]  
+
+- name: Copying the data_replay query files to nifi directory
+  copy:
+    src: ../../development/datasource/data_replay/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
     - data_replay_queries.json
+  tags: [ install, update ]  
+
+- name: Copying the sat query files to nifi directory
+  copy:
+    src: ../../development/datasource/sat/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
     - sat_queries.json
   tags: [ install, update ]
+
+- name: Copying the diksha query files to nifi directory
+  copy:
+    src: ../../development/datasource/diksha/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_queries/{{ item }}"
+    mode: "0644"
+  with_items:
+    - diksha_summary_rollup_queries_all.json
+    - diksha_summary_rollup_queries_less.json 
+    - diksha_tpd_queries.json   
+  tags: [ install, update ]  
 
 - name: Touch a file
   file:

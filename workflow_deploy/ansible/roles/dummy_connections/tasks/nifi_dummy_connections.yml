@@ -1,0 +1,8 @@
+- name: run python code to create dummy connections
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_dummy_connection_creator.py cQube_data_storage"
+  tags: [ install, update ]
+
+- name: run python code to start telemetry
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_start_pg.py cqube_telemetry_transformer"
+  when: telemetry
+  tags: [ install, update ]

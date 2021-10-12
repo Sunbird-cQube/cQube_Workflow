@@ -1,0 +1,12 @@
+- name: Run sat python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py sat_transformer sat_parameters 4668"
+  tags: [ install, update ]
+
+- name: Connection of sat to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage sat_transformer"
+  tags: [ install, update ]
+
+- name: run python code to disable the processors
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py sat_transformer {{ storage_type }}"
+  tags: [ install, update ]
+  

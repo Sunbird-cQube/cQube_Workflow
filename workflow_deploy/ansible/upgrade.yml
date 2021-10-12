@@ -3,10 +3,6 @@
   hosts: localhost
   gather_facts: true
   remote_user: root
-  vars_files:
-    - ../upgradation_config.yml  
-    - ../memory_config.yml
-    - ../.version
     
   roles: 
           - datasource
@@ -16,9 +12,62 @@
           - keycloak
           - nifi_install
           - { role: nifi_params, tags: update }
-          - { role: nifi_data_sources, tags: update } 
+            #- { role: nifi_data_sources, tags: update } 
 
-          - angular
-          - angular_admin
+          - role: cqube_data
+            tags: update
 
+          - role: static
+            tags: update
+
+          - role: crc
+            tags: update
+            when: crc
+
+          - role: attendance
+            tags: update
+            when: attendance
+
+          - role: infra
+            tags: update
+            when: infra
+
+          - role: telemetry
+            tags: update
+            when: telemetry
+
+          - role: udise
+            tags: update
+            when: udise
+
+          - role: pat
+            tags: update
+            when: pat
+
+          - role: teacher_attendance
+            tags: update
+            when: teacher_attendance
+
+          - role: data_replay
+            tags: update
+          
+          - role: sat
+            tags: update
+            when: sat
+
+          - role: diksha
+            tags: update
+            when: diksha
+
+          - role: composite
+            tags: update
+            when: composite
+
+          - role: progresscard
+            tags: update
+            when: progresscard
+           
+          - role: dummy_connections  
+            tags: update  
+  
           - cqube_version

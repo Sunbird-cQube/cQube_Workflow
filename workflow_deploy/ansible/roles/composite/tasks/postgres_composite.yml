@@ -1,0 +1,18 @@
+
+- name: Run composite table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/composite.sql
+  when: composite
+  tags: [ install, update ]
+
+- name: Run composite queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/composite_queries.sql
+  when: composite
+  tags: [ install, update ]
