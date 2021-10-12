@@ -11,7 +11,7 @@ export const environment = {
   realm: "cQube",
   clientId: "cQube_Admin",
   storageType: "s3",
-  keycloak_config_otp: false
+  report_viewer_config_otp: false
 };
 
 /*
