@@ -243,8 +243,8 @@
     mode: "0644"
   with_items:
     - diksha_summary_rollup_queries_all.json
-    - diksha_summary_rollup_queries_less.json
-    - diksha_tpd_queries.json  
+    - diksha_summary_rollup_queries_less.json 
+    - diksha_tpd_queries.json   
   tags: [ install, update ]  
 
 - name: Touch a file

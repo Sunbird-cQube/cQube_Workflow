@@ -34,3 +34,14 @@ google_api_key: remove_this_key_value                        # Enter the google_
  
 theme:                                    # Enter the theme ( theme1 or theme2 or theme3 )
 
+##progresscardconfig
+
+slab1:                                   #(for eg if given the number as 33 that means value is upto 33 percent)
+
+slab2:                                   #(you have to give minimum_maximum, for eg 33_60)
+
+slab3:                                   #(you have to give minimum_maximum, for eg 60_75)
+
+slab4:                                   #(for eg if given the number as 75 that means value is from 75 percent)
+
+
