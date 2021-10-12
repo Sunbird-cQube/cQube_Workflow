@@ -75,14 +75,7 @@
       </div>
       <div class="row">
         <div class="col-sm-12" style="padding-bottom: 10px !important">
-          <!-- <select id="period" [(ngModel)]="period" (change)="onPeriodSelect()">
-            <option [value]="period" disabled selected="selected">
-              Choose TimeRange
-            </option>
-            <option *ngFor="let period of timeRange; let i = index" style="width: 100px" [(ngValue)]="period.key">
-              {{ period.value }}
-            </option>
-          </select> -->
+
           <select [hidden]="yearSem" id="year" [(ngModel)]="year" name="year" (change)="onSelectYear()">
             <option [value]="year" disabled selected="selected">
               Choose Year

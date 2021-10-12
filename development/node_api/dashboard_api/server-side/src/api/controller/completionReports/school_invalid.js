@@ -35,7 +35,6 @@ router.post('/school_invalid_data', auth.authController, async (req, res) => {
                     logger.info(" ---- file download url sent.. ----");
                     res.status(200).send({ downloadUrl: url })
                 } else {
-                    // logger.info(" ---- file download url sent.. ----");
                     res.status(403).send({ errMsg: "No such file available" });
                 }
             });

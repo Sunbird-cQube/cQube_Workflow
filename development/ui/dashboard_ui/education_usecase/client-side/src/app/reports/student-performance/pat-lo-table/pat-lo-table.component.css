@@ -83,22 +83,6 @@
     }
   }
 
-
-/* .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-      height: 48vh;
-}
-@media only screen and (min-width: 2520px) {
-    .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        height: 74vh !important;
-    }
-}
-
-@media only screen and (min-width: 3840px) {
-    .dataTableCustom .dataTables_wrapper .dataTables_scrollBody {
-        height: 80vh !important;
-    }
-} */
-
 .sorting{
   color: green !important;
 }

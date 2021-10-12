@@ -92,7 +92,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
     this.service.courseFilter({ timePeriod: 'All' }).subscribe(res => {
       this.scousesTOShow = this.courses = res;
     });
@@ -106,7 +106,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
   getHeight(event) {
     this.height = event.target.innerHeight;
-    if(this.toolTipData)
+    if (this.toolTipData)
       this.onChangePage();
   }
 
@@ -114,7 +114,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.scousesTOShow = this.courses;
     let yLabel = this.yLabel.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage - 1) * this.pageSize + this.pageSize));
     let data = this.items.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage);
-    let tooltipData = this.toolTipData? this.toolTipData.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage): "";
+    let tooltipData = this.toolTipData ? this.toolTipData.slice(this.pageSize * this.xLabel.length * (this.currentPage - 1), this.pageSize * this.xLabel.length * this.currentPage) : "";
 
     data = data.map(record => {
       record.y %= this.pageSize;
@@ -140,7 +140,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.timePeriod = 'All';
-    //document.getElementById('home').style.display = 'none';
+
     this.selectedCourses = [];
     var courses = this.courses.map(course => {
       course.status = false;
@@ -251,7 +251,6 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     let scrollBarX
     let scrollBarY
     let xAxis, yAxis, dataLabels, tooltipStyle;
-    //console.log(this.screenWidth);
     if (this.screenWidth <= 1920) {
       xAxis = {
         fontSize: '12px'
@@ -317,7 +316,6 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     for (let i = 0; i < xLabel.length; i++) {
       xLabel[i] = xLabel[i].substr(0, 15);
     }
-    // var options: Highcharts.Options = 
     this.chart = Highcharts.chart('container', {
       chart: {
         type: 'heatmap'
@@ -460,9 +458,6 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
   allDistricts = []; allBlocks = []; allClusters = [];
   selectedTimePeriod() {
-    //this.districtNames = [];
-    //this.blockNames = [];
-    //this.clusterNames = [];
     this.levelWiseFilter();
   }
 
@@ -473,7 +468,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = true;
-    //document.getElementById('home').style.display = 'block';
+
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -514,7 +509,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = false;
-    //document.getElementById('home').style.display = 'block';
+
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -556,7 +551,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   selectedCluster(clusterId) {
     this.level = 'school';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
-    //document.getElementById('home').style.display = 'block';
+
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -639,7 +634,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
   //level wise filter
   levelWiseFilter() {
-    //document.getElementById('home').style.display = 'block';
+
     if (this.level == 'district') {
       this.commonFunc()
     }

@@ -76,10 +76,6 @@ export class LineChartComponent implements OnInit, OnChanges {
   }
 
   @Input() selected = "relative";
-  // getSelected(data) {
-  //   this.selected = data;
-  //   this.createChart();
-  // }
 
   createChart() {
     let reportName = this.reportName;

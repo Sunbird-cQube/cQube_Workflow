@@ -69,7 +69,7 @@ export class SatTrendsChartComponent implements OnInit {
   @ViewChild('multiSelect4') multiSelect4: MultiSelectComponent;
 
   ngOnInit(): void {
-    //document.getElementById('home').style.display = 'none';
+
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
 
@@ -256,7 +256,7 @@ export class SatTrendsChartComponent implements OnInit {
     this.districtList = districtList;
     if (this.multiSelect1)
       this.multiSelect1.checkedList = [];
-    //document.getElementById('home').style.display = 'none';
+
   }
 
   //this is to get state level data::::::::::
@@ -531,12 +531,12 @@ export class SatTrendsChartComponent implements OnInit {
       }
       this.getCurrentDistData();
       this.getCurrentDistData1();
-      //document.getElementById('home').style.display = 'block';
+
       this.changeDetection.detectChanges();
     } else {
       this.onHomeClick(false);
       this.changeDetection.detectChanges();
-      //document.getElementById('home').style.display = 'none';
+
     }
   }
 
@@ -571,14 +571,14 @@ export class SatTrendsChartComponent implements OnInit {
       }
       this.getCurrentBlockData();
       this.getCurrentBlockData1();
-      //document.getElementById('home').style.display = 'block';
+
       this.changeDetection.detectChanges();
     } else {
       if (this.multiSelect2)
         this.multiSelect2.showDropDown = false;
       this.shareCheckedList(this.selectedDistricts);
       this.changeDetection.detectChanges();
-      //document.getElementById('home').style.display = 'none';
+
     }
   }
 
@@ -608,7 +608,7 @@ export class SatTrendsChartComponent implements OnInit {
       }
       this.getCurrentClusterData();
       this.getCurrentClusterData1();
-      //document.getElementById('home').style.display = 'block';
+
       this.changeDetection.detectChanges();
     } else {
       if (this.multiSelect3)
@@ -616,7 +616,7 @@ export class SatTrendsChartComponent implements OnInit {
 
       this.shareCheckedList1(this.selectedBlock);
       this.changeDetection.detectChanges();
-      //document.getElementById('home').style.display = 'none';
+
     }
   }
   shareCheckedList3(list) {
@@ -641,14 +641,14 @@ export class SatTrendsChartComponent implements OnInit {
       }
       this.getCurrentSchoolData();
       this.getCurrentSchoolData1();
-      //document.getElementById('home').style.display = 'block';
+
       this.changeDetection.detectChanges();
     } else {
       if (this.multiSelect2)
         this.multiSelect2.showDropDown = false;
       this.shareCheckedList2(this.selectedCluster);
       this.changeDetection.detectChanges();
-      //document.getElementById('home').style.display = 'none';
+
     }
   }
 
@@ -680,7 +680,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
   getCurrentDistData1() {
@@ -709,7 +709,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
   //get selected block data:::::::::::
@@ -739,7 +739,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
   getCurrentBlockData1() {
@@ -768,7 +768,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
   //get selected cluster data:::::::::::::::::::::
@@ -798,7 +798,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
   getCurrentClusterData1() {
@@ -827,7 +827,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
   //get selected school data:::::::::::::::::::::::::
@@ -857,7 +857,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
   getCurrentSchoolData1() {
@@ -886,7 +886,7 @@ export class SatTrendsChartComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('spinner').style.display = 'none';
     }, 400);
-    // document.getElementById('errMsg').style.display = 'none';
+
   }
 
 

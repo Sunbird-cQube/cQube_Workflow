@@ -16,7 +16,7 @@ export const environment = {
   theme: "theme2",
   mapName: "mapmyindia",
   progressCardConfig: ['33', '33_60', '60_75', '75'],
-  keycloak_config_otp: false
+  report_viewer_config_otp: false
 };
 
 /*

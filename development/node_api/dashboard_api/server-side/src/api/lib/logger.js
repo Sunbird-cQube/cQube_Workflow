@@ -7,9 +7,6 @@ function createLogger() {
   if (!Config.Log || Config.Log.toLowerCase().includes('console')) {
     transports.push(new (winston.transports.Console)({
       // this removes the winston format and uses just this, so becomes uglier:
-      // formatter(options) {
-      //   return `${Config.envName} - ${options.message ? options.message : ''}`;
-      // },
       json: false,
       timestamp: true,
       level: Config.consoleLogLevel ? Config.consoleLogLevel : 'info',

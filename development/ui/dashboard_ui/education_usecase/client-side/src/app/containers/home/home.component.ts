@@ -141,7 +141,4 @@ export class HomeComponent implements OnInit {
   toggleTheme(colorCode) {
     this.themeservice.setTheme(colorCode);
   }
-
-  
-
 }

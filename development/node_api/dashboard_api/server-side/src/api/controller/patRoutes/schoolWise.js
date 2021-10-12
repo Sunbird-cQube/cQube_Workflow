@@ -120,7 +120,6 @@ router.post('/allSchoolWise', auth.authController, async (req, res) => {
         }
         var mydata = schoolData.data;
         logger.info('---PAT school wise api response sent---');
-        // , footer: schoolData.AllSchoolsFooter
         res.status(200).send({ data: mydata, subjects: allSubjects, footer: footer });
     } catch (e) {
         logger.error(`Error :: ${e}`)

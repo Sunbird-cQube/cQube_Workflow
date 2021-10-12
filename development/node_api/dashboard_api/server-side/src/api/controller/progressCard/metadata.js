@@ -52,11 +52,6 @@ router.post('/metaData', auth.authController, async (req, res) => {
                 return self.indexOf(value) === index;
             }
         });
-        // districtNames = districtNames.filter((value, index, self) => {
-        //     if (value != null) {
-        //         return self.indexOf(value) === index;
-        //     }
-        // });
 
         districts = districts.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
@@ -72,11 +67,6 @@ router.post('/metaData', auth.authController, async (req, res) => {
                 return self.indexOf(value) === index;
             }
         });
-        // blockNames = blockNames.filter((value, index, self) => {
-        //     if (value != null) {
-        //         return self.indexOf(value) === index;
-        //     }
-        // });
 
         blocks = blocks.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
@@ -92,11 +82,6 @@ router.post('/metaData', auth.authController, async (req, res) => {
                 return self.indexOf(value) === index;
             }
         });
-        // clusterNames = clusterNames.filter((value, index, self) => {
-        //     if (value != null) {
-        //         return self.indexOf(value) === index;
-        //     }
-        // });
 
         clusters = clusters.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
@@ -113,11 +98,6 @@ router.post('/metaData', auth.authController, async (req, res) => {
                 return self.indexOf(value) === index;
             }
         });
-        // schoolNames = schoolNames.filter((value, index, self) => {
-        //     if (value != null) {
-        //         return self.indexOf(value) === index;
-        //     }
-        // });
 
         schools = schools.reduce((unique, o) => {
             if (o.name != null && o.id != null) {
