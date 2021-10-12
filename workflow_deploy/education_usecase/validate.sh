@@ -180,15 +180,6 @@ if [[ $map_name == "googlemap" ]]; then
 fi    
 }
 
-check_slab1(){
-if ! [[ "$slab1" =~ ^[0-9]+$ ]] ; then
-      echo "Error - Not a number Please check the $1 value." ; fail=1
-fi
-}
-
-check_slab2(){
-slb=	
-
 
 get_config_values(){
 key=$1

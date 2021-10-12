@@ -435,8 +435,7 @@ case $key in
        ;;
    google_api_key)
           check_google_api_key $key $value
-       ;;
-    
+       ;; 
    *)
        if [[ $value == "" ]]; then
           echo -e "\e[0;31m${bold}Error - Value for $key cannot be empty. Please fill this value${normal}"; fail=1

@@ -18,11 +18,6 @@
                         "value":"{{ s3_output_bucket }}"
                             }
             },
-            {
-                "parameter":{"name":"s3_emission_bucket",
-                        "value":"{{ s3_emission_bucket }}"
-                            }
-            },
 	    {
                 "parameter":{"name":"db_user",
                         "value":"{{ db_user }}"
@@ -75,13 +70,9 @@
                 "parameter":{"name":"diksha_columns",
                         "value":"{% if diksha_columns == True %}true{% endif %}{% if diksha_columns == False %}false{% endif %}"
                             }
-            },
-            {
-                "parameter":{"name":"emission_directory",
-                        "value":"{{ emission_directory }}"
-                            }
-            }            
-            
+            }
+
         ]
+
 }
 }
