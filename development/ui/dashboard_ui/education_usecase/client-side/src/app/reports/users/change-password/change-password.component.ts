@@ -18,7 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   public successMsg;
   public isDisabled;
   roleIds: any;
-  otpConfig = environment.keycloak_config_otp;
+  otpConfig = environment.report_viewer_config_otp;
 
   constructor(public service: AppServiceComponent, public router: Router, public keycloakService: KeycloakSecurityService) {
     service.logoutOnTokenExpire();
@@ -27,7 +27,6 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById('accessProgressCard').style.display = 'none';
-    console.log(this.keycloakService.kc.tokenParsed)
     this.service.getRoles().subscribe(res => {
       this.roleIds = res['roles'];
     });

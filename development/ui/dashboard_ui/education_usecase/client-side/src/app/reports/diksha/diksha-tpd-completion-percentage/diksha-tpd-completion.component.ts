@@ -94,12 +94,13 @@ export class DikshaTpdCompletionComponent implements OnInit {
   }
 
   homeClick() {
-    //document.getElementById('home').style.display = "none";
+
     this.timePeriod = 'overall';
     this.districtId = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
     this.yAxisLabel = "District Names"
+    this.collectionName = '';
     this.emptyChart();
     this.getAllData()
   }
@@ -108,9 +109,9 @@ export class DikshaTpdCompletionComponent implements OnInit {
   async getAllData() {
     this.emptyChart();
     if (this.timePeriod != 'overall') {
-      //document.getElementById('home').style.display = "block";
+
     } else {
-      //document.getElementById('home').style.display = "none";
+
     }
     this.commonService.errMsg();
     this.districts = [];
@@ -164,7 +165,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
 
   //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
-    //document.getElementById('home').style.display = "block";
+
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     this.getAllData();
@@ -197,7 +198,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   onDistSelect(districtId) {
     this.emptyChart();
     this.commonService.errMsg();
-    //document.getElementById('home').style.display = "block";
+
     this.globalId = districtId;
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -208,11 +209,11 @@ export class DikshaTpdCompletionComponent implements OnInit {
     this.clust = false;
     this.blocks = [];
     this.clusters = [];
-    // this.collectionNames = [];
+
     this.blockId = undefined;
     this.clusterId = undefined;
     this.yAxisLabel = "Block Names"
-    // this.listCollectionNames();
+
     this.service.tpdBlockEnrollCompAll({ timePeriod: this.timePeriod, districtId: districtId }).subscribe(async (res) => {
       this.result = res['chartData'];
       this.districtHierarchy = {
@@ -235,7 +236,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   onBlockSelect(blockId) {
     this.emptyChart();
     this.commonService.errMsg();
-    //document.getElementById('home').style.display = "block";
+
     this.globalId = blockId;
     this.blockHidden = false;
     this.clusterHidden = false;
@@ -245,10 +246,10 @@ export class DikshaTpdCompletionComponent implements OnInit {
     this.blok = true;
     this.clust = false;
     this.clusters = [];
-    // this.collectionNames = [];
+
     this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names"
-    // this.listCollectionNames();
+
     this.service.tpdClusterEnrollCompAll({ timePeriod: this.timePeriod, blockId: blockId }).subscribe(async (res) => {
       this.result = res['chartData'];
       this.blockHierarchy = {
@@ -273,16 +274,16 @@ export class DikshaTpdCompletionComponent implements OnInit {
   onClusterSelect(clusterId) {
     this.emptyChart()
     this.commonService.errMsg();
-    //document.getElementById('home').style.display = "block";
+
     this.globalId = this.blockId;
     this.level = "school"
     this.skul = false;
     this.dist = false;
     this.blok = false;
     this.clust = true;
-    // this.collectionNames = [];
+
     this.yAxisLabel = "School Names"
-    // this.listCollectionNames();
+
     this.service.tpdSchoolEnrollCompAll({ timePeriod: this.timePeriod, blockId: this.blockId, clusterId: clusterId }).subscribe(async (res) => {
       this.result = res['chartData'];
       this.clusterHierarchy = {
@@ -309,7 +310,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];
-    //document.getElementById('home').style.display = "block";
+
     this.commonService.errMsg();
     this.fileName = `${this.reportName}_${this.timePeriod}_${this.globalId}_${this.commonService.dateAndTime}`;
     this.footer = '';

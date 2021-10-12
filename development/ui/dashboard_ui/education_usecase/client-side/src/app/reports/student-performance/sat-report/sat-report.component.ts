@@ -100,13 +100,6 @@ export class SatReportComponent implements OnInit {
   clusterFilter = [];
   reportName = "semester_assessment_test";
 
-  timeRange = [
-    // { key: "all", value: "Overall" },
-    { key: "last_30_days", value: "Last 30 Days" },
-    { key: "last_7_days", value: "Last 7 Days" },
-    // { key: "year_sem", value: "Year and Semseter" }
-  ];
-  period = "last_30_days";
   state: string;
   // initial center position for the map
   public lat: any;
@@ -159,7 +152,6 @@ export class SatReportComponent implements OnInit {
 
   ngOnInit() {
     this.mapName = this.commonService.mapName;
-    // this.period = "last_30_days";
     this.state = this.commonService.state;
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
@@ -270,17 +262,11 @@ export class SatReportComponent implements OnInit {
   }
 
   semSelect() {
-    // this.grade = undefined;
-    // this.subject = undefined;
     this.levelWiseFilter();
     this.changeDetection.detectChanges();
   }
 
   getDistricts(level): void {
-    // this.service.semMetaData({ period: this.period }).subscribe((res) => {
-    //   this.semesters = res["data"];
-    //   this.semester = this.semesters[this.semesters.length - 1].id;
-
     this.service
       .PATDistWiseData({
         ...{
@@ -353,19 +339,6 @@ export class SatReportComponent implements OnInit {
       });
   }
 
-  // onPeriodSelect() {
-  // document.getElementById("spinner").style.display = "block";
-  // this.grade = undefined;
-  // this.subject = undefined;
-  // this.subjectHidden = true;
-  // this.service.semMetaData({ period: this.period }).subscribe((res) => {
-  //   this.semesters = res["data"];
-  //   // if (this.semesters.length > 0)
-  //   //   this.semester = this.semesters[this.semesters.length - 1].id;
-  //   this.levelWiseFilter();
-  // });
-  // }
-
   onGradeSelect(data) {
     if (this.semester == "") {
       alert("Please select semester!");
@@ -375,7 +348,6 @@ export class SatReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    // this.subject = "";
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
@@ -415,8 +387,6 @@ export class SatReportComponent implements OnInit {
   }
 
   linkClick() {
-    //document.getElementById("home").style.display = "none";
-    // this.period = 'last_30_days';
     this.grade = undefined;
     this.subject = undefined;
     this.subjectHidden = true;
@@ -444,11 +414,7 @@ export class SatReportComponent implements OnInit {
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
       this.districtId = undefined;
-      if (this.level != "District") {
-        // this.subjectHidden = true;
-        // this.grade = undefined;
-        // this.subject = undefined;
-      }
+
       this.reportData = [];
       this.level = "District";
       this.googleMapZoom = 7;
@@ -555,7 +521,7 @@ export class SatReportComponent implements OnInit {
 
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "none";
+
     } catch (e) {
       console.log(e);
     }
@@ -567,9 +533,6 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      // this.grade = undefined;
-      // this.subject = undefined;
-      // this.subjectHidden = true;
       this.blockWise();
     } else {
       this.blockWise();
@@ -584,11 +547,7 @@ export class SatReportComponent implements OnInit {
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
-      if (this.level != "Block") {
-        // this.subjectHidden = true;
-        // this.grade = undefined;
-        // this.subject = undefined;
-      }
+
       this.allGrades = [];
       this.reportData = [];
       this.districtId = undefined;
@@ -676,7 +635,6 @@ export class SatReportComponent implements OnInit {
                     }
 
                     for (let i = 0; i < this.blockMarkers.length; i++) {
-                      // if (this.period != 'all') {
                       if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
                         this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
                         this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
@@ -705,7 +663,6 @@ export class SatReportComponent implements OnInit {
                             this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
                         })
                       }
-                      // }
                       var color;
                       if (!this.grade && !this.subject) {
                         color = this.commonService.color(
@@ -762,7 +719,7 @@ export class SatReportComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -774,9 +731,6 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      // this.grade = undefined;
-      // this.subject = undefined;
-      // this.subjectHidden = true;
       this.clusterWise();
     } else {
       this.clusterWise();
@@ -791,11 +745,7 @@ export class SatReportComponent implements OnInit {
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
-      if (this.level != "Cluster") {
-        // this.subjectHidden = true;
-        // this.grade = undefined;
-        // this.subject = undefined;
-      }
+
       this.allGrades = [];
       this.reportData = [];
       this.districtId = undefined;
@@ -882,7 +832,6 @@ export class SatReportComponent implements OnInit {
                     }
 
                     for (let i = 0; i < this.clusterMarkers.length; i++) {
-                      // if (this.period != 'all') {
                       if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
                         this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
                         this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
@@ -911,7 +860,6 @@ export class SatReportComponent implements OnInit {
                             this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
                         })
                       }
-                      // }
                       var color;
                       if (!this.grade && !this.subject) {
                         color = this.commonService.color(
@@ -969,7 +917,7 @@ export class SatReportComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -981,9 +929,6 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      // this.grade = undefined;
-      // this.subject = undefined;
-      // this.subjectHidden = true;
       this.schoolWise();
     } else {
       this.schoolWise();
@@ -998,11 +943,7 @@ export class SatReportComponent implements OnInit {
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
-      if (this.level != "School") {
-        // this.subjectHidden = true;
-        // this.grade = undefined;
-        // this.subject = undefined;
-      }
+
       this.allGrades = [];
       this.reportData = [];
       this.districtId = undefined;
@@ -1086,7 +1027,6 @@ export class SatReportComponent implements OnInit {
                     }
 
                     for (let i = 0; i < this.schoolMarkers.length; i++) {
-                      // if (this.period != 'all') {
                       if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
                         this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
                         this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
@@ -1115,7 +1055,6 @@ export class SatReportComponent implements OnInit {
                             this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
                         })
                       }
-                      // }
                       var color;
                       if (!this.grade && !this.subject) {
                         color = this.commonService.color(
@@ -1175,7 +1114,7 @@ export class SatReportComponent implements OnInit {
         );
 
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -1187,9 +1126,7 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      // this.grade = undefined;
-      // this.subject = undefined;
-      // this.subjectHidden = true;
+
       this.onDistrictSelect(districtId);
     } else {
       this.onDistrictSelect(districtId);
@@ -1201,11 +1138,7 @@ export class SatReportComponent implements OnInit {
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-    if (this.level != "blockPerDistrict") {
-      // this.subjectHidden = true;
-      // this.grade = undefined;
-      // this.subject = undefined;
-    }
+
     this.blockId = undefined;
     this.reportData = [];
     this.level = "blockPerDistrict";
@@ -1301,7 +1234,7 @@ export class SatReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   onblockLinkClick(blockId) {
@@ -1310,9 +1243,6 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      // this.grade = undefined;
-      // this.subject = undefined;
-      // this.subjectHidden = true;
       this.onBlockSelect(blockId);
     } else {
       this.onBlockSelect(blockId);
@@ -1324,11 +1254,7 @@ export class SatReportComponent implements OnInit {
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-    if (this.level != "clusterPerBlock") {
-      // this.subjectHidden = true;
-      // this.grade = undefined;
-      // this.subject = undefined;
-    }
+
     this.clusterId = undefined;
     this.reportData = [];
     this.level = "clusterPerBlock";
@@ -1438,7 +1364,7 @@ export class SatReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   onclusterLinkClick(clusterId) {
@@ -1447,9 +1373,6 @@ export class SatReportComponent implements OnInit {
       return;
     }
     if (this.grade) {
-      // this.grade = undefined;
-      // this.subject = undefined;
-      // this.subjectHidden = true;
       this.onClusterSelect(clusterId);
     } else {
       this.onClusterSelect(clusterId);
@@ -1463,11 +1386,6 @@ export class SatReportComponent implements OnInit {
     this.layerMarkers.clearLayers();
     this.level = "schoolPerCluster";
     this.googleMapZoom = 13;
-    if (this.level != "schoolPerCluster") {
-      // this.subjectHidden = true;
-      // this.grade = undefined;
-      // this.subject = undefined;
-    }
     var myData = this.clusterFilter.find(
       (a) => a.Details.cluster_id == clusterId
     );
@@ -1613,7 +1531,7 @@ export class SatReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   // common function for all the data to show in the map
@@ -1844,7 +1762,6 @@ export class SatReportComponent implements OnInit {
           orgObject[key] = data3[key];
         }
       });
-      // if (this.period != 'all') {
       if (level != "School" || level != "schoolPerCluster") {
         if (orgObject["total_schools"] != null) {
           orgObject["total_schools"] = orgObject["total_schools"]
@@ -1862,7 +1779,6 @@ export class SatReportComponent implements OnInit {
           .toString()
           .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       }
-      // }
       var yourData1;
       if (this.grade) {
         yourData1 = this.globalService
@@ -1890,15 +1806,10 @@ export class SatReportComponent implements OnInit {
       var yourData;
       var ordered;
       var mylevel;
-      // if (this.period != 'all') {
       if (level == "District" || level == 'Block' || level == 'Cluster' || level == 'School') {
         mylevel = level;
       }
-      // } else {
-      //   if (level == "District") {
-      //     mylevel = level;
-      //   }
-      // }
+
       if (level == "blockPerDistrict") {
         mylevel = level;
       } else if (level == "clusterPerBlock") {

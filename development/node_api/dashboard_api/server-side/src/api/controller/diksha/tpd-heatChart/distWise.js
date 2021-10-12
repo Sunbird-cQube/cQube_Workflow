@@ -23,7 +23,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
             }
             return unique;
         }, []);
-        // var courseIds = ['do_3129', 'do_3127'];
         if (courses.length > 0) {
             data = data.filter(item => {
                 return courses.includes(item['collection_id']);

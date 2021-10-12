@@ -1,11 +1,6 @@
 const router = require('express').Router();
 const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
-var const_data = require('../../lib/config');
-const jsonexport = require('jsonexport');
-var S3Append = require('s3-append').S3Append;
-var config = require('../../lib/config');
-const { format } = require('path');
 const s3File = require('../../lib/reads3File');
 const inputDir = `${process.env.EMISSION_DIRECTORY}`;
 const writeFile = require('../../lib/uploadFile');

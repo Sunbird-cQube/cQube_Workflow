@@ -19,11 +19,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
         var districtData = {};
         var footerFile;
         var footerData = {}
-        // if (management != 'overall' && category != 'overall') {
-
-        // } else if (management == 'overall' && category != 'overall') {
-
-        // } else
         if (management != 'overall' && category == 'overall') {
             if (report == 'pat') {
                 if (grade) {

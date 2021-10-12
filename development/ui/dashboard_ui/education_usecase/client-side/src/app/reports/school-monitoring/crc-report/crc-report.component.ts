@@ -363,7 +363,7 @@ export class CrcReportComponent implements OnInit {
   reportName = "crc_report";
 
   showYearMonth() {
-    //document.getElementById("home").style.display = "block";
+
     this.yearMonth = false;
     this.month_year = {
       month: this.monthNames.indexOf(this.month.trim()) + 1,
@@ -393,9 +393,9 @@ export class CrcReportComponent implements OnInit {
 
   onPeriodSelect() {
     if (this.period != "overall") {
-      //document.getElementById("home").style.display = "block";
+
     } else {
-      //document.getElementById("home").style.display = "none";
+
     }
     this.yearMonth = true;
     this.month_year = {
@@ -411,7 +411,7 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-    //document.getElementById("home").style.display = "none";
+
     this.districtWise();
   }
 
@@ -509,8 +509,6 @@ export class CrcReportComponent implements OnInit {
               bInfo: false,
               bPaginate: false,
               scrollY: "auto",
-              // scrollY: false,
-              // scrollX: false,
               scrollCollapse: true,
               paging: false,
               searching: false,
@@ -521,9 +519,9 @@ export class CrcReportComponent implements OnInit {
               columns: [
                 { title: "District Name", data: "districtName" },
                 { title: "% Schools (No Visit)", data: "visit_0" },
-                { title: "% Schools (1 to 2 Visits)", data: "visit_1_2"},
+                { title: "% Schools (1 to 2 Visits)", data: "visit_1_2" },
                 { title: "% Schools (3 to 5 Visits)", data: "visit_3_5" },
-                { title: "% Schools (6 to 10 Visits)", data: "visit_6_10"},
+                { title: "% Schools (6 to 10 Visits)", data: "visit_6_10" },
                 {
                   title: "% Schools (More than 10 Visits)",
                   data: "visit_10_more"
@@ -532,10 +530,10 @@ export class CrcReportComponent implements OnInit {
                   title: "Number of schools per CRC",
                   data: "no_of_schools_per_crc"
                 },
-                { title: "Visits per schools", data: "visits_per_school"},
-                { title: "Visited schools count", data: "visitedSchoolCount"},
-                { title: "Total schools", data: "totalSchools"},
-                { title: "Total visits", data: "totalVisits"},
+                { title: "Visits per schools", data: "visits_per_school" },
+                { title: "Visited schools count", data: "visitedSchoolCount" },
+                { title: "Total schools", data: "totalSchools" },
+                { title: "Total visits", data: "totalVisits" },
               ],
             };
             this.dataTable = $(this.table.nativeElement);
@@ -772,7 +770,6 @@ export class CrcReportComponent implements OnInit {
               bPaginate: false,
               scrollbars: false,
               scrollY: "auto",
-              // scrollX: "auto",
               scrollCollapse: true,
               paging: false,
               searching: false,
@@ -780,22 +777,22 @@ export class CrcReportComponent implements OnInit {
                 leftColumns: 1,
               },
               columns: [
-                { title: "District Name", data: "districtName"},
+                { title: "District Name", data: "districtName" },
                 { title: "Block Name", data: "blockName" },
                 { title: "% Schools (No Visit)", data: "visit_0" },
                 { title: "% Schools (1 to 2 Visits)", data: "visit_1_2" },
                 { title: "% Schools (3 to 5 Visits)", data: "visit_3_5" },
-                { title: "% Schools (6 to 10 Visits)", data: "visit_6_10"},
+                { title: "% Schools (6 to 10 Visits)", data: "visit_6_10" },
                 {
                   title: "% Schools (More than 10 Visits)",
                   data: "visit_10_more"
-                  
+
                 },
                 {
                   title: "Number of schools per CRC",
                   data: "no_of_schools_per_crc"
                 },
-                { title: "Visits per schools", data: "visits_per_school"},
+                { title: "Visits per schools", data: "visits_per_school" },
                 { title: "Visited schools count", data: "visitedSchoolCount" },
                 { title: "Total schools", data: "totalSchools" },
                 { title: "Total visits", data: "totalVisits" },
@@ -820,7 +817,7 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    //document.getElementById("home").style.display = "block";
+
   }
 
   myBlockData(data: any, fromParam = false) {
@@ -924,7 +921,6 @@ export class CrcReportComponent implements OnInit {
             bInfo: false,
             bPaginate: false,
             scrollY: "auto",
-            // scrollX: false,
             scrollCollapse: true,
             paging: false,
             searching: false,
@@ -932,13 +928,13 @@ export class CrcReportComponent implements OnInit {
               leftColumns: 1,
             },
             columns: [
-              { title: "District Name", data: "districtName"},
-              { title: "Block Name", data: "blockName"},
-              { title: "Cluster Name", data: "clusterName"},
-              { title: "% Schools (No Visit)", data: "visit_0"},
-              { title: "% Schools (1 to 2 Visits)", data: "visit_1_2"},
-              { title: "% Schools (3 to 5 Visits)", data: "visit_3_5"},
-              { title: "% Schools (6 to 10 Visits)", data: "visit_6_10"},
+              { title: "District Name", data: "districtName" },
+              { title: "Block Name", data: "blockName" },
+              { title: "Cluster Name", data: "clusterName" },
+              { title: "% Schools (No Visit)", data: "visit_0" },
+              { title: "% Schools (1 to 2 Visits)", data: "visit_1_2" },
+              { title: "% Schools (3 to 5 Visits)", data: "visit_3_5" },
+              { title: "% Schools (6 to 10 Visits)", data: "visit_6_10" },
               {
                 title: "% Schools (More than 10 Visits)",
                 data: "visit_10_more"
@@ -947,10 +943,10 @@ export class CrcReportComponent implements OnInit {
                 title: "Number of schools per CRC",
                 data: "no_of_schools_per_crc"
               },
-              { title: "Visits per schools", data: "visits_per_school"},
-              { title: "Visited schools count", data: "visitedSchoolCount"},
-              { title: "Total schools", data: "totalSchools"},
-              { title: "Total visits", data: "totalVisits"},
+              { title: "Visits per schools", data: "visits_per_school" },
+              { title: "Visited schools count", data: "visitedSchoolCount" },
+              { title: "Total schools", data: "totalSchools" },
+              { title: "Total visits", data: "totalVisits" },
             ],
           };
           this.dataTable = $(this.table.nativeElement);
@@ -971,7 +967,7 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    //document.getElementById("home").style.display = "block";
+
   }
 
   myClusterData(data: any, fromParam = false) {
@@ -1121,7 +1117,7 @@ export class CrcReportComponent implements OnInit {
           this.commonService.loaderAndErr(this.chartData);
         }
       );
-    //document.getElementById("home").style.display = "block";
+
   }
 
   countVisitedAndNotVisited(a) {

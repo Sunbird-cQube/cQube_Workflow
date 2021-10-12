@@ -12,16 +12,6 @@ const Config = {
     LogDirectory: process.env.LOG_DIRECTORY,
     fileLogLevel: process.env.FILE_LOG_LEVEL || DEFAULT_LOG_LEVEL,
     consoleLogLevel: process.env.CONSOLE_LOG_LEVEL || DEFAULT_LOG_LEVEL,
-    // envName: (() => {
-    //     switch (process.env.NODE_ENV) {
-    //         case 'DEVELOPMENT':
-    //             return 'DEV';
-    //         case 'PRODUCTION':
-    //             return 'PROD';
-    //         default:
-    //             return 'DEV';
-    //     }
-    // })(),
 };
 
 const accessKeyId = process.env.ACCESS_KEY_ID;
@@ -42,13 +32,11 @@ var s3 = new aws.S3({ 'accessKeyId': accessKeyId, 'secretAccessKey': secretAcces
 
 var getParams = {
     Bucket: bucketName, //replace example bucket with your s3 bucket name
-    // Bucket1: bucketName1,
     Key: '', // replace file location with your s3 file location
 };
 
 var getParams1 = {
     Bucket: bucketName1, //replace example bucket with your s3 bucket name
-    // Bucket1: ,
     Key: '', // replace file location with your s3 file location
 };
 

@@ -121,7 +121,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.clusterHidden = true;
     this.reportData = [];
 
-    //document.getElementById('home').style.display = 'none';
+
 
     if (this.myData) {
       this.myData.unsubscribe();
@@ -176,7 +176,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = true;
 
-    //document.getElementById('home').style.display = 'block';
+
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -234,7 +234,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = false;
 
-    //document.getElementById('home').style.display = 'block';
+
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -291,7 +291,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
 
-    //document.getElementById('home').style.display = 'block';
+
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -322,7 +322,6 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.reportData = [];
     this.commonService.errMsg();
     var element1: any = document.getElementsByClassName('dwnld');
-    // element1[0].disabled = true;
     this.fileName = `${this.reportName}_allDistricts_${this.commonService.dateAndTime}`;
     if (this.myData) {
       this.myData.unsubscribe();
@@ -345,7 +344,6 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.reportData = [];
     this.commonService.errMsg();
     var element1: any = document.getElementsByClassName('dwnld');
-    // element1[0].disabled = true;
     this.fileName = `${this.reportName}_allBlocks_${this.commonService.dateAndTime}`;
     if (this.myData) {
       this.myData.unsubscribe();
@@ -368,7 +366,6 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.reportData = [];
     this.commonService.errMsg();
     var element1: any = document.getElementsByClassName('dwnld');
-    // element1[0].disabled = true;
     this.fileName = `${this.reportName}_allClusters_${this.commonService.dateAndTime}`;
     if (this.myData) {
       this.myData.unsubscribe();

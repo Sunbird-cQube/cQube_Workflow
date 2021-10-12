@@ -7,12 +7,7 @@
 
   
   @media screen and (min-width: 2500px){
-    /* .dataTables_scroll, .dataTables_scrollHead{
-      font-size: 22px; 
-      text-align: center; 
-      width: 100%; 
-      border: 1px solid gray;
-    } */
+  
     #downloader{
       margin-top: 5px;
       margin-right: 15px;
@@ -27,12 +22,7 @@
   }
   
   @media screen and (min-width: 3820px) {
-    /* .dataTables_scroll, .dataTables_scrollHead{
-      font-size: 26px !important; 
-      text-align: center; 
-      width: 100%; 
-      border: 1px solid gray;
-    } */
+ 
     #downloader{
       margin-top: 0px !important;
       margin-right: 20px;
@@ -111,10 +101,6 @@
   .myDiv .dataTables_wrapper .dataTables_scrollHead table thead .sorting{
     background-size: 20px 20px;
   }
-/*   
-  .myDiv .dataTables_wrapper .dataTables_scrollBody table tbody tr th, .myDiv .dataTables_wrapper .dataTables_scrollBody table table.dataTable tbody tr td {
-    padding: 0px 0px !important;
-  } */
   
   
   
