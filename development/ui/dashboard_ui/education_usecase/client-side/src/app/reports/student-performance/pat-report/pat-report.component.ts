@@ -534,8 +534,6 @@ export class PATReportComponent implements OnInit {
                   this.markers = this.data = res["data"];
                   if (this.grade) {
                     this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
-
-
                   }
                   // to show only in dropdowns
                   this.districtMarkers = this.allDistricts = this.data;
