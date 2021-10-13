@@ -64,12 +64,7 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   onChangePage() {
     document.getElementById('spinner').style.display = 'block';
-    this.pageChange();
-  }
-
-  pageChange() {
-    this.filteredData = this.result.slice(((this.currentPage - 1) * this.pageSize), ((this.currentPage - 1) * this.pageSize + this.pageSize));
-    this.tableCreation(this.filteredData);
+    this.tableCreation(this.result);
   }
 
   loaderAndErr() {
@@ -303,7 +298,7 @@ export class UsageByTextbookContentComponent implements OnInit {
       var obj = {
         destroy: true, bLengthChange: false, bInfo: false,
         bPaginate: false, scrollY: "56vh", scrollX: true,
-        scrollCollapse: true, searching: false, paging: false,
+        scrollCollapse: true, searching: true, paging: true, pageLength: 500,
         fixedColumns: {
           leftColumns: 1
         }
@@ -356,6 +351,6 @@ export class UsageByTextbookContentComponent implements OnInit {
 
     // update the rows
     this.result = temp;
-    this.pageChange();
+    this.onChangePage();
   }
 }
