@@ -288,49 +288,6 @@ export class UdiseReportComponent implements OnInit {
       // to show and hide the dropdowns
       this.blockHidden = true;
       this.clusterHidden = true;
-      // api call to get all the districts data
-      // if (this.myDistData != undefined) {
-      //   try {
-      //     this.markers = this.data = this.myDistData["data"];
-      //     this.gettingIndiceFilters(this.data);
-
-      //     // to show only in dropdowns
-      //     this.districtMarkers = this.myDistData["data"];
-      //     // options to set for markers in the map
-      //     let options = {
-      //       radius: 6,
-      //       fillOpacity: 1,
-      //       strokeWeight: 0.05,
-      //       mapZoom: this.globalService.zoomLevel,
-      //       centerLat: this.lat,
-      //       centerLng: this.lng,
-      //       level: "District",
-      //     };
-      //     this.dataOptions = options;
-
-      //     //schoolCount
-      //     this.schoolCount = this.myDistData["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
-      //     this.genericFun(this.data, options, this.fileName);
-      //     this.globalService.onResize(this.level);
-
-      //     // sort the districtname alphabetically
-      //     this.districtMarkers.sort((a, b) =>
-      //       a.details.District_Name > b.details.District_Name
-      //         ? 1
-      //         : b.details.District_Name > a.details.District_Name
-      //           ? -1
-      //           : 0
-      //     );
-      //     this.changeDetection.detectChanges();
-      //   } catch (e) {
-      //     console.log(e);
-      //     globalMap.removeLayer(this.markersList);
-      //     this.layerMarkers.clearLayers();
-      //     this.data = [];
-      //     this.loaderAndErr();
-      //   }
-      // } else {
       if (this.myData) {
         this.myData.unsubscribe();
       }
@@ -383,11 +340,10 @@ export class UdiseReportComponent implements OnInit {
           this.loaderAndErr();
         }
       );
-      // }
 
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "none";
+
     } catch (e) {
       console.log(e);
     }
@@ -506,7 +462,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -628,7 +584,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -751,7 +707,7 @@ export class UdiseReportComponent implements OnInit {
       );
 
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -840,7 +796,7 @@ export class UdiseReportComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   // to load all the clusters for selected block for state data on the map
@@ -938,7 +894,7 @@ export class UdiseReportComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   // to load all the schools for selected cluster for state data on the map
@@ -1055,7 +1011,7 @@ export class UdiseReportComponent implements OnInit {
       }
     );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   // common function for all the data to show in the map

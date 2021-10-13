@@ -85,7 +85,7 @@ export class DikshaChartComponent implements OnInit {
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
     this.metaData();
     this.getAllData();
   }
@@ -96,7 +96,6 @@ export class DikshaChartComponent implements OnInit {
       document.getElementById('spinner').style.display = 'none';
       document.getElementById('errMsg').style.color = 'red';
       document.getElementById('errMsg').style.display = 'block';
-      // document.getElementById('errMsg').innerHTML = 'No data found';
     }
   }
   metaData() {
@@ -143,12 +142,11 @@ export class DikshaChartComponent implements OnInit {
   }
   async getAllData() {
     this.emptyChart();
-    //document.getElementById('home').style.display = "none";
+
     this.errMsg();
     this.districtId = '';
     this.footer = '';
     this.hierName = undefined;
-    // this.timePeriod = 'last_30_days';
 
     this.result = [];
     this.all = true
@@ -211,7 +209,7 @@ export class DikshaChartComponent implements OnInit {
   districtWise(districtId) {
     this.emptyChart();
     this.errMsg();
-    //document.getElementById('home').style.display = "Block";
+
     this.districtId = districtId
     this.hierName = undefined;
     this.footer = '';
@@ -229,10 +227,9 @@ export class DikshaChartComponent implements OnInit {
   timeRange(timePeriod) {
     this.emptyChart();
     this.fileToDownload = `diksha_raw_data/stack_bar_reports/${this.timePeriod}/${this.timePeriod}.csv`;
-    //document.getElementById('home').style.display = "block";
+
     this.allDataNotFound = undefined;
     this.errMsg();
-    // this.hierName = undefined;
     this.result = [];
     this.footer = '';
     if (this.districtId == '') {
@@ -394,7 +391,6 @@ export class DikshaChartComponent implements OnInit {
               display: true,
               labelString: "Content-Grade(Group)",
               fontSize: 12,
-              // fontColor: "dark gray"
             }
           }],
           yAxes: [{
@@ -411,7 +407,6 @@ export class DikshaChartComponent implements OnInit {
               display: true,
               labelString: "Total Content Play",
               fontSize: 12,
-              // fontColor: "dark gray",
             }
           }]
         }

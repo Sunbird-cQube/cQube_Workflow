@@ -41,7 +41,6 @@ export class UsersService {
   addRole(id, role, otpConfig) {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/addUser/setRoles`, { userId: id, role: role, otpConfig: otpConfig });
-
   }
 
   changeStatus(id, updaterId) {

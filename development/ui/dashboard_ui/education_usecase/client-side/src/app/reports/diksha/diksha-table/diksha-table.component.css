@@ -22,7 +22,7 @@
 }
 
 #time_range.select-control, #choose_dist.select-control {
-  margin-right: 10px; padding: 5px; color: white; border-radius: 4px; font-size: 11px; font-weight: bold; background-color: rgb(152, 160, 163);
+  margin-right: 10px; padding: 5px; color: white; border-radius: 4px; font-size: 11px; font-weight: bold; background:var(--theme-report-button-color);
 }
 
 .search-container {

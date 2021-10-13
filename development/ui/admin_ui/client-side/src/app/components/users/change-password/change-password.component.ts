@@ -16,6 +16,8 @@ export class ChangePasswordComponent implements OnInit {
   public err;
   public successMsg;
   public isDisabled;
+  otpConfig = environment.report_viewer_config_otp;
+  roleIds: any = [];
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
     this.changePasswdData['userName'] = localStorage.getItem('userName');

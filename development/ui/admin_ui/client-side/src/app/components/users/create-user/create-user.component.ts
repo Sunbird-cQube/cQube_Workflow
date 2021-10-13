@@ -22,7 +22,7 @@ export class CreateUserComponent implements OnInit {
   token;
   emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  otpConfig = environment.keycloak_config_otp;
+  otpConfig = environment.report_viewer_config_otp;
   constructor(private service: UsersService) { }
 
   onSelectRole() {
@@ -51,7 +51,7 @@ export class CreateUserComponent implements OnInit {
     formData.resetForm();
   }
 
-  msgHide(){
+  msgHide() {
     this.errUsername = '';
     this.err = '';
   }

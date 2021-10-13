@@ -64,12 +64,7 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   onChangePage() {
     document.getElementById('spinner').style.display = 'block';
-    this.pageChange();
-  }
-
-  pageChange() {
-    this.filteredData = this.result.slice(((this.currentPage - 1) * this.pageSize), ((this.currentPage - 1) * this.pageSize + this.pageSize));
-    this.tableCreation(this.filteredData);
+    this.tableCreation(this.result);
   }
 
   loaderAndErr() {
@@ -96,7 +91,7 @@ export class UsageByTextbookContentComponent implements OnInit {
   }
 
   collectionWise() {
-    //document.getElementById('home').style.display = "none";
+
     this.errMsg();
     this.districtId = '';
     this.timePeriod = 'all';
@@ -119,10 +114,6 @@ export class UsageByTextbookContentComponent implements OnInit {
     this.result = [];
     this.reportData = [];
     this.header = this.changeingStringCases(this.collectionType) + " Linked";
-    // if (this.collectionType == "all") {
-    //   this.header = "Overall";
-    // }
-    // this.header = this.header;
     this.service.dikshaAllTableData({ collectionType: this.collectionType }).subscribe(res => {
       this.fileName = `${this.reportName}_${this.timePeriod}_${this.commonService.dateAndTime}`;
       this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
@@ -152,7 +143,7 @@ export class UsageByTextbookContentComponent implements OnInit {
 
   districtWise(districtId) {
     this.errMsg();
-    //document.getElementById('home').style.display = "Block";
+
     this.districtId = districtId
     var period = this.timePeriod == 'all' ? '' : this.timePeriod;
     if (period != '' && districtId != '') {
@@ -203,7 +194,7 @@ export class UsageByTextbookContentComponent implements OnInit {
     this.errMsg();
     this.time = timePeriod == 'all' ? 'overall' : timePeriod;
     this.fileToDownload = `diksha_raw_data/table_reports/textbook/${this.time}/${this.time}.csv`;
-    //document.getElementById('home').style.display = "Block";
+
     if (this.districtId == '') {
       this.districtId = undefined
     }
@@ -286,9 +277,7 @@ export class UsageByTextbookContentComponent implements OnInit {
           var new_item = {};
           new_item['data'] = key;
           new_item['value'] = value;
-          // if (value != 'All' && value != '') {
           temp.push(new_item);
-          // }
         });
         newArr.push(temp)
       });
@@ -309,7 +298,7 @@ export class UsageByTextbookContentComponent implements OnInit {
       var obj = {
         destroy: true, bLengthChange: false, bInfo: false,
         bPaginate: false, scrollY: "56vh", scrollX: true,
-        scrollCollapse: true, searching: false, paging: false,
+        scrollCollapse: true, searching: true, paging: true, pageLength: 500,
         fixedColumns: {
           leftColumns: 1
         }
@@ -362,6 +351,6 @@ export class UsageByTextbookContentComponent implements OnInit {
 
     // update the rows
     this.result = temp;
-    this.pageChange();
+    this.onChangePage();
   }
 }

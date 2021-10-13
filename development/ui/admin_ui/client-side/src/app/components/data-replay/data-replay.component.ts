@@ -79,7 +79,7 @@ export class DataReplayComponent implements OnInit {
         this.years1.push({ value: year, selected: year == "Select Year" ? true : false })
       })
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
     })
     this.service.getMonthYear({ report: 'tar' }).subscribe(res => {
@@ -90,7 +90,7 @@ export class DataReplayComponent implements OnInit {
         this.years2.push({ value: year, selected: year == "Select Year" ? true : false })
       })
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
     })
     this.service.getMonthYear({ report: 'crc' }).subscribe(res => {
@@ -102,7 +102,7 @@ export class DataReplayComponent implements OnInit {
       })
       this.err = undefined;
       document.getElementById('spinner').style.display = 'none';
-    }, err=>{
+    }, err => {
       this.err = "No data found"
     })
 
@@ -113,7 +113,7 @@ export class DataReplayComponent implements OnInit {
         i++;
       });
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
     });
 
@@ -124,7 +124,7 @@ export class DataReplayComponent implements OnInit {
         i++;
       });
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
     })
 
@@ -135,7 +135,7 @@ export class DataReplayComponent implements OnInit {
       });
       this.academic_years.unshift('Select Academic Year');
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
     })
     // this.service.getDataSources().subscribe(res => {
@@ -151,7 +151,7 @@ export class DataReplayComponent implements OnInit {
     for (let i = 0; i < noOfDaysInCurrYear; i += 30) {
       this.daysArr.push(i);
     }
-    this.daysArr.splice(0,1);
+    this.daysArr.splice(0, 1);
     this.daysArr.push(this.daysArr[this.daysArr.length - 1] + noOfDaysInCurrYear % 30);
   }
 
@@ -394,7 +394,7 @@ export class DataReplayComponent implements OnInit {
           this.onCancel();
           document.getElementById('spinner').style.display = 'none';
           alert(res['msg']);
-        },err=>{
+        }, err => {
           alert("Something went wrong");
           document.getElementById('spinner').style.display = 'none';
         })
@@ -450,12 +450,11 @@ export class DataReplayComponent implements OnInit {
       this.multiSelect.forEach((child) => { child.resetSelected() })
   }
 
-
+  public date = new Date();
+  public getTime = `${this.date.getFullYear()}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${("0" + (this.date.getDate())).slice(-2)}, ${("0" + (this.date.getHours())).slice(-2)}:${("0" + (this.date.getMinutes())).slice(-2)}:${("0" + (this.date.getSeconds())).slice(-2)}`;;
   onSubmitRet() {
     document.getElementById('spinner').style.display = 'block';
-    var date = new Date();
-    var currTime = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + (date.getDate())).slice(-2)}, ${("0" + (date.getHours())).slice(-2)}:${("0" + (date.getMinutes())).slice(-2)}:${("0" + (date.getSeconds())).slice(-2)}`;
-    this.retentionData = { retentionDays: this.selectedDays, retentionTime: currTime }
+    this.retentionData = { retentionDays: this.selectedDays, retentionTime: this.getTime }
     this.service.saveDataToS3({ dataType: "retention", retData: this.retentionData }).subscribe(res => {
       document.getElementById('spinner').style.display = 'none';
       alert("Data retention successully initiated");
@@ -463,6 +462,22 @@ export class DataReplayComponent implements OnInit {
       alert(err.errMsg);
       document.getElementById('spinner').style.display = 'none';
     })
+  }
+
+  dropdownOptions = ['Emission', 'API'];
+  TPDselected = 'API';
+  ETBselected = 'API';
+  TPDdata = {};
+  TPDonSubmit() {
+    this.TPDdata['selected'] = this.TPDselected;
+    this.TPDdata['time'] = this.getTime;
+    console.log(this.TPDdata);
+  }
+  ETBdata = {};
+  ETBonSubmit() {
+    this.ETBdata['selected'] = this.ETBselected;
+    this.ETBdata['time'] = this.getTime;
+    console.log(this.ETBdata);
   }
 
 }

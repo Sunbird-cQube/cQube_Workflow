@@ -1,14 +1,14 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12" style="padding-top: 20px !important;">
-            <h4>Data Replay/Retention</h4>
+            <h6>Data Replay/Retention</h6>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 20px !important;">
+        <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 10px !important;">
         </div>
         <div class="col-lg-8 col-md-12 col-sm-12">
-            <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 5%;">
+            <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 2%;">
                 <div style="margin-top: 5px;">
                     <span>Select Retention Days: </span> <select required id="retDays" [(ngModel)]="selectedDays"
                         style="padding: 9px;width: 170px; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: -10px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);">
@@ -25,14 +25,14 @@
                 data will be cleared in all transaction tables based on the retention period set.</span>
         </div>
     </div>
-    <hr>
+
 
     <div class="row">
-
         <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 20px !important;"></div>
         <div class="col-lg-8 col-md-12 col-sm-12">
+            <hr>
             <span *ngIf="!err" style="color: red; text-align: center;">{{err}}</span>
-            <div class="row box" style="padding: 10px; border-radius: 10px; margin-top: 5%;">
+            <div class="row box" style="padding: 10px; border-radius: 10px; margin-top: 3%;">
                 <div class="col-lg-4 col-md-12 col-sm-12">
                     <div style="float: left;">
                         <p>Select Data Source: </p> <select required id="dataSources"
@@ -197,6 +197,62 @@
                             style="margin-right: 30px; float: right;">
                             Cancel</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <hr>
+                    <h6>Diksha TPD/ETB Data Input Method</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 10px !important;"></div>
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 2%;">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div style="margin-top: 5px;">
+                                    <p>TPD data input method: </p> <select required id="retDays"
+                                        [(ngModel)]="TPDselected"
+                                        style="padding: 9px;width: 170px; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: -10px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);">
+                                        <option [value]="TPDselected" disabled selected="selected">Select input method
+                                        </option>
+                                        <option *ngFor="let option of dropdownOptions; let i = index;"
+                                            [(ngValue)]="dropdownOptions[i]">
+                                            <span>{{dropdownOptions[i]}}</span>
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary" id="ret-submit" (click)="TPDonSubmit()"
+                                        style="float: right;margin-top: -5px !important;">Submit</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-5">
+                                <div style="margin-top: 5px;">
+                                    <p>ETB data input method: </p> <select required id="retDays"
+                                        [(ngModel)]="ETBselected"
+                                        style="padding: 9px;width: 180px; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: -10px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);">
+                                        <option [value]="ETBselected" disabled selected="selected">Select input method
+                                        </option>
+                                        <option *ngFor="let option of dropdownOptions; let i = index;"
+                                            [(ngValue)]="dropdownOptions[i]">
+                                            <span>{{dropdownOptions[i]}}</span>
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary" id="ret-submit" (click)="ETBonSubmit()"
+                                        style="float: right;margin-top: -5px !important;">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <span style="line-height: 2em; font-size: 12px;"><strong>Note: </strong>Default retention period is 90 days,
+                data will be cleared in all transaction tables based on the retention period set.</span> -->
                 </div>
             </div>
         </div>

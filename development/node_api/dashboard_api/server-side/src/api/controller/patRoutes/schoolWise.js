@@ -120,7 +120,6 @@ router.post('/allSchoolWise', auth.authController, async (req, res) => {
         }
         var mydata = schoolData.data;
         logger.info('---PAT school wise api response sent---');
-        // , footer: schoolData.AllSchoolsFooter
         res.status(200).send({ data: mydata, subjects: allSubjects, footer: footer });
     } catch (e) {
         logger.error(`Error :: ${e}`)
@@ -156,7 +155,7 @@ router.post('/schoolWise/:distId/:blockId/:clusterId', auth.authController, asyn
                 }
             } else {
                 fileName = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/school.json`;
-                footerFile = `${report}/school_management_category/${period == 'all' ? 'overall' : period}/${semester}/overall_category/${management}/cluster/grade_subject_footer.json`;
+                footerFile = `${report}/school_management_category/${academic_year}/${semester}/overall_category/${management}/cluster/grade_subject_footer.json`;
             }
         } else {
             if (report == 'pat') {
