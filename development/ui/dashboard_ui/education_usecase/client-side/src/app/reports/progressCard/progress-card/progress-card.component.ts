@@ -118,23 +118,23 @@ export class progressCardComponent implements OnInit, AfterViewInit {
   progressCardCategory = ["poor", "average", "good", "excellent"];
 
   AttendanceCategoryKey = [`Attendance Less Than ${this.progressCardValues[0]}%`,
-  `Attendance Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
-  `Attendance Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Attendance Between ${this.progressCardValues[1].split("-")[0]}% to ${this.progressCardValues[1].split("-")[1]}%`,
+  `Attendance Between ${this.progressCardValues[2].split("-")[0]}% to ${this.progressCardValues[2].split("-")[1]}%`,
   `Attendance Above ${this.progressCardValues[3]}%`];
 
   performanceCategoryKey = [`Performance Less Than ${this.progressCardValues[0]}%`,
-  `Performance Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
-  `Performance Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Performance Between ${this.progressCardValues[1].split("-")[0]}% to ${this.progressCardValues[1].split("-")[1]}%`,
+  `Performance Between ${this.progressCardValues[2].split("-")[0]}% to ${this.progressCardValues[2].split("-")[1]}%`,
   `Performance Above ${this.progressCardValues[3]}%`];
 
   schoolCategoryKey = [`Schools Less Than ${this.progressCardValues[0]}%`,
-  `Schools Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
-  `Schools Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Schools Between ${this.progressCardValues[1].split("-")[0]}% to ${this.progressCardValues[1].split("-")[1]}%`,
+  `Schools Between ${this.progressCardValues[2].split("-")[0]}% to ${this.progressCardValues[2].split("-")[1]}%`,
   `Schools Above ${this.progressCardValues[3]}%`];
 
   infraCategoryKey = [`Infrastructure Score Less Than ${this.progressCardValues[0]}%`,
-  `Infrastructure Score Between ${this.progressCardValues[1].split("_")[0]}% to ${this.progressCardValues[1].split("_")[1]}%`,
-  `Infrastructure Score Between ${this.progressCardValues[2].split("_")[0]}% to ${this.progressCardValues[2].split("_")[1]}%`,
+  `Infrastructure Score Between ${this.progressCardValues[1].split("-")[0]}% to ${this.progressCardValues[1].split("-")[1]}%`,
+  `Infrastructure Score Between ${this.progressCardValues[2].split("-")[0]}% to ${this.progressCardValues[2].split("-")[1]}%`,
   `Infrastructure Score Above ${this.progressCardValues[3]}%`];
 
 
