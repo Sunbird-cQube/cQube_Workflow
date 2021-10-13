@@ -1,3 +1,14 @@
+/* drop view statements */
+
+drop view if exists hc_udise_district cascade;
+drop view if exists hc_udise_block cascade;
+drop view if exists hc_udise_cluster cascade;
+drop view if exists hc_udise_school cascade;
+drop view if exists hc_udise_mgmt_district cascade;
+drop view if exists hc_udise_mgmt_block cascade;
+drop view if exists hc_udise_mgmt_cluster cascade;
+drop view if exists hc_udise_mgmt_school cascade;
+
 /*--------------------------------------------------------------Udise configuration stage----------------------------------------------*/
 
 CREATE OR REPLACE FUNCTION insert_udise_trans()
@@ -1667,84 +1678,84 @@ select udise_school_mgt_score();
 /*udise*/
 
 create or replace view hc_udise_district as 
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_district_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_district_score as uds left join 
 (select district_id,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_score group by district_id)as usc
 on uds.district_id= usc.district_id;
 
 create or replace view hc_udise_block as  
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_block_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_block_score as uds left join 
 (select block_id,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_score group by block_id)as usc
 on uds.block_id= usc.block_id;
 
 create or replace view hc_udise_cluster as  
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_cluster_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_cluster_score as uds left join 
 (select cluster_id,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_score group by cluster_id)as usc
 on uds.cluster_id= usc.cluster_id;
 
 create or replace view hc_udise_school as  
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_school_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_school_score as uds left join 
 (select udise_school_id,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_score group by udise_school_id)as usc
 on uds.udise_school_id= usc.udise_school_id;
 
 /*udise*/
 
 create or replace view hc_udise_mgmt_district as 
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_district_mgt_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_district_mgt_score as uds left join 
 (select district_id,school_management_type,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_mgt_score group by district_id,school_management_type)as usc
 on uds.district_id= usc.district_id and uds.school_management_type=usc.school_management_type;
 
 create or replace view hc_udise_mgmt_block as  
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_block_mgt_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_block_mgt_score as uds left join 
 (select block_id,school_management_type,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_mgt_score group by block_id,school_management_type)as usc
 on uds.block_id= usc.block_id and uds.school_management_type=usc.school_management_type;
 
 create or replace view hc_udise_mgmt_cluster as  
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_cluster_mgt_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_cluster_mgt_score as uds left join 
 (select cluster_id,school_management_type,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_mgt_score group by cluster_id,school_management_type)as usc
 on uds.cluster_id= usc.cluster_id and uds.school_management_type=usc.school_management_type;
 
 create or replace view hc_udise_mgmt_school as  
-select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_school_mgt_score as uds left join 
+select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_school_mgt_score as uds left join 
 (select udise_school_id,school_management_type,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and Infrastructure_score<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and Infrastructure_score<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories='poor') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='average')  and Infrastructure_score<(select value_to from progress_card_category_config where categories='average') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='good') and Infrastructure_score< (select value_to from progress_card_category_config where categories='good') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories='excellent') then 1 else 0 end)as excellent
    from udise_school_mgt_score group by udise_school_id,school_management_type)as usc
 on uds.udise_school_id= usc.udise_school_id and uds.school_management_type=usc.school_management_type;
 
