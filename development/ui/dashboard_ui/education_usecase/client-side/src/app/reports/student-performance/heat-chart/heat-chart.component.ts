@@ -122,10 +122,7 @@ export class HeatChartComponent implements OnInit {
           this.examDates = this.metaData[i].data["months"][`${this.month}`][
             "examDate"
           ];
-          this.grades = [
-            { grade: "all" },
-            ...this.grades.filter((item) => item !== { grade: "all" }),
-          ];
+          this.grades = [{ grade: "all" },...this.grades.filter((item) => item !== { grade: "all" })];
   
           this.examDates = [
             { exam_date: "all" },
