@@ -41,6 +41,14 @@ language plpgsql;
 select drop_view_hc();
 
 
+drop view if exists hc_udise_state cascade;
+drop view if exists hc_udise_state_mgmt cascade;
+drop view if exists hc_infra_state cascade;
+drop view if exists hc_infra_state_mgmt cascade;
+
+truncate progress_card_config;
+
+
 /* Insert statements to progress card config  */
 /* District */
 
@@ -53,61 +61,62 @@ group by shd.district_id,shd.district_name)as basic ',True,'district','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
-' left join (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75,((rank () over ( order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
+' left join (select sad.*,sac.poor,sac.average,sac.good,sac.excellent,((rank () over ( order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
 from hc_student_attendance_school_overall)) as district_level_rank_within_the_state,1-round(Rank() over (ORDER BY attendance DESC) 
 / coalesce(((select count(distinct(district_id)) from hc_student_attendance_school_overall)*1.0),1),1) as state_level_score
  from hc_student_attendance_district_overall as sad left join
 (select district_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'')
+ then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'') and attendance < (select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance < (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall group by district_id)as sac
 on sad.district_id= sac.district_id
 )as student_attendance on basic.district_id=student_attendance.district_id',True,'district','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
-' left join (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+' left join (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,semester,
   ((rank () over (partition by semester order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from semester_exam_district_all)) as district_level_rank_within_the_state, 
 1-round( Rank() over (partition by semester ORDER BY district_performance DESC) / coalesce(((select count(distinct(district_id)) from semester_exam_district_all)*1.0),1),2) as state_level_score
  from semester_exam_district_all where semester=(select max(semester) from semester_exam_district_all))as ped left join
 (select district_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'') and school_performance < (select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance < (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all group by district_id,semester)as pes
 on ped.district_id= pes.district_id and ped.semester=pes.semester)as semester
 on basic.district_id=semester.district_id',True,'district','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('udise','row_to_json(udise.*) as udise',
-'left join  (select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_district_score as uds left join 
+'left join  (select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_district_score as uds left join 
 (select district_id,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and infrastructure_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and infrastructure_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''average'')  and infrastructure_score <(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''good'') and infrastructure_score < (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from udise_school_score group by district_id)as usc
 on uds.district_id= usc.district_id)as udise
 on basic.district_id=udise.district_id',True,'district','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
-'left join (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+'left join (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance,data_from_date,data_upto_date,
   ((rank () over ( order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from hc_periodic_exam_district_all)) as district_level_rank_within_the_state,
  coalesce(1-round( Rank() over (ORDER BY district_performance DESC) / coalesce(((select count(distinct(district_id)) from hc_periodic_exam_school_all)*1.0),1),2)) as state_level_score
  from hc_periodic_exam_district_all )as ped left join
 (select district_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance < (select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance < (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_all group by district_id)as pes
 on ped.district_id= pes.district_id)as pat
 on basic.district_id=pat.district_id',True,'district','overall')
@@ -134,13 +143,13 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
 'left join (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_overall as sad left join
 (select block_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall  group by block_id)as sac
 on sad.block_id= sac.block_id
 ) as b
@@ -159,13 +168,13 @@ left join(select usc.block_id,attendance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.attendance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_overall as sad left join
 (select block_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall  group by block_id)as sac
 on sad.block_id= sac.block_id) as usc
 left join
@@ -183,14 +192,14 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
 ' left join (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance as performance,semester
  from semester_exam_block_all where semester=(select max(semester) from semester_exam_block_all))as ped left join
 (select block_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all  group by block_id,semester)as pes
 on ped.block_id= pes.block_id and ped.semester=pes.semester) as b
 left join(select usc.block_id,block_performance,usc.semester,
@@ -209,15 +218,15 @@ coalesce(1-round(( Rank()
              over (partition by usc.semester
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,semester
  from semester_exam_block_all 
 )as ped left join
 (select block_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all  group by block_id,semester)as pes
 on ped.block_id= pes.block_id and ped.semester=pes.semester) as usc
 left join
@@ -268,14 +277,14 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 'left join (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date
  from hc_periodic_exam_block_all )as ped left join
 (select block_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_all  group by block_id)as pes
 on ped.block_id= pes.block_id) as b
 left join(select usc.block_id,block_performance,
@@ -294,15 +303,15 @@ coalesce(1-round(( Rank()
              over (
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date
  from hc_periodic_exam_block_all 
 )as ped left join
 (select block_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_all  group by block_id)as pes
 on ped.block_id= pes.block_id) as usc
 left join
@@ -343,13 +352,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_overall as sad left join
 (select cluster_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall  group by cluster_id)as sac
 on sad.cluster_id= sac.cluster_id
 ) as b
@@ -374,13 +383,13 @@ left join(select usc.cluster_id,attendance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.attendance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                        
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_overall as sad left join
 (select cluster_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall  group by cluster_id)as sac
 on sad.cluster_id= sac.cluster_id
 ) as usc
@@ -404,15 +413,15 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance as performance,semester 
  from semester_exam_cluster_all  where semester=(select max(semester) from semester_exam_cluster_all)
 )as ped left join
 (select cluster_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all group by cluster_id,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.semester=pes.semester) as b
 left join(select usc.cluster_id,cluster_performance,usc.semester,
@@ -436,15 +445,15 @@ left join(select usc.cluster_id,cluster_performance,usc.semester,
 coalesce(1-round(( Rank()
              over (partition by semester
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,semester
  from semester_exam_cluster_all 
 )as ped left join
 (select cluster_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all group by cluster_id,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.semester=pes.semester) as usc
 left join
@@ -509,15 +518,15 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
-c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date
  from hc_periodic_exam_cluster_all 
 )as ped left join
 (select cluster_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_all group by cluster_id)as pes
 on ped.cluster_id= pes.cluster_id) as b
 left join(select usc.cluster_id,cluster_performance,
@@ -541,15 +550,15 @@ left join(select usc.cluster_id,cluster_performance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date
  from hc_periodic_exam_cluster_all 
 )as ped left join
 (select cluster_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_all group by cluster_id)as pes
 on ped.cluster_id= pes.cluster_id) as usc
 left join
@@ -594,13 +603,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_school_overall as sad left join
 (select school_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall group by school_id)as sac
 on sad.school_id= sac.school_id) as b
 left join(select usc.school_id,attendance,
@@ -630,13 +639,13 @@ left join(select usc.school_id,attendance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.attendance DESC) / (a.total_schools*1.0)),2)) AS state_level_score
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_school_overall as sad left join
 (select school_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall  group by school_id)as sac
 on sad.school_id= sac.school_id ) as usc
 left join
@@ -663,14 +672,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
 (select ped.block_id,ped.block_name,ped.cluster_id,ped.cluster_name,ped.school_id,ped.school_name,ped.district_id,ped.district_name,ped.performance,ped.semester,
-pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75,ped.grade_wise_performance from 
+pes.poor,pes.average,pes.good,pes.excellent,ped.grade_wise_performance from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance as performance,semester
  from semester_exam_school_all where semester=(select max(semester) from semester_exam_school_all))as ped left join
 (select school_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all 
    group by school_id,semester)as pes
 on ped.school_id= pes.school_id and ped.semester=pes.semester) as b
@@ -701,14 +710,14 @@ left join(select usc.school_id,school_performance,usc.semester,
 coalesce(1-round(( Rank()
              over (partition by usc.semester
                ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,semester
 from semester_exam_school_all)as ped left join
 (select school_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all group by school_id,semester)as pes
 on ped.school_id= pes.school_id and ped.semester=pes.semester) as usc
 left join
@@ -786,14 +795,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,data_from_date,data_upto_date
  from hc_periodic_exam_school_all)as ped left join
 (select school_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_all 
    group by school_id)as pes
 on ped.school_id= pes.school_id) as b
@@ -824,14 +833,14 @@ left join(select usc.school_id,school_performance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,data_from_date,data_upto_date
 from hc_periodic_exam_school_all)as ped left join
 (select school_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_all group by school_id)as pes
 on ped.school_id= pes.school_id) as usc
 left join
@@ -876,32 +885,32 @@ group by shd.district_id,shd.district_name)as basic ',True,'district','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
-' left join (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75,((rank () over ( order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
+' left join (select sad.*,sac.poor,sac.average,sac.good,sac.excellent,((rank () over ( order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
 from hc_student_attendance_school_last_30_days)) as district_level_rank_within_the_state,1-round(Rank() over (ORDER BY attendance DESC) 
 / coalesce(((select count(distinct(district_id)) from hc_student_attendance_school_last_30_days)*1.0),1),1) as state_level_score
  from hc_student_attendance_district_last_30_days as sad left join
 (select district_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days group by district_id)as sac
 on sad.district_id= sac.district_id
 )as student_attendance on basic.district_id=student_attendance.district_id',True,'district','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
-' left join (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+' left join (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,semester,
   ((rank () over (partition by semester order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from semester_exam_district_last30)) as district_level_rank_within_the_state, 
 1-round( Rank() over (partition by semester ORDER BY district_performance DESC) / coalesce(((select count(distinct(district_id)) from semester_exam_district_last30)*1.0),1),2) as state_level_score
  from semester_exam_district_last30 where semester=(select max(semester) from semester_exam_district_last30))as ped left join
 (select district_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30 group by district_id,semester)as pes
 on ped.district_id= pes.district_id and ped.semester=pes.semester)as semester
 on basic.district_id=semester.district_id',True,'district','last30')
@@ -909,29 +918,29 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('udise','row_to_json(udise.*) as udise',
 'left join 
-(select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_district_score as uds left join 
+(select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_district_score as uds left join 
 (select district_id,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and infrastructure_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and infrastructure_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''average'')  and infrastructure_score<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''good'') and infrastructure_score< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from udise_school_score group by district_id)as usc
 on uds.district_id= usc.district_id)as udise
 on basic.district_id=udise.district_id',True,'district','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
-'left join (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+'left join (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance,data_from_date,data_upto_date,
   ((rank () over ( order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from hc_periodic_exam_district_last30)) as district_level_rank_within_the_state,
  coalesce(1-round( Rank() over (ORDER BY district_performance DESC) / coalesce(((select count(distinct(district_id)) from hc_periodic_exam_school_last30)*1.0),1),2)) as state_level_score
  from hc_periodic_exam_district_last30 )as ped left join
 (select district_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_last30 group by district_id)as pes
 on ped.district_id= pes.district_id)as pat
 on basic.district_id=pat.district_id',True,'district','last30')
@@ -988,13 +997,13 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
 'left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_last_30_days as sad left join
 (select block_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days group by block_id)as sac
 on sad.block_id= sac.block_id) as b
 left join(select usc.block_id,attendance,
@@ -1012,13 +1021,13 @@ left join(select usc.block_id,attendance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.attendance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_last_30_days as sad left join
 (select block_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days group by block_id)as sac
 on sad.block_id= sac.block_id) as usc
 left join
@@ -1037,14 +1046,14 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance as performance,semester
  from semester_exam_block_last30 where semester=(select max(semester) from semester_exam_block_last30))as ped left join
 (select block_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30  group by block_id,semester)as pes
 on ped.block_id= pes.block_id and ped.semester=pes.semester) as b
 left join(select usc.block_id,block_performance,usc.semester,
@@ -1063,15 +1072,15 @@ coalesce(1-round(( Rank()
              over (partition by usc.semester
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,semester
  from semester_exam_block_last30 
 )as ped left join
 (select block_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30  group by block_id,semester)as pes
 on ped.block_id= pes.block_id and ped.semester=pes.semester) as usc
 left join
@@ -1124,14 +1133,14 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 'left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date
  from hc_periodic_exam_block_last30 )as ped left join
 (select block_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_last30 group by block_id)as pes
 on ped.block_id= pes.block_id) as b
 left join(select usc.block_id,block_performance,
@@ -1150,15 +1159,15 @@ coalesce(1-round(( Rank()
              over (
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date
  from hc_periodic_exam_block_last30 
 )as ped left join
 (select block_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_last30 group by block_id)as pes
 on ped.block_id= pes.block_id) as usc
 left join
@@ -1238,13 +1247,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_last_30_days as sad left join
 (select cluster_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days group by cluster_id)as sac
 on sad.cluster_id= sac.cluster_id) as b
 left join(select usc.cluster_id,attendance,
@@ -1268,13 +1277,13 @@ left join(select usc.cluster_id,attendance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.attendance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                        
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_last_30_days as sad left join
 (select cluster_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days group by cluster_id)as sac
 on sad.cluster_id= sac.cluster_id) as usc
 left join
@@ -1297,15 +1306,15 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 'left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance as performance,semester 
  from semester_exam_cluster_last30  where semester=(select max(semester) from semester_exam_cluster_last30)
 )as ped left join
 (select cluster_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30 group by cluster_id,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.semester=pes.semester) as b
 left join(select usc.cluster_id,cluster_performance,usc.semester,
@@ -1329,15 +1338,15 @@ left join(select usc.cluster_id,cluster_performance,usc.semester,
 coalesce(1-round(( Rank()
              over (partition by semester
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,semester
  from semester_exam_cluster_last30 
 )as ped left join
 (select cluster_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30 group by cluster_id,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.semester=pes.semester) as usc
 left join
@@ -1402,14 +1411,14 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
-c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date
  from hc_periodic_exam_cluster_last30)as ped left join
 (select cluster_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_last30 group by cluster_id)as pes
 on ped.cluster_id= pes.cluster_id) as b
 left join(select usc.cluster_id,cluster_performance,
@@ -1433,14 +1442,14 @@ left join(select usc.cluster_id,cluster_performance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date
  from hc_periodic_exam_cluster_last30)as ped left join
 (select cluster_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_last30  group by cluster_id)as pes
 on ped.cluster_id= pes.cluster_id) as usc
 left join
@@ -1532,13 +1541,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_school_last_30_days as sad left join
 (select school_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days group by school_id)as sac
 on sad.school_id= sac.school_id) as b
 left join(select usc.school_id,attendance,
@@ -1568,13 +1577,13 @@ left join(select usc.school_id,attendance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.attendance DESC) / (a.total_schools*1.0)),2)) AS state_level_score
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_school_last_30_days as sad left join
 (select school_id,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days  group by school_id)as sac
 on sad.school_id= sac.school_id ) as usc
 left join
@@ -1601,14 +1610,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
 (select ped.block_id,ped.block_name,ped.cluster_id,ped.cluster_name,ped.school_id,ped.school_name,ped.district_id,ped.district_name,ped.performance,ped.semester,
-pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75,ped.grade_wise_performance from 
+pes.poor,pes.average,pes.good,pes.excellent,ped.grade_wise_performance from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance as performance,semester
  from semester_exam_school_last30 where semester=(select max(semester) from semester_exam_school_last30))as ped left join
 (select school_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30 
    group by school_id,semester)as pes
 on ped.school_id= pes.school_id and ped.semester=pes.semester) as b
@@ -1639,14 +1648,14 @@ left join(select usc.school_id,school_performance,usc.semester,
 coalesce(1-round(( Rank()
              over (partition by usc.semester
                ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,semester
 from semester_exam_school_last30)as ped left join
 (select school_id,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30 group by school_id,semester)as pes
 on ped.school_id= pes.school_id and ped.semester=pes.semester) as usc
 left join
@@ -1724,14 +1733,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,data_from_date,data_upto_date
  from hc_periodic_exam_school_last30 )as ped left join
 (select school_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_last30 group by school_id)as pes
 on ped.school_id= pes.school_id) as b
 left join(select usc.school_id,school_performance,
@@ -1761,14 +1770,14 @@ left join(select usc.school_id,school_performance,
 coalesce(1-round(( Rank()
              over (
                ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance
  from hc_periodic_exam_school_last30 )as ped left join
 (select school_id,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_last30 group by school_id)as pes
 on ped.school_id= pes.school_id) as usc
 left join
@@ -1979,15 +1988,15 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
 'left join 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75,((rank () over (partition by sac.school_management_type order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent,((rank () over (partition by sac.school_management_type order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
 from school_student_total_attendance)) as district_level_rank_within_the_state,coalesce(1-round((Rank() over (partition by sac.school_management_type ORDER BY attendance DESC) / ((select count(distinct(district_id)) 
 from school_student_total_attendance)*1.0)),2)) as state_level_score
  from hc_student_attendance_district_mgmt_overall as sad left join
 (select district_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_overall group by district_id,school_management_type)as sac
 on sad.district_id= sac.district_id and sad.school_management_type=sac.school_management_type
 )as student_attendance
@@ -1996,7 +2005,7 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
 ' left join 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,school_management_type,semester,
   ((rank () over ( partition by school_management_type,semester order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from semester_exam_district_mgmt_all)) as district_level_rank_within_the_state, 
@@ -2004,10 +2013,10 @@ coalesce(1-round(( Rank() over (partition by school_management_type,semester ORD
  ((select count(distinct(district_id)) from semester_exam_district_mgmt_all)*1.0)),2)) as state_level_score
  from semester_exam_district_mgmt_all where semester=(select max(semester) from semester_exam_district_mgmt_all))as ped left join
 (select district_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_all group by district_id,school_management_type,semester)as pes
 on ped.district_id= pes.district_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester)as semester
 on basic.district_id=semester.district_id and basic.school_management_type=semester.school_management_type',True,'district_mgmt','overall')
@@ -2015,12 +2024,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('udise','row_to_json(udise.*) as udise',
 ' left join 
-(select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_district_mgt_score as uds left join 
+(select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_district_mgt_score as uds left join 
 (select district_id,school_management_type,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and infrastructure_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and infrastructure_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''average'')  and infrastructure_score<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''good'') and infrastructure_score< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from udise_school_mgt_score group by district_id,school_management_type)as usc
 on uds.district_id= usc.district_id)as udise
 on basic.district_id=udise.district_id and basic.school_management_type=udise.school_management_type',True,'district_mgmt','overall')
@@ -2028,17 +2037,17 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance,data_from_date,data_upto_date,school_management_type,
   ((rank () over ( partition by school_management_type order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from hc_periodic_exam_district_mgmt_all)) as district_level_rank_within_the_state, 
 coalesce(1-round(( Rank() over (partition by school_management_type ORDER BY district_performance DESC) / ((select count(distinct(district_id)) from semester_exam_district_mgmt_all)*1.0)),2)) as state_level_score
  from hc_periodic_exam_district_mgmt_all )as ped left join
 (select district_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_all group by district_id,school_management_type)as pes
 on ped.district_id= pes.district_id and ped.school_management_type=pes.school_management_type)as pat
 on basic.district_id=pat.district_id and basic.school_management_type=pat.school_management_type
@@ -2098,13 +2107,13 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_mgmt_overall as sad left join
 (select block_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_overall  group by block_id,school_management_type)as sac
 on sad.block_id= sac.block_id and sad.school_management_type=sac.school_management_type
 ) as b
@@ -2123,13 +2132,13 @@ left join(select usc.block_id,attendance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.attendance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_mgmt_overall as sad left join
 (select block_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_overall  group by block_id,school_management_type)as sac
 on sad.block_id= sac.block_id and sad.school_management_type=sac.school_management_type) as usc
 left join
@@ -2152,15 +2161,15 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance as performance,school_management_type,semester
  from semester_exam_block_mgmt_all
 where semester=(select max(semester) from semester_exam_block_mgmt_all) )as ped left join
 (select block_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_all  group by block_id,school_management_type,semester)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as b
 left join(select usc.block_id,block_performance,usc.school_management_type,usc.semester,
@@ -2179,15 +2188,15 @@ coalesce(1-round(( Rank()
              over (partition by usc.school_management_type,usc.semester
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,school_management_type,semester
  from semester_exam_block_mgmt_all 
 )as ped left join
 (select block_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_all  group by block_id,school_management_type,semester)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as usc
 left join
@@ -2248,14 +2257,14 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_block_mgmt_all )as ped left join
 (select block_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_mgmt_all  group by block_id,school_management_type)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type) as b
 left join(select usc.block_id,block_performance,usc.school_management_type,
@@ -2274,15 +2283,15 @@ coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_block_mgmt_all 
 )as ped left join
 (select block_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_mgmt_all  group by block_id,school_management_type)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type) as usc
 left join
@@ -2370,13 +2379,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_mgmt_overall as sad left join
 (select cluster_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_overall  group by cluster_id,school_management_type)as sac
 on sad.cluster_id= sac.cluster_id and sad.school_management_type=sac.school_management_type
 ) as b
@@ -2401,13 +2410,13 @@ left join(select usc.cluster_id,attendance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.attendance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                        
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_mgmt_overall as sad left join
 (select cluster_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_overall  group by cluster_id,school_management_type)as sac
 on sad.cluster_id= sac.cluster_id and sad.school_management_type=sac.school_management_type
 ) as usc
@@ -2436,14 +2445,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance as performance,school_management_type,semester
  from semester_exam_cluster_mgmt_all where semester=(select max(semester) from semester_exam_cluster_mgmt_all))as ped left join
 (select cluster_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_all group by cluster_id,school_management_type,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as b
 left join(select usc.cluster_id,cluster_performance,usc.school_management_type,usc.semester,
@@ -2467,15 +2476,15 @@ left join(select usc.cluster_id,cluster_performance,usc.school_management_type,u
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type,usc.semester
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,school_management_type,semester
  from semester_exam_cluster_mgmt_all 
 )as ped left join
 (select cluster_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_all group by cluster_id,school_management_type,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as usc
 left join
@@ -2545,15 +2554,15 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
-c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_cluster_mgmt_all 
 )as ped left join
 (select cluster_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_all group by cluster_id,school_management_type)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type) as b
 left join(select usc.cluster_id,cluster_performance,usc.school_management_type,
@@ -2577,15 +2586,15 @@ left join(select usc.cluster_id,cluster_performance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_cluster_mgmt_all 
 )as ped left join
 (select cluster_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_all group by cluster_id,school_management_type)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type) as usc
 left join
@@ -2688,13 +2697,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_school_mgmt_overall as sad left join
 (select school_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_overall group by school_id,school_management_type)as sac
 on sad.school_id= sac.school_id and sad.school_management_type=sac.school_management_type) as b
 left join(select usc.school_id,attendance,usc.school_management_type,
@@ -2724,13 +2733,13 @@ left join(select usc.school_id,attendance,usc.school_management_type,
 	coalesce(1-round(( Rank()
 				 over (partition by usc.school_management_type
 				   ORDER BY usc.attendance DESC) / (a.total_schools*1.0)),2)) AS state_level_score
-	 from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+	 from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
 	 from hc_student_attendance_school_mgmt_overall as sad left join
 	(select school_id,school_management_type,
-	 sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
-	 sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
-	 sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
-	 sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+	 sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
 	   from hc_student_attendance_school_mgmt_overall  group by school_id,school_management_type)as sac
 	on sad.school_id= sac.school_id and sad.school_management_type=sac.school_management_type ) as usc
 	left join
@@ -2764,14 +2773,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 (	select b.*,c.school_level_rank_within_the_state,
 	c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
 	(select ped.block_id,ped.block_name,ped.cluster_id,ped.cluster_name,ped.school_id,ped.school_name,ped.district_id,ped.district_name,ped.performance,ped.semester,
-	pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75,ped.grade_wise_performance,ped.school_management_type from 
+	pes.poor,pes.average,pes.good,pes.excellent,ped.grade_wise_performance,ped.school_management_type from 
 	(Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance as performance,semester,school_management_type
 	 from semester_exam_school_mgmt_all where semester=(select max(semester) from semester_exam_school_mgmt_all))as ped left join
 	(select school_id,semester,school_management_type,
-	 sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
-	 sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
-	 sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
-	 sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+	 sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
 	   from semester_exam_school_mgmt_all 
 	   group by school_id,semester,school_management_type)as pes
 	on ped.school_id= pes.school_id and ped.semester=pes.semester and ped.school_management_type=pes.school_management_type) as b
@@ -2802,14 +2811,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 	coalesce(1-round(( Rank()
 				 over (partition by usc.semester,usc.school_management_type
 				   ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
-	 from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+	 from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 	(Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,semester,school_management_type
 	from semester_exam_school_mgmt_all)as ped left join
 	(select school_id,semester,school_management_type,
-	 sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
-	 sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
-	 sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
-	 sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+	 sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
 	   from semester_exam_school_mgmt_all  where school_management_type is not null group by school_id,semester,school_management_type)as pes
 	on ped.school_id= pes.school_id and ped.semester=pes.semester and ped.school_management_type=pes.school_management_type) as usc
 	left join
@@ -2902,14 +2911,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_school_mgmt_all)as ped left join
 (select school_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_all 
    group by school_id,school_management_type)as pes
 on ped.school_id= pes.school_id and ped.school_management_type=pes.school_management_type) as b
@@ -2940,14 +2949,14 @@ left join(select usc.school_id,school_performance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,data_from_date,data_upto_date,school_management_type
 from hc_periodic_exam_school_mgmt_all)as ped left join
 (select school_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_all group by school_id,school_management_type)as pes
 on ped.school_id= pes.school_id and ped.school_management_type=pes.school_management_type) as usc
 left join
@@ -3066,15 +3075,15 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
 ' left join 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75,((rank () over (partition by sac.school_management_type order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent,((rank () over (partition by sac.school_management_type order by attendance desc))||'' out of ''||(select count(distinct(district_id)) 
 from school_student_total_attendance)) as district_level_rank_within_the_state,
 1-round((Rank() over (partition by sac.school_management_type ORDER BY attendance DESC) / coalesce((select count(distinct(district_id)) from school_student_total_attendance),1)*1.0),2) as state_level_score
  from hc_student_attendance_district_mgmt_last_30_days as sad left join
 (select district_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_last_30_days group by district_id,school_management_type)as sac
 on sad.district_id= sac.district_id and sad.school_management_type=sac.school_management_type
 )as student_attendance
@@ -3083,7 +3092,7 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
 ' left join 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance as performance,school_management_type,semester,
   ((rank () over ( partition by school_management_type,semester order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from semester_exam_district_mgmt_last30)) as district_level_rank_within_the_state, 
@@ -3091,10 +3100,10 @@ coalesce(1-round(( Rank() over (partition by school_management_type,semester ORD
  ((select count(distinct(district_id)) from semester_exam_district_mgmt_last30)*1.0)),2)) as state_level_score
  from semester_exam_district_mgmt_last30 where semester=(select max(semester) from semester_exam_district_mgmt_last30))as ped left join
 (select district_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_last30 group by district_id,school_management_type,semester)as pes
 on ped.district_id= pes.district_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester)as semester
 on basic.district_id=semester.district_id and basic.school_management_type=semester.school_management_type ',True,'district_mgmt','last30')
@@ -3102,12 +3111,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('udise','row_to_json(udise.*) as udise',
 ' left join 
-(select uds.*,usc.value_below_33,usc.value_between_33_60,usc.value_between_60_75,usc.value_above_75 from udise_district_mgt_score as uds left join 
+(select uds.*,usc.poor,usc.average,usc.good,usc.excellent from udise_district_mgt_score as uds left join 
 (select district_id,school_management_type,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and infrastructure_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and infrastructure_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''average'')  and infrastructure_score<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''good'') and infrastructure_score< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from udise_school_mgt_score group by district_id,school_management_type)as usc
 on uds.district_id= usc.district_id)as udise
 on basic.district_id=udise.district_id and basic.school_management_type=udise.school_management_type ',True,'district_mgmt','last30')
@@ -3115,17 +3124,17 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,grade_wise_performance,district_performance,data_from_date,data_upto_date,school_management_type,
   ((rank () over ( partition by school_management_type order by district_performance desc))||'' out of ''||(select count(distinct(district_id)) 
 from hc_periodic_exam_district_mgmt_last30)) as district_level_rank_within_the_state, 
 1-round( Rank() over (partition by school_management_type ORDER BY district_performance DESC) / coalesce(((select count(distinct(district_id)) from semester_exam_district_mgmt_last30)*1.0),1),2) as state_level_score
  from hc_periodic_exam_district_mgmt_last30 )as ped left join
 (select district_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_last30 group by district_id,school_management_type)as pes
 on ped.district_id= pes.district_id and ped.school_management_type=pes.school_management_type)as pat
 on basic.district_id=pat.district_id and basic.school_management_type=pat.school_management_type
@@ -3185,13 +3194,13 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance','row_to_json(student_attendance.*) as student_attendance',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+c.block_level_rank_within_the_district,c.state_level_score from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_mgmt_last_30_days as sad left join
 (select block_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_last_30_days  group by block_id,school_management_type)as sac
 on sad.block_id= sac.block_id and sad.school_management_type=sac.school_management_type
 ) as b
@@ -3210,13 +3219,13 @@ left join(select usc.block_id,attendance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.attendance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_block_mgmt_last_30_days as sad left join
 (select block_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_last_30_days  group by block_id,school_management_type)as sac
 on sad.block_id= sac.block_id and sad.school_management_type=sac.school_management_type) as usc
 left join
@@ -3239,15 +3248,15 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat','row_to_json(semester.*) as student_semester',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance as performance,school_management_type,semester
  from semester_exam_block_mgmt_last30
 where semester=(select max(semester) from semester_exam_block_mgmt_last30) )as ped left join
 (select block_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_last30  group by block_id,school_management_type,semester)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as b
 left join(select usc.block_id,block_performance,usc.school_management_type,usc.semester,
@@ -3266,15 +3275,15 @@ coalesce(1-round(( Rank()
              over (partition by usc.school_management_type,usc.semester
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,school_management_type,semester
  from semester_exam_block_mgmt_last30
 )as ped left join
 (select block_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_last30  group by block_id,school_management_type,semester)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as usc
 left join
@@ -3337,14 +3346,14 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
 (select b.*,c.block_level_rank_within_the_state,
-c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.block_level_rank_within_the_district,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_block_mgmt_last30 )as ped left join
 (select block_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_mgmt_last30  group by block_id,school_management_type)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type) as b
 left join(select usc.block_id,block_performance,usc.school_management_type,
@@ -3363,15 +3372,15 @@ coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.block_performance DESC) / (a.total_blocks*1.0)),2)) AS state_level_score                            
                          
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,grade_wise_performance,block_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_block_mgmt_last30 
 )as ped left join
 (select block_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_mgmt_last30  group by block_id,school_management_type)as pes
 on ped.block_id= pes.block_id and ped.school_management_type=pes.school_management_type) as usc
 left join
@@ -3460,13 +3469,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_mgmt_last_30_days as sad left join
 (select cluster_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_last_30_days  group by cluster_id,school_management_type)as sac
 on sad.cluster_id= sac.cluster_id and sad.school_management_type=sac.school_management_type
 ) as b
@@ -3491,13 +3500,13 @@ left join(select usc.cluster_id,attendance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.attendance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                        
- from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+ from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
  from hc_student_attendance_cluster_mgmt_last_30_days as sad left join
 (select cluster_id,school_management_type,
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_mgmt_last_30_days  group by cluster_id,school_management_type)as sac
 on sad.cluster_id= sac.cluster_id and sad.school_management_type=sac.school_management_type
 ) as usc
@@ -3528,14 +3537,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 (
 select b.*,c.cluster_level_rank_within_the_state,
 c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance as performance,school_management_type,semester
  from semester_exam_cluster_mgmt_last30 where semester=(select max(semester) from semester_exam_cluster_mgmt_last30))as ped left join
 (select cluster_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_last30 group by cluster_id,school_management_type,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as b
 left join(select usc.cluster_id,cluster_performance,usc.school_management_type,usc.semester,
@@ -3559,15 +3568,15 @@ left join(select usc.cluster_id,cluster_performance,usc.school_management_type,u
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type,usc.semester
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,school_management_type,semester
  from semester_exam_cluster_mgmt_last30 
 )as ped left join
 (select cluster_id,school_management_type,semester,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_mgmt_last30 group by cluster_id,school_management_type,semester)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type and ped.semester=pes.semester) as usc
 left join
@@ -3639,15 +3648,15 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat','row_to_json(pat.*) as PAT_performance',
 ' left join 
 (select b.*,c.cluster_level_rank_within_the_state,
-c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+c.cluster_level_rank_within_the_district,c.cluster_level_rank_within_the_block,c.state_level_score from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_cluster_mgmt_last30
 )as ped left join
 (select cluster_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_last30 group by cluster_id,school_management_type)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type) as b
 left join(select usc.cluster_id,cluster_performance,usc.school_management_type,
@@ -3671,15 +3680,15 @@ left join(select usc.cluster_id,cluster_performance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.cluster_performance DESC) / (a.total_clusters*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,grade_wise_performance,cluster_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_cluster_mgmt_last30 
 )as ped left join
 (select cluster_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_last30 group by cluster_id,school_management_type)as pes
 on ped.cluster_id= pes.cluster_id and ped.school_management_type=pes.school_management_type) as usc
 left join
@@ -3782,13 +3791,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (	select b.*,c.school_level_rank_within_the_state,
 	c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-	(select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+	(select sad.*,sac.poor,sac.average,sac.good,sac.excellent
 	 from hc_student_attendance_school_mgmt_last_30_days as sad left join
 	(select school_id,school_management_type,
-	 sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
-	 sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
-	 sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
-	 sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+	 sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
 	   from hc_student_attendance_school_mgmt_overall group by school_id,school_management_type)as sac
 	on sad.school_id= sac.school_id and sad.school_management_type=sac.school_management_type) as b
 	left join(select usc.school_id,attendance,usc.school_management_type,
@@ -3818,13 +3827,13 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 	coalesce(1-round(( Rank()
 				 over (partition by usc.school_management_type
 				   ORDER BY usc.attendance DESC) / (a.total_schools*1.0)),2)) AS state_level_score
-	 from (select sad.*,sac.value_below_33,sac.value_between_33_60,sac.value_between_60_75,sac.value_above_75
+	 from (select sad.*,sac.poor,sac.average,sac.good,sac.excellent
 	 from hc_student_attendance_school_mgmt_last_30_days as sad left join
 	(select school_id,school_management_type,
-	 sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
-	 sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
-	 sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
-	 sum(case when attendance > 75 then 1 else 0 end)as value_above_75
+	 sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+	 sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
 	   from hc_student_attendance_school_mgmt_last_30_days  group by school_id,school_management_type)as sac
 	on sad.school_id= sac.school_id and sad.school_management_type=sac.school_management_type ) as usc
 	left join
@@ -3858,14 +3867,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 (	select b.*,c.school_level_rank_within_the_state,
 	c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
 	(select ped.block_id,ped.block_name,ped.cluster_id,ped.cluster_name,ped.school_id,ped.school_name,ped.district_id,ped.district_name,ped.performance,ped.semester,
-	pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75,ped.grade_wise_performance,ped.school_management_type from 
+	pes.poor,pes.average,pes.good,pes.excellent,ped.grade_wise_performance,ped.school_management_type from 
 	(Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance as performance,semester,school_management_type
 	 from semester_exam_school_mgmt_last30 where semester=(select max(semester) from semester_exam_school_mgmt_last30))as ped left join
 	(select school_id,semester,school_management_type,
-	 sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
-	 sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
-	 sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
-	 sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+	 sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
 	   from semester_exam_school_mgmt_last30 
 	   group by school_id,semester,school_management_type)as pes
 	on ped.school_id= pes.school_id and ped.semester=pes.semester and ped.school_management_type=pes.school_management_type) as b
@@ -3896,14 +3905,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 	coalesce(1-round(( Rank()
 				 over (partition by usc.semester,usc.school_management_type
 				   ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
-	 from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+	 from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 	(Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,semester,school_management_type
 	from semester_exam_school_mgmt_last30)as ped left join
 	(select school_id,semester,school_management_type,
-	 sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
-	 sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
-	 sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
-	 sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+	 sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+	 sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
 	   from semester_exam_school_mgmt_last30  where school_management_type is not null group by school_id,semester,school_management_type)as pes
 	on ped.school_id= pes.school_id and ped.semester=pes.semester and ped.school_management_type=pes.school_management_type) as usc
 	left join
@@ -3995,14 +4004,14 @@ insert into progress_card_config(data_source,select_query,join_query,status,cate
 ' left join 
 (select b.*,c.school_level_rank_within_the_state,
 c.school_level_rank_within_the_district,c.school_level_rank_within_the_block,c.school_level_rank_within_the_cluster,c.state_level_score from 
-(select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+(select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,data_from_date,data_upto_date,school_management_type
  from hc_periodic_exam_school_mgmt_last30)as ped left join
 (select school_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_last30 
    group by school_id,school_management_type)as pes
 on ped.school_id= pes.school_id and ped.school_management_type=pes.school_management_type) as b
@@ -4033,14 +4042,14 @@ left join(select usc.school_id,school_performance,usc.school_management_type,
 coalesce(1-round(( Rank()
              over (partition by usc.school_management_type
                ORDER BY usc.school_performance DESC) / (a.total_schools*1.0)),2)) AS state_level_score                         
- from (select ped.*,pes.value_below_33,pes.value_between_33_60,pes.value_between_60_75,pes.value_above_75 from 
+ from (select ped.*,pes.poor,pes.average,pes.good,pes.excellent from 
 (Select district_id,district_name,block_id,block_name,cluster_id,cluster_name,school_id,school_name,grade_wise_performance,school_performance,data_from_date,data_upto_date,school_management_type
 from hc_periodic_exam_school_mgmt_last30)as ped left join
 (select school_id,school_management_type,
- sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+ sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_periodic_exam_school_mgmt_last30 group by school_id,school_management_type)as pes
 on ped.school_id= pes.school_id and ped.school_management_type=pes.school_management_type) as usc
 left join
@@ -4268,10 +4277,10 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance',' union
 (select ''student_attendance''as data,row_to_json(state_attendance)::text from
   (select hsao.attendance,hsao.students_count,hsao.total_schools,hsao.data_from_date,hsao.data_upto_date,
- sum(case when data.attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when data.attendance > 33 and data.attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when data.attendance > 60 and data.attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when data.attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when data.attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when data.attendance >= (select value_from from progress_card_category_config where categories=''average'')  and data.attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when data.attendance >= (select value_from from progress_card_category_config where categories=''good'') and data.attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when data.attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_overall as data, hc_student_attendance_state_overall hsao
    group by hsao.attendance,hsao.students_count,hsao.total_schools,hsao.data_from_date,hsao.data_upto_date)as state_attendance) ',
    ' ',True,'state','overall')
@@ -4279,12 +4288,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
 (select ''student_semester'' as data,
-  row_to_json(sat)::text from (select hc_sat_state_overall.school_performance as performance,hc_sat_state_overall.grade_wise_performance,hc_sat_state_overall.students_count,hc_sat_state_overall.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(sat)::text from (select hc_sat_state_overall.school_performance as performance,hc_sat_state_overall.grade_wise_performance,hc_sat_state_overall.students_count,hc_sat_state_overall.total_schools,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_all) as data, hc_sat_state_overall) as sat)',
 ' ',True,'state','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4296,12 +4305,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat',' union
 (select ''pat_performance''as data,
-  row_to_json(pat)::text from (select hc_pat_state_overall.*,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(pat)::text from (select hc_pat_state_overall.*,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_all) as data, hc_pat_state_overall) as pat) ',
 ' ',True,'state','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4393,10 +4402,10 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance',' union
 (select ''student_attendance''as data,row_to_json(state_attendance)::text from
   (select hsao.attendance,hsao.students_count,hsao.total_schools,hsao.data_from_date,hsao.data_upto_date,
- sum(case when data.attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when data.attendance > 33 and data.attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when data.attendance > 60 and data.attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when data.attendance > 75 then 1 else 0 end)as value_above_75
+ sum(case when data.attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when data.attendance >= (select value_from from progress_card_category_config where categories=''average'')  and data.attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when data.attendance >= (select value_from from progress_card_category_config where categories=''good'') and data.attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when data.attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from hc_student_attendance_school_last_30_days as data, hc_student_attendance_state_last30 hsao
    group by hsao.attendance,hsao.students_count,hsao.total_schools,hsao.data_from_date,hsao.data_upto_date)as state_attendance) ',
    ' ',True,'state','last30')
@@ -4404,12 +4413,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
 (select ''student_semester'' as data,
-  row_to_json(sat)::text from (select hc_sat_state_last30.school_performance as performance,hc_sat_state_last30.grade_wise_performance,hc_sat_state_last30.students_count,hc_sat_state_last30.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(sat)::text from (select hc_sat_state_last30.school_performance as performance,hc_sat_state_last30.grade_wise_performance,hc_sat_state_last30.students_count,hc_sat_state_last30.total_schools,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from semester_exam_school_last30) as data, hc_sat_state_last30) as sat)',
 ' ',True,'state','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4421,12 +4430,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat',' union
 (select ''pat_performance'' as data,
-  row_to_json(pat)::text from (select hc_pat_state_last30.*,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(pat)::text from (select hc_pat_state_last30.*,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from periodic_exam_school_last30) as data, hc_pat_state_last30) as pat) ',
 ' ',True,'state','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4539,10 +4548,10 @@ create_infra_view = 'create or replace view hc_infra_state as
  from (select sum(total_schools_data_received) as total_schools_data_received, 
    cast(avg(infra_score)as int)as infra_score,
 '||infra_cols||','''||infra_atf||''' as areas_to_focus,
- sum(case when infra_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when infra_score > 33 and infra_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when infra_score > 60 and infra_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when infra_score >75 then 1 else 0 end)as value_above_75
+ sum(case when infra_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when infra_score >= (select value_from from progress_card_category_config where categories=''average'')  and infra_score<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when infra_score >= (select value_from from progress_card_category_config where categories=''good'') and infra_score< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when infra_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
  from hc_infra_school)as infra) ;';
 Execute create_infra_view;  
 
@@ -4553,10 +4562,10 @@ create_udise_view = ' create or replace view hc_udise_state as
 select sum(total_schools) as total_schools
   ,'||udise_cols||',
     cast(avg(infrastructure_score)as int)as infrastructure_score,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and infrastructure_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and infrastructure_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''average'')  and infrastructure_score<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''good'') and infrastructure_score< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent
    from udise_school_score;';
 
 Execute create_udise_view;
@@ -4589,12 +4598,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance',' union
 (select ''student_attendance'' as data,school_management_type,row_to_json(state_attendance)::text from
   (select hsamo.attendance,hsamo.students_count,hsamo.total_schools,hsamo.data_from_date,hsamo.data_upto_date,
-  hsamo.school_management_type,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  hsamo.school_management_type,poor,average,good,excellent
 from (select
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75,school_management_type
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
 from hc_student_attendance_school_mgmt_overall hsao group by school_management_type) as data
 left join hc_student_attendance_state_mgmt_overall hsamo on 
 hsamo.school_management_type=data.school_management_type)as state_attendance) ',
@@ -4603,12 +4612,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
 (select ''student_semester'' as data,school_management_type,
-  row_to_json(sat)::text from (select hs.school_performance as performance,hs.grade_wise_performance,hs.school_management_type,hs.students_count,hs.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(sat)::text from (select hs.school_performance as performance,hs.grade_wise_performance,hs.school_management_type,hs.students_count,hs.total_schools,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75,school_management_type
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
    from hc_semester_exam_school_mgmt_all where school_management_type is not null group by school_management_type) as data left join hc_sat_state_mgmt_overall hs on data.school_management_type=hs.school_management_type) as sat)
  ',' ',True,'state_mgmt','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4620,12 +4629,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat',' union
 (select ''pat_performance'' as data,school_management_type,
-  row_to_json(pat)::text from (select hs.*,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(pat)::text from (select hs.*,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75,school_management_type
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
    from hc_periodic_exam_school_mgmt_all where school_management_type is not null group by school_management_type) as data left join hc_pat_state_mgmt_overall hs on data.school_management_type=hs.school_management_type) as pat)
  ',' ',True,'state_mgmt','overall')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4716,12 +4725,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('attendance',' union
 (select ''student_attendance'' as data,school_management_type,row_to_json(state_attendance)::text from
   (select hsamo.attendance,hsamo.students_count,hsamo.total_schools,hsamo.data_from_date,hsamo.data_upto_date,
-  hsamo.school_management_type,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  hsamo.school_management_type,poor,average,good,excellent
 from (select
- sum(case when attendance <=33 then 1 else 0 end)as value_below_33,
- sum(case when attendance > 33 and attendance<=60 then 1 else 0 end)as value_between_33_60,
- sum(case when attendance > 60 and attendance<=75 then 1 else 0 end)as value_between_60_75,
- sum(case when attendance > 75 then 1 else 0 end)as value_above_75,school_management_type
+ sum(case when attendance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''average'')  and attendance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''good'') and attendance<(select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when attendance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
 from hc_student_attendance_school_mgmt_last_30_days hsao where school_management_type is not null group by school_management_type) as data
 left join hc_student_attendance_state_mgmt_last30 hsamo on 
 hsamo.school_management_type=data.school_management_type)as state_attendance) ',
@@ -4730,12 +4739,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('sat',' union
 (select ''student_semester'' as data,school_management_type,
-  row_to_json(sat)::text from (select hs.school_performance as performance,hs.grade_wise_performance,hs.school_management_type,hs.students_count,hs.total_schools,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(sat)::text from (select hs.school_performance as performance,hs.grade_wise_performance,hs.school_management_type,hs.students_count,hs.total_schools,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75,school_management_type
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
    from hc_semester_exam_school_mgmt_last30 where school_management_type is not null group by school_management_type) as data left join hc_sat_state_mgmt_last30 hs on data.school_management_type=hs.school_management_type) as sat) ',
 ' ',True,'state_mgmt','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4747,12 +4756,12 @@ on conflict on constraint progress_card_config_pkey do nothing;
 
 insert into progress_card_config(data_source,select_query,join_query,status,category,time_period) values('pat',' union
 (select ''pat_performance'' as data,school_management_type,
-  row_to_json(pat)::text from (select hs.*,value_below_33,value_between_33_60,value_between_60_75,value_above_75
+  row_to_json(pat)::text from (select hs.*,poor,average,good,excellent
 from
-(select sum(case when school_performance <=33 then 1 else 0 end)as value_below_33,
- sum(case when school_performance > 33 and school_performance<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when school_performance > 60 and school_performance<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when school_performance >75 then 1 else 0 end)as value_above_75,school_management_type
+(select sum(case when school_performance < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''average'')  and school_performance<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''good'') and school_performance< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when school_performance >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
    from hc_periodic_exam_school_mgmt_last30 where school_management_type is not null group by school_management_type) as data left join hc_pat_state_mgmt_last30 hs on data.school_management_type=hs.school_management_type) as pat) ',
 ' ',True,'state_mgmt','last30')
 on conflict on constraint progress_card_config_pkey do nothing;
@@ -4862,10 +4871,10 @@ create_infra_view = 'create or replace view hc_infra_state_mgmt as
 (select sum(total_schools_data_received) as total_schools_data_received, 
    cast(avg(infra_score)as int)as infra_score,
 '||infra_cols||','''||infra_atf||''' as areas_to_focus,
- sum(case when infra_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when infra_score > 33 and infra_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when infra_score > 60 and infra_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when infra_score >75 then 1 else 0 end)as value_above_75,school_management_type
+ sum(case when infra_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when infra_score >= (select value_from from progress_card_category_config where categories=''average'')  and infra_score<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when infra_score >= (select value_from from progress_card_category_config where categories=''good'') and infra_score< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when infra_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
  from hc_infra_mgmt_school group by school_management_type) ;';
 Execute create_infra_view;  
 END if;
@@ -4874,10 +4883,10 @@ create_udise_view = ' create or replace view hc_udise_state_mgmt as
 (select sum(total_schools) as total_schools
   ,'||udise_cols||',
     cast(avg(infrastructure_score)as int)as infrastructure_score,
- sum(case when Infrastructure_score <=33 then 1 else 0 end)as value_below_33,
- sum(case when Infrastructure_score > 33 and infrastructure_score<= 60 then 1 else 0 end)as value_between_33_60,
- sum(case when Infrastructure_score > 60 and infrastructure_score<= 75 then 1 else 0 end)as value_between_60_75,
- sum(case when Infrastructure_score >75 then 1 else 0 end)as value_above_75,school_management_type
+ sum(case when Infrastructure_score < (select value_to from progress_card_category_config where categories=''poor'') then 1 else 0 end)as poor,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''average'')  and infrastructure_score<(select value_to from progress_card_category_config where categories=''average'') then 1 else 0 end)as average,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''good'') and infrastructure_score< (select value_to from progress_card_category_config where categories=''good'') then 1 else 0 end)as good,
+ sum(case when Infrastructure_score >= (select value_from from progress_card_category_config where categories=''excellent'') then 1 else 0 end)as excellent,school_management_type
    from udise_school_mgt_score group by school_management_type) ';
 
 Execute create_udise_view;
