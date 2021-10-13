@@ -2702,7 +2702,7 @@
                     <id>c0eea1f2-51f6-34e7-0000-000000000000</id>
                     <parentGroupId>285e7bf8-d59d-39a2-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-8352.0</x>
+                        <x>-8336.0</x>
                         <y>-888.0</y>
                     </position>
                     <comments></comments>
@@ -2771,7 +2771,7 @@
                     <parentGroupId>285e7bf8-d59d-39a2-0000-000000000000</parentGroupId>
                     <position>
                         <x>-8040.0</x>
-                        <y>-1696.0</y>
+                        <y>-1704.0</y>
                     </position>
                     <height>168.0</height>
                     <label>S3 data source</label>
@@ -3728,8 +3728,8 @@ ${emission_filename:startsWith('telemetry/telemetry_view'):ifElse(#{telemetry_vi
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>10 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <schedulingPeriod> 0 0 0/3 ? * * *</schedulingPeriod>
+                        <schedulingStrategy>CRON_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
@@ -4575,8 +4575,8 @@ ${emission_filename:startsWith('telemetry/telemetry_view'):ifElse(#{telemetry_vi
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>10 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <schedulingPeriod> 0 0 0/3 ? * * *</schedulingPeriod>
+                        <schedulingStrategy>CRON_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>true</executionNodeRestricted>
@@ -7114,7 +7114,7 @@ ${emission_filename:startsWith('telemetry/telemetry_view'):ifElse(#{telemetry_vi
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>180 mins</schedulingPeriod>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
                         <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
@@ -7420,5 +7420,5 @@ where ff_uuid= '${zip_identifier}'
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>10/12/2021 12:30:44 IST</timestamp>
+    <timestamp>10/13/2021 16:33:33 IST</timestamp>
 </template>
