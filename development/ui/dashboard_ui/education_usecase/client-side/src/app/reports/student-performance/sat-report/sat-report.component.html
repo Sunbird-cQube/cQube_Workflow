@@ -107,16 +107,22 @@
               Choose Grade
             </option>
             <option *ngFor="let grade of allGrades; let i = index" [(ngValue)]="grade.grade">
-              {{ grade.grade }}
+              <span *ngIf="grade.grade == 'all'; else other_content">
+                All Grades
+              </span>
+              <ng-template #other_content> {{grade.grade}}</ng-template>
             </option>
           </select>
-
+          
           <select [hidden]="subjectHidden" id="subjects" [(ngModel)]="subject" (change)="onSubjectSelect(subject)">
             <option [value]="subject" disabled selected="selected">
               Choose a Subject
             </option>
             <option *ngFor="let subject of allSubjects; let i = index" [(ngValue)]="allSubjects[i]">
-              {{ allSubjects[i] }}
+              <span *ngIf="allSubjects[i] == 'all'; else other_content">
+                All Subjects
+              </span>
+              <ng-template #other_content>{{allSubjects[i]}}</ng-template>
             </option>
           </select>
 
