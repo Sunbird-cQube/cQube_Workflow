@@ -32,5 +32,8 @@ router.use('/summary', summary);
 
 router.use('/nifi', nifi);
 
+const dikshaTPD_ETB_data_input = require('./controller/data-replay/dikshaTPD_ETB_data_input');
+router.use('/dikshaTPD_ETB_data_input', dikshaTPD_ETB_data_input);
+
 
 module.exports = router;
