@@ -45,7 +45,7 @@
       OUTPUT_BUCKET = "{{ s3_output_bucket }}"
       EMISSION_BUCKET = "{{ s3_emission_bucket }}"
 
-      KEYCLOAK_HOST = "https://{{ api_endpoint }}"
+      KEYCLOAK_HOST = "{{ protocol }}://{{ api_endpoint }}"
       KEYCLOAK_REALM = "{{ realm_name }}"
       KEYCLOAK_CLIENT = "{{ angular_app_client_id }}"
          

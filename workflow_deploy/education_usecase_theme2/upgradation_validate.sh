@@ -65,8 +65,8 @@ if ! [[ $2 == "udise" || $2 == "state" ]]; then
         dts=$(cut -d "=" -f2 <<< "$static_dts")
         if [[ ! "$2" == "$dts" ]]; then
             echo "Error - Static_datasource should be same as previous installation static_datasource"; fail=1
-        fi
-    fi
+	fi
+    fi	
 fi
 }
 
@@ -305,6 +305,12 @@ else
 fi
 }
 
+check_theme(){
+if ! [[ $2 == "theme1" || $2 == "theme2" || $2 == "theme3" ]]; then
+    echo "Error - Please enter either theme1 or theme2 or theme3 for $1"; fail=1
+fi
+}
+
 check_map_name(){
 if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" ]]; then
     echo "Error - Please enter either mapmyindia or googlemap or leafletmap for $1"; fail=1
@@ -326,6 +332,44 @@ if [[ $map_name == "googlemap" ]]; then
 fi
 }
 
+check_slab(){
+if [[ $slab1 =~ ^[0-9]{,2}$ && $slab2 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab3 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab4 =~ ^[0-9]{,2}$ ]]; then
+
+if ! [[ $slab1 -ge 1 && $slab1 -le 100 ]]; then
+ echo "Error - Not a number Please check the slab1 value. and enter the value between 1 to 100" ; fail=1
+fi
+
+slab21=`echo $slab2 | cut -d- -f1`
+slab22=`echo $slab2 | cut -d- -f2`
+
+if ! [[ $slab21 -eq $slab1 && $slab21 -le 100 ]]; then
+ echo "Error - Not a number Please check the $slab21 value. and enter the value equal to $slab1 and number should be between 1 to 100" ; fail=1
+fi
+
+if ! [[ $slab22 -gt $slab21 && $slab22 -le 100 ]]; then
+ echo "Error - Not a number Please check the $slab22 value. and enter the value greater than $slab21 and number should be between 1 to 100" ; fail=1
+fi
+
+slab31=`echo $slab3 | cut -d- -f1`
+slab32=`echo $slab3 | cut -d- -f2`
+
+if ! [[ $slab31 -eq $slab22 && $slab31 -le 100 ]]; then
+echo "Error - Not a number Please check the $slab33 value. and enter the value equal to $slab22 and number should be between 1 to 100" ; fail=1
+fi
+
+if ! [[ $slab32 -gt $slab31 && $slab32 -le 100 ]]; then
+echo "Error - Not a number Please check the $slab32 value. and enter the value greater than $slab31 and number should be between 1 to 100" ; fail=1
+fii
+
+if ! [[ $slab4 -eq $slab32 && $slab4 -le 100 ]]; then
+echo "Error - Not a number Please check the slab4 value. and enter the value equal to $slab32 and number should be between 1 to 100" ; fail=1
+fi
+
+else
+        echo "Error - Enter only the two digit number Please check the $1 value. and enter the value between 1 to 100" ; fail=1
+fi
+}
+
 get_config_values(){
 key=$1
 vals[$key]=$(awk ''/^$key:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
@@ -344,7 +388,7 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management"  "session_timeout" "map_name" "google_api_key")
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management"  "session_timeout" "map_name" "theme" "google_api_key" "slab1" "slab2" "slab3" "slab4")
 
 # Create and empty array which will store the key and value pair from config file
 declare -A vals
@@ -356,6 +400,10 @@ realm_name=cQube
 # Getting base_dir
 map_name=$(awk ''/^map_name:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab1=$(awk ''/^slab1:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab2=$(awk ''/^slab2:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab3=$(awk ''/^slab3:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 check_mem
 # Check the version before starting validation
@@ -420,9 +468,45 @@ case $key in
           check_map_name $key $value
        fi
        ;;
+   theme)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_theme $key $value
+       fi
+       ;;
    google_api_key)
           check_google_api_key $key $value
-       ;;       
+       ;; 
+   slab1)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+   slab2)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+   slab3)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+   slab4)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+
    *)
        if [[ $value == "" ]]; then
           echo -e "\e[0;31m${bold}Error - Value for $key cannot be empty. Please fill this value${normal}"; fail=1
