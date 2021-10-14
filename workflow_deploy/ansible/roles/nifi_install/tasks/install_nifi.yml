@@ -9,6 +9,20 @@
     - nifi_json_files
   tags: [ install, update ]
 
+- name: Creating emission directory for data_replay
+  file:
+    path: "{{ emission_directory }}/data_replay"
+    state: directory
+  when: storage_type == "local"  
+  tags: [ install, update ]
+
+- name: Creating emission directory for telemetry
+  file:
+    path: "{{ emission_directory }}/telemetry/telemetry_view"
+    state: directory
+  when: storage_type == "local"  
+  tags: [ install, update ]
+    
 - name: Copying the cQube_data_storage nifi templetes to nifi directory
   copy:
     src: ../../development/datasource/cQube_data_storage/nifi/{{ item }}
@@ -243,8 +257,8 @@
     mode: "0644"
   with_items:
     - diksha_summary_rollup_queries_all.json
-    - diksha_summary_rollup_queries_less.json
-    - diksha_tpd_queries.json  
+    - diksha_summary_rollup_queries_less.json 
+    - diksha_tpd_queries.json   
   tags: [ install, update ]  
 
 - name: Touch a file

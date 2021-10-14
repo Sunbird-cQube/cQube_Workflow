@@ -47,7 +47,7 @@
       STORAGE_TYPE = "{{ storage_type }}"
       BASEURL = "http://{{ local_ipv4_address}}:5000"
 
-      KEYCLOAK_HOST = "https://{{ api_endpoint }}"
+      KEYCLOAK_HOST = "{{ protocol }}://{{ api_endpoint }}"
       KEYCLOAK_REALM = "{{ realm_name }}"
       KEYCLOAK_CLIENT= "{{ admin_app_client_id }}"
       KEYCLOAK_USER= "{{ keycloak_adm_user }}"

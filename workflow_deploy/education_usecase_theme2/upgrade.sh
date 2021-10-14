@@ -32,18 +32,31 @@ ansible-playbook ../ansible/create_base.yml --tags "update" --extra-vars "@confi
 . "$INS_DIR/validation_scripts/backup_postgres.sh" config.yml
 
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
-ansible-playbook ../ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
-                                                        --extra-vars "@config.yml" \
-							--extra-vars "@memory_config.yml" \
-                                                        --extra-vars "@.version" \
-                                                        --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
-                                                        --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml"\
-							--extra-vars "@datasource_config.yml" \
-							--extra-vars "usecase_name=educational_usecase_theme2" \
-                                                        --extra-vars "theme=na"
-                                               
-. "update_ui.sh"
+mode_of_installation=$(awk ''/^mode_of_installation:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
+if [[ $mode_of_installation == "localhost" ]]; then
+ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+                                                         --extra-vars "@config.yml" \
+                                                                                     --extra-vars "@memory_config.yml" \
+                                                         --extra-vars "@.version" \
+                                                         --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
+                                                         --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
+                                                                                     --extra-vars "@datasource_config.yml" \
+                                                         --extra-vars "usecase_name=education_usecase_theme2"
+                                                         --extra-vars "protocol=http"
+else
+ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+                                                         --extra-vars "@config.yml" \
+                                                                                     --extra-vars "@memory_config.yml" \
+                                                         --extra-vars "@.version" \
+                                                         --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
+                                                         --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
+                                                                                     --extra-vars "@datasource_config.yml" \
+                                                         --extra-vars "usecase_name=education_usecase_theme2"
+fi
 if [ $? = 0 ]; then
-   echo "cQube Workflow upgraded successfully!!"
+. "install_ui.sh"
+	if [ $? = 0 ]; then
+   		echo "cQube Workflow installed successfully!!"
+	fi
 fi
 

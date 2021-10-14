@@ -13,7 +13,7 @@
 
 base_dir: /opt                            # provide the absolute path where cqube needs to be installed and served. Eg. /opt  ( in this case cqube will be installed under /opt/cqube)
 
-state_code:                                # Enter the 2 character (upper case) state code for which cQube is being deployed. Please refer state_list file. 
+state_code:                               # Enter the 2 character (upper case) state code for which cQube is being deployed. Please refer state_list file. 
 
 # Diksha Columns
 
@@ -26,10 +26,18 @@ static_datasource:                       # Enter udise or state
 
 management:                              # Enter the management
 
-session_timeout: 7D                           # enter the value between 30 Minutes to 3650 Days. Eg. For minutes `60M`  Eg. For days `15D`. Make sure M and D should be mentioned upper case.
+session_timeout: 7D                      # enter the value between 30 Minutes to 3650 Days. Eg. For minutes `60M`  Eg. For days `15D`. Make sure M and D should be mentioned upper case.
 
-map_name: leafletmap                                 # Enter the map_name ( mapmyindia or googlemap or leafletmap )
+map_name: leafletmap                                # Enter the map_name ( mapmyindia or googlemap or leafletmap )
 
 google_api_key: remove_this_key_value                        # Enter the google_api_key  here (if you selected map_name as googlemap replace `remove_this_key_value` with the actual googlemaps api key )
-                        
+ 
+theme:                                    # Enter the theme ( theme1 or theme2 or theme3 )
 
+slab1:                                     #Enter slab1 value between 1-100
+
+slab2:                                     #Enter slab2 value greater than slab1 and between 1-100
+
+slab3:                                     #Enter slab3 value greater than slab2 nd between 1-100
+
+slab4:                                     #Enter slab4 value greater than or equal to slab3 last value between 1-100 
