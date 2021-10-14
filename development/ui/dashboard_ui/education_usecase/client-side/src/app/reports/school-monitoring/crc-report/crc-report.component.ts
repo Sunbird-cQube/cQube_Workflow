@@ -173,14 +173,11 @@ export class CrcReportComponent implements OnInit {
   }
 
   height = window.innerHeight;
-  public h;
+  public h = "44vh";
   onResize() {
     this.height = window.innerHeight;
     this.h = this.height > 1760 ? "60vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "52vh" : "44vh";
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
-    }
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
   ngOnInit() {
@@ -246,9 +243,6 @@ export class CrcReportComponent implements OnInit {
   }
 
   getDistricts(level): void {
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
     this.service
       .crcDistWiseData({ ...{ timePeriod: this.period }, ...this.month_year, ...{ management: this.management, category: this.category } })
       .subscribe((res) => {
@@ -419,9 +413,6 @@ export class CrcReportComponent implements OnInit {
     if ($.fn.DataTable.isDataTable("#table")) {
       $("#table").DataTable().destroy();
       $("#table").empty();
-    }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
     }
     this.changeDetection.detectChanges();
     this.reportData = [];
@@ -682,9 +673,6 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
     this.modes = [];
     this.downloadType = "";
     this.blockHidden = false;
@@ -824,9 +812,6 @@ export class CrcReportComponent implements OnInit {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
-    }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
     }
     this.modes = [];
     this.downloadType = "";
@@ -974,9 +959,6 @@ export class CrcReportComponent implements OnInit {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
-    }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
     }
     this.modes = [];
     this.downloadType = "";
@@ -1136,6 +1118,9 @@ export class CrcReportComponent implements OnInit {
   }
 
   createChart(labels, chartData, name, obj) {
+    if (this.scatterChart) {
+      this.scatterChart.destroy();
+    }
     var ctx = $("#myChart");
     ctx.attr("height", this.h);
     this.scatterChart = new Chart("myChart", {

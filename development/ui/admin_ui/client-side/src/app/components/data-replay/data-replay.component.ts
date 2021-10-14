@@ -471,13 +471,18 @@ export class DataReplayComponent implements OnInit {
   TPDonSubmit() {
     this.TPDdata['selected'] = this.TPDselected;
     this.TPDdata['time'] = this.getTime;
-    console.log(this.TPDdata);
+    this.service.dikshaTPD_ETB_data_input({ method: this.TPDselected }).subscribe(res => {
+      alert(res['msg']);
+    })
   }
+
   ETBdata = {};
   ETBonSubmit() {
     this.ETBdata['selected'] = this.ETBselected;
     this.ETBdata['time'] = this.getTime;
-    console.log(this.ETBdata);
+    this.service.dikshaTPD_ETB_data_input({ method: this.ETBselected }).subscribe(res => {
+      alert(res['msg']);
+    })
   }
 
 }

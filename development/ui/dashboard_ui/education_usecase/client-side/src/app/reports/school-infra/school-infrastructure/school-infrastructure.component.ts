@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { SchoolInfraService } from '../../../services/school-infra.service';
 import { Router } from '@angular/router';
 import { Chart } from 'chart.js';
-import { ExportToCsv } from 'export-to-csv';
 import { AppServiceComponent } from 'src/app/app.service';
 declare const $;
 
@@ -68,7 +67,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -84,10 +83,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   onResize() {
     this.height = window.innerHeight;
     this.h = this.height > 1760 ? "62vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "55vh" : "50vh";
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
-    }
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
   public tableHead: any;
@@ -98,10 +94,6 @@ export class SchoolInfrastructureComponent implements OnInit {
 
 
   districtWise() {
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
-
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'dist';
@@ -148,9 +140,6 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myDistData(data) {
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'block';
@@ -204,9 +193,6 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myBlockData(data) {
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
@@ -263,9 +249,6 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myClusterData(data) {
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'school';
@@ -576,6 +559,9 @@ export class SchoolInfrastructureComponent implements OnInit {
   labels: any;
   obj: any;
   createChart(labels, chartData, name, obj) {
+    if (this.scatterChart) {
+      this.scatterChart.destroy();
+    }
     var ctx = $("#myChart");
     ctx.attr("height", this.h);
     this.scatterChart = new Chart('myChart', {
