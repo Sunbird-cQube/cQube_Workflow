@@ -328,7 +328,7 @@ export class AppServiceComponent {
             seconds: ("0" + (this.edate.getSeconds())).slice(-2),
         }
         obj = {
-            // uid: this.keyCloakService.kc.tokenParsed.sub,
+            uid: this.keyCloakService.kc.tokenParsed.sub,
             eventType: event,
             reportId: reportId,
             time: dateObj.year + '-' + dateObj.month + '-' + dateObj.date + ' ' + dateObj.hour + ':' + dateObj.minut + ':' + dateObj.seconds
