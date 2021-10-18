@@ -41,7 +41,7 @@ ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_di
                                                          --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
                                                          --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
                                                                                      --extra-vars "@datasource_config.yml" \
-                                                         --extra-vars "usecase_name=education_usecase"
+                                                         --extra-vars "usecase_name=education_usecase" \
                                                          --extra-vars "protocol=http"
 else
 ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \

@@ -2141,7 +2141,6 @@ export class SatReportComponent implements OnInit {
     this.studentAttended = undefined;
     this.studentCount = undefined;
     this.changeDetection.detectChanges();
-    // this.data = [];
     this.commonService.loaderAndErr([]);
   }
 

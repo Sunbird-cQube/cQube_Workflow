@@ -5,3 +5,7 @@
 - name: Connection of pat to cqube data storage
   shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage pat_transformer"
   tags: [ install, update ]
+
+- name: run python code to disable the processors
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py pat_transformer {{ storage_type }}"
+  tags: [ install, update ]  

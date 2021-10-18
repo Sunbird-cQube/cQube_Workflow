@@ -1649,7 +1649,6 @@ export class PATReportComponent implements OnInit {
       var color;
       var colors = [];
       this.allSubjects.sort();
-      // if (data.length > 0) {
       this.markers = data;
       if (this.grade && this.subject) {
         var filtererSubData = this.markers.filter(item => {

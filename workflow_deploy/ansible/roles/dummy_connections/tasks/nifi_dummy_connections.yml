@@ -6,12 +6,3 @@
   shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_start_pg.py cqube_telemetry_transformer"
   when: telemetry
   tags: [ install, update ]
-
-- name: run python code to disable the processors
-  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py {{ storage_type }}"
-  tags: [ install, update ]
-
-- name: run python code to start cqube data storage
-  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_start_pg.py cQube_data_storage"
-  tags: [ install, update ]
-  
