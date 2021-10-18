@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   apiEndpoint: "http://{{ local_ipv4_address }}:3001/api",
-  appUrl: "https://{{ api_endpoint }}",
+  appUrl: "{{ protocol }}://{{ api_endpoint }}",
   grafanaEndPoint: "http://{{ local_ipv4_address }}:9000",
-  keycloakUrl: "https://{{ api_endpoint }}/auth",
+  keycloakUrl: "{{ protocol }}://{{ api_endpoint }}/auth",
   realm: "{{ realm_name }}",
   clientId: "{{ admin_app_client_id }}",
   storageType: "{{ storage_type }}",
-  keycloak_config_otp: "{{ keycloak_config_otp }}"
+  report_viewer_config_otp: {% if report_viewer_config_otp == True %}true{% endif %}{% if report_viewer_config_otp == False %}false{% endif %}
 };
