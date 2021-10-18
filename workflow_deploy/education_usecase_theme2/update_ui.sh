@@ -8,7 +8,7 @@ ansible-playbook ../ansible/update_ui.yml --tags "install" --extra-vars "@$base_
                                                              --extra-vars "@datasource_config.yml" \
                                                              --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
                                                              --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
-                                                             --extra-vars "usecase_name=education_usecase_theme2"
+                                                             --extra-vars "usecase_name=education_usecase_theme2" \
                                                              --extra-vars "protocol=http"
 else
 ansible-playbook ../ansible/update_ui.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
