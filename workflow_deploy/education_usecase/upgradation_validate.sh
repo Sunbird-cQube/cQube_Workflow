@@ -368,6 +368,7 @@ fi
 else
         echo "Error - Enter only the two digit number Please check the $1 value. and enter the value between 1 to 100" ; fail=1
 fi
+fi
 }
 
 get_config_values(){

@@ -38,7 +38,12 @@
   tags: [ install, update ]
 
 - name: copying maps script
-  shell: "cp -R ../../development/ui/dashboard_ui/maps/{{state_code}}.json ../../development/ui/dashboard_ui/{{usecase_name}}/client-side/src/assets/map.json"
+  copy:
+    src: "../../development/ui/dashboard_ui/maps/{{state_code}}.json" 
+    dest: "../../development/ui/dashboard_ui/{{usecase_name}}/client-side/src/assets/map.json"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+    mode: "0644"
   tags: [ install, update ]
 
 - name: copying client-side script
@@ -49,12 +54,28 @@
   template:
     src: environment.ts.j2
     dest: "{{ base_dir }}/cqube/dashboard/client_side/src/environments/environment.ts"
+  when: mode_of_installation != "localhost"
   tags: [ install, update ]
 
 - name: Configure the environment.prod.ts
   template:
     src: environment.prod.ts.j2
     dest: "{{ base_dir }}/cqube/dashboard/client_side/src/environments/environment.prod.ts"
+  when: mode_of_installation != "localhost"
+  tags: [ install, update ]
+
+- name: Configure the environment.ts (localhost)
+  template:
+    src: environment_local.ts.j2
+    dest: "{{ base_dir }}/cqube/dashboard/client_side/src/environments/environment.ts"
+  when: mode_of_installation == "localhost"
+  tags: [ install, update ]
+
+- name: Configure the environment.prod.ts (localhost)
+  template:
+    src: environment.prod_local.ts.j2
+    dest: "{{ base_dir }}/cqube/dashboard/client_side/src/environments/environment.prod.ts"
+  when: mode_of_installation == "localhost"
   tags: [ install, update ]
 
 - name: Configure the apis.config.ts

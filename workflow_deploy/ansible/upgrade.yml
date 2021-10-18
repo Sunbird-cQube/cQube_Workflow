@@ -12,8 +12,9 @@
           - { role: kong, tags: update }
           - keycloak
           - nifi_install
-          - { role: nifi_params, tags: update }
-            #- { role: nifi_data_sources, tags: update } 
+
+          - role: nifi_params 
+            tags: update 
 
           - role: cqube_data
             tags: update
