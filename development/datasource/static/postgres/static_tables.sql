@@ -473,6 +473,15 @@ create table if not exists telemetry_data
   created_on TIMESTAMP without time zone default current_timestamp
   );
 
+ create table if not exists telemetry_views_data
+    (
+  uid text,
+  eventtype text,
+  reportid text,
+  click_time TIMESTAMP without time zone,
+  created_on TIMESTAMP without time zone default current_timestamp
+  );
+
 /*Upgrade scripts*/
 
 /*files_ingestion table*/
