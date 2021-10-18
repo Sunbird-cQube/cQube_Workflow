@@ -4088,31 +4088,6 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>5f650d66-67ce-3842-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
-                        <id>9d73ad04-b486-3dbe-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
-                        <id>3258a36f-fcf4-3f8f-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
                     <id>5f901831-cc75-38a9-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -5335,46 +5310,6 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>7996a3e4-8635-3e6e-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
-                        <id>54758e57-6323-3ca0-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>cqube_telemetry</selectedRelationships>
-                    <selectedRelationships>crc</selectedRelationships>
-                    <selectedRelationships>data_replay_retention</selectedRelationships>
-                    <selectedRelationships>diksha</selectedRelationships>
-                    <selectedRelationships>infra_trans</selectedRelationships>
-                    <selectedRelationships>pat</selectedRelationships>
-                    <selectedRelationships>sat</selectedRelationships>
-                    <selectedRelationships>school_category</selectedRelationships>
-                    <selectedRelationships>school_management</selectedRelationships>
-                    <selectedRelationships>static_block</selectedRelationships>
-                    <selectedRelationships>static_cluster</selectedRelationships>
-                    <selectedRelationships>static_district</selectedRelationships>
-                    <selectedRelationships>static_school_master</selectedRelationships>
-                    <selectedRelationships>student_attendance</selectedRelationships>
-                    <selectedRelationships>tch_att</selectedRelationships>
-                    <selectedRelationships>udise</selectedRelationships>
-                    <source>
-                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
-                        <id>9d73ad04-b486-3dbe-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
                     <id>79fa67dc-6700-3304-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -6135,6 +6070,30 @@
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>ebf4c8f8-3048-3231-0000-000000000000</id>
                         <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>8fbfb572-e498-32b4-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>54758e57-6323-3ca0-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
+                        <id>aa53a590-6fdb-3a9f-0000-000000000000</id>
+                        <type>INPUT_PORT</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -7964,10 +7923,6 @@
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <bends>
-                        <x>3592.0</x>
-                        <y>1056.0</y>
-                    </bends>
                     <destination>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>0e508303-15b4-360e-0000-000000000000</id>
@@ -9242,31 +9197,6 @@
                     <source>
                         <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
                         <id>35717ee2-6b6e-386d-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
-                    <id>df61b26e-8b74-3b2e-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
-                        <id>9d73ad04-b486-3dbe-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>d133b002-ecca-35c5-0000-000000000000</groupId>
-                        <id>cad0e71a-b4f0-30d2-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -12755,6 +12685,19 @@
                     <type>INPUT_PORT</type>
                 </inputPorts>
                 <inputPorts>
+                    <id>aa53a590-6fdb-3a9f-0000-000000000000</id>
+                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-1432.0</x>
+                        <y>-1768.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>DS_emission_file</name>
+                    <state>STOPPED</state>
+                    <type>INPUT_PORT</type>
+                </inputPorts>
+                <inputPorts>
                     <id>ac1be331-3f97-32af-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -13440,27 +13383,6 @@
                     <width>680.0</width>
                 </labels>
                 <labels>
-                    <id>33931a2e-b103-3d64-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>-1856.0</x>
-                        <y>-2040.0</y>
-                    </position>
-                    <height>184.0</height>
-                    <label>On Premise Datasource</label>
-                    <style>
-                        <entry>
-                            <key>background-color</key>
-                            <value>#a65c1f</value>
-                        </entry>
-                        <entry>
-                            <key>font-size</key>
-                            <value>24px</value>
-                        </entry>
-                    </style>
-                    <width>392.0</width>
-                </labels>
-                <labels>
                     <id>3839abad-61a3-3730-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -13695,10 +13617,10 @@
                     <id>53140ddd-bd4c-3629-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-1576.0</x>
-                        <y>-2208.0</y>
+                        <x>-1608.0</x>
+                        <y>-1976.0</y>
                     </position>
-                    <height>80.0</height>
+                    <height>104.0</height>
                     <label>1. List file from emission</label>
                     <style>
                         <entry>
@@ -13710,7 +13632,7 @@
                             <value>24px</value>
                         </entry>
                     </style>
-                    <width>576.0</width>
+                    <width>560.0</width>
                 </labels>
                 <labels>
                     <id>550e077f-b3ea-39d7-0000-000000000000</id>
@@ -14539,6 +14461,7 @@
                         <y>-1040.0</y>
                     </position>
                     <height>240.0</height>
+                    <label></label>
                     <style/>
                     <width>360.0</width>
                 </labels>
@@ -14633,7 +14556,7 @@
                         <x>3240.0</x>
                         <y>488.0</y>
                     </position>
-                    <height>104.0</height>
+                    <height>56.0</height>
                     <label>                                      Source file wait</label>
                     <style>
                         <entry>
@@ -14645,7 +14568,7 @@
                             <value>24px</value>
                         </entry>
                     </style>
-                    <width>680.0</width>
+                    <width>664.0</width>
                 </labels>
                 <labels>
                     <id>cb718acd-dddd-3aa2-0000-000000000000</id>
@@ -14828,27 +14751,6 @@
                         <entry>
                             <key>background-color</key>
                             <value>#a65c1f</value>
-                        </entry>
-                        <entry>
-                            <key>font-size</key>
-                            <value>24px</value>
-                        </entry>
-                    </style>
-                    <width>392.0</width>
-                </labels>
-                <labels>
-                    <id>deb7a66e-15a9-3369-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>-1152.0</x>
-                        <y>-2040.0</y>
-                    </position>
-                    <height>184.0</height>
-                    <label>S3 DataSource</label>
-                    <style>
-                        <entry>
-                            <key>background-color</key>
-                            <value>#55a61f</value>
                         </entry>
                         <entry>
                             <key>font-size</key>
@@ -18249,7 +18151,7 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                     <id>0e508303-15b4-360e-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3416.0</x>
+                        <x>3432.0</x>
                         <y>872.0</y>
                     </position>
                     <bundle>
@@ -23443,275 +23345,6 @@ or(${filename:startsWith('diksha_tpd')})}):not()}</value>
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
-                </processors>
-                <processors>
-                    <id>3258a36f-fcf4-3f8f-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>-1128.0</x>
-                        <y>-2000.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-aws-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>Bucket</key>
-<value>
-    <name>Bucket</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Region</key>
-<value>
-    <name>Region</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Access Key</key>
-<value>
-    <name>Access Key</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Secret Key</key>
-<value>
-    <name>Secret Key</name>
-</value>
-                            </entry>
-                            <entry>
-<key>record-writer</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
-    <name>record-writer</name>
-</value>
-                            </entry>
-                            <entry>
-<key>min-age</key>
-<value>
-    <name>min-age</name>
-</value>
-                            </entry>
-                            <entry>
-<key>write-s3-object-tags</key>
-<value>
-    <name>write-s3-object-tags</name>
-</value>
-                            </entry>
-                            <entry>
-<key>write-s3-user-metadata</key>
-<value>
-    <name>write-s3-user-metadata</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Credentials File</key>
-<value>
-    <name>Credentials File</name>
-</value>
-                            </entry>
-                            <entry>
-<key>AWS Credentials Provider service</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderService</identifiesControllerService>
-    <name>AWS Credentials Provider service</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Communications Timeout</key>
-<value>
-    <name>Communications Timeout</name>
-</value>
-                            </entry>
-                            <entry>
-<key>SSL Context Service</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.ssl.SSLContextService</identifiesControllerService>
-    <name>SSL Context Service</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Endpoint Override URL</key>
-<value>
-    <name>Endpoint Override URL</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Signer Override</key>
-<value>
-    <name>Signer Override</name>
-</value>
-                            </entry>
-                            <entry>
-<key>proxy-configuration-service</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
-    <name>proxy-configuration-service</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Proxy Host</key>
-<value>
-    <name>Proxy Host</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Proxy Host Port</key>
-<value>
-    <name>Proxy Host Port</name>
-</value>
-                            </entry>
-                            <entry>
-<key>proxy-user-name</key>
-<value>
-    <name>proxy-user-name</name>
-</value>
-                            </entry>
-                            <entry>
-<key>proxy-user-password</key>
-<value>
-    <name>proxy-user-password</name>
-</value>
-                            </entry>
-                            <entry>
-<key>delimiter</key>
-<value>
-    <name>delimiter</name>
-</value>
-                            </entry>
-                            <entry>
-<key>prefix</key>
-<value>
-    <name>prefix</name>
-</value>
-                            </entry>
-                            <entry>
-<key>use-versions</key>
-<value>
-    <name>use-versions</name>
-</value>
-                            </entry>
-                            <entry>
-<key>list-type</key>
-<value>
-    <name>list-type</name>
-</value>
-                            </entry>
-                            <entry>
-<key>requester-pays</key>
-<value>
-    <name>requester-pays</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>PRIMARY</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>Bucket</key>
-<value>#{s3_emission_bucket}</value>
-                            </entry>
-                            <entry>
-<key>Region</key>
-<value>ap-south-1</value>
-                            </entry>
-                            <entry>
-<key>Access Key</key>
-                            </entry>
-                            <entry>
-<key>Secret Key</key>
-                            </entry>
-                            <entry>
-<key>record-writer</key>
-                            </entry>
-                            <entry>
-<key>min-age</key>
-<value>0 sec</value>
-                            </entry>
-                            <entry>
-<key>write-s3-object-tags</key>
-<value>true</value>
-                            </entry>
-                            <entry>
-<key>write-s3-user-metadata</key>
-<value>true</value>
-                            </entry>
-                            <entry>
-<key>Credentials File</key>
-                            </entry>
-                            <entry>
-<key>AWS Credentials Provider service</key>
-<value>9dc5a640-ee53-3002-0000-000000000000</value>
-                            </entry>
-                            <entry>
-<key>Communications Timeout</key>
-<value>30 secs</value>
-                            </entry>
-                            <entry>
-<key>SSL Context Service</key>
-                            </entry>
-                            <entry>
-<key>Endpoint Override URL</key>
-                            </entry>
-                            <entry>
-<key>Signer Override</key>
-<value>Default Signature</value>
-                            </entry>
-                            <entry>
-<key>proxy-configuration-service</key>
-                            </entry>
-                            <entry>
-<key>Proxy Host</key>
-                            </entry>
-                            <entry>
-<key>Proxy Host Port</key>
-                            </entry>
-                            <entry>
-<key>proxy-user-name</key>
-                            </entry>
-                            <entry>
-<key>proxy-user-password</key>
-                            </entry>
-                            <entry>
-<key>delimiter</key>
-                            </entry>
-                            <entry>
-<key>prefix</key>
-                            </entry>
-                            <entry>
-<key>use-versions</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>list-type</key>
-<value>2</value>
-                            </entry>
-                            <entry>
-<key>requester-pays</key>
-<value>false</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>10 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>true</executionNodeRestricted>
-                    <name>s3_list_emission</name>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>success</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.aws.s3.ListS3</type>
                 </processors>
                 <processors>
                     <id>337092b8-bb3d-3faa-0000-000000000000</id>
@@ -32268,7 +31901,7 @@ ${filename:startsWith('sch_safety')}
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>1 day</schedulingPeriod>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
                         <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
@@ -34657,7 +34290,7 @@ file: ${filename} blank line validation started.</value>
                         <properties>
                             <entry>
 <key>Directory</key>
-<value>#{output_directory}${directory}/</value>
+<value>#{output_directory}${directory}</value>
                             </entry>
                             <entry>
 <key>Conflict Resolution Strategy</key>
@@ -44984,282 +44617,6 @@ ${query_type:startsWith('stud_att_management_exception_school_overall'):ifElse('
                     <type>org.apache.nifi.processors.aws.s3.PutS3Object</type>
                 </processors>
                 <processors>
-                    <id>9d73ad04-b486-3dbe-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>-1496.0</x>
-                        <y>-1736.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-standard-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>Routing Strategy</key>
-<value>
-    <name>Routing Strategy</name>
-</value>
-                            </entry>
-                            <entry>
-<key>cqube_telemetry</key>
-<value>
-    <name>cqube_telemetry</name>
-</value>
-                            </entry>
-                            <entry>
-<key>crc</key>
-<value>
-    <name>crc</name>
-</value>
-                            </entry>
-                            <entry>
-<key>data_replay_retention</key>
-<value>
-    <name>data_replay_retention</name>
-</value>
-                            </entry>
-                            <entry>
-<key>diksha</key>
-<value>
-    <name>diksha</name>
-</value>
-                            </entry>
-                            <entry>
-<key>infra_trans</key>
-<value>
-    <name>infra_trans</name>
-</value>
-                            </entry>
-                            <entry>
-<key>pat</key>
-<value>
-    <name>pat</name>
-</value>
-                            </entry>
-                            <entry>
-<key>sat</key>
-<value>
-    <name>sat</name>
-</value>
-                            </entry>
-                            <entry>
-<key>school_category</key>
-<value>
-    <name>school_category</name>
-</value>
-                            </entry>
-                            <entry>
-<key>school_management</key>
-<value>
-    <name>school_management</name>
-</value>
-                            </entry>
-                            <entry>
-<key>static_block</key>
-<value>
-    <name>static_block</name>
-</value>
-                            </entry>
-                            <entry>
-<key>static_cluster</key>
-<value>
-    <name>static_cluster</name>
-</value>
-                            </entry>
-                            <entry>
-<key>static_district</key>
-<value>
-    <name>static_district</name>
-</value>
-                            </entry>
-                            <entry>
-<key>static_school_master</key>
-<value>
-    <name>static_school_master</name>
-</value>
-                            </entry>
-                            <entry>
-<key>student_attendance</key>
-<value>
-    <name>student_attendance</name>
-</value>
-                            </entry>
-                            <entry>
-<key>tch_att</key>
-<value>
-    <name>tch_att</name>
-</value>
-                            </entry>
-                            <entry>
-<key>udise</key>
-<value>
-    <name>udise</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>Routing Strategy</key>
-<value>Route to Property name</value>
-                            </entry>
-                            <entry>
-<key>cqube_telemetry</key>
-<value>${filename:startsWith('telemetry/')}</value>
-                            </entry>
-                            <entry>
-<key>crc</key>
-<value>${filename:startsWith('user_location_master/'):or(${path:startsWith('user_location_master/'):
-or(${filename:startsWith('inspection_master/')}):or(${path:startsWith('inspection_master/')})})}</value>
-                            </entry>
-                            <entry>
-<key>data_replay_retention</key>
-<value>${filename:startsWith('data_retention/'):
-or(${path:startsWith('data_retention/'):
-or(${filename:startsWith('data_replay/'):
-or(${path:startsWith('data_replay/')})})})}</value>
-                            </entry>
-                            <entry>
-<key>diksha</key>
-<value>${path:startsWith('diksha/'):or(${filename:startsWith('diksha/')})}</value>
-                            </entry>
-                            <entry>
-<key>infra_trans</key>
-<value>${filename:startsWith('infra_trans')}</value>
-                            </entry>
-                            <entry>
-<key>pat</key>
-<value>${path:startsWith('pat/'):or(${filename:startsWith('pat/')})}</value>
-                            </entry>
-                            <entry>
-<key>sat</key>
-<value>${path:startsWith('sat/'):or(${filename:startsWith('sat/')})}</value>
-                            </entry>
-                            <entry>
-<key>school_category</key>
-<value>${path:startsWith('school_category/'):or(${filename:startsWith('school_category/')})}</value>
-                            </entry>
-                            <entry>
-<key>school_management</key>
-<value>${path:startsWith('school_management/'):or(${filename:startsWith('school_management/')})}</value>
-                            </entry>
-                            <entry>
-<key>static_block</key>
-<value>${path:startsWith('block_master/'):or(${filename:startsWith('block_master/')})}</value>
-                            </entry>
-                            <entry>
-<key>static_cluster</key>
-<value>${path:startsWith('cluster_master/'):or(${filename:startsWith('cluster_master/')})}</value>
-                            </entry>
-                            <entry>
-<key>static_district</key>
-<value>${path:startsWith('district_master/'):or(${filename:startsWith('district_master/')})}</value>
-                            </entry>
-                            <entry>
-<key>static_school_master</key>
-<value>${path:startsWith('school_master/'):or(${filename:startsWith('school_master/')})}</value>
-                            </entry>
-                            <entry>
-<key>student_attendance</key>
-<value>${filename:startsWith('student_attendance')}</value>
-                            </entry>
-                            <entry>
-<key>tch_att</key>
-<value>${path:startsWith('teacher_attendance/'):or(${filename:startsWith('teacher_attendance/')})}</value>
-                            </entry>
-                            <entry>
-<key>udise</key>
-<value>${path:startsWith('udise/'):or(${filename:startsWith('udise/')})}</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>0 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>route_based_on_s3_dir</name>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>cqube_telemetry</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>crc</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>data_replay_retention</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>diksha</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>infra_trans</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>pat</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>sat</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>school_category</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>school_management</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>static_block</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>static_cluster</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>static_district</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>static_school_master</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>student_attendance</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>tch_att</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>udise</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>true</autoTerminate>
-                        <name>unmatched</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
-                </processors>
-                <processors>
                     <id>9d900205-06d5-3d9d-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -55095,261 +54452,6 @@ where ff_uuid= '${ff_uuid}'</value>
                     <type>org.apache.nifi.processors.aws.s3.DeleteS3Object</type>
                 </processors>
                 <processors>
-                    <id>cad0e71a-b4f0-30d2-0000-000000000000</id>
-                    <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>-1840.0</x>
-                        <y>-2000.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-standard-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>Input Directory</key>
-<value>
-    <name>Input Directory</name>
-</value>
-                            </entry>
-                            <entry>
-<key>listing-strategy</key>
-<value>
-    <name>listing-strategy</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Recurse Subdirectories</key>
-<value>
-    <name>Recurse Subdirectories</name>
-</value>
-                            </entry>
-                            <entry>
-<key>record-writer</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
-    <name>record-writer</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Input Directory Location</key>
-<value>
-    <name>Input Directory Location</name>
-</value>
-                            </entry>
-                            <entry>
-<key>File Filter</key>
-<value>
-    <name>File Filter</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Path Filter</key>
-<value>
-    <name>Path Filter</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Include File Attributes</key>
-<value>
-    <name>Include File Attributes</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Minimum File Age</key>
-<value>
-    <name>Minimum File Age</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Maximum File Age</key>
-<value>
-    <name>Maximum File Age</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Minimum File Size</key>
-<value>
-    <name>Minimum File Size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Maximum File Size</key>
-<value>
-    <name>Maximum File Size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Ignore Hidden Files</key>
-<value>
-    <name>Ignore Hidden Files</name>
-</value>
-                            </entry>
-                            <entry>
-<key>target-system-timestamp-precision</key>
-<value>
-    <name>target-system-timestamp-precision</name>
-</value>
-                            </entry>
-                            <entry>
-<key>et-state-cache</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.distributed.cache.client.DistributedMapCacheClient</identifiesControllerService>
-    <name>et-state-cache</name>
-</value>
-                            </entry>
-                            <entry>
-<key>et-time-window</key>
-<value>
-    <name>et-time-window</name>
-</value>
-                            </entry>
-                            <entry>
-<key>et-initial-listing-target</key>
-<value>
-    <name>et-initial-listing-target</name>
-</value>
-                            </entry>
-                            <entry>
-<key>et-node-identifier</key>
-<value>
-    <name>et-node-identifier</name>
-</value>
-                            </entry>
-                            <entry>
-<key>track-performance</key>
-<value>
-    <name>track-performance</name>
-</value>
-                            </entry>
-                            <entry>
-<key>max-performance-metrics</key>
-<value>
-    <name>max-performance-metrics</name>
-</value>
-                            </entry>
-                            <entry>
-<key>max-operation-time</key>
-<value>
-    <name>max-operation-time</name>
-</value>
-                            </entry>
-                            <entry>
-<key>max-listing-time</key>
-<value>
-    <name>max-listing-time</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>Input Directory</key>
-<value>#{emission_directory}</value>
-                            </entry>
-                            <entry>
-<key>listing-strategy</key>
-<value>timestamps</value>
-                            </entry>
-                            <entry>
-<key>Recurse Subdirectories</key>
-<value>true</value>
-                            </entry>
-                            <entry>
-<key>record-writer</key>
-                            </entry>
-                            <entry>
-<key>Input Directory Location</key>
-<value>Local</value>
-                            </entry>
-                            <entry>
-<key>File Filter</key>
-<value>[^\.].*</value>
-                            </entry>
-                            <entry>
-<key>Path Filter</key>
-                            </entry>
-                            <entry>
-<key>Include File Attributes</key>
-<value>true</value>
-                            </entry>
-                            <entry>
-<key>Minimum File Age</key>
-<value>0 sec</value>
-                            </entry>
-                            <entry>
-<key>Maximum File Age</key>
-                            </entry>
-                            <entry>
-<key>Minimum File Size</key>
-<value>0 B</value>
-                            </entry>
-                            <entry>
-<key>Maximum File Size</key>
-                            </entry>
-                            <entry>
-<key>Ignore Hidden Files</key>
-<value>true</value>
-                            </entry>
-                            <entry>
-<key>target-system-timestamp-precision</key>
-<value>auto-detect</value>
-                            </entry>
-                            <entry>
-<key>et-state-cache</key>
-                            </entry>
-                            <entry>
-<key>et-time-window</key>
-<value>3 hours</value>
-                            </entry>
-                            <entry>
-<key>et-initial-listing-target</key>
-<value>all</value>
-                            </entry>
-                            <entry>
-<key>et-node-identifier</key>
-<value>${hostname()}</value>
-                            </entry>
-                            <entry>
-<key>track-performance</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>max-performance-metrics</key>
-<value>100000</value>
-                            </entry>
-                            <entry>
-<key>max-operation-time</key>
-<value>10 secs</value>
-                            </entry>
-                            <entry>
-<key>max-listing-time</key>
-<value>3 mins</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>10 secs</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>data_storage_ListFile</name>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>success</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.standard.ListFile</type>
-                </processors>
-                <processors>
                     <id>cb36dbbc-21f8-3b22-0000-000000000000</id>
                     <parentGroupId>d133b002-ecca-35c5-0000-000000000000</parentGroupId>
                     <position>
@@ -61262,7 +60364,7 @@ ${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('a
                         <properties>
                             <entry>
 <key>Directory</key>
-<value>#{output_directory}log_summary/static/</value>
+<value>#{output_directory}log_summary/static</value>
                             </entry>
                             <entry>
 <key>Conflict Resolution Strategy</key>
@@ -64065,5 +63167,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>09/21/2021 17:02:47 IST</timestamp>
+    <timestamp>10/12/2021 13:50:35 IST</timestamp>
 </template>
