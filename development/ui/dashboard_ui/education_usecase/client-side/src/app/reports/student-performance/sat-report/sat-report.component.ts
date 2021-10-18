@@ -1178,7 +1178,6 @@ export class SatReportComponent implements OnInit {
       .subscribe(
         (res) => {
           this.markers = this.data = res["data"];
-          this.allGrades = res['grades'];
           if (this.grade) {
             this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
           }
@@ -1293,7 +1292,6 @@ export class SatReportComponent implements OnInit {
       .subscribe(
         (res) => {
           this.markers = this.data = res["data"];
-          this.allGrades = res['grades'];
           if (this.grade) {
             this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
           }
@@ -1435,7 +1433,6 @@ export class SatReportComponent implements OnInit {
             .subscribe(
               (res) => {
                 this.markers = this.data = res["data"];
-                this.allGrades = res['grades'];
                 if (this.grade) {
                   this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                 }
@@ -1641,13 +1638,12 @@ export class SatReportComponent implements OnInit {
           this.fileName = fileName;
           this.getDownloadableData(this.markers[i], options.level);
         }
-        this.commonService.loaderAndErr(this.data);
+        this.commonService.loaderAndErr(this.markers);
         this.changeDetection.detectChanges();
       } else {
         this.errorHandling();
       }
     } catch (e) {
-      console.log(e);
       this.errorHandling();
     }
 
@@ -2165,8 +2161,8 @@ export class SatReportComponent implements OnInit {
     this.studentAttended = undefined;
     this.studentCount = undefined;
     this.changeDetection.detectChanges();
-    this.data = [];
-    this.commonService.loaderAndErr(this.data);
+    // this.data = [];
+    this.commonService.loaderAndErr([]);
   }
 
   goToprogressCard(): void {
@@ -2233,7 +2229,6 @@ export class SatReportComponent implements OnInit {
 
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-
     //getting relative colors for all markers:::::::::::
     var markers = [];
     if (value) {
