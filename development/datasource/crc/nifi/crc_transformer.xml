@@ -7325,7 +7325,7 @@ ${filename:startsWith('inspection_master'):ifElse(#{crc_insp_not_null},'None')}
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>DISABLED</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ListFile</type>
                 </processors>
@@ -19685,5 +19685,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>10/19/2021 20:24:10 IST</timestamp>
+    <timestamp>10/19/2021 18:40:55 IST</timestamp>
 </template>
