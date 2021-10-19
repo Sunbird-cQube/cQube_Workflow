@@ -806,3 +806,7 @@ insert into school_hierarchy_details values(9999,NULL,'others',NULL,NULL,9999,'o
 create table if not exists progress_card_config(id serial,	data_source varchar(100),select_query text,join_query text,status boolean,category varchar(100),time_period varchar(100),primary key(data_source,category,time_period));
 
 create table if not exists  progress_card_category_config(categories text ,value_from int,value_to int);
+
+alter table log_summary add COLUMN if not exists user_location_master_id int;
+alter table log_summary add COLUMN if not exists user_master_id int;
+alter table log_summary add COLUMN if not exists observer_id int;
