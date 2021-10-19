@@ -326,8 +326,8 @@ select  a.school_id,INITCAP(b.school_name)as school_name,b.district_id,INITCAP(b
   now() as created_on,
   now() as updated_on,b.school_management_type,b.school_category
   from (select crc_inspection_id as inspection_id, clt.school_id,month,year,bool_or(in_school_location) as in_school_location,visit_date
- from crc_inspection_trans cit inner join crc_location_trans clt on clt.inspection_id=cit.crc_inspection_id 
- group by crc_inspection_id, clt.school_id,month,year) as a left join school_hierarchy_details as b on a.school_id=b.school_id
+ from crc_inspection_trans cit inner join crc_location_trans clt on clt.inspection_id=cit.crc_inspection_id and clt.crc_id=cit.crc_id and clt.school_id=cit.school_id 
+ group by crc_inspection_id, clt.school_id,month,year,visit_date) as a left join school_hierarchy_details as b on a.school_id=b.school_id
   where a.school_id<>0 and a.inspection_id<>0 and b.school_id<>9999 and b.cluster_name is not null and b.district_name is not null and b.block_name is not null and b.school_name is not null and visit_date is NOT NULL
   group by a.school_id,b.school_name,b.district_id,b.district_name,b.block_id, b.block_name,b.cluster_id,b.cluster_name,b.crc_name,a.month,a.year,a.visit_date,b.school_management_type,b.school_category
   order by school_id desc ;
