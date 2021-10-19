@@ -359,7 +359,7 @@ fi
 
 if ! [[ $slab32 -gt $slab31 && $slab32 -le 100 ]]; then
 echo "Error - Not a number Please check the $slab32 value. and enter the value greater than $slab31 and number should be between 1 to 100" ; fail=1
-fii
+fi
 
 if ! [[ $slab4 -eq $slab32 && $slab4 -le 100 ]]; then
 echo "Error - Not a number Please check the slab4 value. and enter the value equal to $slab32 and number should be between 1 to 100" ; fail=1
@@ -367,7 +367,6 @@ fi
 
 else
         echo "Error - Enter only the two digit number Please check the $1 value. and enter the value between 1 to 100" ; fail=1
-fi
 fi
 }
 
