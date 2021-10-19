@@ -205,3 +205,8 @@ alter table crc_inspection_trans add primary key(crc_inspection_id,crc_id,school
 
 alter table crc_location_trans drop constraint if exists crc_location_trans_pkey CASCADE;
 alter table crc_location_trans add primary key(crc_location_id,crc_id,inspection_id);
+
+alter table crc_loc_null_col add column if not exists  count_null_userlocmasterid int;
+alter table crc_loc_null_col add column if not exists count_null_usermasterid int;
+
+alter table crc_inspec_null_col add column if not exists count_null_observerid int;
