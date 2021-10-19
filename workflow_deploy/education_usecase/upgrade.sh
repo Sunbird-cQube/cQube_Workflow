@@ -56,7 +56,7 @@ fi
 if [ $? = 0 ]; then
 . "install_ui.sh"
     if [ $? = 0 ]; then
-       echo "cQube Workflow installed successfully!!"
+       echo "cQube Workflow upgraded successfully!!"
     fi
 fi
 
