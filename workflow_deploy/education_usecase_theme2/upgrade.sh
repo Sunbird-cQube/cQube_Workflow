@@ -41,7 +41,7 @@ ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_di
                                                          --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
                                                          --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
                                                                                      --extra-vars "@datasource_config.yml" \
-                                                         --extra-vars "usecase_name=education_usecase_theme2"
+                                                         --extra-vars "usecase_name=education_usecase_theme2" \
                                                          --extra-vars "protocol=http"
 else
 ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
@@ -55,8 +55,7 @@ ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_di
 fi
 if [ $? = 0 ]; then
 . "install_ui.sh"
-	if [ $? = 0 ]; then
-   		echo "cQube Workflow installed successfully!!"
-	fi
+    if [ $? = 0 ]; then
+       echo "cQube Workflow upgraded successfully!!"
+    fi
 fi
-
