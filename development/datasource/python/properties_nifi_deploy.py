@@ -1,9 +1,9 @@
-NIFI_IP =                # Nifi url
-NIFI_PORT =              # Nifi Port number
+NIFI_IP =               # Nifi url
+NIFI_PORT =             # Nifi Port number
 # Nifi templates local directory path ending with /
 NIFI_TEMPLATE_PATH = 
 # Nifi parameters[created by ansible using config file] local directory path ending with /
-NIFI_PARAMETER_DIRECTORY_PATH = 
+NIFI_PARAMETER_DIRECTORY_PATH =
 NIFI_STATIC_PARAMETER_DIRECTORY_PATH =
 NIFI_INPUT_OUTPUT_PORTS = {
     'static_data_transformer': [
@@ -35,7 +35,9 @@ NIFI_INPUT_OUTPUT_PORTS = {
                         {'OUTPUT_PORT': 'diksha_api_output', 'INPUT_PORT': 'diksha_api_output_IP_DS'},
                         {'OUTPUT_PORT': 'diksha_api_output_emission', 'INPUT_PORT': 'diksha_api_output_emission_IP_DS'},
                         {'OUTPUT_PORT': 'diksha_output_files_OP', 'INPUT_PORT': 'diksha_output_files_IP_DS'},
-                        {'OUTPUT_PORT': 'diksha_emission_file','INPUT_PORT':'DS_emission_file'}
+                        {'OUTPUT_PORT': 'diksha_emission_file','INPUT_PORT':'DS_emission_file'},
+                        {'OUTPUT_PORT': 'diksha_tpd_emission_op','INPUT_PORT':'diksha_tpd_emission_ip'},
+                        {'OUTPUT_PORT': 'diksha_tpd_emission_after_select_columns_op','INPUT_PORT':'diksha_tpd_emission_after_select_columns_ip'}
                         ],
     'student_attendance_transformer': [{'OUTPUT_PORT': 'student_attendance_split_wait', 'INPUT_PORT': 'split_wait'},
                        {'OUTPUT_PORT': 'student_attendance_split_success','INPUT_PORT': 'split_file_process_success'},
@@ -123,7 +125,8 @@ NIFI_INPUT_OUTPUT_PORTS = {
                          'diksha_transformer': [{'OUTPUT_PORT': 'diksha_zip_output', 'INPUT_PORT': 'diksha_wait_zip'},
                                               {'OUTPUT_PORT': 'diksha_files','INPUT_PORT': 'diksha_input'},
                                               {'OUTPUT_PORT': 'diksha_api_output_emission_DS', 'INPUT_PORT': 'diksha_api_output_IP_DS'},
-                                               {'OUTPUT_PORT': 'diksha_output_files_IP_success_DS', 'INPUT_PORT': 'diksha_output_files_IP_DS'}
+                                               {'OUTPUT_PORT': 'diksha_output_files_IP_success_DS', 'INPUT_PORT': 'diksha_output_files_IP_DS'},
+                                               {'OUTPUT_PORT': 'diksha_emission_validation_op', 'INPUT_PORT': 'diksha_emission_validation_ip'}
                                                ],
                          'student_attendance_transformer': [{'OUTPUT_PORT': 'student_attendance_zip_output', 'INPUT_PORT': 'student_wait_zip'},
                                               {'OUTPUT_PORT': 'student_attendance_file','INPUT_PORT': 'student_attendance_input'},
