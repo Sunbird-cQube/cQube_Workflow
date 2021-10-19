@@ -199,3 +199,9 @@ alter table crc_visits_frequency add column if not exists school_management_type
 alter table crc_visits_frequency add column if not exists school_category varchar(100);
 
 drop view if exists crc_trans_to_aggregate cascade;
+
+alter table crc_inspection_trans drop constraint if exists crc_inspection_trans_pkey CASCADE;
+alter table crc_inspection_trans add primary key(crc_inspection_id,crc_id,school_id);
+
+alter table crc_location_trans drop constraint if exists crc_location_trans_pkey CASCADE;
+alter table crc_location_trans add primary key(crc_location_id,crc_id,inspection_id);
