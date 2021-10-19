@@ -26,7 +26,6 @@ if [[ ! -f config.yml ]]; then
     exit;
 fi
 
-. "$INS_DIR/validation_scripts/install_aws_cli.sh"
 . "validate.sh"
 . "datasource_validation.sh"
 
