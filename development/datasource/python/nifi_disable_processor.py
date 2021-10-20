@@ -101,7 +101,7 @@ def diksha_enable_disable_processor(processor_group_name, storage_type, dataset,
 
         elif emission_method == "api":
             # add the lists3,listfile processors
-            disable_processor = ['diksha_ListFile_ETB', 's3_list_emission_TPD']
+            disable_processor = ['diksha_ListFile_TPD', 's3_list_emission_TPD']
             enable_processor=["diksha_api_progress_exhaust_get_today_request"]
             for i in disable_processor:
                 # disable the nifi processor
