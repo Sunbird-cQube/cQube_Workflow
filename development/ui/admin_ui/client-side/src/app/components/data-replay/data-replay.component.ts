@@ -81,6 +81,7 @@ export class DataReplayComponent implements OnInit {
       this.err = undefined;
     }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
     this.service.getMonthYear({ report: 'tar' }).subscribe(res => {
       this.getMonthYears2 = res;
@@ -92,6 +93,7 @@ export class DataReplayComponent implements OnInit {
       this.err = undefined;
     }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
     this.service.getMonthYear({ report: 'crc' }).subscribe(res => {
       this.getMonthYears3 = res;
@@ -104,6 +106,7 @@ export class DataReplayComponent implements OnInit {
       document.getElementById('spinner').style.display = 'none';
     }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
 
     this.service.getBatchIds().subscribe((res: any) => {
@@ -115,6 +118,7 @@ export class DataReplayComponent implements OnInit {
       this.err = undefined;
     }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     });
 
     this.service.getExamCode().subscribe((res: any) => {
@@ -126,6 +130,7 @@ export class DataReplayComponent implements OnInit {
       this.err = undefined;
     }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
 
     this.service.getSemesters().subscribe((res: any) => {
@@ -137,8 +142,8 @@ export class DataReplayComponent implements OnInit {
       this.err = undefined;
     }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
-    // this.service.getDataSources().subscribe(res => {
     data.map(item => {
       if (item.status == true) {
         this.dataSources.push(item);
