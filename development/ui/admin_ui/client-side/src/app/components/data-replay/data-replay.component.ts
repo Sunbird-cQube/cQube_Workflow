@@ -478,6 +478,8 @@ export class DataReplayComponent implements OnInit {
     this.TPDdata['time'] = this.getTime;
     this.service.dikshaTPD_ETB_data_input({ method: this.TPDselected, dataSet: 'TPD' }).subscribe(res => {
       alert(res['msg']);
+    }, err => {
+      alert("Error found while initiating TPD method");
     })
   }
 
@@ -487,6 +489,8 @@ export class DataReplayComponent implements OnInit {
     this.ETBdata['time'] = this.getTime;
     this.service.dikshaTPD_ETB_data_input({ method: this.ETBselected, dataSet: 'ETB' }).subscribe(res => {
       alert(res['msg']);
+    }, err => {
+      alert("Error found while initiating ETB method");
     })
   }
 
