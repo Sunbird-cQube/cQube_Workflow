@@ -1,3 +1,5 @@
+#!/bin/bash
+
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 mode_of_installation=$(awk ''/^mode_of_installation:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
 if [[ $mode_of_installation == "localhost" ]]; then
