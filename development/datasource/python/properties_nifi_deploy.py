@@ -30,14 +30,18 @@ NIFI_INPUT_OUTPUT_PORTS = {
                         {'OUTPUT_PORT': 'udise_emission_file','INPUT_PORT':'DS_emission_file'}
                         ],
     'diksha_transformer': [{'OUTPUT_PORT': 'diksha_split_wait', 'INPUT_PORT': 'split_wait'},
-                       {'OUTPUT_PORT': 'diksha_split_success','INPUT_PORT': 'split_file_process_success'},
+                        {'OUTPUT_PORT': 'diksha_split_success','INPUT_PORT': 'split_file_process_success'},
                         {'OUTPUT_PORT': 'diksha_split_failure','INPUT_PORT': 'split_file_failure'},
                         {'OUTPUT_PORT': 'diksha_api_output', 'INPUT_PORT': 'diksha_api_output_IP_DS'},
                         {'OUTPUT_PORT': 'diksha_api_output_emission', 'INPUT_PORT': 'diksha_api_output_emission_IP_DS'},
                         {'OUTPUT_PORT': 'diksha_output_files_OP', 'INPUT_PORT': 'diksha_output_files_IP_DS'},
                         {'OUTPUT_PORT': 'diksha_emission_file','INPUT_PORT':'DS_emission_file'},
                         {'OUTPUT_PORT': 'diksha_tpd_emission_op','INPUT_PORT':'diksha_tpd_emission_ip'},
-                        {'OUTPUT_PORT': 'diksha_tpd_emission_after_select_columns_op','INPUT_PORT':'diksha_tpd_emission_after_select_columns_ip'}
+                        {'OUTPUT_PORT': 'diksha_tpd_emission_after_select_columns_op','INPUT_PORT':'diksha_tpd_emission_after_select_columns_ip'},
+                        {'OUTPUT_PORT': 'diksha_emission_etb_op','INPUT_PORT':'diksha_emission_etb_ip_DS'},
+                        {'OUTPUT_PORT': 'diksha_emission_etb_s3_op','INPUT_PORT':'diksha_emission_etb_s3_op_DS'},
+                        {'OUTPUT_PORT': 'diksha_emission_etb_op_DS','INPUT_PORT':'diksha_emission_etb_ip'},
+                        {'OUTPUT_PORT': 'diksha_emission_etb_s3_op_DS','INPUT_PORT':'diksha_emission_etb_s3_ip'}
                         ],
     'student_attendance_transformer': [{'OUTPUT_PORT': 'student_attendance_split_wait', 'INPUT_PORT': 'split_wait'},
                        {'OUTPUT_PORT': 'student_attendance_split_success','INPUT_PORT': 'split_file_process_success'},
