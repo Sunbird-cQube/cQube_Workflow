@@ -1,26 +1,29 @@
 const router = require('express').Router();
 const { logger } = require('../../lib/logger');
-const PythonShell = require('python-shell').PythonShell;
 const baseDir = process.env.BASE_DIR;
 const storageType = process.env.STORAGE_TYPE;
+var shell = require('shelljs');
 
 router.post('/', async (req, res) => {
-    logger.info('--- diksha TPD ETB method api ---');
-    let arg1 = req.body.method;
-    let dataSet = req.body.dataSet;
-    let fileName = '/nifi_disable_processor.py';
-    let options = {
-        mode: 'text',
-        pythonOptions: ['-u'],
-        scriptPath: `${baseDir}/cqube/emission_app/python`,
-        args: ['diksha_transformer', storageType, dataSet, arg1]
-    };
+    try {
+        logger.info('--- diksha TPD ETB method api ---');
+        let method = req.body.method;
+        let dataSet = req.body.dataSet;
 
-    PythonShell.run(fileName, options, function (err, result) {
-        if (err) throw err;
-        logger.info('--- diksha TPD ETB method api response sent---');
-        res.send({ msg: "succesfully envoked python script" });
-    });
+        shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/nifi_disable_processor.py diksha_transformer ${storageType} ${dataSet} ${method}`, function (code, stdout, stderr) {
+            if (stderr) {
+                logger.error('Program stderr:', stderr);
+                res.status(403).send({ errMsg: "Something went wrong" });
+            } else {
+                logger.info('--- diksha TPD ETB method api response sent---');
+                res.status(200).send({ msg: `Successfully Changed the Diksha ${dataSet} Method to ${method}` });
+            }
+        });
+
+    } catch (e) {
+        logger.error('--- Internal Server Error ---');
+        res.status(500).send({ errMsg: "Internal Server Error" });
+    }
 })
 
 module.exports = router;
