@@ -1,15 +1,17 @@
 const router = require('express').Router();
 const PythonShell = require('python-shell').PythonShell;
+const baseDir = process.env.BASE_DIR;
+const storageType = process.env.STORAGE_TYPE;
 
 router.post('/', async (req, res) => {
     let arg1 = req.body.method;
+    let dataSet = req.body.dataSet;
     let fileName = '/nifi_disable_processor.py';
-
     let options = {
         mode: 'text',
-        pythonOptions: ['-u'], // get print results in real-time
-        scriptPath: '/opt/cqube/emission_app/python', //If you are having python_test.py script in same folder, then it's optional.
-        args: [arg1] //An argument which can be accessed in the script using sys.argv[1]
+        pythonOptions: ['-u'],
+        scriptPath: `${baseDir}/cqube/emission_app/python`,
+        args: ['diksha_transformer', storageType, dataSet, arg1]
     };
 
     PythonShell.run(fileName, options, function (err, result) {
