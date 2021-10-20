@@ -12647,8 +12647,9 @@
                         <x>21960.0</x>
                         <y>-1160.0</y>
                     </position>
+                    <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>diksha_fetch_file_input_DS_s3</name>
+                    <name>diksha_emission_etb_s3_op_DS</name>
                     <state>STOPPED</state>
                     <type>INPUT_PORT</type>
                 </inputPorts>
@@ -15574,8 +15575,9 @@
                         <x>23064.0</x>
                         <y>-1320.0</y>
                     </position>
+                    <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>diksha_fetch_file_output_DS</name>
+                    <name>diksha_emission_etb_op_DS</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -15703,8 +15705,9 @@
                         <x>23072.0</x>
                         <y>-1112.0</y>
                     </position>
+                    <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                    <name>diksha_fetch_file_output_DS_s3</name>
+                    <name>diksha_emission_etb_s3_op_DS</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -64155,5 +64158,5 @@ ${query_type:startsWith('diksha_tpd_r2_raw_overall'):ifElse('diksha_raw_data/tpd
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>10/20/2021 11:04:39 IST</timestamp>
+    <timestamp>10/20/2021 13:38:50 IST</timestamp>
 </template>
