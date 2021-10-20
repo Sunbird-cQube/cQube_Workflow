@@ -16,7 +16,6 @@ router.post('/', async (req, res) => {
 
     PythonShell.run(fileName, options, function (err, result) {
         if (err) throw err;
-        console.log(result);
         res.send({ msg: "succesfully envoked python script" });
     });
 })
