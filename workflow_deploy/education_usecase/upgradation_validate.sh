@@ -336,38 +336,39 @@ check_slab(){
 if [[ $slab1 =~ ^[0-9]{,2}$ && $slab2 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab3 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab4 =~ ^[0-9]{,2}$ ]]; then
 
 if ! [[ $slab1 -ge 1 && $slab1 -le 100 ]]; then
- echo "Error - Not a number Please check the slab1 value. and enter the value between 1 to 100" ; fail=1
+ echo "Error - Incorrect slab1 value please refer the slab1 comment in config.yml" ; fail=1
 fi
 
 slab21=`echo $slab2 | cut -d- -f1`
 slab22=`echo $slab2 | cut -d- -f2`
 
 if ! [[ $slab21 -eq $slab1 && $slab21 -le 100 ]]; then
- echo "Error - Not a number Please check the $slab21 value. and enter the value equal to $slab1 and number should be between 1 to 100" ; fail=1
+ echo "Error - Incorrect slab2 value please refer the slab2 comment in config.yml" ; fail=1
 fi
 
 if ! [[ $slab22 -gt $slab21 && $slab22 -le 100 ]]; then
- echo "Error - Not a number Please check the $slab22 value. and enter the value greater than $slab21 and number should be between 1 to 100" ; fail=1
+ echo "Error - Incorrect slab2 value please refer the slab2 comment in config.yml" ; fail=1
 fi
 
 slab31=`echo $slab3 | cut -d- -f1`
 slab32=`echo $slab3 | cut -d- -f2`
 
 if ! [[ $slab31 -eq $slab22 && $slab31 -le 100 ]]; then
-echo "Error - Not a number Please check the $slab33 value. and enter the value equal to $slab22 and number should be between 1 to 100" ; fail=1
+echo "Error - Incorrect slab3 value please refer the slab3 comment in config.yml" ; fail=1
 fi
 
 if ! [[ $slab32 -gt $slab31 && $slab32 -le 100 ]]; then
-echo "Error - Not a number Please check the $slab32 value. and enter the value greater than $slab31 and number should be between 1 to 100" ; fail=1
-fii
+echo "Error - Incorrect slab3 value please refer the slab3 comment in config.yml" ; fail=1
+fi
 
 if ! [[ $slab4 -eq $slab32 && $slab4 -le 100 ]]; then
-echo "Error - Not a number Please check the slab4 value. and enter the value equal to $slab32 and number should be between 1 to 100" ; fail=1
+echo "Error - Incorrect slab4 value please refer the slab4 comment in config.yml" ; fail=1
 fi
 
 else
-        echo "Error - Enter only the two digit number Please check the $1 value. and enter the value between 1 to 100" ; fail=1
+        echo "Error - Incorrect slab value please refer the slab comments in config.yml" ; fail=1
 fi
+
 }
 
 get_config_values(){
@@ -405,7 +406,7 @@ slab2=$(awk ''/^slab2:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab3=$(awk ''/^slab3:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
-check_mem
+#check_mem
 # Check the version before starting validation
 version_upgradable_from=3.1
 check_version
