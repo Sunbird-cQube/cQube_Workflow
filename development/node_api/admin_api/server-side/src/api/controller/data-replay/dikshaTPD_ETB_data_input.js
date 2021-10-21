@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
         let dataSet = req.body.dataSet;
 
         shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/nifi_disable_processor.py diksha_transformer ${storageType} ${dataSet} ${method}`, function (code, stdout, stderr) {
-            if (stderr) {
+            if (!stdout) {
                 logger.error('Program stderr:', stderr);
                 res.status(403).send({ errMsg: "Something went wrong" });
             } else {

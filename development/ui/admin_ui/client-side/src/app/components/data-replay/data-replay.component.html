@@ -135,7 +135,7 @@
                                     </select>
                                 </div>
                                 <div *ngIf="semesters.length > 0" style="float: left; margin-left: 30px;">
-                                    <app-multi-select #multiSelect [selection]="'Select Semesters'"
+                                    <app-multi-select #multiSelectsem [selection]="'Select Semesters'"
                                         style="margin-top: 1px;" [width1]="'150px'" [width2]="'140px'"
                                         [list]="semesters" [text]="'Semesters'"
                                         (shareCheckedList)="shareCheckedList3($event)">
