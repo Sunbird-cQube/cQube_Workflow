@@ -51,6 +51,7 @@ export class DataReplayComponent implements OnInit {
   selected_academic_year;
 
   @ViewChildren(MultiSelectComponent) multiSelect: QueryList<MultiSelectComponent>;
+  @ViewChild('multiSelectsem') multiSelectsem: MultiSelectComponent;
   @ViewChild('multiSelect1') multiSelect1: MultiSelectComponent;
   @ViewChild('multiSelect2') multiSelect2: MultiSelectComponent;
   @ViewChild('multiSelect3') multiSelect3: MultiSelectComponent;
@@ -244,21 +245,31 @@ export class DataReplayComponent implements OnInit {
   onSelectAcademicYear(data) {
     this.selected_academic_year = data;
     if (this.selected_academic_year != 'Select Academic Year') {
+      if (this.multiSelectsem)
+        this.multiSelectsem.resetSelected();
       var obj = {
         academic_year: this.selected_academic_year,
         semesters: []
       }
       this.formObj['semester'] = obj;
-      this.allSemData.forEach(element => {
-        this.semesters.push({ id: element.semester, name: "Semester " + element.semester });
+      this.semesters = [];
+      let data = this.allSemData.find(a => a.academic_year == this.selected_academic_year);
+      data['semester'].forEach(element => {
+        this.semesters.push({ id: element, name: "Semester " + element });
+      });
+      this.semesters = this.semesters.map(sem => {
+        sem.status = false;
+        return sem;
       });
     }
   }
-
   shareCheckedList3(item: any[]) {
     this.selectedSemesters = item;
     if (this.selectedSemesters.length > 0) {
-      this.formObj['semester'].semesters = this.selectedSemesters;
+      var obj = {
+        semesters: this.selectedSemesters
+      }
+      this.formObj['semester'] = obj;
     } else {
       delete this.formObj['semester'];
     }
@@ -416,12 +427,12 @@ export class DataReplayComponent implements OnInit {
     this.onSelectStdYear('Select Year');
     this.onSelectTchrYear('Select Year');
     this.onSelectCRCYear('Select Year');
+    this.onSelectAcademicYear('Select Year');
     this.summaryFromDate = undefined;
     this.summaryToDate = undefined;
     this.selectedStdYear = undefined;
     this.selectedTchrYear = undefined;
     this.selectedCRCYear = undefined;
-    this.semesters = [];
     this.selectedMonths1 = [];
     this.selectedMonths2 = [];
     this.selectedCRCMonths = [];
