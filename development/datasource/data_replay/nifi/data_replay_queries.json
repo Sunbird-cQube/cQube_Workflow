@@ -18,6 +18,6 @@
 "data_replay_diksha_data_summary":"select min(content_view_date) as from_date,max(content_view_date) as to_date from diksha_total_content where content_view_date is not null;"
 },
 {
-"data_replay_sat_meta":"select distinct semester,academic_year  from semester_exam_school_result where semester is not null order by semester;"
+"data_replay_sat_meta":"select academic_year,json_agg(semester) as semester from (select distinct academic_year,semester  from semester_exam_school_result where semester is not null  order by academic_year)as sem group by academic_year"
 }
 ]
