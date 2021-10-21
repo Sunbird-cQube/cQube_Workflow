@@ -3066,6 +3066,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>427f270e-0415-30e5-0000-000000000000</id>
+                    <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>f99c50aa-c406-3597-0000-000000000000</groupId>
+                        <id>81bf3313-9f3c-31cb-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>f99c50aa-c406-3597-0000-000000000000</groupId>
+                        <id>c1f79296-5dbf-3338-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>42b875e2-b156-3ac6-0000-000000000000</id>
                     <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -4842,8 +4867,8 @@
                         <y>-1328.0</y>
                     </bends>
                     <bends>
-                        <x>3088.0</x>
-                        <y>-1176.0</y>
+                        <x>2968.0</x>
+                        <y>-1160.0</y>
                     </bends>
                     <bends>
                         <x>3552.0</x>
@@ -7881,6 +7906,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>b30f475b-f848-3f62-0000-000000000000</id>
+                    <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>f99c50aa-c406-3597-0000-000000000000</groupId>
+                        <id>c9c58d8a-e032-3cac-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_tpd_emission</selectedRelationships>
+                    <source>
+                        <groupId>f99c50aa-c406-3597-0000-000000000000</groupId>
+                        <id>f154d248-759a-3226-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>b44e4b06-f59c-332d-0000-000000000000</id>
                     <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -9046,7 +9096,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>f99c50aa-c406-3597-0000-000000000000</groupId>
-                        <id>c9c58d8a-e032-3cac-0000-000000000000</id>
+                        <id>f154d248-759a-3226-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -17911,103 +17961,109 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('pa
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>INSERT INTO log_summary(
-filename,
-ff_uuid,
-blank_lines,
-duplicate_records,
-school_name,
-cluster_name,
-block_name ,
-latitude,
-longitude,
-district_name ,
-cluster_id ,
-block_id ,
-district_id ,
-process_start_time,
-datatype_mismatch,
-school_category_id,
-school_category,
-school_management_type_id,
-school_management_type,
-id,
-exam_id,
-exam_code,
-student_uid,
-school_id,
-studying_class,
-question_id,
-obtained_marks,
-assessment_year,
-medium,
-standard,
-subject_id,
-subject_name,
-exam_type,
-exam_date,
-total_questions,
-total_marks,
-question_title,
-question,
-question_marks,
-grade,
-semester,
-attendance_id,student_id,"year","month",inspection_id,in_school_location,created_on,
-udise_sch_code,sector_no,item_id,class_type_id,stream_id,grade_pri_upr,incentive_type,caste_id,disability_type,medinstr_seq,age_id,item_group,tch_code,marks_range_id,nsqf_faculty_id,
-processed_records,total_records,
-teacher_id,
-collection_id,
-uuid,
-user_location_master_id,
-user_master_id,
-observer_id
-)
-VALUES
-(
-'${emission_filename:substringAfter('/')}',
-'${source.uuid}',
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-'${now():format("yyyy-MM-dd HH:mm:ss")}',
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0)</value>
+<value>INSERT INTO log_summary(filename, 
+ff_uuid, blank_lines, duplicate_records, school_name, 
+cluster_name, block_name, latitude, longitude, district_name, 
+cluster_id, block_id, district_id, process_start_time, datatype_mismatch,
+ school_category_id, school_category, school_management_type_id, school_management_type,
+  id, exam_id, exam_code, student_uid, school_id, studying_class, question_id, obtained_marks, 
+  assessment_year, medium, standard, subject_id, subject_name, exam_type, exam_date, total_questions,
+   total_marks, question_title, question, question_marks, grade, semester, attendance_id,
+   student_id,"year","month",inspection_id,in_school_location,created_on, udise_sch_code,
+   sector_no,item_id,class_type_id,stream_id,grade_pri_upr,incentive_type,caste_id,disability_type,
+   medinstr_seq,age_id,item_group,tch_code,marks_range_id,nsqf_faculty_id, processed_records,
+   total_records, teacher_id, collection_id, uuid, user_location_master_id, user_master_id, observer_id,
+   collection_created_for,
+collection_type,
+content_board,
+content_created_for,
+content_gradelevel,
+content_medium,
+content_mimetype,
+content_name,
+content_subject,
+content_view_date,
+derived_loc_district,
+derived_loc_state,
+dimensions_pdata_id,
+dimensions_pdata_pid,
+object_id,
+object_rollup_l1,
+total_count,
+total_time_spent,
+user_login_type,
+user_signin_type)
+VALUES ('${emission_filename:substringAfter('/')}',
+        '${source.uuid}',
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        '${now():format("yyyy-MM-dd HH:mm:ss")}',
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -31406,7 +31462,7 @@ ${filename:startsWith('school_management'):ifElse('log_summary_school_management
                     <id>6844dc37-c5f0-38a4-0000-000000000000</id>
                     <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
                     <position>
-                        <x>5032.0</x>
+                        <x>5096.0</x>
                         <y>-1552.0</y>
                     </position>
                     <bundle>
@@ -36371,6 +36427,270 @@ ${filename:startsWith('infra_mgt_school_table'):ifElse('infra/school_management_
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
+                    <id>81bf3313-9f3c-31cb-0000-000000000000</id>
+                    <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>22456.0</x>
+                        <y>-968.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-aws-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Object Key</key>
+<value>
+    <name>Object Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>
+    <name>Bucket</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+<value>
+    <name>Access Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+<value>
+    <name>Secret Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+<value>
+    <name>Credentials File</name>
+</value>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderService</identifiesControllerService>
+    <name>AWS Credentials Provider service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>
+    <name>Region</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>
+    <name>Communications Timeout</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Version</key>
+<value>
+    <name>Version</name>
+</value>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>
+    <name>FullControl User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>
+    <name>Read Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>
+    <name>Write Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>
+    <name>Read ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>
+    <name>Write ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.ssl.SSLContextService</identifiesControllerService>
+    <name>SSL Context Service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+<value>
+    <name>Endpoint Override URL</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>
+    <name>Signer Override</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
+    <name>proxy-configuration-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+<value>
+    <name>Proxy Host</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+<value>
+    <name>Proxy Host Port</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+<value>
+    <name>proxy-user-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+<value>
+    <name>proxy-user-password</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Object Key</key>
+<value>${filename}</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>${s3.bucket}</value>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>fd46244e-fbb2-36c8-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>ap-south-1</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>30 secs</value>
+                            </entry>
+                            <entry>
+<key>Version</key>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>${s3.permissions.full.users}</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>${s3.permissions.read.users}</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>${s3.permissions.write.users}</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>${s3.permissions.readacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>${s3.permissions.writeacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>${s3.owner}</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>Default Signature</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>3 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diskha_ETB_s3_delete_emission_data</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.aws.s3.DeleteS3Object</type>
                 </processors>
                 <processors>
                     <id>8242346a-b641-3e82-0000-000000000000</id>
@@ -50771,7 +51091,7 @@ ${query_type:startsWith('stud_att_management_category_school_by_month_year'):ifE
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>FetchS3Object</name>
+                    <name>diskha_ETB_FetchS3_emission</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -52996,8 +53316,8 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <id>c9c58d8a-e032-3cac-0000-000000000000</id>
                     <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2136.0</x>
-                        <y>-1352.0</y>
+                        <x>2152.0</x>
+                        <y>-1408.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-aws-nar</artifact>
@@ -60588,6 +60908,70 @@ or(${filename:startsWith('diksha_data_summary')}):ifElse('${path}${filename}','N
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
                 </processors>
                 <processors>
+                    <id>f154d248-759a-3226-0000-000000000000</id>
+                    <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>2144.0</x>
+                        <y>-1240.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_tpd_emission</key>
+<value>
+    <name>diksha_tpd_emission</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>diksha_tpd_emission</key>
+<value>${filename:startsWith('diksha/diksha_tpd'):
+or(${filename:startsWith('diksha_tpd')}):and(${filename:startsWith('diksha/diksha_tpd_api'):not()}):
+and(${filename:startsWith('diksha_tpd_api'):not()})}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diksha_tpd_emission_route_s3</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_tpd_emission</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>f199cfc1-f074-3866-0000-000000000000</id>
                     <parentGroupId>f99c50aa-c406-3597-0000-000000000000</parentGroupId>
                     <position>
@@ -64450,5 +64834,5 @@ ${query_type:startsWith('comp_management_district_wise'):ifElse('school_manageme
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>10/21/2021 13:19:41 IST</timestamp>
+    <timestamp>10/21/2021 16:12:28 IST</timestamp>
 </template>
