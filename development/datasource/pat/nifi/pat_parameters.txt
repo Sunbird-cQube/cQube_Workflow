@@ -959,10 +959,11 @@ updated_on=now()""",
     "operation": "shift",
     "spec": {
       "*": {
-        "data": ""
+        "@grade": "@level[].grade"
       }
     }
-  }]""",
+  }
+]""",
 "pat_filter_same_id_record_periodic_exam_mst_qry":"""SELECT  exam_id,assessment_year,medium,standard,division,subject_id,subject_name,exam_type_id,exam_type,exam_code,exam_date,total_questions,
 total_marks from 
 (SELECT  exam_id,assessment_year,medium,standard,division,subject_id,subject_name,exam_type_id,exam_type,exam_code,exam_date,total_questions,
