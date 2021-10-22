@@ -34,7 +34,7 @@ ansible-playbook ../ansible/create_base.yml --tags "update" --extra-vars "@confi
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 mode_of_installation=$(awk ''/^mode_of_installation:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
 if [[ $mode_of_installation == "localhost" ]]; then
-ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook ../ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
                                                          --extra-vars "@config.yml" \
                                                                                      --extra-vars "@memory_config.yml" \
                                                          --extra-vars "@.version" \
@@ -44,7 +44,7 @@ ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_di
                                                          --extra-vars "usecase_name=education_usecase" \
                                                          --extra-vars "protocol=http"
 else
-ansible-playbook ../ansible/upgrade.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook ../ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
                                                          --extra-vars "@config.yml" \
                                                                                      --extra-vars "@memory_config.yml" \
                                                          --extra-vars "@.version" \
