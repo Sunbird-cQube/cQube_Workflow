@@ -427,7 +427,7 @@ export class DataReplayComponent implements OnInit {
     this.onSelectStdYear('Select Year');
     this.onSelectTchrYear('Select Year');
     this.onSelectCRCYear('Select Year');
-    this.onSelectAcademicYear('Select Year');
+    this.onSelectAcademicYear('Select Academic Year');
     this.summaryFromDate = undefined;
     this.summaryToDate = undefined;
     this.selectedStdYear = undefined;
