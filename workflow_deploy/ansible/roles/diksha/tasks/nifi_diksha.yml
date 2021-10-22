@@ -11,7 +11,7 @@
   tags: [ install, update ]  
 
 - name: Enable diksha ETB API
-  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py diksha_transformer {{ storage_type }} ETB API"
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py diksha_transformer {{ storage_type }} ETB API" 
   tags: [ install, update ]
 
 - name: Enable diksha TPD API
