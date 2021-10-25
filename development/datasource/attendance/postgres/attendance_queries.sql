@@ -14,9 +14,9 @@ returns int as
 $body$
 begin
 
-drop view if exists student_attendance_agg_last_1_day cascade;
-drop view if exists student_attendance_agg_last_7_days cascade;
-drop view if exists student_attendance_agg_last_30_days cascade;
+drop materialized view if exists student_attendance_agg_last_1_day cascade;
+drop materialized view if exists student_attendance_agg_last_7_days cascade;
+drop materialized view if exists student_attendance_agg_last_30_days cascade;
 drop view if exists student_attendance_agg_overall cascade;
 
   return 0;
@@ -227,7 +227,7 @@ from (select (generate_series('now()'::date-number_of_days::interval,('now()'::d
 where extract(month from days_in_period.day)=min_month 
 and extract(year from days_in_period.day)=min_year;
 
-_query_res:='create materialized view if not exists student_attendance_agg_'||period||' as (select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(stn_cnt.students_count as bigint),
+_query_res:='create or replace view student_attendance_agg_'||period||' as (select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(stn_cnt.students_count as bigint),
 b.school_name,b.school_latitude,b.school_longitude,b.cluster_id,b.cluster_name,b.cluster_latitude,b.cluster_longitude,
 b.block_id,b.block_name,b.block_latitude,b.block_longitude,b.district_id,b.district_name,b.district_latitude,b.district_longitude,b.school_management_type,b.school_category
 from (
@@ -256,7 +256,7 @@ from (select (generate_series('now()'::date-number_of_days::interval,('now()'::d
 where extract(month from days_in_period.day)=month 
 and extract(year from days_in_period.day)=year;
 
-_query_res:='create materialized view if not exists student_attendance_agg_'||period||' as (select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(sch_res.students_count as bigint),
+_query_res:='create or replace view student_attendance_agg_'||period||' as (select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(sch_res.students_count as bigint),
 b.school_name,b.school_latitude,b.school_longitude,b.cluster_id,b.cluster_name,b.cluster_latitude,b.cluster_longitude,
 b.block_id,b.block_name,b.block_latitude,b.block_longitude,b.district_id,b.district_name,b.district_latitude,b.district_longitude,b.school_management_type,b.school_category
    from (
