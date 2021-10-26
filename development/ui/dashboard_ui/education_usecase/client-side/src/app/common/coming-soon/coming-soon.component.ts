@@ -13,7 +13,7 @@ export class ComingSoonComponent implements OnInit {
 
   ngOnInit(): void {
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
   }
 
 }

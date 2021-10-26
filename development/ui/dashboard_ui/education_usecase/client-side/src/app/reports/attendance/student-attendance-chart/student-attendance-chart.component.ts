@@ -68,7 +68,7 @@ export class StudentAttendanceChartComponent implements OnInit {
   ngOnInit(): void {
 
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.state = this.commonService.state;
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
