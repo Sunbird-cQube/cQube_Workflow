@@ -22,7 +22,7 @@ export class MissingDataComponent implements OnInit {
 
   ngOnInit(): void {
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
