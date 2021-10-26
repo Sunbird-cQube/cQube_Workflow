@@ -1,0 +1,116 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12" style="padding-top: 20px !important;">
+            <h6>Diksha Configuration</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <hr>
+                    <h6>Diksha TPD/ETB Data Input Method</h6>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 10px !important;"></div>
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 2%;">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p>Date Range Type: </p>
+                                <select required id="rangeType" [(ngModel)]="selectedType" (change)="onChooseType()">
+                                    <option [value]="selectedType" disabled selected="selected">Select Input Method
+                                    </option>
+                                    <option *ngFor="let type of types; let i = index;" [(ngValue)]="types[i]">
+                                        <span>{{types[i]}}</span>
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6" *ngIf="selectedType != 'Default'">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p>From Date: </p>
+                                        <input type="text" id="fromDate"
+                                            style="width:100%; margin:0px auto; margin-left: 2px; float: left;"
+                                            placeholder="Select From Date" class="form-control" #dp="bsDatepicker"
+                                            bsDatepicker [(ngModel)]="fromDate"
+                                            [bsConfig]="{dateInputFormat: 'YYYY-MM-DD' , showWeekNumbers:false }">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p>To Date: </p>
+                                        <input type="text" id="toDate" [disabled]="!fromDate"
+                                            style="width:100%; margin:0px auto; margin-left: 2px; float: left;"
+                                            placeholder="Select To Date" class="form-control" #dp="bsDatepicker"
+                                            bsDatepicker [(ngModel)]="toDate" [minDate]="fromDate"
+                                            [bsConfig]="{dateInputFormat: 'YYYY-MM-DD' , showWeekNumbers:false }">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-primary" id="ret-submit" (click)="onDikshaConfigSubmit()"
+                                    style="bottom: 0px; left: 0px; position: absolute;">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <hr>
+                    <h6>Diksha TPD/ETB Data Input Method</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 10px !important;"></div>
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 2%;">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div style="margin-top: 5px;">
+                                    <p>TPD Data Input Method: </p> <select required id="tpdMethod"
+                                        [(ngModel)]="TPDselected">
+                                        <option [value]="TPDselected" disabled selected="selected">Select Input Method
+                                        </option>
+                                        <option *ngFor="let option of dropdownOptions; let i = index;"
+                                            [(ngValue)]="dropdownOptions[i]">
+                                            <span>{{dropdownOptions[i]}}</span>
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary" id="ret-submit" (click)="TPDonSubmit()"
+                                        style="float: right;margin-top: -5px !important;">Submit</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-5">
+                                <div style="margin-top: 5px;">
+                                    <p>ETB Data Input Method: </p> <select required id="etbMethod"
+                                        [(ngModel)]="ETBselected">
+                                        <option [value]="ETBselected" disabled selected="selected">Select Input Method
+                                        </option>
+                                        <option *ngFor="let option of dropdownOptions; let i = index;"
+                                            [(ngValue)]="dropdownOptions[i]">
+                                            <span>{{dropdownOptions[i]}}</span>
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary" id="ret-submit" (click)="ETBonSubmit()"
+                                        style="float: right;margin-top: -5px !important;">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="spinner" style="display: block;">
+    <div id="loader" class="loading">Loading&#8230;</div>
+</div>

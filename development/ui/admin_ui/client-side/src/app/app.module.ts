@@ -25,6 +25,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DataReplayComponent } from './components/data-replay/data-replay.component';
 import { MultiSelectComponent } from './components/data-replay/multi-select/multi-select.component';
+import { DikshaConfigComponent } from './components/diksha-config/diksha-config.component';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -45,6 +46,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     NifiShedularComponent,
     DataReplayComponent,
     MultiSelectComponent,
+    DikshaConfigComponent,
   ],
   imports: [
     FormsModule,

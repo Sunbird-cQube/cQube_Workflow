@@ -11,6 +11,7 @@ import { S3FilesDownloadComponent } from './components/s3-files-download/s3-file
 import { SummaryStatistictsComponent } from './components/summary-statisticts/summary-statisticts.component';
 import { NifiShedularComponent } from './components/nifi-shedular/nifi-shedular.component';
 import { DataReplayComponent } from './components/data-replay/data-replay.component';
+import { DikshaConfigComponent } from './components/diksha-config/diksha-config.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,9 @@ const routes: Routes = [
       },
       {
         path: 'data-replay', component: DataReplayComponent, canActivateChild: [AuthGuard]
+      },
+      {
+        path: 'diksha-configuration', component: DikshaConfigComponent, canActivateChild: [AuthGuard]
       }
     ]
   }
