@@ -20,7 +20,7 @@
   tags: [ install, update ]
 
 - name: copying admin's server-side script
-  shell: "cp -R ../../development/admin/server-side/* {{base_dir}}/cqube/admin_dashboard/server_side"
+  shell: "cp -R ../../development/node_api/admin_api/server-side/* {{base_dir}}/cqube/admin_dashboard/server_side"
   tags: [ install, update ]
 
 - name: NodeJS dependencies install
@@ -44,21 +44,26 @@
       SECRET_ACCESS_KEY  = "{{ s3_secret_key }}"
       OUTPUT_BUCKET = "{{ s3_output_bucket }}"
       BASE_DIR = "{{ base_dir }}"
+      STORAGE_TYPE = "{{ storage_type }}"
       BASEURL = "http://{{ local_ipv4_address}}:5000"
 
-      KEYCLOAK_HOST = "https://{{ api_endpoint }}"
+      KEYCLOAK_HOST = "{{ protocol }}://{{ api_endpoint }}"
       KEYCLOAK_REALM = "{{ realm_name }}"
       KEYCLOAK_CLIENT= "{{ admin_app_client_id }}"
       KEYCLOAK_USER= "{{ keycloak_adm_user }}"
       PASSWORD= "{{ keycloak_adm_passwd }}"
       GRANT_TYPE= "password"
 
+      INPUT_DIRECTORY= "{{ input_directory }}"
+      OUTPUT_DIRECTORY= "{{ output_directory }}"
+      EMISSION_DIRECTORY= "{{ emission_directory }}"
+
       EMISSION_BUCKET_NAME= {{ s3_emission_bucket }}
       INPUT_BUCKET_NAME= {{ s3_input_bucket }}
       OUTPUT_BUCKET_NAME= {{ s3_output_bucket }} 
       AWS_REGION= "{{ aws_default_region }}"
 
-      NIFI_PROCESSORS= "crc_transformer,semester_transformer,student_attendance_transformer,diksha_transformer,infra_transformer,static_data_transformer,udise_transformer,pat_transformer,composite_transformer,healthcard_transformer,teacher_attendance_transformer"
+      NIFI_PROCESSORS= "crc_transformer,student_attendance_transformer,diksha_transformer,infra_transformer,static_data_transformer,udise_transformer,pat_transformer,composite_transformer,healthcard_transformer,teacher_attendance_transformer"
       NIFI_URL= "http://localhost:8096/nifi-api"
 
       NODE_ENV= "DEVELOPMENT"
@@ -66,6 +71,45 @@
       LOG= "console"
       LOG_DIRECTORY= ""
       KONG_BASE_URL = "http://localhost:8001/consumers"
+  when: mode_of_installation != "localhost"
   tags: [ install, update ]
 
+- name: Loading required data inside .env file (localhost)
+  blockinfile:
+    path: "{{base_dir}}/cqube/admin_dashboard/server_side/.env"
+    block: |
+      PORT = 3001
+      ACCESS_KEY_ID = "{{ s3_access_key }}"
+      SECRET_ACCESS_KEY  = "{{ s3_secret_key }}"
+      OUTPUT_BUCKET = "{{ s3_output_bucket }}"
+      BASE_DIR = "{{ base_dir }}"
+      STORAGE_TYPE = "{{ storage_type }}"
+      BASEURL = "http://{{ local_ipv4_address}}:5000"
+
+      KEYCLOAK_HOST = "{{ protocol }}://{{ api_endpoint }}:8080"
+      KEYCLOAK_REALM = "{{ realm_name }}"
+      KEYCLOAK_CLIENT= "{{ admin_app_client_id }}"
+      KEYCLOAK_USER= "{{ keycloak_adm_user }}"
+      PASSWORD= "{{ keycloak_adm_passwd }}"
+      GRANT_TYPE= "password"
+
+      INPUT_DIRECTORY= "{{ input_directory }}"
+      OUTPUT_DIRECTORY= "{{ output_directory }}"
+      EMISSION_DIRECTORY= "{{ emission_directory }}"
+
+      EMISSION_BUCKET_NAME= {{ s3_emission_bucket }}
+      INPUT_BUCKET_NAME= {{ s3_input_bucket }}
+      OUTPUT_BUCKET_NAME= {{ s3_output_bucket }} 
+      AWS_REGION= "{{ aws_default_region }}"
+
+      NIFI_PROCESSORS= "crc_transformer,student_attendance_transformer,diksha_transformer,infra_transformer,static_data_transformer,udise_transformer,pat_transformer,composite_transformer,healthcard_transformer,teacher_attendance_transformer"
+      NIFI_URL= "http://localhost:8096/nifi-api"
+
+      NODE_ENV= "DEVELOPMENT"
+      SYSTEM_USERNAME = {{ system_user_name }}
+      LOG= "console"
+      LOG_DIRECTORY= ""
+      KONG_BASE_URL = "http://localhost:8001/consumers"
+  when: mode_of_installation == "localhost"
+  tags: [ install, update ]
 

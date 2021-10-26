@@ -1,0 +1,18 @@
+
+- name: Run teacher_attendance table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/teacher_attendance.sql
+  when: teacher_attendance
+  tags: [ install, update ]
+
+- name: Run teacher_attendance queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/teacher_attendance_queries.sql
+  when: teacher_attendance
+  tags: [ install, update ]

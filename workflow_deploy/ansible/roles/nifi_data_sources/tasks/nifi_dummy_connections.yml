@@ -1,0 +1,10 @@
+- name: run python code to create dummy connections
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_dummy_connection_creator.py cQube_data_storage"
+
+- name: run python code to create telemetry dummy connections
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_start_pg.py cqube_telemetry_transformer"
+  when: nifi_telemetry
+
+- name: run python code to disable the processors
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py {{ storage_type }}"
+ 

@@ -1,0 +1,10 @@
+.chartAreaWrapper {
+    height: 72vh;
+  }
+
+
+  .chartWrapper {
+    position: relative;
+      overflow-y: scroll;
+  }
+  

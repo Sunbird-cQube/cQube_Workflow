@@ -1,0 +1,18 @@
+
+- name: Run attendance table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/attendance.sql
+  when: attendance
+  tags: [ install, update ]
+
+- name: Run attendance queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/attendance_queries.sql
+  when: attendance
+  tags: [ install, update ]

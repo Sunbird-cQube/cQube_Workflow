@@ -1,11 +1,16 @@
 export const environment = {
   production: true,
-  apiEndpoint: "https://{{ api_endpoint }}/api",
-  appUrl: "https://{{ api_endpoint }}",
+  apiEndpoint: "{{ protocol }}://{{ api_endpoint }}/api",
+  appUrl: "{{ protocol }}://{{ api_endpoint }}",
   adminUrl: "http://{{ local_ipv4_address }}:4201",
-  keycloakUrl: "https://{{ api_endpoint }}/auth",
+  keycloakUrl: "{{ protocol }}://{{ api_endpoint }}/auth",
   realm: "{{ realm_name }}",
   clientId: "{{ angular_app_client_id }}",
   stateName: "{{ state_code }}",
-  diksha_columns: {% if diksha_columns == True %}true{% endif %}{% if diksha_columns == False %}false{% endif %}
+  diksha_columns: {% if diksha_columns == True %}true{% endif %}{% if diksha_columns == False %}false{% endif %},
+  useCase: "{{ usecase_name }}",
+  mapName: "{{ map_name }}",
+  theme: "{{ theme }}",
+  report_viewer_config_otp: {% if report_viewer_config_otp == True %}true{% endif %}{% if report_viewer_config_otp == False %}false{% endif %},
+  progressCardConfig: ['{{ slab1 }}', '{{ slab2 }}', '{{ slab3 }}', '{{ slab4 }}']
 };

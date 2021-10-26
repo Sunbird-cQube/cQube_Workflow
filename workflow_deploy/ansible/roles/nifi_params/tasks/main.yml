@@ -1,22 +1,22 @@
 ---
 - name: creating the parameter json files
   template:
-    src: "{{ item }}_params.json.j2"
-    dest: nifi_json_files/{{ item }}.json
+    src: "{{ item }}.json.j2"
+    dest: "{{ base_dir }}/cqube/nifi/nifi_json_files/{{ item }}.json"
     mode: "0644"
   loop:
-    - assessment
-    - attendance
-    - crc
-    - diksha
-    - infra
-    - raw
-    - static
-    - telemetry
-    - udise
-    - pat
-    - composite
-    - healthcard
-    - teacher_attendance
-    - data_replay
-    - sat
+    - cQube_data_storage_parameters
+    - static_data_parameters
+    - crc_parameters  
+    - student_attendance_parameters
+    - infra_parameters
+    - diksha_parameters
+    - cqube_telemetry_parameters
+    - udise_parameters
+    - pat_parameters
+    - composite_parameters
+    - progress_card_parameters
+    - teacher_attendance_parameters
+    - data_replay_parameters
+    - sat_parameters
+  tags: [ install, update ]     

@@ -1,0 +1,11 @@
+- name: Run infra python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py infra_transformer infra_parameters 4661"
+  tags: [ install, update ]
+
+- name: Connection of infra to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage infra_transformer"
+  tags: [ install, update ]
+
+- name: run python code to disable the processors
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py infra_transformer {{ storage_type }}"
+  tags: [ install, update ]  

@@ -16,6 +16,7 @@ emission_role: emission
 
 realm_created: False
 cQube_realm_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm.json"
+cQube_realm_local_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_local.json"
 cQube_realm_defaultRoles_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_defaultRoles.json"
 cQube_realm_config_otp_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_config_otp.json"
 
@@ -24,5 +25,7 @@ login_theme_name: cqube_themes
 
 # Session timeout variable in seconds
 cQube_realm_timeout_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_timeout.json"
-session_timeout_in_seconds: 1800
 
+keycloak_config_otp: true
+
+session_timeout_in_seconds: 604800

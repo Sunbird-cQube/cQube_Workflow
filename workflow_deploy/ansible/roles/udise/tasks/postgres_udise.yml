@@ -1,0 +1,40 @@
+
+- name: Run udise table_definitions from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/udise.sql
+  when: udise
+  tags: [ install, update ]
+
+- name: checking for udise table
+  shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "select case when (select count(*) from udise_config)=0 then 0 else 1 end;"
+  when: udise
+  register: output_udise
+  tags: [ install, update ]
+
+- name: Copying table structure from csv file - udise
+  shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "copy udise_config(id,description,column_name,type,indice_id,status,score,trans_columns,metric_config,direction) from '/tmp/postgres/udise_config.csv' delimiter '|' csv header;"
+  when: udise and output_udise.stdout_lines[2].strip() == "0"
+  tags: [ install, update ]  
+
+- name: checking for nifi_template_info table
+  shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "select case when (select count(*) from nifi_template_info)=0 then 0 else 1 end;"
+  register: output_nifi
+  tags: [ install, update ]
+
+- name: Copying table structure from csv file
+  shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "copy nifi_template_info(template,status) from '{{ base_dir }}/cqube/datasource.csv' delimiter ',' csv header;"
+  when: output_nifi.stdout_lines[2].strip() == "0"
+  tags: [ install, update ]
+  
+- name: Run udise queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/udise_queries.sql
+  when: udise
+  tags: [ install, update ]
+

@@ -1,0 +1,23 @@
+
+- name: creating the progress_card_config.csv file
+  template:
+    src: progress_card_config.csv.j2
+    dest: /tmp/postgres/progress_card_config.csv
+    owner: postgres
+    mode: "0644"
+  when: progresscard
+  tags: [ install, update ]
+
+- name: Copying table structure from csv file
+  shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -c "copy progress_card_category_config(categories,value_from,value_to) from '/tmp/postgres/progress_card_config.csv' delimiter ',' csv header;"
+  when: progresscard
+  tags: [ install, update ]
+
+- name: Run progresscard queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/progress_card_queries.sql
+  when: progresscard
+  tags: [ install, update ]

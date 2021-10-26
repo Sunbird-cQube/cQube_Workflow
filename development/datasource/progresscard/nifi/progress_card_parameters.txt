@@ -1,0 +1,23 @@
+{
+"progress_card_queries_filename":"""progress_card_queries.json""",
+"progress_card_jolt_management_state":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@data_source": ""
+      }
+    }
+  }
+]""",
+"progress_card_jolt_state":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@values": "@data_source"
+      }
+    }
+  }
+]"""
+}
