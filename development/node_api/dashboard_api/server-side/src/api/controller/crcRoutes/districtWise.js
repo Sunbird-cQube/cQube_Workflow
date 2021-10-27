@@ -48,7 +48,7 @@ router.get('/getDateRange', auth.authController, async (req, res) => {
         logger.info('---getDateRange api ---');
         let fileName = `crc/crc_meta_year_month.json`;
         var jsonData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
-
+console.log(jsonData)
         logger.info('--- getDateRange response sent ---');
         res.status(200).send(jsonData);
 
