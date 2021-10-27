@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
                     res.status(403).send({ errMsg: "Something went wrong" });
                 } else {
                     logger.info('--- diksha configuration api response sent---');
-                    res.status(200).send({ msg: `Diksha Dates Configured SuccessFully.` });
+                    res.status(200).send({ msg: `Diksha ETB Dates Configured Successfully.` });
                 }
             });
 
