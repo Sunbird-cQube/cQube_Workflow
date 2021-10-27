@@ -33,8 +33,7 @@
 }
 
 /*====================================================================*/
-#table{
-  /* margin: 0 auto; */
+table.crc-table{
   width: 100% !important;
   clear : both;
   border-collapse: collapse;
@@ -42,7 +41,7 @@
   word-wrap: break-word;
   word-break: break-all;
   border: 1px solid gray;
-  
+  white-space: normal !important;
 }
 
 .dataTables_scroll,
@@ -60,9 +59,6 @@
   width: 100% !important;
 }
 
-.dataTables_scrollBody{
-  overflow: hidden !important;
-}
 #downloader{
   margin-top: 5px;
   margin-right: 15px;
@@ -262,39 +258,39 @@ font-size: 11px;
 
 
 
-.reportHeader1{
+.reportHeader2{
   top: 45px;
   position: fixed;
   width: calc(100% - 25px);
   z-index: 999;
   background:var(--theme-report-header-bg-color);
 }
-.reportContainer1{
-  margin-top: 180px;
+.reportContainer2{
+  margin-top: 180px !important;
 }
 
 @media screen and (min-width: 2140px) {
-   .reportHeader1{
+   .reportHeader2{
        top: 70px !important;
        position: fixed;
        width: calc(100% - 25px);
        z-index: 999;
        background:var(--theme-report-header-bg-color);
     }
-    .reportContainer1{
+    .reportContainer2{
        margin-top: 280px !important;
     }
 }
 
 @media screen and (min-width: 3820px) {
-   .reportHeader1{
+   .reportHeader2{
        top: 120px !important;
        position: fixed;
        width: calc(100% - 25px);
        z-index: 999;
        background:var(--theme-report-header-bg-color);
     }
-    .reportContainer1{
+    .reportContainer2{
        margin-top: 300px !important;
     }
 }

@@ -467,7 +467,7 @@ export class DataReplayComponent implements OnInit {
   }
 
   public date = new Date();
-  public getTime = `${this.date.getFullYear()}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${("0" + (this.date.getDate())).slice(-2)}, ${("0" + (this.date.getHours())).slice(-2)}:${("0" + (this.date.getMinutes())).slice(-2)}:${("0" + (this.date.getSeconds())).slice(-2)}`;;
+  public getTime = `${this.date.getFullYear()}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${("0" + (this.date.getDate())).slice(-2)}, ${("0" + (this.date.getHours())).slice(-2)}:${("0" + (this.date.getMinutes())).slice(-2)}:${("0" + (this.date.getSeconds())).slice(-2)}`;
   onSubmitRet() {
     document.getElementById('spinner').style.display = 'block';
     this.retentionData = { retentionDays: this.selectedDays, retentionTime: this.getTime }
@@ -477,31 +477,6 @@ export class DataReplayComponent implements OnInit {
     }, err => {
       alert(err.errMsg);
       document.getElementById('spinner').style.display = 'none';
-    })
-  }
-
-  dropdownOptions = ['Emission', 'API'];
-  TPDselected = 'API';
-  ETBselected = 'API';
-  TPDdata = {};
-  TPDonSubmit() {
-    this.TPDdata['selected'] = this.TPDselected;
-    this.TPDdata['time'] = this.getTime;
-    this.service.dikshaTPD_ETB_data_input({ method: this.TPDselected, dataSet: 'TPD' }).subscribe(res => {
-      alert(res['msg']);
-    }, err => {
-      alert("Error found while initiating TPD method");
-    })
-  }
-
-  ETBdata = {};
-  ETBonSubmit() {
-    this.ETBdata['selected'] = this.ETBselected;
-    this.ETBdata['time'] = this.getTime;
-    this.service.dikshaTPD_ETB_data_input({ method: this.ETBselected, dataSet: 'ETB' }).subscribe(res => {
-      alert(res['msg']);
-    }, err => {
-      alert("Error found while initiating ETB method");
     })
   }
 
