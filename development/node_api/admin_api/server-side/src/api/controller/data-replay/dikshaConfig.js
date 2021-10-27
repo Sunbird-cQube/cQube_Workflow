@@ -12,8 +12,8 @@ router.post('/', async (req, res) => {
         shell.exec(type == 'Default' ?
             `sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/update_processor_property.py diksha_transformer  ${type}` :
             `sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/update_processor_property.py diksha_transformer  ${fromDate} ${toDate}`,
-            function (code, stdout, stderr) {
-                if (!stdout) {
+            function (code, stderr, stdout) {
+                if (stderr) {
                     logger.error('Program stderr:', stderr);
                     res.status(403).send({ errMsg: "Something went wrong" });
                 } else {

@@ -112,7 +112,7 @@
     background:var(--theme-report-header-bg-color);
   }
   .reportContainer1{
-    margin-top: 120px;
+    margin-top: 120px !important;
   }
   
   @media screen and (min-width: 2140px) {
