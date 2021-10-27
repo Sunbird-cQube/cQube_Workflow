@@ -75,6 +75,7 @@ export class PATLOTableComponent implements OnInit {
   validTransactions: any;
   table: any = undefined;
   updatedTable: any = [];
+  gradeSelected: boolean;
 
   constructor(
     public http: HttpClient,
@@ -84,41 +85,42 @@ export class PATLOTableComponent implements OnInit {
   ) {
     service.PATHeatMapMetaData({ report: "pat" }).subscribe(
       (res) => {
-        this.metaData = res["data"];
-        for (let i = 0; i < this.metaData.length; i++) {
-          this.years.push(this.metaData[i]["academic_year"]);
-        }
-        this.year = this.years[this.years.length - 1];
-        let i;
-        for (i = 0; i < this.metaData.length; i++) {
-          if (this.metaData[i]["academic_year"] == this.year) {
-            this.months = Object.keys(res["data"][i].data.months);
-            this.grades = this.metaData[i].data["grades"];
-            this.subjects = this.metaData[i].data["subjects"];
-            this.allViews = this.metaData[i].data["viewBy"];
-            break;
+        try {
+          this.metaData = res["data"];
+          for (let i = 0; i < this.metaData.length; i++) {
+            this.years.push(this.metaData[i]["academic_year"]);
           }
+          this.year = this.years[this.years.length - 1];
+          let i;
+          for (i = 0; i < this.metaData.length; i++) {
+            if (this.metaData[i]["academic_year"] == this.year) {
+              this.months = Object.keys(res["data"][i].data.months);
+              this.grades = this.metaData[i].data["grades"];
+              this.allViews = this.metaData[i].data["viewBy"];
+              break;
+            }
+          }
+          this.month = this.months[this.months.length - 1];
+          this.examDates = this.metaData[i].data["months"][`${this.month}`][
+            "examDate"
+          ];
+          this.grades = [
+            { grade: "all" },
+            ...this.grades.filter((item) => item !== { grade: "all" }),
+          ];
+          this.examDates = [
+            { exam_date: "all" },
+            ...this.examDates.filter((item) => item !== { exam_date: "all" }),
+          ];
+
+          this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+
+          this.commonFunc();
+        } catch (e) {
+          this.metaData = [];
+          this.commonService.loaderAndErr(this.metaData);
         }
-        this.month = this.months[this.months.length - 1];
-        this.examDates = this.metaData[i].data["months"][`${this.month}`][
-          "examDate"
-        ];
-        this.grades = [
-          { grade: "all" },
-          ...this.grades.filter((item) => item !== { grade: "all" }),
-        ];
-        this.subjects = [
-          { subject: "all" },
-          ...this.subjects.filter((item) => item !== { subject: "all" }),
-        ];
-        this.examDates = [
-          { exam_date: "all" },
-          ...this.examDates.filter((item) => item !== { exam_date: "all" }),
-        ];
 
-        this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-
-        this.commonFunc();
       },
       (err) => {
         this.metaData = [];
@@ -136,7 +138,6 @@ export class PATLOTableComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    // this.onResize();
   }
 
   height = window.innerHeight;
@@ -160,7 +161,6 @@ export class PATLOTableComponent implements OnInit {
       if (metaData[i]["academic_year"] == this.year) {
         this.months = Object.keys(this.metaData[i].data.months);
         this.grades = metaData[i].data["grades"];
-        this.subjects = metaData[i].data["subjects"];
         this.allViews = metaData[i].data["viewBy"];
         break;
       }
@@ -177,10 +177,6 @@ export class PATLOTableComponent implements OnInit {
     this.grades = [
       { grade: "all" },
       ...this.grades.filter((item) => item !== { grade: "all" }),
-    ];
-    this.subjects = [
-      { subject: "all" },
-      ...this.subjects.filter((item) => item !== { subject: "all" }),
     ];
   }
 
@@ -201,8 +197,9 @@ export class PATLOTableComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.year = this.years[this.years.length - 1];
+    this.gradeSelected = false;
     this.commonFunc();
-    //document.getElementById("home").style.display = "none";
+
   }
 
   commonFunc = () => {
@@ -236,7 +233,6 @@ export class PATLOTableComponent implements OnInit {
               : 0
         );
         this.onChangePage();
-        //this.commonService.loaderAndErr(this.reportData);
       },
       (err) => {
         this.handleError();
@@ -396,7 +392,7 @@ export class PATLOTableComponent implements OnInit {
   }
 
   selectedYear() {
-    //document.getElementById("home").style.display = "none";
+
     this.month = "";
     this.grade = "all";
     this.examDate = "all";
@@ -411,7 +407,7 @@ export class PATLOTableComponent implements OnInit {
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
-    //document.getElementById("home").style.display = "none";
+
     this.levelWiseFilter();
   }
 
@@ -419,6 +415,17 @@ export class PATLOTableComponent implements OnInit {
     if (!this.month && this.month === '') {
       alert("Please select month!");
       return;
+    } else {
+      this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+      if (this.grade !== "all") {
+        this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
+        this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
+        this.gradeSelected = true;
+      } else {
+        this.grade = "all";
+        this.resetToInitPage();
+      }
+      this.levelWiseFilter();
     }
 
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -471,7 +478,7 @@ export class PATLOTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = true;
-    //document.getElementById("home").style.display = "block";
+
     this.commonService.errMsg();
 
     let a = {
@@ -504,7 +511,6 @@ export class PATLOTableComponent implements OnInit {
         this.dist = true;
         this.blok = false;
         this.clust = false;
-        //this.commonService.loaderAndErr(this.reportData);
       },
       (err) => {
         this.handleError();
@@ -527,7 +533,7 @@ export class PATLOTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = false;
-    //document.getElementById("home").style.display = "block";
+
     this.commonService.errMsg();
 
     let a = {
@@ -567,7 +573,6 @@ export class PATLOTableComponent implements OnInit {
         this.dist = false;
         this.blok = true;
         this.clust = false;
-        //this.commonService.loaderAndErr(this.reportData);
       },
       (err) => {
         this.handleError();
@@ -587,7 +592,7 @@ export class PATLOTableComponent implements OnInit {
     this.resetTable();
     this.level = "school";
     this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    //document.getElementById("home").style.display = "block";
+
     this.commonService.errMsg();
 
     let a = {
@@ -621,8 +626,6 @@ export class PATLOTableComponent implements OnInit {
         this.dist = false;
         this.blok = false;
         this.clust = true;
-
-        //this.commonService.loaderAndErr(this.reportData);
       },
       (err) => {
         this.handleError();
@@ -642,7 +645,7 @@ export class PATLOTableComponent implements OnInit {
   //level wise filter
   levelWiseFilter() {
     document.getElementById("initTable").style.display = "block";
-    //document.getElementById("home").style.display = "block";
+
     if (this.level == "district") {
       this.resetTable();
       this.commonFunc();

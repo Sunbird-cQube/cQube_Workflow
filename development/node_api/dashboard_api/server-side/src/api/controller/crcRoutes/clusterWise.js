@@ -66,7 +66,6 @@ router.post('/clusterWise/:distId/:blockId', auth.authController, async (req, re
 
         var clusterData = jsonData
 
-        // let distId = req.params.distId;
         let blockId = req.params.blockId;
 
         let filterData = clusterData.data.filter(obj => {

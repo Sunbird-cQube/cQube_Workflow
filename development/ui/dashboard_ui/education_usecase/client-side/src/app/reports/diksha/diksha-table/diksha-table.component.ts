@@ -61,18 +61,13 @@ export class DikshaTableComponent implements OnInit {
   //show next page data::::::::::::::
   onChangePage() {
     document.getElementById('spinner').style.display = 'block';
-    this.pageChange();
-  }
-
-  pageChange() {
-    this.filteredData = this.result.slice(((this.currentPage - 1) * this.pageSize), ((this.currentPage - 1) * this.pageSize + this.pageSize));
-    this.tableCreation(this.filteredData);
+    this.tableCreation(this.result);
   }
 
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.collectionWise();
     this.onResize();
   }
@@ -104,7 +99,7 @@ export class DikshaTableComponent implements OnInit {
 
   //show data based on selected collection:::::::::
   collectionWise() {
-    //document.getElementById('home').style.display = "none";
+
     this.errMsg();
     this.districtId = '';
     this.timePeriod = 'all';
@@ -133,7 +128,6 @@ export class DikshaTableComponent implements OnInit {
       this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
       this.fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
       this.updatedTable = this.result = res;
-      // this.tableCreation(this.result);
       this.onChangePage();
 
       this.result.forEach(element => {
@@ -160,7 +154,7 @@ export class DikshaTableComponent implements OnInit {
   //Showing data based on selected district:::::::::::::::::::::::::::::::::::::::::::::::::::
   districtWise(districtId) {
     this.errMsg()
-    //document.getElementById('home').style.display = "Block";
+
     this.districtId = districtId
     var period = this.timePeriod == 'all' ? '' : this.timePeriod;
     if (period != '' && districtId != '') {
@@ -195,7 +189,6 @@ export class DikshaTableComponent implements OnInit {
       this.service.dikshaDistrictTableData({ districtId: districtId, collectionType: this.collectionType }).subscribe(res => {
         this.fileName = `${this.reportName}_${this.timePeriod}_${districtId}_${this.commonService.dateAndTime}`;
         this.updatedTable = this.result = res;
-        // this.tableCreation(this.result);
         this.onChangePage();
 
         this.reportData = this.result;
@@ -214,7 +207,7 @@ export class DikshaTableComponent implements OnInit {
     this.errMsg();
     this.time = timePeriod == 'all' ? 'overall' : timePeriod;
     this.fileToDownload = `diksha_raw_data/table_reports/course/${this.time}/${this.time}.csv`;
-    //document.getElementById('home').style.display = "Block";
+
     if (this.districtId == '') {
       this.districtId = undefined
     }
@@ -227,7 +220,6 @@ export class DikshaTableComponent implements OnInit {
     this.reportData = [];
     this.service.dikshaTimeRangeTableData({ districtId: this.districtId, timePeriod: myTime, collectionType: this.collectionType }).subscribe(res => {
       this.updatedTable = this.result = res;
-      // this.tableCreation(this.result);
       this.onChangePage();
       if (this.hierName) {
         this.reportData = this.result;
@@ -303,9 +295,7 @@ export class DikshaTableComponent implements OnInit {
           var new_item = {};
           new_item['data'] = key;
           new_item['value'] = value;
-          // if (value != 'All' && value != '') {
           temp.push(new_item);
-          // }
         });
         newArr.push(temp)
       });
@@ -326,7 +316,7 @@ export class DikshaTableComponent implements OnInit {
       var obj = {
         destroy: true, bLengthChange: false, bInfo: false,
         bPaginate: false, scrollY: "56vh", scrollX: true,
-        scrollCollapse: true, searching: false, paging: false,
+        scrollCollapse: true, searching: true, paging: true, pageLength: 500,
         fixedColumns: {
           leftColumns: 1
         }
@@ -378,6 +368,6 @@ export class DikshaTableComponent implements OnInit {
 
     // update the rows
     this.result = temp;
-    this.pageChange();
+    this.onChangePage();
   }
 }

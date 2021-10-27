@@ -9,6 +9,26 @@
     - nifi_json_files
   tags: [ install, update ]
 
+- name: Creating input directory for data_replay
+  file:
+    path: "{{ input_directory }}/data_replay"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+    recurse: yes
+    state: directory
+  when: storage_type == "local"  
+  tags: [ install, update ]
+
+- name: Creating emission directory for telemetry
+  file:
+    path: "{{ emission_directory }}/telemetry/telemetry_view"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+    recurse: yes
+    state: directory
+  when: storage_type == "local"  
+  tags: [ install, update ]
+    
 - name: Copying the cQube_data_storage nifi templetes to nifi directory
   copy:
     src: ../../development/datasource/cQube_data_storage/nifi/{{ item }}

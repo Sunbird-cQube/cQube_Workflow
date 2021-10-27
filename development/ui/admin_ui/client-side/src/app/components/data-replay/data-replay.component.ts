@@ -51,6 +51,7 @@ export class DataReplayComponent implements OnInit {
   selected_academic_year;
 
   @ViewChildren(MultiSelectComponent) multiSelect: QueryList<MultiSelectComponent>;
+  @ViewChild('multiSelectsem') multiSelectsem: MultiSelectComponent;
   @ViewChild('multiSelect1') multiSelect1: MultiSelectComponent;
   @ViewChild('multiSelect2') multiSelect2: MultiSelectComponent;
   @ViewChild('multiSelect3') multiSelect3: MultiSelectComponent;
@@ -79,8 +80,9 @@ export class DataReplayComponent implements OnInit {
         this.years1.push({ value: year, selected: year == "Select Year" ? true : false })
       })
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
     this.service.getMonthYear({ report: 'tar' }).subscribe(res => {
       this.getMonthYears2 = res;
@@ -90,8 +92,9 @@ export class DataReplayComponent implements OnInit {
         this.years2.push({ value: year, selected: year == "Select Year" ? true : false })
       })
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
     this.service.getMonthYear({ report: 'crc' }).subscribe(res => {
       this.getMonthYears3 = res;
@@ -102,8 +105,9 @@ export class DataReplayComponent implements OnInit {
       })
       this.err = undefined;
       document.getElementById('spinner').style.display = 'none';
-    }, err=>{
+    }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
 
     this.service.getBatchIds().subscribe((res: any) => {
@@ -113,8 +117,9 @@ export class DataReplayComponent implements OnInit {
         i++;
       });
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     });
 
     this.service.getExamCode().subscribe((res: any) => {
@@ -124,8 +129,9 @@ export class DataReplayComponent implements OnInit {
         i++;
       });
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
 
     this.service.getSemesters().subscribe((res: any) => {
@@ -135,10 +141,10 @@ export class DataReplayComponent implements OnInit {
       });
       this.academic_years.unshift('Select Academic Year');
       this.err = undefined;
-    }, err=>{
+    }, err => {
       this.err = "No data found"
+      document.getElementById('spinner').style.display = 'none';
     })
-    // this.service.getDataSources().subscribe(res => {
     data.map(item => {
       if (item.status == true) {
         this.dataSources.push(item);
@@ -151,7 +157,7 @@ export class DataReplayComponent implements OnInit {
     for (let i = 0; i < noOfDaysInCurrYear; i += 30) {
       this.daysArr.push(i);
     }
-    this.daysArr.splice(0,1);
+    this.daysArr.splice(0, 1);
     this.daysArr.push(this.daysArr[this.daysArr.length - 1] + noOfDaysInCurrYear % 30);
   }
 
@@ -239,21 +245,31 @@ export class DataReplayComponent implements OnInit {
   onSelectAcademicYear(data) {
     this.selected_academic_year = data;
     if (this.selected_academic_year != 'Select Academic Year') {
+      if (this.multiSelectsem)
+        this.multiSelectsem.resetSelected();
       var obj = {
         academic_year: this.selected_academic_year,
         semesters: []
       }
       this.formObj['semester'] = obj;
-      this.allSemData.forEach(element => {
-        this.semesters.push({ id: element.semester, name: "Semester " + element.semester });
+      this.semesters = [];
+      let data = this.allSemData.find(a => a.academic_year == this.selected_academic_year);
+      data['semester'].forEach(element => {
+        this.semesters.push({ id: element, name: "Semester " + element });
+      });
+      this.semesters = this.semesters.map(sem => {
+        sem.status = false;
+        return sem;
       });
     }
   }
-
   shareCheckedList3(item: any[]) {
     this.selectedSemesters = item;
     if (this.selectedSemesters.length > 0) {
-      this.formObj['semester'].semesters = this.selectedSemesters;
+      var obj = {
+        semesters: this.selectedSemesters
+      }
+      this.formObj['semester'] = obj;
     } else {
       delete this.formObj['semester'];
     }
@@ -394,7 +410,7 @@ export class DataReplayComponent implements OnInit {
           this.onCancel();
           document.getElementById('spinner').style.display = 'none';
           alert(res['msg']);
-        },err=>{
+        }, err => {
           alert("Something went wrong");
           document.getElementById('spinner').style.display = 'none';
         })
@@ -411,12 +427,12 @@ export class DataReplayComponent implements OnInit {
     this.onSelectStdYear('Select Year');
     this.onSelectTchrYear('Select Year');
     this.onSelectCRCYear('Select Year');
+    this.onSelectAcademicYear('Select Academic Year');
     this.summaryFromDate = undefined;
     this.summaryToDate = undefined;
     this.selectedStdYear = undefined;
     this.selectedTchrYear = undefined;
     this.selectedCRCYear = undefined;
-    this.semesters = [];
     this.selectedMonths1 = [];
     this.selectedMonths2 = [];
     this.selectedCRCMonths = [];
@@ -450,12 +466,11 @@ export class DataReplayComponent implements OnInit {
       this.multiSelect.forEach((child) => { child.resetSelected() })
   }
 
-
+  public date = new Date();
+  public getTime = `${this.date.getFullYear()}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${("0" + (this.date.getDate())).slice(-2)}, ${("0" + (this.date.getHours())).slice(-2)}:${("0" + (this.date.getMinutes())).slice(-2)}:${("0" + (this.date.getSeconds())).slice(-2)}`;
   onSubmitRet() {
     document.getElementById('spinner').style.display = 'block';
-    var date = new Date();
-    var currTime = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + (date.getDate())).slice(-2)}, ${("0" + (date.getHours())).slice(-2)}:${("0" + (date.getMinutes())).slice(-2)}:${("0" + (date.getSeconds())).slice(-2)}`;
-    this.retentionData = { retentionDays: this.selectedDays, retentionTime: currTime }
+    this.retentionData = { retentionDays: this.selectedDays, retentionTime: this.getTime }
     this.service.saveDataToS3({ dataType: "retention", retData: this.retentionData }).subscribe(res => {
       document.getElementById('spinner').style.display = 'none';
       alert("Data retention successully initiated");

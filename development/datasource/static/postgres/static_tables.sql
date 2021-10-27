@@ -472,7 +472,7 @@ create table if not exists telemetry_data
   download int,
   created_on TIMESTAMP without time zone default current_timestamp
   );
-  
+
  create table if not exists telemetry_views_data
     (
   uid text,
@@ -481,7 +481,6 @@ create table if not exists telemetry_data
   click_time TIMESTAMP without time zone,
   created_on TIMESTAMP without time zone default current_timestamp
   );
-
 
 /*Upgrade scripts*/
 
@@ -805,3 +804,11 @@ alter table data_replay_meta add column if not exists retention_period integer;
 insert into school_hierarchy_details values(9999,NULL,'others',NULL,NULL,9999,'others',NULL,9999,'others',9999,'others',NULL,now(),now()) on conflict  ON CONSTRAINT school_hierarchy_details_pkey do nothing;
 
 create table if not exists progress_card_config(id serial,	data_source varchar(100),select_query text,join_query text,status boolean,category varchar(100),time_period varchar(100),primary key(data_source,category,time_period));
+
+create table if not exists  progress_card_category_config(categories text ,value_from int,value_to int);
+truncate progress_card_category_config;
+
+
+alter table log_summary add COLUMN if not exists user_location_master_id int;
+alter table log_summary add COLUMN if not exists user_master_id int;
+alter table log_summary add COLUMN if not exists observer_id int;

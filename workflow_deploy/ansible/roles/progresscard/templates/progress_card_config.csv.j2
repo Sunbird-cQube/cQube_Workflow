@@ -1,0 +1,5 @@
+categories,value_from,value_to
+poor,0,{{ slab1 }}
+average,{% set split_slab2 = slab2.split('-') %}{{ split_slab2[0] }},{{ split_slab2[1] }}
+good,{% set split_slab3 = slab3.split('-') %}{{ split_slab3[0] }},{{ split_slab3[1] }}
+excellent,{{ slab4 }},100

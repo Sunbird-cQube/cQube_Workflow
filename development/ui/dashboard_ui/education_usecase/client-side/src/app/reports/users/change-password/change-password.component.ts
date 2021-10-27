@@ -17,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
   public err;
   public successMsg;
   public isDisabled;
-
+  roleIds: any;
   constructor(public service: AppServiceComponent, public router: Router, public keycloakService: KeycloakSecurityService) {
     service.logoutOnTokenExpire();
     this.changePasswdData['userName'] = localStorage.getItem('userName');
@@ -25,7 +25,6 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
   }
 
   onSubmit(formData: NgForm) {

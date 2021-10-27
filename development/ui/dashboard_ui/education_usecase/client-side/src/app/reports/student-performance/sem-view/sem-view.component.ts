@@ -369,7 +369,7 @@ export class SemViewComponent implements OnInit {
         );
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "none";
+
     } catch (e) {
       console.log(e);
     }
@@ -480,7 +480,7 @@ export class SemViewComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -594,7 +594,7 @@ export class SemViewComponent implements OnInit {
           }
         );
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -708,7 +708,7 @@ export class SemViewComponent implements OnInit {
         );
 
       globalMap.addLayer(this.layerMarkers);
-      //document.getElementById("home").style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
@@ -798,7 +798,7 @@ export class SemViewComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   blockSelect(event, blockId) {
@@ -908,7 +908,7 @@ export class SemViewComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   clusterSelect(event, clusterId) {
@@ -1042,7 +1042,7 @@ export class SemViewComponent implements OnInit {
         }
       );
     globalMap.addLayer(this.layerMarkers);
-    //document.getElementById("home").style.display = "block";
+
   }
 
   // common function for all the data to show in the map

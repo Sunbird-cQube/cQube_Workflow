@@ -75,14 +75,7 @@
       </div>
       <div class="row">
         <div class="col-sm-12" style="padding-bottom: 10px !important">
-          <!-- <select id="period" [(ngModel)]="period" (change)="onPeriodSelect()">
-            <option [value]="period" disabled selected="selected">
-              Choose TimeRange
-            </option>
-            <option *ngFor="let period of timeRange; let i = index" style="width: 100px" [(ngValue)]="period.key">
-              {{ period.value }}
-            </option>
-          </select> -->
+
           <select [hidden]="yearSem" id="year" [(ngModel)]="year" name="year" (change)="onSelectYear()">
             <option [value]="year" disabled selected="selected">
               Choose Year
@@ -114,16 +107,22 @@
               Choose Grade
             </option>
             <option *ngFor="let grade of allGrades; let i = index" [(ngValue)]="grade.grade">
-              {{ grade.grade }}
+              <span *ngIf="grade.grade == 'all'; else other_content">
+                All Grades
+              </span>
+              <ng-template #other_content> {{grade.grade}}</ng-template>
             </option>
           </select>
-
+          
           <select [hidden]="subjectHidden" id="subjects" [(ngModel)]="subject" (change)="onSubjectSelect(subject)">
             <option [value]="subject" disabled selected="selected">
               Choose a Subject
             </option>
             <option *ngFor="let subject of allSubjects; let i = index" [(ngValue)]="allSubjects[i]">
-              {{ allSubjects[i] }}
+              <span *ngIf="allSubjects[i] == 'all'; else other_content">
+                All Subjects
+              </span>
+              <ng-template #other_content>{{allSubjects[i]}}</ng-template>
             </option>
           </select>
 
@@ -246,13 +245,13 @@
     <div class="col-sm-3">
       <span id="name" class="note" style="text-align: center">Management Type: {{ managementName }}</span>
     </div>
-    <div class="col-sm-2" *ngIf="period != 'all'">
+    <div class="col-sm-2">
       <span id="schools" style="text-align: center">Number of Schools: {{ schoolCount }}</span>
     </div>
-    <div class="col-sm-2" *ngIf="period != 'all'">
+    <div class="col-sm-2">
       <span id="students" style="text-align: center">Number of Students: {{ studentCount }}</span>
     </div>
-    <div class="col-sm-3" *ngIf="period != 'all'">
+    <div class="col-sm-3">
       <span id="studentsAttended" class="note" style="text-align: center">Number of Students Attended: {{
         studentAttended }}</span>
     </div>

@@ -118,7 +118,6 @@ export class SatHeatChartComponent implements OnInit {
         if (this.metaData[i]['academic_year'] == this.year) {
           this.months = (Object.keys(res['data'][i].data.months));
           this.grades = this.metaData[i].data['grades'];
-          this.subjects = this.metaData[i].data['subjects'];
           this.allViews = this.metaData[i].data['viewBy'];
           break;
         }
@@ -126,7 +125,6 @@ export class SatHeatChartComponent implements OnInit {
       this.month = this.months[this.months.length - 1];
       this.examDates = this.metaData[i].data['months'][`${this.month}`]['examDate'];
       this.grades = [{ grade: "all" }, ...this.grades.filter(item => item !== { grade: "all" })];
-      this.subjects = [{ subject: "all" }, ...this.subjects.filter(item => item !== { subject: "all" })];
       this.examDates = [{ exam_date: "all" }, ...this.examDates.filter(item => item !== { exam_date: "all" })];
 
       this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -143,7 +141,6 @@ export class SatHeatChartComponent implements OnInit {
       if (metaData[i]['academic_year'] == this.year) {
         this.months = (Object.keys(this.metaData[i].data.months));
         this.grades = metaData[i].data['grades'];
-        this.subjects = metaData[i].data['subjects'];
         this.allViews = metaData[i].data['viewBy'];
         break;
       }
@@ -154,7 +151,6 @@ export class SatHeatChartComponent implements OnInit {
     this.examDates = metaData[i].data['months'][`${this.month}`]['examDate'];
     this.examDates = [{ exam_date: "all" }, ...this.examDates.filter(item => item !== { exam_date: "all" })];
     this.grades = [{ grade: "all" }, ...this.grades.filter(item => item !== { grade: "all" })];
-    this.subjects = [{ subject: "all" }, ...this.subjects.filter(item => item !== { subject: "all" })];
   }
 
   ngOnInit(): void {
@@ -165,7 +161,7 @@ export class SatHeatChartComponent implements OnInit {
     );
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
   }
 
   onChangePage() {
@@ -193,7 +189,7 @@ export class SatHeatChartComponent implements OnInit {
     this.commonFunc();
     this.currentPage = 1;
 
-    //document.getElementById('home').style.display = 'none';
+
   }
 
   commonFunc = () => {
@@ -543,7 +539,7 @@ export class SatHeatChartComponent implements OnInit {
 
 
   selectedYear() {
-    //document.getElementById('home').style.display = 'none';
+
     this.month = '';
     this.examDate = 'all';
     this.subject = 'all';
@@ -557,7 +553,7 @@ export class SatHeatChartComponent implements OnInit {
     this.grade = 'all';
     this.examDate = 'all';
     this.subject = 'all';
-    //document.getElementById('home').style.display = 'none';
+
     this.levelWiseFilter();
   }
   selectedGrade() {
@@ -566,6 +562,9 @@ export class SatHeatChartComponent implements OnInit {
     } else {
       this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
       if (this.grade !== 'all') {
+        this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
+        console.log(this.subjects);
+        this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
         this.gradeSelected = true;
       } else {
         this.resetOnAllGrades();
@@ -633,7 +632,7 @@ export class SatHeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = true;
-      //document.getElementById('home').style.display = 'block';
+
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -685,7 +684,7 @@ export class SatHeatChartComponent implements OnInit {
       this.cluster = undefined;
       this.blockHidden = false;
       this.clusterHidden = false;
-      //document.getElementById('home').style.display = 'block';
+
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -739,7 +738,7 @@ export class SatHeatChartComponent implements OnInit {
       this.currentPage = 1;
       this.level = 'school';
       this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      //document.getElementById('home').style.display = 'block';
+
       this.commonService.errMsg();
       this.reportData = [];
 
@@ -834,7 +833,7 @@ export class SatHeatChartComponent implements OnInit {
   //level wise filter
   levelWiseFilter() {
     this.currentPage = 1;
-    //document.getElementById('home').style.display = 'block';
+
     if (this.level == 'district') {
       this.commonFunc()
     }

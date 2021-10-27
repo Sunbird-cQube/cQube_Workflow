@@ -34,3 +34,10 @@ google_api_key: remove_this_key_value                        # Enter the google_
  
 theme:                                    # Enter the theme ( theme1 or theme2 or theme3 )
 
+slab1:                                     #Enter slab1 value between 1-100 ( eg: slab1: 33  )
+
+slab2:                                     #Enter slab2 value range is greater than slab1 and between 1-100 ( eg: slab2: 33-60 ) 
+
+slab3:                                     #Enter slab3 value range is greater than slab2 and between 1-100 ( eg: slab3: 60-75 ) 
+
+slab4:                                     #Enter slab4 value is greater than or equal to slab3 last value between 1-100 ( eg: slab4 75 )

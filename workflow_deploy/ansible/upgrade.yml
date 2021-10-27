@@ -3,7 +3,8 @@
   hosts: localhost
   gather_facts: true
   remote_user: root
-    
+  vars_files:
+    - constants.yml  
   roles: 
           - datasource
           - createdb
@@ -11,8 +12,9 @@
           - { role: kong, tags: update }
           - keycloak
           - nifi_install
-          - { role: nifi_params, tags: update }
-            #- { role: nifi_data_sources, tags: update } 
+
+          - role: nifi_params 
+            tags: update 
 
           - role: cqube_data
             tags: update

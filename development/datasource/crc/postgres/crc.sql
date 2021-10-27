@@ -199,3 +199,8 @@ alter table crc_visits_frequency add column if not exists school_management_type
 alter table crc_visits_frequency add column if not exists school_category varchar(100);
 
 drop view if exists crc_trans_to_aggregate cascade;
+
+alter table crc_loc_null_col add column if not exists  count_null_userlocmasterid int;
+alter table crc_loc_null_col add column if not exists count_null_usermasterid int;
+
+alter table crc_inspec_null_col add column if not exists count_null_observerid int;

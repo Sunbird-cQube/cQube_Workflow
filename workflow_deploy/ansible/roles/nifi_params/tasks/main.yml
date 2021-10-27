@@ -19,3 +19,4 @@
     - teacher_attendance_parameters
     - data_replay_parameters
     - sat_parameters
+  tags: [ install, update ]     

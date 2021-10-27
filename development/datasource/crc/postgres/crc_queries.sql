@@ -12,7 +12,7 @@ drop view if exists crc_school_mgmt_all cascade;
 
 create or replace view hc_crc_school as
 select b.district_id,b.district_name,b.block_id,b.block_name,b.cluster_id,b.cluster_name,b.school_id,b.school_name,b.visit_score,b.state_level_score,
-(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char(min(monthyear),'DD-MM-YYYY')as data_from_date from(select distinct (concat(year, '-', month)||'-01')::date as monthyear from crc_visits_frequency)as d) as data_from_date,
 (select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date,
 b.total_schools,b.total_crc_visits,b.visited_school_count,b.not_visited_school_count,b.schools_0,b.schools_1_2,b.schools_3_5,b.schools_6_10,b.schools_10 ,b.no_of_schools_per_crc,b.visit_percent_per_school,
 ( ( Rank()
@@ -109,7 +109,7 @@ schools_in_district,total_schools_state;
 create or replace view hc_crc_cluster as
 select 
 b.district_id,b.district_name,b.block_id,b.block_name,b.cluster_id,b.cluster_name,b.visit_score,
-(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char(min(monthyear),'DD-MM-YYYY')as data_from_date from(select distinct (concat(year, '-', month)||'-01')::date as monthyear from crc_visits_frequency)as d) as data_from_date,
 (select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date,b.total_schools,b.total_crc_visits,b.visited_school_count,b.not_visited_school_count,b.schools_0,b.schools_1_2,b.schools_3_5,b.schools_6_10,b.schools_10 ,b.no_of_schools_per_crc,b.visit_percent_per_school,b.clusters_in_block,b.clusters_in_district,
 b.total_clusters,
 ( ( Rank()
@@ -190,7 +190,7 @@ total_clusters;
 /* crc - block */
 create or replace view hc_crc_block as
 select b.district_id,b.district_name,b.block_id,b.block_name,b.visit_score,
-(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char(min(monthyear),'DD-MM-YYYY')as data_from_date from(select distinct (concat(year, '-', month)||'-01')::date as monthyear from crc_visits_frequency)as d) as data_from_date,
 (select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date,
 total_schools,b.total_crc_visits,b.visited_school_count,b.not_visited_school_count,b.schools_0,b.schools_1_2,b.schools_3_5,b.schools_6_10,b.schools_10 ,b.no_of_schools_per_crc,b.visit_percent_per_school,
 b.blocks_in_district,
@@ -260,7 +260,7 @@ total_blocks;
 
 create or replace view hc_crc_district as
 select b.district_id,b.district_name,b.visit_score,
-(select to_char((min(concat(year, '-', month))||'-01')::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_from_date,
+(select to_char(min(monthyear),'DD-MM-YYYY')as data_from_date from(select distinct (concat(year, '-', month)||'-01')::date as monthyear from crc_visits_frequency)as d) as data_from_date,
 (select to_char((((max(concat(year, '-', month))||'-01')::date+'1month'::interval)::date-'1day'::interval)::date,'DD-MM-YYYY') as monthyear from crc_visits_frequency) as data_upto_date,
 b.total_schools,b.total_crc_visits,b.visited_school_count,b.not_visited_school_count,b.schools_0,b.schools_1_2,b.schools_3_5,b.schools_6_10,b.schools_10 ,b.no_of_schools_per_crc,b.visit_percent_per_school,
 ( ( Rank()
@@ -326,7 +326,7 @@ select  a.school_id,INITCAP(b.school_name)as school_name,b.district_id,INITCAP(b
   now() as created_on,
   now() as updated_on,b.school_management_type,b.school_category
   from (select crc_inspection_id as inspection_id, clt.school_id,month,year,bool_or(in_school_location) as in_school_location,visit_date
- from crc_inspection_trans cit inner join crc_location_trans clt on clt.inspection_id=cit.crc_inspection_id 
+ from crc_inspection_trans cit inner join crc_location_trans clt on clt.inspection_id=cit.crc_inspection_id
  group by crc_inspection_id, clt.school_id,month,year) as a left join school_hierarchy_details as b on a.school_id=b.school_id
   where a.school_id<>0 and a.inspection_id<>0 and b.school_id<>9999 and b.cluster_name is not null and b.district_name is not null and b.block_name is not null and b.school_name is not null and visit_date is NOT NULL
   group by a.school_id,b.school_name,b.district_id,b.district_name,b.block_id, b.block_name,b.cluster_id,b.cluster_name,b.crc_name,a.month,a.year,a.visit_date,b.school_management_type,b.school_category

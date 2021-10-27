@@ -77,13 +77,13 @@ if [[ ! "$base_dir" = /* ]] || [[ ! -d $base_dir ]]; then
     echo "Error - Please enter the absolute path or make sure the directory is present.";
     exit 1
 else
-   if [[ -e "$base_dir/cqube/.cqube_config" ]]; then
+   if [[ -e "$base_dir/cqube/.cqube_config" ]]; then   
         installed_ver=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_WORKFLOW_VERSION )
-        installed_version=$(cut -d "=" -f2 <<< "$installed_ver")
-	if [[ ! $installed_version == "" ]]; then
+        installed_version=$(cut -d "=" -f2 <<< "$installed_ver") 
+	if [[ ! $installed_version == "" ]]; then	
             echo "Currently cQube $installed_version version is installed in this machine. Follow Upgradtion process if you want to upgrade."
             echo "If you re-run the installation, all data will be lost"
-            while true; do
+	    while true; do
                 read -p "Do you still want to re-run the installation (yes/no)? " yn
                 case $yn in
                     yes) break;;
@@ -91,10 +91,9 @@ else
                     * ) echo "Please answer yes or no.";;
                 esac
             done
-        fi
+    	fi   
    fi
 fi
-
 }
 
 check_kc_config_otp(){
@@ -106,7 +105,7 @@ fi
 check_mem(){
 mem_total_kb=`grep MemTotal /proc/meminfo | awk '{print $2}'`
 mem_total=$(($mem_total_kb/1024))
-if [ $(( $mem_total / 1024 )) -ge 30 ] && [ $(($mem_total / 1024)) -le 60 ] ; then
+if [ $(( $mem_total / 1024 )) -ge 2 ] && [ $(($mem_total / 1024)) -le 60 ] ; then
   min_shared_mem=$(echo $mem_total*13/100 | bc)
   min_work_mem=$(echo $mem_total*2/100 | bc)
   min_java_arg_2=$(echo $mem_total*13/100 | bc)
@@ -153,6 +152,13 @@ if [ $temp == 0 ]; then
      fi
 fi
 }
+
+check_theme(){
+if ! [[ $2 == "theme1" || $2 == "theme2" || $2 == "theme3" ]]; then
+    echo "Error - Please enter either theme1 or theme2 or theme3 for $1"; fail=1
+fi
+}
+
 check_map_name(){
 if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" ]]; then
     echo "Error - Please enter either mapmyindia or googlemap or leafletmap for $1"; fail=1
@@ -161,7 +167,7 @@ fi
 
 check_google_api_key(){
 if [[ $map_name == "googlemap" ]]; then
-    if [[ -z $2 ]]; then
+    if [[ -z $2 ]]; then  
         echo "Error - Please enter google_api_key value it should not be empty $1"; fail=1
     else
     google_api_status=`curl -X POST https://language.googleapis.com/v1/documents:analyzeEntities\?key\=$2 -o /dev/null -s -w "%{http_code}\n"`
@@ -170,7 +176,45 @@ if [[ $map_name == "googlemap" ]]; then
          echo "Error - Invalid google api key. Please check the $1 value." ; fail=1
     fi
 	    
-   fi
+   fi 
+fi    
+}
+
+check_slab(){
+if [[ $slab1 =~ ^[0-9]{,2}$ && $slab2 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab3 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab4 =~ ^[0-9]{,2}$ ]]; then
+
+if ! [[ $slab1 -ge 1 && $slab1 -le 100 ]]; then
+ echo "Error - Incorrect slab1 value please refer the slab1 comment in config.yml" ; fail=1
+fi
+
+slab21=`echo $slab2 | cut -d- -f1`
+slab22=`echo $slab2 | cut -d- -f2`
+
+if ! [[ $slab21 -eq $slab1 && $slab21 -le 100 ]]; then
+ echo "Error - Incorrect slab2 value please refer the slab2 comment in config.yml" ; fail=1
+fi
+
+if ! [[ $slab22 -gt $slab21 && $slab22 -le 100 ]]; then
+ echo "Error - Incorrect slab2 value please refer the slab2 comment in config.yml" ; fail=1	
+fi
+
+slab31=`echo $slab3 | cut -d- -f1`
+slab32=`echo $slab3 | cut -d- -f2`
+
+if ! [[ $slab31 -eq $slab22 && $slab31 -le 100 ]]; then
+echo "Error - Incorrect slab3 value please refer the slab3 comment in config.yml" ; fail=1	
+fi
+
+if ! [[ $slab32 -gt $slab31 && $slab32 -le 100 ]]; then
+echo "Error - Incorrect slab3 value please refer the slab3 comment in config.yml" ; fail=1 
+fi
+
+if ! [[ $slab4 -eq $slab32 && $slab4 -le 100 ]]; then
+echo "Error - Incorrect slab4 value please refer the slab4 comment in config.yml" ; fail=1
+fi
+
+else
+	echo "Error - Incorrect slab value please refer the slab comments in config.yml " ; fail=1
 fi
 }
 
@@ -192,20 +236,26 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout" "map_name" "google_api_key") 
-
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout" "map_name" "theme" "google_api_key" "slab1" "slab2" "slab3" "slab4") 
 # Create and empty array which will store the key and value pair from config file
 declare -A vals
 
 
 # Getting base_dir
+
 map_name=$(awk ''/^map_name:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
-check_mem
+slab1=$(awk ''/^slab1:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab2=$(awk ''/^slab2:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab3=$(awk ''/^slab3:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+
+#check_mem
 check_version 
 
 # Iterate the array and retrieve values for mandatory fields from config file
-for i in ${arr[@]}
+for i 
+	in ${arr[@]}
 do
 get_config_values $i
 done
@@ -263,8 +313,43 @@ case $key in
           check_map_name $key $value
        fi
        ;;
+   theme)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_theme $key $value
+       fi
+       ;;
    google_api_key)
           check_google_api_key $key $value
+       ;;
+   slab1)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;    
+   slab2)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+   slab3)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+   slab4)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
        ;;
    *)
        if [[ $value == "" ]]; then

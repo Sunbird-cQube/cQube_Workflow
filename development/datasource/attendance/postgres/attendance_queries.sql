@@ -14,9 +14,9 @@ returns int as
 $body$
 begin
 
-drop view if exists student_attendance_agg_last_1_day cascade;
-drop view if exists student_attendance_agg_last_7_days cascade;
-drop view if exists student_attendance_agg_last_30_days cascade;
+drop materialized view if exists student_attendance_agg_last_1_day cascade;
+drop materialized view if exists student_attendance_agg_last_7_days cascade;
+drop materialized view if exists student_attendance_agg_last_30_days cascade;
 drop view if exists student_attendance_agg_overall cascade;
 
   return 0;
@@ -227,7 +227,8 @@ from (select (generate_series('now()'::date-number_of_days::interval,('now()'::d
 where extract(month from days_in_period.day)=min_month 
 and extract(year from days_in_period.day)=min_year;
 
-_query_res:='create materialized view if not exists student_attendance_agg_'||period||' as (select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(stn_cnt.students_count as bigint),
+_query_res:='create or replace view student_attendance_agg_'||period||' as 
+select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(stn_cnt.students_count as bigint),
 b.school_name,b.school_latitude,b.school_longitude,b.cluster_id,b.cluster_name,b.cluster_latitude,b.cluster_longitude,
 b.block_id,b.block_name,b.block_latitude,b.block_longitude,b.district_id,b.district_name,b.district_latitude,b.district_longitude,b.school_management_type,b.school_category
 from (
@@ -242,7 +243,7 @@ from school_hierarchy_details as a inner join school_geo_master as b on a.school
 where a.school_name is not null and a.cluster_name is not null and b.school_latitude>0 and b.school_longitude>0 and b.cluster_latitude>0 and b.cluster_longitude>0
 )as b on b.school_id=sch_res.school_id
 left join (select school_id,count(distinct student_id) as students_count from student_attendance_trans where (month='||min_month||' and year='||min_year||') or (month='||max_month||' and year='||max_year||') group by school_id) as stn_cnt
-on b.school_id=stn_cnt.school_id)  WITH NO DATA';
+on b.school_id=stn_cnt.school_id';
 
 EXECUTE _query_res;
 ELSE IF _count =1 THEN
@@ -256,7 +257,8 @@ from (select (generate_series('now()'::date-number_of_days::interval,('now()'::d
 where extract(month from days_in_period.day)=month 
 and extract(year from days_in_period.day)=year;
 
-_query_res:='create materialized view if not exists student_attendance_agg_'||period||' as (select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(sch_res.students_count as bigint),
+_query_res:='create or replace view student_attendance_agg_'||period||' as 
+select sch_res.school_id,cast(sch_res.total_present as bigint),cast(sch_res.total_students as bigint),cast(sch_res.students_count as bigint),
 b.school_name,b.school_latitude,b.school_longitude,b.cluster_id,b.cluster_name,b.cluster_latitude,b.cluster_longitude,
 b.block_id,b.block_name,b.block_latitude,b.block_longitude,b.district_id,b.district_name,b.district_latitude,b.district_longitude,b.school_management_type,b.school_category
    from (
@@ -266,7 +268,7 @@ select school_id,'||total_present||' as total_present,'||total_students||' as to
 a.block_id,a.block_name,b.block_latitude,b.block_longitude,a.district_id,a.district_name,b.district_latitude,b.district_longitude,a.school_management_type,a.school_category
 from school_hierarchy_details as a inner join school_geo_master as b on a.school_id=b.school_id 
 where a.school_name is not null and a.cluster_name is not null and b.school_latitude>0 and b.school_longitude>0 and b.cluster_latitude>0 and b.cluster_longitude>0
-)as b on b.school_id=sch_res.school_id) WITH NO DATA';
+)as b on b.school_id=sch_res.school_id';
 EXECUTE _query_res;
 ELSE
    return 0;

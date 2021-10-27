@@ -72,6 +72,16 @@ export class AppServiceComponent {
         return this.http.post(`${this.baseUrl}/changePassword/${id}`, data);
     }
 
+    getRoles() {
+        this.logoutOnTokenExpire();
+        return this.http.get(`${this.baseUrl}/changePassword/roles`);
+    }
+
+    addRole(id, role, otpConfig) {
+        this.logoutOnTokenExpire();
+        return this.http.post(`${this.baseUrl}/changePassword/setRoles`, { userId: id, role: role, otpConfig: otpConfig });
+    }
+    //localStorage.getItem('user_id'), this.roleIds.find(o => o.name == 'report_viewer'), this.otpConfig
     // to load and hide the spinner 
     loaderAndErr(data) {
         if (data.length !== 0) {

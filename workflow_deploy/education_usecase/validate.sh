@@ -105,7 +105,8 @@ fi
 check_mem(){
 mem_total_kb=`grep MemTotal /proc/meminfo | awk '{print $2}'`
 mem_total=$(($mem_total_kb/1024))
-if [ $(( $mem_total / 1024 )) -ge 2 ] && [ $(($mem_total / 1024)) -le 60 ] ; then
+
+if [ $(( $mem_total / 1024 )) -ge 30 ] && [ $(($mem_total / 1024)) -le 60 ] ; then
   min_shared_mem=$(echo $mem_total*13/100 | bc)
   min_work_mem=$(echo $mem_total*2/100 | bc)
   min_java_arg_2=$(echo $mem_total*13/100 | bc)
@@ -180,6 +181,43 @@ if [[ $map_name == "googlemap" ]]; then
 fi    
 }
 
+check_slab(){
+if [[ $slab1 =~ ^[0-9]{,2}$ && $slab2 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab3 =~ ^[0-9]{,2}\-[0-9]{,2}$ && $slab4 =~ ^[0-9]{,2}$ ]]; then
+
+if ! [[ $slab1 -ge 1 && $slab1 -le 100 ]]; then
+ echo "Error - Incorrect slab1 value please refer the slab1 comment in config.yml" ; fail=1
+fi
+
+slab21=`echo $slab2 | cut -d- -f1`
+slab22=`echo $slab2 | cut -d- -f2`
+
+if ! [[ $slab21 -eq $slab1 && $slab21 -le 100 ]]; then
+ echo "Error - Incorrect slab2 value please refer the slab2 comment in config.yml" ; fail=1
+fi
+
+if ! [[ $slab22 -gt $slab21 && $slab22 -le 100 ]]; then
+ echo "Error - Incorrect slab2 value please refer the slab2 comment in config.yml" ; fail=1	
+fi
+
+slab31=`echo $slab3 | cut -d- -f1`
+slab32=`echo $slab3 | cut -d- -f2`
+
+if ! [[ $slab31 -eq $slab22 && $slab31 -le 100 ]]; then
+echo "Error - Incorrect slab3 value please refer the slab3 comment in config.yml" ; fail=1	
+fi
+
+if ! [[ $slab32 -gt $slab31 && $slab32 -le 100 ]]; then
+echo "Error - Incorrect slab3 value please refer the slab3 comment in config.yml" ; fail=1 
+fi
+
+if ! [[ $slab4 -eq $slab32 && $slab4 -le 100 ]]; then
+echo "Error - Incorrect slab4 value please refer the slab4 comment in config.yml" ; fail=1
+fi
+
+else
+	echo "Error - Incorrect slab value please refer the slab comments in config.yml " ; fail=1
+fi
+}
 
 get_config_values(){
 key=$1
@@ -199,7 +237,7 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout" "map_name" "theme" "google_api_key") 
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout" "map_name" "theme" "google_api_key" "slab1" "slab2" "slab3" "slab4") 
 # Create and empty array which will store the key and value pair from config file
 declare -A vals
 
@@ -208,7 +246,12 @@ declare -A vals
 
 map_name=$(awk ''/^map_name:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
-check_mem
+slab1=$(awk ''/^slab1:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab2=$(awk ''/^slab2:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab3=$(awk ''/^slab3:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+
+#check_mem
 check_version 
 
 # Iterate the array and retrieve values for mandatory fields from config file
@@ -281,7 +324,34 @@ case $key in
    google_api_key)
           check_google_api_key $key $value
        ;;
-    
+   slab1)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;    
+   slab2)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+   slab3)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
+   slab4)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_slab $key $value
+       fi
+       ;;
    *)
        if [[ $value == "" ]]; then
           echo -e "\e[0;31m${bold}Error - Value for $key cannot be empty. Please fill this value${normal}"; fail=1

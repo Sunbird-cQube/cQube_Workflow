@@ -41,7 +41,4 @@ export class DataReplayService {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/savetoS3`, data);
   }
-
-
-
 }

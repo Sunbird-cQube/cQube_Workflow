@@ -3,7 +3,8 @@
   hosts: localhost
   gather_facts: true
   remote_user: root
-
+  vars_files:
+    - constants.yml
   roles:
           - angular
           - angular_admin

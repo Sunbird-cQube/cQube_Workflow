@@ -73,7 +73,6 @@ router.post('/getAllUsers', auth.authController, async (req, res) => {
 router.post('/setRoles', auth.authController, async (req, res) => {
     try {
         logger.info('---set roles api ---');
-
         var userId = req.body.userId;
         var headers = {
             "Content-Type": "application/json",
@@ -149,6 +148,7 @@ router.get('/roles', auth.authController, async (req, res) => {
             var roles = resp.data.filter(role => {
                 return role.name != 'uma_authorization' && role.name != 'offline_access'
             })
+            logger.info('---get roles api response sent ---');
             res.status(201).json({ roles: roles });
         }).catch(error => {
             res.status(409).json({ errMsg: error.response.data.errorMessage });

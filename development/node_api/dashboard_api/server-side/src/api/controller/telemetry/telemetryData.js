@@ -1,11 +1,6 @@
 const router = require('express').Router();
 const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
-var const_data = require('../../lib/config');
-const jsonexport = require('jsonexport');
-var S3Append = require('s3-append').S3Append;
-var config = require('../../lib/config');
-const { format } = require('path');
 const s3File = require('../../lib/reads3File');
 const inputDir = `${process.env.EMISSION_DIRECTORY}`;
 const writeFile = require('../../lib/uploadFile');
@@ -20,7 +15,7 @@ router.post('/', auth.authController, async (req, res) => {
         let hour = req.body.date.hour;
         let fileName = `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`;
         var localPath = inputDir + fileName;
-        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData);
+        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'views');
         logger.info('--- response sent for set telemetry api ---');
         res.status(200).json(response);
     } catch (e) {
@@ -36,10 +31,9 @@ router.post('/sar', auth.authController, async (req, res) => {
         let month = req.body.date.month;
         let date = req.body.date.date;
         let hour = req.body.date.hour;
-        
         let fileName = `telemetry/telemetry_${year}_${month}_${date}_${hour}.csv`;
         var localPath = inputDir + fileName;
-        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData);
+        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'sar');
         logger.info('--- response sent for set SAR telemetry api ---');
         res.status(200).json(response);
 

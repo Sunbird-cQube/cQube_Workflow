@@ -173,14 +173,11 @@ export class CrcReportComponent implements OnInit {
   }
 
   height = window.innerHeight;
-  public h;
+  public h = "44vh";
   onResize() {
     this.height = window.innerHeight;
     this.h = this.height > 1760 ? "60vh" : this.height > 1160 && this.height < 1760 ? "60vh" : this.height > 667 && this.height < 1160 ? "52vh" : "44vh";
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-      this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
-    }
+    this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
   ngOnInit() {
@@ -246,9 +243,6 @@ export class CrcReportComponent implements OnInit {
   }
 
   getDistricts(level): void {
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
     this.service
       .crcDistWiseData({ ...{ timePeriod: this.period }, ...this.month_year, ...{ management: this.management, category: this.category } })
       .subscribe((res) => {
@@ -363,7 +357,7 @@ export class CrcReportComponent implements OnInit {
   reportName = "crc_report";
 
   showYearMonth() {
-    //document.getElementById("home").style.display = "block";
+
     this.yearMonth = false;
     this.month_year = {
       month: this.monthNames.indexOf(this.month.trim()) + 1,
@@ -393,9 +387,9 @@ export class CrcReportComponent implements OnInit {
 
   onPeriodSelect() {
     if (this.period != "overall") {
-      //document.getElementById("home").style.display = "block";
+
     } else {
-      //document.getElementById("home").style.display = "none";
+
     }
     this.yearMonth = true;
     this.month_year = {
@@ -411,7 +405,7 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-    //document.getElementById("home").style.display = "none";
+
     this.districtWise();
   }
 
@@ -419,9 +413,6 @@ export class CrcReportComponent implements OnInit {
     if ($.fn.DataTable.isDataTable("#table")) {
       $("#table").DataTable().destroy();
       $("#table").empty();
-    }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
     }
     this.changeDetection.detectChanges();
     this.reportData = [];
@@ -508,11 +499,11 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY: "40vh",
-              scrollX: true,
+              scrollY: "auto",
               scrollCollapse: true,
               paging: false,
               searching: false,
+              autoWidth: false,
               fixedColumns: {
                 leftColumns: 1,
               },
@@ -524,11 +515,11 @@ export class CrcReportComponent implements OnInit {
                 { title: "% Schools (6 to 10 Visits)", data: "visit_6_10" },
                 {
                   title: "% Schools (More than 10 Visits)",
-                  data: "visit_10_more",
+                  data: "visit_10_more"
                 },
                 {
                   title: "Number of schools per CRC",
-                  data: "no_of_schools_per_crc",
+                  data: "no_of_schools_per_crc"
                 },
                 { title: "Visits per schools", data: "visits_per_school" },
                 { title: "Visited schools count", data: "visitedSchoolCount" },
@@ -682,9 +673,6 @@ export class CrcReportComponent implements OnInit {
       alert("Please select month!");
       return;
     }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
-    }
     this.modes = [];
     this.downloadType = "";
     this.blockHidden = false;
@@ -768,8 +756,8 @@ export class CrcReportComponent implements OnInit {
               bLengthChange: false,
               bInfo: false,
               bPaginate: false,
-              scrollY: "40vh",
-              scrollX: true,
+              scrollbars: false,
+              scrollY: "auto",
               scrollCollapse: true,
               paging: false,
               searching: false,
@@ -785,11 +773,12 @@ export class CrcReportComponent implements OnInit {
                 { title: "% Schools (6 to 10 Visits)", data: "visit_6_10" },
                 {
                   title: "% Schools (More than 10 Visits)",
-                  data: "visit_10_more",
+                  data: "visit_10_more"
+
                 },
                 {
                   title: "Number of schools per CRC",
-                  data: "no_of_schools_per_crc",
+                  data: "no_of_schools_per_crc"
                 },
                 { title: "Visits per schools", data: "visits_per_school" },
                 { title: "Visited schools count", data: "visitedSchoolCount" },
@@ -816,16 +805,13 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    //document.getElementById("home").style.display = "block";
+
   }
 
   myBlockData(data: any, fromParam = false) {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
-    }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
     }
     this.modes = [];
     this.downloadType = "";
@@ -919,8 +905,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY: "40vh",
-            scrollX: true,
+            scrollY: "auto",
             scrollCollapse: true,
             paging: false,
             searching: false,
@@ -937,11 +922,11 @@ export class CrcReportComponent implements OnInit {
               { title: "% Schools (6 to 10 Visits)", data: "visit_6_10" },
               {
                 title: "% Schools (More than 10 Visits)",
-                data: "visit_10_more",
+                data: "visit_10_more"
               },
               {
                 title: "Number of schools per CRC",
-                data: "no_of_schools_per_crc",
+                data: "no_of_schools_per_crc"
               },
               { title: "Visits per schools", data: "visits_per_school" },
               { title: "Visited schools count", data: "visitedSchoolCount" },
@@ -967,16 +952,13 @@ export class CrcReportComponent implements OnInit {
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    //document.getElementById("home").style.display = "block";
+
   }
 
   myClusterData(data: any, fromParam = false) {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
-    }
-    if (this.chartData.length !== 0) {
-      this.scatterChart.destroy();
     }
     this.modes = [];
     this.downloadType = "";
@@ -1072,8 +1054,7 @@ export class CrcReportComponent implements OnInit {
             bLengthChange: false,
             bInfo: false,
             bPaginate: false,
-            scrollY: "40vh",
-            scrollX: true,
+            scrollY: "auto",
             scrollCollapse: true,
             paging: false,
             searching: false,
@@ -1117,7 +1098,7 @@ export class CrcReportComponent implements OnInit {
           this.commonService.loaderAndErr(this.chartData);
         }
       );
-    //document.getElementById("home").style.display = "block";
+
   }
 
   countVisitedAndNotVisited(a) {
@@ -1136,6 +1117,9 @@ export class CrcReportComponent implements OnInit {
   }
 
   createChart(labels, chartData, name, obj) {
+    if (this.scatterChart) {
+      this.scatterChart.destroy();
+    }
     var ctx = $("#myChart");
     ctx.attr("height", this.h);
     this.scatterChart = new Chart("myChart", {

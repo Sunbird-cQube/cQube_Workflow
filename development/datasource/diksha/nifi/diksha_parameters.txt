@@ -7,7 +7,8 @@
 "diksha_api_summary_roll_up_x_channel_id":''' ''',
 "diksha_api_url_progress_exhaust":''' ''',
 "diksha_api_url_summary_roll_up":''' ''',
-  
+"diksha_tpd_encryption":'''<Type true if tpd file is password proctected else type false. Ex: "diksha_tpd_encryption":'''true''' >''',
+
   "diksha_tpd_jolt_for_log_summary":"""[{
 		"operation": "shift",
 		"spec": {

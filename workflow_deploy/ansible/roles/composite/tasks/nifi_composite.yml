@@ -5,4 +5,3 @@
 - name: Connection of composite to cqube data storage
   shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage composite_transformer"
   tags: [ install, update ]
-

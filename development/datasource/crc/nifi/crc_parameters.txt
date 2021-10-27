@@ -2,10 +2,11 @@
 "crc_insp_dup_tb_name":"""crc_inspection_dup""",
 "crc_user_location_temp_trans_qry":"""insert into crc_location_trans(crc_location_id,crc_id,inspection_id,school_id,latitude,longitude,in_school_location,year,month,created_on,updated_on) 
 select data.*,now(),now() from
-((select crc_location_id,crc_id,inspection_id,school_id,latitude,longitude,in_school_location,year,month
-from crc_location_temp) 
-except (select crc_location_id,crc_id,inspection_id,school_id,latitude,longitude,in_school_location,year,month
-from crc_location_trans))as data;""",
+(select crc_location_id,crc_id,inspection_id,school_id,latitude,longitude,in_school_location,year,month
+from crc_location_temp) as data 
+on conflict(crc_location_id)
+do update set year= excluded.year,month=excluded.month,school_id=excluded.school_id,crc_location_id=excluded.crc_location_id,crc_id=excluded.crc_id,inspection_id=excluded.inspection_id,latitude=excluded.latitude,
+longitude=excluded.longitude,in_school_location=excluded.in_school_location,created_on=excluded.created_on,updated_on=now();""",
 "crc_transform_cluster_wise_jolt":"""[{
     "operation": "shift",
     "spec": {
@@ -109,7 +110,8 @@ from crc_location_trans))as data;""",
 	where a.school_id=b.school_id""",
 "crc_inspec_null_log_summary":"""update log_summary
 SET school_id = crc_inspec_null_col.count_null_schoolid,
-inspection_id = crc_inspec_null_col.count_null_inspectionid
+inspection_id = crc_inspec_null_col.count_null_inspectionid,
+observer_id = crc_inspec_null_col.count_null_observerid
 from crc_inspec_null_col
 where crc_inspec_null_col.ff_uuid = log_summary.ff_uuid""",
 "crc_transform_block_wise_jolt":"""[{
@@ -223,17 +225,22 @@ inspectionid,observerid,observername,schoolid,beginningstandard,endstandard,tota
 """,
 "crc_insp_check_if_null":"""select * from flowfile
 where SchoolId IS NULL
-or InspectionId IS NULL""",
+or InspectionId IS NULL
+or ObserverId IS NULL""",
 "crc_insp_count_null":"""(select 
 SUM(CASE when SchoolId IS NULL THEN 1 ELSE 0 END) AS count_null_schoolid,
-SUM(CASE when InspectionId IS NULL THEN 1 ELSE 0 END) AS count_null_inspectionid from flowfile)""",
+SUM(CASE when InspectionId IS NULL THEN 1 ELSE 0 END) AS count_null_inspectionid,
+SUM(CASE when ObserverId IS NULL THEN 1 ELSE 0 END) AS count_null_observerid
+from flowfile)""",
 "crc_check_if_null":"""select * from flowfile 
 where SchoolId IS NULL
 or InspectionId IS NULL
 or InSchoolLocation IS NULL
 or CreatedOn IS NULL
 or Latitude IS NULL
-or Longitude IS NULL""",
+or Longitude IS NULL
+or UserLocationMasterId IS NULL
+or UserMasterId IS NULL""",
 "crc_trans_to_crc_visits_frequency_pre_query":"""create or replace view crc_trans_to_aggregate as 
 select  a.school_id,INITCAP(b.school_name)as school_name,b.district_id,INITCAP(b.district_name)as district_name,b.block_id,
   INITCAP(b.block_name)as block_name,b.cluster_id,
@@ -251,7 +258,6 @@ select  a.school_id,INITCAP(b.school_name)as school_name,b.district_id,INITCAP(b
   group by a.school_id,b.school_name,b.district_id,b.district_name,b.block_id, b.block_name,b.cluster_id,b.cluster_name,b.crc_name,a.month,a.year,b.school_management_type,b.school_category
   order by school_id desc ;
 
-
 insert into crc_visits_frequency as a (year,month,school_id,school_name,district_id,district_name,
 block_id,block_name,cluster_id,cluster_name,crc_name,visit_count,missed_visit_count,school_management_type,school_category,created_on,updated_on)
 select year,month,school_id,school_name,district_id,district_name,
@@ -268,7 +274,9 @@ ActualClassRooms as "actual_class_rooms",
 TotalSuggestionLastMonth as "total_suggestion_last_month",ResolvedFromThat as "resolved_from_that",IsInspection as "is_inspection",ReasonType as "reason_type",ReasonDesc as "reason_desc",
 TotalScore as "total_score",Score as "score",IsOffline as "is_offline"
 FROM flowfile""",
-"crc_inspection_temp_trans_qry":"""insert into crc_inspection_trans(crc_inspection_id,crc_id,crc_name,school_id,lowest_class,highest_class,visit_date,visit_start_time,visit_end_time,total_class_rooms,actual_class_rooms,total_suggestion_last_month,resolved_from_that,is_inspection,reason_type,reason_desc,total_score,score,is_offline,created_on,updated_on) select data.*,now(),now() from ((select crc_inspection_id,crc_id,crc_name,school_id,lowest_class,highest_class,visit_date,visit_start_time,visit_end_time,total_class_rooms,actual_class_rooms,total_suggestion_last_month,resolved_from_that,is_inspection,reason_type,reason_desc,total_score,score,is_offline from crc_inspection_temp) except (select crc_inspection_id,crc_id,crc_name,school_id,lowest_class,highest_class,visit_date,visit_start_time,visit_end_time,total_class_rooms,actual_class_rooms,total_suggestion_last_month,resolved_from_that,is_inspection,reason_type,reason_desc,total_score,score,is_offline from crc_inspection_trans))as data on conflict  ON CONSTRAINT crc_inspection_trans_pkey do nothing;""",
+"crc_inspection_temp_trans_qry":"""insert into crc_inspection_trans(crc_inspection_id,crc_id,crc_name,school_id,lowest_class,highest_class,visit_date,visit_start_time,visit_end_time,total_class_rooms,actual_class_rooms,total_suggestion_last_month,resolved_from_that,is_inspection,reason_type,reason_desc,total_score,score,is_offline,created_on,updated_on) select data.*,now(),now() from (select crc_inspection_id,crc_id,crc_name,school_id,lowest_class,highest_class,visit_date,visit_start_time,visit_end_time,total_class_rooms,actual_class_rooms,total_suggestion_last_month,resolved_from_that,is_inspection,reason_type,reason_desc,total_score,score,is_offline from crc_inspection_temp)as data 
+on conflict(crc_inspection_id) 
+do update set crc_inspection_id = excluded.crc_inspection_id,crc_id=excluded.crc_id,crc_name=excluded.crc_name,school_id=excluded.school_id,lowest_class=excluded.lowest_class,highest_class=excluded.highest_class,visit_date=excluded.visit_date,visit_start_time=excluded.visit_start_time,visit_end_time=excluded.visit_end_time,total_class_rooms=excluded.total_class_rooms,actual_class_rooms=excluded.actual_class_rooms,total_suggestion_last_month=excluded.total_suggestion_last_month,resolved_from_that=excluded.resolved_from_that,is_inspection=excluded.is_inspection,reason_type=excluded.reason_type,reason_desc=excluded.reason_desc,total_score=excluded.total_score,score=excluded.score,is_offline=excluded.is_offline,created_on=excluded.created_on,updated_on=now()""",
 "crc_loc_duplicate_data":"""select UserLocationMasterId as "crc_location_id",UserMasterId as "crc_id",SchoolId as "school_id",InspectionId as "inspection_id",Latitude as "latitude",Longitude as "longitude",InSchoolLocation as "in_school_location",CreatedOn as "created_on",count(UserLocationMasterId)-1  num_of_times
 FROM flowfile
 GROUP BY UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn
@@ -282,7 +290,9 @@ inspection_id = crc_loc_null_col.count_null_inspectionid,
 in_school_location = crc_loc_null_col.inschoolloc,
 created_on = crc_loc_null_col.count_null_createdon,
 latitude = crc_loc_null_col.count_latitude,
-longitude = crc_loc_null_col.count_longitude
+longitude = crc_loc_null_col.count_longitude,
+user_location_master_id = crc_loc_null_col.count_null_userlocmasterid,
+user_master_id = crc_loc_null_col.count_null_usermasterid
 from crc_loc_null_col
 where crc_loc_null_col.ff_uuid = log_summary.ff_uuid""",
 "crc_loc_dup_tb_name":"""crc_location_dup""",
@@ -404,7 +414,9 @@ AND InspectionId IS NOT NULL
 AND InSchoolLocation IS NOT NULL
 AND CreatedOn IS NOT NULL
 AND Latitude IS NOT NULL
-AND Longitude IS NOT NULL""",
+AND Longitude IS NOT NULL
+AND UserLocationMasterId IS NOT NULL
+AND UserMasterId IS NOT NULL""",
 "crc_loc_null_table":"""crc_loc_null_col""",
 "crc_count_null":"""(select 
 SUM(CASE when SchoolId IS NULL THEN 1 ELSE 0 END) AS count_null_schoolid,
@@ -412,7 +424,9 @@ SUM(CASE when InspectionId IS NULL THEN 1 ELSE 0 END) AS count_null_inspectionid
 SUM(CASE when InSchoolLocation IS NULL THEN 1 ELSE 0 END) AS inschoolloc,
 SUM(CASE when CreatedOn IS NULL THEN 1 ELSE 0 END) AS count_null_createdon,
 SUM(CASE when  Latitude IS NULL THEN 1 ELSE 0 END) AS count_latitude,
-SUM(CASE when  Longitude IS NULL THEN 1 ELSE 0 END) AS count_longitude
+SUM(CASE when  Longitude IS NULL THEN 1 ELSE 0 END) AS count_longitude,
+SUM(CASE when UserLocationMasterId IS NULL THEN 1 ELSE 0 END) AS count_null_userlocmasertid,
+SUM(CASE when UserMasterId IS NULL THEN 1 ELSE 0 END) AS count_null_usermasterid
 from flowfile)""",
 "crc_transform_district_wise_jolt":"""[{
     "operation": "shift",
@@ -461,6 +475,7 @@ from flowfile)""",
 "crc_insp_not_null":"""select * from flowfile
 where SchoolId IS NOT NULL
 AND InspectionId IS NOT NULL
+AND ObserverId IS NOT NULL
 """,
 "crc_user_location_temp_filter_qry":"""WITH deleted AS (with crc_temp as ((select month,year from crc_location_temp where to_date(year||'-'||month||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='crc' and created_on >now()-'5days'::interval))
 delete from crc_location_temp as ct using crc_temp ctmp where ct.year=ctmp.year and ct.month=ctmp.month IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from crc_location_temp due to retention policy' else 'crc user location temp completed' end as msg FROM deleted;""",
