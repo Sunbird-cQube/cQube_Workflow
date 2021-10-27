@@ -31,6 +31,27 @@ language plpgsql;
 
 select drop_view_attendance();
 
+create or replace function drop_stud_mv()
+returns int as
+$body$
+begin
+
+drop materialized view if exists student_attendance_agg_last_1_day cascade;
+drop materialized view if exists student_attendance_agg_last_7_days cascade;
+drop materialized view if exists student_attendance_agg_last_30_days cascade;
+
+  return 0;
+
+    exception 
+    when others then
+        return 0;
+
+end;
+$body$
+language plpgsql;
+
+select drop_stud_mv();
+
 /* Function to calculate Student attendance - Time series */
 
 CREATE OR REPLACE FUNCTION student_attendance_agg_refresh(period text)
