@@ -1070,10 +1070,7 @@ where stud_att_null_col.ff_uuid = log_summary.ff_uuid""",
   }
 
 ]""",
-"stud_att_mv_queries":"""REFRESH MATERIALIZED VIEW student_attendance_agg_overall;
-REFRESH MATERIALIZED VIEW student_attendance_agg_last_30_days;
-REFRESH MATERIALIZED VIEW student_attendance_agg_last_7_days;
-REFRESH MATERIALIZED VIEW student_attendance_agg_last_1_day;""",
+"stud_att_mv_queries":"""REFRESH MATERIALIZED VIEW student_attendance_agg_overall;""",
 "stud_att_raw_cluster_jolt_spec":"""[
   {
     "operation": "shift",
