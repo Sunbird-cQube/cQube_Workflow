@@ -15,7 +15,7 @@ router.post('/', auth.authController, async (req, res) => {
         let hour = req.body.date.hour;
         let fileName = `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`;
         var localPath = inputDir + fileName;
-        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'views');
+        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData);
         logger.info('--- response sent for set telemetry api ---');
         res.status(200).json(response);
     } catch (e) {
@@ -31,9 +31,10 @@ router.post('/sar', auth.authController, async (req, res) => {
         let month = req.body.date.month;
         let date = req.body.date.date;
         let hour = req.body.date.hour;
+        
         let fileName = `telemetry/telemetry_${year}_${month}_${date}_${hour}.csv`;
         var localPath = inputDir + fileName;
-        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'sar');
+        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData);
         logger.info('--- response sent for set SAR telemetry api ---');
         res.status(200).json(response);
 

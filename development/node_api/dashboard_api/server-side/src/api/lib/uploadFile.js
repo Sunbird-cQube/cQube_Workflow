@@ -4,8 +4,7 @@ const fs = require('fs');
 const jsonexport = require('jsonexport');
 var S3Append = require('s3-append').S3Append;
 const { format } = require('path');
-var shell = require('shelljs');
-const inputDir = `${process.env.EMISSION_DIRECTORY}`;
+
 
 function saveToS3(fileName, formData) {
     return new Promise((resolve, reject) => {
@@ -52,24 +51,14 @@ function saveToS3(fileName, formData) {
         }
     })
 }
-function saveToLocal(fileName, formData, report) {
+function saveToLocal(fileName, formData) {
     return new Promise((resolve, reject) => {
         try {
-            let username = process.env.SYSTEM_USERNAME;
-            username = username.replace(/\n/g, '');
-            var newLine = '\r';
+            var newLine = '\r\n';
             fs.stat(fileName, async function (err, stat) {
-                let data = "";
-                let row = "";
                 if (err == null) {
-                    if (report != 'sar') {
-                        shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry/telemetry_view`);
-                        row = `${formData[0].uid}|${formData[0].eventType}|${formData[0].reportId}|${formData[0].time}`
-                    } else {
-                        shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry`);
-                        row = `${formData[0].pageId}|${formData[0].uid}|${formData[0].event}|${formData[0].level}|${formData[0].locationid}|${formData[0].locationname}|${formData[0].lat}|${formData[0].lng}|${formData[0].download}`
-                    }
-                    data = '\n' + row.replace(/,/g, '|') + newLine;
+                    let row = `${formData[0].eventType}|${formData[0].reportId}|${formData[0].time}`
+                    let data = row.replace(/,/g, '|') + newLine;
                     fs.appendFile(fileName, data, function (err) {
                         if (!err) {
                             resolve({ msg: "Successfully update file" });
@@ -80,13 +69,6 @@ function saveToLocal(fileName, formData, report) {
                 } else {
                     jsonexport(formData, function (error, csv) {
                         let data = csv.replace(/,/g, '|');
-                        let username = process.env.SYSTEM_USERNAME;
-                        username = username.replace(/\n/g, '');
-                        if (report != 'sar') {
-                            shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry/telemetry_view`);
-                        } else {
-                            shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry`);
-                        }
                         fs.writeFile(fileName, data, function (err) {
                             if (!err) {
                                 resolve({ msg: "Successfully uploaded file" });
