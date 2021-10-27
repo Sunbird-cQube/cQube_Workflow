@@ -41,4 +41,9 @@ export class DataReplayService {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/savetoS3`, data);
   }
+
+  dikshaTPD_ETB_data_input(data) {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/dikshaTPD_ETB_data_input`, data);
+  }
 }
