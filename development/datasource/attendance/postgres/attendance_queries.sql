@@ -14,13 +14,10 @@ returns int as
 $body$
 begin
 drop view if exists student_attendance_agg_last_1_day,student_attendance_agg_last_7_days,student_attendance_agg_last_30_days cascade;
-
-  return 1;
-
+return 1;
     exception 
     when others then
         return 0;
-
 end;
 $body$
 language plpgsql;
