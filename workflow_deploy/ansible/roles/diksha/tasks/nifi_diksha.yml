@@ -17,3 +17,11 @@
 - name: Enable diksha TPD API
   shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py diksha_transformer {{ storage_type }} TPD API"
   tags: [ install, update ]
+
+- name: Run diksha custom python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py diksha_transformer_custom diksha_parameters 0"
+  tags: [ install, update ]
+
+- name: Connection of diksha custom to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage diksha_transformer_custom"  
+  tags: [ install, update ]
