@@ -4,7 +4,6 @@ from nifi_start_pg import start_processor_group
 import requests, time
 
 
-
 def nifi_update_processor_property(processor_group_name, processor_name, properties):
     """[Update the processor property in the processor group]
     Args:
@@ -71,15 +70,18 @@ if __name__ == '__main__':
         "to_date": "${now():toNumber():minus(172800000):format('yyyy-MM-dd')}"
     }
     if len(sys.argv) == 5:
+        named_tuple = time.localtime()
+        process_start_time = time.strftime("%Y-%m-%d, %H:%M:%S", named_tuple)
         processor_properties["from_date"] = sys.argv[2]
         processor_properties["to_date"] = sys.argv[3]
         stop_seconds = sys.argv[3]*60*60
 
+        logging.info(f"Process start time: {process_start_time}")
         logging.info(
             f"Diksha summary-rollup from_date: {sys.argv[2]} , to_date: {sys.argv[3]} and stop hour:{sys.argv[4]}")
         logging.info(
             f"updating the from_date:{sys.argv[2]} and to_date:{sys.argv[3]} in diksha summary-rollup API parameter")
-        
+
         # update processor property.
         nifi_update_processor_property(
             processor_group_name, diksha_summary_rollup_processor_name, processor_properties)
