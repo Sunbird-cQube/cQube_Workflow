@@ -62,6 +62,7 @@ if __name__ == '__main__':
     """
 
     diksha_summary_rollup_processor_name = "diksha_api_summary_rollup_update_date_token_custom"
+    data_storage_processor='cQube_data_storage'
     processor_group_name = sys.argv[1]
 
     # Default Date Range[Diksha summary-rollup] - Day before yesterday
@@ -85,18 +86,20 @@ if __name__ == '__main__':
         # update processor property.
         nifi_update_processor_property(
             processor_group_name, diksha_summary_rollup_processor_name, processor_properties)
-
+        
         # Enable the diksha_transformer_custom
         time.sleep(5)
         start_processor_group(processor_group_name, 'ENABLED')
         time.sleep(5)
         start_processor_group(processor_group_name, 'RUNNING')
+        start_processor_group(data_storage_processor, 'RUNNING')
 
         # Stop hour
         time.sleep(stop_seconds)
 
         # Disable the diksha_transformer_custom
         start_processor_group(processor_group_name, 'STOPPED')
+        start_processor_group(data_storage_processor, 'STOPPED')
         time.sleep(5)
         start_processor_group(processor_group_name, 'DISABLED')
 
