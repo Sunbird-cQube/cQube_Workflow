@@ -1,8 +1,7 @@
 from deploy_nifi import rq, prop, logging, sys
 from connect_nifi_processors import get_processor_group_ports
 from nifi_start_pg import start_processor_group
-import requests
-import time
+import requests, time
 
 
 def nifi_update_processor_property(processor_group_name, processor_name, properties):
