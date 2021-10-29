@@ -23,13 +23,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   public category: String[] = [];
   public chartData: Number[] = [];
-  public completion: Number[] = [];
+  // public completion: Number[] = [];
+  public completion: any
   public xAxisLabel: String = "Enrollment";
   public yAxisLabel: String;
   public reportName: String = "enrollment_completion";
   public report = "enroll/comp"
 
-  enrollTypes = [{ key: 'enrollment', name: 'Enrollment' }, { key: 'completion', name: 'Completion' }];
+  enrollTypes = [{ key: 'enrollment', name: 'Enrollment' }, { key: 'completion', name: 'Completion' }, { key: 'percent_completion', name: 'percent_completion' }];
   type = 'enrollment';
   districts = [];
   districtId;
@@ -223,6 +224,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //getting all chart data to show:::::::::
   getBarChartData() {
     this.completion = [];
+    let perCompletion = [];
+    let enrComplition = [];
+    let comComplition = [];
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
         this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
@@ -232,11 +236,26 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }
     this.result.data.forEach(element => {
       this.chartData.push(Number(element[`${this.type}`]));
-      if (this.type != 'completion') {
-        this.completion.push(Number(element[`completion`]));
-      } else {
-        this.completion.push(Number(element[`enrollment`]));
-      }
+      // if (this.type != 'completion') {
+      //   this.completion.push(Number(element[`completion`]));
+      // } else {
+      //   this.completion.push(Number(element[`enrollment`]));
+
+      // }
+      if (this.type == 'completion') {
+          perCompletion.push(Number([element[`percent_completion`]]));
+          enrComplition.push(Number([element[`enrollment`]]))
+          this.completion.push([ [...perCompletion],[...enrComplition]])
+        } else if (this.type == 'enrollment') {
+          perCompletion.push(Number([element[`percent_completion`]]));
+          comComplition.push(Number([element[`completion`]]));
+          this.completion.push([ [...perCompletion],[...comComplition]])
+        }else if(this.type == 'percent_completion') {
+          comComplition.push(Number([element[`completion`]]));
+          enrComplition.push(Number([element[`enrollment`]]))
+          this.completion.push( [[...comComplition],[...enrComplition]])
+        }
+        
     });
     this.footer = (this.chartData.reduce((a, b) => Number(a) + Number(b), 0)).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
