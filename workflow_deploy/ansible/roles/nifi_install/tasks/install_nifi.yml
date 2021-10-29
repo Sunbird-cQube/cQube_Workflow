@@ -155,6 +155,7 @@
     mode: "0644"
   with_items:
     - diksha_transformer.xml
+    - diksha_transformer_custom.xml
   tags: [ install, update ]  
   
 - name: Copying the crc query files to nifi directory
