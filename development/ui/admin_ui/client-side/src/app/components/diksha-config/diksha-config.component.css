@@ -7,7 +7,7 @@
     box-shadow: 0px 0px 4px 2px #1795e9;
 }
 
-#rangeType, #tpdMethod, #etbMethod{
+#rangeType, #tpdMethod, #etbMethod, #time{
     padding: 9px;
     width: 180px; 
     color: rgb(2, 2, 2); 
