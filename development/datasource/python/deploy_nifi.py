@@ -308,6 +308,7 @@ if __name__ == "__main__":
         'cQube_data_storage': ['cQube_s3_static_raw', 'postgres_static_raw'],
         'static_data_processor': ['cQube_s3_static', 'postgres_static'],
         'diksha_transformer': ['cQube_s3_diksha', 'postgres_diksha'],
+        'diksha_transformer_custom': ['postgres_diksha'],
         'static_data_transformer': ['cQube_s3_static', 'postgres_static'],
         'crc_transformer': ['cQube_s3_crc', 'postgres_crc'],
         'student_attendance_transformer': ['cQube_s3_stud_att', 'postgres_stud_att'],

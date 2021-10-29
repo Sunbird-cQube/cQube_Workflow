@@ -219,6 +219,35 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>03f8e3b4-8dc2-38ad-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>24360.0</x>
+                        <y>-1400.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>827be28d-2ff5-3dc4-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_summary_rollup_custom_date</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>63bbf42c-5d09-3889-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>04f121c9-1bf8-366b-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -1684,6 +1713,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>26ecc3a8-f153-3bb1-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>9939d3f9-b44d-3a52-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>63bbf42c-5d09-3889-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>279b9f52-80b5-3080-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -1985,6 +2039,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>2d645c75-2f5c-335a-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>ec4ceb83-6953-3adb-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>4d373b2c-f115-3765-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>2db799ff-d07c-334c-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -2143,8 +2222,8 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
-                        <id>ec4ceb83-6953-3adb-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
+                        <id>4d373b2c-f115-3765-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
                     <labelIndex>1</labelIndex>
@@ -2182,6 +2261,31 @@
                     <source>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
                         <id>576f95c0-572c-3bd3-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>33557e5d-2f33-3818-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>f1c78837-8f0c-34af-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_summary_rollup_custom_date</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>5976ec35-8ad4-399d-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -2556,6 +2660,31 @@
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
                         <id>feff2bf0-134e-3952-0000-000000000000</id>
                         <type>INPUT_PORT</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>3a55090a-f705-3fb9-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>1fca28ca-7795-31c7-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>5976ec35-8ad4-399d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -7664,6 +7793,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>b8416f66-3d7b-3f09-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>e7e41bc7-d57a-3c01-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>0420915a-7460-363a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>b8c51f5b-9349-365d-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -7820,7 +7974,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
-                        <id>1fca28ca-7795-31c7-0000-000000000000</id>
+                        <id>5976ec35-8ad4-399d-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -8388,8 +8542,8 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
-                        <id>e7e41bc7-d57a-3c01-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
+                        <id>0420915a-7460-363a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
                     <labelIndex>1</labelIndex>
@@ -8569,8 +8723,8 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
-                        <id>e7e41bc7-d57a-3c01-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
+                        <id>0420915a-7460-363a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
                     <labelIndex>1</labelIndex>
@@ -8666,6 +8820,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>cbef3952-d4a3-3f0a-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>3030cfd6-351c-38ce-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_summary_rollup_custom_date</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>0420915a-7460-363a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>cc16a1db-fd96-3312-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -8720,13 +8899,13 @@
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>24224.0</x>
-                        <y>-1504.0</y>
+                        <x>24144.0</x>
+                        <y>-1656.0</y>
                     </bends>
                     <destination>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
-                        <id>9939d3f9-b44d-3a52-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
+                        <id>63bbf42c-5d09-3889-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
                     <labelIndex>1</labelIndex>
@@ -9093,8 +9272,8 @@
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>9632.0</x>
-                        <y>-1824.0</y>
+                        <x>10496.0</x>
+                        <y>-1904.0</y>
                     </bends>
                     <destination>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
@@ -9199,6 +9378,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>d41e7477-0aaa-389c-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>0fb4bbbb-576a-3854-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_summary_rollup_custom_date</selectedRelationships>
+                    <source>
+                        <groupId>23060170-0295-3667-0000-000000000000</groupId>
+                        <id>4d373b2c-f115-3765-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>d47943d2-9026-305f-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -9255,8 +9459,8 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>23060170-0295-3667-0000-000000000000</groupId>
-                        <id>9939d3f9-b44d-3a52-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
+                        <id>63bbf42c-5d09-3889-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
                     <labelIndex>1</labelIndex>
@@ -12837,7 +13041,7 @@
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
                         <x>-968.0</x>
-                        <y>-816.0</y>
+                        <y>-832.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -14853,6 +15057,27 @@
                     <width>400.0</width>
                 </labels>
                 <labels>
+                    <id>c0f56506-573a-3011-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>24160.0</x>
+                        <y>-1632.0</y>
+                    </position>
+                    <height>48.0</height>
+                    <label>DIKSHA summary-rollup custom date selection route</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#456da1</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>600.0</width>
+                </labels>
+                <labels>
                     <id>c4f60bee-1cbb-350e-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
@@ -15336,6 +15561,27 @@
                     <width>392.0</width>
                 </labels>
                 <labels>
+                    <id>f8620f23-23cf-3b9a-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>21856.0</x>
+                        <y>-1760.0</y>
+                    </position>
+                    <height>48.0</height>
+                    <label>DIKSHA summary-rollup custom date selection route</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#456da1</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>600.0</width>
+                </labels>
+                <labels>
                     <id>f9acded1-8bd8-3db7-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
@@ -15412,6 +15658,19 @@
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
                 <outputPorts>
+                    <id>0fb4bbbb-576a-3854-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>2224.0</x>
+                        <y>760.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>diksha_zip_output_custom</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
                     <id>1341923f-5acd-32c1-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
@@ -15434,6 +15693,19 @@
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                     <name>diksha_emission_etb_op_DS</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
+                    <id>3030cfd6-351c-38ce-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>22760.0</x>
+                        <y>-1568.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>diksha_api_output_emission_DS_custom</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -15506,8 +15778,8 @@
                     <id>50914be2-7346-33cf-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10016.0</x>
-                        <y>-1216.0</y>
+                        <x>10896.0</x>
+                        <y>-1184.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15519,8 +15791,8 @@
                     <id>55ce7595-6c2e-3214-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10016.0</x>
-                        <y>-1384.0</y>
+                        <x>10896.0</x>
+                        <y>-1352.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15532,8 +15804,8 @@
                     <id>5aa1aa9c-4821-3dde-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10008.0</x>
-                        <y>-1872.0</y>
+                        <x>10896.0</x>
+                        <y>-1816.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15545,8 +15817,8 @@
                     <id>5ca4db04-33a5-3e70-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10008.0</x>
-                        <y>-1472.0</y>
+                        <x>10896.0</x>
+                        <y>-1440.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15558,8 +15830,8 @@
                     <id>5e7601fb-9ee7-3871-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10016.0</x>
-                        <y>-1296.0</y>
+                        <x>10896.0</x>
+                        <y>-1264.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15607,6 +15879,19 @@
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
                 <outputPorts>
+                    <id>827be28d-2ff5-3dc4-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>24312.0</x>
+                        <y>-1328.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>diksha_output_files_IP_success_DS_custom</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
                     <id>846bedf1-68cd-3b8a-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
@@ -15623,8 +15908,8 @@
                     <id>8dd255e7-da87-37ba-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10008.0</x>
-                        <y>-1768.0</y>
+                        <x>10896.0</x>
+                        <y>-1736.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15636,8 +15921,8 @@
                     <id>9939d3f9-b44d-3a52-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>24264.0</x>
-                        <y>-1352.0</y>
+                        <x>23968.0</x>
+                        <y>-1328.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15675,8 +15960,8 @@
                     <id>b748ba4c-cb14-3568-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10008.0</x>
-                        <y>-2064.0</y>
+                        <x>10896.0</x>
+                        <y>-1936.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15688,8 +15973,8 @@
                     <id>bfeb358d-b288-3ba7-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10008.0</x>
-                        <y>-1560.0</y>
+                        <x>10896.0</x>
+                        <y>-1528.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15714,8 +15999,8 @@
                     <id>c9c5659a-b048-3bac-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10016.0</x>
-                        <y>-1128.0</y>
+                        <x>10896.0</x>
+                        <y>-1096.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15753,8 +16038,8 @@
                     <id>e72ce988-8634-3ee8-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10008.0</x>
-                        <y>-1664.0</y>
+                        <x>10896.0</x>
+                        <y>-1632.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15766,8 +16051,8 @@
                     <id>e7e41bc7-d57a-3c01-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>22552.0</x>
-                        <y>-1640.0</y>
+                        <x>22320.0</x>
+                        <y>-1568.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -15779,12 +16064,25 @@
                     <id>ec4ceb83-6953-3adb-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2632.0</x>
-                        <y>832.0</y>
+                        <x>2672.0</x>
+                        <y>784.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                     <name>diksha_zip_output</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
+                    <id>f1c78837-8f0c-34af-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>9232.0</x>
+                        <y>-1504.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>diksha_files_custom</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -15818,8 +16116,8 @@
                     <id>fd2fd6f7-168b-3344-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>10008.0</x>
-                        <y>-1968.0</y>
+                        <x>10896.0</x>
+                        <y>-2040.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -16313,6 +16611,68 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('pa
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
+                    <id>0420915a-7460-363a-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>22464.0</x>
+                        <y>-1800.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>
+    <name>diksha_summary_rollup_custom_date</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>${diksha_summary_rollup_custom_date:startsWith('true')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diksha_route_s3_onpremise_api_custom</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_summary_rollup_custom_date</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
                 </processors>
                 <processors>
                     <id>0672da46-6960-3320-0000-000000000000</id>
@@ -19104,8 +19464,8 @@ ${query_type:startsWith('stud_att_management_exception_school_by_month_year'):if
                     <id>1fca28ca-7795-31c7-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>8904.0</x>
-                        <y>-1752.0</y>
+                        <x>9808.0</x>
+                        <y>-1720.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -26830,8 +27190,8 @@ ${query_type:startsWith('stud_att_management_exception_school_overall'):ifElse('
                     <id>47f91464-c3f0-3035-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>8904.0</x>
-                        <y>-1560.0</y>
+                        <x>9808.0</x>
+                        <y>-1528.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -28353,6 +28713,68 @@ ${filename:startsWith('infra_mgt_school_table'):ifElse('school_management_catego
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
+                    <id>4d373b2c-f115-3765-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>2216.0</x>
+                        <y>880.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>
+    <name>diksha_summary_rollup_custom_date</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>${diksha_summary_rollup_custom_date:startsWith('true')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diksha_route_s3_onpremise_api_custom</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_summary_rollup_custom_date</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
                 </processors>
                 <processors>
                     <id>4dcc509d-2a67-379f-0000-000000000000</id>
@@ -31477,6 +31899,68 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                     <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
+                    <id>5976ec35-8ad4-399d-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>8272.0</x>
+                        <y>-1752.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>
+    <name>diksha_summary_rollup_custom_date</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>${diksha_summary_rollup_custom_date:startsWith('true')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diksha_route_s3_onpremise_api_custom</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_summary_rollup_custom_date</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>5a2fe510-dc3c-3c06-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
@@ -33120,6 +33604,68 @@ ${filename:startsWith('sch_safety')}
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.PutFile</type>
+                </processors>
+                <processors>
+                    <id>63bbf42c-5d09-3889-0000-000000000000</id>
+                    <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>23984.0</x>
+                        <y>-1584.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>
+    <name>diksha_summary_rollup_custom_date</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>diksha_summary_rollup_custom_date</key>
+<value>${diksha_summary_rollup_custom_date:startsWith('true')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diksha_route_s3_onpremise_api_custom</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_summary_rollup_custom_date</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
                 </processors>
                 <processors>
                     <id>63dfeb74-5e2c-37c4-0000-000000000000</id>
@@ -47503,8 +48049,8 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                     <id>b1df3985-914d-3573-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>22496.0</x>
-                        <y>-1968.0</y>
+                        <x>22800.0</x>
+                        <y>-1992.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -56263,8 +56809,8 @@ or(${filename:startsWith('data_replay')})}</value>
                     <id>d6be32fa-ccac-3cd6-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>22016.0</x>
-                        <y>-1984.0</y>
+                        <x>22064.0</x>
+                        <y>-1992.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-aws-nar</artifact>
@@ -60945,7 +61491,7 @@ ${filename:startsWith('semester_exam_subject_details')}
                     <id>ef14c11a-a28d-3da3-0000-000000000000</id>
                     <parentGroupId>23060170-0295-3667-0000-000000000000</parentGroupId>
                     <position>
-                        <x>22496.0</x>
+                        <x>22464.0</x>
                         <y>-2192.0</y>
                     </position>
                     <bundle>
@@ -64833,5 +65379,5 @@ ${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('a
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>10/26/2021 19:22:25 IST</timestamp>
+    <timestamp>10/28/2021 15:18:11 IST</timestamp>
 </template>
