@@ -3,7 +3,7 @@
 "crc_user_location_temp_trans_qry":"""insert into crc_location_trans(crc_location_id,crc_id,inspection_id,school_id,latitude,longitude,in_school_location,year,month,created_on,updated_on) 
 select data.*,now(),now() from
 (select crc_location_id,crc_id,inspection_id,school_id,latitude,longitude,in_school_location,year,month
-from crc_location_temp) as data 
+from crc_location_temp where in_school_location=True) as data 
 on conflict(crc_location_id)
 do update set year= excluded.year,month=excluded.month,school_id=excluded.school_id,crc_location_id=excluded.crc_location_id,crc_id=excluded.crc_id,inspection_id=excluded.inspection_id,latitude=excluded.latitude,
 longitude=excluded.longitude,in_school_location=excluded.in_school_location,created_on=excluded.created_on,updated_on=now();""",

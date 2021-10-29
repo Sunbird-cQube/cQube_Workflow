@@ -1,6 +1,7 @@
 from deploy_nifi import rq, prop, logging, sys
 from connect_nifi_processors import get_processor_group_ports
-import requests
+from nifi_start_pg import start_processor_group
+import requests, time
 
 
 def nifi_update_processor_property(processor_group_name, processor_name, properties):
@@ -10,7 +11,7 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
         processor_name ([string]): [provide the processor name]
         properties([dict]): [property to update in processor]
     """
-    
+
     # Get the processors in the processor group
     pg_source = get_processor_group_ports(processor_group_name)
     if pg_source.status_code == 200:
@@ -24,8 +25,8 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
                         "name": i['component']['name'],
                         "config": {
                             "properties": {
-                                "five_days_before": properties['from_date'],
-                                "yesterday": properties['to_date']
+                                "from_date": properties['from_date'],
+                                "to_date": properties['to_date']
                             }
                         }
                     },
@@ -59,8 +60,9 @@ if __name__ == '__main__':
             Example: python update_processor_property.py diksha_transformer 2021-10-22 2021-10-23
                      python update_processor_property.py diksha_transformer default
     """
-    
-    diksha_summary_rollup_processor_name = "diksha_api_summary_rollup_update_date_token"
+
+    diksha_summary_rollup_processor_name = "diksha_api_summary_rollup_update_date_token_custom"
+    data_storage_processor='cQube_data_storage'
     processor_group_name = sys.argv[1]
 
     # Default Date Range[Diksha summary-rollup] - Day before yesterday
@@ -68,15 +70,36 @@ if __name__ == '__main__':
         "from_date": "${now():toNumber():minus(172800000):format('yyyy-MM-dd')}",
         "to_date": "${now():toNumber():minus(172800000):format('yyyy-MM-dd')}"
     }
-    if len(sys.argv) == 3:
-        # update processor property.
-        nifi_update_processor_property(
-            processor_group_name, diksha_summary_rollup_processor_name, processor_properties)
-
-    elif len(sys.argv) == 4:
+    if len(sys.argv) == 5:
+        named_tuple = time.localtime()
+        process_start_time = time.strftime("%Y-%m-%d, %H:%M:%S", named_tuple)
         processor_properties["from_date"] = sys.argv[2]
         processor_properties["to_date"] = sys.argv[3]
+        stop_seconds = sys.argv[3]*60*60
+
+        logging.info(f"Process start time: {process_start_time}")
+        logging.info(
+            f"Diksha summary-rollup from_date: {sys.argv[2]} , to_date: {sys.argv[3]} and stop hour:{sys.argv[4]}")
+        logging.info(
+            f"updating the from_date:{sys.argv[2]} and to_date:{sys.argv[3]} in diksha summary-rollup API parameter")
 
         # update processor property.
         nifi_update_processor_property(
             processor_group_name, diksha_summary_rollup_processor_name, processor_properties)
+        
+        # Enable the diksha_transformer_custom
+        time.sleep(5)
+        start_processor_group(processor_group_name, 'ENABLED')
+        time.sleep(5)
+        start_processor_group(processor_group_name, 'RUNNING')
+        start_processor_group(data_storage_processor, 'RUNNING')
+
+        # Stop hour
+        time.sleep(stop_seconds)
+
+        # Disable the diksha_transformer_custom
+        start_processor_group(processor_group_name, 'STOPPED')
+        start_processor_group(data_storage_processor, 'STOPPED')
+        time.sleep(5)
+        start_processor_group(processor_group_name, 'DISABLED')
+

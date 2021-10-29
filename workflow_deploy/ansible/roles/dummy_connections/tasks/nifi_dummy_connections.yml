@@ -3,6 +3,6 @@
   tags: [ install, update ]
 
 - name: run python code to start telemetry
-  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_start_pg.py cqube_telemetry_transformer"
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_start_pg.py cqube_telemetry_transformer RUNNING"
   when: telemetry
   tags: [ install, update ]

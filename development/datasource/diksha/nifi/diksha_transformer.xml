@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>changed the default date range to Today-2 in Summary-rollup API</description>
+    <description></description>
     <groupId>a70bbdfd-017c-1000-b5eb-db7af7bf22e3</groupId>
     <name>diksha_transformer</name>
     <snippet>
@@ -5167,6 +5167,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>87926742-9d9e-3035-0000-000000000000</id>
+                    <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>aa52fc0c-44ff-3ed0-0000-000000000000</groupId>
+                        <id>a095f8c6-1a24-39d1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>aa52fc0c-44ff-3ed0-0000-000000000000</groupId>
+                        <id>3fba2608-bc38-3b78-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>88a9e5e8-4b7e-3274-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -5407,7 +5432,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>aa52fc0c-44ff-3ed0-0000-000000000000</groupId>
-                        <id>92947b3c-aebf-318c-0000-000000000000</id>
+                        <id>34917905-b413-33ff-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -9089,7 +9114,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>aa52fc0c-44ff-3ed0-0000-000000000000</groupId>
-                        <id>a095f8c6-1a24-39d1-0000-000000000000</id>
+                        <id>92947b3c-aebf-318c-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -13490,12 +13515,12 @@ GET - summary rollup</label>
                     <id>552efced-294e-3650-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-26304.0</x>
-                        <y>-3832.0</y>
+                        <x>-26400.0</x>
+                        <y>-3824.0</y>
                     </position>
-                    <height>80.0</height>
+                    <height>88.0</height>
                     <label>DIKSHA API - SUMMARY ROLL UP.
-Check today's API request exist.</label>
+Check  API request already exist for the provided date range.</label>
                     <style>
                         <entry>
                             <key>background-color</key>
@@ -13506,7 +13531,7 @@ Check today's API request exist.</label>
                             <value>24px</value>
                         </entry>
                     </style>
-                    <width>456.0</width>
+                    <width>696.0</width>
                 </labels>
                 <labels>
                     <id>5bfe3f28-0789-361a-0000-000000000000</id>
@@ -13533,8 +13558,8 @@ Check today's API request exist.</label>
                     <id>5f939500-0336-357c-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-26408.0</x>
-                        <y>-3808.0</y>
+                        <x>-25832.0</x>
+                        <y>-3464.0</y>
                     </position>
                     <height>48.0</height>
                     <label>1</label>
@@ -14114,7 +14139,7 @@ same/mirror data validation</label>
                     <id>bdfdb121-b0f1-349a-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-23784.0</x>
+                        <x>-23736.0</x>
                         <y>-5392.0</y>
                     </position>
                     <height>48.0</height>
@@ -23799,8 +23824,8 @@ ${execution.error}</value>
                     <id>34917905-b413-33ff-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-26328.0</x>
-                        <y>-3672.0</y>
+                        <x>-25696.0</x>
+                        <y>-3856.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -23894,7 +23919,8 @@ ${execution.error}</value>
                             </entry>
                             <entry>
 <key>SQL select query</key>
-<value>select * from diksha_api_meta where  dataset='summary-rollup' and requested_on::date = current_date limit 1;</value>
+<value>select * from diksha_api_summary_roll_up
+where cqube_process_status ='SUCCESS' and date between '${five_days_before}' and '${yesterday}';</value>
                             </entry>
                             <entry>
 <key>sql-post-query</key>
@@ -23929,7 +23955,7 @@ ${execution.error}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>1day</schedulingPeriod>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
                         <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
@@ -25644,6 +25670,112 @@ where b.cqube_process_status &lt;&gt; 'SUCCESS'</value>
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.PutSQL</type>
+                </processors>
+                <processors>
+                    <id>3fba2608-bc38-3b78-0000-000000000000</id>
+                    <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-25696.0</x>
+                        <y>-3472.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>File Size</key>
+<value>
+    <name>File Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>
+    <name>Batch Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Data Format</key>
+<value>
+    <name>Data Format</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Unique FlowFiles</key>
+<value>
+    <name>Unique FlowFiles</name>
+</value>
+                            </entry>
+                            <entry>
+<key>generate-ff-custom-text</key>
+<value>
+    <name>generate-ff-custom-text</name>
+</value>
+                            </entry>
+                            <entry>
+<key>character-set</key>
+<value>
+    <name>character-set</name>
+</value>
+                            </entry>
+                            <entry>
+<key>mime-type</key>
+<value>
+    <name>mime-type</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>File Size</key>
+<value>0B</value>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>1</value>
+                            </entry>
+                            <entry>
+<key>Data Format</key>
+<value>Text</value>
+                            </entry>
+                            <entry>
+<key>Unique FlowFiles</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>generate-ff-custom-text</key>
+                            </entry>
+                            <entry>
+<key>character-set</key>
+<value>UTF-8</value>
+                            </entry>
+                            <entry>
+<key>mime-type</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>1day</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diksha_api_summary_rollup_trigger</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.GenerateFlowFile</type>
                 </processors>
                 <processors>
                     <id>4057db36-faad-3a4e-0000-000000000000</id>
@@ -30631,8 +30763,8 @@ ${filename:startsWith('diksha_tpd'):ifElse("delete  from diksha_tpd_staging wher
                     <id>61fb4857-9e9b-3f50-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-25712.0</x>
-                        <y>-3896.0</y>
+                        <x>-25696.0</x>
+                        <y>-4160.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -36646,7 +36778,7 @@ Request url = ${invokehttp.request.url}</value>
                     <id>92947b3c-aebf-318c-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-25712.0</x>
+                        <x>-25696.0</x>
                         <y>-4344.0</y>
                     </position>
                     <bundle>
@@ -38702,8 +38834,8 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                     <id>a095f8c6-1a24-39d1-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-25712.0</x>
-                        <y>-4104.0</y>
+                        <x>-25696.0</x>
+                        <y>-3672.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -38806,7 +38938,7 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                             </entry>
                             <entry>
 <key>yesterday</key>
-<value>${now():toNumber():minus(172800000):format('yyyy-MM-dd')</value>
+<value>${now():toNumber():minus(172800000):format('yyyy-MM-dd')}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -44821,8 +44953,8 @@ ${query_type:startsWith('diksha_tpd_r2_school_overall')}
                     <id>cfb737e7-9cab-3d7f-0000-000000000000</id>
                     <parentGroupId>aa52fc0c-44ff-3ed0-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-25712.0</x>
-                        <y>-3672.0</y>
+                        <x>-26304.0</x>
+                        <y>-4152.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -44867,7 +44999,7 @@ ${query_type:startsWith('diksha_tpd_r2_school_overall')}
                             </entry>
                             <entry>
 <key>log-message</key>
-<value>${RouteOnAttribute.Route:startsWith('diksha_api_request_exist'):ifElse('diksha_api_summary_rollup API request already exist for today.','Error while checking diksha summary rollup request status from table, Error= ${executesql.error.message}')}</value>
+<value>${RouteOnAttribute.Route:startsWith('diksha_api_request_exist'):ifElse('diksha_api_summary_rollup API data already pulled between ${from_date} and ${to_date}.','Error while checking diksha summary rollup request status from table, Error= ${executesql.error.message}')}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -50335,5 +50467,5 @@ status from flowfile</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>10/26/2021 19:29:34 IST</timestamp>
+    <timestamp>10/28/2021 15:18:30 IST</timestamp>
 </template>
