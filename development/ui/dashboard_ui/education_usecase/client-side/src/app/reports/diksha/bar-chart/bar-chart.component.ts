@@ -174,12 +174,27 @@ export class BarChartComponent implements OnInit {
         return obj;
       }
       if (reportName == "enroll/comp") {
+        // obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category}
+        //  <br> ${point.y !== null ? `<b>${type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()}:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
+        // ${type != `completion` && xData[point.index] ? `<br><span style="color: red"><b>Completion: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}</span>` : ''}
+        // ${type != `enrollment` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
+        // `
+
         obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category}
-        <br> ${point.y !== null ? `<b>${type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()}:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        ${type != `completion` && xData[point.index] ? `<br><b>Completion: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        ${type != `enrollment` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        `
+        <br> ${point.y !== null ? `<b style= 'color: blue'>${type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()}:</b> <span style ="color:blue">${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}</span>` : ''}
+       ${type == `completion` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index][1][point.index]}<br>
+       <b>Percet Completion: </b>${xData[point.index][0][point.index]}%
+       ` : ''}
+       ${type == `enrollment` && xData[point.index] ? `<br><b>Completion: </b>${xData[point.index][1][point.index]}<br>
+       <b>Percet Completion: </b>${xData[point.index][0][point.index]}%
+       ` : ''}
+
+       ${type == `percent_completion` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index][1][point.index]}<br>
+       <b>Completion: </b>${xData[point.index][0][point.index]}
+       ` : ''}
+       `
         return obj;
+        
       }
     }
   }
