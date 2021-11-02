@@ -30,7 +30,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public reportName: String = "enrollment_completion";
   public report = "enroll/comp"
 
-  enrollTypes = [{ key: 'enrollment', name: 'Enrollment' }, { key: 'completion', name: 'Completion' }, { key: 'percent_completion', name: 'percent_completion' }];
+  enrollTypes = [{ key: 'enrollment', name: 'Enrollment' }, { key: 'completion', name: 'Completion' }, { key: 'percent_completion', name: 'Percent Completion' }];
   type = 'enrollment';
   districts = [];
   districtId;

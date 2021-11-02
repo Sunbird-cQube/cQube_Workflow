@@ -6,7 +6,8 @@
                     <div *ngIf='skul'>
                         <p id="dist">
                             Diksha TPD Report for Total Enrollments / Completions: <span (click)="homeClick()"
-                                style="cursor: pointer;text-decoration: underline;" class="selected-level">{{state}}</span></p>
+                                style="cursor: pointer;text-decoration: underline;"
+                                class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
@@ -126,7 +127,10 @@
                     </select>
 
                     <span id="totalCount" style="float: right;"><strong>Total
-                            {{type.charAt(0).toUpperCase() + type.substr(1)}}:</strong>
+                            {{type.split('_').length > 1 ?
+                            commonService.changeingStringCases(type.split('_')[0])+ " "+commonService.changeingStringCases(type.split('_')[1])
+                            :
+                            commonService.changeingStringCases(type)}}:</strong>
                         {{footer}}</span>
                 </div>
             </div>
