@@ -50,14 +50,11 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
 
 if __name__ == '__main__':
     """[summary]
-    sys arguments = 1.Processor group name. 2.From date 3. To date
+    sys arguments = 1.Processor group name. 2.From date 3.To date 4.Stop hour
     Updates the summary rollup start date and end date in nifi processor property.
-    Updates the summary rollup start date and end date in nifi processor property to default values.
-    Note:
-    Default Date Range[Diksha summary-rollup] - Day before yesterday.
-
-    syntax: python update_processor_property.py <processor group name> <yyyy-mm-dd> <yyyy-mm-dd>
-            Example: python update_processor_property.py diksha_transformer 2021-10-22 2021-10-23
+    
+    syntax: python update_processor_property.py <processor group name> <yyyy-mm-dd> <yyyy-mm-dd> <stop hour>
+            Example: python update_processor_property.py diksha_transformer 2021-10-22 2021-10-23 1
     """
 
     diksha_summary_rollup_processor_name = "diksha_api_summary_rollup_update_date_token_custom"
