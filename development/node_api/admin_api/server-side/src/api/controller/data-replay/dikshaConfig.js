@@ -8,12 +8,8 @@ router.post('/', async (req, res) => {
         logger.info('--- diksha configuration api ---');
         let fromDate = req.body.fromDate;
         let toDate = req.body.toDate;
-        // let type = req.body.type;
-        let selectedHour = req.body.selectedHour;
-        // shell.exec(type == 'Default' ?
-        //     `sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/update_processor_property.py diksha_transformer` :
-        //     `sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/update_processor_property.py diksha_transformer_custom  ${fromDate} ${toDate} ${selectedHour}`,
-
+        let selectedHour = req.body.hourSelected;
+        
             shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/update_processor_property.py diksha_transformer_custom  ${fromDate} ${toDate} ${selectedHour}`,
            
             function (code, stderr, stdout) {
