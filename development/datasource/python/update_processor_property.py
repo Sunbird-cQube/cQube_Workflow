@@ -50,15 +50,11 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
 
 if __name__ == '__main__':
     """[summary]
-    sys arguments = 1.Processor group name. 2.From date 3. To date
+    sys arguments = 1.Processor group name. 2.From date 3.To date 4.Stop hour
     Updates the summary rollup start date and end date in nifi processor property.
-    Updates the summary rollup start date and end date in nifi processor property to default values.
-    Note:
-    Default Date Range[Diksha summary-rollup] - Day before yesterday.
-
-    syntax: python update_processor_property.py <processor group name> <yyyy-mm-dd> <yyyy-mm-dd>
-            Example: python update_processor_property.py diksha_transformer 2021-10-22 2021-10-23
-                     python update_processor_property.py diksha_transformer default
+    
+    syntax: python update_processor_property.py <processor group name> <yyyy-mm-dd> <yyyy-mm-dd> <stop hour>
+            Example: python update_processor_property.py diksha_transformer 2021-10-22 2021-10-23 1
     """
 
     diksha_summary_rollup_processor_name = "diksha_api_summary_rollup_update_date_token_custom"
@@ -75,31 +71,38 @@ if __name__ == '__main__':
         process_start_time = time.strftime("%Y-%m-%d, %H:%M:%S", named_tuple)
         processor_properties["from_date"] = sys.argv[2]
         processor_properties["to_date"] = sys.argv[3]
-        stop_seconds = sys.argv[3]*60*60
+        stop_hour = int(sys.argv[4])
+        if stop_hour>0 and stop_hour<=24:
+            
+            stop_seconds = stop_hour*60*60
+            
+            logging.info(f"Process start time: {process_start_time}")
+            logging.info(
+                f"Diksha summary-rollup from_date: {sys.argv[2]} , to_date: {sys.argv[3]} and stop hour:{stop_hour}")
+            logging.info(
+                f"updating the from_date:{sys.argv[2]} and to_date:{sys.argv[3]} in diksha summary-rollup API parameter")
 
-        logging.info(f"Process start time: {process_start_time}")
-        logging.info(
-            f"Diksha summary-rollup from_date: {sys.argv[2]} , to_date: {sys.argv[3]} and stop hour:{sys.argv[4]}")
-        logging.info(
-            f"updating the from_date:{sys.argv[2]} and to_date:{sys.argv[3]} in diksha summary-rollup API parameter")
+            # update processor property.
+            nifi_update_processor_property(
+                processor_group_name, diksha_summary_rollup_processor_name, processor_properties)
+            
+            # Enable the diksha_transformer_custom
+            time.sleep(5)
+            start_processor_group(processor_group_name, 'ENABLED')
+            time.sleep(5)
+            start_processor_group(processor_group_name, 'RUNNING')
+            start_processor_group(data_storage_processor, 'RUNNING')
 
-        # update processor property.
-        nifi_update_processor_property(
-            processor_group_name, diksha_summary_rollup_processor_name, processor_properties)
-        
-        # Enable the diksha_transformer_custom
-        time.sleep(5)
-        start_processor_group(processor_group_name, 'ENABLED')
-        time.sleep(5)
-        start_processor_group(processor_group_name, 'RUNNING')
-        start_processor_group(data_storage_processor, 'RUNNING')
+            # Stop hour
+            time.sleep(stop_seconds)
+            
 
-        # Stop hour
-        time.sleep(stop_seconds)
-
-        # Disable the diksha_transformer_custom
-        start_processor_group(processor_group_name, 'STOPPED')
-        start_processor_group(data_storage_processor, 'STOPPED')
-        time.sleep(5)
-        start_processor_group(processor_group_name, 'DISABLED')
+            # Disable the diksha_transformer_custom
+            start_processor_group(processor_group_name, 'STOPPED')
+            start_processor_group(data_storage_processor, 'STOPPED')
+            time.sleep(5)
+            start_processor_group(processor_group_name, 'DISABLED')
+        else:
+            logging.warn(f"Stop hour should be greater than 0 and less than or equal to 24")
+            exit(0)
 
