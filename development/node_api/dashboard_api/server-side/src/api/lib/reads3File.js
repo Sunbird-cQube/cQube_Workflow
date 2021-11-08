@@ -48,16 +48,19 @@ const readLocalFile = (fileName) => {
     })
 }
 
+//azure config
 var azure = require('azure-storage');
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
 var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
 
 var containerName = process.env.AZURE_OUTPUT_STORAGE;
 
-var blobName = 'test.json';
-const readFromBlob = async (containerName, blobName) => {
+//reading file from azure
+var blobName = 'output.txt';
+const readFromBlob = async (blobName) => {
+    let container = containerName;
     return new Promise((resolve, reject) => {
-        blobService.getBlobToText(containerName, blobName, (err, data) => {
+        blobService.getBlobToText(container, blobName, (err, data) => {
             if (err) {
                 reject(err);
             } else {
@@ -69,8 +72,8 @@ const readFromBlob = async (containerName, blobName) => {
 
 async function fun() {
     try {
-        let data = await readFromBlob(containerName, blobName);
-        console.log(JSON.parse(data));
+        let data = await readFromBlob(blobName);
+        console.log(data);
     } catch (e) {
         console.log({ message: "The specified blob does not exist" })
     }
@@ -78,9 +81,39 @@ async function fun() {
 
 fun();
 
+// var fileService = azure.createFileService(AZURE_STORAGE_CONNECTION_STRING);
+// fileService.createShareIfNotExists('taskshare1', function (error, result, response) {
+//     if (!error) {
+//         console.log("share created");
+//         fileService.createDirectoryIfNotExists('taskshare1', 'dir1', function (error, result, response) {
+//             if (!error) {
+//                 console.log(":::::")
+//                 var text = 'Hello World!';
+//                 fileService.createFileFromText('taskshare1', 'dir1', 'taskfile', text, function (error, result, response) {
+//                     if (!error) {
+//                         console.log("File Created")
+//                     } else {
+//                         console.log("++++++++++++++++++++++++++++++++++++")
+//                     }
+//                 });
+
+//             } else {
+//                 console.log(error)
+//             }
+//         });
+//     } else {
+//         console.log("share errorrrrrrrrrrrrrrrrrrrr");
+//     }
+// });
 
 
-
+// blobService.createBlockBlobFromLocalFile(containerName, 'taskblob', 'output.txt', function (error, result, response) {
+//     if (!error) {
+//        console.log("File uploaded")
+//     }else{
+//         console(error);
+//     }
+// });
 
 module.exports = {
     readS3File, readLocalFile, storageType
