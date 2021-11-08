@@ -17,3 +17,7 @@
     font-size: 13px; 
     background-color: rgb(255, 255, 255);
 }
+
+#time:disabled {
+  background-color: rgb(223, 223, 223);
+}
