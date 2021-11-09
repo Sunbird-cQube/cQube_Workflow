@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <p>To Date: </p>
-                                        <input type="text" id="toDate" [disabled]="!fromDate"
+                                        <input type="text" id="toDate" [disabled]="!fromDate" autocomplete="off"
                                             style="width:100%; margin:0px auto; margin-left: 2px; float: left;"
                                             placeholder="Select To Date" class="form-control" #dp="bsDatepicker"
                                             bsDatepicker [(ngModel)]="toDate" [minDate]="fromDate"

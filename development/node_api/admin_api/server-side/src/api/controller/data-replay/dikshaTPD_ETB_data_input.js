@@ -10,10 +10,10 @@ router.post('/', async (req, res) => {
         let method = req.body.method;
         let dataSet = req.body.dataSet;
 
-        shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/nifi_disable_processor.py diksha_transformer ${storageType} ${dataSet} ${method}`, function (code, stdout, stderr) {
-            if (!stdout) {
-                logger.error('Program stderr:', stderr);
-                res.status(403).send({ errMsg: "Something went wrong" });
+        shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/nifi_disable_processor.py diksha_transformer ${storageType} ${dataSet} ${method}`, code=> {
+            if (code) {
+                logger.error("Something went wrong");
+                res.status(406).send({ errMsg: "Something went wrong" });
             } else {
                 logger.info('--- diksha TPD ETB method api response sent---');
                 res.status(200).send({ msg: `Successfully Changed the Diksha ${dataSet} Method to ${method}` });

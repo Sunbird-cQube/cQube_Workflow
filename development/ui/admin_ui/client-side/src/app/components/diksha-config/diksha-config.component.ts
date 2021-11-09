@@ -36,13 +36,18 @@ export class DikshaConfigComponent implements OnInit {
   TPDselected = 'API';
   ETBselected = 'API';
   TPDdata = {};
+  timeout: any;
   TPDonSubmit() {
     document.getElementById('spinner').style.display = 'block';
     this.TPDdata['selected'] = this.TPDselected;
     this.TPDdata['time'] = this.getTime;
+    this.timeout = setTimeout(() => {
+      alert('Diksha ETB Dates Configured Successfully.');
+      document.getElementById('spinner').style.display = 'none';
+    }, 1500);
     this.service.dikshaTPD_ETB_data_input({ method: this.TPDselected, dataSet: 'TPD' }).subscribe(res => {
-      alert(res['msg']);
     }, err => {
+      clearTimeout(this.timeout);
       alert("Error found while initiating TPD method");
       document.getElementById('spinner').style.display = 'none';
     })
