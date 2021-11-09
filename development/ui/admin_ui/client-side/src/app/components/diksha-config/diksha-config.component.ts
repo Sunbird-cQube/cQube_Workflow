@@ -36,18 +36,14 @@ export class DikshaConfigComponent implements OnInit {
   TPDselected = 'API';
   ETBselected = 'API';
   TPDdata = {};
-  timeout: any;
   TPDonSubmit() {
     document.getElementById('spinner').style.display = 'block';
     this.TPDdata['selected'] = this.TPDselected;
     this.TPDdata['time'] = this.getTime;
-    this.timeout = setTimeout(() => {
-      alert('Diksha ETB Dates Configured Successfully.');
-      document.getElementById('spinner').style.display = 'none';
-    }, 1500);
     this.service.dikshaTPD_ETB_data_input({ method: this.TPDselected, dataSet: 'TPD' }).subscribe(res => {
+      alert(res['msg']);
+      document.getElementById('spinner').style.display = 'none';
     }, err => {
-      clearTimeout(this.timeout);
       alert("Error found while initiating TPD method");
       document.getElementById('spinner').style.display = 'none';
     })
@@ -72,6 +68,7 @@ export class DikshaConfigComponent implements OnInit {
 
   fromDate = null;
   toDate = null;
+  timeout: any;
 
   onDikshaConfigSubmit() {
     document.getElementById('spinner').style.display = 'block';
@@ -93,14 +90,16 @@ export class DikshaConfigComponent implements OnInit {
       document.getElementById('spinner').style.display = 'none';
       return false;
     } else {
-      this.service.dikshaConfigService(obj).subscribe(res => {
-        alert(res['msg']);
+      this.timeout = setTimeout(() => {
+        alert('Diksha ETB Dates Configured Successfully.');
         document.getElementById('spinner').style.display = 'none';
+      }, 5000);
+      this.service.dikshaConfigService(obj).subscribe(res => {
       }, err => {
+        clearTimeout(this.timeout);
         alert("Error found while configuring diksha");
         document.getElementById('spinner').style.display = 'none';
       })
-
     }
   }
 
