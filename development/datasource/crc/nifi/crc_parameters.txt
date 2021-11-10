@@ -204,7 +204,6 @@ where crc_inspec_null_col.ff_uuid = log_summary.ff_uuid""",
     }
  }
 ]""",
-"crc_queries_filename":"""crc_queries.json""",
 "crc_inspec_duplicate_data":"""Select  InspectionId as "crc_inspection_id",ObserverId as "crc_id",ObserverName as "crc_name",SchoolId as "school_id",
 BeginningStandard as "lowest_class",EndStandard as "highest_class",TotalClassRooms as "total_class_rooms",VisitStartTime as "visit_start_time",VisitEndTime as "visit_end_time",
 ActualClassRooms as "actual_class_rooms",
@@ -213,6 +212,19 @@ TotalScore as "total_score",Score as "score",IsOffline as "is_offline",count(Ins
 FROM flowfile
 GROUP BY inspectionid,observerid,observername,schoolid,beginningstandard,endstandard,totalclassrooms,visitdate,visitstarttime,visitendtime,actualclassrooms,totalsuggestionlastmonth,resolvedfromthat,isinspection,reasontype,reasondesc,totalscore,score,isoffline
 HAVING  COUNT(*) > 1""",
+"crc_queries_filename":"""crc_queries.json""",
+"crc_pre_query":"""select crc_time_selection_school('last_1_day');
+select crc_time_selection_school('last_7_days');
+select crc_time_selection_school('last_30_days');
+select crc_time_selection_cluster('last_1_day');
+select crc_time_selection_cluster('last_7_days');
+select crc_time_selection_cluster('last_30_days');
+select crc_time_selection_block('last_1_day');
+select crc_time_selection_block('last_7_days');
+select crc_time_selection_block('last_30_days');
+select crc_time_selection_district('last_1_day');
+select crc_time_selection_district('last_7_days');
+select crc_time_selection_district('last_30_days');""",
 "distinct_crc_loc_records":"""select UserLocationMasterId ,UserMasterId ,SchoolId ,InspectionId ,Latitude ,Longitude ,InSchoolLocation ,CreatedOn  from (SELECT UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn, row_number() over (partition by  UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn) as rn from flowfile)sq where rn=1
 """,
 "crc_inspec_dup_check":"""SELECT InspectionId,ObserverId,ObserverName,SchoolId,BeginningStandard,EndStandard,TotalClassRooms,VisitDate,VisitStartTime,VisitEndTime,ActualClassRooms,TotalSuggestionLastMonth,ResolvedFromThat,IsInspection,ReasonType,ReasonDesc,TotalScore,Score,IsOffline,
@@ -232,15 +244,6 @@ SUM(CASE when SchoolId IS NULL THEN 1 ELSE 0 END) AS count_null_schoolid,
 SUM(CASE when InspectionId IS NULL THEN 1 ELSE 0 END) AS count_null_inspectionid,
 SUM(CASE when ObserverId IS NULL THEN 1 ELSE 0 END) AS count_null_observerid
 from flowfile)""",
-"crc_check_if_null":"""select * from flowfile 
-where SchoolId IS NULL
-or InspectionId IS NULL
-or InSchoolLocation IS NULL
-or CreatedOn IS NULL
-or Latitude IS NULL
-or Longitude IS NULL
-or UserLocationMasterId IS NULL
-or UserMasterId IS NULL""",
 "crc_trans_to_crc_visits_frequency_pre_query":"""create or replace view crc_trans_to_aggregate as 
 select  a.school_id,INITCAP(b.school_name)as school_name,b.district_id,INITCAP(b.district_name)as district_name,b.block_id,
   INITCAP(b.block_name)as block_name,b.cluster_id,
@@ -268,6 +271,15 @@ district_id=excluded.district_id,district_name=excluded.district_name,
 block_id=excluded.block_id,block_name=excluded.block_name,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,crc_name=excluded.crc_name,
 visit_count=excluded.visit_count,missed_visit_count=excluded.missed_visit_count,school_management_type=excluded.school_management_type,school_category=excluded.school_category,
 updated_on=now(),created_on=excluded.created_on ;""",
+"crc_check_if_null":"""select * from flowfile 
+where SchoolId IS NULL
+or InspectionId IS NULL
+or InSchoolLocation IS NULL
+or CreatedOn IS NULL
+or Latitude IS NULL
+or Longitude IS NULL
+or UserLocationMasterId IS NULL
+or UserMasterId IS NULL""",
 "crc_inpsec_master_column_change":"""Select  InspectionId as "crc_inspection_id",ObserverId as "crc_id",ObserverName as "crc_name",SchoolId as "school_id",
 BeginningStandard as "lowest_class",EndStandard as "highest_class",TotalClassRooms as "total_class_rooms",visitdate as "visit_date", VisitStartTime as "visit_start_time",VisitEndTime as "visit_end_time",
 ActualClassRooms as "actual_class_rooms",
@@ -281,9 +293,11 @@ do update set crc_inspection_id = excluded.crc_inspection_id,crc_id=excluded.crc
 FROM flowfile
 GROUP BY UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn
 HAVING  COUNT(*) > 1""",
+"crc_inspec_count_qry":"""select count(*) from crc_inspection_trans""",
 "crc_user_loc_normalize":"""select UserLocationMasterId as "crc_location_id",UserMasterId as "crc_id",SchoolId as "school_id",InspectionId as "inspection_id",Latitude as "latitude",Longitude as "longitude",InSchoolLocation as "in_school_location",CreatedOn as "created_on"
 from flowfile""",
-"crc_inspec_count_qry":"""select count(*) from crc_inspection_trans""",
+"crc_inspection_temp_filter_qry":"""WITH deleted AS (with crc_temp as ((select distinct extract(month from visit_date) as month,extract(year from visit_date) as year from crc_inspection_temp where visit_date is not null and to_date(extract(year from visit_date)||'-'||extract(month from visit_date)||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='crc' and created_on >now()-'5days'::interval))
+delete from crc_inspection_temp as ct using crc_temp ctmp where ctmp.year=extract(year from ct.visit_date) and ctmp.month=extract(month from ct.visit_date) IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from crc_location_temp due to retention policy' else 'crc user location temp completed' end as msg FROM deleted;""",
 "crc_loc_null_log_summary":"""update log_summary
 SET school_id = crc_loc_null_col.count_null_schoolid,
 inspection_id = crc_loc_null_col.count_null_inspectionid,
@@ -404,10 +418,6 @@ where crc_loc_null_col.ff_uuid = log_summary.ff_uuid""",
     }
  }
 ]""",
-"crc_loc_dup_check":"""SELECT UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn,count(UserLocationMasterId)  num_of_times
-FROM flowfile
-GROUP BY UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn
-HAVING  COUNT(*) > 1""",
 "crc_not_null":"""select * from flowfile 
 where SchoolId IS NOT NULL
 AND InspectionId IS NOT NULL
@@ -417,6 +427,12 @@ AND Latitude IS NOT NULL
 AND Longitude IS NOT NULL
 AND UserLocationMasterId IS NOT NULL
 AND UserMasterId IS NOT NULL""",
+"crc_user_location_temp_filter_qry":"""WITH deleted AS (with crc_temp as ((select month,year from crc_location_temp where to_date(year||'-'||month||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='crc' and created_on >now()-'5days'::interval))
+delete from crc_location_temp as ct using crc_temp ctmp where ct.year=ctmp.year and ct.month=ctmp.month IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from crc_location_temp due to retention policy' else 'crc user location temp completed' end as msg FROM deleted;""",
+"crc_loc_dup_check":"""SELECT UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn,count(UserLocationMasterId)  num_of_times
+FROM flowfile
+GROUP BY UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn
+HAVING  COUNT(*) > 1""",
 "crc_loc_null_table":"""crc_loc_null_col""",
 "crc_count_null":"""(select 
 SUM(CASE when SchoolId IS NULL THEN 1 ELSE 0 END) AS count_null_schoolid,
@@ -428,6 +444,7 @@ SUM(CASE when  Longitude IS NULL THEN 1 ELSE 0 END) AS count_longitude,
 SUM(CASE when UserLocationMasterId IS NULL THEN 1 ELSE 0 END) AS count_null_userlocmasertid,
 SUM(CASE when UserMasterId IS NULL THEN 1 ELSE 0 END) AS count_null_usermasterid
 from flowfile)""",
+"crc_inspec_null_table":"""crc_inspec_null_col""",
 "crc_transform_district_wise_jolt":"""[{
     "operation": "shift",
     "spec": {
@@ -471,26 +488,16 @@ from flowfile)""",
 	}
 
 ]""",
-"crc_inspec_null_table":"""crc_inspec_null_col""",
 "crc_insp_not_null":"""select * from flowfile
 where SchoolId IS NOT NULL
 AND InspectionId IS NOT NULL
 AND ObserverId IS NOT NULL
 """,
-"crc_user_location_temp_filter_qry":"""WITH deleted AS (with crc_temp as ((select month,year from crc_location_temp where to_date(year||'-'||month||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='crc' and created_on >now()-'5days'::interval))
-delete from crc_location_temp as ct using crc_temp ctmp where ct.year=ctmp.year and ct.month=ctmp.month IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from crc_location_temp due to retention policy' else 'crc user location temp completed' end as msg FROM deleted;""",
-"crc_inspection_temp_filter_qry":"""WITH deleted AS (with crc_temp as ((select distinct extract(month from visit_date) as month,extract(year from visit_date) as year from crc_inspection_temp where visit_date is not null and to_date(extract(year from visit_date)||'-'||extract(month from visit_date)||'-01','yyyy-mm-dd')<(select (date_trunc('month',now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval))::date) order by 1,2 desc) except (select distinct unnest(string_to_array(regexp_replace(months,'[^a-zA-Z0-9,]','','g'),','))::int as month,year from data_replay_meta where data_source='crc' and created_on >now()-'5days'::interval))
-delete from crc_inspection_temp as ct using crc_temp ctmp where ctmp.year=extract(year from ct.visit_date) and ctmp.month=extract(month from ct.visit_date) IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from crc_location_temp due to retention policy' else 'crc user location temp completed' end as msg FROM deleted;""",
-"crc_pre_query":"""select crc_time_selection_school('last_1_day');
-select crc_time_selection_school('last_7_days');
-select crc_time_selection_school('last_30_days');
-select crc_time_selection_cluster('last_1_day');
-select crc_time_selection_cluster('last_7_days');
-select crc_time_selection_cluster('last_30_days');
-select crc_time_selection_block('last_1_day');
-select crc_time_selection_block('last_7_days');
-select crc_time_selection_block('last_30_days');
-select crc_time_selection_district('last_1_day');
-select crc_time_selection_district('last_7_days');
-select crc_time_selection_district('last_30_days');"""
+"crc_loc_same_id_dup_check":"""SELECT b.UserLocationMasterId,b.UserMasterId,b.SchoolId,
+b.InspectionId,b.Latitude,b.Longitude,b.InSchoolLocation,b.CreatedOn,b.cnt num_of_times from 
+(select clt.* ,count(*) over(PARTITION by InspectionId) as cnt from flowfile clt where InSchoolLocation=TRUE and InspectionId>0)  b  where cnt>1""",
+"crc_loc_same_id_filter_query":"""SELECT  UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn from 
+(SELECT UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn,row_number() over (partition by InspectionId order by CreatedOn) as rn from flowfile where InSchoolLocation=TRUE and InspectionId>0) sq Where rn =1""",
+"crc_loc_column_change_dup":"""select UserLocationMasterId as "crc_location_id",UserMasterId as "crc_id",SchoolId as "school_id",InspectionId as "inspection_id",Latitude as "latitude",Longitude as "longitude",InSchoolLocation as "in_school_location",CreatedOn as "created_on",num_of_times
+FROM flowfile""",
 }
