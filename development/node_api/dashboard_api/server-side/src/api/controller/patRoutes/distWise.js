@@ -86,10 +86,10 @@ router.post('/distWise', auth.authController, async (req, res) => {
         }
         var footer;
         var allSubjects = [];
-        districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        districtData = await s3File.readFileConfig(fileName);
         if (period != 'all') {
             if (grade && subject) {
-                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
+                footerData = await s3File.readFileConfig(footerFile);
                 subjects();
             }
             if (grade && !subject || !grade && !subject) {
@@ -145,7 +145,7 @@ router.post('/grades', async (req, res, next) => {
         } else {
             fileName = `${report}/${period}/${report}_metadata.json`;
         }
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let data = await s3File.readFileConfig(fileName);
         logger.info('---grades metadata api response sent---');
         res.status(200).send({ data: data });
     } catch (e) {
@@ -162,7 +162,7 @@ router.post('/getSemesters', async (req, res, next) => {
         if (period != 'select_month')
             fileName = `sat/${period}/sat_semester_metadata.json`;
 
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let data = await s3File.readFileConfig(fileName);
         logger.info('---semester metadata api response sent---');
         res.status(200).send({ data: data });
     } catch (e) {

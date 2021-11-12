@@ -18,7 +18,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
         } else {
             fileName = `sat/trend_line_chart/cluster/${blockId}_${year}.json`;
         }
-        var clusterData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let clusterData = await s3File.readFileConfig(fileName);
         var keys = Object.keys(clusterData);
         var mydata = [];
 

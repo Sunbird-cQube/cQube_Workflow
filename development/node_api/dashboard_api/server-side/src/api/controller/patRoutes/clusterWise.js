@@ -16,7 +16,6 @@ router.post('/allClusterWise', auth.authController, async (req, res) => {
         var management = req.body.data.management;
         var category = req.body.data.category;
         var fileName;
-        var clusterData = {}
         var footerFile;
         var footerData = {}
 
@@ -83,12 +82,12 @@ router.post('/allClusterWise', auth.authController, async (req, res) => {
                 }
             }
         }
-        clusterData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let clusterData = await s3File.readFileConfig(fileName);
         var footer;
         var allSubjects = [];
         if (period != 'all') {
             if (subject) {
-                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
+                footerData = await s3File.readFileConfig(footerFile);
                 subjects();
             }
             if (grade && !subject || !grade && !subject) {
@@ -170,7 +169,7 @@ router.post('/clusterWise/:distId/:blockId', auth.authController, async (req, re
                 footerFile = `${report}/${academic_year}/${semester}/cluster/grade_subject_footer.json`;
             }
         }
-        var clusterData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let clusterData = await s3File.readFileConfig(fileName);
 
         let distId = req.params.distId;
         let blockId = req.params.blockId;
@@ -192,7 +191,7 @@ router.post('/clusterWise/:distId/:blockId', auth.authController, async (req, re
         var footer;
         if (period != 'all') {
             if (grad)
-                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
+                footerData = await s3File.readFileConfig(footerFile);
             if (grad && !subject) {
                 if (footerData && footerData[blockId])
                     footer = footerData[blockId][grad];

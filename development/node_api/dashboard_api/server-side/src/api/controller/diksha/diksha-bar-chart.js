@@ -8,7 +8,7 @@ router.post('/dikshaAllData', auth.authController, async (req, res) => {
         logger.info('--- diksha chart allData api ---');
         let collection_type = req.body.collection_type
         var fileName = `diksha/bar_chart_reports/${collection_type}/all_districts.json`
-        var districtsData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let districtsData = await s3File.readFileConfig(fileName);
         var chartData = {
             labels: '',
             data: ''
@@ -40,7 +40,7 @@ router.post('/dikshaGetCollections', auth.authController, async (req, res) => {
             let timePeriod = req.body.timePeriod
             fileName = `diksha/bar_chart_reports/${collection_type}/${timePeriod}/all_collections.json`
             fileName1 = `diksha/bar_chart_reports/${collection_type}/${timePeriod}/all_districts.json`
-            var districtsData = await s3File.readS3File(fileName1);
+            let districtsData = await s3File.readFileConfig(fileName1);
             if (districtsData) {
                 footer = districtsData['footer'];
                 var chartData = {
@@ -59,8 +59,7 @@ router.post('/dikshaGetCollections', auth.authController, async (req, res) => {
             footer = '';
             fileName = `diksha/bar_chart_reports/${collection_type}/all_collections.json`
         }
-
-        var collectionData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let collectionData = await s3File.readFileConfig(fileName);
         let collections;
         collections = collectionData.map(val => {
             return val.collection_name
@@ -91,9 +90,9 @@ router.post('/dikshaGetCollectionData', auth.authController, async (req, res) =>
             fileName = `diksha/bar_chart_reports/${collection_type}/all_collections.json`;
             footerFile = `diksha/bar_chart_reports/${collection_type}/collection_footer.json`;
         }
-        var footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
+        let footerData = await s3File.readFileConfig(footerFile);
         footerData = footerData.collections[`${collection_name}`];
-        var collectionData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let collectionData = await s3File.readFileConfig(fileName);
         collectionData = collectionData.filter(a => {
             return a.collection_name == collection_name
         })

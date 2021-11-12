@@ -36,18 +36,24 @@ export class SummaryStatistictsComponent implements OnInit {
       if (this.tableData.length > 0) {
         this.tableWithSubHeaders(this.tableData, "table1");
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getSemSummary().subscribe((res: any) => {
       this.tableData1 = res;
       if (this.tableData1.length > 0) {
         this.tableWithSubHeaders(this.tableData1, "table2");
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getCrcSummary().subscribe((res: any) => {
       this.tableData2 = res;
       if (this.tableData2.length > 0) {
         this.tableWithSubHeaders(this.tableData2, "table3");
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
 
     this.service.getInfraSummary().subscribe((res: any) => {
@@ -55,6 +61,8 @@ export class SummaryStatistictsComponent implements OnInit {
       if (this.tableData3.length > 0) {
         this.tableWithSubHeaders(this.tableData3, "table4");
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
 
     this.service.getInspecSummary().subscribe((res: any) => {
@@ -62,6 +70,8 @@ export class SummaryStatistictsComponent implements OnInit {
       if (this.tableData4.length > 0) {
         this.tableWithSubHeaders(this.tableData4, "table5");
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
 
     this.service.getstDistSummary().subscribe((res: any) => {
@@ -69,12 +79,16 @@ export class SummaryStatistictsComponent implements OnInit {
       if (this.tableData5.length > 0) {
         this.tableWithSubHeaders(this.tableData5, "table6");
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getstBlockSummary().subscribe((res: any) => {
       this.tableData6 = res;
       if (this.tableData6.length > 0) {
         this.tableWithSubHeaders(this.tableData6, "table7");
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getstClusterSummary().subscribe((res: any) => {
       this.tableData7 = res;
@@ -89,6 +103,8 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData8, "table9");
         document.getElementById('spinner').style.display = 'none';
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getDikshaSummary().subscribe((res: any) => {
       this.tableData9 = res;
@@ -96,6 +112,8 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData9, "table10");
         document.getElementById('spinner').style.display = 'none';
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getUdiseSummary().subscribe((res: any) => {
       this.tableData10 = res;
@@ -103,6 +121,8 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData10, "table11");
         document.getElementById('spinner').style.display = 'none';
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getPATSummary().subscribe((res: any) => {
       this.tableData11 = res;
@@ -110,6 +130,8 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData11, "table12");
         document.getElementById('spinner').style.display = 'none';
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
 
     this.service.getDiskhaTPDummary().subscribe((res: any) => {
@@ -118,6 +140,8 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData12, "table13");
         document.getElementById('spinner').style.display = 'none';
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
 
     this.service.getTeacherAttendanceSummary().subscribe((res: any) => {
@@ -126,6 +150,8 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData13, "table14");
         document.getElementById('spinner').style.display = 'none';
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
     this.service.getSATSummary().subscribe((res: any) => {
       this.tableData14 = res;
@@ -133,6 +159,8 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData14, "table15");
         document.getElementById('spinner').style.display = 'none';
       }
+    }, err=>{
+       document.getElementById('spinner').style.display = 'none';
     });
   }
 

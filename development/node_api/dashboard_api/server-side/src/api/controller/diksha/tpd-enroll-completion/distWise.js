@@ -8,22 +8,21 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         logger.info('--- diksha chart allData api ---');
         let timePeriod = req.body.timePeriod;
         var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
-        var districtsData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        var footer = districtsData['footer'];
+        let jsonData = await s3File.readFileConfig(fileName);
+        var footer = jsonData['footer'];
         var chartData = {
             labels: '',
             data: ''
         }
-
-        districtsData = districtsData.data.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
-        chartData['labels'] = districtsData.map(a => {
+        jsonData = jsonData.data.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
+        chartData['labels'] = jsonData.map(a => {
             return a.district_name
         })
-        chartData['data'] = districtsData.map(a => {
+        chartData['data'] = jsonData.map(a => {
             return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion }
         })
         logger.info('--- diksha chart allData api response sent ---');
-        res.send({ chartData, downloadData: districtsData, footer });
+        res.send({ chartData, downloadData: jsonData, footer });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
@@ -43,11 +42,11 @@ router.post('/getCollections', auth.authController, async (req, res) => {
         } else {
             fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
         }
-        var collectionsList = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
 
-        if (collectionsList) {
+        if (jsonData) {
             let collections;
-            collections = collectionsList.data.map(val => {
+            collections = jsonData.data.map(val => {
                 return val.collection_name
             })
             allCollections = collections.filter(function (elem, pos) {
@@ -80,8 +79,8 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
             fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
         }
 
-        var collectionData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        collectionData = collectionData.data.filter(a => {
+        let jsonData = await s3File.readFileConfig(fileName);
+        jsonData = jsonData.data.filter(a => {
             return a.collection_name == collection_name
         })
         var chartData = {
@@ -89,44 +88,44 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
             data: ''
         }
         if (level == "district") {
-            collectionData = collectionData.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
-            chartData['labels'] = collectionData.map(a => {
+            jsonData = jsonData.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
+            chartData['labels'] = jsonData.map(a => {
                 return a.district_name
             })
         }
         if (level == "block") {
-            collectionData = collectionData.filter(a => {
+            jsonData = jsonData.filter(a => {
                 return a.district_id == id;
             });
-            collectionData = collectionData.sort((a, b) => (a.block_name > b.block_name) ? 1 : -1)
-            chartData['labels'] = collectionData.map(a => {
+            jsonData = jsonData.sort((a, b) => (a.block_name > b.block_name) ? 1 : -1)
+            chartData['labels'] = jsonData.map(a => {
                 return a.block_name
             })
         }
         if (level == "cluster") {
-            collectionData = collectionData.filter(a => {
+            jsonData = jsonData.filter(a => {
                 return a.block_id == id;
             });
-            collectionData = collectionData.sort((a, b) => (a.cluster_name > b.cluster_name) ? 1 : -1)
-            chartData['labels'] = collectionData.map(a => {
+            jsonData = jsonData.sort((a, b) => (a.cluster_name > b.cluster_name) ? 1 : -1)
+            chartData['labels'] = jsonData.map(a => {
                 return a.cluster_name
             })
         }
         if (level == "school") {
-            collectionData = collectionData.filter(a => {
+            jsonData = jsonData.filter(a => {
                 return a.cluster_id == clusterId;
             });
-            collectionData = collectionData.sort((a, b) => (a.school_name > b.school_name) ? 1 : -1)
-            chartData['labels'] = collectionData.map(a => {
+            jsonData = jsonData.sort((a, b) => (a.school_name > b.school_name) ? 1 : -1)
+            chartData['labels'] = jsonData.map(a => {
                 return a.school_name
             })
         }
 
-        chartData['data'] = collectionData.map(a => {
+        chartData['data'] = jsonData.map(a => {
             return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion }
         })
         logger.info('--- diksha get data on collection select api response sent ---');
-        res.send({ chartData, downloadData: collectionData });
+        res.send({ chartData, downloadData: jsonData });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

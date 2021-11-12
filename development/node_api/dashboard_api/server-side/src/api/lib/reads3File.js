@@ -52,11 +52,9 @@ const readLocalFile = (fileName) => {
 var azure = require('azure-storage');
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
 var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
-
 var containerName = process.env.AZURE_OUTPUT_STORAGE;
 
 //reading file from azure
-var blobName = 'output.txt';
 const readFromBlob = async (blobName) => {
     let container = containerName;
     return new Promise((resolve, reject) => {
@@ -64,22 +62,22 @@ const readFromBlob = async (blobName) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(data);
+                resolve(JSON.parse(data));
             }
         });
     });
 };
 
-async function fun() {
-    try {
-        let data = await readFromBlob(blobName);
-        console.log(data);
-    } catch (e) {
-        console.log({ message: "The specified blob does not exist" })
-    }
-}
+// async function fun() {
+//     try {
+//         let data = await readFromBlob(blobName);
+//         console.log(data);
+//     } catch (e) {
+//         console.log({ message: "The specified blob does not exist" })
+//     }
+// }
 
-fun();
+// fun();
 
 // var fileService = azure.createFileService(AZURE_STORAGE_CONNECTION_STRING);
 // fileService.createShareIfNotExists('taskshare1', function (error, result, response) {
@@ -115,6 +113,18 @@ fun();
 //     }
 // });
 
+const readFileConfig = async (fileName) => {
+    var data;
+    if (storageType == "s3") {
+        data = await readS3File(fileName);
+    } else if (storageType == 'local') {
+        data = await readLocalFile(fileName);
+    } else if (storageType == 'azure') {
+        data = await readFromBlob(fileName);
+    };
+    return data;
+}
+
 module.exports = {
-    readS3File, readLocalFile, storageType
+    readFileConfig, storageType
 };

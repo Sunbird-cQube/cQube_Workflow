@@ -9,17 +9,17 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
         logger.info('---diksha tpd  cluster wise api ---');
         let { timePeriod, reportType, blockId, courses } = req.body
         var fileName = `diksha_tpd/cluster/${timePeriod}.json`;
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
 
         if (blockId) {
-            data = data.filter(val => {
+            jsonData = jsonData.filter(val => {
                 return (
                     val.block_id == blockId
                 )
             })
         }
 
-        let clusterDetails = data.map(e => {
+        let clusterDetails = jsonData.map(e => {
             return {
                 district_id: e.district_id,
                 district_name: e.district_name,
@@ -38,16 +38,16 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
         }, []);
 
         if (courses.length > 0) {
-            data = data.filter(item => {
+            jsonData = jsonData.filter(item => {
                 return courses.includes(item['collection_id']);
             });
         }
 
-        data = data.sort((a, b) => (a.cluster_name) > (b.cluster_name) ? 1 : -1)
-        let result = await helper.generalFun(data, 2, reportType)
+        jsonData = jsonData.sort((a, b) => (a.cluster_name) > (b.cluster_name) ? 1 : -1)
+        let result = await helper.generalFun(jsonData, 2, reportType)
 
         logger.info('--- diksha tpd  cluster wise response sent ---');
-        res.status(200).send({ clusterDetails, result, downloadData: data });
+        res.status(200).send({ clusterDetails, result, downloadData: jsonData });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
