@@ -9,7 +9,7 @@ router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
         let fileName = `attendance/student_attendance_meta.json`;
-        var jsonData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
         let date = groupArray(jsonData, 'year')
         logger.info('--- getDateRange response sent ---');
         res.status(200).send(date);
@@ -24,7 +24,7 @@ router.post('/rawMeta', auth.authController, async (req, res) => {
         var report = req.body.report;
         logger.info('---raw data download meta api ---');
         let fileName = (report == 'sar') ? `attendance/raw/metaData.json` : `teacher_attendance/raw/metaData.json`;
-        var jsonData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
+        let jsonData = await s3File.readFileConfig(fileName);
         let academic_years = [];
         jsonData.map(i => {
             academic_years.push(i.academic_year);

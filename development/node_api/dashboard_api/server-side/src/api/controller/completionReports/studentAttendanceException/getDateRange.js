@@ -15,7 +15,7 @@ router.post('/getDateRange', auth.authController, async (req, res) => {
         } else {
             fileName = `exception_list/teacher_attendance_completion/metaData.json`;
         }
-        var jsonData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
+        let jsonData = await s3File.readFileConfig(fileName);
 
         let date = groupArray(jsonData, 'year')
         logger.info('--- getDateRange response sent ---');

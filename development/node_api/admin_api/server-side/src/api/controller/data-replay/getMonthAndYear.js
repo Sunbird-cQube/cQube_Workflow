@@ -3,7 +3,7 @@ var const_data = require('../../lib/config');
 const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 const groupArray = require('group-array');
-const readFile = require('../../lib/readFiles')
+const s3File = require('../../lib/readFiles')
 
 router.post('/getMonthYear', auth.authController, async (req, res) => {
     try {
@@ -17,7 +17,7 @@ router.post('/getMonthYear', auth.authController, async (req, res) => {
         } else {
             fileName = `data_replay/crc_meta.json`;
         }
-        let dataObj = await readFile.storageType == "s3" ? await readFile.readS3File(fileName) : await readFile.readLocalFile(fileName);
+        let dataObj = await s3File.readFileConfig(fileName);
         let date = groupArray(dataObj, 'year')
         logger.info('--- getDateRange response sent ---');
         res.status(200).send(date);
@@ -28,12 +28,12 @@ router.post('/getMonthYear', auth.authController, async (req, res) => {
     }
 });
 
-router.post('/getSemesters', auth.authController, async (req, res)=> {
+router.post('/getSemesters', auth.authController, async (req, res) => {
     try {
         logger.info('---getSemesters api ---');
         var fileName = `data_replay/sat_meta.json`;
 
-        let dataObj = await readFile.storageType == "s3" ? await readFile.readS3File(fileName) : await readFile.readLocalFile(fileName);
+        let dataObj = await s3File.readFileConfig(fileName);
         logger.info('--- getSemesters response sent ---');
         res.status(200).send(dataObj);
     } catch (e) {
@@ -42,12 +42,12 @@ router.post('/getSemesters', auth.authController, async (req, res)=> {
     }
 });
 
-router.post('/getBatchIds', auth.authController, async (req, res)=> {
+router.post('/getBatchIds', auth.authController, async (req, res) => {
     try {
         logger.info('---getBatchIds api ---');
         var fileName = `data_replay/diksha_tpd_meta.json`;
 
-        let dataObj = await readFile.storageType == "s3" ? await readFile.readS3File(fileName) : await readFile.readLocalFile(fileName);
+        let dataObj = await s3File.readFileConfig(fileName);
         logger.info('--- getBatchIds response sent ---');
         res.status(200).send(dataObj);
     } catch (e) {
@@ -56,12 +56,12 @@ router.post('/getBatchIds', auth.authController, async (req, res)=> {
     }
 });
 
-router.post('/getExamCode', auth.authController, async (req, res)=> {
+router.post('/getExamCode', auth.authController, async (req, res) => {
     try {
         logger.info('---getExamCode api ---');
         var fileName = `data_replay/pat_meta.json`;
 
-        let dataObj = await readFile.storageType == "s3" ? await readFile.readS3File(fileName) : await readFile.readLocalFile(fileName);
+        let dataObj = await s3File.readFileConfig(fileName);
         logger.info('--- getExamCode response sent ---');
         res.status(200).send(dataObj);
     } catch (e) {

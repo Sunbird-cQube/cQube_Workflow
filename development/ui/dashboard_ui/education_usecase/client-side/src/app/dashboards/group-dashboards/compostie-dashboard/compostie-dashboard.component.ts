@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { AppServiceComponent } from "../../../app.service";
 import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { environment } from "../../../../environments/environment";
@@ -10,7 +10,7 @@ import { DataSourcesService } from "../data-sources.service";
   templateUrl: './compostie-dashboard.component.html',
   styleUrls: ['./compostie-dashboard.component.css']
 })
-export class CompostieDashboardComponent implements OnInit {
+export class CompostieDashboardComponent implements OnInit, OnDestroy {
   state;
   reportGroup = "Composite Report Across Metrics"
 
@@ -38,6 +38,8 @@ export class CompostieDashboardComponent implements OnInit {
     service.logoutOnTokenExpire();
   }
 
+  timeOut;
+
   ngOnInit() {
     sessionStorage.clear();
     document.getElementById("accessProgressCard").style.display = "none";
@@ -52,20 +54,24 @@ export class CompostieDashboardComponent implements OnInit {
     //calling function to show telemetry views..................
     this.callOnInterval();
     this.getViews24hrs();
-    setInterval(() => {
+    this.timeOut = setInterval(() => {
       this.callOnInterval();
     }, 30000);
   }
 
   callOnInterval() {
     this.getViews24hrs();
-    setTimeout(() => {
+    this.timeOut = setTimeout(() => {
       this.getViews7days();
     }, 10000);
-    setTimeout(() => {
+    this.timeOut = setTimeout(() => {
       this.getViews30days();
     }, 20000);
   }
+
+ngOnDestroy(){
+  clearTimeout(this.timeOut);
+}
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);

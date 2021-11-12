@@ -6,8 +6,8 @@ const s3File = require('../../lib/reads3File');
 router.get('/dikshaMetaData', auth.authController, async (req, res) => {
     try {
         logger.info('--- dikshaMetaData api ---');
-        let fileName = `diksha/table_reports/diksha_metadata.json`
-        var tableData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let fileName = `diksha/table_reports/diksha_metadata.json`;
+        let tableData = await s3File.readFileConfig(fileName);
         if (tableData.districtDetails != null) {
             var sortedData = tableData.districtDetails.sort((a, b) => (a.district_name) > (b.district_name) ? 1 : -1)
             tableData['districtDetails'] = sortedData
@@ -25,7 +25,7 @@ router.post('/dikshaAllTableData', auth.authController, async (req, res) => {
         logger.info('--- dikshaAllTableData api ---');
         var collectionType = req.body.collectionType;
         let fileName = `diksha/table_reports/${collectionType}/All.json`
-        var tableData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let tableData = await s3File.readFileConfig(fileName);
         tableData = tableData.filter(obj => {
             if (obj.district_id == "All" && obj.district_name == '') {
                 delete obj.district_id
@@ -47,8 +47,7 @@ router.post('/dikshaDistrictTableData', auth.authController, async (req, res) =>
         var distId = req.body.districtId;
         var collectionType = req.body.collectionType;
         var fileName = `diksha/table_reports/${collectionType}/${distId}.json`;
-
-        var tableData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let tableData = await s3File.readFileConfig(fileName);
         logger.info('--- dikshaDistrictTableData api response sent ---');
         res.send(tableData)
     } catch (e) {
@@ -67,13 +66,13 @@ router.post('/dikshaTimeRangeTableData', auth.authController, async (req, res) =
         var tableData;
         if (req.body.collectionType && distId && timePeriod) {
             fileName = `diksha/table_reports/${collectionType}/${timePeriod}/${distId}.json`;
-            tableData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+            tableData = await s3File.readFileConfig(fileName);
         } else if (req.body.collectionType && distId && !timePeriod) {
             fileName = `diksha/table_reports/${collectionType}/${distId}.json`;
-            tableData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+            tableData = await s3File.readFileConfig(fileName);
         } else if (!timePeriod) {
             fileName = `diksha/table_reports/${collectionType}/All.json`;
-            tableData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+            tableData = await s3File.readFileConfig(fileName);
             tableData = tableData.filter(obj => {
                 if (obj.district_id == "All" && obj.district_name == '') {
                     delete obj.district_id
@@ -83,7 +82,7 @@ router.post('/dikshaTimeRangeTableData', auth.authController, async (req, res) =
             })
         } else if (req.body.collectionType && timePeriod) {
             fileName = `diksha/table_reports/${collectionType}/${timePeriod}/All.json`;
-            tableData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+            tableData = await s3File.readFileConfig(fileName);
             tableData = tableData.filter(obj => {
                 if (obj.district_id == "All" && obj.district_name == '') {
                     delete obj.district_id

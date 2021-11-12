@@ -9,8 +9,8 @@ router.post('/distWise', auth.authController, async (req, res) => {
         logger.info('--- diksha tpd distwise api ---');
         let { timePeriod, reportType, courses } = req.body
         var fileName = `diksha_tpd/district/${timePeriod}.json`;
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        let districtDetails = data.map(e => {
+        let jsonData = await s3File.readFileConfig(fileName);
+        let districtDetails = jsonData.map(e => {
             return {
                 district_id: e.district_id,
                 district_name: e.district_name
@@ -24,22 +24,22 @@ router.post('/distWise', auth.authController, async (req, res) => {
             return unique;
         }, []);
         if (courses.length > 0) {
-            data = data.filter(item => {
+            jsonData = jsonData.filter(item => {
                 return courses.includes(item['collection_id']);
             });
         }
-        data = data.sort((a, b) => (a.district_name) > (b.district_name) ? 1 : -1)
-        let result = await helper.generalFun(data, 0, reportType);
+        jsonData = jsonData.sort((a, b) => (a.district_name) > (b.district_name) ? 1 : -1)
+        let result = await helper.generalFun(jsonData, 0, reportType);
 
         logger.info('---diksha tpd distwise response sent ---');
-        data.map(item => {
+        jsonData.map(item => {
             if (reportType == 'percentage_teachers') {
                 delete item.collection_progress
             } else {
                 delete item.percentage_teachers
             }
         })
-        res.status(200).send({ districtDetails, result, downloadData: data });
+        res.status(200).send({ districtDetails, result, downloadData: jsonData });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

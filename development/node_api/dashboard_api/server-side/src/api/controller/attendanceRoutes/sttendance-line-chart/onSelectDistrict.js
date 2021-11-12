@@ -17,10 +17,10 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         } else {
             fileName = `attendance/trend_line_chart/state_${year}.json`;
         }
-        var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
         var mydata = [];
 
-        if (stateData[year]) {
+        if (jsonData[year]) {
             var attendanceTest = [{
                 monthId: 6,
                 month: 'June',
@@ -106,7 +106,7 @@ router.post('/stateWise', auth.authController, async (req, res) => {
                 schoolCount: undefined,
                 attendance: ''
             }]
-            stateData[year].map(data => {
+            jsonData[year].map(data => {
                 attendanceTest.map(item => {
                     if (item.monthId == data.month) {
                         item.attendance = data.attendance_percentage;
@@ -144,8 +144,8 @@ router.post('/distWise', auth.authController, async (req, res) => {
             fileName = `attendance/trend_line_chart/district/district_${year}.json`;
         }
 
-        var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
-        var keys = Object.keys(districtData);
+        let jsonData = await s3File.readFileConfig(fileName);
+        var keys = Object.keys(jsonData);
         var mydata = [];
 
         keys.map(key => {
@@ -234,7 +234,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 schoolCount: undefined,
                 attendance: ''
             }]
-            districtData[key].attendance.map(a => {
+            jsonData[key].attendance.map(a => {
                 attendanceTest.map(item => {
                     if (item.monthId == a.month) {
                         item.attendance = a.attendance_percentage;
@@ -246,7 +246,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
             });
             let obj2 = {
                 districtId: key,
-                districtName: districtData[key].district_name[0],
+                districtName: jsonData[key].district_name[0],
                 attendance: attendanceTest
             }
             mydata.push(obj2);
@@ -265,7 +265,7 @@ router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
         let fileName = `attendance/student_attendance_meta.json`;
-        let data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
+        let data = await s3File.readFileConfig(fileName);
         let date = groupArray(data, 'year');
         logger.info('--- getDateRange response sent ---');
         res.status(200).send(date);
