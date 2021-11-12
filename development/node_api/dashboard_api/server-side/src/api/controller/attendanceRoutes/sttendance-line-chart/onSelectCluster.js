@@ -16,8 +16,8 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
         } else {
             fileName = `attendance/trend_line_chart/cluster/${blockId}_${year}.json`;
         }
-        var clusterData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        var keys = Object.keys(clusterData);
+        let jsonData = await s3File.readFileConfig(fileName);
+        var keys = Object.keys(jsonData);
         var mydata = [];
 
         keys.map(key => {
@@ -106,7 +106,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 schoolCount: undefined,
                 attendance: ''
             }]
-            clusterData[key].attendance.map(a => {
+            jsonData[key].attendance.map(a => {
                 attendanceTest.map(item => {
                     if (item.monthId == a.month) {
                         item.attendance = a.attendance_percentage;
@@ -118,7 +118,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
             });
             let obj2 = {
                 clusterId: key,
-                clusterName: clusterData[key].cluster_name[0],
+                clusterName: jsonData[key].cluster_name[0],
                 attendance: attendanceTest
             }
             mydata.push(obj2);

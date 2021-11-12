@@ -9,17 +9,17 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         logger.info('---diksha tpd  school wise api ---');
         let { timePeriod, reportType, clusterId, courses } = req.body
         var fileName = `diksha_tpd/school/${timePeriod}.json`;
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
 
         if (clusterId) {
-            data = data.filter(val => {
+            jsonData = jsonData.filter(val => {
                 return (
                     val.cluster_id == clusterId
                 )
             })
         }
 
-        let schoolDetails = data.map(e => {
+        let schoolDetails = jsonData.map(e => {
             return {
                 district_id: e.district_id,
                 district_name: e.district_name,
@@ -40,15 +40,15 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         }, []);
 
         if (courses.length > 0) {
-            data = data.filter(item => {
+            jsonData = jsonData.filter(item => {
                 return courses.includes(item['collection_id']);
             });
         }
-        data = data.sort((a, b) => (a.school_name) > (b.school_name) ? 1 : -1)
-        let result = await helper.generalFun(data, 3, reportType)
+        jsonData = jsonData.sort((a, b) => (a.school_name) > (b.school_name) ? 1 : -1)
+        let result = await helper.generalFun(jsonData, 3, reportType)
 
         logger.info('--- diksha tpd  school wise response sent ---');
-        res.status(200).send({ schoolDetails, result, downloadData: data });
+        res.status(200).send({ schoolDetails, result, downloadData: jsonData });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

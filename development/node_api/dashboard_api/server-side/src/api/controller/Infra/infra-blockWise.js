@@ -16,7 +16,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         } else {
             fileName = `infra/infra_block_table.json`
         }
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let data = await s3File.readFileConfig(fileName);
 
         logger.info('--- Infra dist block api response sent ---');
         res.status(200).send(data);
@@ -39,7 +39,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
         } else {
             fileName = `infra/infra_block_table.json`
         }
-        var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let blockData = await s3File.readFileConfig(fileName);;
 
         let distId = req.params.distId
 
