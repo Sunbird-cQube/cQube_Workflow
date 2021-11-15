@@ -1263,6 +1263,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>4db031b3-48b5-3e5b-0000-000000000000</id>
+                    <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>c1a19860-6f42-3cd5-0000-000000000000</groupId>
+                        <id>5c2cdd28-83b5-30f5-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>c1a19860-6f42-3cd5-0000-000000000000</groupId>
+                        <id>75da265e-5238-3094-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>4ee8ede9-a846-3e63-0000-000000000000</id>
                     <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -6669,6 +6694,60 @@
                     <type>org.apache.nifi.csv.CSVRecordSetWriter</type>
                 </controllerServices>
                 <controllerServices>
+                    <id>db3ca44e-1e9e-3617-0000-000000000000</id>
+                    <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
+                    <bundle>
+                        <artifact>nifi-azure-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <comments></comments>
+                    <descriptors>
+                        <entry>
+                            <key>storage-account-name</key>
+                            <value>
+<name>storage-account-name</name>
+                            </value>
+                        </entry>
+                        <entry>
+                            <key>storage-account-key</key>
+                            <value>
+<name>storage-account-key</name>
+                            </value>
+                        </entry>
+                        <entry>
+                            <key>storage-sas-token</key>
+                            <value>
+<name>storage-sas-token</name>
+                            </value>
+                        </entry>
+                        <entry>
+                            <key>storage-endpoint-suffix</key>
+                            <value>
+<name>storage-endpoint-suffix</name>
+                            </value>
+                        </entry>
+                    </descriptors>
+                    <name>cQube_azure_tch_att</name>
+                    <persistsState>false</persistsState>
+                    <properties>
+                        <entry>
+                            <key>storage-account-name</key>
+                        </entry>
+                        <entry>
+                            <key>storage-account-key</key>
+                        </entry>
+                        <entry>
+                            <key>storage-sas-token</key>
+                        </entry>
+                        <entry>
+                            <key>storage-endpoint-suffix</key>
+                        </entry>
+                    </properties>
+                    <state>ENABLED</state>
+                    <type>org.apache.nifi.services.azure.storage.AzureStorageCredentialsControllerService</type>
+                </controllerServices>
+                <controllerServices>
                     <id>e081b7fd-145a-35d2-0000-000000000000</id>
                     <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
                     <bundle>
@@ -7162,7 +7241,7 @@ all category vs management</label>
                     <id>887f559a-b623-3b67-0000-000000000000</id>
                     <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-8144.0</x>
+                        <x>-8336.0</x>
                         <y>-2016.0</y>
                     </position>
                     <height>168.0</height>
@@ -7287,6 +7366,27 @@ all category vs management</label>
                         </entry>
                     </style>
                     <width>216.0</width>
+                </labels>
+                <labels>
+                    <id>f22a60b4-2ca1-32d7-0000-000000000000</id>
+                    <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-7656.0</x>
+                        <y>-2024.0</y>
+                    </position>
+                    <height>168.0</height>
+                    <label>azure List Blob</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#2345b8</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>20px</value>
+                        </entry>
+                    </style>
+                    <width>400.0</width>
                 </labels>
                 <outputPorts>
                     <id>1f5a0593-7ac1-326d-0000-000000000000</id>
@@ -9357,7 +9457,7 @@ where ff_uuid= '${files_uuid}'</value>
                     <id>17a3fce6-ce93-3cac-0000-000000000000</id>
                     <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-8112.0</x>
+                        <x>-8312.0</x>
                         <y>-1984.0</y>
                     </position>
                     <bundle>
@@ -12391,7 +12491,7 @@ file:${filename},Error while executing "${query_type}" query.</value>
                             </entry>
                             <entry>
 <key>tch_att</key>
-<value>${path:startsWith('teacher_attendance/'):or(${filename:startsWith('teacher_attendance/')})}</value>
+<value>${path:startsWith('teacher_attendance/'):or(${filename:startsWith('teacher_attendance/'):or(${azure.blobname:startsWith('teacher_attendance/')})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -13736,6 +13836,170 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse(#{tch_att_raw_school_jolt_s
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.JoltTransformJSON</type>
+                </processors>
+                <processors>
+                    <id>75da265e-5238-3094-0000-000000000000</id>
+                    <parentGroupId>c1a19860-6f42-3cd5-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-7640.0</x>
+                        <y>-1992.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-azure-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>listing-strategy</key>
+<value>
+    <name>listing-strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.serialization.RecordSetWriterFactory</identifiesControllerService>
+    <name>record-writer</name>
+</value>
+                            </entry>
+                            <entry>
+<key>container-name</key>
+<value>
+    <name>container-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-credentials-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.services.azure.storage.AzureStorageCredentialsService</identifiesControllerService>
+    <name>storage-credentials-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-account-name</key>
+<value>
+    <name>storage-account-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-account-key</key>
+<value>
+    <name>storage-account-key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-sas-token</key>
+<value>
+    <name>storage-sas-token</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-endpoint-suffix</key>
+<value>
+    <name>storage-endpoint-suffix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>prefix</key>
+<value>
+    <name>prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
+    <name>proxy-configuration-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>et-state-cache</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.distributed.cache.client.DistributedMapCacheClient</identifiesControllerService>
+    <name>et-state-cache</name>
+</value>
+                            </entry>
+                            <entry>
+<key>et-time-window</key>
+<value>
+    <name>et-time-window</name>
+</value>
+                            </entry>
+                            <entry>
+<key>et-initial-listing-target</key>
+<value>
+    <name>et-initial-listing-target</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>PRIMARY</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>listing-strategy</key>
+<value>timestamps</value>
+                            </entry>
+                            <entry>
+<key>record-writer</key>
+                            </entry>
+                            <entry>
+<key>container-name</key>
+<value>#{azure_emission_container}</value>
+                            </entry>
+                            <entry>
+<key>storage-credentials-service</key>
+<value>db3ca44e-1e9e-3617-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>storage-account-name</key>
+                            </entry>
+                            <entry>
+<key>storage-account-key</key>
+                            </entry>
+                            <entry>
+<key>storage-sas-token</key>
+                            </entry>
+                            <entry>
+<key>storage-endpoint-suffix</key>
+                            </entry>
+                            <entry>
+<key>prefix</key>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+                            </entry>
+                            <entry>
+<key>et-state-cache</key>
+                            </entry>
+                            <entry>
+<key>et-time-window</key>
+<value>3 hours</value>
+                            </entry>
+                            <entry>
+<key>et-initial-listing-target</key>
+<value>all</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>10 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>true</executionNodeRestricted>
+                    <name>azure_list_emission</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.azure.storage.ListAzureBlobStorage</type>
                 </processors>
                 <processors>
                     <id>7630d5ea-ad84-3192-0000-000000000000</id>
@@ -22015,5 +22279,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>11/09/2021 16:12:48 IST</timestamp>
+    <timestamp>11/11/2021 19:26:37 IST</timestamp>
 </template>
