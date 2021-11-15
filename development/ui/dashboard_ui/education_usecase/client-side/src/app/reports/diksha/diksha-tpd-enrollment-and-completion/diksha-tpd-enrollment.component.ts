@@ -222,45 +222,73 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
 
   //getting all chart data to show:::::::::
+
+  public enrollChartData = [];
+  public compliChartData = [];
+  public pecentChartData = [];
+  
+ 
+
   getBarChartData() {
     this.completion = [];
-    let perCompletion = [];
-    let enrComplition = [];
-    let comComplition = [];
+    let perCompletion = [],
+    enrComplition = [],
+    comComplition = [];
+    this.chartData = [];
+    this.category = [];
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
-        this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
+        // this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
+        let obj: any = {
+          name: this.result.labels[i] ? this.result.labels[i] : ' ',
+          categories: this.result.labels[i] ? ["Enrollment %", "Completion %", "Per-Complition %"]: ' '
+        }
+        this.category.push(obj);
       }
     } else {
-      this.category = this.result.labels;
+      this.result.labels.forEach(item => {
+        let obj: any = {
+          name: item, categories: ["Enrollment %", "Completion %", "Per-Complition %"]
+        }
+        this.category.push(obj);
+      })
+      // this.category = this.result.labels;
     }
     this.result.data.forEach(element => {
-      this.chartData.push(Number(element[`${this.type}`]));
-      // if (this.type != 'completion') {
-      //   this.completion.push(Number(element[`completion`]));
-      // } else {
-      //   this.completion.push(Number(element[`enrollment`]));
+      // this.chartData.push(Number(element[`${this.type}`]));
+      this.chartData.push(Number(element[`completion`]));
+      this.chartData.push(Number(element[`enrollment`]));
+     
+      this.chartData.push(Number(element[`percent_completion`]));
+     
+       
 
-      // }
-      if (this.type == 'completion') {
-          perCompletion.push(Number([element[`percent_completion`]]));
-          enrComplition.push(Number([element[`enrollment`]]))
-          this.completion.push([ [...perCompletion],[...enrComplition]])
-        } else if (this.type == 'enrollment') {
-          perCompletion.push(Number([element[`percent_completion`]]));
-          comComplition.push(Number([element[`completion`]]));
-          this.completion.push([ [...perCompletion],[...comComplition]])
-        }else if(this.type == 'percent_completion') {
-          comComplition.push(Number([element[`completion`]]));
-          enrComplition.push(Number([element[`enrollment`]]))
-          this.completion.push( [[...comComplition],[...enrComplition]])
-        }
+      // tool tip
+        perCompletion.push(Number([element[`percent_completion`]]));
+       enrComplition.push(Number([element[`enrollment`]]))
+        comComplition.push(Number([element[`completion`]]))
+        this.completion.push([[...perCompletion], [...enrComplition], [...comComplition]])
         
+      // if (this.type == 'completion') {
+      //   perCompletion.push(Number([element[`percent_completion`]]));
+      //   enrComplition.push(Number([element[`enrollment`]]))
+      //   this.completion.push([[...perCompletion], [...enrComplition]])
+      // } else if (this.type == 'enrollment') {
+      //   perCompletion.push(Number([element[`percent_completion`]]));
+      //   comComplition.push(Number([element[`completion`]]));
+      //   this.completion.push([[...perCompletion], [...comComplition]])
+      // } else if (this.type == 'percent_completion') {
+      //   comComplition.push(Number([element[`completion`]]));
+      //   enrComplition.push(Number([element[`enrollment`]]))
+      //   this.completion.push([[...comComplition], [...enrComplition]])
+      // }
+
     });
     this.footer = (this.chartData.reduce((a, b) => Number(a) + Number(b), 0)).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
     this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
   }
+
 
   //Showing district data based on selected id:::::::::::::::::
   distLinkClick(districtId) {

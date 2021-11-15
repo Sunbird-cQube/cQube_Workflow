@@ -15,6 +15,7 @@ import { DikshaTpdEnrollmentComponent } from './diksha-tpd-enrollment-and-comple
 import { DikshaTpdCompletionComponent } from './diksha-tpd-completion-percentage/diksha-tpd-completion.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { MultiBarChartComponent } from './multi-bar-chart/multi-bar-chart.component';
 
 const dikshaRoutes: Routes = [
   {
@@ -59,6 +60,7 @@ const dikshaRoutes: Routes = [
     DikshaTpdEnrollmentComponent,
     DikshaTpdCompletionComponent,
     BarChartComponent,
+    MultiBarChartComponent
   ],
   imports: [
     CommonModule,
