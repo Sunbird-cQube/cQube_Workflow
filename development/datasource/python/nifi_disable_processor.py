@@ -3,18 +3,30 @@ from connect_nifi_processors import get_processor_group_ports
 
 
 def data_storage_disable_processor(processor_group_name, data_storage_type):
-    disable_processor_name = ""
+    disable_processor_names = []
     if data_storage_type == "s3":
-        disable_processor_name = "data_storage_ListFile"
+        disable_processor_names =["data_storage_ListFile","azure_list_emission"]
+        for processor_name in disable_processor_names:
+            # disable the nifi processor
+            nifi_enable_disable_processor(processor_group_name, processor_name,"DISABLED")
+            nifi_enable_disable_processor(processor_group_name, processor_name,"DISABLED")
+            
     elif data_storage_type == "local":
-        disable_processor_name = "s3_list_emission"
-
-    # disable the nifi processor
-    nifi_enable_disable_processor(processor_group_name, disable_processor_name,"DISABLED")
-
-
+        disable_processor_names = ["s3_list_emission","azure_list_emission"]
+        for processor_name in disable_processor_names:
+            # disable the nifi processor
+            nifi_enable_disable_processor(processor_group_name, processor_name,"DISABLED")
+            nifi_enable_disable_processor(processor_group_name, processor_name,"DISABLED")
+            
+    elif data_storage_type == "azure":
+        disable_processor_names = ["s3_list_emission","data_storage_ListFile"]
+        for processor_name in disable_processor_names:
+            # disable the nifi processor
+            nifi_enable_disable_processor(processor_group_name, processor_name,"DISABLED")
+            nifi_enable_disable_processor(processor_group_name, processor_name,"DISABLED")
+        
+        
 def nifi_enable_disable_processor(processor_group_name, processor_name,state):
-
     pg_source = get_processor_group_ports(processor_group_name)
     if pg_source.status_code == 200:
         for i in pg_source.json()['processGroupFlow']['flow']['processors']:
@@ -23,6 +35,7 @@ def nifi_enable_disable_processor(processor_group_name, processor_name,state):
                                 "state": state, "disconnectedNodeAcknowledged": False}
                 disable_response = rq.put(
                     f"{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/processors/{i['component']['id']}/run-status", json=disable_body, headers=header)
+                
                 if disable_response.status_code == 200:
                     if state=="STOPPED": 
                         state="ENABLED"
@@ -134,3 +147,4 @@ if __name__ == "__main__":
         emission_method = sys.argv[4]
         # disable processor based on emission method.
         diksha_enable_disable_processor(processor_group_name.lower(), storage_type.lower(), dataset.lower(), emission_method.lower())
+
