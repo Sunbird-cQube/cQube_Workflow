@@ -9,26 +9,11 @@
 
         "parameters":[
             {
-                "parameter":{"name":"s3_emission_bucket",
-                        "value":"{{ s3_emission_bucket }}"
-                            }
-            },
-            {
-                "parameter":{"name":"s3_input_bucket",
-                        "value":"{{ s3_input_bucket }}"
-                            }
-            },
-            {
-                "parameter":{"name":"s3_output_bucket",
-                        "value":"{{ s3_output_bucket }}"
-                            }
-            },
-            {
                 "parameter":{"name":"base_dir",
                         "value":"{{ base_dir }}"
                             }
             },
-	    {
+	    	{
                 "parameter":{"name":"db_user",
                         "value":"{{ db_user }}"
                             }
@@ -53,19 +38,7 @@
                         "value":"{{ db_connection_url }}"
                             }
             },
-	    {
-                "parameter":{"name":"s3_access_key",
-		"sensitive": true,	
-                        "value":"{{ s3_access_key }}"
-                            }
-            },
-	    {
-                "parameter":{"name":"s3_secret_key",
-                "sensitive": true,
-                        "value":"{{ s3_secret_key }}"
-                            }
-            },
-	    {
+	    	{
                 "parameter":{"name":"db_password",
                 "sensitive": true,
                         "value":"{{ db_password }}"

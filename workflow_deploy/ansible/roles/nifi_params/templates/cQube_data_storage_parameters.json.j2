@@ -29,11 +29,6 @@
                             }
             },
 	        {
-                "parameter":{"name":"base_dir",
-                        "value":"{{ base_dir }}"
-                            }
-            },
-	        {
                 "parameter":{"name":"db_user",
                         "value":"{{ db_user }}"
                             }
@@ -58,19 +53,19 @@
                         "value":"{{ db_connection_url }}"
                             }
             },
-	    {
+	        {
                 "parameter":{"name":"s3_access_key",
-		"sensitive": true,	
+		        "sensitive": true,	
                         "value":"{{ s3_access_key }}"
                             }
             },
-	    {
+	        {
                 "parameter":{"name":"s3_secret_key",
                 "sensitive": true,
                         "value":"{{ s3_secret_key }}"
                             }
             },
-	    {
+	        {
                 "parameter":{"name":"db_password",
                 "sensitive": true,
                         "value":"{{ db_password }}"
@@ -101,6 +96,34 @@
                         "value":"{{ storage_type }}"
                             }
             }
+			{
+                "parameter":{"name":"abs_emission_container",
+                        "value":"{{ azure_emission_container }}"
+                            }
+            },
+            {
+                "parameter":{"name":"abs_input_container",
+                        "value":"{{ azure_input_container }}"
+                            }
+            },
+            {
+                "parameter":{"name":"abs_output_container",
+                        "value":"{{ azure_output_container }}"
+                            }
+            },
+            {
+                "parameter":{"name":"abs_account_name",
+                "sensitive": true,
+                        "value":"{{ azure_account_name }}"
+                            }
+            },
+            {
+                "parameter":{"name":"abs_account_key",
+                "sensitive": true,
+                        "value":"{{ azure_account_key }}"
+                            }
+            }
+
 
 
         ]
