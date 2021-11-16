@@ -105,6 +105,11 @@ const tpdClusterWise = require('./controller/diksha/tpd-heatChart/clusterWise');
 const tpdSchoolWise = require('./controller/diksha/tpd-heatChart/schoolWise');
 const courseFilter = require('./controller/diksha/tpd-heatChart/courseFilter');
 
+// Diskha TPD/ETD MAP
+
+const tpdMapDistwise = require('./controller/diksha/map-report/tpd-map-report/distWise');
+const etbMapDistwise = require('./controller/diksha/map-report/etb-map-report/distWise');
+
 //diksha TPD enrollment/completion
 const distLevel = require('./controller/diksha/tpd-enroll-completion/distWise');
 const blockLevel = require('./controller/diksha/tpd-enroll-completion/blockWise');
@@ -243,6 +248,11 @@ router.use('/tpd', distLevel);
 router.use('/tpd', blockLevel);
 router.use('/tpd', clusterLevel);
 router.use('/tpd', schoolLevel);
+
+// disha Tpd/Etb map api
+
+router.use('/tpdMap', tpdMapDistwise)
+router.use('/etbMap', etbMapDistwise)
 
 //download raw data
 const fileDownload = require('./controller/rawDataDownload');
