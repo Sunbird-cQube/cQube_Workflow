@@ -134,6 +134,7 @@ export class BarChartComponent implements OnInit {
               return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             }
           },
+          
           name: this.xAxisLabel,
           data: this.data
         }

@@ -18,7 +18,6 @@ router.post('/distWise', auth.authController, async (req, res) => {
         }
         let districtData = await s3File.readFileConfig(fileName);
         var mydata = districtData.data;
-
         logger.info('--- Infra dist wise api response sent ---');
         res.status(200).send({ data: mydata, footer: districtData.allDistrictsFooter.totalSchools });
     } catch (e) {

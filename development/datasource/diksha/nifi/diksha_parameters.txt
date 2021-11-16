@@ -398,5 +398,101 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
 "diksha_data_summary_select_less_columns_api":"""select "Date",dimensions_pdata_id,dimensions_pdata_pid,dimensions_mode,dimensions_type,content_name,content_board,content_mimetype,content_medium,content_subject,content_created_for,
 object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,collection_type,
 collection_medium,collection_subject,collection_created_for,total_count,total_timespent  from flowfile""",
-"diksha_summary_rollup_post_agg_qry":"""select insert_diksha_year_month();"""
+"diksha_summary_rollup_post_agg_qry":"""select insert_diksha_year_month();""",
+"diksha_map_state_etb_jolt_spec":"""[{
+		"operation": "shift",
+		"spec": {
+			"*": {
+				"district_id": "data.[&1].district_id",
+				"district_name": "data.[&1].district_name",
+				"district_latitude": "data.[&1].latitude",
+				"district_longitude": "data.[&1].longitude",
+				"@total_time_spent": "data.[&1].total_time_spent",
+				"@avg_time_spent": "data.[&1].avg_time_spent",
+				"@total_content_plays": "data.[&1].total_content_plays",
+				"total_content_plays": "footer.total_content_plays[]",
+				"total_time_spent": "footer.total_time_spent[]",
+				"avg_time_spent": "footer.avg_time_spent[]"
+			}
+		}
+	},
+
+	{
+		"operation": "modify-overwrite-beta",
+		"spec": {
+			"footer": {
+				"total_content_plays": "=intSum(@(1,total_content_plays))",
+				"total_time_spent": "=intSum(@(1,total_time_spent))",
+				"avg_time_spent": "=intSum(@(1,avg_time_spent))"
+			}
+		}
+	}
+
+]""",
+"diksha_map_state_tpd_jolt_spec":"""[{
+		"operation": "shift",
+		"spec": {
+			"*": {
+				"district_id": "data.[&1].district_id",
+				"district_name": "data.[&1].district_name",
+				"district_latitude": "data.[&1].latitude",
+				"district_longitude": "data.[&1].longitude",
+				"@total_time_spent": "data.[&1].total_time_spent",
+				"@avg_time_spent": "data.[&1].avg_time_spent",
+				"@total_content_plays": "data.[&1].total_content_plays",
+				"total_content_plays": "footer.total_content_plays[]",
+				"total_time_spent": "footer.total_time_spent[]",
+				"avg_time_spent": "footer.avg_time_spent[]"
+			}
+		}
+	},
+
+	{
+		"operation": "modify-overwrite-beta",
+		"spec": {
+			"footer": {
+				"total_content_plays": "=intSum(@(1,total_content_plays))",
+				"total_time_spent": "=intSum(@(1,total_time_spent))",
+				"avg_time_spent": "=intSum(@(1,avg_time_spent))"
+			}
+		}
+	}
+
+]""",
+"diksha_line_state_etb_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": "data"
+    }
+  }
+]""",
+"diksha_pie_etb_district_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data[].@(1,district_id)"
+      }
+    }
+  }
+]""",
+"diksha_pie_etb_meta_district_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "Districts[]"
+      }
+    }
+  }
+]""",
+"diksha_pie_etb_state_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": "data"
+    }
+  }
+]"""
 }

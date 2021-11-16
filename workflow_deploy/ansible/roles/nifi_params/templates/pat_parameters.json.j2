@@ -14,21 +14,11 @@
                             }
             },
             {
-                "parameter":{"name":"s3_input_bucket",
-                        "value":"{{ s3_input_bucket }}"
-                            }
-            },
-            {
-                "parameter":{"name":"s3_output_bucket",
-                        "value":"{{ s3_output_bucket }}"
-                            }
-            },
-            {
                 "parameter":{"name":"base_dir",
                         "value":"{{ base_dir }}"
                             }
             },
-	    {
+	    	{
                 "parameter":{"name":"db_user",
                         "value":"{{ db_user }}"
                             }
@@ -53,19 +43,19 @@
                         "value":"{{ db_connection_url }}"
                             }
             },
-	    {
+	    	{
                 "parameter":{"name":"s3_access_key",
-		"sensitive": true,	
+				"sensitive": true,	
                         "value":"{{ s3_access_key }}"
                             }
             },
-	    {
+	    	{
                 "parameter":{"name":"s3_secret_key",
                 "sensitive": true,
                         "value":"{{ s3_secret_key }}"
                             }
             },
-	    {
+	    	{
                 "parameter":{"name":"db_password",
                 "sensitive": true,
                         "value":"{{ db_password }}"
@@ -75,9 +65,25 @@
                 "parameter":{"name":"emission_directory",
                         "value":"{{ emission_directory }}"
                             }
-            }    
+            },
+			{
+                "parameter":{"name":"azure_emission_container",
+                        "value":"{{ azure_emission_container }}"
+                            }
+            },
+			{
+                "parameter":{"name":"azure_account_name",
+                "sensitive": true,
+                        "value":"{{ azure_account_name }}"
+                            }
+            },
+            {
+                "parameter":{"name":"azure_account_key",
+                "sensitive": true,
+                        "value":"{{ azure_account_key }}"
+                            }
+            }
 
         ]
-
 }
 }

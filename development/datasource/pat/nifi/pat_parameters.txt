@@ -784,7 +784,6 @@ SUM(CASE when exam_date IS NULL THEN 1 ELSE 0 END) AS count_null_exam_date,
 SUM(CASE when total_questions IS NULL THEN 1 ELSE 0 END) AS count_null_total_questions,
 SUM(CASE when total_marks IS NULL THEN 1 ELSE 0 END) AS count_null_total_marks
 from flowfile)""",
-"pat_periodic_result_temp_table_name":"""periodic_exam_result_temp""",
 "pat_queries_filename":"""pat_queries.json""",
 "periodic_exam_result_stg_2_to_trans_qry":"""
 insert into periodic_exam_result_trans(id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks)
@@ -1266,7 +1265,7 @@ HAVING  COUNT(*) > 1""",
     }
 	}]
 """,
-"pat_management_exam_year_month":"""${query_type:startsWith('pat_management_exam_district_year_month'):or(${query_type:startsWith('pat_management_exam_cluster_year_month'):or(${query_type:startsWith('pat_management_exam_block_year_month'):or(${query_type:startsWith('pat_management_exam_school_year_month')})})})}""",
+
 "periodic_exam_subject_details_check_if_null":"""select * from flowfile
 where subject_id is null or grade is null""",
 "pat_periodic_exam_subject_details_dup_table_name":"""pat_subject_details_dup""",
