@@ -26,6 +26,9 @@ def data_storage_disable_processor(processor_group_name, data_storage_type):
             nifi_enable_disable_processor(processor_group_name, processor_name,"DISABLED")
         
         
+    
+
+
 def nifi_enable_disable_processor(processor_group_name, processor_name,state):
     pg_source = get_processor_group_ports(processor_group_name)
     if pg_source.status_code == 200:
@@ -49,10 +52,11 @@ def diksha_enable_disable_processor(processor_group_name, storage_type, dataset,
     # ETB
     if dataset == "etb":
         if emission_method == "emission":
-            disable_processor = ['diksha_api_summary_rollup_get_today_request']
+            disable_processor = ['diksha_api_summary_rollup_trigger']
             enable_processor =[]
+            
             if storage_type == 'local':
-                disable_processor.append("s3_list_emission_ETB")
+                disable_processor.append(["s3_list_emission_ETB","azure_list_emission_ETB"])
                 enable_processor.append("diksha_ListFile_ETB")
                 
                 for i in disable_processor:
@@ -61,22 +65,32 @@ def diksha_enable_disable_processor(processor_group_name, storage_type, dataset,
                 for i in enable_processor:
                     # enable the nifi processor
                     nifi_enable_disable_processor(processor_group_name, i,"STOPPED")
-                    
+            
             elif storage_type == 's3':
-                disable_processor.append("diksha_ListFile_ETB")
+                disable_processor.append(["diksha_ListFile_ETB","azure_list_emission_ETB"])
                 enable_processor.append("s3_list_emission_ETB")
                 
-            for i in disable_processor:
-                # disable the nifi processor
-                nifi_enable_disable_processor(processor_group_name, i,"DISABLED")
-            for i in enable_processor:
+                for i in disable_processor:
+                    # disable the nifi processor
+                    nifi_enable_disable_processor(processor_group_name, i,"DISABLED")
+                for i in enable_processor:                    
+                    # enable the nifi processor
+                    nifi_enable_disable_processor(processor_group_name, i,"STOPPED")
+            
+            elif storage_type == 'azure':
+                disable_processor.append(["diksha_ListFile_ETB","s3_list_emission_ETB"])
+                enable_processor.append("azure_list_emission_ETB")
+                for i in disable_processor:
+                    # disable the nifi processor
+                    nifi_enable_disable_processor(processor_group_name, i,"DISABLED")
+                for i in enable_processor:                    
                     # enable the nifi processor
                     nifi_enable_disable_processor(processor_group_name, i,"STOPPED")
 
         elif emission_method == "api":
             # add the lists3,listfile processors
-            disable_processor = ['diksha_ListFile_ETB', 's3_list_emission_ETB']
-            enable_processor=["diksha_api_summary_rollup_get_today_request"]
+            disable_processor = ['diksha_ListFile_ETB', 's3_list_emission_ETB','azure_list_emission_ETB']
+            enable_processor=["diksha_api_summary_rollup_trigger"]
             for i in disable_processor:
                 # disable the nifi processor
                 nifi_enable_disable_processor(processor_group_name, i,"DISABLED")
@@ -91,7 +105,7 @@ def diksha_enable_disable_processor(processor_group_name, storage_type, dataset,
             disable_processor = ['diksha_api_progress_exhaust_get_today_request']
             enable_processor =[]
             if storage_type == 'local':
-                disable_processor.append("s3_list_emission_TPD")
+                disable_processor.append(["s3_list_emission_TPD","azure_list_emission_TPD"])
                 enable_processor.append("diksha_ListFile_TPD")
                 
                 for i in disable_processor:
@@ -102,19 +116,30 @@ def diksha_enable_disable_processor(processor_group_name, storage_type, dataset,
                     nifi_enable_disable_processor(processor_group_name, i,"STOPPED")
                     
             elif storage_type == 's3':
-                disable_processor.append("diksha_ListFile_TPD")
+                disable_processor.append(["diksha_ListFile_TPD","azure_list_emission_TPD"])
                 enable_processor.append("s3_list_emission_TPD")
                 
-            for i in disable_processor:
-                # disable the nifi processor
-                nifi_enable_disable_processor(processor_group_name, i,"DISABLED")
-            for i in enable_processor:
+                for i in disable_processor:
+                    # disable the nifi processor
+                    nifi_enable_disable_processor(processor_group_name, i,"DISABLED")
+                for i in enable_processor:
+                    # enable the nifi processor
+                    nifi_enable_disable_processor(processor_group_name, i,"STOPPED")
+            
+            elif storage_type == 'azure':
+                disable_processor.append(["diksha_ListFile_TPD","s3_list_emission_TPD"])
+                enable_processor.append("azure_list_emission_TPD")
+                
+                for i in disable_processor:
+                    # disable the nifi processor
+                    nifi_enable_disable_processor(processor_group_name, i,"DISABLED")
+                for i in enable_processor:
                     # enable the nifi processor
                     nifi_enable_disable_processor(processor_group_name, i,"STOPPED")
 
         elif emission_method == "api":
             # add the lists3,listfile processors
-            disable_processor = ['diksha_ListFile_TPD', 's3_list_emission_TPD']
+            disable_processor = ['diksha_ListFile_TPD', 's3_list_emission_TPD','azure_list_emission_TPD']
             enable_processor=["diksha_api_progress_exhaust_get_today_request"]
             for i in disable_processor:
                 # disable the nifi processor
@@ -130,6 +155,7 @@ if __name__ == "__main__":
     sys arguments = 1.Processor group name. 2.Data storage type
     Disables the processor based on data storage type
     Ex: python nifi_disable_processor.py student_attendance_transformer s3
+        python nifi_disable_processor.py diksha_transformer local ETB emission
     """
     header = {"Content-Type": "application/json"}
     print("length=", len(sys.argv))

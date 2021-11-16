@@ -201,8 +201,8 @@ def update_controller_service_property(processor_group_name, controller_name):
             "name": controller_name,
             "comments": "update from deploy_nifi.py",
             "properties": {
-                "storage-account-name": "#{abs_account_name}",
-                "storage-account-key": "#{abs_account_key}"
+                "storage-account-name": "#{azure_account_name}",
+                "storage-account-key": "#{azure_account_key}"
             }
         },
         "revision": {
