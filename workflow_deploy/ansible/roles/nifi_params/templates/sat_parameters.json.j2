@@ -13,6 +13,11 @@
                         "value":"{{ s3_emission_bucket }}"
                             }
             },
+			{
+                "parameter":{"name":"base_dir",
+                        "value":"{{ base_dir }}"
+                            }
+            },
 	    	{
                 "parameter":{"name":"db_user",
                         "value":"{{ db_user }}"
@@ -62,23 +67,22 @@
                             }
             },
 			{
-                "parameter":{"name":"abs_emission_container",
+                "parameter":{"name":"azure_emission_container",
                         "value":"{{ azure_emission_container }}"
                             }
             },
 			{
-                "parameter":{"name":"abs_account_name",
+                "parameter":{"name":"azure_account_name",
                 "sensitive": true,
                         "value":"{{ azure_account_name }}"
                             }
             },
             {
-                "parameter":{"name":"abs_account_key",
+                "parameter":{"name":"azure_account_key",
                 "sensitive": true,
                         "value":"{{ azure_account_key }}"
                             }
             }
-
 
         ]
 
