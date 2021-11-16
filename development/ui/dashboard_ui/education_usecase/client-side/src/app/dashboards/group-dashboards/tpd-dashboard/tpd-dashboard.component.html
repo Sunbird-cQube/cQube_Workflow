@@ -136,14 +136,14 @@
             </div>
 
 
-            <!-- <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-completion']"
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-total-content-plays']"
                     (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -158,14 +158,45 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>TPD Completion Percentage</h6>
+                            <h6>TPD Total Content Plays</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
                         </div>
                     </div>
                 </span>
-            </div> -->
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/etb-total-content-plays']"
+                    (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="tpdcompViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
+                                        :</strong>
+                                    {{tpdcompViews}}
+                                </p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>ETB Total Content Plays</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
         </div>
     </div>
 </div>

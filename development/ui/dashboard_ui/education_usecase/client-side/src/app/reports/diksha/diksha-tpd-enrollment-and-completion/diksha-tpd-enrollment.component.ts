@@ -25,7 +25,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public chartData: Number[] = [];
   // public completion: Number[] = [];
   public completion: any
-  public xAxisLabel: String = "Enrollment";
+  public xAxisLabel: String = "Percentage";
   public yAxisLabel: String;
   public reportName: String = "enrollment_completion";
   public report = "enroll/comp"
@@ -241,14 +241,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         // this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
         let obj: any = {
           name: this.result.labels[i] ? this.result.labels[i] : ' ',
-          categories: this.result.labels[i] ? ["Enrollment %", "Completion %", "Per-Complition %"]: ' '
+          categories: this.result.labels[i] ? ["% Enrolled", " % Completed", "% Certificates"]: ' '
         }
         this.category.push(obj);
       }
     } else {
       this.result.labels.forEach(item => {
         let obj: any = {
-          name: item, categories: ["Enrollment %", "Completion %", "Per-Complition %"]
+          name: item, categories: ["% Enrolled", " % Completed", "% Certificates"]
         }
         this.category.push(obj);
       })
