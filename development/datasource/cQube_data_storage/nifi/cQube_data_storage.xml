@@ -29481,9 +29481,13 @@ ${query_type:startsWith('diksha_tpd_r2_raw_last_30_days'):ifElse('diksha_raw_dat
 ${query_type:startsWith('diksha_tpd_r2_raw_overall'):ifElse('diksha_raw_data/tpd_report2/overall/overall.csv',
 ${query_type:startsWith('diksha_map_etb_state'):ifElse('diksha/map/state.json',
 ${query_type:startsWith('diksha_map_tpd_state'):ifElse('diksha_tpd/map/state.json',
-${query_type:startsWith('diksha_line_etb_state'):ifElse('diksha/line/state.json','None')} 
+${query_type:startsWith('diksha_line_etb_state'):ifElse('diksha/line/state.json',
+${query_type:startsWith('diksha_pie_etb_state'):ifElse('diksha/pie/state.json',
+${query_type:startsWith('diksha_pie_etb_district'):ifElse('diksha/pie/district.json',
+${query_type:startsWith('diksha_pie_etb_district_meta'):ifElse('diksha/pie/district_meta.json','None')}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )}</value>
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )}
+)})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -77639,5 +77643,5 @@ ${query_type:startsWith('tch_att_raw_school'):ifElse("teacher_attendance/raw/tea
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>11/15/2021 12:58:59 IST</timestamp>
+    <timestamp>11/16/2021 14:33:21 IST</timestamp>
 </template>
