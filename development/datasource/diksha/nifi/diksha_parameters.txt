@@ -466,5 +466,33 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
       "*": "data"
     }
   }
+]""",
+"diksha_pie_etb_district_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data[].@(1,district_id)"
+      }
+    }
+  }
+]""",
+"diksha_pie_etb_meta_district_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "Districts[]"
+      }
+    }
+  }
+]""",
+"diksha_pie_etb_state_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": "data"
+    }
+  }
 ]"""
 }
