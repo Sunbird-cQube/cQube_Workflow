@@ -103,5 +103,15 @@ function saveToLocal(fileName, formData, report) {
     })
 }
 
+//azure config
+var azure = require('azure-storage');
+const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+var containerName = process.env.AZURE_OUTPUT_STORAGE;
+
+function saveToAzure(fileName, formData){
+    
+}
+
 
 module.exports = { saveToS3, saveToLocal };

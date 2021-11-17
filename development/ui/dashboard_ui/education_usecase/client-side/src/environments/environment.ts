@@ -13,7 +13,7 @@ export const environment = {
   stateName: "GJ",
   useCase: "education_usecase",
   diksha_columns: false,
-  theme: "theme2",
+  theme: "theme1",
   mapName: "mapmyindia",
   progressCardConfig: ['33', '33-60', '60-75', '75'],
   report_viewer_config_otp: false
