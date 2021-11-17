@@ -18,6 +18,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultiBarChartComponent } from './multi-bar-chart/multi-bar-chart.component';
 import { TpdTotalContentPlaysComponent } from './map-reports/tpd-total-content-plays/tpd-total-content-plays.component';
 import { EtbTotalContentPlaysComponent } from './map-reports/etb-total-content-plays/etb-total-content-plays.component';
+import { ContentUsagePieChartComponent } from './content-usage-pie-chart/content-usage-pie-chart.component';
 
 const dikshaRoutes: Routes = [
   {
@@ -54,6 +55,9 @@ const dikshaRoutes: Routes = [
       },
       {
         path: 'etb-total-content-plays', component: EtbTotalContentPlaysComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      },
+      {
+        path: 'content-usage-pie-chart', component: ContentUsagePieChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }
@@ -70,7 +74,8 @@ const dikshaRoutes: Routes = [
     BarChartComponent,
     MultiBarChartComponent,
     TpdTotalContentPlaysComponent,
-    EtbTotalContentPlaysComponent
+    EtbTotalContentPlaysComponent,
+    ContentUsagePieChartComponent
   ],
   imports: [
     CommonModule,
