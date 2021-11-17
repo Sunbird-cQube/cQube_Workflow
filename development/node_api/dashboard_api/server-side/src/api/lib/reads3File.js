@@ -68,22 +68,7 @@ const readFromBlob = async (blobName) => {
     });
 };
 
-
-function uploadFileAzure(containerName) {
-    blobService.createBlockBlobFromLocalFile(containerName, 'storage/taskblob.json', 'input.json', function (error, result, response) {
-        if (!error) {
-            console.log("File uploaded")
-            fs.unlinkSync('input.json');
-        } else {
-            console.log(error);
-        }
-    });
-}
-
-
-
 const readFileConfig = async (fileName) => {
-    // uploadFileAzure(containerName);
     var data;
     if (storageType == "s3") {
         data = await readS3File(fileName);
