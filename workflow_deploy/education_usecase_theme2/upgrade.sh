@@ -56,7 +56,7 @@ ansible-playbook ../ansible/upgrade.yml --tags "update" --extra-vars "@$base_dir
                                                          --extra-vars "usecase_name=education_usecase_theme2"
 fi
 if [ $? = 0 ]; then
-. "install_ui.sh"
+. "update_ui.sh"
     if [ $? = 0 ]; then
        echo "cQube Workflow upgraded successfully!!"
     fi
