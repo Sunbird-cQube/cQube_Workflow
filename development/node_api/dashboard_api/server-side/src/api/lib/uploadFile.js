@@ -105,13 +105,84 @@ function saveToLocal(fileName, formData, report) {
 
 //azure config
 var azure = require('azure-storage');
+const { storageType } = require('./reads3File');
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
 var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
-var containerName = process.env.AZURE_OUTPUT_STORAGE;
+const containerName = process.env.AZURE_OUTPUT_STORAGE;
 
-function saveToAzure(fileName, formData){
-    
+const saveToAzure = async (containerName, fileName, formData, localFile) => {
+    let file = inputDir + fileName;
+    // let res = await readFromBlob(containerName, fileName);
+    // console.log(res);
+    // if (res) {
+    // res.forEach(item => {
+    //     formData.push(item);
+    // })
+    // }
+    jsonexport(formData, function (error, csv) {
+        let data = csv.replace(/,/g, '|');
+        fs.writeFile(file, data, async (err) => {
+            // console.log("::::write:::::::", file)
+            if (err) {
+                console.log(err);
+            } else {
+                await deleteAzure(containerName, fileName);
+                await uploadFileAzure(containerName, fileName, localFile);
+            }
+        });
+    });
+}
+
+const readFromBlob = async (containerName, blobName) => {
+    return new Promise((resolve, reject) => {
+        blobService.getBlobToText(containerName, blobName, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(JSON.parse(data));
+            }
+        });
+    });
+};
+
+
+const deleteAzure = (containerName, blobName) => {
+    return new Promise((resolve, reject) => {
+        blobService.deleteBlobIfExists(containerName, blobName, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
+const uploadFileAzure = (containerName, fileName, localFile) => {
+    blobService.createBlockBlobFromLocalFile(containerName, fileName, localFile, function (error, result, response) {
+        if (!error) {
+            console.log("File uploaded")
+            fs.unlinkSync('input.json');
+        } else {
+            console.log(error);
+        }
+    });
 }
 
 
-module.exports = { saveToS3, saveToLocal };
+const uploadFiles = async (containerName, fileName, formData, type) => {
+    let response;
+    if (storageType == 's3') {
+        response = await saveToS3(fileName, formData)
+    } else if (storageType == 'local') {
+        response = await saveToLocal(fileName, formData, type);
+    } else if (storageType == 'azure') {
+        fileName = inputDir + fileName;
+        let localFile = fileName;
+        response = await saveToAzure(containerName, fileName, formData, localFile)
+    }
+    return response;
+}
+
+
+module.exports = { saveToS3, saveToLocal, saveToAzure, uploadFiles };
