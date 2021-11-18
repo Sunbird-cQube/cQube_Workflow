@@ -472,8 +472,15 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "operation": "shift",
     "spec": {
       "*": {
-        "@": "data[].@(1,district_id)"
+        "@collection_type": "data.@(1,district_id).[&1].collection_type",
+        "@total_content_plays_percent": "data.@(1,district_id).[&1].total_content_plays_percent"
       }
+    }
+  },
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
     }
   }
 ]""",
