@@ -43,22 +43,22 @@
           <div class="row" style="margin-bottom: 10px">
             <div class="col-sm-12">
     
-              <!-- <select id="choose_infra" [(ngModel)]="infraData" (change)="oninfraSelect(infraData)">
-                <option [value]="infraData" disabled selected="selected">
-                  Choose a Infrastructure
+               <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+                <option [value]="selectedDist" disabled selected="selected">
+                  Choose a District
+                </option>
+                <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
+                  {{ dist.district_name }}
+                </option>
+              </select> 
+              <!-- <select id="choose_infra" >
+                <option  disabled selected="selected">
+                  Choose a District
                 </option>
                 <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
                   {{ infra.value }}
                 </option>
               </select> -->
-              <select id="choose_infra" >
-                <option  disabled selected="selected">
-                  Choose a District
-                </option>
-                <!-- <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
-                  {{ infra.value }}
-                </option> -->
-              </select>
              
             </div>
           </div>

@@ -11,23 +11,87 @@ import { ContentUsagePieService } from 'src/app/services/content-usage-pie.servi
 export class ContentUsagePieChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions;
+
+  public pieData 
+  public stateData = [];
+  distData:any
   constructor(public service:ContentUsagePieService) { }
 
   ngOnInit(): void {
-    this.createPieChart()
-    this.getStateData()
+    this.getStateData();
+    this.getDistData();
+    
   }
  
-  pieData 
+ 
+
  getStateData(){
       this.service.dikshaPieState().subscribe(res => {
-          this.pieData = res['data'];
-          
+          this.pieData = res['data'].data;
+         this.stateData = this.restructurePieChartData(this.pieData)
+         this.createPieChart(this.stateData);
+         this.getDistMeta();
       })
+    
+ }
+  
+
+   restructurePieChartData(pieData){
+      let data:any = []
+    pieData.forEach( item => {
+       data.push({
+            name: item.collection_type,
+            y: Number((Math.round(item.total_content_plays_percent * 100) / 100).toFixed(2))
+        })
+      }) 
+      return data
+   }
+
+
+ /// distData
+ getDistData(){
+     try {
+        this.service.dikshaPieDist().subscribe(res => {
+            this.distData = res['data'];
+          console.log('dist',this.distData)
+            }) 
+     } catch (error) {
+          console.log(error)
+     }
+   
  }
 
-  createPieChart(){
+    public distMetaData;
+     public distToDropDown
+  /// distMeta
+  getDistMeta(){
+    try {
+       this.service.diskshaPieMeta().subscribe(res => {
+           this.distMetaData = res['data'];
+           console.log('metaData', this.distMetaData)
+          this.distToDropDown = this.distMetaData.Districts.map( (dist:any) =>{
+              return dist
+          })
+        //   console.log('drop',this.distToDropDown)
+           }) 
+    } catch (error) {
+        //  console.log(error)
+    }
+  
+}
 
+ public selectedDist
+
+  onDistSelected(data){
+    this.selectedDist = data;
+     let distWiseData = this.distData[this.selectedDist]
+     let distPieData = this.restructurePieChartData(distWiseData)
+     this.createPieChart(distPieData)
+    console.log('selected', data)
+  }
+
+  createPieChart(data){
+    console.log('inside', this.stateData);
     this.chartOptions = { 
       chart: {
         plotBackgroundColor: 'transparent',
@@ -36,6 +100,7 @@ export class ContentUsagePieChartComponent implements OnInit {
         type: 'pie',
         backgroundColor: 'transparent'
     },
+    colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
     title: {
         text: 'Total'
     },
@@ -71,34 +136,35 @@ export class ContentUsagePieChartComponent implements OnInit {
             showInLegend: true
         }
     },
+    
     series: [{
         name: 'Percentage',
         colorByPoint: true,
-        data: [{
-            name: 'Content',
-            y: 61.41,
-            // sliced: true,
-            // selected: true
-        }, {
-            name: 'Course Assesment',
-            y: 11.84
-        }, {
-            name: 'Course unit',
-            y: 10.85
-        }, {
-            name: 'eTextbook',
-            y: 4.67
-        }, {
-            name: 'content PlayList',
-            y: 4.18
-        }, {
-            name: 'classRoomTeachingVideos',
-            y: 1.64
-        } ]
+        data: data
+        // data: [{
+        //     name: "Collection",
+        //      y: 0.01
+        //     // sliced: true,
+        //     // selected: true
+        // }, {
+        //     name: "Course",
+        //     y: 88.47
+        // }, {
+        //     name: "CourseUnit",
+        //     y: 0
+        // }, {
+        //     name: "LessonPlan",
+        //     y: 0
+        // }, {
+        //     name: "TextBook",
+        //     y: 11.51
+        // }, {
+        //     name: "TextBookUnit",
+        //     y: 0.01
+        // } ]
     }]
     };
     this.Highcharts.chart("container", this.chartOptions);
-
   }
 
   
