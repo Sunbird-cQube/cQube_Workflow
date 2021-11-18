@@ -16,7 +16,15 @@ export class ContentUsagePieService {
   // Diksha pie chart apis
   dikshaPieState() {
     this.service.logoutOnTokenExpire();
-    return this.http.post(`${this.baseUrl}/diksha/contentUsage/stateData`, null);
+    return this.http.get(`${this.baseUrl}/diksha/contentUsage/stateData`);
   }
 
+  dikshaPieDist(){
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/diksha/contentUsage/distWise`);
+  }
+  diskshaPieMeta(){
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/diksha/contentUsage/distMeta`);
+  }
 }
