@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
+import { AppServiceComponent } from 'src/app/app.service';
 import { ContentUsagePieService } from 'src/app/services/content-usage-pie.service';
+import { MapService } from 'src/app/services/map-services/maps.service';
 
 @Component({
   selector: 'app-content-usage-pie-chart',
@@ -14,26 +16,62 @@ export class ContentUsagePieChartComponent implements OnInit {
 
   public pieData 
   public stateData = [];
-  distData:any
-  constructor(public service:ContentUsagePieService) { }
+  public distData:any
+  public level
+  public state
+
+  constructor(
+    public service:ContentUsagePieService,
+    public commonService: AppServiceComponent,
+    private changeDetection: ChangeDetectorRef,
+    public globalService: MapService,
+    ) { }
+
+    width = window.innerWidth;
+  height = window.innerHeight;
+  onResize() {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+  }
 
   ngOnInit(): void {
+    this.commonService.errMsg();
+    this.changeDetection.detectChanges();
+    this.state = this.commonService.state;
+    document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getStateData();
     this.getDistData();
     
   }
  
- 
+ public skul = true;
 
  getStateData(){
-      this.service.dikshaPieState().subscribe(res => {
-          this.pieData = res['data'].data;
-         this.stateData = this.restructurePieChartData(this.pieData)
-         this.createPieChart(this.stateData);
-         this.getDistMeta();
-      })
-    
+  this.commonService.errMsg();
+  this.stateData = [];
+try {
+
+  this.service.dikshaPieState().subscribe(res => {
+    this.pieData = res['data'].data;
+   this.stateData = this.restructurePieChartData(this.pieData)
+   this.createPieChart(this.stateData);
+   this.getDistMeta();
+   this.commonService.loaderAndErr(this.stateData);
+   })
+} catch (e) {
+  this.stateData = [];
+  this.commonService.loaderAndErr(this.stateData);
+      console.log(e);
+}    
  }
+
+ clickHome() {
+  this.selectedDist = "";
+  this.dist =false;
+  this.skul = true;
+  this.getStateData();
+}
   
 
    restructurePieChartData(pieData){
@@ -52,8 +90,8 @@ export class ContentUsagePieChartComponent implements OnInit {
  getDistData(){
      try {
         this.service.dikshaPieDist().subscribe(res => {
-            this.distData = res['data'];
-          console.log('dist',this.distData)
+            this.distData = res['data'].data;
+           console.log('dist',this.distData)
             }) 
      } catch (error) {
           console.log(error)
@@ -72,7 +110,7 @@ export class ContentUsagePieChartComponent implements OnInit {
           this.distToDropDown = this.distMetaData.Districts.map( (dist:any) =>{
               return dist
           })
-        //   console.log('drop',this.distToDropDown)
+          console.log('drop',this.distToDropDown)
            }) 
     } catch (error) {
         //  console.log(error)
@@ -80,18 +118,33 @@ export class ContentUsagePieChartComponent implements OnInit {
   
 }
 
- public selectedDist
+ public selectedDist;
+ public distWiseData = [];
+ public distPieData = [];
+ public dist = false;
+ public distName
 
   onDistSelected(data){
-    this.selectedDist = data;
-     let distWiseData = this.distData[this.selectedDist]
-     let distPieData = this.restructurePieChartData(distWiseData)
-     this.createPieChart(distPieData)
-    console.log('selected', data)
+     this.distWiseData = [];
+     this.distPieData = [];
+     this.dist = true;
+     this.skul = false;
+     this.distName = '';
+     console.log('distName', data)
+    try {
+      this.selectedDist = data;
+      this.distWiseData = this.distData[this.selectedDist]
+      this.distPieData = this.restructurePieChartData(this.distWiseData)
+      this.createPieChart(this.distPieData)
+      this.commonService.loaderAndErr(this.distWiseData);
+    } catch (error) {
+      this.distWiseData = [];
+      this.commonService.loaderAndErr(this.distWiseData);
+      console.log(error)
+    }
   }
 
   createPieChart(data){
-    console.log('inside', this.stateData);
     this.chartOptions = { 
       chart: {
         plotBackgroundColor: 'transparent',
@@ -100,12 +153,18 @@ export class ContentUsagePieChartComponent implements OnInit {
         type: 'pie',
         backgroundColor: 'transparent'
     },
-    colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
     title: {
         text: 'Total'
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+        style: {
+          // color: 'blue',
+          fontWeight: 'bold',
+          fontSize: '1rem'
+          // point.percentage
+      }
     },
     accessibility: {
         point: {
@@ -120,10 +179,15 @@ export class ContentUsagePieChartComponent implements OnInit {
       align: 'right',
       verticalAlign: 'middle',
       borderWidth: 0,
-      width: 400,
-      itemWidth: 300,
+      width: '40%',
+      itemWidth: '30%',
       itemMarginTop: 5,
-      itemMarginBottom: 5
+      itemMarginBottom: 5,
+      style: {
+        // color: 'blue',
+        // fontWeight: 'bold',
+        fontSize: '0.8rem'
+    }
     },
     plotOptions: {
         pie: {
@@ -131,7 +195,12 @@ export class ContentUsagePieChartComponent implements OnInit {
             cursor: 'pointer',
             dataLabels: {
                 enabled: true,
-                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                  // color: 'blue',
+                  // fontWeight: 'bold',
+                  fontSize: '0.8rem'
+              }
             },
             showInLegend: true
         }

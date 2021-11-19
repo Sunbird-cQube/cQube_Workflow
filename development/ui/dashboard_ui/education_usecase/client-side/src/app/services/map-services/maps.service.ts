@@ -32,7 +32,7 @@ export class MapService {
   //Initialisation of Map  
   initMap(map, maxBounds) {
     if (this.mapName == 'leafletmap') {
-      globalMap = L.map(map, { zoomControl: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
+      globalMap = L.map(map, { zoomControl: false, touchZoom: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {
           subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -40,10 +40,10 @@ export class MapService {
         }
       ).addTo(globalMap);
     } else {
-      globalMap = new MapmyIndia.Map(map, { hasTip: false, autoPan: false, offset: [15, 20] }, {
+      globalMap = new MapmyIndia.Map(map, { hasTip: false, touchZoom: false, autoPan: false, offset: [15, 20],dragging: environment.stateName == 'UP' ? false : true  }, {
         zoomControl: false,
         hybrid: false,
-      }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
+      }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel); 
     }
     var data = mapData.default;
     function applyCountryBorder(map) {

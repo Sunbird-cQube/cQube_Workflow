@@ -261,6 +261,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
      
       this.chartData.push(Number(element[`percent_completion`]));
      
+      console.log('element',element[`percent_completion`])
        
 
       // tool tip

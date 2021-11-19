@@ -119,6 +119,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         // to show only in dropdowns
         this.districtMarkers = this.data;
         this.totalContentPlays = this.data.footer.total_content_plays;
+        
         // options to set for markers in the map
         let options = {
           radius: 6,
@@ -150,7 +151,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         }
         this.myData = this.service.etbDistWise().subscribe(
           (res) => {
-
+            
             this.myDistData = this.data = res["data"];
             let keys = Object.keys(this.data.data[0])
             let obj = {}
