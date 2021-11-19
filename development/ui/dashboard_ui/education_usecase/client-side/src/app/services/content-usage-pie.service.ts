@@ -16,15 +16,15 @@ export class ContentUsagePieService {
   // Diksha pie chart apis
   dikshaPieState() {
     this.service.logoutOnTokenExpire();
-    return this.http.get(`${this.baseUrl}/diksha/contentUsage/stateData`);
+    return this.http.post(`${this.baseUrl}/diksha/contentUsage/stateData`, null);
   }
 
   dikshaPieDist(){
     this.service.logoutOnTokenExpire();
-    return this.http.get(`${this.baseUrl}/diksha/contentUsage/distWise`);
+    return this.http.post(`${this.baseUrl}/diksha/contentUsage/distWise`, null);
   }
   diskshaPieMeta(){
     this.service.logoutOnTokenExpire();
-    return this.http.get(`${this.baseUrl}/diksha/contentUsage/distMeta`);
+    return this.http.post(`${this.baseUrl}/diksha/contentUsage/distMeta`, null);
   }
 }
