@@ -154,7 +154,6 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         this.myData = this.service.tpdDistWise().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
-            console.log('tpdDAta', this.myDistData)
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length - 4; i++) {

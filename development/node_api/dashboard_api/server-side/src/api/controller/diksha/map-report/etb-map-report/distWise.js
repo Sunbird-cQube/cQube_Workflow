@@ -10,8 +10,6 @@ router.post('/allDistData' , auth.authController, async (req, res) => {
         let jsonData = await readFile.readFileConfig(fileName);
         var footer = jsonData['footer'];
         let mydata = jsonData;
-        console.log(mydata) 
-      
         logger.info('--- diksha etb map allData api response sent ---');
         res.send({ data: mydata, downloadData: jsonData, footer:footer });
     } catch (e) {

@@ -153,7 +153,6 @@ export class EtbTotalContentPlaysComponent implements OnInit {
           (res) => {
             
             this.myDistData = this.data = res["data"];
-            console.log('etb',res)
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length - 4; i++) {
