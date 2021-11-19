@@ -3,7 +3,7 @@ const { logger } = require('../../../lib/logger')
 const auth = require('../../../middleware/check-auth');
 const readFile = require('../../../lib/reads3File');
 
-router.post('/distMeta' , async (req, res) => {
+router.get('/distMeta' , async (req, res) => {
     try {
         logger.info('--- diksha content usage meta data api ---');
         var fileName = `diksha/pie/district_meta.json`;

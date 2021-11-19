@@ -4,7 +4,7 @@ const { logger } = require('../../../lib/logger')
 const auth = require('../../../middleware/check-auth');
 const readFile = require('../../../lib/reads3File');
 
-router.post('/distWise' , auth.authController,  async (req, res) => {
+router.get('/distWise' , auth.authController,  async (req, res) => {
     try {
         logger.info('--- diksha content usage district api ---');
         var fileName = `diksha/pie/district.json`;
