@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import * as Highcharts from 'highcharts/highstock';
-import * as GroupedCategories from 'highcharts-grouped-categories/grouped-categories';
-GroupedCategories(Highcharts);
+// import * as GroupedCategories from 'highcharts-grouped-categories/grouped-categories';
+// GroupedCategories(Highcharts);
 
 @Component({
   selector: 'app-multi-bar-chart',
@@ -18,7 +18,7 @@ export class MultiBarChartComponent implements OnInit {
   @Input() public data: Number[];
   @Input() public enrolData: Number[];
   @Input() public compData: Number[];
-  @Input() public percentData: Number[];
+  @Input() public perData: Number[];
   @Input() public xData: Number[];
   @Input() public xAxisLabel: String;
   @Input() public yAxisLabel: String;
@@ -41,6 +41,7 @@ export class MultiBarChartComponent implements OnInit {
     // GroupedCategories(Highcharts);
     this.changeDetection.detectChanges();
     this.onResize();
+    console.log('MultiDAt', this.enrolData)
   }
 
   //generate bar chart:::::::::::
@@ -50,7 +51,7 @@ export class MultiBarChartComponent implements OnInit {
     var level = this.level;
     var type = this.type;
     let scrollBarX
-    if (this.data.length < 25) {
+    if (this.data.length < 10) {
       scrollBarX = false
     } else {
       scrollBarX = true
@@ -60,15 +61,15 @@ export class MultiBarChartComponent implements OnInit {
       chart: {
         type: "bar",
         backgroundColor: 'transparent',
+        height: 800,
       },
      
       title: {
         text: null
       },
       xAxis: {
-       
         labels: {
-          x: -7,
+          // x: -7,
           style: {
             color: 'black',
             fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
@@ -108,7 +109,7 @@ export class MultiBarChartComponent implements OnInit {
         min: 0,
         opposite: true,
         // max: Math.max.apply(Math, this.data),
-        max: 100,
+        max: 150,
         gridLineColor: 'transparent',
         title: {
           // text: this.xAxisLabel,
@@ -122,21 +123,18 @@ export class MultiBarChartComponent implements OnInit {
       },
       plotOptions: {
         bar: {
+          grouping: true,
+          // groupPadding: 0.2,
+          
           dataLabels: {
             enabled: true
           },
-          colors: [
-            '#7cb5ec', '#434348', '#90ed7d'
-        ],
         },
-        series: {
-          pointPadding: 0,
-          groupPadding: 0.1,
-          // pointWidth: 5,
-        }
       },
       legend: {
-        enabled: false,
+        enabled: true,
+        align: 'right',
+        verticalAlign: 'top',
       },
       credits: {
         enabled: false
@@ -153,13 +151,56 @@ export class MultiBarChartComponent implements OnInit {
               return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             }
           },
-          colorByPoint: true,
-          name: this.xAxisLabel,
-          data: this.data,
-         
+          color: '#003f5c',
+          name: '% Expected Enrollment',
+          data: this.data
         },
-        
-        
+        {
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontWeight: 1,
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            },
+            formatter: function () {
+              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            }
+          },
+          color: '#bc5090',
+          name: "% Enrolled",
+          data: this.enrolData
+        },
+        {
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontWeight: 1,
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            },
+            formatter: function () {
+              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            }
+          },
+          color: '#58508d',
+          
+          name: '% Completed',
+          data: this.compData
+        },
+        {
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontWeight: 1,
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            },
+            formatter: function () {
+              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            }
+          },
+          color: '#ffa600',
+          name: '% Certificates',
+          data: this.perData
+        }        
       ],
       tooltip: {
         style: {
@@ -228,12 +269,12 @@ export class MultiBarChartComponent implements OnInit {
       //        ${xData[point.index] ? `<br><b>Enrollment: </b>${xData[0][1][point.index]}<br><b>Completion: </b>${xData[0][2][point.index]}<br>
       //        <b>Percet Completion: </b>${xData[0][0][point.index]}%
       //        ` : ''}`
-
+    console.log('point', point)
       let seriess = series.chart.series
       for(var i=0; i<seriess.length; i++) {
                
-         obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category.parent.name} 
-                <br><b>${point.category.name}: </b>${point.options.y}<br>
+         obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category} 
+                <br><b>${series.name}: </b>${point.options.y}<br>
              `;
     }
 
