@@ -70,7 +70,7 @@
       SYSTEM_USERNAME = {{ system_user_name }}
       LOG= "console"
       LOG_DIRECTORY= ""
-      KONG_BASE_URL = "http://localhost:8001/consumers"
+      KONG_BASE_URL = "http://localhost:8001/consumers"		
 	  AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName="{{ azure_account_name }}";AccountKey="{{ azure_account_key }}";EndpointSuffix=core.windows.net"
       AZURE_OUTPUT_STORAGE = "{{ azure_output_container }}"
       AZURE_INPUT_STORAGE = "{{ azure_input_container }}"
