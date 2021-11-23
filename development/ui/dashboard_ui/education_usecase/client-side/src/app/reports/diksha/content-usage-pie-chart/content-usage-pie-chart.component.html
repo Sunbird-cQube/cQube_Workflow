@@ -1,20 +1,27 @@
 <div class="container-fluid">
     <div class="row reportHeader">
         <div class="col-lg-12 col-md-12 col-sm-12">
-          <div class="row">
+          <div class="row" (window:resize)="onResize()">
             <div class="col-lg-9 col-md-9 col-sm-12">
              
-              <div >
+              <div *ngIf = 'skul'>
                 <p id="block">
-                  Report on Infrastructure access by location for:
-                  <span  style="cursor: pointer; text-decoration: underline">Gujarath</span>
+                  Report on Content Usage:
+                  <span (click)="clickHome()"style="cursor: pointer; text-decoration: underline">{{state}}</span>
                   <!-- <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
                     style="cursor: pointer; text-decoration: underline" class="selected-level">
                     {{ districtHierarchy.districtName }}</span> -->
                 </p>
               </div>
              
-    
+              <div *ngIf="dist">
+                <p id="block">
+                  Report on Content Usage:
+                  <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
+                  <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
+                    </span>
+                </p>
+              </div>
             
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12">
@@ -43,22 +50,22 @@
           <div class="row" style="margin-bottom: 10px">
             <div class="col-sm-12">
     
-              <!-- <select id="choose_infra" [(ngModel)]="infraData" (change)="oninfraSelect(infraData)">
-                <option [value]="infraData" disabled selected="selected">
-                  Choose a Infrastructure
+               <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+                <option [value]="selectedDist" disabled selected="selected">
+                  Choose a District
+                </option>
+                <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
+                  {{ dist.district_name }}
+                </option>
+              </select> 
+              <!-- <select id="choose_infra" >
+                <option  disabled selected="selected">
+                  Choose a District
                 </option>
                 <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
                   {{ infra.value }}
                 </option>
               </select> -->
-              <select id="choose_infra" >
-                <option  disabled selected="selected">
-                  Choose a District
-                </option>
-                <!-- <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
-                  {{ infra.value }}
-                </option> -->
-              </select>
              
             </div>
           </div>
@@ -67,8 +74,20 @@
     <div class="row reportContainer">
         <div
         id="container"
-        style="width: 100%; margin: 0 auto"></div>
+        style="width: 100%; margin: 0 auto" class="active" [ngStyle]="{
+          height:
+            height > 1760
+              ? '50vh'
+              : height > 1160 && height < 1760
+              ? '60vh'
+              : height > 667 && height < 1160
+              ? '60vh'
+              : '70vh'
+        }"></div>
     </div>
     
+  </div>
+  <div id="spinner">
+    <div id="loader" class="loading">Loading&#8230;</div>
   </div>
   

@@ -1,55 +1,58 @@
 <div class="container-fluid">
-    <div class="row reportHeader">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="row" (window:resize)="globalService.onResize(level); onResize()">
-                <div class="col-lg-9 col-md-9 col-sm-12">
-                  <div >
-                    <p id="dist">
-                        Diksha ETB Report for Total Content Plays:
-                      <span  style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12">
-                  <div class="row">
-                    <div class="col-sm-5">
-                      <p id="errMsg" class="note"></p>
-                    </div>
-                    <div class="col-sm-7">
-                      <!-- <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
+  <div class="row reportHeader">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="row" (window:resize)="globalService.onResize(level); onResize()">
+        <div class="col-lg-9 col-md-9 col-sm-12">
+          <div>
+            <p id="dist">
+              Diksha ETB Report for Total Content Plays:
+              <span style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="row">
+            <div class="col-sm-5">
+              <p id="errMsg" class="note"></p>
+            </div>
+            <div class="col-sm-7">
+              <!-- <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
                         (click)="downloadReport()">
                         Download Report &nbsp;
                         <i class="fa fa-arrow-down" aria-hidden="true"></i>
                       </button> -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <p class="note">
-                    <strong> About the dashboard:</strong> The School Infrastructure
-                    dashboard visualises the data on school infrastructure metrics for
-                    {{ state }}.
-                  </p>
-                </div>
-              </div>
-              <div class="row" style="margin-bottom: 10px">
-                <select id="choose_infra" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
-                    <option [value]="selectedType" disabled selected="selected">
-                      Choose Type
-                    </option>
-                    <option *ngFor="let selected of selectionType" [(ngValue)]="selected.id">
-                      {{ selected.name }}
-                    </option>
-                  </select>
-              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="note">
+            <strong> About the dashboard:</strong> The School Infrastructure
+            dashboard visualises the data on school infrastructure metrics for
+            {{ state }}.
+          </p>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+          <select id="choose_infra" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
+            <option [value]="selectedType" disabled selected="selected">
+              Choose Type
+            </option>
+            <option *ngFor="let selected of selectionType" [(ngValue)]="selected.id">
+              {{ selected.name }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
-   
-    <div class="row reportContainer">
-        <div id="leafletmap" style="float: left" >
-            <div #mapContainer id="etbMap" class="active" style="width: 100%; position: absolute" [ngStyle]="{
+  </div>
+
+  <div class="row reportContainer">
+    <div class="col-sm-12">
+      <div id="leafletmap">
+        <div #mapContainer id="etbMap" class="active" [ngStyle]="{
                 height:
                   height > 1760
                     ? '80vh'
@@ -57,20 +60,21 @@
                     ? '80vh'
                     : height > 667 && height < 1160
                     ? '77vh'
-                    : '72vh'
-              }" ></div>
-          </div>
-    
+                    : '70vh'
+              }"></div>
+      </div>
     </div>
-    <div class="row d-flex justify-content-around" id="footer">
-        <div class="col-sm-5">
-            <span id="schools" class="note" style="text-align: center">Total Content Plays:{{totalContentPlays}} </span>
-          </div>
-          <div class="col-sm-5">
-            <span id="schools" class="note" style="text-align: center">Usage outside the state: </span>
-          </div>
+
+  </div>
+  <div class="row d-flex justify-content-around" id="footer">
+    <div class="col-sm-5">
+      <span id="schools" class="note" style="text-align: center">Total Content Plays:{{totalContentPlays}} </span>
     </div>
+    <div class="col-sm-5">
+      <span id="schools" class="note" style="text-align: center">Usage outside the state: 1916</span>
+    </div>
+  </div>
 </div>
 <div id="spinner">
-    <div id="loader" class="loading">Loading&#8230;</div>
-  </div>
+  <div id="loader" class="loading">Loading&#8230;</div>
+</div>

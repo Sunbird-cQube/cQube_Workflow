@@ -222,12 +222,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
 
   //getting all chart data to show:::::::::
-
+  // public expEnrolChartData = []
   public enrollChartData = [];
   public compliChartData = [];
   public pecentChartData = [];
   
- 
+  /// demo data for expected Enrollment
+
+  public expEnrolChartData = [];
+
 
   getBarChartData() {
     this.completion = [];
@@ -236,37 +239,42 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     comComplition = [];
     this.chartData = [];
     this.category = [];
+    this.expEnrolChartData = Array(29).fill(100);
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
-        // this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
-        let obj: any = {
-          name: this.result.labels[i] ? this.result.labels[i] : ' ',
-          categories: this.result.labels[i] ? ["% Enrolled", " % Completed", "% Certificates"]: ' '
-        }
-        this.category.push(obj);
+        this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
+        // let obj: any = {
+        //   name: this.result.labels[i] ? this.result.labels[i] : ' ',
+        //   categories: this.result.labels[i] ? ["% Enrolled", " % Completed", "% Certificates"]: ' '
+        // }
+        // this.category.push(obj);
       }
     } else {
       this.result.labels.forEach(item => {
-        let obj: any = {
-          name: item, categories: ["% Enrolled", " % Completed", "% Certificates"]
-        }
-        this.category.push(obj);
+        // let obj: any = {
+        //   name: item, categories: ["% Enrolled", " % Completed", "% Certificates"]
+        // }
+        // this.category.push(obj);
+
+        this.category = this.result.labels;
+        // console.log('cate', this.category)
       })
       // this.category = this.result.labels;
     }
     this.result.data.forEach(element => {
       // this.chartData.push(Number(element[`${this.type}`]));
-      this.chartData.push(Number(element[`completion`]));
-      this.chartData.push(Number(element[`enrollment`]));
-     
-      this.chartData.push(Number(element[`percent_completion`]));
-     
-       
+      // this.chartData.push(Number(element[`enrollment`]));
+      // this.chartData.push(Number(element[`completion`])); 
+      // this.chartData.push(Number(element[`percent_completion`]));  
+      
+      this.enrollChartData.push(Number(element[`enrollment`]))
+      this.compliChartData.push(Number(element[`completion`]));
+      this.pecentChartData.push(Number(element[`percent_completion`]));
 
       // tool tip
         perCompletion.push(Number([element[`percent_completion`]]));
-       enrComplition.push(Number([element[`enrollment`]]))
-        comComplition.push(Number([element[`completion`]]))
+        enrComplition.push(Number([element[`enrollment`]]));
+        comComplition.push(Number([element[`completion`]]));
         this.completion.push([[...perCompletion], [...enrComplition], [...comComplition]])
         
       // if (this.type == 'completion') {
@@ -298,6 +306,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   onDistSelect(districtId) {
     this.emptyChart();
     this.commonService.errMsg();
+   // added
+    this.expEnrolChartData=[]
+    this.enrollChartData = [];
+    this.compliChartData = [];
+    this.pecentChartData = [];
 
     this.globalId = districtId;
     this.blockHidden = false;
@@ -309,7 +322,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.blocks = [];
     this.clusters = [];
-
+ 
     this.blockId = undefined;
     this.clusterId = undefined;
     this.yAxisLabel = "Block Names"

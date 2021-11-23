@@ -3,14 +3,13 @@ const { logger } = require('../../../lib/logger')
 const auth = require('../../../middleware/check-auth');
 const readFile = require('../../../lib/reads3File');
 
-router.post('/distMeta' , async (req, res) => {
+router.post('/distMeta' , auth.authController, async (req, res) => {
     try {
         logger.info('--- diksha content usage meta data api ---');
         var fileName = `diksha/pie/district_meta.json`;
         let jsonData = await readFile.readFileConfig(fileName);
         // var footer = jsonData['footer'];
         let mydata = jsonData;
-      
         logger.info('--- diksha content usage meta data api response sent ---');
         res.send({ data: mydata });
     } catch (e) {

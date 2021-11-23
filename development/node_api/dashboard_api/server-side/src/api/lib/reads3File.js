@@ -68,51 +68,6 @@ const readFromBlob = async (blobName) => {
     });
 };
 
-// async function fun() {
-//     try {
-//         let data = await readFromBlob(blobName);
-//         console.log(data);
-//     } catch (e) {
-//         console.log({ message: "The specified blob does not exist" })
-//     }
-// }
-
-// fun();
-
-// var fileService = azure.createFileService(AZURE_STORAGE_CONNECTION_STRING);
-// fileService.createShareIfNotExists('taskshare1', function (error, result, response) {
-//     if (!error) {
-//         console.log("share created");
-//         fileService.createDirectoryIfNotExists('taskshare1', 'dir1', function (error, result, response) {
-//             if (!error) {
-//                 console.log(":::::")
-//                 var text = 'Hello World!';
-//                 fileService.createFileFromText('taskshare1', 'dir1', 'taskfile', text, function (error, result, response) {
-//                     if (!error) {
-//                         console.log("File Created")
-//                     } else {
-//                         console.log("++++++++++++++++++++++++++++++++++++")
-//                     }
-//                 });
-
-//             } else {
-//                 console.log(error)
-//             }
-//         });
-//     } else {
-//         console.log("share errorrrrrrrrrrrrrrrrrrrr");
-//     }
-// });
-
-
-// blobService.createBlockBlobFromLocalFile(containerName, 'taskblob', 'output.txt', function (error, result, response) {
-//     if (!error) {
-//        console.log("File uploaded")
-//     }else{
-//         console(error);
-//     }
-// });
-
 const readFileConfig = async (fileName) => {
     var data;
     if (storageType == "s3") {

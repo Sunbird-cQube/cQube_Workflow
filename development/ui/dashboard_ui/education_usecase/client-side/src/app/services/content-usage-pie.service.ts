@@ -19,4 +19,12 @@ export class ContentUsagePieService {
     return this.http.post(`${this.baseUrl}/diksha/contentUsage/stateData`, null);
   }
 
+  dikshaPieDist(){
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/diksha/contentUsage/distWise`, null);
+  }
+  diskshaPieMeta(){
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/diksha/contentUsage/distMeta`, null);
+  }
 }
