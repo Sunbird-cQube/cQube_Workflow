@@ -31,17 +31,14 @@ export class MultiBarChartComponent implements OnInit {
   }
 
   onResize() {
-    // GroupedCategories(Highcharts);
     this.height = window.innerHeight;
     this.createBarChart();
   }
 
 
   ngOnInit() {
-    // GroupedCategories(Highcharts);
-    this.changeDetection.detectChanges();
+       this.changeDetection.detectChanges();
     this.onResize();
-    console.log('MultiDAt', this.enrolData)
   }
 
   //generate bar chart:::::::::::
@@ -51,17 +48,18 @@ export class MultiBarChartComponent implements OnInit {
     var level = this.level;
     var type = this.type;
     let scrollBarX
-    if (this.data.length < 10) {
-      scrollBarX = false
-    } else {
-      scrollBarX = true
-    }
+   
 
     this.chartOptions = {
       chart: {
         type: "bar",
         backgroundColor: 'transparent',
-        height: 800,
+        inverted: true,
+        events: {
+          load: function() {
+            this.xAxis[0].setExtremes(0, 9);
+          }
+          }
       },
      
       title: {
@@ -69,7 +67,7 @@ export class MultiBarChartComponent implements OnInit {
       },
       xAxis: {
         labels: {
-          // x: -7,
+          x: -7,
           style: {
             color: 'black',
             fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
@@ -88,12 +86,13 @@ export class MultiBarChartComponent implements OnInit {
           }
         },
         min: 0,
-        max: 25,
+        max: this.category.length-1,
         scrollbar: {
-          minWidth: 6,
-          enabled: scrollBarX,
+          minWidth: 2,
+          enabled: true,
+          opposite: true
         },
-        tickLength: 0
+        tickLength: 0,
       },
       yAxis: {
         labels: {
@@ -123,9 +122,8 @@ export class MultiBarChartComponent implements OnInit {
       },
       plotOptions: {
         bar: {
-          grouping: true,
-          // groupPadding: 0.2,
-          
+          groupPadding: 0.1,
+          pointPadding: 0,
           dataLabels: {
             enabled: true
           },
@@ -151,7 +149,7 @@ export class MultiBarChartComponent implements OnInit {
               return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             }
           },
-          color: '#003f5c',
+          color: '#396EB0',
           name: '% Expected Enrollment',
           data: this.data
         },
@@ -181,7 +179,7 @@ export class MultiBarChartComponent implements OnInit {
               return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             }
           },
-          color: '#58508d',
+          color: '#9C19E0',
           
           name: '% Completed',
           data: this.compData
@@ -242,34 +240,12 @@ export class MultiBarChartComponent implements OnInit {
         return obj;
       }
       if (reportName == "enroll/comp") {
-        // obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category}
-        //  <br> ${point.y !== null ? `<b>${type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()}:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        // ${type != `completion` && xData[point.index] ? `<br><span style="color: red"><b>Completion: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}</span>` : ''}
-        // ${type != `enrollment` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        // `
-
-      //   obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category.parent.name}
-      //   <br> ${point.y !== null ? `<b style= 'color: blue'>${type.split('_').length > 1 ?
-      //       type.split('_')[0].charAt(0).toUpperCase() + type.split('_')[0].substr(1).toLowerCase() + " " + type.split('_')[1].charAt(0).toUpperCase() + type.split('_')[1].substr(1).toLowerCase() :
-      //       type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()}:</b> <span style ="color:blue">${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}</span>` : ''}
-      //  ${type == `completion` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index][1][point.index]}<br>
-      //  <b>Percet Completion: </b>${xData[point.index][0][point.index]}%
-      //  ` : ''}
-      //  ${type == `enrollment` && xData[point.index] ? `<br><b>Completion: </b>${xData[point.index][1][point.index]}<br>
-      //  <b>Percet Completion: </b>${xData[point.index][0][point.index]}%
-      //  ` : ''}
-
-      //  ${type == `percent_completion` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index][1][point.index]}<br>
-      //  <b>Completion: </b>${xData[point.index][0][point.index]}
-      //  ` : ''}
-      //  `
-      
+       
 
       // obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category.parent.name} 
       //        ${xData[point.index] ? `<br><b>Enrollment: </b>${xData[0][1][point.index]}<br><b>Completion: </b>${xData[0][2][point.index]}<br>
       //        <b>Percet Completion: </b>${xData[0][0][point.index]}%
       //        ` : ''}`
-    console.log('point', point)
       let seriess = series.chart.series
       for(var i=0; i<seriess.length; i++) {
                
