@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="row" style="margin-bottom: 10px">
-        <div class="col-sm-12">
+        <div class="col-sm-12" >
           <select id="choose_infra" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
             <option [value]="selectedType" disabled selected="selected">
               Choose Type
@@ -50,8 +50,8 @@
   </div>
 
   <div class="row reportContainer">
-    <div class="col-sm-12">
-      <div id="leafletmap">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }" >
         <div #mapContainer id="tpdMap" class="active" [ngStyle]="{
                 height:
                   height > 1760
@@ -63,14 +63,38 @@
                     : '70vh'
               }"></div>
       </div>
+
+      <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%; z-index: 100;">
+        <h5 id="legend" style="margin-left: 15%">
+          Legend
+          <img *ngIf="valueRange && valueRange != '0-100'" id="resetImg" src="../../../../assets/images/reset.png"
+            alt="reset" title="Reset to all" style="
+              cursor: pointer;
+              height: 20px;
+              width: 20px;
+              float: right;
+              background-color: aqua;
+              border-radius: 20px;
+              padding: 5px;
+              margin-top: -5px;
+            " (click)="reset('0-100')" />
+        </h5>
+        <div *ngFor="let value of values; let i = index">
+          <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
+            [ngStyle]="{ color: i > 1 ? 'black' : 'white' }" (click)="selectRange(value); select(i)"
+            [style.background-color]="legendColors[i]">
+            {{ values[i] }}
+          </span>
+        </div>
+      </div>
     </div>
 
   </div>
   <div class="row d-flex justify-content-around" id="footer">
     <div class="col-sm-5">
-      <span id="schools" class="note" style="text-align: center">Total Content Plays:{{totalContentPlays}} </span>
+      <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-5 d-flex justify-content-end">
       <span id="schools" class="note" style="text-align: center">Usage outside the state: 33282 </span>
     </div>
   </div>
