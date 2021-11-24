@@ -118,7 +118,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         }
         // to show only in dropdowns
         this.districtMarkers = this.data;
-        this.totalContentPlays = this.data.footer.total_content_plays;
+        this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
         
         // options to set for markers in the map
         let options = {
@@ -164,7 +164,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             }
             // to show only in dropdowns
             this.districtMarkers = this.data;
-            this.totalContentPlays = this.data.footer.total_content_plays;
+            this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             // options to set for markers in the map
             let options = {
               radius: 6,
@@ -292,8 +292,26 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         orgObject[key] = details[key];
       }
     });
+    
+    var detailUsage = {};
+    var yourData1;
+    
+    for (var key of Object.keys(orgObject)) {
+      if( key === 'district_id' || key === 'district_name')
+      detailUsage[key] = orgObject[key]
+  }
 
-    var yourData = this.globalService.getInfoFrom(orgObject, "", level, "infra-map", infraName, colorText)
+  var metrics = {};
+  var yourData1;
+  
+  for (var key of Object.keys(orgObject)) {
+    if( key !== 'district_id' && key !== 'district_name')
+    metrics[key] = orgObject[key]
+}
+    
+     yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
+      .join(" <br>");
+    var yourData = this.globalService.getInfoFrom(metrics, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
 
     var toolTip = yourData;
@@ -303,7 +321,11 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         autoPan: false,
         offset: [15, 20],
       }).setContent(
-
+        "<b><u>Details</u></b>" +
+        "<br>" + yourData1
+         +
+        "<br><br><b><u>Metrics of Content Play</u></b>" +
+        "<br>" +
         yourData
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
@@ -326,5 +348,111 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     markerIcon.myJsonData = markers;
   }
 
+  public legendColors: any = [
+    "#d9ef8b",
+    "#a6d96a",
+    "#66bd63",
+    "#1a9850",
+    "#006837",
+  ];
+  public values = [
+    "0-20",
+    "21-40",
+    "41-60",
+    "61-80",
+    "81-100",
+  ];
+
+
+  //Filter data based on attendance percentage value range:::::::::::::::::::
+  public valueRange = undefined;
+  public prevRange = undefined;
+  selectRange(value) {
+    this.valueRange = value;
+    this.filterRangeWiseData(value);
+  }
+
+  filterRangeWiseData(value) {
+    this.prevRange = value;
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
+
+    //getting relative colors for all markers:::::::::::
+    var markers = [];
+     
+    if (value) {
+      this.data.data.map(a => {
+       
+          if ( Math.round(a.avg_time_spent) > this.valueRange.split("-")[0] - 1 && Math.round(a.avg_time_spent) <= this.valueRange.split("-")[1]) {
+            markers.push(a);
+          }
+       
+      })
+    } else {
+      markers = this.data;
+    }
+    this.genericFun(markers, this.dataOptions, this.fileName);
+    this.commonService.errMsg();
+   
+      this.districtMarkers = markers;
+   
+
+    //adjusting marker size and other UI on screen resize:::::::::::
+    this.globalService.onResize(this.level);
+    this.commonService.loaderAndErr(markers)
+    this.changeDetection.detectChanges();
+  }
+
+  public selectedIndex;
+  select(i) {
+    this.selectedIndex = i;
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
+    this.deSelect();
+  }
+
+  deSelect() {
+    var elements = document.getElementsByClassName('legends');
+    for (var j = 0; j < elements.length; j++) {
+      if (this.selectedIndex !== j) {
+        elements[j]['style'].border = "1px solid transparent";
+        elements[j]['style'].transform = "scale(1.0)";
+      }
+    }
+  
+      this.districtMarkers = this.data;
+   
+  }
+
+  reset(value) {
+    this.valueRange = value;
+    this.selectedIndex = undefined;
+    this.deSelect();
+    this.filterRangeWiseData(value);
+  }
+
+  getDownloadableData(markers, level) {
+    var details = {};
+    var orgObject = {};
+    var data1 = {};
+    var data2 = {};
+    Object.keys(markers.Details).forEach((key) => {
+      if (key !== "latitude") {
+        details[key] = markers.Details[key];
+      }
+    });
+    
+    Object.keys(details).forEach((key) => {
+      var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
+      if (key !== "longitude") {
+        orgObject[`${str}`] = details[key];
+      }
+    });
+    var ordered = {};
+   
+  
+    var myobj = Object.assign(orgObject, ordered);
+    this.reportData.push(myobj);
+  }
 
 }
