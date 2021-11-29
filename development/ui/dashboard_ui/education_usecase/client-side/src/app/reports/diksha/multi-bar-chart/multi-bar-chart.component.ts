@@ -207,9 +207,13 @@ export class MultiBarChartComponent implements OnInit {
           backgroundColor: "white"
         },
         formatter: function () {
-          return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
+          // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
+           return  this.points.reduce(function (s, point) {
+            return  s + '<br/>' +  point.series.name + ': ' +
+                point.y ;
+        }, '<b>' + this.x + '</b>');
         },
-        
+        shared: true
         
       }
     }
