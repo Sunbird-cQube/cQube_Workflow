@@ -6,7 +6,7 @@
           <div>
             <p id="dist">
               Diksha ETB Report for Total Content Plays:
-              <span style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
             </p>
           </div>
         </div>
@@ -16,11 +16,11 @@
               <p id="errMsg" class="note"></p>
             </div>
             <div class="col-sm-7">
-              <!-- <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
+              <button  class="btn btn-primary" title="Download Report" id="download1"
                         (click)="downloadReport()">
                         Download Report &nbsp;
                         <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                      </button> -->
+                      </button>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@
         </h5>
         <div *ngFor="let value of values; let i = index">
           <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
-            [ngStyle]="{ color: i > 1 ? 'black' : 'white' }" (click)="selectRange(value); select(i)"
+            [ngStyle]="{ color: 'black' }" (click)="selectRange(value); select(i)"
             [style.background-color]="legendColors[i]">
             {{ values[i] }}
           </span>
@@ -95,7 +95,7 @@
       <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
     </div>
     <div class="col-sm-5 d-flex justify-content-end">
-      <span id="schools" class="note" style="text-align: center">Usage outside the state: 1916</span>
+      <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}  {{othersStatePercentage}}</span>
     </div>
   </div>
 </div>
