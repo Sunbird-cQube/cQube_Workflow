@@ -46,7 +46,10 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   public reportData
   public selectedType = 'total_time_spent';
 
-  selected = "absolute"
+  public selected = "absolute";
+  public onRangeSelect;
+
+  reportName = "TPD_Total_content_play";
 
   mapName
   constructor(
@@ -90,9 +93,20 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   districtMarkers
   markers
   totalContentPlays
+  othersStatePercentage
+  otherStateContentPlays
 
   level;
   googleMapZoom
+  selectionType = []
+  infraData
+
+
+  clickHome() {
+    this.onRangeSelect =""
+    this.infraData = "infrastructure_score";
+    this.getDistData();
+  }
   // to load all the districts for state data on the map
   getDistData() {
     try {
@@ -105,24 +119,33 @@ export class TpdTotalContentPlaysComponent implements OnInit {
       this.commonService.errMsg();
       this.level = "District";
       this.googleMapZoom = 7;
-      // this.fileName = `${this.reportName}_allDistricts_${this.commonService.dateAndTime}`;
+      this.fileName = `${this.reportName}`;
       this.selectionType = [];
+     
+      this.valueRange = undefined;
+      this.selectedIndex = undefined;
+      this.deSelect();
+
+      this.deSelect();
 
       if (this.myDistData && this.myDistData['data'].length) {
         this.data = this.myDistData;
         let keys = Object.keys(this.data.data[0])
+        
         let obj = {}
-        for (let i = 0; i < keys.length - 4; i++) {
-          obj = {
-            id: keys[i],
-            name: this.commonService.changeingStringCases(keys[i])
-          }
-          this.selectionType.push(obj)
+        for (let i = 0; i < keys.length; i++) {
+          if (i == 0 || i == 5 || i == 6) {
+            obj = {
+              id: keys[i],
+              name: this.commonService.changeingStringCases(keys[i])
+            }
+            this.selectionType.push(obj)
+           }
         }
         // to show only in dropdowns
-        this.districtMarkers = this.data;
-        this.totalContentPlays = this.data.footer.total_content_plays;
+        this.districtMarkers = this.data.data;
         // options to set for markers in the map
+        
         let options = {
           radius: 6,
           fillOpacity: 1,
@@ -144,7 +167,6 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
         this.globalService.onResize(this.level);
 
-
         this.changeDetection.detectChanges();
         this.commonService.loaderAndErr(this.data);
       } else {
@@ -156,17 +178,30 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             this.myDistData = this.data = res["data"];
             let keys = Object.keys(this.data.data[0])
             let obj = {}
-            for (let i = 0; i < keys.length - 4; i++) {
+            for (let i = 0; i < keys.length ; i++) {
+             if (i == 0 || i == 5 || i == 6) {
               obj = {
                 id: keys[i],
                 name: this.commonService.changeingStringCases(keys[i])
               }
-
               this.selectionType.push(obj)
+             }
+             
+              
             }
             // to show only in dropdowns
-            this.districtMarkers = this.data;
-            this.totalContentPlays = this.data.footer.total_content_plays;
+            this.districtMarkers = this.data.data;
+            this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
+            this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
+            
+            this.data.data.forEach( item => {
+              
+                 if(item.district_name === "Others"){
+                   this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN')
+                   
+                 }  
+            });
+            console.log('otherState', this.otherStateContentPlays )
             // options to set for markers in the map
             let options = {
               radius: 6,
@@ -186,7 +221,6 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             this.changeDetection.detectChanges();
 
             this.genericFun(this.districtMarkers, options, this.fileName);
-
             this.globalService.onResize(this.level);
 
 
@@ -210,15 +244,16 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   }
 
   // common function for all the data to show in the map
-  selectionType = []
+ 
   onSelectType(data) {
     this.selectedType = data;
     this.getDistData()
   }
+ 
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.markers = data.data;
+      this.markers = data;
       var colors = this.commonService.getTpdMapRelativeColors(
         this.markers,
         {
@@ -226,16 +261,23 @@ export class TpdTotalContentPlaysComponent implements OnInit {
           report: "reports",
         }
       );
-
       // attach values to markers
       for (let i = 0; i < this.markers.length; i++) {
         var color;
-        color = this.commonService.colorGredientForDikshaMaps(
+        if (this.onRangeSelect == "absolute") {
+        color = this.commonService.tpdColorGredient(
           this.markers[i],
-          this.selectedType,
-          colors
+          this.valueRange,
+          // colors
         );
-
+        // console.log('color', color)
+        }else{
+          color = this.commonService.colorGredientForDikshaMaps(
+            this.markers[i],
+            this.selectedType,
+            colors
+          );
+        }
         // google map circle icon
         if (this.mapName == "googlemap") {
           let markerColor = color
@@ -264,12 +306,14 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
         // to download the report
         this.fileName = fileName;
+        this.getDownloadableData(this.markers[i], options.level);
+        console.log('markers',this.markers[i])
       }
       this.commonService.loaderAndErr(data);
       this.changeDetection.detectChanges();
     } catch (e) {
       data = [];
-      // this.commonService.loaderAndErr(data);
+      this.commonService.loaderAndErr(data);
       console.log(e)
     }
 
@@ -292,10 +336,44 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         orgObject[key] = details[key];
       }
     });
+    
+    var detailUsage = {};
+    var yourData1;
+    
+    for (var key of Object.keys(orgObject)) {
+      if( key === 'district_id' || key === 'district_name')
+      detailUsage[key] = orgObject[key]
+  }
 
-    var yourData = this.globalService.getInfoFrom(orgObject, "", level, "infra-map", infraName, colorText)
+
+  var metrics = {};
+  var yourData1;
+  
+  for (var key of Object.keys(orgObject)) {
+    if( key !== 'district_id' && key !== 'district_name')
+    metrics[key] = orgObject[key]
+}
+
+for (var key of Object.keys(orgObject)) {
+  if( key === 'total_content_plays')
+  metrics[key] = orgObject[key].toLocaleString('en-IN');
+}
+
+for (var key of Object.keys(orgObject)) {
+  if( key === 'total_time_spent')
+  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
+}
+
+for (var key of Object.keys(orgObject)) {
+  if( key === 'avg_time_spent')
+  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Seconds'
+}
+    
+     yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
-
+    var yourData = this.globalService.getInfoFrom(metrics, "", level, "infra-map", infraName, colorText)
+      .join(" <br>");
+     console.log('tooltip', detailUsage)
     var toolTip = yourData;
     if (this.mapName != 'googlemap') {
       const popup = R.responsivePopup({
@@ -303,8 +381,19 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         autoPan: false,
         offset: [15, 20],
       }).setContent(
-
+        "<b><u>Details</u></b>" +
+        "<br>" + yourData1
+         +
+        "<br><br><b><u>Metrics of Content Play</u></b>" +
+        "<br>" +
         yourData
+        // `
+        // <b><u>Details</u></b> 
+        // <br>  ${yourData1}
+        // <br><br><b><u>Metrics of Content Play</u></b> 
+        // <br> 
+        // ${yourData}
+        // `
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
@@ -328,6 +417,156 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
 
 
+  public legendColors: any = [
+    "#d9ef8b",
+    "#a6d96a",
+    "#66bd63",
+    "#1a9850",
+    "#006837",
+  ];
+  public values = [
+    "0-20",
+    "21-40",
+    "41-60",
+    "61-80",
+    "81-100",
+  ];
+
+
+  //Filter data based on attendance percentage value range:::::::::::::::::::
+  public valueRange = undefined;
+  public prevRange = undefined;
+  selectRange(value) {
+    this.onRangeSelect = "absolute"
+    this.valueRange = value;
+    this.filterRangeWiseData(value);
+  }
+  public len
+
+  filterRangeWiseData(value) {
+    this.prevRange = value;
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
+  
+    let arr = [];
+    console.log('value', value)
+    
+    for(let i = 0; i< this.data.data.length; i++){
+        arr.push(this.data.data[i][`${this.selectedType}`])
+    }
+    arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
+   
+    //getting relative colors for all markers:::::::::::
+    var markers = [];
+    let slabArr = [];
+    // console.log('filter', this.data.data)
+    let slabLength = Math.round((arr.length)/5)
+    if (value) {
+      if( value === '0-20'){
+        // slabArr = arr.slice(0,Math.round((arr.length)/5))
+        slabArr = arr.slice(0,slabLength)
+      } else if(value === '21-40'){
+        slabArr = arr.slice(slabLength,slabLength *2)
+        // slabArr = arr.slice(slabArr.length ,slabLength)
+      } else if(value === '41-60'){
+        slabArr = arr.slice(slabLength *2,slabLength *3)
+      }else if(value === '61-80'){
+        slabArr = arr.slice(slabLength *3, slabLength *4)
+      }else if(value === '81-100'){
+        slabArr = arr.slice(slabLength *4)
+      }else if(value === '0-100'){
+        slabArr = arr
+      }
+      console.log('len', slabArr)
+      console.log('arr', arr)
+      this.data.data.map(a => {
+       
+        if(a.latitude){
+          if(a[`${this.selectedType}`] <= Math.max(...slabArr) && a[`${this.selectedType}`] >= Math.min(...slabArr)){
+                // console.log("a",a)
+                markers.push(a);
+              }         
+          
+       }    
+      
+    })
+    } else {
+      markers = this.data;
+    }
+    this.genericFun(markers, this.dataOptions, this.fileName);
+    this.commonService.errMsg();
+   
+      this.districtMarkers = markers;
+   
+
+    //adjusting marker size and other UI on screen resize:::::::::::
+    this.globalService.onResize(this.level);
+    this.commonService.loaderAndErr(markers)
+    this.changeDetection.detectChanges();
+  }
+
+  public selectedIndex;
+  select(i) {
+    this.selectedIndex = i;
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.border = this.height < 1100 ? "2px solid gray" : "6px solid gray" : "";
+    document.getElementById(`${i}`) ? document.getElementById(`${i}`).style.transform = "scale(1.1)" : "";
+    this.deSelect();
+  }
+
+  deSelect() {
+    this.onRangeSelect = "";
+    var elements = document.getElementsByClassName('legends');
+    for (var j = 0; j < elements.length; j++) {
+      if (this.selectedIndex !== j) {
+        elements[j]['style'].border = "1px solid transparent";
+        elements[j]['style'].transform = "scale(1.0)";
+      }
+    }
+  
+      this.districtMarkers = this.data;
+   
+  }
+
+  reset(value) {
+    this.valueRange = value;
+    this.selectedIndex = undefined;
+    this.deSelect();
+    this.filterRangeWiseData(value);
+  }
+
+  // to download the csv report
+  downloadReport() {
+    console.log('report', this.reportData)
+    var position = this.reportName.length;
+    this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
+    this.commonService.download(this.fileName, this.reportData);
+  }
+
+
+  getDownloadableData(markers, level) {
+   console.log(markers)
+    var details = {};
+    var orgObject = {};
+    var data1 = {};
+    var data2 = {};
+    Object.keys(markers).forEach((key) => {
+      if (key !== "latitude") {
+        details[key] = markers[key];
+      }
+    });
+    
+    Object.keys(details).forEach((key) => {
+      var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
+      if (key !== "longitude") {
+        orgObject[`${str}`] = details[key];
+      }
+    });
+    var ordered = {};
+   
+  
+    var myobj = Object.assign(orgObject, ordered);
+    this.reportData.push(myobj);
+  }
 
 }
 
