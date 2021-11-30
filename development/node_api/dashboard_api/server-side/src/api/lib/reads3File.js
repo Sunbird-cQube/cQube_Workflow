@@ -29,7 +29,7 @@ const readS3File = (s3Key) => {
 const readLocalFile = (fileName) => {
     return new Promise((resolve, reject) => {
         try {
-            fileName = baseDir+fileName;
+            fileName = baseDir + fileName;
             fs.readFile(fileName, function (err, data) {
                 if (err) {
                     logger.error(err);
@@ -48,6 +48,38 @@ const readLocalFile = (fileName) => {
     })
 }
 
+//azure config
+var azure = require('azure-storage');
+const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+var containerName = process.env.AZURE_OUTPUT_STORAGE;
+
+//reading file from azure
+const readFromBlob = async (blobName) => {
+    let container = containerName;
+    return new Promise((resolve, reject) => {
+        blobService.getBlobToText(container, blobName, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(JSON.parse(data));
+            }
+        });
+    });
+};
+
+const readFileConfig = async (fileName) => {
+    var data;
+    if (storageType == "s3") {
+        data = await readS3File(fileName);
+    } else if (storageType == 'local') {
+        data = await readLocalFile(fileName);
+    } else if (storageType == 'azure') {
+        data = await readFromBlob(fileName);
+    };
+    return data;
+}
+
 module.exports = {
-    readS3File, readLocalFile, storageType
+    readFileConfig, storageType
 };

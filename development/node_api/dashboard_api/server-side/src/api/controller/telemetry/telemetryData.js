@@ -4,7 +4,8 @@ const auth = require('../../middleware/check-auth');
 const s3File = require('../../lib/reads3File');
 const inputDir = `${process.env.EMISSION_DIRECTORY}`;
 const writeFile = require('../../lib/uploadFile');
-var storageType = `${process.env.STORAGE_TYPE}`;
+const storageType = `${process.env.STORAGE_TYPE}`;
+const containerName = process.env.AZURE_OUTPUT_STORAGE;
 
 router.post('/', auth.authController, async (req, res) => {
     try {
@@ -15,7 +16,9 @@ router.post('/', auth.authController, async (req, res) => {
         let hour = req.body.date.hour;
         let fileName = `telemetry/telemetry_view/telemetry_views_${year}_${month}_${date}_${hour}.csv`;
         var localPath = inputDir + fileName;
-        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'views');
+        // var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'views');
+        var response = await writeFile.uploadFiles(containerName, fileName, req.body.telemetryData, 'views');
+        // console.log(response);
         logger.info('--- response sent for set telemetry api ---');
         res.status(200).json(response);
     } catch (e) {
@@ -33,7 +36,8 @@ router.post('/sar', auth.authController, async (req, res) => {
         let hour = req.body.date.hour;
         let fileName = `telemetry/telemetry_${year}_${month}_${date}_${hour}.csv`;
         var localPath = inputDir + fileName;
-        var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'sar');
+        // var response = await storageType == "s3" ? await writeFile.saveToS3(fileName, req.body.telemetryData) : await writeFile.saveToLocal(localPath, req.body.telemetryData, 'sar');
+        var response = await writeFile.uploadFiles(containerName, fileName, req.body.telemetryData, 'sar');
         logger.info('--- response sent for set SAR telemetry api ---');
         res.status(200).json(response);
 
@@ -48,8 +52,7 @@ router.post('/data', async (req, res) => {
         logger.info('---get telemetry api ---');
         var period = req.body.period;
         let fileName = `cqube_telemetry_views/${period}/telemetry_views_data.json`;
-        var telemetryData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-
+        let telemetryData = await s3File.readFileConfig(fileName);
         logger.info('--- get telemetry api response sent ---');
         res.status(200).send({ telemetryData });
     } catch (e) {

@@ -29,7 +29,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     fileName = `${report}/heatChart/questionIdLevel/${year}/${month}/clusters/${blockId}.json`;
             }
         }
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let data = await s3File.readFileConfig(fileName);
 
         if (clusterId) {
             data = data.filter(val => {

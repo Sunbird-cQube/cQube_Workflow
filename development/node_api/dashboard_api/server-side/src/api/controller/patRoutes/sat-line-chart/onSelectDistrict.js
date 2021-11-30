@@ -16,7 +16,7 @@ router.post('/stateWise', auth.authController, async (req, res) => {
         } else {
             fileName = `sat/trend_line_chart/state_${year}.json`;
         }
-        var stateData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let stateData = await s3File.readFileConfig(fileName);
         var mydata = [];
         if (stateData[year]) {
             var stdPerformance = [{
@@ -110,7 +110,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
         } else {
             fileName = `sat/trend_line_chart/district/district_${year}.json`;
         }
-        var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
+        let districtData = await s3File.readFileConfig(fileName);
         var keys = Object.keys(districtData);
         var mydata = [];
 
@@ -191,7 +191,7 @@ router.get('/getDateRange', auth.authController, async (req, res) => {
     try {
         logger.info('---getDateRange api ---');
         var fileName = `sat/metaData.json`;
-        let data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
+        let data = await s3File.readFileConfig(fileName);
         let years = [];
         data.map(a => {
             years.push(a.academic_year);

@@ -51,10 +51,10 @@
                             </p>
                         </div>
 
-                        <span id="rawDownload" class="note"
+                        <!-- <span id="rawDownload" class="note"
                             style="cursor: pointer; float: right; margin: 8px 20px 0px 0px; text-decoration: underline;"
                             *ngIf="reportData.length > 0" (click)="downloadRawFile()"><strong>Download Raw
-                                File</strong></span>
+                                File</strong></span> -->
 
                         <div class="col sm-5">
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
@@ -85,12 +85,12 @@
                         </option>
                     </select>
 
-                    <select id="choose_enroll" [(ngModel)]="type" (change)="onTypeSelect(type)">
+                    <!-- <select id="choose_enroll" [(ngModel)]="type" (change)="onTypeSelect(type)">
                         <option [value]="type" disabled selected="selected">Choose a Type</option>
                         <option *ngFor="let type of enrollTypes" [(ngValue)]="type.key">
                             {{type.name}}
                         </option>
-                    </select>
+                    </select> -->
 
                     <select id="coll_name" [(ngModel)]="collectionName" name="collectionName"
                         (change)="getDataBasedOnCollections()">
@@ -126,25 +126,28 @@
                         </option>
                     </select>
 
-                    <span id="totalCount" style="float: right;"><strong>Total
+                    <!-- <span id="totalCount" style="float: right;"><strong>Total
                             {{type.split('_').length > 1 ?
                             commonService.changeingStringCases(type.split('_')[0])+ " "+commonService.changeingStringCases(type.split('_')[1])
                             :
                             commonService.changeingStringCases(type)}}:</strong>
-                        {{footer}}</span>
+                        {{footer}}</span> -->
                 </div>
             </div>
         </div>
     </div>
-    <div class="row reportContainer" id="chart">
+    <div class="row reportContainer" style="width: 100%" id="chart">
         <div class="col-lg-1">
 
         </div>
         <div class="col-lg-10" id="r1">
-            <app-bar-chart *ngIf="chartData.length > 0" [category]="category" [data]="chartData" [xData]="completion"
+            <!-- <app-bar-chart *ngIf="chartData.length > 0" [category]="category" [data]="chartData" [xData]="completion"
+                [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type">[data] = "chartData"
+            </app-bar-chart> -->
+            <app-multi-bar-chart *ngIf="expEnrolChartData.length > 0" [category]="category"  [data] = "expEnrolChartData" [enrolData] = "enrollChartData" [compData] = "compliChartData" [perData]= "pecentChartData" [xData]="completion"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type">
-            </app-bar-chart>
-            <div *ngIf="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+            </app-multi-bar-chart>
+            <div *ngIf="expEnrolChartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
                 No Data Available
             </div>
         </div>

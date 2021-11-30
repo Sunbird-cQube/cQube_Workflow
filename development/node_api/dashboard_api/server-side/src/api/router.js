@@ -105,6 +105,16 @@ const tpdClusterWise = require('./controller/diksha/tpd-heatChart/clusterWise');
 const tpdSchoolWise = require('./controller/diksha/tpd-heatChart/schoolWise');
 const courseFilter = require('./controller/diksha/tpd-heatChart/courseFilter');
 
+// Diksha TPD/ETD MAP
+
+const tpdMapDistwise = require('./controller/diksha/map-report/tpd-map-report/distWise');
+const etbMapDistwise = require('./controller/diksha/map-report/etb-map-report/distWise');
+
+// Diksha PIE chart
+const dikshaPieDistWise = require('./controller/diksha/content-usage-pie-chart/distWise');
+const dikshaPieState = require('./controller/diksha/content-usage-pie-chart/stateData');
+const dikshaPieDistMeta = require('./controller/diksha/content-usage-pie-chart/distMeta');
+
 //diksha TPD enrollment/completion
 const distLevel = require('./controller/diksha/tpd-enroll-completion/distWise');
 const blockLevel = require('./controller/diksha/tpd-enroll-completion/blockWise');
@@ -243,6 +253,15 @@ router.use('/tpd', distLevel);
 router.use('/tpd', blockLevel);
 router.use('/tpd', clusterLevel);
 router.use('/tpd', schoolLevel);
+
+// disha Tpd/Etb map api
+router.use('/tpdMap', tpdMapDistwise);
+router.use('/etbMap', etbMapDistwise);
+
+//diksha content usage PIE
+router.use('/diksha/contentUsage', dikshaPieDistWise);
+router.use('/diksha/contentUsage', dikshaPieState);
+router.use('/diksha/contentUsage', dikshaPieDistMeta);
 
 //download raw data
 const fileDownload = require('./controller/rawDataDownload');

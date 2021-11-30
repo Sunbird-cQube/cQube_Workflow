@@ -9,9 +9,9 @@ router.post('/blockData', auth.authController, async (req, res) => {
         let timePeriod = req.body.timePeriod;
         let districtId = req.body.districtId;
         var fileName = `diksha_tpd/report2/${timePeriod}/block/all_collections/${districtId}.json`;
-        var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        var footer = blockData['footer'][`${districtId}`];
-        blockData = blockData.data.filter(a => {
+        let jsonData = await s3File.readFileConfig(fileName);
+        var footer = jsonData['footer'][`${districtId}`];
+        jsonData = jsonData.data.filter(a => {
             return a.district_id == districtId;
         });
         var chartData = {
@@ -19,15 +19,15 @@ router.post('/blockData', auth.authController, async (req, res) => {
             data: ''
         }
 
-        blockData = blockData.sort((a, b) => (a.block_name > b.block_name) ? 1 : -1);
-        chartData['labels'] = blockData.map(a => {
+        jsonData = jsonData.sort((a, b) => (a.block_name > b.block_name) ? 1 : -1);
+        chartData['labels'] = jsonData.map(a => {
             return a.block_name
         })
-        chartData['data'] = blockData.map(a => {
+        chartData['data'] = jsonData.map(a => {
             return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion }
         })
         logger.info('--- diksha chart allData api response sent ---');
-        res.send({ chartData, downloadData: blockData, footer });
+        res.send({ chartData, downloadData: jsonData, footer });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

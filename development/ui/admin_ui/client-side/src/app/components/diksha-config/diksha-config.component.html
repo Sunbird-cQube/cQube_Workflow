@@ -18,7 +18,7 @@
                 <div class="col-lg-8 col-md-12 col-sm-12">
                     <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 2%;">
                         <div class="row">      
-                            <div class="col-sm-6" *ngIf="selectedType != 'Default'">
+                            <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <p>From Date: </p>
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <p>To Date: </p>
-                                        <input type="text" id="toDate" [disabled]="!fromDate"
+                                        <input type="text" id="toDate" [disabled]="!fromDate" autocomplete="off"
                                             style="width:100%; margin:0px auto; margin-left: 2px; float: left;"
                                             placeholder="Select To Date" class="form-control" #dp="bsDatepicker"
                                             bsDatepicker [(ngModel)]="toDate" [minDate]="fromDate"
@@ -40,16 +40,8 @@
 
                             </div>
                             <div class="col-sm-3">
-                                <!-- <p>Date Range Type: </p> -->
-                                <!-- <select required id="rangeType" [(ngModel)]="selectedType" (change)="onChooseType()">
-                                    <option [value]="selectedType" disabled selected="selected">Select Input Method
-                                    </option>
-                                    <option *ngFor="let type of types; let i = index;" [(ngValue)]="types[i]">
-                                        <span>{{types[i]}}</span>
-                                    </option>
-                                </select> -->
                                 <p >Stopping Hours: </p>
-                                <select [(ngModel)]="selectedHour" (change)="onSelectHour()"  id="time" required >
+                                <select [disabled]="!(fromDate != null && toDate != null)" [(ngModel)]="selectedHour" (change)="onSelectHour()"  id="time" required >
                                     <option [value]="selectedHour" disabled selected> Choose Duration
                                     </option>
                                     <option *ngFor="let hour of hoursArr" [(ngValue)]="hour.hours" >

@@ -46,12 +46,17 @@ export class AppServiceComponent {
     }
 
     changeingStringCases(str) {
-        return str.replace(
-            /\w\S*/g,
-            function (txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            }
-        );
+        let result = '';
+        let strArr = str.split("_");
+        for (let i = 0; i < strArr.length; i++) {
+            result += strArr[i].replace(
+                /\w\S*/g,
+                function (txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase() + " ";
+                }
+            );
+        }
+        return result;
     }
 
     logoutOnTokenExpire() {
@@ -198,6 +203,65 @@ export class AppServiceComponent {
                 break;
             } else if (dataSet[filter] >= parseInt(keys[i]) && dataSet[filter] <= parseInt(keys[i + 1])) {
                 setColor = this.colors[keys[i + 1]];
+                break;
+            }
+        }
+        return setColor;
+    }
+
+
+     // color gredient based on intervals
+     tpdColorGredient(data, filter) {
+        var keys = Object.keys(this.tpdColors);
+        var dataSet = data;
+        var setColor = '';
+        for (let i = 0; i < keys.length; i++) {
+            if ((filter.split("-")[1]) == parseInt(keys[i])) {
+                setColor = this.tpdColors[keys[i]];
+                break;
+            } else if (dataSet[filter] >= parseInt(keys[i]) && dataSet[filter] <= parseInt(keys[i + 1])) {
+                setColor = this.tpdColors[keys[i + 1]];
+                break;
+            }
+        }
+        return setColor;
+    }
+
+    getTpdMapRelativeColors(markers, filter) {
+        var values = [];
+        markers.map(item => {
+            var keys = Object.keys(item);
+            if (keys.includes(filter.value)) {
+                values.push(item[`${filter.value}`]);
+            } else {
+                values.push(item[`total_schools_with_missing_data`]);
+            }
+        });
+        let uniqueItems = [...new Set(values)];
+        uniqueItems = uniqueItems.map(a => {
+            if (typeof (a) == 'object') {
+                return a['percentage']
+                
+            } else {
+                return a;
+            }
+        })
+        uniqueItems = uniqueItems.sort(function (a, b) { return filter.report != 'exception' ? parseFloat(a) - parseFloat(b) : parseFloat(b) - parseFloat(a) });
+        var colorsArr = uniqueItems.length == 1 ? (filter.report != 'exception' ? ['#00FF00'] : ['red']) : this.exceptionColor().generateGradient('#d9ef8b', '#006837', uniqueItems.length, 'rgb');
+        var colors = {};
+        uniqueItems.map((a, i) => {
+            colors[`${a}`] = colorsArr[i]
+        });
+        return colors;
+    }
+
+    colorGredientForDikshaMaps(data, filter, colors) {
+        let keys = Object.keys(colors);
+        let setColor = '';
+        for (let i = 0; i < keys.length; i++) {
+            if (data[filter] == null) setColor = "red";
+            if (parseFloat(data[filter]) == parseFloat(keys[i])) {
+                setColor = colors[keys[i]];
                 break;
             }
         }
@@ -361,6 +425,15 @@ export class AppServiceComponent {
         90: '#1a9850',
         100: '#006837'
     }
+
+    public tpdColors = {
+        20: '#d9ef8b',
+        40: '#a6d96a',
+        60: '#66bd63',
+        80: '#1a9850',
+        100: '#006837'
+    }
+
     //color gredient generation....
     public exceptionColor() {
         // Converts a #ffffff hex string into an [r,g,b] array

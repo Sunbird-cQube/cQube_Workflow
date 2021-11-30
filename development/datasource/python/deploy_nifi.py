@@ -193,15 +193,33 @@ def update_controller_service_property(processor_group_name, controller_name):
                               "properties": {"Password": "#{db_password}"}}
 
             }
+            # Request body for AzureBlobStorage-ABS controller
+            update_controller_body_azure = {
+        "disconnectedNodeAcknowledged": False,
+        "component": {
+            "id": i['component']['id'],
+            "name": controller_name,
+            "comments": "update from deploy_nifi.py",
+            "properties": {
+                "storage-account-name": "#{azure_account_name}",
+                "storage-account-key": "#{azure_account_key}"
+            }
+        },
+        "revision": {
+            "version": i['revision']['version']
+        }
+    }
 
             # controller body selection based on controller name
             update_controller_body = ''
             if "s3" in controller_name:
-
                 update_controller_body = update_controller_body_aws
+                
             elif "postgres" in controller_name:
-
                 update_controller_body = update_controller_body_postgres
+            
+            elif "azure" in controller_name:
+                update_controller_body = update_controller_body_azure
 
             update_controller_res = rq.put(f"{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/controller-services/{i['component']['id']}",
                                            json=update_controller_body, headers=header)
@@ -304,22 +322,21 @@ if __name__ == "__main__":
     # 6. Add sensitive value to controller services
     logging.info("Adding sensitive properties in controller services")
     controller_list_all = {
-        'infra_transformer': ['cQube_s3_infra', 'postgres_infra'],
-        'cQube_data_storage': ['cQube_s3_static_raw', 'postgres_static_raw'],
-        'static_data_processor': ['cQube_s3_static', 'postgres_static'],
-        'diksha_transformer': ['cQube_s3_diksha', 'postgres_diksha'],
+        'infra_transformer': ['cQube_s3_infra', 'postgres_infra','cQube_azure_infra'],
+        'cQube_data_storage': ['cQube_s3_static_raw', 'postgres_static_raw','cQube_azure_data_storage'],
+        'diksha_transformer': ['cQube_s3_diksha', 'postgres_diksha','cQube_azure_diksha'],
         'diksha_transformer_custom': ['postgres_diksha'],
-        'static_data_transformer': ['cQube_s3_static', 'postgres_static'],
-        'crc_transformer': ['cQube_s3_crc', 'postgres_crc'],
-        'student_attendance_transformer': ['cQube_s3_stud_att', 'postgres_stud_att'],
-        'teacher_attendance_transformer': ['cQube_s3_tch_att', 'postgres_tch_att'],
-        'sat_transformer': ['cQube_s3_sat', 'postgres_sat'],
-        'cqube_telemetry_transformer': ['cQube_s3_cqube_telemetry', 'postgres_cqube_telemetry'],
-        'udise_transformer': ['cQube_s3_udise', 'postgres_udise'],
+        'static_data_transformer': ['cQube_s3_static', 'postgres_static','cQube_azure_static'],
+        'crc_transformer': ['cQube_s3_crc', 'postgres_crc','cQube_azure_crc'],
+        'student_attendance_transformer': ['cQube_s3_stud_att', 'postgres_stud_att','cQube_azure_stud_att'],
+        'teacher_attendance_transformer': ['cQube_s3_tch_att', 'postgres_tch_att','cQube_azure_tch_att'],
+        'sat_transformer': ['cQube_s3_sat', 'postgres_sat','cQube_azure_sat'],
+        'cqube_telemetry_transformer': ['cQube_s3_cqube_telemetry', 'postgres_cqube_telemetry','cQube_azure_cqube_telemetry'],
+        'udise_transformer': ['cQube_s3_udise', 'postgres_udise','cQube_azure_udise'],
         'composite_transformer': ['cQube_s3_composite', 'postgres_composite'],
-        'pat_transformer': ['cQube_s3_pat', 'postgres_pat'],
-        'data_replay_transformer': ['cQube_s3_data_replay', 'postgres_data_replay'],
-        'progress_card_transformer': ['cQube_s3_progress_card', 'postgres_progress_card']
+        'pat_transformer': ['cQube_s3_pat', 'postgres_pat','cQube_azure_pat'],
+        'data_replay_transformer': ['cQube_s3_data_replay', 'postgres_data_replay','cQube_azure_data_replay'],
+        'progress_card_transformer': ['postgres_progress_card']
     }
     
     if controller_list_all.get(processor_group_name):

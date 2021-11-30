@@ -25,10 +25,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public chartData: Number[] = [];
   // public completion: Number[] = [];
   public completion: any
-  public xAxisLabel: String = "Enrollment";
+  public xAxisLabel: String = "Percentage";
   public yAxisLabel: String;
   public reportName: String = "enrollment_completion";
-  public report = "enroll/comp"
+  public report = "enroll/comp";
+
+
+  public enrollChartData = [];
+  public compliChartData = [];
+  public pecentChartData = [];
 
   enrollTypes = [{ key: 'enrollment', name: 'Enrollment' }, { key: 'completion', name: 'Completion' }, { key: 'percent_completion', name: 'Percent Completion' }];
   type = 'enrollment';
@@ -103,8 +108,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   homeClick() {
 
+    this.expEnrolChartData=[]
+    this.enrollChartData = [];
+    this.compliChartData = [];
+    this.pecentChartData = [];
+
     this.timePeriod = 'overall';
-    this.type = 'enrollment';
+    // this.type = 'enrollment';
     this.districtId = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
@@ -222,45 +232,70 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
 
   //getting all chart data to show:::::::::
+  // public expEnrolChartData = []
+  // public enrollChartData = [];
+  // public compliChartData = [];
+  // public pecentChartData = [];
+  
+  /// demo data for expected Enrollment
+
+  public expEnrolChartData = [];
+
+
   getBarChartData() {
     this.completion = [];
-    let perCompletion = [];
-    let enrComplition = [];
-    let comComplition = [];
+    let perCompletion = [],
+    enrComplition = [],
+    comComplition = [];
+    this.chartData = [];
+    this.category = [];
+    this.enrollChartData = [];
+    this.compliChartData = [];
+    this.pecentChartData = [];
+    this.expEnrolChartData = [];
+    // this.expEnrolChartData = Array(29).fill(100);
+    for(let i = 0; i< this.result.labels.length; i++){
+      this.expEnrolChartData.push(100);
+    }
+    // this.expEnrolChartData = []
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
         this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
       }
     } else {
-      this.category = this.result.labels;
+      this.result.labels.forEach(item => {
+        // let obj: any = {
+        //   name: item, categories: ["% Enrolled", " % Completed", "% Certificates"]
+        // }
+        // this.category.push(obj);
+
+        this.category = this.result.labels;
+      })
+      // this.category = this.result.labels;
     }
     this.result.data.forEach(element => {
-      this.chartData.push(Number(element[`${this.type}`]));
-      // if (this.type != 'completion') {
-      //   this.completion.push(Number(element[`completion`]));
-      // } else {
-      //   this.completion.push(Number(element[`enrollment`]));
+      // this.chartData.push(Number(element[`${this.type}`]));
+      // this.chartData.push(Number(element[`enrollment`]));
+      // this.chartData.push(Number(element[`completion`])); 
+      // this.chartData.push(Number(element[`percent_completion`]));  
+      
+      this.enrollChartData.push(Number(element[`enrollment`]))
+      this.compliChartData.push(Number(element[`completion`]));
+      this.pecentChartData.push(Number(element[`percent_completion`]));
 
-      // }
-      if (this.type == 'completion') {
-          perCompletion.push(Number([element[`percent_completion`]]));
-          enrComplition.push(Number([element[`enrollment`]]))
-          this.completion.push([ [...perCompletion],[...enrComplition]])
-        } else if (this.type == 'enrollment') {
-          perCompletion.push(Number([element[`percent_completion`]]));
-          comComplition.push(Number([element[`completion`]]));
-          this.completion.push([ [...perCompletion],[...comComplition]])
-        }else if(this.type == 'percent_completion') {
-          comComplition.push(Number([element[`completion`]]));
-          enrComplition.push(Number([element[`enrollment`]]))
-          this.completion.push( [[...comComplition],[...enrComplition]])
-        }
-        
+      // tool tip
+        perCompletion.push(Number([element[`percent_completion`]]));
+        enrComplition.push(Number([element[`enrollment`]]));
+        comComplition.push(Number([element[`completion`]]));
+        this.completion.push([[...perCompletion], [...enrComplition], [...comComplition]])
+      
+
     });
     this.footer = (this.chartData.reduce((a, b) => Number(a) + Number(b), 0)).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
     this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
   }
+
 
   //Showing district data based on selected id:::::::::::::::::
   distLinkClick(districtId) {
@@ -270,7 +305,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   onDistSelect(districtId) {
     this.emptyChart();
     this.commonService.errMsg();
-
+   // added
+    this.expEnrolChartData=[]
+    this.enrollChartData = [];
+    this.compliChartData = [];
+    this.pecentChartData = [];
+    // this.result = null;
     this.globalId = districtId;
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -281,7 +321,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.blocks = [];
     this.clusters = [];
-
+ 
     this.blockId = undefined;
     this.clusterId = undefined;
     this.yAxisLabel = "Block Names"
@@ -311,6 +351,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   onBlockSelect(blockId) {
     this.emptyChart();
     this.commonService.errMsg();
+
+    // added
+    this.expEnrolChartData=[]
+    this.enrollChartData = [];
+    this.compliChartData = [];
+    this.pecentChartData = [];
 
     this.globalId = blockId;
     this.blockHidden = false;
@@ -352,6 +398,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.emptyChart();
     this.commonService.errMsg();
 
+    // added
+    this.expEnrolChartData=[]
+    this.enrollChartData = [];
+    this.compliChartData = [];
+    this.pecentChartData = [];
+
     this.globalId = this.blockId;
     this.level = "school"
     this.skul = false;
@@ -386,6 +438,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   getDataBasedOnCollections() {
     this.emptyChart();
     this.reportData = [];
+
+    // added
+    this.expEnrolChartData=[]
+    this.enrollChartData = [];
+    this.compliChartData = [];
+    this.pecentChartData = [];
 
     this.commonService.errMsg();
     this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${this.globalId}_${this.commonService.dateAndTime}`;
@@ -428,6 +486,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //filter downloadable data
   dataToDownload = [];
   newDownload(element) {
+    
     element['total_enrolled'] = element.total_enrolled.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     element['total_completed'] = element.total_completed.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     var data1 = {}, data2 = {}, data3 = {};
@@ -446,7 +505,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       if (key !== myKey) {
         data3[key] = data2[key];
       }
-    });
+    }
+    );
     this.dataToDownload.push(data3);
   }
 
@@ -454,7 +514,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   downloadReport() {
     this.dataToDownload = [];
     this.reportData.forEach(element => {
-      this.newDownload(element);
+     this.newDownload(element);
+     
     });
     this.commonService.download(this.fileName, this.dataToDownload);
   }

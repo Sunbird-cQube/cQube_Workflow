@@ -16,7 +16,6 @@ router.post('/allBlockWise', auth.authController, async (req, res) => {
         var management = req.body.data.management;
         var category = req.body.data.category;
         var fileName;
-        var blockData = {}
         var footerFile;
         var footerData = {}
 
@@ -83,12 +82,12 @@ router.post('/allBlockWise', auth.authController, async (req, res) => {
                 }
             }
         }
-        blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let blockData = await s3File.readFileConfig(fileName);
         var footer;
         var allSubjects = [];
         if (period != 'all') {
             if (subject) {
-                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
+                footerData = await s3File.readFileConfig(footerFile);
                 subjects();
             }
             if (grade && !subject || !grade && !subject) {
@@ -170,7 +169,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
                 footerFile = `${report}/${academic_year}/${semester}/block/grade_subject_footer.json`;
             }
         }
-        var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let blockData = await s3File.readFileConfig(fileName);;
         let distId = req.params.distId
 
         let filterData = blockData.data.filter(obj => {
@@ -191,7 +190,7 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
         var footer;
         if (period != 'all') {
             if (grad)
-                footerData = await s3File.storageType == "s3" ? await s3File.readS3File(footerFile) : await s3File.readLocalFile(footerFile);
+                footerData = await s3File.readFileConfig(footerFile);
             if (grad && !subject) {
                 if (footerData && footerData[distId])
                     footer = footerData[distId][grad];

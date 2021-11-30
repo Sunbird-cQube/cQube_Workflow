@@ -18,7 +18,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
             fileName = `progressCard/district/${timePeriod}/${districtId}.json`;
         }
 
-        var districtData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let districtData = await s3File.readFileConfig(fileName);
         logger.info('--- progressCard dist wise api response sent ---');
         res.status(200).send({ districtData });
     } catch (e) {

@@ -15,10 +15,10 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         } else {
             fileName = `composite/comp_block.json`
         }
-        var data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
 
         logger.info('--- composite report block api response sent ---');
-        res.status(200).send(data);
+        res.status(200).send(jsonData);
 
     } catch (e) {
         logger.error(`Error :: ${e}`)
@@ -38,11 +38,11 @@ router.post('/blockWise/:distId', auth.authController, async (req, res) => {
         } else {
             fileName = `composite/comp_block.json`
         }
-        var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
 
         let distId = req.params.distId
 
-        let filterData = blockData.filter(obj => {
+        let filterData = jsonData.filter(obj => {
             return (obj.district.id == distId)
         });
         if (filterData.length == 0) {

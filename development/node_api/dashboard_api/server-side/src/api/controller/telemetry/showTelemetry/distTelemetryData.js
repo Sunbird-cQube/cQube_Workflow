@@ -8,7 +8,7 @@ router.post('/', auth.authController, async (req, res) => {
         logger.info('--- get district telemetry data api ---');
         let timePeriod = req.body.timePeriod;
         let fileName = `cqube_telemetry/${timePeriod}/districts.json`;
-        let data = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);
+        let data = await s3File.readFileConfig(fileName);
         logger.info('--- get district telemetry data api response sent ---');
         res.send(data);
     } catch (e) {

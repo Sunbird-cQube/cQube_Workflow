@@ -17,11 +17,9 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         } else {
             fileName = `attendance/trend_line_chart/block/${districtId}_${year}.json`;
         }
-        var blockData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
-        fs.writeFile('./trendBlock.json', JSON.stringify(blockData), () => {
-            console.log("written to file");
-        })
-        var keys = Object.keys(blockData);
+        let jsonData = await s3File.readFileConfig(fileName);
+ 
+        var keys = Object.keys(jsonData);
         var mydata = [];
 
         keys.map(key => {
@@ -111,7 +109,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 attendance: ''
             }]
 
-            blockData[key].attendance.map(a => {
+            jsonData[key].attendance.map(a => {
                 attendanceTest.map(item => {
                     if (item.monthId == a.month) {
                         item.attendance = a.attendance_percentage;
@@ -123,7 +121,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             });
             let obj2 = {
                 blockId: key,
-                blockName: blockData[key].block_name[0],
+                blockName: jsonData[key].block_name[0],
                 attendance: attendanceTest
             }
             mydata.push(obj2);

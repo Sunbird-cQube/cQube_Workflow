@@ -8,10 +8,10 @@ router.post('/', auth.authController, async (req, res) => {
     try {
         logger.info('---management category meta api ---');
         let fileName = `meta/school_management_category_meta.json`;
-        var metaData = await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        let jsonData = await s3File.readFileConfig(fileName);
         var management = [];
         var category = [];
-        metaData.management.filter(item => {
+        jsonData.management.filter(item => {
             var name = changeingStringCases(item.replace(/_/g, ' '));
             management.push({ id: item, value: name });
         });
