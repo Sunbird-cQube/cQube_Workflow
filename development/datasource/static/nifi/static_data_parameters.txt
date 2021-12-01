@@ -51,7 +51,11 @@ HAVING  COUNT(*) > 1""",
 "static_same_id_filter_school_management_state":"""SELECT school_management_type_id,school_management_type from 
 (SELECT school_management_type_id,school_management_type,count(*)
 over (partition by school_management_type_id) as rn from FLOWFILE) sq Where rn =1""",
+"static_same_record_filter_diksha_enrolment_tpd_state":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from (SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available, row_number() over (partition by  collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available) as rn from flowfile)sq where rn=1""",
 "static_select_cols_school_category_state_final":"""SELECT school_category_id,school_category from flowfile""",
+"static_same_id_check_school_management_state":"""select *,count(*) as num_of_times from (
+select school_management_type_id,school_management_type from (SELECT school_management_type_id,school_management_type,count(*)
+over (partition by school_management_type_id) as rn from FLOWFILE) sq Where rn >1) group by school_management_type_id,school_management_type""",
 "static_update_category_management_school_hierarchy_qry":"""update school_hierarchy_details shd set school_management_type=replace(lower(scm.school_management_type),' ','_'),school_category=replace(lower(scm.school_category),' ','_')
 
 from (select school_id,smm.school_management_type,scm.school_category
@@ -59,9 +63,6 @@ from (select school_id,smm.school_management_type,scm.school_category
 from school_master sm left join school_management_master smm on sm.school_management_type_id=smm.school_management_type_id
 
 left join school_category_master scm on sm.school_category_id=scm.school_category_id) scm where shd.school_id=scm.school_id;""",
-"static_same_id_check_school_management_state":"""select *,count(*) as num_of_times from (
-select school_management_type_id,school_management_type from (SELECT school_management_type_id,school_management_type,count(*)
-over (partition by school_management_type_id) as rn from FLOWFILE) sq Where rn >1) group by school_management_type_id,school_management_type""",
 "static_same_record_check_school_udise":"""SELECT SchoolId,School,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude,
 count(*)-1  num_of_times
 FROM flowfile
@@ -74,14 +75,15 @@ SUM(CASE when ClusterId IS NULL THEN 1 ELSE 0 END) AS count_null_clusterId,
 SUM(CASE when BlockId IS NULL THEN 1 ELSE 0 END) AS count_null_blockid,
 SUM(CASE when Cluster IS NULL THEN 1 ELSE 0 END) AS count_null_cluster
 from flowfile)""",
+"static_same_record_filter_diksha_enrolment_tpd_udise":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from (SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available, row_number() over (partition by  collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available) as rn from flowfile)sq where rn=1""",
 "static_same_record_filter_school_udise":"""select schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude from
 (select schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude,row_number() over (partition by  schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude) as rn from flowfile)sq where rn=1""",
 "static_data_type_block_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseLong()),optional(ParseLong()),Optional(ParseLong())""",
+"static_select_cols_block_udise_final":"""SELECT BlockId as " block_id",Block as "block_name" ,DistrictId as "district_id" from flowfile""",
 "static_same_record_check_block_state":"""SELECT BlockId,Block,DistrictId,count(*)-1  num_of_times
 FROM flowfile
 GROUP BY BlockId,Block,DistrictId
 HAVING  COUNT(*) > 1""",
-"static_select_cols_block_udise_final":"""SELECT BlockId as " block_id",Block as "block_name" ,DistrictId as "district_id" from flowfile""",
 "static_same_id_check_district_udise":"""select *,count(*) as num_of_times from (
 select DistrictId,District from (SELECT DistrictId,District,count(*)
 over (partition by DistrictId) as rn from FLOWFILE) sq Where rn >1) group by DistrictId,District""",
@@ -93,12 +95,13 @@ over (partition by DistrictId) as rn from FLOWFILE) sq Where rn >1) group by Dis
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_cluster_exception":"""select school_id,school_name,block_id,district_id,cluster_id from school_hierarchy_details where cluster_name is null """,
-"static_same_id_filter_school_udise":"""SELECT schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude from 
-(SELECT schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude,count(*)
-over (partition by schoolid) as rn from FLOWFILE) sq Where rn =1""",
+"static_select_cols_diksha_enrolment_tpd_udise_final":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from flowfile""",
 "static_same_record_check_school_management_state":"""select school_management_type_id,school_management_type, count(*)-1 as num_of_times
 from flowfile
 group by school_management_type_id,school_management_type having count(*) >1""",
+"static_same_id_filter_school_udise":"""SELECT schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude from 
+(SELECT schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude,count(*)
+over (partition by schoolid) as rn from FLOWFILE) sq Where rn =1""",
 "static_process_rec_school_category":"""update log_summary as b
 set processed_records= a.processed_records
 from
@@ -130,14 +133,16 @@ where a.ff_uuid=b.ff_uuid""",
         "school_category": "[&1].records_with_null_value.school_category",
         "school_management_type_id": "[&1].records_with_null_value.school_management_type_id",
         "school_management_type": "[&1].records_with_null_value.school_management_type",
+        "collection_id": "[&1].records_with_null_value.collection_id",
+        "batch_id": "[&1].records_with_null_value.batch_id",
+        "batch_start_date": "[&1].records_with_null_value.batch_start_date",
         "processed_records": "[&1].processed_records",
         "process_start_time": "[&1].process_start_time",
         "process_end_time": "[&1].process_end_time"
       }
     }
 	}
-]
-""",
+]""",
 "static_save_school_category_udise":"""school_category_master""",
 "static_save_school_management_state":"""school_management_master""",
 "static_same_record_filter_block_udise":"""select BlockId,Block,DistrictId from (SELECT BlockId,Block,DistrictId,stateid, row_number() over (partition by  BlockId,Block,DistrictId,stateid) as rn from flowfile)sq where rn=1""",
@@ -157,12 +162,21 @@ over (partition by DistrictId) as rn from FLOWFILE) sq Where rn =1""",
 SUM(CASE when school_management_type_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_management_type_id,
 SUM(CASE when school_management_type IS NULL THEN 1 ELSE 0 END) AS count_null_school_management_type
 from flowfile)""",
+"static_diksha_enrolment_tpd_null_log":"""update log_summary  
+SET collection_id = diksha_enrolment_tpd_null_col.count_null_collection_id,
+batch_id = diksha_enrolment_tpd_null_col.count_null_batch_id,
+batch_start_date = diksha_enrolment_tpd_null_col.count_null_batch_start_date, 
+district_id = diksha_enrolment_tpd_null_col.count_null_districtId
+from diksha_enrolment_tpd_null_col
+where diksha_enrolment_tpd_null_col.ff_uuid = log_summary.ff_uuid""",
 "static_same_id_check_cluster_state":"""select *,count(*) as num_of_times from (
 select ClusterId,Cluster,BlockId,DistrictId from (SELECT ClusterId,Cluster,BlockId,DistrictId,count(*)
 over (partition by ClusterId) as rn from FLOWFILE) sq Where rn >1) group by  ClusterId,Cluster,BlockId,DistrictId""",
 "static_select_cols_school_category_state":"""select SchoolCategoryId as school_category_id,SchoolCategory as school_category from flowfile""",
 "static_select_cols_district_udise":"""select district_name as district,udise_district_code as districtid from flowfile""",
-"static_select_cols_school_management_state":"""select ManagementId as school_management_type_id,Management as school_management_type from flowfile""",
+"static_same_id_filter_diksha_enrolment_tpd_state":"""SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from 
+(SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,count(*)
+over (partition by Collection_id,district_id) as rn from FLOWFILE) sq Where rn =1""",
 "static_process_rec_school":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
@@ -170,6 +184,7 @@ over (partition by ClusterId) as rn from FLOWFILE) sq Where rn >1) group by  Clu
 		sum(case when latitude=longitude then latitude else (select greatest(latitude,longitude))end))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
+"static_select_cols_school_management_state":"""select ManagementId as school_management_type_id,Management as school_management_type from flowfile""",
 "static_update_query_cluster_geo":"""update school_geo_master as b
 	set cluster_latitude=a.cluster_latitude,
 	cluster_longitude=a.cluster_longitude,
@@ -193,6 +208,7 @@ from flowfile
 group by school_category_id,school_category
 having count(*) >1""",
 "static_select_cols_district_state":"""SELECT DistrictId,District from flowfile""",
+"static_log_summary_diksha_enrolment_tpd_qry":"""select * from log_summary where filename like '%diksha_enrolment_tpd%'""",
 "static_save_school_category_state":"""school_category_master""",
 "static_select_cols_cluster_state_final":"""SELECT ClusterId as "cluster_id",Cluster as "cluster_name",BlockId as "block_id",DistrictId as "district_id" from flowfile""",
 "static_select_cols_school_state_final":"""select SchoolId as school_id,School as school_name,lowclass as school_lowest_class,highclass as school_highest_class,
@@ -216,10 +232,11 @@ over (partition by school_category_id) as rn from FLOWFILE) sq Where rn =1""",
 "static_district_not_null":"""select * from flowfile
 where DistrictId IS NOT NULL
 and District IS NOT NULL""",
+"static_same_record_filter_school_category_udise":"""select school_category_id,school_category from (SELECT school_category_id,school_category, row_number() over (partition by  school_category_id,school_category) as rn from flowfile)sq where rn=1""",
 "static_same_id_filter_district_udise":"""SELECT DistrictId,District from 
 (SELECT DistrictId,District,count(*)
 over (partition by DistrictId) as rn from FLOWFILE) sq Where rn =1""",
-"static_same_record_filter_school_category_udise":"""select school_category_id,school_category from (SELECT school_category_id,school_category, row_number() over (partition by  school_category_id,school_category) as rn from flowfile)sq where rn=1""",
+"emission_directory":"""/tmp""",
 "static_same_record_check_school_category_state":"""SELECT school_category_id,school_category, count(*)-1 as num_of_times
 from flowfile
 group by school_category_id,school_category
@@ -227,12 +244,12 @@ having count(*) >1""",
 "static_same_id_filter_cluster_udise":"""SELECT ClusterId,Cluster,BlockId from 
 (SELECT ClusterId,Cluster,BlockId ,count(*)
 over (partition by ClusterId) as rn from FLOWFILE) sq Where rn =1""",
-"static_select_cols_school_category_udise_final":"""SELECT school_category_id,school_category from flowfile""",
 "static_block_null_count":"""(select 
 SUM(CASE when DistrictId IS NULL THEN 1 ELSE 0 END) AS count_null_districtId,
 SUM(CASE when BlockId IS NULL THEN 1 ELSE 0 END) AS count_null_blockid,
 SUM(CASE when  Block IS NULL THEN 1 ELSE 0 END) AS count_null_block
 from flowfile)""",
+"static_select_cols_school_category_udise_final":"""SELECT school_category_id,school_category from flowfile""",
 "static_same_record_filter_district_state":"""select DistrictId,District from (SELECT DistrictId,District, row_number() over (partition by  DistrictId,District) as rn from flowfile)sq where rn=1""",
 "static_same_record_filter_school_management_udise":"""select school_management_type_id,school_management_type from (SELECT school_management_type_id,school_management_type, row_number() over (partition by  school_management_type_id,school_management_type) as rn from flowfile)sq where rn=1""",
 "static_update_query_block_geo":"""update school_geo_master as b
@@ -244,9 +261,9 @@ percentile_disc(0.5) within group (order by cluster_longitude) as block_longitud
 from school_geo_master where school_latitude>0 or school_longitude>0 group by block_id) as a
 	where a.block_id=b.block_id;""",
 "static_log_summary_school_management_qry":"""select filename,ff_uuid,total_records,blank_lines,duplicate_records,datatype_mismatch,school_management_type_id,school_management_type,processed_records,process_start_time,process_end_time from log_summary where filename like 'school_management%'""",
-"static_save_block_mst_udise":"""block_mst""",
 "static_same_record_filter_district_udise":"""select DistrictId,District from (SELECT DistrictId,District, row_number() over 
 (partition by  DistrictId,District) as rn from flowfile)sq where rn=1""",
+"static_save_block_mst_udise":"""block_mst""",
 "static_same_id_check_cluster_udise":"""select *,count(*) as num_of_times from (
 select ClusterId,Cluster,BlockId from (SELECT ClusterId,Cluster,BlockId,count(*)
 over (partition by ClusterId) as rn from FLOWFILE) sq Where rn >1) group by  ClusterId,Cluster,BlockId""",
@@ -275,19 +292,25 @@ over (partition by BlockId) as rn from FLOWFILE) sq Where rn =1""",
 "static_block_exception":"""select school_id,school_name,block_id,district_id,cluster_id from school_hierarchy_details where block_name is null """,
 "static_log_summary_block_qry":"""select * from log_summary where filename like '%block%'""",
 "static_select_cols_cluster_state":"""SELECT ClusterId,Cluster,BlockId,DistrictId from flowfile""",
+"static_same_record_check_diksha_enrolment_tpd_udise":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,count(*)-1 from flowfile 
+GROUP BY collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available
+HAVING  COUNT(*) > 1""",
 "static_same_id_check_block_state":"""select *,count(*) as num_of_times from (
 select BlockId,Block,DistrictId from (SELECT BlockId,Block,DistrictId,count(*)
 over (partition by BlockId) as rn from FLOWFILE) sq Where rn >1) group by  BlockId,Block,DistrictId""",
+"static_same_id_check_diksha_enrolment_tpd_udise":"""select *,count(*) as num_of_times from (
+select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from (SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,count(*)
+over (partition by Collection_id,district_id) as rn from FLOWFILE) sq Where rn >1) group by collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available""",
 "static_data_type_school_state":"""Optional(ParseLong()),Optional(StrNotNullOrEmpty()),Optional(ParseInt()),Optional(ParseInt()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),
 Optional(ParseInt()),Optional(ParseInt()),Optional(ParseLong()),Optional(ParseLong()),Optional(ParseBigDecimal()),Optional(ParseBigDecimal())""",
 "static_select_cols_block_udise":"""select block_name as block,udise_block_code as blockid,udise_dist_code as districtid,udise_state_code as stateid from flowfile""",
 "static_data_type_cluster_state":"""Optional(ParseLong()),Optional(StrNotNullOrEmpty()),Optional(ParseLong()),optional(ParseInt())""",
 "static_select_cols_district_udise_final":"""SELECT DistrictId as " district_id",District as "district_name" from flowfile""",
+"static_select_cols_school_udise_final":"""select SchoolId as school_id,School as school_name,school_management_type_id,school_category_id,StateId as state_id,
+DistrictId as district_id,BlockId as block_id,ClusterId as cluster_id,latitude,longitude  from flowfile""",
 "static_same_id_check_school_udise":"""select *,count(*) as num_of_times from (
 select schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude from (
 select schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude,count(*) over (partition by schoolid) as rn from FLOWFILE) sq Where rn >1) group by  schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude""",
-"static_select_cols_school_udise_final":"""select SchoolId as school_id,School as school_name,school_management_type_id,school_category_id,StateId as state_id,
-DistrictId as district_id,BlockId as block_id,ClusterId as cluster_id,latitude,longitude  from flowfile""",
 "static_save_school_geo_master_udise":"""insert into school_geo_master as a (school_id,district_id ,block_id,cluster_id,school_latitude,school_longitude,created_on)
 SELECT school_id,district_id ,block_id,cluster_id,latitude,longitude,now() from school_master
 on conflict (school_id)
@@ -308,6 +331,9 @@ from ( select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+data
 "static_school_management_not_null":"""SELECT * FROM flowfile
 WHERE school_management_type_id IS NOT NULL
 AND  school_management_type IS NOT NULL""",
+"static_same_id_check_diksha_enrolment_tpd_state":"""select *,count(*) as num_of_times from (
+select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from (SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,count(*)
+over (partition by Collection_id,district_id) as rn from FLOWFILE) sq Where rn >1) group by collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available""",
 "static_data_type_school_category_udise":"""Optional(ParseInt()),Optional(StrNotNullOrEmpty())""",
 "static_same_id_check_block_udise":"""select *,count(*) as num_of_times from (
 select BlockId,Block,DistrictId,stateid from (SELECT BlockId,Block,DistrictId,stateid,count(*)
@@ -315,17 +341,24 @@ over (partition by BlockId) as rn from FLOWFILE) sq Where rn >1) group by  Block
 "static_data_type_school_udise":"""Optional(ParseLong()),Optional(StrNotNullOrEmpty()), Optional(ParseInt()),Optional(ParseInt()), Optional(ParseInt()),Optional(ParseLong()),Optional(ParseLong()),
 Optional(ParseLong()),Optional(ParseBigDecimal()),Optional(ParseBigDecimal())""",
 "static_select_cols_block_state_final":"""SELECT BlockId as " block_id",Block as "block_name" ,DistrictId as "district_id" from flowfile""",
+"static_same_record_check_diksha_enrolment_tpd_state":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,count(*)-1 from flowfile 
+GROUP BY collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available
+HAVING  COUNT(*) > 1""",
 "static_select_cols_cluster_udise":"""select cluster_name as cluster,udise_block_code as blockid,udise_cluster_code as clusterid from flowfile""",
 "static_select_cols_school_category_udise":"""select SchoolCategoryId as school_category_id,SchoolCategory as school_category from flowfile""",
+"static_same_id_filter_diksha_enrolment_tpd_udise":"""SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from 
+(SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,count(*)
+over (partition by Collection_id,district_id) as rn from FLOWFILE) sq Where rn =1""",
 "static_cluster_check_if_null":"""select * from flowfile
 where clusterid IS NULL
 or blockid IS NULL
 or cluster IS NULL""",
-"static_school_name_exception":"""select school_id,school_name,block_id,district_id,cluster_id from school_hierarchy_details where school_name is null """,
+"static_data_type_diksha_enrolment_tpd_state":"""Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(ParseDate("yyyy-MM-dd")),Optional(ParseDate("yyyy-MM-dd")),Optional(ParseInt()),Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(ParseBool())""",
 "static_block_check_if_null":"""select * from flowfile
 where blockid IS NULL
 or districtid IS NULL
 or block IS NULL""",
+"static_school_name_exception":"""select school_id,school_name,block_id,district_id,cluster_id from school_hierarchy_details where school_name is null """,
 "static_same_id_filter_block_udise":"""SELECT BlockId,Block,DistrictId,stateid from 
 (SELECT BlockId,Block,DistrictId,stateid,count(*)
 over (partition by BlockId) as rn from FLOWFILE) sq Where rn =1""",
@@ -340,14 +373,15 @@ HAVING  COUNT(*) > 1""",
 where ClusterId IS NOT NULL
 AND BlockId IS NOT NULL
 AND Cluster IS NOT NULL""",
-"school_managment_unique":"""select * from flowfile where school_management_type is NOT NULL""",
 "static_save_school_geo_master_state":"""insert into school_geo_master as a (school_id,district_id ,block_id,cluster_id,school_latitude,school_longitude,created_on)
 SELECT school_id,district_id ,block_id,cluster_id,latitude,longitude,now() from school_master
 on conflict (school_id)
 do update set school_id=excluded.school_id,district_id=excluded.district_id ,
 block_id=excluded.block_id,cluster_id=excluded.cluster_id,school_latitude=excluded.school_latitude,school_longitude=excluded.school_longitude,
 created_on=excluded.created_on,updated_on=now()""",
+"school_managment_unique":"""select * from flowfile where school_management_type is NOT NULL""",
 "static_log_summary_cluster_qry":"""select * from log_summary where filename like '%cluster%'""",
+"static_data_type_diksha_enrolment_tpd_udise":"""Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(ParseDate("yyyy-MM-dd")),Optional(ParseDate("yyyy-MM-dd")),Optional(ParseInt()),Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(ParseBool())""",
 "static_same_id_check_school_category_state":"""select *,count(*) as num_of_times from (
 select school_category_id,school_category from (SELECT school_category_id,school_category,count(*)
 over (partition by school_category_id) as rn from FLOWFILE) sq Where rn >1) group by school_category_id,school_category""",
@@ -364,6 +398,11 @@ where block_null_col.ff_uuid = log_summary.ff_uuid""",
 from flowfile
 group by school_management_type_id,school_management_type having  count(*) >1""",
 "static_same_record_filter_cluster_state":"""select ClusterId,Cluster,BlockId,DistrictId from (SELECT ClusterId,Cluster,BlockId,DistrictId,row_number() over (partition by  ClusterId,Cluster,BlockId,DistrictId) as rn from flowfile)sq where rn=1""",
+"static_diksha_enrolment_tpd_check_if_null":"""select * from flowfile
+where collection_id IS NULL
+or batch_id IS NULL
+or batch_start_date IS NULL
+or district_id IS NULL""",
 "static_select_cols_block_state":"""SELECT BlockId,Block,DistrictId from flowfile""",
 "static_save_cluster_mst_state":"""cluster_mst""",
 "static_same_id_check_district_state":"""select *,count(*) as num_of_times from (
@@ -376,12 +415,20 @@ SET school_management_type_id = school_management_null_col.count_null_school_man
 school_management_type = school_management_null_col.count_null_school_management_type
 from school_management_null_col
 where school_management_null_col.ff_uuid = log_summary.ff_uuid""",
+"static_diksha_enrolment_tpd_count_null_vals":"""(select 
+SUM(CASE when collection_id IS NULL THEN 1 ELSE 0 END) AS count_null_collection_id,
+SUM(CASE when batch_id IS NULL THEN 1 ELSE 0 END) AS count_null_batch_id,
+SUM(CASE when  batch_start_date IS NULL THEN 1 ELSE 0 END) AS count_null_batch_start_date,
+SUM(CASE when  district_id IS NULL THEN 1 ELSE 0 END) AS count_null_district_id
+from flowfile)""",
 "static_school_null_log_lat_long":"""update log_summary
 SET school_name = school_null_col.count_null_school,
 latitude = school_null_col.count_null_latitude,
 longitude = school_null_col.count_null_longitude from school_null_col
 where school_null_col.ff_uuid = log_summary.ff_uuid""",
 "static_log_summary_school_qry":"""select * from log_summary where filename like 'school_mst%'""",
+"static_select_cols_diksha_enrolment_tpd_state_final":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from flowfile""",
+"static_save_diksha_enrolment_tpd_udise":"""diksha_tpd_expected_enrollment""",
 "static_save_school_mst_udise":"""school_master""",
 "static_save_cluster_mst_udise":"""cluster_mst""",
 "static_district_check_if_null":"""select * from flowfile
@@ -401,6 +448,7 @@ where school_category_null_col.ff_uuid = log_summary.ff_uuid""",
 "static_same_id_check_school_state":"""select *,count(*) as num_of_times from (
 select schoolid,school,lowclass,highclass,schmgt,schcat,schoolmedium,StateId,districtid,blockid,clusterid,latitude,longitude from (
 select schoolid,school,lowclass,highclass,schmgt,schcat,schoolmedium,StateId,districtid,blockid,clusterid,latitude,longitude,count(*) over (partition by schoolid) as rn from FLOWFILE) sq Where rn >1) group by  schoolid,school,lowclass,highclass,schmgt,schcat,schoolmedium,StateId,districtid,blockid,clusterid,latitude,longitude""",
+"static_data_type_district_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseInt())""",
 "static_jolt_school_management_category_meta":"""[
   {
     "operation": "shift",
@@ -411,26 +459,39 @@ select schoolid,school,lowclass,highclass,schmgt,schcat,schoolmedium,StateId,dis
     }
   }
 ]""",
-"static_data_type_district_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseInt())""",
-"static_data_type_school_category_state":"""Optional(ParseInt()),Optional(StrNotNullOrEmpty())""",
+"static_save_diksha_enrolment_tpd_state":"""diksha_tpd_expected_enrollment""",
 "static_school_check_if_null_lat_long":"""select * from flowfile 
 where school is NULL
 or latitude is NULL
 or longitude is NULL
 or latitude like '0' or latitude like '0.0'
 or longitude like '0' or longitude like '0.0'""",
+"static_data_type_school_category_state":"""Optional(ParseInt()),Optional(StrNotNullOrEmpty())""",
+"static_select_cols_diksha_enrolment_tpd_state":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from flowfile""",
 "static_data_type_cluster_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(ParseLong())""",
 "static_select_cols_district_state_final":"""SELECT DistrictId as " district_id",District as "district_name" from flowfile""",
-"static_save_district_mst_state":"""district_mst""",
 "static_save_district_mst_udise":"""district_mst""",
+"static_save_district_mst_state":"""district_mst""",
+"static_process_rec_diksha_enrolment_tpd":"""update log_summary as b
+	set processed_records= a.processed_records
+	from (
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(collection_id,batch_id,batch_start_date,district_id)))as processed_records 
+		from log_summary group by ff_uuid) as a
+	where a.ff_uuid=b.ff_uuid""",
+"static_diksha_enrolment_tpd_not_null":"""select * from flowfile
+where collection_id IS NOT NULL
+AND batch_id IS NOT NULL
+AND batch_start_date IS NOT NULL
+AND district_id IS NOT NULL""",
 "static_process_rec_block":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
 		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(district_id,block_name,block_id)))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
+"static_select_cols_diksha_enrolment_tpd_udise":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available from flowfile""",
+"static_data_type_district_state":"""Optional(ParseInt()),Optional(StrNotNullOrEmpty())""",
 "static_school_management_check_if_null":"""select * from flowfile
 where school_management_type_id IS NULL
 or school_management_type IS NULL""",
-"static_data_type_district_state":"""Optional(ParseInt()),Optional(StrNotNullOrEmpty())"""
 }
