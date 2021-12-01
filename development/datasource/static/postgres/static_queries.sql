@@ -273,3 +273,23 @@ END IF;
 return 0;
 END;
 $$  LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION academic_year(date_check date) returns varchar(10) as $$
+declare data varchar;
+begin
+select case when cast(to_char(date_check, 'MM')as int) in (6,7,8,9,10,11,12) then (cast(to_char(date_check,'YYYY') as int) ||'-'||substring(cast((cast(to_char(date_check,'YYYY') as int)+1) as text),3,2)) else ((cast(to_char(date_check,'YYYY') as int)-1) ||'-'||substring(cast(to_char(date_check,'YYYY') as text),3,2)) end into data;
+
+return data;
+END; $$
+LANGUAGE PLPGSQL;
+
+
+CREATE OR REPLACE FUNCTION academic_year_by_month_year(month int,year int) returns varchar(10) as $$
+declare data varchar;
+begin
+select case when month in (6,7,8,9,10,11,12) then cast(year as text) ||'-'||substring(cast(year+1 as text),3,2) else cast(year-1 as text) ||'-'|| substring(cast(year as text),3,2) end into data;
+
+return data;
+END; $$
+LANGUAGE PLPGSQL;
+
