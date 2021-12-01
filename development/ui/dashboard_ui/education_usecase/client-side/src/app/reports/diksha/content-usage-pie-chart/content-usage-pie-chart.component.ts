@@ -94,7 +94,6 @@ try {
             y: Number((Math.round(item.total_content_plays_percent * 100) / 100).toFixed(2))
         })
       })
-      console.log('state', data) 
       return data
       
    }
@@ -103,24 +102,16 @@ try {
 
  /// distData
  getDistData(){
-  // let dataPie = []
+ 
      try {
         this.service.dikshaPieDist().subscribe(res => {
             this.distData = res['data'].data;
-            // this.distToDropDown.forEach(item => {
-            //   this.distWisePieData = this.distData[Number(item['district_id'])]
             
-            //   dataPie.push({
-            //    name: this.distData[Number(item['district_id'])]
-            //  })
-            //  console.log('pieData',this.distWisePieData)
             let obj1: any = []; let obj2 = {}
             Object.keys(this.distData).forEach( keys => {
               obj1.push(
                 this.distData[keys])
             })
-            console.log('obj',obj1)
-            // Object.keys(this.distData)
             this.createDistPiechart(obj1)
             }) 
      } catch (error) {
@@ -131,7 +122,8 @@ try {
 
     public distMetaData;
      public distToDropDown
-  /// distMeta
+ 
+     /// distMeta
   getDistMeta(){
        try {
        this.service.diskshaPieMeta().subscribe(res => {
@@ -192,9 +184,7 @@ onStateDropSelected(data){
   distWisePieData
  
   createDistPiechart(data ){
-     console.log('dataforie', data)
-    // var allDistData
-    // let distWiseData
+    
     let pieData = data
     let Distdata:any = []
     // let data1:any = []
@@ -210,17 +200,11 @@ onStateDropSelected(data){
               // })
               // })
         // })
-    // console.log('data1', data1)
-
     this.service.diskshaPieMeta().subscribe(res => {
       this.distPieChart = res['data'];
-      // console.log('distPieChart', this.distPieChart )
      this.disttoLoop = this.distPieChart.Districts.map( (dist:any) =>{
          return dist
      })
-    
-     console.log('dist', this.disttoLoop)
-     ////data///////
     
      let createdDiv
       
@@ -398,74 +382,22 @@ onStateDropSelected(data){
   data5: 56
 }];
 
-    // var Piedata = [{
-    //   "name": "cakes",
-    //   "data": [
-    //     {
-    //      name: "us",
-    //      y: 149
-    //     },
-    //     {
-    //       name: "us",
-    //       y: 149
-    //      },
-    //      {
-    //       name: "us",
-    //       y: 149
-    //      },
-    //      {
-    //       name: "us",
-    //       y: 149045
-    //      }
-    //   ],
-    // }, {
-    //   "name": "pie",
-    //   "data": [
-    //     {
-    //      name: "us",
-    //      y: 149
-    //     },
-    //     {
-    //       name: "us",
-    //       y: 149
-    //      },
-    //      {
-    //       name: "us",
-    //       y: 149
-    //      },
-    //      {
-    //       name: "us",
-    //       y: 149045
-    //      }
-    //   ]
-    // }]
-    
- 
      const  mainContainer = document.getElementById('container1');
-    // console.log('distToLoop', this.disttoLoop)
+
     Piedata.forEach(function(el:any,i) {
       var chartData = [el.data1, el.data2, el.data3];
       var distName = el.distName
-      console.log('ddd', distName)
       // var chartData = [el.data[i].y];
      createdDiv = document.createElement('div');
       createdDiv.style.display = 'inline-block';
       createdDiv.style.width = '300px';
       createdDiv.style.height = "300px";
       createdDiv.id = `text${i}`
-      // createdDiv.style.backgroundColor = 'blue';
-      
-     
       
       mainContainer.appendChild(createdDiv); 
       // Object.keys(dataEl).forEach( item=> {
       //   console.log('item',item)
       // })
-   
-     
-     
-     
-      // let pieData:any =  this.data[Number(dataEl['district_id'])]
       Highcharts.chart(createdDiv, {
         chart:{
           plotBackgroundColor: 'transparent',
@@ -577,27 +509,6 @@ onStateDropSelected(data){
         name: 'Percentage',
         colorByPoint: true,
         data: data
-        // data: [{
-        //     name: "Collection",
-        //      y: 0.01
-        //     // sliced: true,
-        //     // selected: true
-        // }, {
-        //     name: "Course",
-        //     y: 88.47
-        // }, {
-        //     name: "CourseUnit",
-        //     y: 0
-        // }, {
-        //     name: "LessonPlan",
-        //     y: 0
-        // }, {
-        //     name: "TextBook",
-        //     y: 11.51
-        // }, {
-        //     name: "TextBookUnit",
-        //     y: 0.01
-        // } ]
     }]
     };
     this.Highcharts.chart("container", this.chartOptions);
