@@ -19,6 +19,10 @@ import { MultiBarChartComponent } from './multi-bar-chart/multi-bar-chart.compon
 import { TpdTotalContentPlaysComponent } from './map-reports/tpd-total-content-plays/tpd-total-content-plays.component';
 import { EtbTotalContentPlaysComponent } from './map-reports/etb-total-content-plays/etb-total-content-plays.component';
 import { ContentUsagePieChartComponent } from './content-usage-pie-chart/content-usage-pie-chart.component';
+import { EtbPerCapitaComponent } from './map-reports/etb-per-capita/etb-per-capita.component';
+import { TotalContentPlayOverYearsComponent } from './total-content-play-over-years/total-content-play-over-years.component';
+import { EnrollmentProgressComponent } from './enrollment-progress/enrollment-progress.component';
+// import { EtbPerCapitaComponent } from '..//etb-per-capita/etb-per-capita.component';
 
 const dikshaRoutes: Routes = [
   {
@@ -58,6 +62,15 @@ const dikshaRoutes: Routes = [
       },
       {
         path: 'content-usage-pie-chart', component: ContentUsagePieChartComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      },
+      {
+        path: 'etb-per-capita', component: EtbPerCapitaComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      },
+      {
+        path: 'total-content-play', component: TotalContentPlayOverYearsComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      },
+      {
+        path: 'enrollment-progress', component: EnrollmentProgressComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }
@@ -75,7 +88,10 @@ const dikshaRoutes: Routes = [
     MultiBarChartComponent,
     TpdTotalContentPlaysComponent,
     EtbTotalContentPlaysComponent,
-    ContentUsagePieChartComponent
+    ContentUsagePieChartComponent,
+    EtbPerCapitaComponent,
+    TotalContentPlayOverYearsComponent,
+    EnrollmentProgressComponent
   ],
   imports: [
     CommonModule,
