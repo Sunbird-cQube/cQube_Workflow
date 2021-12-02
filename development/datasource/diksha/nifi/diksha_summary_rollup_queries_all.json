@@ -171,12 +171,18 @@
         "diksha_line_etb_state": "select concat(month,'_',year) as month,plays from (select substring(cast(year as text),3,4)  as year,TO_CHAR(TO_DATE (month::text, 'MM'), 'Mon') AS month,sum(total_count) as plays from diksha_total_content_year_month where collection_type in('TextBook','TextBookUnit') group by year,month) as res ;"
     },
     {
-        "diksha_pie_etb_state": "select collection_type,sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_content_trans where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and lower(dimensions_mode)='play') as total_content_plays_percent from diksha_content_trans where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and lower(dimensions_mode)='play' group by collection_type;"
-    },
-    {
-        "diksha_pie_etb_district": "select shd.district_id,derived_loc_district as district_name,collection_type,sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_content_trans where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and lower(dimensions_mode)='play')  as total_content_plays_percent from diksha_content_trans dct join school_hierarchy_details shd on lower(dct.derived_loc_district) = lower(shd.district_name) where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and lower(dimensions_mode)='play' group by collection_type,derived_loc_district,shd.district_id;"
-    },
-    {
         "diksha_pie_etb_meta_district": "select distinct district_id,district_name from diksha_total_content;"
+    },
+    {
+        "diksha_pie_etb_state": "select object_type,round(sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown'),2) as total_content_plays_percent from diksha_total_content dct where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL group by object_type;"
+    },
+    {
+        "diksha_pie_etb_district": "select district_id,district_name,object_type,round(sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown'),2) as total_content_plays_percent from diksha_total_content dct where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL group by object_type,district_name,district_id;"
+    },
+    {
+        "diksha_hbar_crs_district": "select district_id,district_name,collection_name, round(cast((sum(total_time_spent) / sum(total_count)) as decimal ),2)as avg_time_spent from diksha_total_content where collection_type in('Course') group by district_id,district_name,collection_name"
+    },
+    {
+        "diksha_hbar_crs_state": "select collection_name, round(cast((sum(total_time_spent) / sum(total_count)) as decimal ),2)as avg_time_spent from diksha_total_content where collection_type in('Course') group by collection_name"
     }
 ]

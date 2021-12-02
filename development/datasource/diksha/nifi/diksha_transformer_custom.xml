@@ -3726,6 +3726,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>diksha_hbar_crs</selectedRelationships>
                     <selectedRelationships>diksha_line_chart_etb</selectedRelationships>
                     <selectedRelationships>diksha_map_etb</selectedRelationships>
                     <selectedRelationships>diksha_map_tpd</selectedRelationships>
@@ -8248,6 +8249,7 @@ ${type:contains('all_districts'):ifElse(#{JoltTransformJSON_all_districts},
 ${query_type:startsWith('diksha_tpd_r2_district_last_day'):ifElse(#{diksha_tpd_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_district_last_7_days'):ifElse(#{diksha_tpd_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_district_last_30_days'):ifElse(#{diksha_tpd_r2_jolt},
+${query_type:startsWith('diksha_tpd_r2_district_last_90_days'):ifElse(#{diksha_tpd_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_district_overall'):ifElse(#{diksha_tpd_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_block_last_day'):ifElse(#{diksha_tpd_block_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):ifElse(#{diksha_tpd_block_r2_jolt},
@@ -8269,8 +8271,10 @@ ${query_type:startsWith('diksha_map_tpd_state'):ifElse(#{diksha_map_state_tpd_jo
 ${query_type:startsWith('diksha_line_etb_state'):ifElse(#{diksha_line_state_etb_jolt_spec},
 ${query_type:startsWith('diksha_pie_etb_state'):ifElse(#{diksha_pie_etb_state_jolt_spec},
 ${query_type:startsWith('diksha_pie_etb_district'):ifElse(#{diksha_pie_etb_district_jolt_spec},
-${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse(#{diksha_pie_etb_meta_district_jolt_spec},'None')} 
- )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})}</value>
+${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse(#{diksha_pie_etb_meta_district_jolt_spec},
+${query_type:startsWith('diksha_hbar_crs_state'):ifElse(#{diksha_hbar_crs_state_jolt_spec},
+${query_type:startsWith('diksha_hbar_crs_district'):ifElse(#{diksha_hbar_crs_district_jolt_spec},'None')} 
+ )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -20408,6 +20412,12 @@ ${filename:startsWith('diksha_tpd_mapping'):ifElse("delete from diksha_tpd_mappi
 </value>
                             </entry>
                             <entry>
+<key>diksha_hbar_crs</key>
+<value>
+    <name>diksha_hbar_crs</name>
+</value>
+                            </entry>
+                            <entry>
 <key>diksha_line_chart_etb</key>
 <value>
     <name>diksha_line_chart_etb</name>
@@ -20441,6 +20451,10 @@ ${filename:startsWith('diksha_tpd_mapping'):ifElse("delete from diksha_tpd_mappi
 <value>Route to Property name</value>
                             </entry>
                             <entry>
+<key>diksha_hbar_crs</key>
+<value>${query_type:startsWith('diksha_hbar_crs')}</value>
+                            </entry>
+                            <entry>
 <key>diksha_line_chart_etb</key>
 <value>${query_type:startsWith('diksha_line_etb_state')}</value>
                             </entry>
@@ -20464,6 +20478,10 @@ ${filename:startsWith('diksha_tpd_mapping'):ifElse("delete from diksha_tpd_mappi
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
                     <name>diksha_route_by_query_after_query_exec</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_hbar_crs</name>
+                    </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>diksha_line_chart_etb</name>
@@ -22873,5 +22891,5 @@ where ff_uuid='${emission_ff_uuid:trim()}';</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>11/30/2021 14:59:02 IST</timestamp>
+    <timestamp>12/02/2021 12:10:56 IST</timestamp>
 </template>
