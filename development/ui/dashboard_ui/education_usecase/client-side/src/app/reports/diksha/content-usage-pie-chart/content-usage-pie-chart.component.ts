@@ -63,11 +63,11 @@ try {
 
   this.service.dikshaPieState().subscribe(res => {
     this.pieData = res['data'].data;
-   this.stateData = this.restructurePieChartData(this.pieData)
-   this.createPieChart(this.stateData);
-   this.getDistMeta();
-   this.getDistData()
-   this.commonService.loaderAndErr(this.stateData);
+     this.stateData = this.restructurePieChartData(this.pieData)
+     this.createPieChart(this.stateData);
+     this.getDistMeta();
+     this.getDistData()
+     this.commonService.loaderAndErr(this.stateData);
    })
 } catch (e) {
   this.stateData = [];
@@ -90,9 +90,10 @@ try {
       let data:any = []
     pieData.forEach( item => {
        data.push({
-            name: item.collection_type,
-            y: Number((Math.round(item.total_content_plays_percent * 100) / 100).toFixed(2))
-        })
+            name: item.object_type,
+            // y: Number((Math.round(item.total_content_plays_percent * 100) / 100).toFixed(2))
+            y: item.total_content_plays_percent
+          })
       })
       return data
       
@@ -106,7 +107,6 @@ try {
      try {
         this.service.dikshaPieDist().subscribe(res => {
             this.distData = res['data'].data;
-            
             let obj1: any = []; let obj2 = {}
             Object.keys(this.distData).forEach( keys => {
               obj1.push(
@@ -187,19 +187,27 @@ onStateDropSelected(data){
     
     let pieData = data
     let Distdata:any = []
-    // let data1:any = []
-    //     data.forEach((item, i) =>{
-    //       data1.push({
-    //         name: item.data[i].collection_type,
-    //         y: Number((Math.round(item.data[i].total_content_plays_percent * 100) / 100).toFixed(2))
-    //     })
+    let data1:any = []
+    pieData.forEach((item, i) =>{
+        
+          data1.push({
+            data:item
+            // name:item[j]['district_name'],
+             
+              // y: element[j]['total_content_plays_percent']
+          
+            // console.log('innerLoop',item[j])
+           } )
               // item.forEach( item1 =>{
               //   data1.push({
-              //     name: item1.collection_type,
+        // console.log('item', item[i]['total_content_plays_percent'])          //     name: item1.collection_type,
               //     y: Number((Math.round(item1.total_content_plays_percent * 100) / 100).toFixed(2))
               // })
               // })
-        // })
+              
+        })
+       
+
     this.service.diskshaPieMeta().subscribe(res => {
       this.distPieChart = res['data'];
      this.disttoLoop = this.distPieChart.Districts.map( (dist:any) =>{
@@ -210,7 +218,7 @@ onStateDropSelected(data){
       
      let containerID = []
      var Piedata = [{
-       distName: "Ahmedabad",
+      distName: "Ahmedabad",
       data1: 12,
       data2: 25,
       data3: 40
@@ -384,15 +392,24 @@ onStateDropSelected(data){
 
      const  mainContainer = document.getElementById('container1');
 
-    Piedata.forEach(function(el:any,i) {
+     Piedata.forEach(function(el:any,i) {
       var chartData = [el.data1, el.data2, el.data3];
+      
+      // el.forEach(item => {
+      //   console.log('el', item.total_content_plays_percent)
+      //  chartData = item
+      // })
+    //  var chartData = [el[i]['object_type'],el[i]['total_content_plays_percent']]
       var distName = el.distName
-      // var chartData = [el.data[i].y];
+      
+        
+     var distChartData = []
+     
      createdDiv = document.createElement('div');
       createdDiv.style.display = 'inline-block';
       createdDiv.style.width = '300px';
       createdDiv.style.height = "300px";
-      createdDiv.id = `text${i}`
+      // createdDiv.id = `text${i}`
       
       mainContainer.appendChild(createdDiv); 
       // Object.keys(dataEl).forEach( item=> {
@@ -460,7 +477,7 @@ onStateDropSelected(data){
         style: {
           // color: 'blue',
           fontWeight: 'bold',
-          fontSize: '1rem'
+          fontSize: '0.2rem'
           // point.percentage
       }
     },
@@ -484,12 +501,13 @@ onStateDropSelected(data){
       style: {
         // color: 'blue',
         // fontWeight: 'bold',
-        fontSize: '0.8rem',
+        fontSize: '0.5rem',
         lineHeight: 2
     }
     },
     plotOptions: {
         pie: {
+          size: 250,
             allowPointSelect: true,
             cursor: 'pointer',
             dataLabels: {
@@ -498,7 +516,7 @@ onStateDropSelected(data){
                 style: {
                   // color: 'blue',
                   // fontWeight: 'bold',
-                  fontSize: '0.8rem'
+                  fontSize: '0.6rem'
               }
             },
             showInLegend: true
