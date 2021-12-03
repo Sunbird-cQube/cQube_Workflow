@@ -60632,13 +60632,14 @@ ${query_type:startsWith('diksha_tpd_r2_raw_overall'):ifElse('diksha_raw_data/tpd
 ${query_type:startsWith('diksha_map_etb_state'):ifElse('diksha/map/state.json',
 ${query_type:startsWith('diksha_map_tpd_state'):ifElse('diksha_tpd/map/state.json',
 ${query_type:startsWith('diksha_line_etb_state'):ifElse('diksha/line/state.json',
+${query_type:startsWith('diksha_line_etb_district'):ifElse('diksha/line/district.json',
 ${query_type:startsWith('diksha_pie_etb_state'):ifElse('diksha/pie/state.json',
 ${query_type:startsWith('diksha_pie_etb_district'):ifElse('diksha/pie/district.json',
 ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse('diksha/pie/district_meta.json',
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse('diksha/hbar/course/state.json',
 ${query_type:startsWith('diksha_hbar_crs_district'):ifElse('diksha/hbar/course/district.json','None')}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )} )}
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )} )})}
 )})})})})}</value>
                             </entry>
                         </properties>
@@ -77681,5 +77682,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/02/2021 12:12:30 IST</timestamp>
+    <timestamp>12/03/2021 12:25:53 IST</timestamp>
 </template>

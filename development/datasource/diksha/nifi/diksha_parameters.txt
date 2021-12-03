@@ -382,8 +382,7 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
       "*": "=recursivelySquashNulls"
     }
   }
-]
-""",
+]""",
 "diksha_map_state_etb_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
@@ -521,5 +520,14 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
       }
     }
   }
-  ]"""
+  ]""",
+  "diksha_line_district_etb_jolt_spec":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": "data"
+    }
+  }
+]"""
+
 }
