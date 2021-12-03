@@ -107,6 +107,7 @@ try {
      try {
         this.service.dikshaPieDist().subscribe(res => {
             this.distData = res['data'].data;
+            
             let obj1: any = []; let obj2 = {}
             Object.keys(this.distData).forEach( keys => {
               obj1.push(

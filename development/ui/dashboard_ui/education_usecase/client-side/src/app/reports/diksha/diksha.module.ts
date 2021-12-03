@@ -22,6 +22,7 @@ import { ContentUsagePieChartComponent } from './content-usage-pie-chart/content
 import { EtbPerCapitaComponent } from './map-reports/etb-per-capita/etb-per-capita.component';
 import { TotalContentPlayOverYearsComponent } from './total-content-play-over-years/total-content-play-over-years.component';
 import { EnrollmentProgressComponent } from './enrollment-progress/enrollment-progress.component';
+import { AverageTimeSpendBarComponent } from './average-time-spend-bar/average-time-spend-bar.component';
 // import { EtbPerCapitaComponent } from '..//etb-per-capita/etb-per-capita.component';
 
 const dikshaRoutes: Routes = [
@@ -71,6 +72,9 @@ const dikshaRoutes: Routes = [
       },
       {
         path: 'enrollment-progress', component: EnrollmentProgressComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      },
+      {
+        path: 'average-time-spend', component: AverageTimeSpendBarComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
   }
@@ -91,7 +95,8 @@ const dikshaRoutes: Routes = [
     ContentUsagePieChartComponent,
     EtbPerCapitaComponent,
     TotalContentPlayOverYearsComponent,
-    EnrollmentProgressComponent
+    EnrollmentProgressComponent,
+    AverageTimeSpendBarComponent
   ],
   imports: [
     CommonModule,

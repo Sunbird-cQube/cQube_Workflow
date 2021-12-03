@@ -94,7 +94,7 @@ export class EnrollmentProgressComponent implements OnInit {
       data: [43934, 52503, 57177, 69658, 97031, 119931, 69658, 97031,52503, 57177,97031]
   }, 
   {
-      name: 'Expected Not Enrolled',
+      name: 'Expected Enrolled',
       data: [24916, 50000, 75000, 100000,125000 , 150000, 175000,200000, 210000, 225000, 240000]
   },
   //  {

@@ -39,6 +39,7 @@ export class MultiBarChartComponent implements OnInit {
   ngOnInit() {
        this.changeDetection.detectChanges();
     this.onResize();
+   
   }
 
   //generate bar chart:::::::::::
@@ -209,7 +210,6 @@ export class MultiBarChartComponent implements OnInit {
         formatter: function () {
           // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
            return  this.points.reduce(function (s, point) {
-             console.log('s', s)
             return   s  + '<br/>' +  point.series.name + ': ' +
                 point.y;
         },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
