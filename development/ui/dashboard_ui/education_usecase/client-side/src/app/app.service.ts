@@ -209,6 +209,25 @@ export class AppServiceComponent {
         return setColor;
     }
 
+    tpdCapitaColorGredient(data, filter) {
+        console.log('tpdFilter', filter)
+        var keys = Object.keys(this.tpdCapitaColors);
+        console.log('colors', keys )
+        var dataSet = data;
+        var setColor = '';
+        for (let i = 0; i < keys.length; i++) {
+            if (filter == keys[i]) {
+                setColor = this.tpdCapitaColors[keys[i]];
+                break;
+            } else if (dataSet[filter] >= parseInt(keys[i]) && dataSet[filter] <= parseInt(keys[i + 1])) {
+                setColor = this.tpdCapitaColors[keys[i + 1]];
+                break;
+            }
+        }
+        return setColor;
+    }
+
+
 
      // color gredient based on intervals
      tpdColorGredient(data, filter) {
@@ -255,7 +274,96 @@ export class AppServiceComponent {
         return colors;
     }
 
+    getTpdMapCapitaRelativeColors(markers, filter) {
+    //     console.log('marker', filter)
+    //     let data = markers
+    //    let  arr =[]
+    //     for(let i = 0; i< data.length; i++){
+    //         arr.push(data[i][filter.value])
+    //     }
+    //     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
+
+    //     console.log('arr', arr)
+
+    //     var marker = [];
+    // let slabArr = [];
+    // let slabLength = Math.round((arr.length)/3)
+    // if (arr) {
+      
+    //     let newMarker
+    //   arr.forEach(arr =>{
+    //     newMarker = arr.slice(0, slabLength)
+    //   })     
+    //   if( value === '0-20'){
+    //     // slabArr = arr.slice(0,Math.round((arr.length)/5))
+    //     slabArr = arr.slice(0,slabLength)
+    //   } else if(value === '21-40'){
+    //     slabArr = arr.slice(slabLength,slabLength *2)
+    //     // slabArr = arr.slice(slabArr.length ,slabLength)
+    //   } else if(value === '41-60'){
+    //     slabArr = arr.slice(slabLength *2,slabLength *3)
+    //   }else if(value === '61-80'){
+    //     slabArr = arr.slice(slabLength *3, slabLength *4)
+    //   }else if(value === '81-100'){
+    //     slabArr = arr.slice(slabLength *4)
+    //   }else if(value === '0-100'){
+    //     slabArr = arr
+    //   }
+    // }
+        //
+
+        var values = [];
+        markers.map(item => {
+            var keys = Object.keys(item);
+            if (keys.includes(filter.value)) {
+                values.push(item[`${filter.value}`]);
+            } else {
+                values.push(item[`total_schools_with_missing_data`]);
+            }
+        });
+        let uniqueItems = [...new Set(values)];
+        uniqueItems = uniqueItems.map(a => {
+            if (typeof (a) == 'object') {
+                return a['percentage']
+                
+            } else {
+                return a;
+            }
+        })
+        uniqueItems = uniqueItems.sort(function (a, b) { return filter.report != 'exception' ? parseFloat(a) - parseFloat(b) : parseFloat(b) - parseFloat(a) });
+        // var colorsArr = uniqueItems.length == 1 ? (filter.report != 'exception' ? ['#00FF00'] : ['red']) : this.exceptionColor().generateGradient('#d9ef8b', '#006837', uniqueItems.length, 'rgb');
+        console.log('uniqueItem', uniqueItems)
+      
+        var colorsArr = ["#9AE66E","#94B3FD","#FFAFAF",]
+        var colors = {};
+        // let slabLength = Math.round((uniqueItems.length)/3) 
+        uniqueItems.map((a, i) => {
+            if(i <= 10 ){
+                colors[`${a}`] = colorsArr[0]
+            }else if(i > 10 && i<=20){
+                colors[`${a}`] = colorsArr[1]
+            }else if(i > 20 && i<=32){
+                colors[`${a}`] = colorsArr[2]
+            }
+            
+        });
+        return colors;
+    }
+
     colorGredientForDikshaMaps(data, filter, colors) {
+        let keys = Object.keys(colors);
+        let setColor = '';
+        for (let i = 0; i < keys.length; i++) {
+            if (data[filter] == null) setColor = "red";
+            if (parseFloat(data[filter]) == parseFloat(keys[i])) {
+                setColor = colors[keys[i]];
+                break;
+            }
+        }
+        return setColor;
+    }
+
+    colorGredientForCapitaMaps(data, filter, colors) {
         let keys = Object.keys(colors);
         let setColor = '';
         for (let i = 0; i < keys.length; i++) {
@@ -432,6 +540,12 @@ export class AppServiceComponent {
         60: '#66bd63',
         80: '#1a9850',
         100: '#006837'
+    }
+
+    public tpdCapitaColors = {
+        "Above Average": '#9AE66E',
+        "Average": '#94B3FD',
+        "Below Average": '#FFAFAF'
     }
 
     //color gredient generation....

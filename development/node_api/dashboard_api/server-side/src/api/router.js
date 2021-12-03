@@ -121,6 +121,12 @@ const blockLevel = require('./controller/diksha/tpd-enroll-completion/blockWise'
 const clusterLevel = require('./controller/diksha/tpd-enroll-completion/clusterWise');
 const schoolLevel = require('./controller/diksha/tpd-enroll-completion/schoolWise');
 
+// diskha total content play over years
+const totalContentPlaystateData = require('./controller/diksha/total-content-play-over-years/stateData')
+
+// diksha average time spend on course
+const avgTimeSpendOnCourse = require('./controller/diksha/average-time-spend-on-course/stateData');
+const avgTimeSpendDistWise =  require('./controller/diksha/average-time-spend-on-course/distWise');
 
 // sem routes
 router.use('/sem', semDistrictWise);
@@ -262,6 +268,13 @@ router.use('/etbMap', etbMapDistwise);
 router.use('/diksha/contentUsage', dikshaPieDistWise);
 router.use('/diksha/contentUsage', dikshaPieState);
 router.use('/diksha/contentUsage', dikshaPieDistMeta);
+
+// diskha total content play over years line chart
+router.use('/diksha/totalContentPlayOverYears', totalContentPlaystateData );
+
+// diksha average time spend on course
+router.use('/diksha/averageTimeSpend', avgTimeSpendOnCourse);
+router.use('/diksha/averageTimeSpend', avgTimeSpendDistWise);
 
 //download raw data
 const fileDownload = require('./controller/rawDataDownload');
