@@ -4,6 +4,7 @@ import * as Highcharts from 'highcharts';
 // import addMore from "highcharts/highcharts-more";
 import HC_exportData from 'highcharts/modules/export-data';
 import { AppServiceComponent } from 'src/app/app.service';
+import { TotalContentPlayLineCahrtService } from 'src/app/services/total-content-play-line-cahrt.service';
 HC_exportData(Highcharts);
 // addMore(Highcharts)
 
@@ -22,6 +23,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   constructor(
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
+    public service: TotalContentPlayLineCahrtService
     ) { }
 
     width = window.innerWidth;
@@ -36,13 +38,29 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    this.getLineChart()
+    this.getStateData()
   }
 
+  public data
+  public catgory=[]
+  getStateData(){
+    this.service.getTotalCotentPlayLine().subscribe(res =>{
+      this.data = res['data'];
+      let obj =[]
+      this.data.data.forEach(element => {
+          obj.push({
+            name:element.month,
+            y: element.plays
+          })
+          this.catgory.push(element.month)
+      });
+      this.createLineChart(obj)
+    })
+     
+  }
 
-  getLineChart(){
-
-    var pointStart = Date.UTC(2020,5,1);
+  createLineChart(data){
+    // var pointStart = Date.UTC(2020,5,1);
    this.chartOptions = {
   chart:{
    type: 'area',
@@ -60,27 +78,32 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       }
   },
 
-  // xAxis: {
-  //   title: {
-  //     text: 'Total Content Play'
-  // },
-    
-  //   categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  // },
-
-  xAxis: { 
+  xAxis: {
     title: {
       text: 'Days'
   },
-    min:Date.UTC(2020, 5, 1),
-    max:Date.UTC(2021, 10, 1),
-    //allowDecimals: false,
-    type           : 'datetime',
-    tickInterval   : 24 * 3600 * 1000*30, //one day
-    labels         : {
-        rotation : 0
+   type: 'datetime',  
+    categories: this.catgory,
+    // labels: {
+    //   formatter: function() {
+    //     return Highcharts.dateFormat('%b/%e/%Y', this.value);
+    //   }
+    // }
     },
-  },
+
+  // xAxis: { 
+  //   title: {
+  //     text: 'Days'
+  // },
+  //   min:Date.UTC(2020, 5, 1),
+  //   max:Date.UTC(2021, 10, 1),
+  //   //allowDecimals: false,
+  //   type           : 'datetime',
+  //   tickInterval   : 24 * 3600 * 1000*30, //one day
+  //   labels         : {
+  //       rotation : 0
+  //   },
+  // },
   credits:{
    enabled: false
   },
@@ -92,14 +115,23 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
 
   plotOptions : {
     series  : {
-        pointStart      : pointStart,
-        pointInterval   : 24 * 3600 * 1000*30
+        // pointStart      : pointStart,
+        // pointInterval   : 24 * 3600 * 1000*30
     }
 },
 
   series: [{
       name: 'Total Content Plays',
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175,69658, 97031, 119931, 137133, 154175,97031, 119931, 137133, 154175,119931]
+      data: data
+      //   data: [{
+    //     name: 'jan-2021',
+    //     y:  43934
+    //   },{
+    //     name: 'jan-2021',
+    //     y:  43934
+    //   }
+    // ]
+      // data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175,69658, 97031, 119931, 137133, 154175,97031, 119931, 137133, 154175,119931]
   }, 
   // {
   //     name: 'Manufacturing',
