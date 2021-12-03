@@ -8269,12 +8269,13 @@ ${query_type:startsWith('diksha_tpd_r2_raw')})}):ifElse(#{diksha_raw_jolt_spec},
 ${query_type:startsWith('diksha_map_etb_state'):ifElse(#{diksha_map_state_etb_jolt_spec},
 ${query_type:startsWith('diksha_map_tpd_state'):ifElse(#{diksha_map_state_tpd_jolt_spec},
 ${query_type:startsWith('diksha_line_etb_state'):ifElse(#{diksha_line_state_etb_jolt_spec},
+${query_type:startsWith('diksha_line_etb_district'):ifElse(#{diksha_line_district_etb_jolt_spec},
 ${query_type:startsWith('diksha_pie_etb_state'):ifElse(#{diksha_pie_etb_state_jolt_spec},
 ${query_type:startsWith('diksha_pie_etb_district'):ifElse(#{diksha_pie_etb_district_jolt_spec},
 ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse(#{diksha_pie_etb_meta_district_jolt_spec},
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse(#{diksha_hbar_crs_state_jolt_spec},
 ${query_type:startsWith('diksha_hbar_crs_district'):ifElse(#{diksha_hbar_crs_district_jolt_spec},'None')} 
- )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})}</value>
+ )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -20456,7 +20457,7 @@ ${filename:startsWith('diksha_tpd_mapping'):ifElse("delete from diksha_tpd_mappi
                             </entry>
                             <entry>
 <key>diksha_line_chart_etb</key>
-<value>${query_type:startsWith('diksha_line_etb_state')}</value>
+<value>${query_type:startsWith('diksha_line_etb_state'):or(${query_type:startsWith('diksha_line_etb_district')})}</value>
                             </entry>
                             <entry>
 <key>diksha_map_etb</key>
@@ -22891,5 +22892,5 @@ where ff_uuid='${emission_ff_uuid:trim()}';</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/02/2021 12:10:56 IST</timestamp>
+    <timestamp>12/03/2021 12:25:43 IST</timestamp>
 </template>
