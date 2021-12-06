@@ -425,3 +425,53 @@ alter table diksha_content_temp add column if not exists object_type text;
 alter table diksha_content_staging add column if not exists object_type text;
 alter table diksha_content_trans add column if not exists object_type text;
 alter table diksha_total_content add column if not exists object_type text;
+alter table diksha_total_content add column if not exists dimensions_type text;
+
+/* Diksha static table for expected enrollments */
+
+create table IF NOT EXISTS diksha_tpd_expected_enrollment(
+ collection_id text,
+ collection_name text,
+ batch_id text,
+ batch_start_date  date not null,
+ batch_end_date date,
+ state_id  integer,
+ State character varying(100),
+ District_id bigint,
+ District character varying(100),
+ expected_enrollment bigint,
+ is_certificate_available boolean, 
+ collection_type text,
+ no_of_actual_users bigint,
+ created_on timestamp without time zone,
+ updated_on timestamp without time zone,
+ primary key(collection_id,District_id,batch_id));
+ 
+create table if not exists diksha_enrolment_tpd_null_col
+    (
+  filename varchar(200),
+  ff_uuid varchar(200),
+count_null_collection_id int,
+count_null_batch_id int,
+count_null_batch_start_date int,
+count_null_district_id int);
+
+
+create table if not exists diksha_enrolment_tpd_dup( 
+ff_uuid varchar(255),
+created_on_file_process timestamp default current_timestamp,
+ collection_id text,
+ collection_name text,
+ batch_id text,
+ batch_start_date date,
+ batch_end_date date,
+ state_id integer,
+ state character varying(100),
+ district_id bigint,
+ district character varying(100),
+ expected_enrollment bigint,
+ is_certificate_available boolean,
+ collection_type text,
+ no_of_actual_users bigint );
+ 
+
