@@ -12,7 +12,7 @@ transaction_insert text;
 BEGIN
 transaction_insert='insert into diksha_content_trans(content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,content_gradelevel,content_subject,
 content_created_for,object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,
-collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent,dimensions_mode,dimensions_type,created_on,updated_on) 
+collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent,dimensions_mode,dimensions_type,object_type,created_on,updated_on) 
 select data.*,now(),now() from
 ((select content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,
 content_medium,content_gradelevel,content_subject,
@@ -22,14 +22,14 @@ case WHEN lower(derived_loc_district) not in (select distinct lower(shd.district
 user_signin_type,user_login_type,
 collection_name,collection_board,
 collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,
-total_time_spent,dimensions_mode,dimensions_type from diksha_content_temp )
+total_time_spent,dimensions_mode,dimensions_type,object_type from diksha_content_temp )
  except (select content_view_date,dimensions_pdata_id,
 	dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,content_gradelevel,
 	content_subject,
 content_created_for,object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,
 collection_name,collection_board,
 collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,
-total_time_spent,dimensions_mode,dimensions_type from diksha_content_trans))as data';
+total_time_spent,dimensions_mode,dimensions_type,object_type from diksha_content_trans))as data';
 Execute transaction_insert; 
 return 0;
 END;
@@ -51,7 +51,7 @@ select b.district_id,b.district_latitude,b.district_longitude,Initcap(b.district
 	   a.content_created_for,a.object_id,a.object_rollup_l1,a.derived_loc_state,a.derived_loc_district,a.user_signin_type,a.user_login_type,
 	   case when a.collection_name is null then ''Other'' else a.collection_name end as collection_name,
 	   a.collection_board,
-	   a.collection_type,a.collection_medium,a.collection_gradelevel,a.collection_subject,a.collection_created_for,a.total_count,a.total_time_spent,a.dimensions_mode,a.dimensions_type
+	   a.collection_type,a.collection_medium,a.collection_gradelevel,a.collection_subject,a.collection_created_for,a.total_count,a.total_time_spent,a.dimensions_mode,a.dimensions_type,a.object_type
         from (select derived_loc_district as district_name,
 content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,
 case when content_medium like ''[%'' then ''Multi Medium'' else initcap(ltrim(rtrim(content_medium))) end as content_medium,
@@ -59,8 +59,8 @@ case when content_gradelevel like ''[%'' then ''Multi Grade'' else initcap(ltrim
 case when content_subject like ''[%'' then ''Multi Subject'' when initcap(ltrim(rtrim(content_subject)))=''Maths'' then ''Mathematics''
 else initcap(ltrim(rtrim(content_subject))) end as content_subject,
 content_created_for,object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,
-collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent,dimensions_mode,dimensions_type
-from diksha_content_trans where dimensions_type=''content'' and dimensions_mode=''play'' ) as a 
+collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent,dimensions_mode,dimensions_type,object_type
+from diksha_content_trans where dimensions_mode=''play'' ) as a 
 inner join
         (select distinct a.district_id,a.district_name,b.district_latitude,b.district_longitude from
 (select district_id,district_name from school_hierarchy_details
@@ -71,18 +71,18 @@ Execute diksha_view;
 agg_insert='insert into diksha_total_content(district_id,district_latitude,district_longitude,district_name,
 content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,content_gradelevel,content_subject,
 content_created_for,object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,
-collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent,created_on,updated_on
+collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent,object_type,created_on,updated_on
 ) select data.*,now(),now() from
 ((select district_id,district_latitude,district_longitude,district_name,
 content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,content_gradelevel,content_subject,
 content_created_for,object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,
 collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,
-total_time_spent
+total_time_spent,object_type
 from insert_diksha_trans_view) 
 except (select district_id,district_latitude,district_longitude,district_name,
 content_view_date,dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,content_gradelevel,content_subject,
 content_created_for,object_id,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,
-collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent 
+collection_type,collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_time_spent,object_type
 from diksha_total_content))as data';
 Execute agg_insert; 
 return 0;
@@ -166,7 +166,6 @@ left join school_teachers_count as cnt on a.school_id=cnt.school_id;
 
 
 /* Month wise refresh aggregation table */
-
 create or replace function insert_diksha_year_month()
 returns int as
 $body$
@@ -178,7 +177,7 @@ EXECUTE cnt_query into _count;
 IF _count = 0 THEN  
    EXECUTE 'insert into diksha_total_content_year_month
     select nextval(''diksha_total_content_year_month_id_seq''::regclass),district_id,district_name,date_part(''month'',content_view_date),date_part(''year'',content_view_date),content_name,content_medium,content_gradelevel,content_subject,object_id,collection_name,collection_type,collection_medium,collection_gradelevel,sum(total_count),sum(total_time_spent) 
-    from diksha_total_content 
+    from diksha_total_content where dimensions_type=''content''
 group by district_id,district_name,date_part(''month'',content_view_date),date_part(''year'',content_view_date),content_name,content_medium,content_gradelevel,content_subject,object_id,collection_name,collection_type,collection_medium,collection_gradelevel';
 ELSE
 
@@ -189,7 +188,7 @@ select nextval('diksha_total_content_year_month_id_seq'::regclass),district_id,d
 from diksha_total_content 
 where content_view_date BETWEEN
 (select (date_trunc('month',(select min(content_view_date) from diksha_refresh))::date))
-and (select (date_trunc('month',(select max(content_view_date) from diksha_refresh))+'1month'::interval-'1day'::interval)::date) 
+and (select (date_trunc('month',(select max(content_view_date) from diksha_refresh))+'1month'::interval-'1day'::interval)::date)  and dimensions_type='content'
 group by district_id,district_name,date_part('month',content_view_date),date_part('year',content_view_date),content_name,content_medium,content_gradelevel,content_subject,object_id,collection_name,collection_type,collection_medium,collection_gradelevel;
 END IF;
   return 0;

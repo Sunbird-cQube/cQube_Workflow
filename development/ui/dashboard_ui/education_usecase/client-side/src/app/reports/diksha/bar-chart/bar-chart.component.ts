@@ -199,6 +199,12 @@ export class BarChartComponent implements OnInit {
         return obj;
 
       }
+      if(reportName = 'averageTimeSpend'){
+        console.log('xData', xData)
+        obj =  `<b style="margin-left: '10px'"> Name:</b> ${point.category}
+        <br> ${point.y !== null ? `<b>Average Time Spend: </b>${point.y} Seconds` : ''}`
+      }
+      return obj
     }
   }
 }

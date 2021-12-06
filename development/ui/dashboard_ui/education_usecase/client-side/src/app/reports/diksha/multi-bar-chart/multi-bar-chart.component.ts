@@ -39,6 +39,7 @@ export class MultiBarChartComponent implements OnInit {
   ngOnInit() {
        this.changeDetection.detectChanges();
     this.onResize();
+   
   }
 
   //generate bar chart:::::::::::
@@ -108,7 +109,7 @@ export class MultiBarChartComponent implements OnInit {
         min: 0,
         opposite: true,
         // max: Math.max.apply(Math, this.data),
-        max: 150,
+        max: 100,
         gridLineColor: 'transparent',
         title: {
           // text: this.xAxisLabel,
@@ -209,9 +210,9 @@ export class MultiBarChartComponent implements OnInit {
         formatter: function () {
           // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
            return  this.points.reduce(function (s, point) {
-            return  s + '<br/>' +  point.series.name + ': ' +
-                point.y ;
-        }, '<b>' + this.x + '</b>');
+            return   s  + '<br/>' +  point.series.name + ': ' +
+                point.y;
+        },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
         },
         shared: true
         
@@ -250,16 +251,14 @@ export class MultiBarChartComponent implements OnInit {
       //        ${xData[point.index] ? `<br><b>Enrollment: </b>${xData[0][1][point.index]}<br><b>Completion: </b>${xData[0][2][point.index]}<br>
       //        <b>Percet Completion: </b>${xData[0][0][point.index]}%
       //        ` : ''}`
-      let seriess = series.chart.series
-      for(var i=0; i<seriess.length; i++) {
+      let seriess = series.chart.series;
+      console.log('points', xData)
+    //   for(var i=0; i<seriess.length; i++) {
                
-         obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category} 
-                <br><b>${series.name}: </b>${point.options.y}<br>
-             `;
-    }
-
+    //      obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category} 
+    //             <br><b>${series.name}: </b>${point.options.y}<br>`;
+    // }
             return obj;
-
       }
     }
   }
