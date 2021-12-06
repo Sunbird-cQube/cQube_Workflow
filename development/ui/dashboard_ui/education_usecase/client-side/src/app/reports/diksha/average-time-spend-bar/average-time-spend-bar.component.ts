@@ -158,10 +158,12 @@ getDistMeta(){
    this.metaService.diskshaPieMeta().subscribe(res => {
        this.distMetaData = res['data'];
       this.distToDropDown = this.distMetaData.Districts.map( (dist:any) =>{
-          return dist
+       
+        return dist
       })
-      
+      this.distToDropDown.sort((a, b) => a.district_name.localeCompare(b.district_name))
        }) 
+      
 } catch (error) {
     //  console.log(error)
 }

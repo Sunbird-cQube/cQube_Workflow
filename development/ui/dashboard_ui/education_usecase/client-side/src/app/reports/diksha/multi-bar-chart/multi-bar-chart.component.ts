@@ -252,7 +252,7 @@ export class MultiBarChartComponent implements OnInit {
       //        <b>Percet Completion: </b>${xData[0][0][point.index]}%
       //        ` : ''}`
       let seriess = series.chart.series;
-      console.log('points', xData)
+  
     //   for(var i=0; i<seriess.length; i++) {
                
     //      obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category} 
