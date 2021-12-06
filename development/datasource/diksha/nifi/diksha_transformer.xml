@@ -3812,7 +3812,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
-                        <id>fcf39e40-06d8-380e-0000-000000000000</id>
+                        <id>602f5111-14e5-3dd7-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -5751,31 +5751,6 @@
                     <source>
                         <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
                         <id>11cb686c-9d5c-3fcb-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
-                    <id>85e2c67b-cc68-36fd-0000-000000000000</id>
-                    <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
-                        <id>602f5111-14e5-3dd7-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
-                        <id>fcf39e40-06d8-380e-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -32492,8 +32467,9 @@ ${query_type:startsWith('diksha_pie_etb_state'):ifElse(#{diksha_pie_etb_state_jo
 ${query_type:startsWith('diksha_pie_etb_district'):ifElse(#{diksha_pie_etb_district_jolt_spec},
 ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse(#{diksha_pie_etb_meta_district_jolt_spec},
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse(#{diksha_hbar_crs_state_jolt_spec},
-${query_type:startsWith('diksha_hbar_crs_district'):ifElse(#{diksha_hbar_crs_district_jolt_spec},'None')} 
- )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})}</value>
+${query_type:startsWith('diksha_hbar_crs_district'):ifElse(#{diksha_hbar_crs_district_jolt_spec},
+${query_type:startsWith('diksha_map_etb_per_capita'):ifElse(#{diksha_map_etb_per_capita_jolt_spec},'None')} 
+ )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -38816,7 +38792,7 @@ WHERE ff_uuid = '${source.uuid}';</value>
                             </entry>
                             <entry>
 <key>filename</key>
-<value>diksha_data_summary.zip</value>
+<value>${filename:substringBefore('.')}.zip</value>
                             </entry>
                             <entry>
 <key>source</key>
@@ -41234,7 +41210,7 @@ file: ${filename} null values are not found.</value>
                             </entry>
                             <entry>
 <key>diksha_map_etb</key>
-<value>${query_type:startsWith('diksha_map_etb_state')}</value>
+<value>${query_type:startsWith('diksha_map_etb_state'):or(${query_type:startsWith('diksha_map_etb_per_capita')})}</value>
                             </entry>
                             <entry>
 <key>diksha_map_tpd</key>
@@ -50813,92 +50789,6 @@ where ff_uuid='${files_uuid}';</value>
                     <type>org.apache.nifi.processors.standard.ValidateCsv</type>
                 </processors>
                 <processors>
-                    <id>fcf39e40-06d8-380e-0000-000000000000</id>
-                    <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>-25432.0</x>
-                        <y>-6960.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-update-attribute-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>Delete Attributes Expression</key>
-<value>
-    <name>Delete Attributes Expression</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Store State</key>
-<value>
-    <name>Store State</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Stateful Variables Initial Value</key>
-<value>
-    <name>Stateful Variables Initial Value</name>
-</value>
-                            </entry>
-                            <entry>
-<key>canonical-value-lookup-cache-size</key>
-<value>
-    <name>canonical-value-lookup-cache-size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>filename</key>
-<value>
-    <name>filename</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>Delete Attributes Expression</key>
-                            </entry>
-                            <entry>
-<key>Store State</key>
-<value>Do not store state</value>
-                            </entry>
-                            <entry>
-<key>Stateful Variables Initial Value</key>
-                            </entry>
-                            <entry>
-<key>canonical-value-lookup-cache-size</key>
-<value>100</value>
-                            </entry>
-                            <entry>
-<key>filename</key>
-<value>diksha_data_summary.csv</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>1 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>diksha_summary_rollup_chng_csv_filename</name>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>success</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
-                </processors>
-                <processors>
                     <id>fdc61fda-137b-37ea-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <position>
@@ -51255,5 +51145,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/03/2021 12:25:34 IST</timestamp>
+    <timestamp>12/06/2021 19:49:49 IST</timestamp>
 </template>

@@ -528,6 +528,29 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
       "*": "data"
     }
   }
+]""",
+"diksha_map_etb_per_capita_jolt_spec":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "district_name": "data.[&1].district_name",
+        "latitude": "data.[&1].latitude",
+        "longitude": "data.[&1].longitude",
+        "plays_per_capita": "data.[&1].plays_per_capita",
+        "@total_content_plays": "data.[&1].total_content_plays",
+        "total_content_plays": "footer.total_content_plays[]"
+      }
+    }
+	},
+
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "footer": {
+        "total_content_plays": "=intSum(@(1,total_content_plays))"
+      }
+    }
+ }
 ]"""
 
 }

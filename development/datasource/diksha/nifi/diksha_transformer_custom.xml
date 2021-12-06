@@ -21032,6 +21032,7 @@ ${query_type:startsWith('diksha_stack_bar_all')} )} )} )} )} )} )} )}</value>
 <value>${query_type:startsWith('diksha_tpd_r2_district_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_district_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_district_last_30_days'):or(
+${query_type:startsWith('diksha_tpd_r2_district_last_90_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_district_overall'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):or(
@@ -21045,7 +21046,7 @@ ${query_type:startsWith('diksha_tpd_r2_school_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_30_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_overall')} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -22892,5 +22893,5 @@ where ff_uuid='${emission_ff_uuid:trim()}';</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/03/2021 12:25:43 IST</timestamp>
+    <timestamp>12/06/2021 19:50:10 IST</timestamp>
 </template>
