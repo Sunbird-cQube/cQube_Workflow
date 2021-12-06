@@ -17,5 +17,10 @@ export class TotalContentPlayLineCahrtService {
     this.service.logoutOnTokenExpire();
     return this.http.get(`${this.baseUrl}/diksha/totalContentPlayOverYears/stateData`);
   }
+  
+  getDistTotalCotentPlayLine() {
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/diksha/totalContentPlayOverYears/distWise`);
+  }
 
 }

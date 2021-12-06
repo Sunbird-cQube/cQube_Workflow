@@ -210,9 +210,7 @@ export class AppServiceComponent {
     }
 
     tpdCapitaColorGredient(data, filter) {
-        console.log('tpdFilter', filter)
         var keys = Object.keys(this.tpdCapitaColors);
-        console.log('colors', keys )
         var dataSet = data;
         var setColor = '';
         for (let i = 0; i < keys.length; i++) {
@@ -332,7 +330,6 @@ export class AppServiceComponent {
         })
         uniqueItems = uniqueItems.sort(function (a, b) { return filter.report != 'exception' ? parseFloat(a) - parseFloat(b) : parseFloat(b) - parseFloat(a) });
         // var colorsArr = uniqueItems.length == 1 ? (filter.report != 'exception' ? ['#00FF00'] : ['red']) : this.exceptionColor().generateGradient('#d9ef8b', '#006837', uniqueItems.length, 'rgb');
-        console.log('uniqueItem', uniqueItems)
       
         var colorsArr = ["#9AE66E","#94B3FD","#FFAFAF",]
         var colors = {};
