@@ -49,7 +49,7 @@
           </div>
           <div class="row" style="margin-bottom: 10px">
             <div class="col-sm-12">
-    
+<!--     
                <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                 <option [value]="selectedDist" disabled selected="selected">
                   Choose a District
@@ -57,36 +57,73 @@
                 <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
                   {{ dist.district_name }}
                 </option>
-              </select> 
-              <!-- <select id="choose_infra" >
+              </select>  -->
+               <select id="choose_infra" [(ngModel)]="selectedDrop" (change)="onStateDropSelected(selectedDrop)" >
                 <option  disabled selected="selected">
                   Choose a District
                 </option>
-                <option *ngFor="let infra of infraFilter" [(ngValue)]="infra.key">
-                  {{ infra.value }}
+                <option *ngFor="let dist of stateDropDown" [(ngValue)]="dist.key">
+                  {{ dist.name }}
                 </option>
-              </select> -->
+              </select> 
              
             </div>
           </div>
         </div>
       </div>
-    <div class="row reportContainer">
-        <div
-        id="container"
-        style="width: 100%; margin: 0 auto" class="active" [ngStyle]="{
-          height:
-            height > 1760
-              ? '50vh'
-              : height > 1160 && height < 1760
-              ? '60vh'
-              : height > 667 && height < 1160
-              ? '60vh'
-              : '70vh'
-        }"></div>
-    </div>
+    <div class="row reportContainer d-flex flex-wrap">
+      <div  *ngIf = 'distToggle' class="col-lg-8" style = "height: 70vh" >
+        <h4>State Level Usage</h4>
+        <div id="container" class="active" ></div>
+      </div>
+
+      <div  *ngIf = '!distToggle' class="col-lg-12" style = "height: 70vh" >
+        <h4>State Level Usage</h4>
+        <div id="container" class="active" ></div>
+      </div>
     
-  </div>
+      <div *ngIf = 'distToggle' class = "col-lg-4" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;">
+        <h4>District Level Data</h4>
+        <!-- <app-pie-chart [data]= 'distPieData'></app-pie-chart> -->
+       </div> 
+        <!-- <div class="col-lg-4 d-flex flex-wrap" style="max-height: 70vh; overflow-y: scroll;">
+          <div class="col-lg-12">
+            <h4>District Level Usage</h4>
+          </div>
+          
+          <div class="col-lg-12 d-flex" *ngFor="let dist of distToDropDown">
+            {{dist.district_id}}
+              <div id=`container{{dist.district_id}}` class="active border" style="width: 300px;height: 400px" ></div>
+              
+          </div> -->
+         
+              
+             <!-- <div
+             id="container2" 
+            class="active col-6" ></div>
+            <div
+            id="container3" 
+           class="active col-6 bg-success" ></div>
+           <div
+           id="container4" 
+          class="active col-6 bg-danger" ></div> -->
+    </div>
+ 
+  <!-- </div> -->
+
+  <!-- <div class="row">
+    <div class="col-lg-4">
+      <app-diskha-pie-chart></app-diskha-pie-chart>
+    </div>
+    <div class="col-lg-4">
+      <app-diskha-pie-chart></app-diskha-pie-chart>
+    </div>
+    <div class="col-lg-4">
+      <app-diskha-pie-chart></app-diskha-pie-chart>
+    </div>-->
+   <!-- </div> -->
+
+  
   <div id="spinner">
     <div id="loader" class="loading">Loading&#8230;</div>
   </div>

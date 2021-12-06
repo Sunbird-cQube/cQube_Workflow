@@ -420,3 +420,8 @@ alter table diksha_content_trans add column if not exists dimensions_mode text, 
 create index IF NOT EXISTS diksha_total_content_year_month_month_year_idx on diksha_total_content_year_month (month,year);
 
 create table IF NOT EXISTS diksha_refresh (content_view_date date);
+
+alter table diksha_content_temp add column if not exists object_type text;
+alter table diksha_content_staging add column if not exists object_type text;
+alter table diksha_content_trans add column if not exists object_type text;
+alter table diksha_total_content add column if not exists object_type text;
