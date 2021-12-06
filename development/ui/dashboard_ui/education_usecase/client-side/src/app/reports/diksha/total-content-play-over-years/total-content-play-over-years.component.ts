@@ -74,7 +74,6 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       this.service.getTotalCotentPlayLine().subscribe((res) => {
         this.data = res["data"];
         this.reportData = res["downloadData"]["data"];
-        console.log("res", this.reportData);
         // let arr =[]
         this.data.data.forEach((element) => {
           this.chartData.push({
@@ -85,7 +84,6 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         });
         this.createLineChart(this.chartData);
         this.getDistMeta();
-        console.log("loadr", this.chartData);
         this.commonService.loaderAndErr(this.chartData);
       });
     } catch (error) {

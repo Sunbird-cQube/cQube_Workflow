@@ -195,7 +195,6 @@ onStateDropSelected(data){
   
   createDistPiechart(){
     
-    console.log('dist', this.distData)
     let pieData: any = [];
     Object.keys(this.distData).forEach( keys => {
       pieData.push({
