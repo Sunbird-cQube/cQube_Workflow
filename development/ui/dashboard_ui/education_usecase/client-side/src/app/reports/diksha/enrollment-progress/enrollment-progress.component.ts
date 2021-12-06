@@ -37,7 +37,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
   getLineChart(){
 
-    var pointStart = Date.UTC(2020,6,1);
+    var pointStart = Date.UTC(2021,10,1);
    this.chartOptions = {
   chart:{
    type: 'line',
@@ -60,15 +60,18 @@ export class EnrollmentProgressComponent implements OnInit {
       text: 'Days'
   },
     
-    categories: ['Jan-01', 'Jan-03', 'Jan-06', 'Jan-09', 'Jan-12', 'Jan-15','Jan-18', 'Jan-21', 'Jan-24', 'Jan-27', 'Jan-30']
+    categories: ['Jan-01', 'Jan-02', 'Jan-03', 'Jan-04', 'Jan-05', 'Jan-06','Jan-07', 'Jan-08', 'Jan-09', 'Jan-10', 'Jan-11',
+                'Jan-12','Jan-13','Jan-14','Jan-15','Jan-16','Jan-17','Jan-18','Jan-19','Jan-20','Jan-21','Jan-22',
+                'Jan-23','Jan-24','Jan-25','Jan-26','Jan-27','Jan-28','Jan-29','Jan-30','Jan-31'
+                ]
   },
   credits: {
     enabled: false
   },
  
   // xAxis: { 
-  //   min:Date.UTC(2020, 5, 1),
-  //   max:Date.UTC(2021, 10, 1),
+  //   min:Date.UTC(2021, 10, 1),
+  //   max:Date.UTC(2021, 10, 30),
   //   //allowDecimals: false,
   //   type           : 'datetime',
   //   tickInterval   : 24 * 3600 * 1000*30, //one day
@@ -83,19 +86,26 @@ export class EnrollmentProgressComponent implements OnInit {
   },
 
   plotOptions : {
-    // series  : {
-    //     pointStart      : pointStart,
-    //     pointInterval   : 24 * 3600 * 1000*30
-    // }
+    series  : {
+        // pointStart      : pointStart,
+        // pointInterval   : 24 * 3600 * 1000*30
+    }
 },
 
   series: [{
       name: 'Total Net Enrolled',
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 69658, 97031,52503, 57177,97031]
+      color: '#D47AE8',
+      data: [43934, 52503, 57177, 69658, 97031, 119931, 69658, 97031,52503, 57177,97031,
+        43934, 52503, 57177, 69658, 97031, 119931, 69658, 97031,52503, 57177,97031,
+        119931, 69658, 97031,52503, 57177,97031,97031,52503, 57177,
+      ]
   }, 
   {
       name: 'Expected Enrolled',
-      data: [24916, 50000, 75000, 100000,125000 , 150000, 175000,200000, 210000, 225000, 240000]
+      color: '#F3950D',
+      data: [24916, 50000, 75000, 100000,125000 , 150000, 175000,200000, 210000, 225000, 240000,
+        100000,125000 , 150000, 175000,200000, 210000, 225000, 240000,100000,125000 , 150000, 175000,200000, 210000, 225000, 240000,100000,125000 , 150000, 175000
+      ]
   },
   //  {
   //     name: 'Sales & Distribution',
