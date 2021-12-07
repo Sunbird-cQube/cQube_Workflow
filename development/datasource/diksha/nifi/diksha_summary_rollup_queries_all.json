@@ -177,18 +177,18 @@
         "diksha_pie_etb_meta_district": "select distinct district_id,district_name from diksha_total_content;"
     },
     {
-		"diksha_pie_etb_state": "select object_type,round(sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown'),2) as total_content_plays_percent from diksha_total_content dct where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL group by object_type;"
-	},
-	{
-		"diksha_pie_etb_district": "select district_id,district_name,object_type,round(sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown'),2) as total_content_plays_percent from diksha_total_content dct where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL group by object_type,district_name,district_id;"
-	},
-	{
-		"diksha_hbar_crs_district": "select district_id,district_name,collection_name, round(cast((sum(total_time_spent) / sum(total_count)) as decimal ),2)as avg_time_spent from diksha_total_content where collection_type in('Course') group by district_id,district_name,collection_name"
-	},
-	{
-		"diksha_hbar_crs_state": "select collection_name, round(cast((sum(total_time_spent) / sum(total_count)) as decimal ),2)as avg_time_spent from diksha_total_content where collection_type in('Course') group by collection_name"
-	},
-	{
-		"diksha_map_etb_per_capita": "select tr.district_id, district_name , latitude,longitude,total_content_plays, round(((cast(total_content_plays as decimal)/cast(actual_ETB_users as decimal)) ),2) as Plays_per_capita from ((select district_id,district ,sum(no_of_actual_users) as actual_ETB_users from diksha_tpd_expected_enrollment where collection_type in('TextBook','TextBookUnit') group by district_id,district )tr inner join (select district_id,district_name , district_latitude as latitude, district_longitude as longitude , sum(total_count) as total_content_plays from diksha_total_content   where collection_type in('TextBook','TextBookUnit') group by district_id,district_name,district_latitude,district_longitude) pc on tr.district_id = pc.district_id);"
-	}
+        "diksha_pie_etb_state": "select res.object_type,total_content_plays_percent,color_code from (select object_type,round(sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown'),2) as total_content_plays_percent from diksha_total_content dct where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL group by object_type) as res join (select object_type,color_code from (select distinct object_type,ROW_NUMBER () OVER (ORDER BY object_type) rn  from (select distinct object_type from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL) as a) as a left join color_codes cc on a.rn=cc.id ) as clr on res.object_type = clr.object_type;"
+    },
+    {
+        "diksha_pie_etb_district": "select district_id,district_name,res.object_type,total_content_plays_percent,color_code from (select district_id,district_name,object_type,round(sum(total_count)*100.0/(select sum(total_count) as total_count from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown'),2) as total_content_plays_percent from diksha_total_content dct where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL group by object_type,district_name,district_id) as res join (select object_type,color_code from (select distinct object_type,ROW_NUMBER () OVER (ORDER BY object_type) rn  from (select distinct object_type from diksha_total_content where lower(dimensions_pdata_id) in ('prod.diksha.portal','prod.diksha.app','prod.diksha.desktop') and lower(collection_type) !='unknown' and object_type is not NULL) as a) as a left join color_codes cc on a.rn=cc.id ) as clr on res.object_type = clr.object_type;"
+    },
+    {
+        "diksha_hbar_crs_district": "select district_id,district_name,collection_name, round(cast((sum(total_time_spent) / sum(total_count)) as decimal ),2)as avg_time_spent from diksha_total_content where collection_type in('Course') group by district_id,district_name,collection_name"
+    },
+    {
+        "diksha_hbar_crs_state": "select collection_name, round(cast((sum(total_time_spent) / sum(total_count)) as decimal ),2)as avg_time_spent from diksha_total_content where collection_type in('Course') group by collection_name"
+    },
+    {
+        "diksha_map_etb_per_capita": "select tr.district_id, district_name , latitude,longitude,total_content_plays, round(((cast(total_content_plays as decimal)/cast(actual_ETB_users as decimal)) ),2) as Plays_per_capita from ((select district_id,district ,sum(no_of_actual_users) as actual_ETB_users from diksha_tpd_expected_enrollment where collection_type in('TextBook','TextBookUnit') group by district_id,district )tr inner join (select district_id,district_name , district_latitude as latitude, district_longitude as longitude , sum(total_count) as total_content_plays from diksha_total_content   where collection_type in('TextBook','TextBookUnit') group by district_id,district_name,district_latitude,district_longitude) pc on tr.district_id = pc.district_id);"
+    }
 ]
