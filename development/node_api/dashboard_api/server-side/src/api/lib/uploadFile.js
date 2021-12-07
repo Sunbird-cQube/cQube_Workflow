@@ -6,6 +6,7 @@ var S3Append = require('s3-append').S3Append;
 const { format } = require('path');
 var shell = require('shelljs');
 const inputDir = `${process.env.EMISSION_DIRECTORY}`;
+var storageType = `${process.env.STORAGE_TYPE}`;
 
 function saveToS3(fileName, formData) {
     return new Promise((resolve, reject) => {
@@ -104,11 +105,14 @@ function saveToLocal(fileName, formData, report) {
 }
 
 //azure config
-var azure = require('azure-storage');
-const { storageType } = require('./reads3File');
-const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
-var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
-const containerName = process.env.AZURE_OUTPUT_STORAGE;
+if(storageType === 'azure'){
+    var azure = require('azure-storage');
+   const { storageType } = require('./reads3File');
+   const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+   var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+   const containerName = process.env.AZURE_OUTPUT_STORAGE;
+}
+
 
 const saveToAzure = async (containerName, fileName, formData, localFile) => {
     let file = inputDir + fileName;
