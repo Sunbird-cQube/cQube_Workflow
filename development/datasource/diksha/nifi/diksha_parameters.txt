@@ -371,6 +371,7 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
     "spec": {
       "*": {
         "@district_name": "data.@(1,district_id).[&1].district_name",
+        "color_code": "data.@(1,district_id).[&1].color_code",
         "@object_type": "data.@(1,district_id).[&1].object_type",
         "@total_content_plays_percent": "data.@(1,district_id).[&1].total_content_plays_percent"
       }
@@ -551,6 +552,42 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
       }
     }
  }
-]"""
+]""",
+"diksha_tpd_enrolment_progress_all_coll_dist_jolt_spec":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}]""",
+"diksha_tpd_enrolment_progress_all_course":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}
+]""",
+"diksha_tpd_enrolment_progress_state":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}
+]""",
+"diksha_tpd_enrolment_progress_district":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data.@(1,district_id)"
+      }
+    }
+  }
+  ]"""
 
 }
