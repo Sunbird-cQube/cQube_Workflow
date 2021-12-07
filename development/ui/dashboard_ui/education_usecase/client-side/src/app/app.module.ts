@@ -35,6 +35,7 @@ import { AgmCoreModule } from '@agm/core';
 import { SatTrendsChartComponent } from './reports/student-performance/sat-trends-chart/sat-trends-chart.component';
 import { apiKeys } from './apis.config';
 import { progressCardComponent } from './reports/progressCard/progress-card/progress-card.component';
+import { ContentUsagePieChartComponent } from './reports/diksha/content-usage-pie-chart/content-usage-pie-chart.component';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -58,7 +59,8 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     StudentAttendanceChartComponent,
     LineChartComponent,
     PageNotFoundComponent,
-    SatTrendsChartComponent
+    SatTrendsChartComponent,
+    ContentUsagePieChartComponent,
   ],
   imports: [
     BrowserModule,

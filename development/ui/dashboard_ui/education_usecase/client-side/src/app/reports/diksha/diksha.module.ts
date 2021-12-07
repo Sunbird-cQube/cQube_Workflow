@@ -23,6 +23,8 @@ import { EtbPerCapitaComponent } from './map-reports/etb-per-capita/etb-per-capi
 import { TotalContentPlayOverYearsComponent } from './total-content-play-over-years/total-content-play-over-years.component';
 import { EnrollmentProgressComponent } from './enrollment-progress/enrollment-progress.component';
 import { AverageTimeSpendBarComponent } from './average-time-spend-bar/average-time-spend-bar.component';
+// import { MultiSelectComponent } from 'src/app/common/multi-select/multi-select.component';
+
 // import { EtbPerCapitaComponent } from '..//etb-per-capita/etb-per-capita.component';
 
 const dikshaRoutes: Routes = [
@@ -92,11 +94,11 @@ const dikshaRoutes: Routes = [
     MultiBarChartComponent,
     TpdTotalContentPlaysComponent,
     EtbTotalContentPlaysComponent,
-    ContentUsagePieChartComponent,
     EtbPerCapitaComponent,
     TotalContentPlayOverYearsComponent,
     EnrollmentProgressComponent,
-    AverageTimeSpendBarComponent
+    AverageTimeSpendBarComponent,
+    
   ],
   imports: [
     CommonModule,

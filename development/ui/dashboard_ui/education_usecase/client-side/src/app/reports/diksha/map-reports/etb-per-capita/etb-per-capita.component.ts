@@ -11,6 +11,7 @@ import * as R from "leaflet-responsive-popup";
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AppServiceComponent } from 'src/app/app.service';
+import { PerCapitaMapReport } from 'src/app/services/per-capita-map-report.service';
 
 @Component({
   selector: 'app-etb-per-capita',
@@ -42,18 +43,18 @@ export class EtbPerCapitaComponent implements OnInit {
   public myData;
 
   public reportData
-  public selectedType = 'total_time_spent';
+  public selectedType = 'total_content_plays';
 
   public selected = "absolute";
   public onRangeSelect;
 
-  reportName = "ETB_Total_content_play";
+  reportName = "ETB_Per_capita";
 
   mapName
   constructor(
     public http: HttpClient,
     public globalService: MapService,
-    public service: DikshaMapReportsService,
+    public service: PerCapitaMapReport,
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef,
@@ -171,7 +172,7 @@ export class EtbPerCapitaComponent implements OnInit {
         if (this.myData) {
           this.myData.unsubscribe();
         }
-        this.myData = this.service.etbDistWise().subscribe(
+        this.myData = this.service.perCapitaState().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
             let keys = Object.keys(this.data.data[0])
@@ -439,12 +440,11 @@ for (var key of Object.keys(orgObject)) {
     this.layerMarkers.clearLayers();
   
     let arr = [];
-    
+    this.selectedType = 'total_content_plays'
     for(let i = 0; i< this.data.data.length; i++){
         arr.push(this.data.data[i][`${this.selectedType}`])
     }
     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
-     console.log('value', value)
     //getting relative colors for all markers:::::::::::
     var markers = [];
     let slabArr = [];
@@ -467,7 +467,6 @@ for (var key of Object.keys(orgObject)) {
         slabArr = arr
       }
 
-      console.log('slab',slabArr)
       this.data.data.map(a => {
        
         if(a.latitude){
@@ -482,6 +481,7 @@ for (var key of Object.keys(orgObject)) {
     } else {
       markers = this.data;
     }
+
     this.genericFun(markers, this.dataOptions, this.fileName);
     this.commonService.errMsg();
    
