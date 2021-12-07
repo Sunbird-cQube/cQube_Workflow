@@ -56,17 +56,15 @@ export class MultiBarChartComponent implements OnInit {
         type: "bar",
         backgroundColor: 'transparent',
         inverted: true,
-        events: {
-          load: function() {
-            this.xAxis[0].setExtremes(0, 9);
-          }
-          }
+        
       },
      
       title: {
         text: null
       },
       xAxis: {
+        min: 0,
+        max: 4.5,
         labels: {
           x: -7,
           style: {
@@ -86,15 +84,16 @@ export class MultiBarChartComponent implements OnInit {
             fontWeight: "bold"
           }
         },
-        min: 0,
-        max: this.category.length-1,
+      
         scrollbar: {
           minWidth: 2,
           enabled: true,
-          opposite: true
+          opposite: true,
+          margin: 60
         },
         tickLength: 0,
       },
+    
       yAxis: {
         labels: {
           style: {
@@ -123,12 +122,30 @@ export class MultiBarChartComponent implements OnInit {
       },
       plotOptions: {
         bar: {
-          groupPadding: 0.1,
-          pointPadding: 0,
+          // groupPadding: 0.15,
+          // pointPadding: 0.7,
+          // pointWidth: 6,
           dataLabels: {
-            enabled: true
+            enabled: true,
+            align: 'right',
+            allowOverlap: true,
+            crop: false,
+            overflow: 'allow',
+            inside: true,
+            x: 55,
+            verticalAlign: 'middle',
+            style:{
+              color: "#000"
+            },
+            // formatter: function(){
+            //   console.log('color', this)
+            //   return this.colorIndex === 0 ? this.y : this.y + '%';
+            //   // return '%'
+            // }
           },
+          
         },
+       
       },
       legend: {
         enabled: true,
@@ -143,8 +160,9 @@ export class MultiBarChartComponent implements OnInit {
           dataLabels: {
             enabled: true,
             style: {
-              fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight:  800,
+              fontSize: '12px',
+              // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             },
             formatter: function () {
               return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -158,11 +176,12 @@ export class MultiBarChartComponent implements OnInit {
           dataLabels: {
             enabled: true,
             style: {
-              fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight:  800,
+              fontSize: '12px',
+              // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             },
             formatter: function () {
-              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              return this.y + '%';
             }
           },
           color: '#bc5090',
@@ -173,11 +192,12 @@ export class MultiBarChartComponent implements OnInit {
           dataLabels: {
             enabled: true,
             style: {
-              fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: 800,
+              fontSize: '12px',
+              // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             },
             formatter: function () {
-              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              return  this.y + '%';
             }
           },
           color: '#9C19E0',
@@ -189,11 +209,12 @@ export class MultiBarChartComponent implements OnInit {
           dataLabels: {
             enabled: true,
             style: {
-              fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight:  800,
+              fontSize: '12px',
+              // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             },
             formatter: function () {
-              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              return this.y + '%';
             }
           },
           color: '#ffa600',
