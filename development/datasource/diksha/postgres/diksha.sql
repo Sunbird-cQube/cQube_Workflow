@@ -474,4 +474,15 @@ created_on_file_process timestamp default current_timestamp,
  collection_type text,
  no_of_actual_users bigint );
  
+/* color codes for pie chart */
+create table if not exists  color_codes(id serial,color_code text);
 
+insert into color_codes(color_code) values('516BEB'),('A13333'),('EDD2F3'),('84DFFF'),('B3541E'),('22577E'),('95D1CC'),('5584AC'),('064635'),('519259'),('F0BB62'),('DD4A48'),('4F091D'),('161853'),
+('FFAFAF'),('EBE645'),('9A0680'),('79018C'),('160040'),('6E3CBC'),('D47AE8'),('A8ECE7'),('FFCC1D'),
+('F3950D'),('CD1818'),('FFF323'),('396EB0'),('009DAE'),('FF7800'),('FFBC97'),('71DFE7'),('AE431E'),
+('8A8635'),('66806A'),('F58840'),('B85252'),('533535'),('AE4CCF'),('FF6D6D'),('753188'),('FFAB4C'),
+('142F43'),('B983FF'),('94B3FD'),('94DAFF'),('B4FE98'),('17D7A0'),('544179'),('C85C5C'),('F9975D'),
+('E5890A'),('9D5C0D'),('AA14F0'),('2F86A6'),('34BE82'),('630000'),('B91646'),('864879'),('3F3351'),
+('1F1D36'),('E9A6A6'),('105652'),('9C19E0'),('FF5DA2'),('161E54'),('88E0EF'),('FF5151'),('49FF00'),
+('FF9300'),('87AAAA'),('A9333A'),('E1578A'),('3E7C17'),('F4A442')
+except (select color_code from color_codes);
