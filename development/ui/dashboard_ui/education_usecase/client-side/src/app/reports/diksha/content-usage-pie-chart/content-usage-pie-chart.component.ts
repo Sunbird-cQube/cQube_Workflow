@@ -26,7 +26,10 @@ export class ContentUsagePieChartComponent implements OnInit {
   public distData:any
   public level
   public state
-  public districtSelectBox = false
+  public districtSelectBox = false;
+  public reportData: any = [];
+  public fileName;
+  public type
   constructor(
     public service:ContentUsagePieService,
     public commonService: AppServiceComponent,
@@ -41,8 +44,8 @@ export class ContentUsagePieChartComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
-  public stateDropDown = [{ key: 'State Only', name: 'State Only' }, { key: 'State with Districts', name: 'State with Districts' }]
-  selectedDrop = 'State Only'
+  public stateDropDown = [{ key: 'State Level Data', name: 'State Level Data' }, { key: 'State with Districts', name: 'State with Districts' }]
+  selectedDrop = 'State Level Data'
   
 
   // @ViewChildren(MultiSelectComponent) multiSelect: QueryList<MultiSelectComponent>;
@@ -70,7 +73,10 @@ try {
 
   this.service.dikshaPieState().subscribe(res => {
     this.pieData = res['data'].data;
+    this.fileName = 'Content-usage-state';
+    this.reportData = res['data'].data;
      this.stateData = this.restructurePieChartData(this.pieData)
+     
      this.createPieChart(this.stateData);
      this.getDistMeta();
      this.commonService.loaderAndErr(this.stateData);
@@ -97,6 +103,7 @@ try {
     pieData.forEach( item => {
        data.push({
             name: item.object_type,
+            color: `#${item.color_code}`,
             // y: Number((Math.round(item.total_content_plays_percent * 100) / 100).toFixed(2))
             y: item.total_content_plays_percent
           })
@@ -109,13 +116,16 @@ try {
 
  /// distData
  getDistData(){
- 
      try {
         this.service.dikshaPieDist().subscribe(res => {
             this.distData = res['data'].data;
+            // this.reportData = res['data'].data;
             this.createDistPiechart()
             }) 
+    //  this.commonService.loaderAndErr(this.distData);
      } catch (error) {
+       this.distData= []
+      this.commonService.loaderAndErr(this.distData);
           console.log(error)
      }
    
@@ -152,13 +162,23 @@ try {
 
 onStateDropSelected(data){
   this.selectedDrop = data
-  if(this.selectedDrop === 'State with Districts'){
-    this.distToggle = true
-    this.districtSelectBox = true;
-  }else{
-    this.distToggle = false
+  try {
+    if(this.selectedDrop === 'State with Districts'){
+      this.distToggle = true
+      this.districtSelectBox = true;
+    }else{
+      this.distToggle = false
+    }
+    this.getStateData();
+    // this.getDistData();
+    this.commonService.loaderAndErr(this.distData);
+  } catch (error) {
+    this.distData = [];
+  this.commonService.loaderAndErr(this.distData);
+      // console.log(e);
   }
-  this.getStateData();
+  
+  
 }
 
  public selectedDist;
@@ -168,6 +188,7 @@ onStateDropSelected(data){
  public distName
 
  onSelectDistrict(data){
+   try {
     if(data.length > 0){
       this.selectedDistricts = data.slice()
     }else{
@@ -177,11 +198,65 @@ onStateDropSelected(data){
     }
     
      this.createDistPiechart()
+   } catch (error) {
+     
+   }
+    
   }
 
   clearSuccessors(data){
    
   }
+
+    //filter downloadable data
+    dataToDownload = [];
+    newDownload(element) {
+      
+      // element['total_enrolled'] = element.total_enrolled.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      // element['total_completed'] = element.total_completed.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+      var data1 = {}, data2 = {}, data3 = {};
+      Object.keys(element).forEach(key => {
+        // if (key !== "percentage_completion") {
+          
+          data1[key] = element[key];
+        // }
+      });
+      // Object.keys(data1).forEach(key => {
+      //   // if (key !== "percentage_teachers") {
+      //     data2[key] = data1[key];
+      //   // }
+      // });
+      // console.log('key1', data1)
+      // var myKey = 'color_code'
+      // Object.keys(data1).forEach(key => {
+        
+      //   if (key !== myKey) {
+      //     data1[key] = data2[key];
+      //   }
+      // }
+      // );
+      this.dataToDownload.push(data1);
+    }
+  
+    //download UI data::::::::::::
+    downloadReport() {
+      this.dataToDownload = [];
+      this.reportData.forEach(element => {
+        this.selectedDistricts.forEach(district => {
+           let distData = this.distData[district];
+           let distName = distData[0].district_name;
+           
+           let objectValue = distData.find(metric => metric.object_type === element.object_type);
+           element[distName] = objectValue && objectValue.total_content_plays_percent ? objectValue.total_content_plays_percent : 0;
+        });
+
+        this.newDownload(element);
+      });
+      this.commonService.download(this.fileName, this.dataToDownload);
+    }
+  
+
+
 
   distPieChart 
   disttoLoop = []
@@ -192,7 +267,6 @@ onStateDropSelected(data){
   newPieData
   
   createDistPiechart(){
-    
     let pieData: any = [];
     Object.keys(this.distData).forEach( keys => {
       pieData.push({
@@ -211,13 +285,16 @@ onStateDropSelected(data){
           name: district.data[0].district_name,
           data: []
         }
-
+       
          district.data.forEach((metric, i) => {
-           obj.data.push([metric.object_type,metric.total_content_plays_percent]);
+          //  obj.data.push([metric.object_type,metric.total_content_plays_percent]);
+           obj.data.push({name:metric.object_type, color: `#${metric.color_code}`, y:metric.total_content_plays_percent});
          });
+
 
     Distdata.push(obj);
     Distdata.sort((a, b) => a.name.localeCompare(b.name));
+    
         })
         
 
@@ -241,7 +318,6 @@ onStateDropSelected(data){
      Distdata.forEach(function(el:any,i) {
       var chartData = el
       var distName = el.name
-      
         
      var distChartData = []
      
@@ -268,7 +344,7 @@ onStateDropSelected(data){
         title:{
           text:  `${distName}`,
         },
-        colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+        // colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
         credits: {
           enabled: false
         },
@@ -306,8 +382,6 @@ onStateDropSelected(data){
 
   createPieChart(data){
 
-      ////////
-
     this.chartOptions = { 
       chart: {
         plotBackgroundColor: 'transparent',
@@ -316,7 +390,7 @@ onStateDropSelected(data){
         type: 'pie',
         backgroundColor: 'transparent'
     },
-    colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    // colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
     title: {
         text: '',
         align: 'left',
@@ -385,8 +459,5 @@ onStateDropSelected(data){
   }
 
   
-
- 
-
   
 }
