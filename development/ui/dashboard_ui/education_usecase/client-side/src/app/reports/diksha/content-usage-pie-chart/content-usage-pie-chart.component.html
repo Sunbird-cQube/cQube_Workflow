@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="row" style="margin-bottom: 10px">
-            <div class="col-sm-12">
+            <div class="col-sm-12 d-flex">
 <!--     
                <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                 <option [value]="selectedDist" disabled selected="selected">
@@ -58,16 +58,7 @@
                   {{ dist.district_name }}
                 </option>
               </select>  -->
-              <div>
-                <!-- <app-multi-select></app-multi-select> -->
-                <!-- <app-multi-select #multiSelect1 style="float: left;width: auto; margin-right: 10px;"
-                    [list]="districtList" [text]="'District'"
-                    [width1]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '200px':'130px'"
-                    [width2]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '220px':'130px'"
-                    (shareCheckedList)="shareCheckedList($event)" from="trendChart"
-                    (clearSuccessors)="clearSuccessors($event)">
-                </app-multi-select> -->
-            </div>
+             
                <select id="choose_infra" [(ngModel)]="selectedDrop" (change)="onStateDropSelected(selectedDrop)" >
                 <option  disabled selected="selected">
                   Choose a District
@@ -76,7 +67,18 @@
                   {{ dist.name }}
                 </option>
               </select> 
-             
+              
+              <div *ngIf = "districtSelectBox">
+                <app-multi-select #multiSelect1 style="float: left;width: auto; margin-right: 10px;"
+                     
+                     [list]= "distToDropDown" [text]="'district'"
+                    [width1]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '200px':'130px'"
+                    [width2]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '220px':'130px'"
+                    (shareCheckedList)="onSelectDistrict($event)" from="trendChart"
+                    (clearSuccessors)="clearSuccessors($event)"
+                    >
+                </app-multi-select>
+            </div>
             </div>
           </div>
         </div>
@@ -92,7 +94,7 @@
         <div id="container" class="active" ></div>
       </div>
     
-      <div *ngIf = 'distToggle' class = "col-lg-4" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;">
+      <div *ngIf = 'distToggle' class = "col-lg-4 justify-content-center" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;">
         <h4>District Level Data</h4>
         <!-- <app-pie-chart [data]= 'distPieData'></app-pie-chart> -->
        </div> 

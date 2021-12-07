@@ -252,11 +252,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
-    this.expEnrolChartData = [];
+    this.expEnrolChartData = [356300, 456300, 356300, 0,456300, 145000];
     // this.expEnrolChartData = Array(29).fill(100);
-    for(let i = 0; i< this.result.labels.length; i++){
-      this.expEnrolChartData.push(100);
-    }
+    // for(let i = 0; i< this.result.labels.length; i++){
+    //   this.expEnrolChartData.push(300);
+    // }
     // this.expEnrolChartData = []
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {

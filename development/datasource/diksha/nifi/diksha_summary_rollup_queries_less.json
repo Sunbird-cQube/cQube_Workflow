@@ -117,11 +117,11 @@
 		"diksha_map_tpd_state": "select *,round(cast(total_time_spent / total_content_plays as decimal),2) as avg_time_spent from(select district_id,district_name,district_latitude,district_longitude,sum(total_count) as total_content_plays,round(cast(sum(total_time_spent) as decimal),2) as total_time_spent from diksha_total_content where collection_type='Course' group by district_id,district_name,district_latitude,district_longitude) as res;"
 	},
 	{
-        "diksha_line_etb_state": "select concat(month,'_',year) as month,plays from (select substring(cast(year as text),3,4)  as year,academic_year_by_month_year(month,year) as academic_year,month as month_num,TO_CHAR(TO_DATE (month::text, 'MM'), 'Mon') AS month,sum(total_count) as plays from diksha_total_content_year_month where collection_type in('TextBook','TextBookUnit') group by year,month order by year,month_num) as res where academic_year =((select academic_year((current_date - interval '1 year')::date))) or academic_year=(select academic_year(current_date));"
-    },
-    {
-        "diksha_line_etb_district": "select district_id,district_name,concat(month,'_',year) as month,plays from (select district_id,district_name,substring(cast(year as text),3,4)  as year,month as month_num,academic_year_by_month_year(month,year) as academic_year,TO_CHAR(TO_DATE (month::text, 'MM'), 'Mon') AS month,sum(total_count) as plays from diksha_total_content_year_month where collection_type in('TextBook','TextBookUnit') group by year,month,district_id,district_name order by district_id,year,month_num) as res where academic_year =((select academic_year((current_date - interval '1 year')::date))) or academic_year=(select academic_year(current_date));"
-    },
+		"diksha_line_etb_state": "select concat(month,'_',year) as month,plays from (select substring(cast(year as text),3,4)  as year,academic_year_by_month_year(month,year) as academic_year,month as month_num,TO_CHAR(TO_DATE (month::text, 'MM'), 'Mon') AS month,sum(total_count) as plays from diksha_total_content_year_month where collection_type in('TextBook','TextBookUnit') group by year,month order by year,month_num) as res where academic_year =((select academic_year((current_date - interval '1 year')::date))) or academic_year=(select academic_year(current_date));"
+	},
+	{
+		"diksha_line_etb_district": "select district_id,district_name,concat(month,'_',year) as month,plays from (select district_id,district_name,substring(cast(year as text),3,4)  as year,month as month_num,academic_year_by_month_year(month,year) as academic_year,TO_CHAR(TO_DATE (month::text, 'MM'), 'Mon') AS month,sum(total_count) as plays from diksha_total_content_year_month where collection_type in('TextBook','TextBookUnit') group by year,month,district_id,district_name order by district_id,year,month_num) as res where academic_year =((select academic_year((current_date - interval '1 year')::date))) or academic_year=(select academic_year(current_date));"
+	},
 	{
 		"diksha_pie_etb_meta_district": "select distinct district_id,district_name from diksha_total_content;"
 	},
@@ -136,5 +136,8 @@
 	},
 	{
 		"diksha_hbar_crs_state": "select collection_name, round(cast((sum(total_time_spent) / sum(total_count)) as decimal ),2)as avg_time_spent from diksha_total_content where collection_type in('Course') group by collection_name"
+	},
+	{
+		"diksha_map_etb_per_capita": "select tr.district_id, district_name , latitude,longitude,total_content_plays, round(((cast(total_content_plays as decimal)/cast(actual_ETB_users as decimal)) ),2) as Plays_per_capita from ((select district_id,district ,sum(no_of_actual_users) as actual_ETB_users from diksha_tpd_expected_enrollment where collection_type in('TextBook','TextBookUnit') group by district_id,district )tr inner join (select district_id,district_name , district_latitude as latitude, district_longitude as longitude , sum(total_count) as total_content_plays from diksha_total_content   where collection_type in('TextBook','TextBookUnit') group by district_id,district_name,district_latitude,district_longitude) pc on tr.district_id = pc.district_id);"
 	}
 ]
