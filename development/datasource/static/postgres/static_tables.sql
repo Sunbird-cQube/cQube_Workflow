@@ -812,3 +812,5 @@ truncate progress_card_category_config;
 alter table log_summary add COLUMN if not exists user_location_master_id int;
 alter table log_summary add COLUMN if not exists user_master_id int;
 alter table log_summary add COLUMN if not exists observer_id int;
+alter table log_summary add column if not exists batch_id integer;
+alter table log_summary add column if not exists batch_start_date integer;

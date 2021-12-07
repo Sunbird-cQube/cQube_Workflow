@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-
+import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MultiSelectComponent } from 'src/app/common/multi-select/multi-select.component';
 import * as Highcharts from 'highcharts';
 import { AppServiceComponent } from 'src/app/app.service';
 import { ContentUsagePieService } from 'src/app/services/content-usage-pie.service';
@@ -7,6 +7,7 @@ import { MapService } from 'src/app/services/map-services/maps.service';
 
 import addMore from "highcharts/highcharts-more";
 import HC_exportData from 'highcharts/modules/export-data';
+import { MultiBarChartComponent } from '../multi-bar-chart/multi-bar-chart.component';
 HC_exportData(Highcharts);
 addMore(Highcharts)
 
@@ -42,6 +43,13 @@ export class ContentUsagePieChartComponent implements OnInit {
   public stateDropDown = [{ key: 'State Only', name: 'State Only' }, { key: 'State with Districts', name: 'State with Districts' }]
   selectedDrop = 'State with Districts'
   
+
+  @ViewChildren(MultiSelectComponent) multiSelect: QueryList<MultiSelectComponent>;
+  @ViewChild('multiSelect1') multiSelect1: MultiSelectComponent;
+  @ViewChild('multiSelect2') multiSelect2: MultiSelectComponent;
+  @ViewChild('multiSelect3') multiSelect3: MultiSelectComponent;
+  @ViewChild('multiSelect4') multiSelect4: MultiSelectComponent;
+
   ngOnInit(): void {
     this.commonService.errMsg();
     this.changeDetection.detectChanges();
@@ -64,9 +72,9 @@ try {
   this.service.dikshaPieState().subscribe(res => {
     this.pieData = res['data'].data;
      this.stateData = this.restructurePieChartData(this.pieData)
+     console.log('stateData',this.stateData)
      this.createPieChart(this.stateData);
      this.getDistMeta();
-     this.getDistData()
      this.commonService.loaderAndErr(this.stateData);
    })
 } catch (e) {
@@ -107,13 +115,7 @@ try {
      try {
         this.service.dikshaPieDist().subscribe(res => {
             this.distData = res['data'].data;
-            
-            let obj1: any = []; let obj2 = {}
-            Object.keys(this.distData).forEach( keys => {
-              obj1.push(
-                this.distData[keys])
-            })
-            this.createDistPiechart(obj1)
+            this.createDistPiechart()
             }) 
      } catch (error) {
           console.log(error)
@@ -123,16 +125,20 @@ try {
 
     public distMetaData;
      public distToDropDown
+    selectedDistricts: any;
  
      /// distMeta
   getDistMeta(){
        try {
        this.service.diskshaPieMeta().subscribe(res => {
            this.distMetaData = res['data'];
-          
+          this.selectedDistricts = [];
           this.distToDropDown = this.distMetaData.Districts.map( (dist:any) =>{
+              this.selectedDistricts.push(dist.district_id);
               return dist
           })
+
+          this.getDistData();
         
            }) 
     } catch (error) {
@@ -183,225 +189,53 @@ onStateDropSelected(data){
   disttoLoop = []
   allDistData
   distWisePieData
- 
-  createDistPiechart(data ){
+  chartData
+
+  newPieData
+  
+  createDistPiechart(){
     
-    let pieData = data
+    let pieData: any = [];
+    Object.keys(this.distData).forEach( keys => {
+      pieData.push({
+        id:keys,
+        data: this.distData[keys]
+      })
+    });
+    
     let Distdata:any = []
-    let data1:any = []
-    pieData.forEach((item, i) =>{
-        
-          data1.push({
-            data:item
-            // name:item[j]['district_name'],
-             
-              // y: element[j]['total_content_plays_percent']
-          
-            // console.log('innerLoop',item[j])
-           } )
-              // item.forEach( item1 =>{
-              //   data1.push({
-        // console.log('item', item[i]['total_content_plays_percent'])          //     name: item1.collection_type,
-              //     y: Number((Math.round(item1.total_content_plays_percent * 100) / 100).toFixed(2))
-              // })
-              // })
-              
-        })
-       
-
-    this.service.diskshaPieMeta().subscribe(res => {
-      this.distPieChart = res['data'];
-     this.disttoLoop = this.distPieChart.Districts.map( (dist:any) =>{
-         return dist
-     })
     
-     let createdDiv
-      
-     let containerID = []
-     var Piedata = [{
-      distName: "Ahmedabad",
-      data1: 12,
-      data2: 25,
-      data3: 40
-    }, {
-      distName: "Aravalli",
-      data1: 67,
-      data2: 11,
-      data5: 56
-    },
-    {
-      distName: "Navsari", 
-      data1: 67,
-      data2: 11,
-      data5: 56
-    },
-    { 
-      distName: "Junagadh",
-      data1: 67,
-      data2: 11,
-      data5: 56
-    },
-    {
-      distName: "Panch Mahals",
-      data1: 67,
-      data2: 11,
-      data5: 56
-    },{
-      distName: "Bharuch",
-      data1: 67,
-      data2: 11,
-      data5: 56
-    },{
-      distName: "Anand",
-     data1: 12,
-     data2: 25,
-     data3: 40
-   }, {
-     distName: "Surat",
-     data1: 67,
-     data2: 11,
-     data5: 56
-   },
-   {
-     distName: "Kheda", 
-     data1: 67,
-     data2: 11,
-     data5: 56
-   },
-   { 
-     distName: "Kachchh",
-     data1: 67,
-     data2: 11,
-     data5: 56
-   },
-   {
-     distName: "Chhotaudepur",
-     data1: 67,
-     data2: 11,
-     data5: 56
-   },{
-     distName: "The Dangs",
-     data1: 67,
-     data2: 11,
-     data5: 56
-   },
-   {
-    distName: "Sabar Kantha",
-   data1: 12,
-   data2: 25,
-   data3: 40
- }, {
-   distName: "Gandhinagar",
-   data1: 67,
-   data2: 11,
-   data5: 56
- },
- {
-   distName: 'Amreli', 
-   data1: 67,
-   data2: 11,
-   data5: 56
- },
- { 
-   distName: 'Rajkot',
-   data1: 67,
-   data2: 11,
-   data5: 56
- },
- {
-   distName: 'Mahisagar',
-   data1: 67,
-   data2: 11,
-   data5: 56
- },{
-   distName: 'Vadodara',
-   data1: 67,
-   data2: 11,
-   data5: 56
- },{
-   distName: 'Bhavnagar',
-  data1: 12,
-  data2: 25,
-  data3: 40
-}, {
-  distName: "Narmada",
-  data1: 67,
-  data2: 11,
-  data5: 56
-},
-{
-  distName: 'Mahesana', 
-  data1: 67,
-  data2: 11,
-  data5: 56
-},
-{ 
-  distName: 'Tapi',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},
-{
-  distName: 'Surendranagar',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},{
-  distName: 'Devbhoomi Dwarka',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},{
-  distName: 'Valsad', 
-  data1: 67,
-  data2: 11,
-  data5: 56
-},
-{ 
-  distName: 'Jamnagar',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},
-{
-  distName: 'Patan',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},{
-  distName: 'Banaskantha',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},{ 
-  distName:  'Botad',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},
-{
-  distName: 'Morbi',
-  data1: 67,
-  data2: 11,
-  data5: 56
-},{
-  distName: 'Gir Somnath',
-  data1: 67,
-  data2: 11,
-  data5: 56
-}];
+    pieData.filter(district => {
+      return this.selectedDistricts.find(districtId => districtId === +district.id) 
+      //&& districtId === 2401
+    }).forEach((district, i) =>{
+        let  obj = {
+          name: district.data[0].district_name,
+          data: []
+        }
 
-     const  mainContainer = document.getElementById('container1');
+         district.data.forEach((metric, i) => {
+           obj.data.push([metric.object_type,metric.total_content_plays_percent]);
+         });
 
-     Piedata.forEach(function(el:any,i) {
-      var chartData = [el.data1, el.data2, el.data3];
-      
-      // el.forEach(item => {
-      //   console.log('el', item.total_content_plays_percent)
-      //  chartData = item
-      // })
-    //  var chartData = [el[i]['object_type'],el[i]['total_content_plays_percent']]
-      var distName = el.distName
+    Distdata.push(obj)
+        })
+        
+
+    // this.service.diskshaPieMeta().subscribe(res => {
+    //   this.distPieChart = res['data'];
+    //  this.disttoLoop = this.distPieChart.Districts.map( (dist:any) =>{
+    //      return dist
+    //  })
+    
+     let createdDiv;
+
+     const mainContainer = document.getElementById('container1');
+    //  mainContainer.removeChild()
+
+     Distdata.forEach(function(el:any,i) {
+    
+      var distName = el.name
       
         
      var distChartData = []
@@ -437,17 +271,16 @@ onStateDropSelected(data){
             size: 130,
           }
         },
-        series: [{
-          type: 'pie',
-          colorByPoint: true,
-          data: chartData
-        }]
-
+        // series: [{
+        //   type: 'pie',
+        //   colorByPoint: true,
+        //   data: [el]
+        // }]
+        series : [el]
         
       });
      
-    })     
-        });
+    })    
       // }) 
     }
 

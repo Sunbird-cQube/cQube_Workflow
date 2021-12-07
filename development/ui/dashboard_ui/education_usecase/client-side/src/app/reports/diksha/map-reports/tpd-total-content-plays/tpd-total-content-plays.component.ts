@@ -201,7 +201,6 @@ export class TpdTotalContentPlaysComponent implements OnInit {
                    
                  }  
             });
-            console.log('otherState', this.otherStateContentPlays )
             // options to set for markers in the map
             let options = {
               radius: 6,
@@ -307,7 +306,6 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         // to download the report
         this.fileName = fileName;
         this.getDownloadableData(this.markers[i], options.level);
-        console.log('markers',this.markers[i])
       }
       this.commonService.loaderAndErr(data);
       this.changeDetection.detectChanges();
@@ -373,7 +371,6 @@ for (var key of Object.keys(orgObject)) {
       .join(" <br>");
     var yourData = this.globalService.getInfoFrom(metrics, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
-     console.log('tooltip', detailUsage)
     var toolTip = yourData;
     if (this.mapName != 'googlemap') {
       const popup = R.responsivePopup({
@@ -477,8 +474,8 @@ for (var key of Object.keys(orgObject)) {
       }else if(value === '0-100'){
         slabArr = arr
       }
-      console.log('len', slabArr)
-      console.log('arr', arr)
+      
+
       this.data.data.map(a => {
        
         if(a.latitude){
@@ -536,7 +533,6 @@ for (var key of Object.keys(orgObject)) {
 
   // to download the csv report
   downloadReport() {
-    console.log('report', this.reportData)
     var position = this.reportName.length;
     this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
     this.commonService.download(this.fileName, this.reportData);
@@ -544,7 +540,6 @@ for (var key of Object.keys(orgObject)) {
 
 
   getDownloadableData(markers, level) {
-   console.log(markers)
     var details = {};
     var orgObject = {};
     var data1 = {};

@@ -110,6 +110,10 @@ const courseFilter = require('./controller/diksha/tpd-heatChart/courseFilter');
 const tpdMapDistwise = require('./controller/diksha/map-report/tpd-map-report/distWise');
 const etbMapDistwise = require('./controller/diksha/map-report/etb-map-report/distWise');
 
+//per capita map
+const perCapitaState = require('./controller/diksha/map-report/per-capita-report/stateData');
+
+
 // Diksha PIE chart
 const dikshaPieDistWise = require('./controller/diksha/content-usage-pie-chart/distWise');
 const dikshaPieState = require('./controller/diksha/content-usage-pie-chart/stateData');
@@ -123,6 +127,7 @@ const schoolLevel = require('./controller/diksha/tpd-enroll-completion/schoolWis
 
 // diskha total content play over years
 const totalContentPlaystateData = require('./controller/diksha/total-content-play-over-years/stateData')
+const totalContentPlayDistData = require('./controller/diksha/total-content-play-over-years/distWise')
 
 // diksha average time spend on course
 const avgTimeSpendOnCourse = require('./controller/diksha/average-time-spend-on-course/stateData');
@@ -264,6 +269,9 @@ router.use('/tpd', schoolLevel);
 router.use('/tpdMap', tpdMapDistwise);
 router.use('/etbMap', etbMapDistwise);
 
+// per capita map
+router.use('/perCapita', perCapitaState)
+
 //diksha content usage PIE
 router.use('/diksha/contentUsage', dikshaPieDistWise);
 router.use('/diksha/contentUsage', dikshaPieState);
@@ -271,6 +279,8 @@ router.use('/diksha/contentUsage', dikshaPieDistMeta);
 
 // diskha total content play over years line chart
 router.use('/diksha/totalContentPlayOverYears', totalContentPlaystateData );
+router.use('/diksha/totalContentPlayOverYears', totalContentPlayDistData );
+
 
 // diksha average time spend on course
 router.use('/diksha/averageTimeSpend', avgTimeSpendOnCourse);
