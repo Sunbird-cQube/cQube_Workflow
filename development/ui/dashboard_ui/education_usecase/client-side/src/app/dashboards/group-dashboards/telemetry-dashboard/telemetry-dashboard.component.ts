@@ -4,6 +4,7 @@ import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { environment } from "../../../../environments/environment";
 import { dashboardReportDescriptions } from "../../description.config";
 import { DataSourcesService } from "../data-sources.service";
+import { dashboardReportHeadings } from "../../reportHeading.config";
 
 @Component({
   selector: 'app-telemetry-dashboard',
@@ -15,6 +16,7 @@ export class TelemetryDashboardComponent implements OnInit {
   reportGroup = "Telemetry Report"
   //tooltip texts::::::::::::::
   toolTip = dashboardReportDescriptions;
+  reportHeadings = dashboardReportHeadings;
   dataSource = {};
 
   hiddenPass = false;

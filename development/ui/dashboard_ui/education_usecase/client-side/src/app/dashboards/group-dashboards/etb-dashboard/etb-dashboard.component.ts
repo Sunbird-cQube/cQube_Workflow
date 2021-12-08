@@ -4,6 +4,7 @@ import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { environment } from "../../../../environments/environment";
 import { dashboardReportDescriptions } from "../../description.config";
 import { DataSourcesService } from "../data-sources.service";
+import { dashboardReportHeadings } from "../../reportHeading.config";
 
 @Component({
   selector: 'app-etb-dashboard',
@@ -15,6 +16,7 @@ export class EtbDashboardComponent implements OnInit {
   reportGroup = "Energised Textbook Usage"
   //tooltip texts::::::::::::::
   toolTip = dashboardReportDescriptions;
+  reportHeading = dashboardReportHeadings;
   dataSource: any;
 
   hiddenPass = false;
