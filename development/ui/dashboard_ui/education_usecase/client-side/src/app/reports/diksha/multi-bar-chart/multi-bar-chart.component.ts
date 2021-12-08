@@ -232,7 +232,7 @@ export class MultiBarChartComponent implements OnInit {
           // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
            return  this.points.reduce(function (s, point) {
             return   s  + '<br/>' +  point.series.name + ': ' +
-                point.y;
+                point.y.toLocaleString('en-IN');
         },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
         },
         shared: true
@@ -266,7 +266,6 @@ export class MultiBarChartComponent implements OnInit {
         return obj;
       }
       if (reportName == "enroll/comp") {
-       
 
       // obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category.parent.name} 
       //        ${xData[point.index] ? `<br><b>Enrollment: </b>${xData[0][1][point.index]}<br><b>Completion: </b>${xData[0][2][point.index]}<br>

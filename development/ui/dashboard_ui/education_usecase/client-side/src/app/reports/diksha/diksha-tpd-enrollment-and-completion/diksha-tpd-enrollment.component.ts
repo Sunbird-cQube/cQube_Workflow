@@ -240,20 +240,25 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   
   /// demo data for expected Enrollment
 
-  public expEnrolChartData = [];
+  public expEnrolChartData:any = [];
 
 
   getBarChartData() {
     this.completion = [];
     let perCompletion = [],
+     expectedEnrolledVal = [],
+      enrComplitionVal = [],
+     certificatPer = [],
+     certificatVal = [],
     enrComplition = [],
     comComplition = [];
     this.chartData = [];
     this.category = [];
+    this.expectedEnrolled = [];
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
-    this.expEnrolChartData = [356300, 456300, 356300, 0,456300, 145000];
+    // this.expEnrolChartData = [356300, 456300, 356300, 0,456300, 145000];
     // this.expEnrolChartData = Array(29).fill(100);
     // for(let i = 0; i< this.result.labels.length; i++){
     //   this.expEnrolChartData.push(300);
@@ -265,12 +270,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       }
     } else {
       this.result.labels.forEach(item => {
-        // let obj: any = {
-        //   name: item, categories: ["% Enrolled", " % Completed", "% Certificates"]
-        // }
-        // this.category.push(obj);
-
         this.category = this.result.labels;
+
       })
       // this.category = this.result.labels;
     }
@@ -279,19 +280,36 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       // this.chartData.push(Number(element[`enrollment`]));
       // this.chartData.push(Number(element[`completion`])); 
       // this.chartData.push(Number(element[`percent_completion`]));  
-      console.log('element', element)
-      this.expectedEnrolled.push(Number(element[`expected_enrolled`]))
-      this.enrollChartData.push(Number(element[`enrollment`]))
-      this.compliChartData.push(Number(element[`completion`]));
-      this.pecentChartData.push(Number(element[`percent_completion`]));
+      if(this.level === 'district'){
+        this.expectedEnrolled.push(Number(element[`expected_enrolled`]))
+        this.enrollChartData.push(Number(element[`enrolled_percentage`]))
+        this.compliChartData.push(Number(element[`percent_completion`]));
+        this.pecentChartData.push(Number(element[`certificate_per`]));
+      }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school'){
+        this.enrollChartData.push(Number(element[`enrollment`]))
+        this.compliChartData.push(Number(element[`completion`]))
+        this.pecentChartData.push(Number(element[`percent_completion`]));
+      }
 
       // tool tip
+      if(this.level === 'district'){
+        expectedEnrolledVal.push(Number([element[`expected_enrolled`]]));
+        certificatPer.push(Number([element[`certificate_per`]]));
+        certificatVal.push(Number([element[`certificate_value`]]));
         perCompletion.push(Number([element[`percent_completion`]]));
         enrComplition.push(Number([element[`enrollment`]]));
+        enrComplitionVal.push(Number([element[`enrollment`]]));
         comComplition.push(Number([element[`completion`]]));
-        this.completion.push([[...perCompletion], [...enrComplition], [...comComplition]])
+        this.completion.push([[...perCompletion], 
+          [...enrComplition],
+           [...comComplition],
+           [...expectedEnrolledVal],
+           [...enrComplitionVal],
+           [...expectedEnrolledVal]
+          ])
+      }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school'){
       
-
+      }
     });
     this.footer = (this.chartData.reduce((a, b) => Number(a) + Number(b), 0)).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
