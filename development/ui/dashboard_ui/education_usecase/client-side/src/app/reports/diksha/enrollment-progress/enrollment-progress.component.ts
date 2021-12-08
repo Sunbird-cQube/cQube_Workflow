@@ -56,6 +56,7 @@ export class EnrollmentProgressComponent implements OnInit {
    this.category = [];
   //  this.selectedCourseData = [];
    this.courseToDropDown = [];
+  //  this.reportData= [];
   
   }
 
@@ -72,15 +73,21 @@ export class EnrollmentProgressComponent implements OnInit {
   }
    
   clickHome(){
+    this.dist = false;
+    this.skul = true
     this.emptyChart();
     this.getStateData();
   }
 
   public distData
   getDistWise(){
+    // this.emptyChart()
+    // this.reportData = [];
     try {
       this.service.enrollmentProDist().subscribe((res) => {
         this.distData = res["data"]["data"];
+        console.log('distData', this.distData)
+        // this.reportData = this.distData
         // this.createLineChart(this.stateData);
         // this.getDistMeta()
       });
@@ -189,14 +196,26 @@ export class EnrollmentProgressComponent implements OnInit {
    
   public selectedDist
   public selectedDistData
-  
+  public districtName
+  public dist = false
+  public skul = true
   onDistSelected(distId){
+    this.dist = true;
+    this.skul = false;
       this.emptyChart()
       this.selectedDist = distId
-      this.level = "district"
+      this.level = "district";
+      this.distToDropDown.filter(district => {
+        if(district.district_id === this.selectedDist){
+          this.districtName = district.district_name
+        }
+      } ) 
+      
+
     try {
       
       this.selectedDistData = this.distData[this.selectedDist];
+      this.reportData =  this.selectedDistData;
       this.createLineChart(this.selectedDistData);
       this.getAllDistCollection()
     } catch (error) {
@@ -272,6 +291,16 @@ export class EnrollmentProgressComponent implements OnInit {
 
   getLineChart() {
     
+       let tickIntervlMonth = 1
+       if(this.category.length > 30 && this.category.length < 60){
+         tickIntervlMonth = 2
+       }else if(this.category.length > 60 && this.category.length < 90){
+         tickIntervlMonth = 3
+       }else if(this.category.length > 90 && this.category.length < 120){
+        tickIntervlMonth = 4
+      }else if(this.category.length > 120){
+        tickIntervlMonth = 7
+      }
     // var pointStart = new Date( this.category[0]).getFullYear();
     this.chartOptions = {
       chart: {
@@ -287,15 +316,25 @@ export class EnrollmentProgressComponent implements OnInit {
       yAxis: {
         title: {
           text: "Value",
+          style:{
+            fontWeight: 'bold',
+            color: '#000',
+            fontSize: '12px'
+          }
         },
       },
 
       xAxis: {
         title: {
           text: "Days",
+          style:{
+            fontWeight: 'bold',
+            color: '#000',
+            fontSize: '12px'
+          }
         },
         type: "datetime",
-        tickInterval   : 24 * 3600 * 1000,
+        tickInterval   :  tickIntervlMonth,
         
         // categories: this.category,
         categories: this.category.map(date =>{
@@ -309,8 +348,8 @@ export class EnrollmentProgressComponent implements OnInit {
         formatter: function(){
           return `
                <b> Date:${this.x}</b></br>
-               <b> Expected Enrollment: ${this.points[1].y}</b></br>
-               <b> Net Enrolled: ${this.points[0].y}</b>
+               <b> Expected Enrollment: ${this.points[0].y}</b></br>
+               <b> Net Enrolled: ${this.points[1].y}</b>
           `
         },
         shared: true
@@ -330,16 +369,17 @@ export class EnrollmentProgressComponent implements OnInit {
       },
 
       series: [
-        {
-          name: "Total Net Enrolled",
-          color: "#D47AE8",
-          data: this.netEnrolled,
-        },
+      
         {
           name: "Expected Enrolled",
           color: "#F3950D",
           data: this.expectedEnrolled,
         },
+        {
+          name: "Total Net Enrolled",
+          color: "#D47AE8",
+          data: this.netEnrolled,
+        }
       ],
 
       // responsive: {
