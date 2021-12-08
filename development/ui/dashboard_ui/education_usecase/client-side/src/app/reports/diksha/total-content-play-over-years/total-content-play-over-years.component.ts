@@ -157,7 +157,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         });
       });
 
-      this.reportData = this.chartData;
+      // this.reportData = this.chartData;
       this.createLineChart(this.chartData);
     } catch (error) {
       this.chartData = [];
@@ -184,6 +184,21 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   downloadReport() {
     this.dataToDownload = [];
     this.reportData.forEach((element) => {
+      if(this.dist){
+        this.selectedDistricts.forEach(district => {
+         let distData = this.distData.data.filter((dist) => {
+            return dist.district_id == district
+          });
+          // let distData = this.distData[district];
+          let distName = distData[0].district_name;
+          let objectValue = distData.find(metric => metric.month === element.month);
+          
+          element[distName] = objectValue && objectValue.plays ? objectValue.plays : 0;
+        });
+      }
+     
+
+      // }
       this.newDownload(element);
     });
     this.commonService.download(this.fileName, this.dataToDownload);

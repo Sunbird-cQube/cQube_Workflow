@@ -30,7 +30,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public reportName: String = "enrollment_completion";
   public report = "enroll/comp";
 
-
+  public expectedEnrolled = [];
   public enrollChartData = [];
   public compliChartData = [];
   public pecentChartData = [];
@@ -108,7 +108,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   homeClick() {
 
-    this.expEnrolChartData=[]
+    this.expEnrolChartData=[];
+    this.expectedEnrolled = [];
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
@@ -278,7 +279,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       // this.chartData.push(Number(element[`enrollment`]));
       // this.chartData.push(Number(element[`completion`])); 
       // this.chartData.push(Number(element[`percent_completion`]));  
-      
+      console.log('element', element)
+      this.expectedEnrolled.push(Number(element[`expected_enrolled`]))
       this.enrollChartData.push(Number(element[`enrollment`]))
       this.compliChartData.push(Number(element[`completion`]));
       this.pecentChartData.push(Number(element[`percent_completion`]));
