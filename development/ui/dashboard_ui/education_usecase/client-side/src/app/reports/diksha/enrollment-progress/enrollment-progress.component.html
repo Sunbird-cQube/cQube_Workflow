@@ -5,7 +5,7 @@
             <div class="row" (window:resize)="onResize()">
               <div class="col-lg-9 col-md-9 col-sm-12">
                
-                <div >
+                <div *ngIf="skul">
                   <p id="block">
                     Report on Enrollment Progess:
                     <span (click) = "clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{state}}</span>
@@ -15,15 +15,15 @@
                   </p>
                 </div>
                
-                <!-- <div *ngIf="dist">
+                <div *ngIf="dist">
                   <p id="block">
-                    Report on Content Usage:
+                    Report on Enrollment Progess:
                     <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
                     <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
-                      </span>
+                     {{districtName}} </span>
                   </p>
                 </div>
-               -->
+              
               </div>
               <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="row">
