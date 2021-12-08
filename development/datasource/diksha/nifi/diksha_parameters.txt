@@ -561,7 +561,7 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
       }
     }
 }]""",
-"diksha_tpd_enrolment_progress_all_course":"""[{
+"diksha_tpd_enrolment_progress_all_course_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
       "*": {
@@ -570,7 +570,7 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     }
 }
 ]""",
-"diksha_tpd_enrolment_progress_state":"""[{
+"diksha_tpd_enrolment_progress_state_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
       "*": {
@@ -579,7 +579,7 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     }
 }
 ]""",
-"diksha_tpd_enrolment_progress_district":"""[
+"diksha_tpd_enrolment_progress_district_jolt_spec":"""[
   {
     "operation": "shift",
     "spec": {
