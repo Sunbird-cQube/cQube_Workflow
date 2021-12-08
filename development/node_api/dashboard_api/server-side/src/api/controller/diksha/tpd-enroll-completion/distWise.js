@@ -20,7 +20,14 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         })
         
         chartData['data'] = jsonData.map(a => {
-            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion, expected_enrolled: a.expected_total_enrolled, expected_enrolled_percentage:a.expected_enrollment_percentage,}
+            return { enrollment: a.total_enrolled, 
+                completion: a.total_completed, 
+                 percent_completion: a.percentage_completion, 
+                 expected_enrolled: a.expected_total_enrolled, 
+                 enrolled_percentage:a.total_enrolled_percentage,
+                 certificate_value: a.certificate_count,
+                 certificate_per: a.certificate_percentage
+                }
         })
         logger.info('--- diksha chart allData api response sent ---');
         res.send({ chartData, downloadData: jsonData, footer });
