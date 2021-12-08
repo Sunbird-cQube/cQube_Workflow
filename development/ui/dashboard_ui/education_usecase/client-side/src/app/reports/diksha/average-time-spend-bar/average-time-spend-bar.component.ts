@@ -25,7 +25,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
   public tooltipData = [];
 
     // to hide and show the hierarchy details
-    public skul: boolean = false;
+    public skul: boolean = true;
     public dist: boolean = false;
     public blok: boolean = false;
     public clust: boolean = false;
@@ -97,6 +97,12 @@ export class AverageTimeSpendBarComponent implements OnInit {
     }
    
   }
+   
+  clickHome(){
+    this.emptyChart()
+    this.selectedDist = '';
+     this.getStateData()
+  }
 
   public distData
   getDistdata(data){
@@ -107,16 +113,15 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.service.getAvgTimespendDist().subscribe(res =>{
       this.distData = res['data']['data'];
       
-      let distWiseData = this.distData[data] 
-      this.reportData = distWiseData;
-      
-      this.restructureBarChartData(distWiseData);
-      this.commonService.loaderAndErr(this.distData);
+      this.distWiseData = this.distData[data] 
+      // this.reportData = distWiseData;
+      this.restructureBarChartData(this.distWiseData);
+      this.commonService.loaderAndErr(this.distWiseData);
   })
    } catch (error) {
     this.distData = [];
     this.emptyChart();
-    this.commonService.loaderAndErr(this.distData);
+    this.commonService.loaderAndErr(this.distWiseData);
      
    }
     
@@ -174,12 +179,12 @@ getDistMeta(){
  public distWiseData = [];
  public distPieData 
  public distName
-
+ 
   onDistSelected(data){
     this.chartData = []
     this.emptyChart()
     this.data=[]
-     this.distWiseData = [];
+    //  this.distWiseData = [];
      this.distPieData = [];
      this.dist = true;
      this.skul = false;
@@ -216,6 +221,17 @@ getDistMeta(){
   downloadReport() {
     this.dataToDownload = [];
     this.reportData.forEach(element => {
+      // this.distToDropDown.forEach(district => {
+        if(this.dist){
+          let distData = this.distData[this.selectedDist];
+          console.log('dist', distData)
+          let distName = distData[0].district_name;
+          let objectValue = distData.find(metric => metric.collection_name === element.collection_name);
+          
+          element[distName] = objectValue && objectValue.avg_time_spent ? objectValue.avg_time_spent : 0;
+        }
+       
+      //  });
       this.newDownload(element);
     });
     this.commonService.download(this.fileName, this.dataToDownload);

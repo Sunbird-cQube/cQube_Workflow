@@ -211,9 +211,6 @@ onStateDropSelected(data){
     //filter downloadable data
     dataToDownload = [];
     newDownload(element) {
-      
-      // element['total_enrolled'] = element.total_enrolled.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-      // element['total_completed'] = element.total_completed.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       var data1 = {}, data2 = {}, data3 = {};
       Object.keys(element).forEach(key => {
         // if (key !== "percentage_completion") {
@@ -226,15 +223,6 @@ onStateDropSelected(data){
       //     data2[key] = data1[key];
       //   // }
       // });
-      // console.log('key1', data1)
-      // var myKey = 'color_code'
-      // Object.keys(data1).forEach(key => {
-        
-      //   if (key !== myKey) {
-      //     data1[key] = data2[key];
-      //   }
-      // }
-      // );
       this.dataToDownload.push(data1);
     }
   
@@ -242,13 +230,14 @@ onStateDropSelected(data){
     downloadReport() {
       this.dataToDownload = [];
       this.reportData.forEach(element => {
+        
         this.selectedDistricts.forEach(district => {
            let distData = this.distData[district];
            let distName = distData[0].district_name;
-           
            let objectValue = distData.find(metric => metric.object_type === element.object_type);
+           
            element[distName] = objectValue && objectValue.total_content_plays_percent ? objectValue.total_content_plays_percent : 0;
-        });
+          });
 
         this.newDownload(element);
       });
