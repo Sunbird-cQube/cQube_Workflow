@@ -4,6 +4,7 @@ import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { environment } from "../../../../environments/environment";
 import { dashboardReportDescriptions } from "../../description.config";
 import { DataSourcesService } from "../data-sources.service";
+import { dashboardReportHeadings } from "../../reportHeading.config";
 
 @Component({
   selector: 'app-progress-card-dashboard',
@@ -16,6 +17,7 @@ export class ProgressCardDashboardComponent implements OnInit {
 
   //tooltip texts::::::::::::::
   toolTip = dashboardReportDescriptions;
+  reportHeadings = dashboardReportHeadings;
   dataSource = {};
   hiddenPass = false;
   edate: Date;
