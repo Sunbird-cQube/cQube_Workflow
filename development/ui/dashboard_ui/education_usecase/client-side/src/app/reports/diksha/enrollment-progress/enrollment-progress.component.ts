@@ -76,6 +76,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.dist = false;
     this.skul = true;
     this.selectedDist = "";
+    this.selectedCourse = '';
     this.emptyChart();
     this.getStateData();
   }
