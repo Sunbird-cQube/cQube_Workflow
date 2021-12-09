@@ -69,6 +69,7 @@ export class ContentUsagePieChartComponent implements OnInit {
  getStateData(){
   this.commonService.errMsg();
   this.stateData = [];
+  this.type ="state"
 try {
 
   this.service.dikshaPieState().subscribe(res => {
@@ -90,9 +91,11 @@ try {
 
  clickHome() {
   this.selectedDist = "";
+  this.selectedDistricts = [];
   this.dist =false;
   this.skul = true;
   this.getStateData();
+  this.multiSelect1.resetSelected();
   
 }
   
@@ -133,7 +136,7 @@ try {
 
     public distMetaData;
      public distToDropDown
-    selectedDistricts: any;
+    selectedDistricts: any = [];
  
      /// distMeta
   getDistMeta(){
@@ -204,8 +207,10 @@ onStateDropSelected(data){
     
   }
 
-  clearSuccessors(data){
-   
+  clearSuccessors(type:string):any{
+    if(type =="District"){
+      this.selectedDistricts = []
+    }
   }
 
     //filter downloadable data

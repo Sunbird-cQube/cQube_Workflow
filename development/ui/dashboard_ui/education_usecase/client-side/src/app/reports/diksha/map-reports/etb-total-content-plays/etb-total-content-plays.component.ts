@@ -140,6 +140,22 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             this.selectionType.push(obj)
            }
         }
+
+        let arr = [];
+            this.values = [];
+    
+            for(let i = 0; i< this.data.data.length; i++){
+                arr.push(this.data.data[i][`${this.selectedType}`])
+            }
+            arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
+            
+            let maxArr = arr[arr.length-1]
+            let partition = Math.round(maxArr/5)
+            for(let i = 0; i< 5; i++){
+              
+              this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2 
+            }
+
         // to show only in dropdowns
         this.districtMarkers = this.data.data;
         // options to set for markers in the map
@@ -174,6 +190,21 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         this.myData = this.service.etbDistWise().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
+            let arr = [];
+            this.values = [];
+    
+            for(let i = 0; i< this.data.data.length; i++){
+                arr.push(this.data.data[i][`${this.selectedType}`])
+            }
+            
+            arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
+            
+            let maxArr = arr[arr.length-1]
+            let partition = Math.round(maxArr/5)
+            for(let i = 0; i< 5; i++){
+              
+              this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2 
+            }
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
@@ -418,26 +449,30 @@ for (var key of Object.keys(orgObject)) {
     "#1a9850",
     "#006837",
   ];
+  // public values = [
+  //   "0-20",
+  //   "21-40",
+  //   "41-60",
+  //   "61-80",
+  //   "81-100",
+  // ];
+
   public values = [
-    "0-20",
-    "21-40",
-    "41-60",
-    "61-80",
-    "81-100",
-  ];
+
+  ]
 
 
   //Filter data based on attendance percentage value range:::::::::::::::::::
   public valueRange = undefined;
   public prevRange = undefined;
-  selectRange(value) {
+  selectRange(value, i) {
     this.onRangeSelect = "absolute"
-    this.valueRange = value;
-    this.filterRangeWiseData(value);
+    this.valueRange = i;
+    this.filterRangeWiseData(value, i);
   }
   public len
 
-  filterRangeWiseData(value) {
+  filterRangeWiseData(value, index) {
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
@@ -447,28 +482,39 @@ for (var key of Object.keys(orgObject)) {
     for(let i = 0; i< this.data.data.length; i++){
         arr.push(this.data.data[i][`${this.selectedType}`])
     }
+    console.log('arr', arr)
     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
-   
-    //getting relative colors for all markers:::::::::::
     var markers = [];
     let slabArr = [];
-    let slabLength = Math.round((arr.length)/5)
-    if (value) {
-      if( value === '0-20'){
-        // slabArr = arr.slice(0,Math.round((arr.length)/5))
-        slabArr = arr.slice(0,slabLength)
-      } else if(value === '21-40'){
-        slabArr = arr.slice(slabLength,slabLength *2)
-        // slabArr = arr.slice(slabArr.length ,slabLength)
-      } else if(value === '41-60'){
-        slabArr = arr.slice(slabLength *2,slabLength *3)
-      }else if(value === '61-80'){
-        slabArr = arr.slice(slabLength *3, slabLength *4)
-      }else if(value === '81-100'){
-        slabArr = arr.slice(slabLength *4)
-      }else if(value === '0-100'){
-        slabArr = arr
+
+      if (index > -1) {
+        let maxArr = arr[arr.length-1]
+        let partition = Math.round(maxArr/5)
+        //getting relative colors for all markers:::::::::::
+        
+        let min = partition*index+index;
+        let max = partition*(index+1)
+        slabArr = arr.filter(val => val >= min && val <= max)
+      } else {
+        slabArr = arr;
       }
+     
+    if (value) {
+      // if( value === '0-20'){
+      //   // slabArr = arr.slice(0,Math.round((arr.length)/5))
+      //   slabArr = arr.slice(0,slabLength)
+      // } else if(value === '21-40'){
+      //   slabArr = arr.slice(slabLength,slabLength *2)
+      //   // slabArr = arr.slice(slabArr.length ,slabLength)
+      // } else if(value === '41-60'){
+      //   slabArr = arr.slice(slabLength *2,slabLength *3)
+      // }else if(value === '61-80'){
+      //   slabArr = arr.slice(slabLength *3, slabLength *4)
+      // }else if(value === '81-100'){
+      //   slabArr = arr.slice(slabLength *4)
+      // }else if(value === '0-100'){
+      //   slabArr = arr
+      // }
       this.data.data.map(a => {
        
         if(a.latitude){
@@ -518,10 +564,10 @@ for (var key of Object.keys(orgObject)) {
   }
 
   reset(value) {
-    this.valueRange = value;
+    this.valueRange = -1;
     this.selectedIndex = undefined;
     this.deSelect();
-    this.filterRangeWiseData(value);
+    this.filterRangeWiseData(value, -1);
   }
 
   // to download the csv report

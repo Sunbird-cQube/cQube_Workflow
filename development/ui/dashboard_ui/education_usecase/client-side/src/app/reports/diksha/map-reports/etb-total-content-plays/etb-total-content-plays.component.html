@@ -67,7 +67,7 @@
       <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%; z-index: 100;">
         <h5 id="legend" style="margin-left: 15%">
           Legend
-          <img *ngIf="valueRange && valueRange != '0-100'" id="resetImg" src="../../../../assets/images/reset.png"
+          <img *ngIf="valueRange != -1" id="resetImg" src="../../../../assets/images/reset.png"
             alt="reset" title="Reset to all" style="
               cursor: pointer;
               height: 20px;
@@ -81,7 +81,7 @@
         </h5>
         <div *ngFor="let value of values; let i = index">
           <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
-            [ngStyle]="{ color: 'black' }" (click)="selectRange(value); select(i)"
+            [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"
             [style.background-color]="legendColors[i]">
             {{ values[i] }}
           </span>

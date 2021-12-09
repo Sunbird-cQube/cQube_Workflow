@@ -510,24 +510,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     element['total_enrolled'] = element.total_enrolled.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     element['total_completed'] = element.total_completed.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     var data1 = {}, data2 = {}, data3 = {};
+    
+
     Object.keys(element).forEach(key => {
-      if (key !== "percentage_completion") {
-        data1[key] = element[key];
-      }
-    });
-    Object.keys(data1).forEach(key => {
-      if (key !== "percentage_teachers") {
-        data2[key] = data1[key];
-      }
-    });
-    var myKey = this.type == 'enrollment' ? "total_completed" : "total_enrolled";
-    Object.keys(data2).forEach(key => {
-      if (key !== myKey) {
-        data3[key] = data2[key];
-      }
-    }
-    );
-    this.dataToDownload.push(data3);
+        
+          data1[key] = element[key];
+      
+      });
+    this.dataToDownload.push(data1);
   }
 
   //download UI data::::::::::::

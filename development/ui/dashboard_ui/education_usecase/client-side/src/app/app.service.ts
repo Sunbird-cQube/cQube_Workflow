@@ -233,7 +233,7 @@ export class AppServiceComponent {
         var dataSet = data;
         var setColor = '';
         for (let i = 0; i < keys.length; i++) {
-            if ((filter.split("-")[1]) == parseInt(keys[i])) {
+            if (filter == parseInt(keys[i])) {
                 setColor = this.tpdColors[keys[i]];
                 break;
             } else if (dataSet[filter] >= parseInt(keys[i]) && dataSet[filter] <= parseInt(keys[i + 1])) {
@@ -273,43 +273,7 @@ export class AppServiceComponent {
     }
 
     getTpdMapCapitaRelativeColors(markers, filter) {
-    //     console.log('marker', filter)
-    //     let data = markers
-    //    let  arr =[]
-    //     for(let i = 0; i< data.length; i++){
-    //         arr.push(data[i][filter.value])
-    //     }
-    //     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
-
-    //     console.log('arr', arr)
-
-    //     var marker = [];
-    // let slabArr = [];
-    // let slabLength = Math.round((arr.length)/3)
-    // if (arr) {
-      
-    //     let newMarker
-    //   arr.forEach(arr =>{
-    //     newMarker = arr.slice(0, slabLength)
-    //   })     
-    //   if( value === '0-20'){
-    //     // slabArr = arr.slice(0,Math.round((arr.length)/5))
-    //     slabArr = arr.slice(0,slabLength)
-    //   } else if(value === '21-40'){
-    //     slabArr = arr.slice(slabLength,slabLength *2)
-    //     // slabArr = arr.slice(slabArr.length ,slabLength)
-    //   } else if(value === '41-60'){
-    //     slabArr = arr.slice(slabLength *2,slabLength *3)
-    //   }else if(value === '61-80'){
-    //     slabArr = arr.slice(slabLength *3, slabLength *4)
-    //   }else if(value === '81-100'){
-    //     slabArr = arr.slice(slabLength *4)
-    //   }else if(value === '0-100'){
-    //     slabArr = arr
-    //   }
-    // }
-        //
-
+   
         var values = [];
         markers.map(item => {
             var keys = Object.keys(item);
@@ -532,11 +496,11 @@ export class AppServiceComponent {
     }
 
     public tpdColors = {
-        20: '#d9ef8b',
-        40: '#a6d96a',
-        60: '#66bd63',
-        80: '#1a9850',
-        100: '#006837'
+        0: '#d9ef8b',
+        1: '#a6d96a',
+        2: '#66bd63',
+        3: '#1a9850',
+        4: '#006837'
     }
 
     public tpdCapitaColors = {
