@@ -181,7 +181,13 @@ export class MultiBarChartComponent implements OnInit {
               // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             },
             formatter: function () {
-              return this.y + '%';
+              
+              if(level == 'district'){
+                return this.y + '%';
+              } else if(level == "block" || level == "cluster" || level == "school"){
+                 return this.y;
+              }
+              
             }
           },
           color: '#bc5090',
@@ -197,7 +203,11 @@ export class MultiBarChartComponent implements OnInit {
               // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             },
             formatter: function () {
-              return  this.y + '%';
+              if(level == 'district'){
+                return this.y + '%';
+              } else if(level == "block" || level == "cluster" || level == "school"){
+                 return this.y;
+              }
             }
           },
           color: '#9C19E0',
@@ -214,7 +224,11 @@ export class MultiBarChartComponent implements OnInit {
               // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
             },
             formatter: function () {
-              return this.y + '%';
+              if(level == 'district'){
+                return this.y + '%';
+              } else if(level == "block" || level == "cluster" || level == "school"){
+                 return this.y;
+              }
             }
           },
           color: '#ffa600',
