@@ -142,7 +142,7 @@ export class EtbPerCapitaComponent implements OnInit {
            }
         }
         // to show only in dropdowns
-        this.districtMarkers = this.data.data;
+        this.districtMarkers = this.data.data
         // options to set for markers in the map
         
         let options = {
@@ -251,7 +251,9 @@ export class EtbPerCapitaComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.markers = data;
+      this.markers = data.filter(distData => {
+        return distData.latitude !== null;
+      });
       var colors = this.commonService.getTpdMapCapitaRelativeColors(
         this.markers,
         {
@@ -413,28 +415,28 @@ for (var key of Object.keys(orgObject)) {
 
 
   public legendColors: any = [
-    "#9AE66E",
-    "#94B3FD",
     "#FFAFAF",
+    "#94B3FD",
+    "#9AE66E",
   ];
   public values = [
-    "Above Average",
-    "Average",
     "Below Average",
+    "Average",
+    "Above Average"
   ];
 
 
   //Filter data based on attendance percentage value range:::::::::::::::::::
   public valueRange = undefined;
   public prevRange = undefined;
-  selectRange(value) {
+  selectRange(value, index) {
     this.onRangeSelect = "absolute"
-    this.valueRange = value;
-    this.filterRangeWiseData(value);
+    this.valueRange = index;
+    this.filterRangeWiseData(value, index);
   }
   public len
 
-  filterRangeWiseData(value) {
+  filterRangeWiseData(value, index) {
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
@@ -445,28 +447,32 @@ for (var key of Object.keys(orgObject)) {
         arr.push(this.data.data[i][`${this.selectedType}`])
     }
     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
+    
+
+   
+
     //getting relative colors for all markers:::::::::::
     var markers = [];
+
     let slabArr = [];
-    let slabLength = Math.round((arr.length)/3)
+    // let slabLength = Math.round((arr.length)/3)
+
+    if (index > -1) {
+      let maxArr = arr[arr.length-1]
+      console.log('max', maxArr)
+      let partition = Math.round(maxArr/5)
+      //getting relative colors for all markers:::::::::::
+      
+      let min = partition*index+index;
+      let max = partition*(index+1)
+      slabArr = arr.filter(val => val >= min && val <= max)
+    } else {
+      slabArr = arr;
+    }
     
     if (value) {
-      if( value === 'Below Average'){
-        // slabArr = arr.slice(0,Math.round((arr.length)/5))
-        slabArr = arr.slice(0,slabLength)
-      } else if(value === '21-40'){
-        slabArr = arr.slice(slabLength,slabLength *2)
-        // slabArr = arr.slice(slabArr.length ,slabLength)
-      } else if(value === 'Average'){
-        slabArr = arr.slice(slabLength,slabLength *2)
-      }else if(value === '61-80'){
-        slabArr = arr.slice(slabLength *3, slabLength *4)
-      }else if(value === 'Above Average'){
-        slabArr = arr.slice(slabLength *2)
-      }else if(value === '0-100'){
-        slabArr = arr
-      }
-
+      
+    
       this.data.data.map(a => {
        
         if(a.latitude){
@@ -517,10 +523,10 @@ for (var key of Object.keys(orgObject)) {
   }
 
   reset(value) {
-    this.valueRange = value;
+    this.valueRange = -1;
     this.selectedIndex = undefined;
     this.deSelect();
-    this.filterRangeWiseData(value);
+    this.filterRangeWiseData(value, -1);
   }
 
   // to download the csv report
