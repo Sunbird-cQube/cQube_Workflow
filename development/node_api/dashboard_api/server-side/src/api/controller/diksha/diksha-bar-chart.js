@@ -8,7 +8,7 @@ router.post('/dikshaAllData', auth.authController, async (req, res) => {
         logger.info('--- diksha chart allData api ---');
         let collection_type = req.body.collection_type
         var fileName = `diksha/bar_chart_reports/${collection_type}/all_districts.json`
-        let districtsData = await s3File.readFileConfig(fileName);
+        var districtsData = await s3File.readFileConfig(fileName);
         var chartData = {
             labels: '',
             data: ''
@@ -29,7 +29,7 @@ router.post('/dikshaAllData', auth.authController, async (req, res) => {
     }
 })
 
-router.post('/dikshaGetCollections', auth.authController, async (req, res) => {
+router.post('/dikshaGetCollections',  async (req, res) => {
     try {
         logger.info('--- diksha chart dikshaGetCollections api ---');
         let collection_type = req.body.collection_type
@@ -40,7 +40,14 @@ router.post('/dikshaGetCollections', auth.authController, async (req, res) => {
             let timePeriod = req.body.timePeriod
             fileName = `diksha/bar_chart_reports/${collection_type}/${timePeriod}/all_collections.json`
             fileName1 = `diksha/bar_chart_reports/${collection_type}/${timePeriod}/all_districts.json`
-            let districtsData = await s3File.readFileConfig(fileName1);
+            
+        } else {
+            footer = '';
+            fileName = `diksha/bar_chart_reports/${collection_type}/all_collections.json`;
+            fileName1 = `diksha/bar_chart_reports/${collection_type}/all_districts.json`
+        }
+        let districtsData = await s3File.readFileConfig(fileName1);
+    
             if (districtsData) {
                 footer = districtsData['footer'];
                 var chartData = {
@@ -55,10 +62,8 @@ router.post('/dikshaGetCollections', auth.authController, async (req, res) => {
                     return { total_content_plays: a.total_content_plays, percentage: a.percentage }
                 })
             }
-        } else {
-            footer = '';
-            fileName = `diksha/bar_chart_reports/${collection_type}/all_collections.json`
-        }
+
+       
         let collectionData = await s3File.readFileConfig(fileName);
         let collections;
         collections = collectionData.map(val => {
@@ -68,9 +73,10 @@ router.post('/dikshaGetCollections', auth.authController, async (req, res) => {
             return collections.indexOf(elem) == pos;
         })
         logger.info('--- diksha chart dikshaGetCollections api response sent ---');
+        
         res.send({ uniqueCollections, downloadData: districtsData, chartData, footer: footer.total_content_plays })
     } catch (e) {
-        logger.error(`Error :: ${e}`)
+        logger.error(`Error :: ${e.errMessage}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
     }
 });
@@ -93,6 +99,7 @@ router.post('/dikshaGetCollectionData', auth.authController, async (req, res) =>
         let footerData = await s3File.readFileConfig(footerFile);
         footerData = footerData.collections[`${collection_name}`];
         let collectionData = await s3File.readFileConfig(fileName);
+        console.log('collec', collectionData)
         collectionData = collectionData.filter(a => {
             return a.collection_name == collection_name
         })
