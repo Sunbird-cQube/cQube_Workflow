@@ -489,7 +489,7 @@ for (var key of Object.keys(orgObject)) {
     for(let i = 0; i< this.data.data.length; i++){
         arr.push(this.data.data[i][`${this.selectedType}`])
     }
-    console.log('arr', arr)
+  
     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
     var markers = [];
     let slabArr = [];

@@ -504,9 +504,10 @@ export class AppServiceComponent {
     }
 
     public tpdCapitaColors = {
-        "Above Average": '#9AE66E',
-        "Average": '#94B3FD',
-        "Below Average": '#FFAFAF'
+        0: '#FFAFAF',
+        1: '#94B3FD',
+        2: '#9AE66E',
+        
     }
 
     //color gredient generation....

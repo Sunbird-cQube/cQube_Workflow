@@ -224,7 +224,6 @@ getDistMeta(){
       // this.distToDropDown.forEach(district => {
         if(this.dist){
           let distData = this.distData[this.selectedDist];
-          console.log('dist', distData)
           let distName = distData[0].district_name;
           let objectValue = distData.find(metric => metric.collection_name === element.collection_name);
           
