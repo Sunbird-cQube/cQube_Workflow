@@ -113,7 +113,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.service.getAvgTimespendDist().subscribe(res =>{
       this.distData = res['data']['data'];
       
-      this.distWiseData = this.distData[data] 
+      this.distWiseData = this.distData.filter(districtData => districtData.district_id === data)
       // this.reportData = distWiseData;
       this.restructureBarChartData(this.distWiseData);
       this.commonService.loaderAndErr(this.distWiseData);
@@ -132,7 +132,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
   restructureBarChartData(pieData){
     this.emptyChart()
     this.chartData = [];
-    this.result =  pieData
+    this.result = pieData
     try {
       this.result.forEach(element => {
       
@@ -181,8 +181,8 @@ getDistMeta(){
  public distName
  
   onDistSelected(data){
-    this.chartData = []
-    this.emptyChart()
+    // this.chartData = []
+    // this.emptyChart()
     this.data=[]
     //  this.distWiseData = [];
      this.distPieData = [];
@@ -192,11 +192,11 @@ getDistMeta(){
      try {
       this.selectedDist = data;
        this.getDistdata(data)
-      this.commonService.loaderAndErr(this.distPieData);
+      this.commonService.loaderAndErr(this.distWiseData);
      } catch (error) {
       this.distPieData = [];
       this.emptyChart();
-      this.commonService.loaderAndErr(this.distPieData);
+      this.commonService.loaderAndErr(this.distWiseData);
      }
     
   }

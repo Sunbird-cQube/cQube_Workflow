@@ -121,16 +121,16 @@
                     <h3>Usage by Students <sup class="tip">
                             <app-info style="font-size: 16px;" [tooltipText]="usageByStudents"></app-info>
                         </sup></h3>
-                    <div *ngIf="barChartData2[0]['data'].length > 0">
+                    <div >
                         <canvas height="160vh" baseChart [datasets]="barChartData2" [labels]="barChartLabels2"
                             [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
                             [chartType]="barChartType" [colors]="barChartColors2">
                         </canvas>
                     </div>
-                    <div *ngIf="barChartData2[0]['data'].length === 0 "
+                    <!-- <div *ngIf="barChartData2[0]['data'].length === 0 "
                         style="position: absolute; left: 45%; top: 45%;color: red;">
                         No Data Available
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
