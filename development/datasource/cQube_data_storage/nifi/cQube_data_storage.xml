@@ -56974,7 +56974,7 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                             </entry>
                             <entry>
 <key>diksha</key>
-<value>${filename:startsWith('diksha')}</value>
+<value>${filename:startsWith('diksha'):and(${filename:startsWith('diksha_enrolment'):not()})}</value>
                             </entry>
                             <entry>
 <key>pat</key>
@@ -77687,5 +77687,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/07/2021 13:07:21 IST</timestamp>
+    <timestamp>12/09/2021 13:36:04 IST</timestamp>
 </template>
