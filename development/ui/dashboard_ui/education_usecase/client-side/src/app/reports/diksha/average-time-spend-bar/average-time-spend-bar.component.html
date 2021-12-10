@@ -1,82 +1,5 @@
 
-<!-- <div class="container-fluid">
-    <div class="row reportHeader">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="row" (window:resize)="onResize()">
-              <div class="col-lg-9 col-md-9 col-sm-12">
-               
-                <div >
-                  <p id="block">
-                    Report on Total Content Play:
-                    <span style="cursor: pointer; text-decoration: underline">{{state}}</span>
-                    <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
-                      style="cursor: pointer; text-decoration: underline" class="selected-level">
-                      {{ districtHierarchy.districtName }}</span>
-                  </p>
-                </div>
-               
-                <div *ngIf="dist">
-                  <p id="block">
-                    Report on Content Usage:
-                    <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
-                    <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
-                      </span>
-                  </p>
-                </div>
-              
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="row">
-                  <div class="col-sm-5">
-                    <p id="errMsg" class="note"></p>
-                  </div>
-                  <div class="col-sm-7">
-                    <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
-                      (click)="downloadReport()">
-                      Download Report &nbsp;
-                      <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p class="note">
-                  <strong> About the dashboard:</strong> Understanding demand to identify where to improve quality of content
-  
-                </p>
-              </div>
-            </div>
-            <div class="row" style="margin-bottom: 10px">
-              <div class="col-sm-12"> -->
-  
-                 <!-- <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
-                  <option [value]="selectedDist" disabled selected="selected">
-                    Choose a District
-                  </option>
-                  <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
-                    {{ dist.district_name }}
-                  </option>
-                </select>   -->
-              
-                 
-                  <!-- <option *ngFor="let dist of stateDropDown" [(ngValue)]="dist.key">
-                    {{ dist.name }}
-                  </option> -->
-                <!-- </select>  -->
-                
-              <!-- </div>
-            </div>
-          </div>
-    </div>
-    <div class="row reportContainer pt-4" style="width: 100%;">
-        <div id="container" class="col-lg-12 m-auto" style="max-height: 66vh; overflow-y: scroll;">
 
-        </div>
-    </div>
-    
-</div> -->
 
 <div class="container-fluid">
     <div class="row reportHeader">
@@ -96,32 +19,8 @@
                             </span><span  style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 </span> </p>
                     </div> -->
-                    <!-- <div *ngIf="blok">
-                        <p id="cluster">
-                            Diksha TPD Report for Total Enrollments / Completions: <span (click)="homeClick()"
-                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="distLinkClick(blockHierarchy.distId)"
-                                style="cursor: pointer;text-decoration: underline;">
-                                {{blockHierarchy.districtName}}</span><span> | </span><span
-                                (click)="blockLinkClick(blockHierarchy.blockId)"
-                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
-                                {{blockHierarchy.blockName}}</span></p>
-                    </div> -->
 
-                    <!-- <div *ngIf="clust">
-                        <p id="school">
-                            Diksha TPD Report for Total Enrollments / Completions: <span (click)="homeClick()"
-                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="distLinkClick(clusterHierarchy.distId)"
-                                style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.districtName}}</span><span> | </span><span
-                                (click)="blockLinkClick(clusterHierarchy.blockId)"
-                                style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span
-                                (click)="clusterLinkClick(clusterHierarchy.clusterId)"
-                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
-                                {{clusterHierarchy.clusterName}}</span></p>
-                    </div> -->
+                  
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="row">
@@ -129,11 +28,6 @@
                             <p id="errMsg" class="note">
                             </p>
                         </div>
-
-                        <!-- <span id="rawDownload" class="note"
-                            style="cursor: pointer; float: right; margin: 8px 20px 0px 0px; text-decoration: underline;"
-                            *ngIf="reportData.length > 0" (click)="downloadRawFile()"><strong>Download Raw
-                                File</strong></span> -->
 
                         <div class="col sm-5">
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
