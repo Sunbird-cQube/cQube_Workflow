@@ -29,5 +29,13 @@ export const dashboardReportDescriptions = {
     tarExpTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their teacher attendance data.",
     sarExcptTooltip: "This geo-location-based dashboard provides insights on those schools that did not upload their student attendance data.",
     satTooltip: "This geo-location-based dashboard provides insights on student Periodic Assessment Test (SAT) performance across " + state + ".",
-    satHeatChartTooltip: "This dashboard provides insights on student performance at the question level."
+    satHeatChartTooltip: "This dashboard provides insights on student performance at the question level.",
+    gpsOfLearningTPDTooltip : "The dashboard provides details on the total content plays for Teacher Professional Development (TPD) by location for"+ " " + state + ".",
+    gpsOfLearningETBTooltip :"The dashboard provides details on the total content plays for Energised Textbooks (ETB) by location for" + state + ".",
+    heartbeatOfTheNationLearning : "The dashboard provides a macro overview of the total content plays over the last two academic years for" + state + ".",
+    userOnboarding :"The dashboards provides insights on the user onboarding progress across various TPD courses for" + state + " over time",
+    userProgress : "The dashboard provides insights on user onboarding, completion and certification across various TPD courses for"+ " " + state +".",
+    userEngagement : "The dashboard provides insights on user engagement for various TPD courses for" + " "+ state +".",
+    usagePerCapita : "The dashboard provides the total content play metric over last academic year and current academic year across various districts for "+ state + " normalised using the total eligible population (Total number of students and teachers) for the respective district.",
+    contentPreference : "The dashboard provides insights on user's preference (as measured by total content play) by content type across districts for" + " "+ state + ".",
 }
