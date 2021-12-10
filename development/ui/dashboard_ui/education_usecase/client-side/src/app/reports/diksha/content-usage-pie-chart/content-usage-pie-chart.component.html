@@ -6,7 +6,7 @@
              
               <div *ngIf = 'skul'>
                 <p id="block">
-                  Report on Content Usage:
+                  Report on Content Preference:
                   <span (click)="clickHome()"style="cursor: pointer; text-decoration: underline">{{state}}</span>
                   <!-- <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
                     style="cursor: pointer; text-decoration: underline" class="selected-level">
@@ -16,7 +16,7 @@
              
               <div *ngIf="dist">
                 <p id="block">
-                  Report on Content Usage:
+                  Report on Content Preference:
                   <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
                   <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
                     </span>
@@ -42,7 +42,7 @@
           <div class="row">
             <div class="col-sm-12">
               <p class="note">
-                <strong> About the dashboard:</strong> Understanding demand to identify where to improve quality of content
+                <strong> About the dashboard:</strong> The dashboard provides insights on user's preference (as measured by total content play) by content type across districts for {{state}}
 
               </p>
             </div>

@@ -60,7 +60,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
     // this.createBarChart()
     // this.getStateData()
     this.getStateData()
-    // this.getDistdata()
+    // this.getDistdata(this.selectedDist)
   }
 
   public data
@@ -221,16 +221,18 @@ getDistMeta(){
   downloadReport() {
     this.dataToDownload = [];
     this.reportData.forEach(element => {
-      // this.distToDropDown.forEach(district => {
-        if(this.dist){
-          let distData = this.distData[this.selectedDist];
+      this.distToDropDown.forEach(district => {
+        // if(this.dist){
+          console.log('thisDist', this.distData)
+          let distData = this.distData[district];
+          
           let distName = distData[0].district_name;
           let objectValue = distData.find(metric => metric.collection_name === element.collection_name);
           
           element[distName] = objectValue && objectValue.avg_time_spent ? objectValue.avg_time_spent : 0;
-        }
+        // }
        
-      //  });
+       });
       this.newDownload(element);
     });
     this.commonService.download(this.fileName, this.dataToDownload);
