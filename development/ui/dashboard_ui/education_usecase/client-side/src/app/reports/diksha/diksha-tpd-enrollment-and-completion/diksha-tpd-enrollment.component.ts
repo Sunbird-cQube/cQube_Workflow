@@ -62,7 +62,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public timePeriod = 'overall';
   public hierName: any;
   public all: boolean = false;
-  public timeDetails: any = [{ id: "overall", name: "Overall" }, { id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" }, { id: "last_day", name: "Last Day" }];
+  public timeDetails: any = [{ id: "overall", name: "Overall" }, { id: "last_30_days", name: "Last 30 Days" },{ id: "last_90_days", name: "Last 90 Days" }, { id: "last_7_days", name: "Last 7 Days" }, { id: "last_day", name: "Last Day" }];
   public districtsDetails: any = '';
   public myChart: Chart;
   public showAllChart: boolean = false;
@@ -173,6 +173,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.commonService.errMsg();
     //this.collectionName = '';
     this.service.tpdgetCollection({ timePeriod: this.timePeriod, level: this.level, id: this.globalId }).subscribe(async (res) => {
+      console.log('rescol', res)
       this.collectionNames = [];
       this.collectionNames = res['allCollections'];
       this.collectionNames.sort((a, b) => (a > b) ? 1 : ((b > a) ? -1 : 0));
