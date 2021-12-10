@@ -36,6 +36,6 @@ export const dashboardReportDescriptions = {
     userOnboarding :"The dashboards provides insights on the user onboarding progress across various TPD courses for" + state + " over time",
     userProgress : "The dashboard provides insights on user onboarding, completion and certification across various TPD courses for"+ " " + state +".",
     userEngagement : "The dashboard provides insights on user engagement for various TPD courses for" + " "+ state +".",
-    usagePerCapita : "The dashboard provides the total content play metric over last academic year and current academic year across various districts for "+ state + " normalised using the total eligible population (Total number of students and teachers) for the respective district.",
+    usagePerCapita : "The dashboard provides the total content play metric over two current academic years across various districts for "+ state + " normalised using the total eligible population for the respective district.",
     contentPreference : "The dashboard provides insights on user's preference (as measured by total content play) by content type across districts for" + " "+ state + ".",
 }
