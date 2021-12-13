@@ -49,7 +49,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   public selected = "absolute";
   public onRangeSelect;
 
-  reportName = "TPD_Total_content_play";
+  reportName = `TPD_${this.selectedType}`;
 
   mapName
   constructor(
@@ -110,6 +110,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   }
   // to load all the districts for state data on the map
   getDistData() {
+   this.reportName = `TPD_${this.selectedType}`;
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);

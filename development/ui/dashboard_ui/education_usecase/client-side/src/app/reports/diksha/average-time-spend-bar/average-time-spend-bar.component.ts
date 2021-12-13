@@ -226,10 +226,10 @@ export class AverageTimeSpendBarComponent implements OnInit {
     reportData.forEach((element) => {
      selectedDistricts.forEach((district) => {
        
-       
-        let distData = this.distData.filter(districtData => {
-          return districtData.district_id === district.district_id
-        })
+       let distData = this.distData[district.district_id]
+        // let distData = this.distData.filter(districtData => {
+        //   return districtData.district_id === district.district_id
+        // })
            
        
         let objectValue = distData.find(
