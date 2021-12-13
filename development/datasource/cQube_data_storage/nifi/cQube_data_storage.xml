@@ -68998,7 +68998,7 @@ ${query_type:startsWith('sat_management_subject_footer_district_last_7_days'):if
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>${azureolute.path}/${filename}</value>
+<value>${absolute.path}/${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -77687,5 +77687,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/09/2021 13:36:04 IST</timestamp>
+    <timestamp>12/13/2021 16:24:29 IST</timestamp>
 </template>
