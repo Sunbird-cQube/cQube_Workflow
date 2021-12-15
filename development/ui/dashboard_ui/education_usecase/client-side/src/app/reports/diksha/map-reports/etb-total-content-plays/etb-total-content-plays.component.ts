@@ -46,6 +46,10 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   public selected = "absolute";
   public onRangeSelect;
+  public legandName;
+  public otherStateContentPlays
+  public otherStateTotalTime
+  public otherStateAvgTime
 
   reportName = "ETB_Total_content_play";
 
@@ -92,7 +96,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   markers
   totalContentPlays
   othersStatePercentage
-  otherStateContentPlays
+  stateAvgTimeSpend;
+  stateTotalContentPlay;
 
   level;
   googleMapZoom
@@ -107,6 +112,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   }
   // to load all the districts for state data on the map
   getDistData() {
+    this.legandName = this.commonService.changeingStringCases(this.selectedType.replace(/_/g, " "))
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
@@ -198,9 +204,16 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             }
             
             arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
-            
             let maxArr = arr[arr.length-1]
-            let partition = Math.round(maxArr/5)
+            let partition
+            if(this.selectedType == 'avg_time_spent'){
+               partition = maxArr/5
+            }else {
+               partition = Math.round(maxArr/5)
+            }
+
+            
+            
             for(let i = 0; i< 5; i++){
               
               this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2 
@@ -208,7 +221,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
-             if (i == 0 || i == 5 || i == 6) {
+             if (i == 0 || i == 1 || i == 6) {
               obj = {
                 id: keys[i],
                 name: this.commonService.changeingStringCases(keys[i])
@@ -222,12 +235,14 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
-            
+            this.stateAvgTimeSpend = this.data.footer.average_time_state.toLocaleString('en-IN') + " " + "hours" 
+            this.stateTotalContentPlay = this.data.footer.total_time_spent.toLocaleString('en-IN') + " " + "hours" 
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){
                    this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN')
-                   
+                   this.otherStateTotalTime = item.total_time_spent;
+                   this.otherStateAvgTime = item.avg_time_spent;
                  }  
             });
             // options to set for markers in the map
@@ -275,7 +290,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
  
   onSelectType(data) {
     this.selectedType = data;
-    this.getDistData()
+    this.getDistData();
+
   }
  
   genericFun(data, options, fileName) {
@@ -392,7 +408,7 @@ for (var key of Object.keys(orgObject)) {
 
 for (var key of Object.keys(orgObject)) {
   if( key === 'avg_time_spent')
-  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Seconds'
+  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
 }
     
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
@@ -482,7 +498,6 @@ for (var key of Object.keys(orgObject)) {
     for(let i = 0; i< this.data.data.length; i++){
         arr.push(this.data.data[i][`${this.selectedType}`])
     }
-    console.log('arr', arr)
     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
     var markers = [];
     let slabArr = [];
@@ -498,7 +513,7 @@ for (var key of Object.keys(orgObject)) {
       } else {
         slabArr = arr;
       }
-     
+         
     if (value) {
       // if( value === '0-20'){
       //   // slabArr = arr.slice(0,Math.round((arr.length)/5))

@@ -50,7 +50,7 @@
 
   <div class="row reportContainer">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }" >
+      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '84%' : '100%' }" >
         <div #mapContainer id="tpdMap" class="active" [ngStyle]="{
                 height:
                   height > 1760
@@ -63,9 +63,12 @@
               }"></div>
       </div>
 
-      <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%; z-index: 100;">
-        <h5 id="legend" style="margin-left: 15%">
-          Legend
+      <div *ngIf="selected == 'absolute'" style="float: right; width: 15%; margin-left: 1%; margin-top: 1%; z-index: 100;">
+        <h5 id="legend" style="margin-left: 1%">
+         <span *ngIf = "selectedType == 'total_content_plays';else legand">{{legandName}}</span>
+         <ng-template #legand>
+          {{legandName}} &#40; hours &#41;
+        </ng-template>
           <img *ngIf="valueRange != -1 && valueRange !== undefined" id="resetImg" src="../../../../assets/images/reset.png"
             alt="reset" title="Reset to all" style="
               cursor: pointer;
@@ -75,7 +78,7 @@
               background-color: aqua;
               border-radius: 20px;
               padding: 5px;
-              margin-top: -5px;
+              margin-top: -3px;
             " (click)="reset('0-100')" />
         </h5>
         <div *ngFor="let value of values; let i = index">
@@ -86,16 +89,28 @@
           </span>
         </div>
       </div>
+      <div style="float: right; width: 15%; margin-left: 1%; margin-top: 3%; z-index: 100;">
+        <h5  style="margin-left: 1%; font-size: 12px; font-weight: bold;"> <u>Usage Outside State:-</u></h5> 
+        <span class="legends"  style="text-align: center; font-size: 11px;">Total content play: {{otherStateContentPlays}}  {{othersStatePercentage}} </span><br>    
+        <span class="legends"  style="text-align: center; font-size: 11px;">Total time spend: {{otherStateTotalTime}} hrs </span><br>
+        <span  class="legends"style="text-align: center; font-size: 11px;">Avg time spend: {{otherStateAvgTime}} sec</span>
+      </div>
     </div>
 
   </div>
-  <div class="row d-flex justify-content-around" id="footer">
-    <div class="col-sm-5">
+  <div class="row d-flex justify-content-around text-center" id="footer">
+    <div class="col-sm-4">
       <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
     </div>
-    <div class="col-sm-5 d-flex justify-content-end">
-      <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}  {{othersStatePercentage}}</span>
+    <div class="col-sm-4">
+      <span id="schools" class="note" style="text-align: center">Total Time Spend: {{stateTotalContentPlay}} </span>
     </div>
+    <div class="col-sm-4">
+      <span id="schools" class="note" style="text-align: center">Avg Time Spend: {{stateAvgTimeSpend}} </span>
+    </div>
+    <!-- <div class="col-sm-3 d-flex justify-content-end">
+      <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}  {{othersStatePercentage}}</span>
+    </div> -->
   </div>
 </div>
 <div id="spinner">

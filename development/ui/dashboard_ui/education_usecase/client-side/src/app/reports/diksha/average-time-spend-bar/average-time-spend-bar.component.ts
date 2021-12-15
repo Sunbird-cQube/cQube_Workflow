@@ -95,6 +95,8 @@ export class AverageTimeSpendBarComponent implements OnInit {
   }
 
   clickHome() {
+    this.dist = false;
+    this.skul = true;
     this.emptyChart();
     this.selectedDist = "";
     this.getStateData();
@@ -103,8 +105,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
   public distData;
   getDistdata() {
     this.emptyChart();
-    this.fileName = "Average_time_spend_district";
-
+    
     try {
       this.service.getAvgTimespendDist().subscribe((res) => {
         this.distData = res["data"]["data"];
@@ -177,10 +178,16 @@ export class AverageTimeSpendBarComponent implements OnInit {
     try {
       this.selectedDist = data;
       // this.getDistdata(data);
-
-      this.distWiseData = this.distData.filter(
-        (districtData) => districtData.district_id === data
-      );
+      this.distToDropDown.filter((distName) => {
+        if (distName.district_id === this.selectedDist) {
+          this.distName = distName.district_name;
+        }
+      });
+      this.fileName = `Average_time_spend_${this.distName}`;
+      this.distWiseData = this.distData[this.selectedDist]
+      // this.distWiseData = this.distData.filter(
+      //   (districtData) => districtData.district_id === data
+      // );
       
       // this.reportData = distWiseData;
       setTimeout(()=>{

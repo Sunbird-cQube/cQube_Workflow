@@ -47,6 +47,7 @@ export class EnrollmentProgressComponent implements OnInit {
       : "";
 
     this.getStateData();
+    this.getProgramData()
   }
 
   emptyChart(){
@@ -143,7 +144,31 @@ export class EnrollmentProgressComponent implements OnInit {
     }
   }
 
-  
+   public programData
+   public programDropDown = [];
+   public programWiseCourse:any = [];
+   public uniquePrograms: any = []
+   
+  getProgramData(){
+    this.programWiseCourse = [];
+    this.uniquePrograms = [];
+    try {
+        this.service.enrollProgam().subscribe((res)=>{
+          this.programData = res['data']['data']
+          
+          this.programData.forEach( course => {
+            this.programDropDown.push({
+              program_id : course.program_id,
+              program_name: course.program_name 
+            })
+          })
+          this.programDropDown.map(x => this.uniquePrograms.filter(a => a.program_id == x.program_id && a.program_name == x.program_name).length > 0 ? null : this.uniquePrograms.push(x));
+         
+        })
+    } catch (error) {
+      
+    }
+  }
  
   getAllDistCollection(){
     this.emptyChart()
@@ -201,6 +226,7 @@ export class EnrollmentProgressComponent implements OnInit {
   public districtName
   public dist = false
   public skul = true
+
   onDistSelected(distId){
     this.dist = true;
     this.skul = false;
@@ -212,8 +238,7 @@ export class EnrollmentProgressComponent implements OnInit {
           this.districtName = district.district_name
         }
       } ) 
-      
-
+    
     try {
       
       this.selectedDistData = this.distData[this.selectedDist];
@@ -224,6 +249,18 @@ export class EnrollmentProgressComponent implements OnInit {
       
     }
    
+  }
+  
+  public selectedProgram
+  public selectedProgData
+  
+  onProgramSelected(progId){
+   
+    this.selectedProgram = progId
+    this.selectedProgData = this.programData.filter(program => {
+         return program.program_id === this.selectedProgram
+    })
+    this.createLineChart(this.selectedProgData);
   }
 
   public selectedCourseData:any[]
@@ -343,8 +380,8 @@ export class EnrollmentProgressComponent implements OnInit {
         formatter: function(){
           return `
                <b> Date:${this.x}</b></br>
-               <b> Expected Enrollment: ${this.points[0].y}</b></br>
-               <b> Net Enrolled: ${this.points[1].y}</b>
+               <b> Expected Enrollment: ${this.points[0].y.toLocaleString('en-IN')}</b></br>
+               <b> Net Enrolled: ${this.points[1].y.toLocaleString('en-IN')}</b>
           `
         },
         shared: true
