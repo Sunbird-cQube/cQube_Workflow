@@ -64,7 +64,7 @@
   
         <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%; z-index: 100;">
           <h5 id="legend" style="margin-left: 15%">
-            Legend
+            Quartile
             <img *ngIf=" valueRange != -1 && valueRange !== undefined" id="resetImg" src="../../../../assets/images/reset.png"
               alt="reset" title="Reset to all" style="
                 cursor: pointer;
@@ -89,10 +89,16 @@
   
     </div>
     <div class="row d-flex justify-content-around" id="footer">
-      <div class="col-sm-5">
+      <div class="col-sm-3">
         <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
       </div>
-      <div class="col-sm-5 d-flex justify-content-end">
+      <div class="col-sm-3">
+        <span id="schools" class="note" style="text-align: center">Expected Users:  </span>
+      </div>
+      <div class="col-sm-3">
+        <span id="schools" class="note" style="text-align: center">Play per Capita:  </span>
+      </div>
+      <div class="col-sm-3 d-flex justify-content-end">
         <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}</span>
       </div>
     </div>

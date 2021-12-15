@@ -90,15 +90,27 @@
                         </option>
                     </select> -->
 
-                    <select id="coll_name" [(ngModel)]="collectionName" name="collectionName"
+                    <!-- <select id="coll_name" [(ngModel)]="collectionName" name="collectionName"
                         (change)="getDataBasedOnCollections()">
+                        
                         <option [value]="collectionName" disabled selected="selected">Choose course name
                         </option>
                         <option *ngFor="let collectionName of collectionNames; let i = index"
                             [(ngValue)]="collectionNames[i]">
                             {{collectionNames[i]}}
                         </option>
-                    </select>
+                    </select> -->
+                    <input list="coll_name" id="coll_input" class = "dropDownInput"[(ngModel)]="collectionName" placeholder="Search course" (change)="getDataBasedOnCollections()">
+                    <datalist id="coll_name" >
+                        <option [value]="collectionName" disabled selected="selected">Choose course name
+                        </option>
+                      <option *ngFor="let collectionName of collectionNames; let i = index" [value]="collectionName"> {{collectionNames[i]}}</option>
+                    </datalist>  
+                    <!-- <ng-select2 
+                    [(ngModel)]="collectionName"
+                    [data]="collectionNames"
+                    [placeholder]="'Search course'">		
+                    </ng-select2> -->
 
                     <select id="choose_dist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
@@ -138,10 +150,12 @@
         <div class="col-lg-1">
 
         </div>
-        <div class="col-lg-10" id="r1">
+        <div class="col-lg-10" id="r1" style="position: relative;">
             <!-- <app-bar-chart *ngIf="chartData.length > 0" [category]="category" [data]="chartData" [xData]="completion"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type">[data] = "chartData"
             </app-bar-chart> -->
+            <span *ngIf = "level == 'district'" class="vl"></span>
+            <span *ngIf = "level == 'district'" class="vl2"></span>
             <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category"  [data] = "expectedEnrolled" [enrolData] = "enrollChartData" [compData] = "compliChartData" [perData]= "pecentChartData" [xData]="completion"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type">
             </app-multi-bar-chart>

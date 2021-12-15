@@ -7,6 +7,7 @@ import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
 
+
 @Component({
   selector: 'app-diksha-tpd-enrollment',
   templateUrl: './diksha-tpd-enrollment.component.html',
@@ -173,7 +174,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.commonService.errMsg();
     //this.collectionName = '';
     this.service.tpdgetCollection({ timePeriod: this.timePeriod, level: this.level, id: this.globalId }).subscribe(async (res) => {
-      console.log('rescol', res)
+  
       this.collectionNames = [];
       this.collectionNames = res['allCollections'];
       this.collectionNames.sort((a, b) => (a > b) ? 1 : ((b > a) ? -1 : 0));
@@ -457,6 +458,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   //Get data based on selected collection:::::::::::::::
   getDataBasedOnCollections() {
+   
     this.emptyChart();
     this.reportData = [];
 

@@ -364,9 +364,9 @@ for (var key of Object.keys(orgObject)) {
 
 for (var key of Object.keys(orgObject)) {
   if( key === 'avg_time_spent')
-  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Seconds'
+  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
 }
-    
+  metrics['expected_Users'] = 3445
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
     var yourData = this.globalService.getInfoFrom(metrics, "", level, "infra-map", infraName, colorText)
@@ -415,14 +415,14 @@ for (var key of Object.keys(orgObject)) {
 
 
   public legendColors: any = [
-    "#FFAFAF",
-    "#94B3FD",
     "#9AE66E",
+    "#94B3FD",
+    "#FFAFAF",
   ];
   public values = [
-    "Below Average",
-    "Average",
-    "Above Average"
+    "Upper Quartile",
+    "Inter Quartile",
+    "Bottom Quartile",
   ];
 
 
@@ -459,7 +459,6 @@ for (var key of Object.keys(orgObject)) {
 
     if (index > -1) {
       let maxArr = arr[arr.length-1]
-      console.log('max', maxArr)
       let partition = Math.round(maxArr/5)
       //getting relative colors for all markers:::::::::::
       

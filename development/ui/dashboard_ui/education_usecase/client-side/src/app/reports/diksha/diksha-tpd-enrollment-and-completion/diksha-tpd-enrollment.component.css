@@ -8,3 +8,29 @@
       overflow-y: scroll;
   }
   
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+
+  .vl {
+    border-left: 1px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 40%;
+  }
+
+  .vl2 {
+    border-left: 1px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 63%;
+  }
+
+  .dropDownInput{
+     width: '200px'
+  }
