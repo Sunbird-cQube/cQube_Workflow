@@ -51,12 +51,12 @@
             <div class="row" style="margin-bottom: 10px">
               <div class="col-sm-12">
   
-                 <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
-                  <option [value]="selectedDist" disabled selected="selected">
-                    Choose a District
+                <select id="choose_infra" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
+                  <option [value]="selectedProgram" disabled selected="selected">
+                    Choose a Program
                   </option>
-                  <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
-                    {{ dist.district_name }}
+                  <option *ngFor="let program of uniquePrograms" [(ngValue)]="program.program_id">
+                    {{ program.program_name }}
                   </option>
                 </select>  
                
@@ -76,6 +76,14 @@
                     {{ course.collection_name }}
                   </option>
                 </select> 
+                <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+                  <option [value]="selectedDist" disabled selected="selected">
+                    Choose a District
+                  </option>
+                  <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
+                    {{ dist.district_name }}
+                  </option>
+                </select>  
                 
               </div>
             </div>

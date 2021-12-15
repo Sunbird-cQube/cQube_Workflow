@@ -10,7 +10,6 @@ router.post('/stateData', auth.authController , async (req, res) => {
         let jsonData = await readFile.readFileConfig(fileName);
         // var footer = jsonData['footer'];
         let mydata = jsonData;
-      
         logger.info('--- diksha content usage state api response sent ---');
         res.send({ data: mydata });
     } catch (e) {

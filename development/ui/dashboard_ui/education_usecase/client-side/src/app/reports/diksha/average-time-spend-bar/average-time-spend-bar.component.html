@@ -6,19 +6,19 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 ">
-                    <div  >
+                    <div *ngIf='skul'>
                         <p id="dist">
                          Report on User Engagement: <span (click) = "clickHome()"
                                 style="cursor: pointer;text-decoration: underline;"
                                 class="selected-level">{{state}}</span></p>
                     </div>
-                    <!-- <div *ngIf='dist'>
+                    <div *ngIf='dist'>
                         <p id="block">
-                          Report for Average Time Spend on Course: <span (click)="clickHome()"
+                            Report on User Engagement: <span (click)="clickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span  style="cursor: pointer;text-decoration: underline;" class="selected-level">
-                                </span> </p>
-                    </div> -->
+                              {{distName}}  </span> </p>
+                    </div>
 
                   
                 </div>

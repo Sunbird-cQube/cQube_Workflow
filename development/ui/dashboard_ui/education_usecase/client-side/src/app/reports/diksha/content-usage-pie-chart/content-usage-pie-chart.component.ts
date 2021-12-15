@@ -65,6 +65,7 @@ export class ContentUsagePieChartComponent implements OnInit {
   }
  
  public skul = true;
+ public stateContentUsage 
 
  getStateData(){
   this.commonService.errMsg();
@@ -74,6 +75,9 @@ try {
 
   this.service.dikshaPieState().subscribe(res => {
     this.pieData = res['data'].data;
+    
+    this.stateContentUsage = res['data'].footer.total_content_plays.toLocaleString('en-IN');
+   
     this.fileName = 'Content-usage-state';
     this.reportData = res['data'].data;
      this.stateData = this.restructurePieChartData(this.pieData)
@@ -91,6 +95,9 @@ try {
 
  clickHome() {
   this.selectedDist = "";
+  this.selectedDrop = 'State Level Data'
+  this.distToggle = false;
+  this.districtSelectBox = false;
   this.selectedDistricts = [];
   this.dist =false;
   this.skul = true;
@@ -122,6 +129,7 @@ try {
      try {
         this.service.dikshaPieDist().subscribe(res => {
             this.distData = res['data'].data;
+            
             // this.reportData = res['data'].data;
             this.createDistPiechart()
             }) 
@@ -170,7 +178,8 @@ onStateDropSelected(data){
       this.distToggle = true
       this.districtSelectBox = true;
     }else{
-      this.distToggle = false
+      this.distToggle = false;
+      this.districtSelectBox = false;
     }
     this.getStateData();
     // this.getDistData();
@@ -270,13 +279,14 @@ onStateDropSelected(data){
     });
     
     let Distdata:any = []
-    
     pieData.filter(district => {
       return this.selectedDistricts.find(districtId => districtId === +district.id ) 
       //&& districtId === 2401
     }).forEach((district, i) =>{
         let  obj = {
           name: district.data[0].district_name,
+          totalContentDistWise: district.data[0].total_content_plays_districtwise.toLocaleString('en-IN'),
+          percentOverState : district.data[0].percentage_over_state,
           data: []
         }
        
@@ -312,7 +322,9 @@ onStateDropSelected(data){
      Distdata.forEach(function(el:any,i) {
       var chartData = el
       var distName = el.name
-        
+      var distWiseUsage = el.totalContentDistWise
+      var perOverState = el.percentOverState
+        console.log('el', el)
      var distChartData = []
      
      createdDiv = document.createElement('div');
@@ -324,7 +336,7 @@ onStateDropSelected(data){
       
       mainContainer.appendChild(createdDiv); 
       // Object.keys(dataEl).forEach( item=> {
-      //   console.log('item',item)
+      //   
       // })
       Highcharts.chart(createdDiv, {
         chart:{
@@ -336,7 +348,7 @@ onStateDropSelected(data){
 
         },
         title:{
-          text:  `${distName}`,
+          text:  `${distName}-Total content Usage: ${distWiseUsage} (${perOverState}%)`,
         },
         // colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
         credits: {

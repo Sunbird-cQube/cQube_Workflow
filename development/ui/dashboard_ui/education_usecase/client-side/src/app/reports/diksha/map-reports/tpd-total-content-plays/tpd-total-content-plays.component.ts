@@ -45,10 +45,11 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
   public reportData
   public selectedType = 'total_time_spent';
-
+      
+  public legandName = ''
   public selected = "absolute";
   public onRangeSelect;
-
+ 
   reportName = `TPD_${this.selectedType}`;
 
   mapName
@@ -89,18 +90,20 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
   }
 
-  data
-  districtMarkers
-  markers
-  totalContentPlays
-  othersStatePercentage
-  otherStateContentPlays
-
-  level;
-  googleMapZoom
+  public data
+  public districtMarkers
+  public markers
+  public totalContentPlays
+  public othersStatePercentage
+  public otherStateContentPlays
+  public otherStateTotalTime
+  public otherStateAvgTime;
+  public stateAvgTimeSpend;
+  public stateTotalContentPlay;
+ public  level;
+ public  googleMapZoom
   selectionType = []
   infraData
-
 
   clickHome() {
     this.onRangeSelect ="",
@@ -111,7 +114,9 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   // to load all the districts for state data on the map
   getDistData() {
    this.reportName = `TPD_${this.selectedType}`;
-    try {
+   this.legandName = this.commonService.changeingStringCases(this.selectedType.replace(/_/g, " "))
+  
+   try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
@@ -136,7 +141,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         
         let obj = {}
         for (let i = 0; i < keys.length; i++) {
-          if (i == 0 || i == 5 || i == 6) {
+          if (i == 0 || i == 1 || i == 6) {
             obj = {
               id: keys[i],
               name: this.commonService.changeingStringCases(keys[i])
@@ -155,10 +160,21 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
             
             let maxArr = arr[arr.length-1]
-            let partition = Math.round(maxArr/5)
+            let partition
+            if(this.selectedType == 'avg_time_spent'){
+               partition = maxArr/5
+              //  partition = +partition.toFixed(2)
+               //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+            }else {
+               partition = Math.round(maxArr/5)
+            }
             for(let i = 0; i< 5; i++){
               
-              this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2 
+              if (this.selectedType == "avg_time_spent") {
+                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+              } else {
+                this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+              }
             }
 
         // to show only in dropdowns
@@ -195,6 +211,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         this.myData = this.service.tpdDistWise().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
+
             let arr = [];
             this.values = [];
     
@@ -205,34 +222,46 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
             
             let maxArr = arr[arr.length-1]
-            let partition = Math.round(maxArr/5)
+            let partition
+            if(this.selectedType == 'avg_time_spent'){
+               partition = maxArr/5
+              //  partition = +partition.toFixed(2)
+               //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+            }else {
+               partition = Math.round(maxArr/5)
+            }
             for(let i = 0; i< 5; i++){
               
-              this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2 
+              if (this.selectedType == "avg_time_spent") {
+                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+              } else {
+                this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+              }
             }
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
-             if (i == 0 || i == 5 || i == 6) {
+             if (i == 0 || i == 1 || i == 6) {
               obj = {
                 id: keys[i],
                 name: this.commonService.changeingStringCases(keys[i])
               }
               this.selectionType.push(obj)
              }
-             
-              
             }
             // to show only in dropdowns
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
+            this.stateAvgTimeSpend = this.data.footer.average_time_state.toLocaleString('en-IN') + " " + "hours" 
+            this.stateTotalContentPlay = this.data.footer.total_time_spent.toLocaleString('en-IN') + " " + "hours" 
             
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){
                    this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN')
-                   
+                   this.otherStateTotalTime = item.total_time_spent;
+                   this.otherStateAvgTime = item.avg_time_spent;
                  }  
             });
             // options to set for markers in the map
@@ -280,8 +309,10 @@ export class TpdTotalContentPlaysComponent implements OnInit {
  
   onSelectType(data) {
     this.selectedType = data;
-    this.getDistData()
+    this.getDistData();
   }
+  
+  
  
   genericFun(data, options, fileName) {
     try {
@@ -400,7 +431,7 @@ for (var key of Object.keys(orgObject)) {
 
 for (var key of Object.keys(orgObject)) {
   if( key === 'avg_time_spent')
-  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Seconds'
+  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
 }
     
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
@@ -497,10 +528,23 @@ for (var key of Object.keys(orgObject)) {
 
       if (index > -1) {
         let maxArr = arr[arr.length-1]
-        let partition = Math.round(maxArr/5)
+        let partition
+        if(this.selectedType == 'avg_time_spent'){
+           partition = maxArr/5
+          //  partition = +partition.toFixed(2)
+           //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+        }else {
+           partition = Math.round(maxArr/5)
+        }
         //getting relative colors for all markers:::::::::::
         
-        let min = partition*index+index;
+        let min
+        
+        if(this.selectedType == 'avg_time_spent'){
+          min = partition*index+0.1
+        }else{
+          min = partition*index+index
+        }
         let max = partition*(index+1)
         slabArr = arr.filter(val => val >= min && val <= max)
       } else {

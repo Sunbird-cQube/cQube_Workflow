@@ -10169,13 +10169,17 @@
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>3896.0</x>
+                        <y>-632.0</y>
+                    </bends>
                     <destination>
                         <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
                         <id>7d70d435-2015-3b73-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
@@ -32606,8 +32610,9 @@ ${query_type:startsWith('diksha_map_etb_per_capita'):ifElse(#{diksha_map_etb_per
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_dist'):ifElse(#{diksha_tpd_enrolment_progress_all_coll_dist_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_district'):ifElse(#{diksha_tpd_enrolment_progress_district_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_course'):ifElse(#{diksha_tpd_enrolment_progress_all_course_jolt_spec},
-${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse(#{diksha_tpd_enrolment_progress_state_jolt_spec},'None')} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})}</value>
+${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse(#{diksha_tpd_enrolment_progress_state_jolt_spec},
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse(#{diksha_tpd_enrolment_progress_all_program_jolt_spec},'None')} 
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -51297,5 +51302,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/07/2021 14:03:27 IST</timestamp>
+    <timestamp>12/14/2021 19:16:13 IST</timestamp>
 </template>

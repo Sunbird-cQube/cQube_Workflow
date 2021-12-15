@@ -14,9 +14,23 @@
   {
     "operation": "shift",
     "spec": {
-      "*": "data"
+      "*": {
+        "object_type": "data.[&1].object_type",
+        "color_code": "data.[&1].color_code",
+        "total_content_plays_percent": "data.[&1].total_content_plays_percent",
+        "@total_content_plays": "data.[&1].total_content_plays",
+        "total_content_plays": "footer.total_content_plays[]"
+      }
     }
-  }
+  },
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "footer": {
+        "total_content_plays": "=intSum(@(1,total_content_plays))"
+      }
+    }
+	}
 ]""",
 "diksha_progress_exhaust_queries_filename":"""diksha_tpd_queries.json""",
 "diksha_tpd_jolt_for_log_summary":"""[{
@@ -192,11 +206,13 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "total_time_spent": "data.[&1].total_time_spent",
+        "@total_time_spent": "data.[&1].total_time_spent",
         "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
-        "others_percentage": "footer.others_percentage[]"
+        "total_time_spent": "footer.total_time_spent[]",
+        "others_percentage": "footer.others_percentage[]",
+        "average_time_state": "footer.average_time_state[]"
       }
     }
 },
@@ -205,7 +221,9 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "spec": {
       "footer": {
         "total_content_plays": "=doubleSum(@(1,total_content_plays))",
-        "others_percentage": "=firstElement(@(1,others_percentage))"
+        "total_time_spent": "=doubleSum(@(1,total_time_spent))",
+        "others_percentage": "=firstElement(@(1,others_percentage))",
+        "average_time_state": "=firstElement(@(1,average_time_state))"
       }
     }
 	}
@@ -370,10 +388,12 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
     "operation": "shift",
     "spec": {
       "*": {
-        "@district_name": "data.@(1,district_id).[&1].district_name",
+        "district_name": "data.@(1,district_id).[&1].district_name",
         "color_code": "data.@(1,district_id).[&1].color_code",
-        "@object_type": "data.@(1,district_id).[&1].object_type",
-        "@total_content_plays_percent": "data.@(1,district_id).[&1].total_content_plays_percent"
+        "object_type": "data.@(1,district_id).[&1].object_type",
+        "total_content_plays_districtwise": "data.@(1,district_id).[&1].total_content_plays_districtwise",
+        "percentage_over_state": "data.@(1,district_id).[&1].percentage_over_state",
+        "total_content_plays_percent": "data.@(1,district_id).[&1].total_content_plays_percent"
       }
     }
   },
@@ -392,11 +412,13 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "total_time_spent": "data.[&1].total_time_spent",
+        "@total_time_spent": "data.[&1].total_time_spent",
         "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
-        "others_percentage": "footer.others_percentage[]"
+        "total_time_spent": "footer.total_time_spent[]",
+        "others_percentage": "footer.others_percentage[]",
+        "average_time_state": "footer.average_time_state[]"
       }
     }
 },
@@ -405,13 +427,14 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
     "spec": {
       "footer": {
         "total_content_plays": "=doubleSum(@(1,total_content_plays))",
-        "others_percentage": "=firstElement(@(1,others_percentage))"
+        "total_time_spent": "=doubleSum(@(1,total_time_spent))",
+        "others_percentage": "=firstElement(@(1,others_percentage))",
+        "average_time_state": "=firstElement(@(1,average_time_state))"
       }
     }
 	}
 
-]
-""",
+]""",
 "diksha_raw_jolt_spec":"""[
   {
     "operation": "shift",
@@ -588,6 +611,15 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
       }
     }
   }
-  ]"""
+  ]""",
+  "diksha_tpd_enrolment_progress_all_program_jolt_spec":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}
+]"""
 
 }
