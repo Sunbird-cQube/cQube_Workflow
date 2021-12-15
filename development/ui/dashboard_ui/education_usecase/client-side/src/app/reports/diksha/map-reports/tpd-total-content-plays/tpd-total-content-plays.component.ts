@@ -170,10 +170,10 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             }
             for(let i = 0; i< 5; i++){
               
-              if(this.selectedType == 'avg_time_spent'){
-                this.values.push(`${partition*i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
-              }else{
-                this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
+              if (this.selectedType == "avg_time_spent") {
+                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+              } else {
+                this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
               }
             }
 
@@ -232,10 +232,10 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             }
             for(let i = 0; i< 5; i++){
               
-              if(this.selectedType == 'avg_time_spent'){
-                this.values.push(`${partition*i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
-              }else{
-                this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
+              if (this.selectedType == "avg_time_spent") {
+                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+              } else {
+                this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
               }
             }
             let keys = Object.keys(this.data.data[0])
