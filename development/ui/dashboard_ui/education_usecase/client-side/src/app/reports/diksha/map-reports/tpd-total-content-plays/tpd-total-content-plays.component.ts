@@ -160,10 +160,21 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
             
             let maxArr = arr[arr.length-1]
-            let partition = Math.round(maxArr/5)
+            let partition
+            if(this.selectedType == 'avg_time_spent'){
+               partition = maxArr/5
+              //  partition = +partition.toFixed(2)
+               //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+            }else {
+               partition = Math.round(maxArr/5)
+            }
             for(let i = 0; i< 5; i++){
               
-              this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2 
+              if(this.selectedType == 'avg_time_spent'){
+                this.values.push(`${partition*i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
+              }else{
+                this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
+              }
             }
 
         // to show only in dropdowns
@@ -211,15 +222,26 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
             
             let maxArr = arr[arr.length-1]
-            let partition = Math.round(maxArr/5)
+            let partition
+            if(this.selectedType == 'avg_time_spent'){
+               partition = maxArr/5
+              //  partition = +partition.toFixed(2)
+               //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+            }else {
+               partition = Math.round(maxArr/5)
+            }
             for(let i = 0; i< 5; i++){
               
-              this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2 
+              if(this.selectedType == 'avg_time_spent'){
+                this.values.push(`${partition*i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
+              }else{
+                this.values.push(`${partition*i+i}-${partition*(i+1)}`) // 0-partition /  partition+1-partition*2
+              }
             }
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
-             if (i == 0 || i == 5 || i == 6) {
+             if (i == 0 || i == 1 || i == 6) {
               obj = {
                 id: keys[i],
                 name: this.commonService.changeingStringCases(keys[i])
@@ -506,10 +528,23 @@ for (var key of Object.keys(orgObject)) {
 
       if (index > -1) {
         let maxArr = arr[arr.length-1]
-        let partition = Math.round(maxArr/5)
+        let partition
+        if(this.selectedType == 'avg_time_spent'){
+           partition = maxArr/5
+          //  partition = +partition.toFixed(2)
+           //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+        }else {
+           partition = Math.round(maxArr/5)
+        }
         //getting relative colors for all markers:::::::::::
         
-        let min = partition*index+index;
+        let min
+        
+        if(this.selectedType == 'avg_time_spent'){
+          min = partition*index+0.1
+        }else{
+          min = partition*index+index
+        }
         let max = partition*(index+1)
         slabArr = arr.filter(val => val >= min && val <= max)
       } else {
