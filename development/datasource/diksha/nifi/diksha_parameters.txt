@@ -198,7 +198,7 @@ collection_created_for,total_count,total_timespent as total_time_spent from flow
 "diksha_data_summary_select_less_columns":"""select "Date" as content_view_date,dimensions_pdata_id,dimensions_pdata_pid,dimensions_mode,dimensions_type,content_name,content_board,content_mimetype,content_medium,content_subject,content_created_for,
 object_id,object_type,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,collection_type,
 collection_medium,collection_subject,collection_created_for,total_count,total_timespent  from flowfile""",
-"diksha_map_state_tpd_jolt_spec":"""  [{
+"diksha_map_state_tpd_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
       "*": {
@@ -206,10 +206,11 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "total_time_spent": "data.[&1].total_time_spent",
+        "@total_time_spent": "data.[&1].total_time_spent",
         "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
+        "total_time_spent": "footer.total_time_spent[]",
         "others_percentage": "footer.others_percentage[]",
         "average_time_state": "footer.average_time_state[]"
       }
@@ -220,11 +221,13 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "spec": {
       "footer": {
         "total_content_plays": "=doubleSum(@(1,total_content_plays))",
+        "total_time_spent": "=doubleSum(@(1,total_time_spent))",
         "others_percentage": "=firstElement(@(1,others_percentage))",
         "average_time_state": "=firstElement(@(1,average_time_state))"
       }
     }
 	}
+
 ]""",
 "diksha_tpd_temp_tb":"""diksha_tpd_content_temp""",
 "diksha_columns":"""false""",
@@ -409,10 +412,11 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "total_time_spent": "data.[&1].total_time_spent",
+        "@total_time_spent": "data.[&1].total_time_spent",
         "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
+        "total_time_spent": "footer.total_time_spent[]",
         "others_percentage": "footer.others_percentage[]",
         "average_time_state": "footer.average_time_state[]"
       }
@@ -423,6 +427,7 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
     "spec": {
       "footer": {
         "total_content_plays": "=doubleSum(@(1,total_content_plays))",
+        "total_time_spent": "=doubleSum(@(1,total_time_spent))",
         "others_percentage": "=firstElement(@(1,others_percentage))",
         "average_time_state": "=firstElement(@(1,average_time_state))"
       }
