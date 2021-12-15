@@ -299,6 +299,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
           fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
         },
         type: "datetime",
+        // categories: []
         categories: this.catgory,
         // labels: {
         //   formatter: function() {
