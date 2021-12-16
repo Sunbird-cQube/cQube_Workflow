@@ -206,11 +206,11 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "@total_time_spent": "data.[&1].total_time_spent",
-        "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
+        "@total_time_spent": "data.[&1].total_time_spent",
         "total_time_spent": "footer.total_time_spent[]",
+        "avg_time_spent": "data.[&1].avg_time_spent",
         "others_percentage": "footer.others_percentage[]",
         "average_time_state": "footer.average_time_state[]"
       }
@@ -227,7 +227,6 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
       }
     }
 	}
-
 ]""",
 "diksha_tpd_temp_tb":"""diksha_tpd_content_temp""",
 "diksha_columns":"""false""",
@@ -412,11 +411,11 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "@total_time_spent": "data.[&1].total_time_spent",
-        "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
+        "@total_time_spent": "data.[&1].total_time_spent",
         "total_time_spent": "footer.total_time_spent[]",
+        "avg_time_spent": "data.[&1].avg_time_spent",
         "others_percentage": "footer.others_percentage[]",
         "average_time_state": "footer.average_time_state[]"
       }
