@@ -29,7 +29,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
   public blok: boolean = false;
   public clust: boolean = false;
 
-  public xAxisLabel: String = "Average Time ( Hours )";
+  public xAxisLabel: String = "Average Time ( Minutes )";
 
   public dataToDownload: any = [];
   public reportData: any = [];
@@ -109,7 +109,6 @@ export class AverageTimeSpendBarComponent implements OnInit {
     try {
       this.service.getAvgTimespendDist().subscribe((res) => {
         this.distData = res["data"]["data"];
-
        this.commonService.loaderAndErr(this.distWiseData);
       });
     } catch (error) {

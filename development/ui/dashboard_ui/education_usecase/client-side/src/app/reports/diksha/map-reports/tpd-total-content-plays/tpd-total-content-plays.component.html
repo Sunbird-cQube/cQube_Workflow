@@ -67,7 +67,7 @@
         <h5 id="legend" style="margin-left: 1%">
          <span *ngIf = "selectedType == 'total_content_plays';else legand">{{legandName}}</span>
          <ng-template #legand>
-          {{legandName}} &#40; hours &#41;
+          {{legandName}} &#40; minutes &#41;
         </ng-template>
           <img *ngIf="valueRange != -1 && valueRange !== undefined" id="resetImg" src="../../../../assets/images/reset.png"
             alt="reset" title="Reset to all" style="
