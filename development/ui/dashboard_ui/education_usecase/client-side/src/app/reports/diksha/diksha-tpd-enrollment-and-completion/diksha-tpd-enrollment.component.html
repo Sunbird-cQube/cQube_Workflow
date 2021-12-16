@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="row" style="margin-top: 5px;">
-                <div class="col-sm-12 ">
+                <div class="col-sm-12 d-flex">
                     <select id="time_range" [(ngModel)]="timePeriod" name="timePeriod" (change)="chooseTimeRange()">
                         <option [value]="timePeriod" disabled selected="selected">Choose Time Range
                         </option>
@@ -82,36 +82,15 @@
                             {{time.name}}
                         </option>
                     </select>
-
-                    <!-- <select id="choose_enroll" [(ngModel)]="type" (change)="onTypeSelect(type)">
-                        <option [value]="type" disabled selected="selected">Choose a Type</option>
-                        <option *ngFor="let type of enrollTypes" [(ngValue)]="type.key">
-                            {{type.name}}
-                        </option>
-                    </select> -->
-
-                    <!-- <select id="coll_name" [(ngModel)]="collectionName" name="collectionName"
-                        (change)="getDataBasedOnCollections()">
-                        
-                        <option [value]="collectionName" disabled selected="selected">Choose course name
-                        </option>
-                        <option *ngFor="let collectionName of collectionNames; let i = index"
-                            [(ngValue)]="collectionNames[i]">
-                            {{collectionNames[i]}}
-                        </option>
-                    </select> -->
-                    <input list="coll_name" id="coll_input" class = "dropDownInput"[(ngModel)]="collectionName" placeholder="Search course" (change)="getDataBasedOnCollections()">
-                    <datalist id="coll_name" >
-                        <option [value]="collectionName" disabled selected="selected">Choose course name
-                        </option>
-                      <option *ngFor="let collectionName of collectionNames; let i = index" [value]="collectionName"> {{collectionNames[i]}}</option>
-                    </datalist>  
-                    <!-- <ng-select2 
-                    [(ngModel)]="collectionName"
-                    [data]="collectionNames"
-                    [placeholder]="'Search course'">		
-                    </ng-select2> -->
-
+                         
+                 
+                    <ng-select class="col-3" id = "SearchDropDown"   [items]="collectionNames" bindLabel="name"  placeholder="Search"  typeToSearchText="Please enter  or more characters"
+                    [(ngModel)]="collectionName" (change)="getDataBasedOnCollections()">
+                </ng-select>
+                  
+                 
+           
+                     
                     <select id="choose_dist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">

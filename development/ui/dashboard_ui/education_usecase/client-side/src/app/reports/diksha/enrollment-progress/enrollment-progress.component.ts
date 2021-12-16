@@ -170,25 +170,38 @@ export class EnrollmentProgressComponent implements OnInit {
     }
   }
  
+ 
+
   getAllDistCollection(){
     this.emptyChart()
     this.courseToDropDown = [];
       this.uniqueDistCourse = [];
     try {
-      
+      document.getElementById("spinner").style.display = "block";
       this.service.enrollProAllCollection().subscribe(res => {
         this.allDistCollection = res['data']['data'];
-        this.distWiseCourse = this.allDistCollection.filter(collection =>{
-            return collection.district_id == this.selectedDist
-        })
-         this.distWiseCourse.forEach(course => {
+        this.programWiseCourse = this.allDistCollection.filter(collection =>{
+          
+          return collection.program_id == this.selectedProgram
+      })
+        // this.distWiseCourse = this.allDistCollection.filter(collection =>{
+        //     return collection.district_id == this.selectedDist
+        // })
+         this.programWiseCourse.forEach(course => {
             this.courseToDropDown.push({
               collection_id : course.collection_id,
               collection_name: course.collection_name
             })
          })
+         
          this.courseToDropDown.map(x => this.uniqueDistCourse.filter(a => a.collection_id == x.collection_id && a.collection_name == x.collection_name).length > 0 ? null : this.uniqueDistCourse.push(x));
+
+         document.getElementById("spinner").style.display = "none";
         })
+        
+        // setTimeout(()=>{
+        //   document.getElementById("spinner").style.display = "block";
+        // })
     } catch (error) {
       
     }
@@ -226,13 +239,14 @@ export class EnrollmentProgressComponent implements OnInit {
   public districtName
   public dist = false
   public skul = true
-
+  public selectedDistWiseCourse
+  
   onDistSelected(distId){
     this.dist = true;
     this.skul = false;
       this.emptyChart()
       this.selectedDist = distId
-      this.level = "district";
+      // this.level = "district";
       this.distToDropDown.filter(district => {
         if(district.district_id === this.selectedDist){
           this.districtName = district.district_name
@@ -240,11 +254,17 @@ export class EnrollmentProgressComponent implements OnInit {
       } ) 
     
     try {
-      
+        if(this.courseSelected === true){
+          this.selectedDistData = this.distData[this.selectedDist];
+         
+          this.selectedDistWiseCourse = this.allDistCollection.filter(collection => {
+               return collection.collection_id === this.selectedCourse
+          })
+        }
       this.selectedDistData = this.distData[this.selectedDist];
       this.reportData =  this.selectedDistData;
       this.createLineChart(this.selectedDistData);
-      this.getAllDistCollection()
+      // this.getAllDistCollection()
     } catch (error) {
       
     }
@@ -255,20 +275,29 @@ export class EnrollmentProgressComponent implements OnInit {
   public selectedProgData
   
   onProgramSelected(progId){
-   
+    this.uniqueDistCourse = [];
+    this.uniqueAllCourse = [];
+    this.level = "program";
     this.selectedProgram = progId
     this.selectedProgData = this.programData.filter(program => {
          return program.program_id === this.selectedProgram
     })
     this.createLineChart(this.selectedProgData);
+    
+   
+      this.getAllDistCollection()
+         
   }
 
   public selectedCourseData:any[]
+  public courseSelected = false
 
   onCourseSelected(courseId){
+    this.courseSelected = true;
     this.emptyChart()
     this.selectedCourseData = [];
     this.selectedCourse = courseId;
+    document.getElementById("spinner").style.display = "display";
     if(this.level ==='district'){
     
       this.distWiseCourse.forEach( course => {
@@ -277,7 +306,9 @@ export class EnrollmentProgressComponent implements OnInit {
          
        }
      })
+     
      this.createLineChart(this.selectedCourseData)
+     document.getElementById("spinner").style.display = "none";
     }else if(this.level ==='allCourse'){
       this.allCollection.forEach( course => {
         
@@ -285,7 +316,17 @@ export class EnrollmentProgressComponent implements OnInit {
          this.selectedCourseData.push(course)
        }
      })
-     this.createLineChart(this.selectedCourseData)
+     this.createLineChart(this.selectedCourseData);
+     document.getElementById("spinner").style.display = "none";
+    }else if(this.level ==='program'){
+      this.programWiseCourse.forEach( course => {
+        
+       if(course.collection_id === this.selectedCourse){
+         this.selectedCourseData.push(course)
+       }
+     })
+     this.createLineChart(this.selectedCourseData);
+     document.getElementById("spinner").style.display = "none";
     }
      
     //  this.createLineChart(this.selectedCourseData)

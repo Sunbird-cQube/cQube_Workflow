@@ -34,3 +34,15 @@
   .dropDownInput{
      width: '200px'
   }
+
+  .ng-select.custom {
+    border:0px;
+    min-height: 0px;
+    border-radius: 0;
+    background-color: blue;
+}
+.ng-select.custom .ng-select-container  {            
+    min-height: 0px;
+    border-radius: 0;
+    background-color: blue;
+}

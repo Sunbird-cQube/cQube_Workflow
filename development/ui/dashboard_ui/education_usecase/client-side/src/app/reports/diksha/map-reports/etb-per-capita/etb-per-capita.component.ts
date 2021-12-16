@@ -373,7 +373,6 @@ for (var key of Object.keys(orgObject)) {
   metrics[key] = orgObject[key].toLocaleString('en-IN');
 }
 
-console.log('detail', metrics)
 // for (var key of Object.keys(orgObject)) {
 //   if( key === 'total_time_spent')
 //   metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
@@ -457,7 +456,7 @@ console.log('detail', metrics)
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-   console.log('val', value)
+  
     // //getting relative colors for all markers:::::::::::
     var markers = [];
 
