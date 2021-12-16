@@ -312,7 +312,6 @@ export class AppServiceComponent {
 
   getTpdMapCapitaRelativeColors(markers, filter) {
     var values = [];
-    console.log('marke', markers)
     var quartile1 = markers.filter((marker) => marker.quartile === 1);
     var quartile2 = markers.filter((marker) => marker.quartile === 2);
     var quartile3 = markers.filter((marker) => marker.quartile === 3);

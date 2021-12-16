@@ -25,6 +25,7 @@
     "@angular/router": "~11.2.13",
     "@ionic/angular-toolkit": "^3.1.1",
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
+    "@ng-select/ng-select": "6.1.0",
     "@types/datatables.net": "^1.10.19",
     "@types/jquery": "^3.5.5",
     "angular-material-dynamic-themes": "^1.0.4",

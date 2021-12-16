@@ -60,7 +60,7 @@
                   </option>
                 </select>  
                
-                  <select *ngIf = "level === 'district'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
+                  <select *ngIf = "level === 'program'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
                   <option [value]="selectedCourse" disabled selected="selected">
                     Choose a Course
                   </option>
@@ -105,3 +105,6 @@
     
 </div>
 
+<div id="spinner" style="display: none;">
+  <div id="loader" class="loading">Loading&#8230;</div>
+</div>

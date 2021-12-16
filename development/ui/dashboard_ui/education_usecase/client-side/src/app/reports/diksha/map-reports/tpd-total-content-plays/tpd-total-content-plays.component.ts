@@ -171,7 +171,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             for(let i = 0; i< 5; i++){
               
               if (this.selectedType == "avg_time_spent") {
-                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+                this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
               } else {
                 this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
               }
@@ -233,7 +233,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             for(let i = 0; i< 5; i++){
               
               if (this.selectedType == "avg_time_spent") {
-                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+                this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
               } else {
                 this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
               }
@@ -253,7 +253,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
-            this.stateAvgTimeSpend = this.data.footer.average_time_state.toLocaleString('en-IN') + " " + "hours" 
+            this.stateAvgTimeSpend = this.data.footer.average_time_state.toLocaleString('en-IN') + " " + "minutes" 
             this.stateTotalContentPlay = this.data.footer.total_time_spent.toLocaleString('en-IN') + " " + "hours" 
             
             this.data.data.forEach( item => {
@@ -431,7 +431,7 @@ for (var key of Object.keys(orgObject)) {
 
 for (var key of Object.keys(orgObject)) {
   if( key === 'avg_time_spent')
-  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
+  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Minutes'
 }
     
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)

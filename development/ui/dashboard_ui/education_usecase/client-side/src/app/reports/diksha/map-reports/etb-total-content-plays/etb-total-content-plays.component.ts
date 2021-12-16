@@ -52,7 +52,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   public otherStateTotalTime;
   public otherStateAvgTime;
 
-  reportName = "ETB_Total_content_play";
+  reportName = `ETB_${this.selectedType}`;
 
   mapName;
   constructor(
@@ -176,7 +176,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         }
         for (let i = 0; i < 5; i++) {
           if (this.selectedType == "avg_time_spent") {
-            this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+            this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
           } else {
             this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
           }
@@ -238,7 +238,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
             for (let i = 0; i < 5; i++) {
               if (this.selectedType == "avg_time_spent") {
-                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+                this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
               } else {
                 this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
               }
@@ -321,6 +321,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   onSelectType(data) {
     this.selectedType = data;
+    
+    this.reportName = `ETB_${this.selectedType}`
     this.getDistData();
   }
 
@@ -436,7 +438,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
     for (var key of Object.keys(orgObject)) {
       if (key === "avg_time_spent")
-        metrics[key] = orgObject[key].toLocaleString("en-IN") + " " + "Hours";
+        metrics[key] = orgObject[key].toLocaleString("en-IN") + " " + "Minutes";
     }
 
     yourData1 = this.globalService
