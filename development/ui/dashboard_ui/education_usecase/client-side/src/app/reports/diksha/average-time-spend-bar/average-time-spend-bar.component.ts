@@ -77,13 +77,14 @@ export class AverageTimeSpendBarComponent implements OnInit {
   getStateData() {
     this.fileName = "Average_time_spend_state";
     try {
+      document.getElementById('spinner').style.display = "block";
       this.service.getavgTimeSpendState().subscribe((res) => {
         this.data = res["data"]["data"];
         this.reportData = res["downloadData"]["data"];
 
         let obj = [];
         this.restructureBarChartData(this.data);
-
+        // document.getElementById('spinner').style.display = "none"
         this.getDistMeta();
         this.commonService.loaderAndErr(this.data);
       });
@@ -107,6 +108,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.emptyChart();
     
     try {
+      document.getElementById('spinner').style.display = "block"
       this.service.getAvgTimespendDist().subscribe((res) => {
         this.distData = res["data"]["data"];
        this.commonService.loaderAndErr(this.distWiseData);
@@ -174,9 +176,11 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.dist = true;
     this.skul = false;
     this.distName = "";
+   
     try {
       this.selectedDist = data;
       // this.getDistdata(data);
+     
       this.distToDropDown.filter((distName) => {
         if (distName.district_id === this.selectedDist) {
           this.distName = distName.district_name;
@@ -191,8 +195,8 @@ export class AverageTimeSpendBarComponent implements OnInit {
       // this.reportData = distWiseData;
       setTimeout(()=>{
         this.restructureBarChartData(this.distWiseData);
-      }, 100)
-     
+      }, 200)
+      
 
       this.commonService.loaderAndErr(this.distWiseData);
     } catch (error) {

@@ -20,7 +20,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   chartOptions;
 
   public state;
-
+  public reportName = "overTheYears"
   constructor(
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
@@ -241,7 +241,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       });
       this.newDownload(element);
     });
-    this.commonService.download(this.fileName, this.dataToDownload);
+    this.commonService.download(this.fileName, this.dataToDownload, this.reportName);
   }
 
 

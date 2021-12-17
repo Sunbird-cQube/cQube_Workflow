@@ -53,6 +53,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   public otherStateAvgTime;
 
   reportName = `ETB_${this.selectedType}`;
+  reportName1 = "gpsOfLearningEtb"
+
 
   mapName;
   constructor(
@@ -622,7 +624,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   downloadReport() {
     var position = this.reportName.length;
     this.fileName = this.commonService.changeingStringCases(this.fileName)
-    this.commonService.download(this.fileName, this.reportData);
+    this.commonService.download(this.fileName, this.reportData, this.reportName1);
   }
 
   getDownloadableData(markers, level) {

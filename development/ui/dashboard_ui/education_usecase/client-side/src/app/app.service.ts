@@ -5,6 +5,8 @@ import { KeycloakSecurityService } from './keycloak-security.service';
 import * as config from '../assets/config.json';
 import { ExportToCsv } from 'export-to-csv';
 import { BehaviorSubject } from 'rxjs';
+import * as json2csv  from 'json2csv';
+import { saveAs } from 'file-saver';
 
 export var globalMap;
 declare const $;
@@ -30,7 +32,7 @@ export class AppServiceComponent {
 
   constructor(
     public http: HttpClient,
-    public keyCloakService: KeycloakSecurityService
+    public keyCloakService: KeycloakSecurityService,
   ) {
     this.token = keyCloakService.kc.token;
     localStorage.setItem("token", this.token);
@@ -129,14 +131,33 @@ export class AppServiceComponent {
     return key;
   }
 
+
+  
+
   //Download reports....
-  download(fileName, reportData) {
+  download(fileName, reportData, reportName= "") {
     if (reportData.length <= 0) {
       alert("No data found to download");
     } else {
       var keys = Object.keys(reportData[0]);
       var updatedKeys = [];
       keys.map((key) => {
+        let actualKey = key;
+      if(reportName == 'pieChart'){
+        if(  key == 'total_content_plays'  ){
+          key = key.concat(`_${this.state}`)
+         }
+         if(  key == 'total_content_plays_percent'  ){
+          key = key.concat(`_${this.state}`)
+         }
+      }
+
+      if(reportName == 'overTheYears'){
+        if(  key == 'plays'  ){
+          key = `total_content_plays_${this.state}`
+         }
+      }
+       
         key = key
           .replace(/_/g, " ")
           .toLowerCase()
@@ -144,23 +165,103 @@ export class AppServiceComponent {
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ");
         key = this.capitalize(key);
-        updatedKeys.push(key);
+       if(reportName == "pieChart"){
+        if( key == "Object Type"){
+          updatedKeys.unshift({
+            label: key,
+            value: actualKey
+          })
+        }else{
+          updatedKeys.push({
+            label: key,
+            value: actualKey
+          });
+         }
+       
+       }else if(reportName == "gpsOfLearningTpd"  ){
+         if(key == "District ID"){
+          updatedKeys.splice(0,0,{
+            label: key,
+            value: actualKey
+          });
+         }
+        else  if(key == "District Name"){
+          updatedKeys.splice(1,0,{
+            label: key,
+            value: actualKey
+          });
+         }else{
+          updatedKeys.push({
+            label: key,
+            value: actualKey
+          });
+         }
+       
+      }else if(reportName == "gpsOfLearningEtb"  ){
+        if(key == "District ID"){
+         updatedKeys.splice(0,0,{
+           label: key,
+           value: actualKey
+         });
+        }
+       else  if(key == "District Name"){
+         updatedKeys.splice(1,0,{
+           label: key,
+           value: actualKey
+         });
+        }else{
+         updatedKeys.push({
+           label: key,
+           value: actualKey
+         });
+        }
+      
+     }else if(reportName == "perCapita"  ){
+        if(key == "District Name"){
+       updatedKeys.splice(0,0,{
+         label: key,
+         value: actualKey
+       });
+      }else{
+       updatedKeys.push({
+         label: key,
+         value: actualKey
+       });
+      }
+    
+   }else{
+       updatedKeys.push({
+         label: key,
+         value: actualKey
+       });
+      }
+       
+     
       });
-      const options = {
-        fieldSeparator: ",",
-        quoteStrings: '"',
-        decimalSeparator: ".",
-        showLabels: true,
-        showTitle: false,
-        title: "My Awesome CSV",
-        useTextFile: false,
-        useBom: true,
-        // useKeysAsHeaders: true,
-        headers: updatedKeys,
-        filename: fileName,
-      };
-      const csvExporter = new ExportToCsv(options);
-      csvExporter.generateCsv(reportData);
+      
+      // const options = {
+      //   fieldSeparator: ",",
+      //   quoteStrings: '"',
+      //   decimalSeparator: ".",
+      //   showLabels: true,
+      //   showTitle: false,
+      //   title: "My Awesome CSV",
+      //   useTextFile: false,
+      //   useBom: true,
+      //   useKeysAsHeaders: true,
+      //   headers: updatedKeys,
+      //   filename: fileName,
+      // };
+      // const csvExporter = new ExportToCsv(options);
+      // csvExporter.generateCsv(reportData);
+      
+
+      const opts = { fields:updatedKeys, output: fileName };
+      const csv = json2csv.parse(reportData, opts);
+      // this.domSanitizer.bypassSecurityTrustUrl('data:text/csv,' + encodeURIComponent(csv));
+
+      let file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      saveAs(file,`${fileName}.csv`);
     }
   }
 
