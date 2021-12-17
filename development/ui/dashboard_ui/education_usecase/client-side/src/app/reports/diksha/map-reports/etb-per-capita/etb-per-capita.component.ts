@@ -43,8 +43,8 @@ export class EtbPerCapitaComponent implements OnInit {
   public myData;
   public reportName
   public reportData
-  // public selectedType = 'total_content_plays';
-  public selectedType = 'plays_per_capita';
+  public selectedType = 'total_content_plays';
+  // public selectedType = 'plays_per_capita';
 
   public selected = "absolute";
   public onRangeSelect;
@@ -334,7 +334,7 @@ export class EtbPerCapitaComponent implements OnInit {
   generateToolTip(marker, level, markerIcon, lat, lng) {
     this.popups(markerIcon, marker, level);
     var infraName = this.selectedType;
-    let colorText = `style='color:blue !important;'`;
+    let colorText = `style='color:"#212121" !important;'`;
     var details = {};
     var orgObject = {};
     Object.keys(marker).forEach((key) => {
@@ -447,7 +447,7 @@ for (var key of Object.keys(orgObject)) {
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-  
+   console.log('pere', value)
     // //getting relative colors for all markers:::::::::::
     var markers = [];
 
