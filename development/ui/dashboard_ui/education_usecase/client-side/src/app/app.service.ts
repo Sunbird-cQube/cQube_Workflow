@@ -342,14 +342,14 @@ export class AppServiceComponent {
     var colorsArr = ["#FFAFAF", "#94B3FD", "#9AE66E"];
     var colors = {};
     quartile1.map((a, i) => {
-      colors[`${a.plays_per_capita}`] = colorsArr[0];
+      colors[`${a.total_content_plays}`] = colorsArr[0];
     });
     quartile2.map((a, i) => {
       // colors[`${a.total_content_plays}`] = colorsArr[1];
-      colors[`${a.plays_per_capita}`] = colorsArr[1];
+      colors[`${a.total_content_plays}`] = colorsArr[1];
     });
     quartile3.map((a, i) => {
-      colors[`${a.plays_per_capita}`] = colorsArr[2];
+      colors[`${a.total_content_plays}`] = colorsArr[2];
     });
 
     return colors;
