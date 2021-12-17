@@ -51,6 +51,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   public onRangeSelect;
  
   reportName = `TPD_${this.selectedType}`;
+  reportName1 = "gpsOfLearningTpd"
 
   mapName
   constructor(
@@ -628,7 +629,7 @@ for (var key of Object.keys(orgObject)) {
     var position = this.reportName.length;
     this.fileName = this.commonService.changeingStringCases(this.fileName);
     // this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
-    this.commonService.download(this.fileName, this.reportData);
+    this.commonService.download(this.fileName, this.reportData, this.reportName1);
   }
 
 
