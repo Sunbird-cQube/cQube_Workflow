@@ -466,7 +466,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   //Get data based on selected collection:::::::::::::::
   getDataBasedOnCollections() {
-   
     this.emptyChart();
     this.reportData = [];
 
@@ -480,7 +479,10 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${this.globalId}_${this.commonService.dateAndTime}`;
     this.footer = '';
     this.result = [];
-    this.service.getCollectionData({ timePeriod: this.timePeriod, collection_name: this.collectionName, level: this.level, id: this.globalId, clusterId: this.clusterId }).subscribe(async (res) => {
+    let requestBody = this.collectionName ? { timePeriod: this.timePeriod, collection_name: this.collectionName, level: this.level, id: this.globalId, clusterId: this.clusterId } :
+    { timePeriod: this.timePeriod, level: this.level, id: this.globalId, clusterId: this.clusterId }
+     
+    this.service.getCollectionData(requestBody).subscribe(async (res) => {
       this.result = res['chartData'];
       this.reportData = res['downloadData'];
       if (this.level == 'block') {

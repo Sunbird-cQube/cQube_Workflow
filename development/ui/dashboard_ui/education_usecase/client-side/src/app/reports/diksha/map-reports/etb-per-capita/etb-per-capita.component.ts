@@ -41,7 +41,8 @@ export class EtbPerCapitaComponent implements OnInit {
   public fileName: any;
 
   public myData;
-  public reportName
+  public reportName;
+  public reportName1 = "perCapita"
   public reportData
   public selectedType = 'total_content_plays';
   // public selectedType = 'plays_per_capita';
@@ -524,7 +525,7 @@ for (var key of Object.keys(orgObject)) {
   downloadReport() {
     var position = this.reportName.length;
     this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
-    this.commonService.download(this.fileName, this.reportData);
+    this.commonService.download(this.fileName, this.reportData, this.reportName1);
   }
 
 

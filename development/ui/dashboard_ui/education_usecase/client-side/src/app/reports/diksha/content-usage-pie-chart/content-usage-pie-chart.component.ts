@@ -231,6 +231,7 @@ onStateDropSelected(data){
           
           data1[key] = element[key];
         }
+       
       });
       // Object.keys(data1).forEach(key => {
       //   // if (key !== "percentage_teachers") {
@@ -241,6 +242,7 @@ onStateDropSelected(data){
     }
   
     //download UI data::::::::::::
+    reportName = "pieChart"
     downloadReport() {
       this.dataToDownload = [];
       this.reportData.forEach(element => {
@@ -254,7 +256,7 @@ onStateDropSelected(data){
 
         this.newDownload(element);
       });
-      this.commonService.download(this.fileName, this.dataToDownload);
+      this.commonService.download(this.fileName, this.dataToDownload, this.reportName);
     }
   
 

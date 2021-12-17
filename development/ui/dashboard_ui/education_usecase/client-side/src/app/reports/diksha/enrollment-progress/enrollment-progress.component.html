@@ -60,15 +60,15 @@
                   </option>
                 </select>  
                
-                  <select *ngIf = "level === 'program'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
+                  <!-- <select *ngIf = "level === 'program'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
                   <option [value]="selectedCourse" disabled selected="selected">
                     Choose a Course
                   </option>
                   <option *ngFor="let course of uniqueDistCourse" [(ngValue)]="course.collection_id">
                     {{ course.collection_name }}
                   </option>
-                </select> 
-                <select *ngIf = "level === 'allCourse'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
+                </select>  -->
+                <select  id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
                   <option [value]="selectedCourse" disabled selected="selected">
                     Choose a Course
                   </option>
@@ -90,17 +90,14 @@
           </div>
     </div>
     <div class="row reportContainer pt-4">
-      <div  *ngIf="chartData" class="col-lg-12 m-auto">
-        <div  id="container" class="col-lg-12 m-auto" style="height: 66vh">
+      <div *ngIf ="chartData"   class="col-lg-12 m-auto">
+        <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
 
         </div>
       </div>
         
-      
-      
-        <div *ngIf ="!chartData">
-             Data is not Available
-        </div>
+        <div *ngIf ="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+             Data is not Available 
     </div>
     
 </div>
