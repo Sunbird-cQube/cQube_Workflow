@@ -561,8 +561,14 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
         "latitude": "data.[&1].latitude",
         "longitude": "data.[&1].longitude",
         "plays_per_capita": "data.[&1].plays_per_capita",
+        "quartile": "data.[&1].quartile",
+        "@expected_etb_users": "data.[&1].expected_ETB_users",
+        "@actual_etb_users": "data.[&1].actual_ETB_users",
         "@total_content_plays": "data.[&1].total_content_plays",
-        "total_content_plays": "footer.total_content_plays[]"
+        "total_content_plays": "footer.total_content_plays[]",
+        "expected_etb_users": "footer.total_expected_ETB_users[]",
+        "actual_etb_users": "footer.total_actual_ETB_users[]",
+        "per_capita_statewise": "footer.per_capita_statewise[]"
       }
     }
 	},
@@ -571,7 +577,10 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "operation": "modify-overwrite-beta",
     "spec": {
       "footer": {
-        "total_content_plays": "=intSum(@(1,total_content_plays))"
+        "total_content_plays": "=intSum(@(1,total_content_plays))",
+        "total_expected_ETB_users": "=intSum(@(1,total_expected_ETB_users))",
+        "total_actual_ETB_users": "=intSum(@(1,total_actual_ETB_users))",
+        "per_capita_statewise": "=firstElement(@(1,per_capita_statewise))"
       }
     }
  }
@@ -613,6 +622,15 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
   }
   ]""",
   "diksha_tpd_enrolment_progress_all_program_jolt_spec":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}
+]""",
+"diksha_tpd_enrolment_progress_all_prog_coll_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
       "*": {
