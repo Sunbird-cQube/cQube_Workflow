@@ -227,10 +227,10 @@ onStateDropSelected(data){
     newDownload(element) {
       var data1 = {}, data2 = {}, data3 = {};
       Object.keys(element).forEach(key => {
-        // if (key !== "percentage_completion") {
+        if (key !== "color_code") {
           
           data1[key] = element[key];
-        // }
+        }
       });
       // Object.keys(data1).forEach(key => {
       //   // if (key !== "percentage_teachers") {
@@ -244,7 +244,6 @@ onStateDropSelected(data){
     downloadReport() {
       this.dataToDownload = [];
       this.reportData.forEach(element => {
-        
         this.selectedDistricts.forEach(district => {
            let distData = this.distData[district];
            let distName = distData[0].district_name;
@@ -324,7 +323,6 @@ onStateDropSelected(data){
       var distName = el.name
       var distWiseUsage = el.totalContentDistWise
       var perOverState = el.percentOverState
-        console.log('el', el)
      var distChartData = []
      
      createdDiv = document.createElement('div');

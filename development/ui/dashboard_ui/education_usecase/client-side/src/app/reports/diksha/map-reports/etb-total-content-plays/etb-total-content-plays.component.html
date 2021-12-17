@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-sm-12">
           <p class="note">
-            <strong> About the dashboard:</strong> The dashboard provides details on the total content plays for Energised Textbooks (ETB) by location for {{state}}
+            <strong> About the dashboard:</strong> The dashboard provides details on the total content plays ,total time spent and average time spent for Energised Textbooks (ETB) by location for {{state}}
           </p>
         </div>
       </div>
@@ -64,10 +64,9 @@
 
       <div *ngIf="selected == 'absolute'" style="float: right; width: 16%; margin-left: 1%; margin-top: 1%; z-index: 100;">
         <h5 id="legend" style="margin-left: 1%">
-          <span *ngIf = "selectedType == 'total_content_plays';else legand">{{legandName}}</span>
-         <ng-template #legand>
-          {{legandName}} &#40; minutes &#41;
-        </ng-template>
+          <span *ngIf = "selectedType == 'total_content_plays'">{{legandName}}</span>
+         <span *ngIf = "selectedType == 'avg_time_spent'">{{legandName}} &#40; minutes &#41;</span>
+         <span *ngIf = "selectedType == 'total_time_spent'" >{{legandName}} &#40; hours &#41;</span> 
           <img *ngIf="valueRange != -1 && valueRange !== undefined" id="resetImg" src="../../../../assets/images/reset.png"
             alt="reset" title="Reset to all" style="
               cursor: pointer;
@@ -91,8 +90,8 @@
       <div style="float: right; width: 16%; margin-left: 1%; margin-top: 3%; z-index: 100;">
         <h5  style="margin-left: 1%; font-size: 12px; font-weight: bold;"> <u>Usage Outside State:-</u></h5> 
         <span class="legends"  style="text-align: center; font-size: 12px;">Total content play: {{otherStateContentPlays}}  {{othersStatePercentage}} </span><br>    
-        <span class="legends"  style="text-align: center; font-size: 12px;">Total time spend: {{otherStateTotalTime}} hrs </span><br>
-        <span  class="legends"style="text-align: center; font-size: 12px;">Avg time spend: {{otherStateAvgTime}} min</span>
+        <span class="legends"  style="text-align: center; font-size: 12px;">Total time spent: {{otherStateTotalTime}} hrs </span><br>
+        <span  class="legends"style="text-align: center; font-size: 12px;">Avg time spent: {{otherStateAvgTime}} min</span>
       </div>
     </div>
 
@@ -102,10 +101,10 @@
       <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
     </div>
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Total Time Spend: {{stateTotalContentPlay}} </span>
+      <span id="schools" class="note" style="text-align: center">Total Time Spent: {{stateTotalContentPlay}} </span>
     </div>
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Avg Time Spend: {{stateAvgTimeSpend}} </span>
+      <span id="schools" class="note" style="text-align: center">Avg Time Spent: {{stateAvgTimeSpend}} </span>
     </div>
   </div>
 </div>
