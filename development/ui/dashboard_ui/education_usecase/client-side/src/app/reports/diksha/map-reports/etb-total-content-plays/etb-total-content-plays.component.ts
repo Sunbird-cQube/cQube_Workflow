@@ -52,7 +52,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   public otherStateTotalTime;
   public otherStateAvgTime;
 
-  reportName = "ETB_Total_content_play";
+  reportName = `ETB_${this.selectedType}`;
 
   mapName;
   constructor(
@@ -108,7 +108,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   clickHome() {
     this.onRangeSelect = "";
-    this.infraData = "infrastructure_score";
+    this.selectedType = "total_time_spent";
+    // this.infraData = "infrastructure_score";
     this.getDistData();
   }
   // to load all the districts for state data on the map
@@ -172,13 +173,14 @@ export class EtbTotalContentPlaysComponent implements OnInit {
           //  partition = partition.toFixed(2)
           //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
         } else {
-          partition = Math.round(maxArr / 5);
+          partition = Math.ceil(maxArr / 5);
         }
         for (let i = 0; i < 5; i++) {
           if (this.selectedType == "avg_time_spent") {
-            this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+            this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
           } else {
-            this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+            // this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+            this.values.push(`${Number(partition * i + i).toLocaleString('en-IN')}-${Number(partition * (i + 1)).toLocaleString('en-IN')}`);
           }
         }
 
@@ -233,14 +235,15 @@ export class EtbTotalContentPlaysComponent implements OnInit {
               partition = maxArr / 5;
               //  partition = +partition.toFixed(2)
             } else {
-              partition = Math.round(maxArr / 5);
+              partition = Math.ceil(maxArr / 5);
             }
 
             for (let i = 0; i < 5; i++) {
               if (this.selectedType == "avg_time_spent") {
-                this.values.push(`${(partition * i).toFixed(3)}-${(partition * (i + 1)).toFixed(3)}`); // 0-partition /  partition+1-partition*2
+                this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
               } else {
-                this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+                // this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+                this.values.push(`${Number(partition * i + i).toLocaleString('en-IN')}-${Number(partition * (i + 1)).toLocaleString('en-IN')}`);
               }
             }
 
@@ -321,6 +324,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   onSelectType(data) {
     this.selectedType = data;
+    
+    this.reportName = `ETB_${this.selectedType}`
     this.getDistData();
   }
 
@@ -436,7 +441,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
     for (var key of Object.keys(orgObject)) {
       if (key === "avg_time_spent")
-        metrics[key] = orgObject[key].toLocaleString("en-IN") + " " + "Hours";
+        metrics[key] = orgObject[key].toLocaleString("en-IN") + " " + "Minutes";
     }
 
     yourData1 = this.globalService
@@ -536,7 +541,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         partition = maxArr / 5;
         //  partition = +partition.toFixed(2)
       } else {
-        partition = Math.round(maxArr / 5);
+        partition = Math.ceil(maxArr / 5);
       }
       //getting relative colors for all markers:::::::::::
 
@@ -616,10 +621,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   // to download the csv report
   downloadReport() {
     var position = this.reportName.length;
-    this.fileName = [
-      this.fileName.slice(0, position),
-      this.fileName.slice(position),
-    ].join("");
+    this.fileName = this.commonService.changeingStringCases(this.fileName)
     this.commonService.download(this.fileName, this.reportData);
   }
 

@@ -292,37 +292,60 @@ export class AppServiceComponent {
         ? parseFloat(a) - parseFloat(b)
         : parseFloat(b) - parseFloat(a);
     });
-    var colorsArr =
-      uniqueItems.length == 1
-        ? filter.report != "exception"
-          ? ["#00FF00"]
-          : ["red"]
-        : this.exceptionColor().generateGradient(
-            "#d9ef8b",
-            "#006837",
-            uniqueItems.length,
-            "rgb"
-          );
+    
+    let uniqueItems1 = []
+    let maxArr = uniqueItems[uniqueItems.length - 1];
+    let partition;
+    if (filter.value == "avg_time_spent") {
+      partition = maxArr / 5;
+      //  partition = partition.toFixed(2)
+      //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+    } else {
+      partition = Math.round(maxArr / 5);
+    }
+    for (let i = 0; i < 5; i++) {
+      if (filter.value == "avg_time_spent") {
+        uniqueItems1.push(Number(`${(partition * (i + 1)).toFixed(2)}`)); // 0-partition /  partition+1-partition*2
+      } else {
+        // uniqueItems1.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+        uniqueItems1.push(Number(`${partition * (i + 1)}`));
+      }
+    }
+   
+   
+   var colorsArr = ["#d9ef8b","#a6d96a", "#66bd63","#1a9850", "#006837"]
     var colors = {};
     uniqueItems.map((a, i) => {
-      colors[`${a}`] = colorsArr[i];
+       if(a <= uniqueItems1[0]){
+        colors[`${a}`] = colorsArr[0];
+       } else if(a > uniqueItems1[0] && a <= uniqueItems1[1]){
+        colors[`${a}`] = colorsArr[1];
+       }else if(a > uniqueItems1[1] && a <= uniqueItems1[2]){
+        colors[`${a}`] = colorsArr[2];
+       }else if(a > uniqueItems1[2] && a <= uniqueItems1[3]){
+        colors[`${a}`] = colorsArr[3];
+       }else if(a > uniqueItems1[3]){
+        colors[`${a}`] = colorsArr[4];
+       }
+      // colors[`${a}`] = colorsArr[i];
     });
     return colors;
+
   }
 
   getTpdMapCapitaRelativeColors(markers, filter) {
     var values = [];
-    console.log('marke', markers)
     var quartile1 = markers.filter((marker) => marker.quartile === 1);
     var quartile2 = markers.filter((marker) => marker.quartile === 2);
     var quartile3 = markers.filter((marker) => marker.quartile === 3);
 
-    var colorsArr = ["#9AE66E", "#94B3FD", "#FFAFAF"];
+    var colorsArr = ["#FFAFAF", "#94B3FD", "#9AE66E"];
     var colors = {};
     quartile1.map((a, i) => {
       colors[`${a.total_content_plays}`] = colorsArr[0];
     });
     quartile2.map((a, i) => {
+      // colors[`${a.total_content_plays}`] = colorsArr[1];
       colors[`${a.total_content_plays}`] = colorsArr[1];
     });
     quartile3.map((a, i) => {
@@ -333,6 +356,7 @@ export class AppServiceComponent {
   }
 
   colorGredientForDikshaMaps(data, filter, colors) {
+    
     let keys = Object.keys(colors);
     let setColor = "";
     for (let i = 0; i < keys.length; i++) {

@@ -25,7 +25,7 @@ router.post('/schoolData', auth.authController, async (req, res) => {
             return a.school_name
         })
         chartData['data'] = jsonData.map(a => {
-            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion }
+            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_count: a.certificate_count }
         })
         logger.info('--- diksha chart allData api response sent ---');
         res.send({ chartData, downloadData: jsonData, footer });

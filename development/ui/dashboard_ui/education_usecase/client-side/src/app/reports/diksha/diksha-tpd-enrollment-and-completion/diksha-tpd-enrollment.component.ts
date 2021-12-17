@@ -1,11 +1,13 @@
 // The dashboard provides information on the total enrollments and
 // completions for Teacher Professional Development courses at the district level.
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
+import { FormControl,ReactiveFormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 
 
 @Component({
@@ -78,7 +80,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   reportData: any = [];
   y_axisValue;
   state: string;
-
+   
+  @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
+   /** control for the selected bank */
+   public bankCtrl: FormControl = new FormControl();
+    /** control for the MatSelect filter keyword */
+  public bankFilterCtrl: FormControl = new FormControl();
   constructor(
     public http: HttpClient,
     public service: DikshaReportService,
@@ -88,6 +95,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bankCtrl.setValue(this.collectionNames);
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
@@ -290,7 +298,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school'){
         this.enrollChartData.push(Number(element[`enrollment`]))
         this.compliChartData.push(Number(element[`completion`]))
-        this.pecentChartData.push(Number(element[`percent_completion`]));
+        this.pecentChartData.push(Number(element[`certificate_count`]));
       }
 
       // tool tip

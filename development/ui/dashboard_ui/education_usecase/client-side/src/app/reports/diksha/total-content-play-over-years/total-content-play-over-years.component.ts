@@ -36,7 +36,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.commonService.errMsg();
+    this.commonService.errMsg();
     this.changeDetection.detectChanges();
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
@@ -270,6 +270,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         },
         style: {
           color: 'black',
+          fontWeight: 'bold',
           fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
         },
         // formatter: function () {
@@ -291,12 +292,18 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       xAxis: {
         title: {
           text: "Months",
+          fontWeight: 900,
         },
         margin :"5px",
         style: {
-          fontWeight: 900,
+          fontWeight: "900",
           color: 'black',
           fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+        },
+        label:{
+          style:{
+            fontWeight: "900"
+          }
         },
         type: "datetime",
         // categories: []
@@ -333,7 +340,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         formatter: function () {
           if (this.point.category != 0) {
             return '<span> <b>  Month:' +' '+ this.x +
-            '</b>'+ '<br>' +'<b> Value:' + ' '+ this.y.toLocaleString('en-IN')+ '</b></span>';
+            '</b>'+ '<br>' +'<b> Total Content Play:' + ' '+ this.y.toLocaleString('en-IN')+ '</b></span>';
           } else {
             return false;
           }

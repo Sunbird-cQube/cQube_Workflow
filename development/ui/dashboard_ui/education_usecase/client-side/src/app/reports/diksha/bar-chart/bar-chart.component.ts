@@ -200,9 +200,21 @@ export class BarChartComponent implements OnInit {
 
       }
       if(reportName = 'averageTimeSpend'){
-        obj =  `<b style="margin-left: '10px'"> Name:</b> ${point.category}
-        <br> ${point.y !== null ? `<b>Average Time Spend: </b>${point.y} Seconds` : ''}`
+        // obj =  `<b style="margin-left: '10px'"> Name:</b> ${point.category}
+        // <br> ${point.y !== null ? `<b>Average Time Spend: </b>${point.y} Seconds` : ''}<br>
+        
+        
+        // `
+           xData.forEach(data =>{
+            obj =   `<b style="margin-left: '10px'"> Name:</b> ${point.category}
+          <br> ${point.y !== null ? `<b>Average Time Spend: </b>${point.y} Seconds` : ''}<br>
+           <b> Enrolled Users : ${data.total_enrolled}</b> 
+          
+          `  
+     })
       }
+    
+
       return obj
     }
   }
