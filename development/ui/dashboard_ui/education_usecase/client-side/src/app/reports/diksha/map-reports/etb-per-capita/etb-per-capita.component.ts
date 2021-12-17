@@ -43,7 +43,8 @@ export class EtbPerCapitaComponent implements OnInit {
   public myData;
   public reportName
   public reportData
-  public selectedType = 'total_content_plays';
+  // public selectedType = 'total_content_plays';
+  public selectedType = 'plays_per_capita';
 
   public selected = "absolute";
   public onRangeSelect;
@@ -200,16 +201,16 @@ export class EtbPerCapitaComponent implements OnInit {
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
             this.statePlayPerCapita = this.data.footer.per_capita_statewise.toLocaleString('en-IN');
-            this.stateExpectedUsers = this.data.footer.total_expected_etb_users.toLocaleString('en-IN');
-            this.stateActualUsers = this.data.footer.total_actual_etb_users.toLocaleString('en-IN');
+            this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
+            this.stateActualUsers = this.data.footer.total_actual_ETB_users.toLocaleString('en-IN');
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){
     
                    this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
                    this.otherStatePlayPerCapita = item.plays_per_capita.toLocaleString('en-IN');
-                   this.otherStateExpectdUser = item.expected_etb_users.toLocaleString('en-IN')
-                   this.otherStateActualUsers = item.actual_etb_users.toLocaleString('en-IN');
+                   this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
+                   this.otherStateActualUsers = item.actual_ETB_users.toLocaleString('en-IN');
                   }  
             });
             // options to set for markers in the map
@@ -373,16 +374,6 @@ for (var key of Object.keys(orgObject)) {
   metrics[key] = orgObject[key].toLocaleString('en-IN');
 }
 
-// for (var key of Object.keys(orgObject)) {
-//   if( key === 'total_time_spent')
-//   metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
-// }
-
-// for (var key of Object.keys(orgObject)) {
-//   if( key === 'avg_time_spent')
-//   metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
-// }
-  // metrics['expected_Users'] = 3445
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
     var yourData = this.globalService.getInfoFrom(metrics, "", level, "infra-map", infraName, colorText)
@@ -436,9 +427,9 @@ for (var key of Object.keys(orgObject)) {
     "#FFAFAF",
   ];
   public values = [
-    "Upper Quartile",
-    "Inter Quartile",
-    "Bottom Quartile",
+    "Upper Quartile ( above 75% )",
+    "Inter Quartile ( 25%-75% )",
+    "Bottom Quartile ( below 25% )",
   ];
 
 
@@ -463,15 +454,15 @@ for (var key of Object.keys(orgObject)) {
     if (value) {
       this.data.data.map(marker =>{
         if(marker.latitude){
-            if(value === 'Upper Quartile'){
+            if(value === 'Upper Quartile ( above 75% )'){
               if(marker['quartile'] === 3 ){
                   markers.push(marker);
                 }    
-            }else if( value === "Inter Quartile"){
+            }else if( value === "Inter Quartile ( 25%-75% )"){
               if(marker['quartile'] === 2){
                 markers.push(marker);
               }    
-            }else if( value === "Bottom Quartile"){
+            }else if( value === "Bottom Quartile ( below 25% )"){
               if(marker['quartile'] === 1){
                 markers.push(marker);
               }    

@@ -298,7 +298,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school'){
         this.enrollChartData.push(Number(element[`enrollment`]))
         this.compliChartData.push(Number(element[`completion`]))
-        this.pecentChartData.push(Number(element[`percent_completion`]));
+        this.pecentChartData.push(Number(element[`certificate_count`]));
       }
 
       // tool tip

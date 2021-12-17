@@ -11,6 +11,7 @@ router.post('/clusterData', auth.authController, async (req, res) => {
         var fileName = `diksha_tpd/report2/${timePeriod}/cluster/all_collections/${blockId}.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'][`${blockId}`];
+        console.log('clust', jsonData)
         jsonData = jsonData.data.filter(a => {
             return a.block_id == blockId;
         });
@@ -24,7 +25,7 @@ router.post('/clusterData', auth.authController, async (req, res) => {
             return a.cluster_name
         })
         chartData['data'] = jsonData.map(a => {
-            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion }
+            return { enrollment: a.total_enrolled, completion: a.total_completed, certificate_count: a.certificate_count }
         })
         logger.info('--- diksha chart allData api response sent ---');
         res.send({ chartData, downloadData: jsonData, footer });

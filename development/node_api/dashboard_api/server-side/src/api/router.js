@@ -125,6 +125,7 @@ const enrollmentProgressDist = require('./controller/diksha/enrollment-progress/
 const enrollmentProgressAllColl = require('./controller/diksha/enrollment-progress/allDistCollection')
 const enrollmentProgressAllCourse = require('./controller/diksha/enrollment-progress/allCourse')
 const enrollmentProgressProgram =  require('./controller/diksha/enrollment-progress/programData')
+const enrollmentProgProgramWise = require('./controller/diksha/enrollment-progress/programWiseCollection')
 
 //diksha TPD enrollment/completion
 const distLevel = require('./controller/diksha/tpd-enroll-completion/distWise');
@@ -299,6 +300,7 @@ router.use('/diksha/enrollmentProgress', enrollmentProgressDist);
 router.use('/diksha/enrollmentProgress', enrollmentProgressAllColl);
 router.use('/diksha/enrollmentProgress', enrollmentProgressAllCourse);
 router.use('/diksha/enrollmentProgress', enrollmentProgressProgram);
+router.use('/diksha/enrollmentProgress', enrollmentProgProgramWise)
 
 //download raw data
 const fileDownload = require('./controller/rawDataDownload');

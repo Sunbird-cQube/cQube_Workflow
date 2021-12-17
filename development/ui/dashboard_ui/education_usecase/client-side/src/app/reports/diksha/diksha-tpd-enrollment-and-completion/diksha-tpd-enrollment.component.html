@@ -83,7 +83,12 @@
                         </option>
                     </select>
                          
-                 
+                    <select id="choose_dist" >
+                        <option [value]="districtId" disabled selected="selected">Choose a program</option>
+                        <!-- <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
+                            {{dist.district_name}}
+                        </option> -->
+                    </select>
                     <ng-select class="col-3" id = "SearchDropDown"   [items]="collectionNames" bindLabel="name"  placeholder="Search"  typeToSearchText="Please enter  or more characters"
                     [(ngModel)]="collectionName" (change)="getDataBasedOnCollections()">
                 </ng-select>
