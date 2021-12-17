@@ -45,11 +45,12 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
   public reportData
   public selectedType = 'total_time_spent';
-
+      
+  public legandName = ''
   public selected = "absolute";
   public onRangeSelect;
-
-  reportName = "TPD_Total_content_play";
+ 
+  reportName = `TPD_${this.selectedType}`;
 
   mapName
   constructor(
@@ -89,27 +90,33 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
   }
 
-  data
-  districtMarkers
-  markers
-  totalContentPlays
-  othersStatePercentage
-  otherStateContentPlays
-
-  level;
-  googleMapZoom
+  public data
+  public districtMarkers
+  public markers
+  public totalContentPlays
+  public othersStatePercentage
+  public otherStateContentPlays
+  public otherStateTotalTime
+  public otherStateAvgTime;
+  public stateAvgTimeSpend;
+  public stateTotalContentPlay;
+ public  level;
+ public  googleMapZoom
   selectionType = []
   infraData
 
-
   clickHome() {
-    this.onRangeSelect =""
+    this.onRangeSelect ="",
+    this.selectedType ="total_time_spent"
     this.infraData = "infrastructure_score";
     this.getDistData();
   }
   // to load all the districts for state data on the map
   getDistData() {
-    try {
+   this.reportName = `TPD_${this.selectedType}`;
+   this.legandName = this.commonService.changeingStringCases(this.selectedType.replace(/_/g, " "))
+  
+   try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
@@ -134,7 +141,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         
         let obj = {}
         for (let i = 0; i < keys.length; i++) {
-          if (i == 0 || i == 5 || i == 6) {
+          if (i == 0 || i == 1 || i == 6) {
             obj = {
               id: keys[i],
               name: this.commonService.changeingStringCases(keys[i])
@@ -142,6 +149,34 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             this.selectionType.push(obj)
            }
         }
+
+        let arr = [];
+            this.values = [];
+    
+            for(let i = 0; i< this.data.data.length; i++){
+                arr.push(this.data.data[i][`${this.selectedType}`])
+            }
+            
+            arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
+            
+            let maxArr = arr[arr.length-1]
+            let partition
+            if(this.selectedType == 'avg_time_spent'){
+               partition = maxArr/5
+              //  partition = +partition.toFixed(2)
+               //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+            }else {
+               partition = Math.ceil(maxArr/5)
+            }
+            for(let i = 0; i< 5; i++){
+              
+              if (this.selectedType == "avg_time_spent") {
+                this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
+              } else {
+                // this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+                this.values.push(`${Number(partition * i + i).toLocaleString('en-IN')}-${Number(partition * (i + 1)).toLocaleString('en-IN')}`);
+              }
+            }
         // to show only in dropdowns
         this.districtMarkers = this.data.data;
         // options to set for markers in the map
@@ -176,29 +211,58 @@ export class TpdTotalContentPlaysComponent implements OnInit {
         this.myData = this.service.tpdDistWise().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
+
+            let arr = [];
+            this.values = [];
+    
+            for(let i = 0; i< this.data.data.length; i++){
+                arr.push(this.data.data[i][`${this.selectedType}`])
+            }
+          
+            arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
+            
+            let maxArr = arr[arr.length-1]
+            let partition
+            if(this.selectedType == 'avg_time_spent'){
+               partition = maxArr/5
+            }else {
+               partition = Math.ceil(maxArr/5)
+            }
+            
+            for(let i = 0; i< 5; i++){
+              
+              if (this.selectedType == "avg_time_spent") {
+                this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
+              } else {
+                // this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
+                this.values.push(`${Number((partition * i) + i).toLocaleString('en-IN')}-${Number(partition * (i + 1)).toLocaleString('en-IN')}`);
+              }
+            }
+
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
-             if (i == 0 || i == 5 || i == 6) {
+             if (i == 0 || i == 1 || i == 6) {
               obj = {
                 id: keys[i],
                 name: this.commonService.changeingStringCases(keys[i])
               }
               this.selectionType.push(obj)
              }
-             
-              
             }
             // to show only in dropdowns
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
+            this.stateAvgTimeSpend = this.data.footer.average_time_state.toLocaleString('en-IN') + " " + "minutes" 
+            this.stateTotalContentPlay = this.data.footer.total_time_spent.toLocaleString('en-IN') + " " + "hours" 
             
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){
                    this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN')
-                   
+                   this.otherStateTotalTime = item.total_time_spent;
+                   this.otherStateAvgTime = item.avg_time_spent;
                  }  
             });
             // options to set for markers in the map
@@ -246,13 +310,18 @@ export class TpdTotalContentPlaysComponent implements OnInit {
  
   onSelectType(data) {
     this.selectedType = data;
-    this.getDistData()
+    this.getDistData();
   }
+  
+  
  
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
       this.markers = data;
+      this.markers = data.filter(distData =>{
+          return distData.latitude !== null
+      })
       var colors = this.commonService.getTpdMapRelativeColors(
         this.markers,
         {
@@ -269,7 +338,6 @@ export class TpdTotalContentPlaysComponent implements OnInit {
           this.valueRange,
           // colors
         );
-        // console.log('color', color)
         }else{
           color = this.commonService.colorGredientForDikshaMaps(
             this.markers[i],
@@ -364,7 +432,7 @@ for (var key of Object.keys(orgObject)) {
 
 for (var key of Object.keys(orgObject)) {
   if( key === 'avg_time_spent')
-  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Seconds'
+  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Minutes'
 }
     
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
@@ -421,66 +489,90 @@ for (var key of Object.keys(orgObject)) {
     "#1a9850",
     "#006837",
   ];
+  // public values = [
+  //   "0-20",
+  //   "21-40",
+  //   "41-60",
+  //   "61-80",
+  //   "81-100",
+  // ];
+
   public values = [
-    "0-20",
-    "21-40",
-    "41-60",
-    "61-80",
-    "81-100",
-  ];
+
+  ]
 
 
   //Filter data based on attendance percentage value range:::::::::::::::::::
   public valueRange = undefined;
   public prevRange = undefined;
-  selectRange(value) {
+  selectRange(value, i) {
     this.onRangeSelect = "absolute"
-    this.valueRange = value;
-    this.filterRangeWiseData(value);
+    this.valueRange = i;
+    this.filterRangeWiseData(value, i);
   }
   public len
 
-  filterRangeWiseData(value) {
+  filterRangeWiseData(value, index) {
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
   
     let arr = [];
-    console.log('value', value)
     
     for(let i = 0; i< this.data.data.length; i++){
         arr.push(this.data.data[i][`${this.selectedType}`])
     }
+  
     arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
-   
-    //getting relative colors for all markers:::::::::::
     var markers = [];
     let slabArr = [];
-    // console.log('filter', this.data.data)
-    let slabLength = Math.round((arr.length)/5)
-    if (value) {
-      if( value === '0-20'){
-        // slabArr = arr.slice(0,Math.round((arr.length)/5))
-        slabArr = arr.slice(0,slabLength)
-      } else if(value === '21-40'){
-        slabArr = arr.slice(slabLength,slabLength *2)
-        // slabArr = arr.slice(slabArr.length ,slabLength)
-      } else if(value === '41-60'){
-        slabArr = arr.slice(slabLength *2,slabLength *3)
-      }else if(value === '61-80'){
-        slabArr = arr.slice(slabLength *3, slabLength *4)
-      }else if(value === '81-100'){
-        slabArr = arr.slice(slabLength *4)
-      }else if(value === '0-100'){
-        slabArr = arr
-      }
-      
 
+      if (index > -1) {
+        let maxArr = arr[arr.length-1]
+        let partition
+        if(this.selectedType == 'avg_time_spent'){
+           partition = maxArr/5
+          //  partition = +partition.toFixed(2)
+           //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
+        }else {
+           partition = Math.ceil(maxArr/5)
+        }
+        //getting relative colors for all markers:::::::::::
+        
+        let min
+        
+        if(this.selectedType == 'avg_time_spent'){
+          min = partition*index+0.1
+        }else{
+          min = partition*index+index
+        }
+        let max = partition*(index+1)
+        slabArr = arr.filter(val => val >= min && val <= max)
+      } else {
+        slabArr = arr;
+      }
+     
+    if (value) {
+      // if( value === '0-20'){
+      //   // slabArr = arr.slice(0,Math.round((arr.length)/5))
+      //   slabArr = arr.slice(0,slabLength)
+      // } else if(value === '21-40'){
+      //   slabArr = arr.slice(slabLength,slabLength *2)
+      //   // slabArr = arr.slice(slabArr.length ,slabLength)
+      // } else if(value === '41-60'){
+      //   slabArr = arr.slice(slabLength *2,slabLength *3)
+      // }else if(value === '61-80'){
+      //   slabArr = arr.slice(slabLength *3, slabLength *4)
+      // }else if(value === '81-100'){
+      //   slabArr = arr.slice(slabLength *4)
+      // }else if(value === '0-100'){
+      //   slabArr = arr
+      // }
       this.data.data.map(a => {
        
         if(a.latitude){
           if(a[`${this.selectedType}`] <= Math.max(...slabArr) && a[`${this.selectedType}`] >= Math.min(...slabArr)){
-                // console.log("a",a)
+                
                 markers.push(a);
               }         
           
@@ -525,41 +617,36 @@ for (var key of Object.keys(orgObject)) {
   }
 
   reset(value) {
-    this.valueRange = value;
+    this.valueRange = -1;
     this.selectedIndex = undefined;
     this.deSelect();
-    this.filterRangeWiseData(value);
+    this.filterRangeWiseData(value, -1);
   }
 
   // to download the csv report
   downloadReport() {
     var position = this.reportName.length;
-    this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
+    this.fileName = this.commonService.changeingStringCases(this.fileName);
+    // this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
     this.commonService.download(this.fileName, this.reportData);
   }
 
 
   getDownloadableData(markers, level) {
+ 
     var details = {};
     var orgObject = {};
     var data1 = {};
     var data2 = {};
     Object.keys(markers).forEach((key) => {
-      if (key !== "latitude") {
+      if (key !== "latitude" && key !== "longitude") {
         details[key] = markers[key];
       }
     });
-    
-    Object.keys(details).forEach((key) => {
-      var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
-      if (key !== "longitude") {
-        orgObject[`${str}`] = details[key];
-      }
-    });
+   
     var ordered = {};
    
-  
-    var myobj = Object.assign(orgObject, ordered);
+    var myobj = Object.assign(details, ordered);
     this.reportData.push(myobj);
   }
 

@@ -6,7 +6,7 @@
              
               <div *ngIf = 'skul'>
                 <p id="block">
-                  Report on Content Usage:
+                  Report on Content Preference:
                   <span (click)="clickHome()"style="cursor: pointer; text-decoration: underline">{{state}}</span>
                   <!-- <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
                     style="cursor: pointer; text-decoration: underline" class="selected-level">
@@ -16,7 +16,7 @@
              
               <div *ngIf="dist">
                 <p id="block">
-                  Report on Content Usage:
+                  Report on Content Preference:
                   <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
                   <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
                     </span>
@@ -30,11 +30,11 @@
                   <p id="errMsg" class="note"></p>
                 </div>
                 <div class="col-sm-7">
-                  <!-- <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
+                  <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
                     (click)="downloadReport()">
                     Download Report &nbsp;
                     <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                  </button> -->
+                  </button>
                 </div>
               </div>
             </div>
@@ -42,13 +42,13 @@
           <div class="row">
             <div class="col-sm-12">
               <p class="note">
-                <strong> About the dashboard:</strong> Understanding demand to identify where to improve quality of content
+                <strong> About the dashboard:</strong> The dashboard provides insights on user's preference (as measured by total content play) by content type across districts for {{state}}
 
               </p>
             </div>
           </div>
           <div class="row" style="margin-bottom: 10px">
-            <div class="col-sm-12">
+            <div class="col-sm-12 d-flex">
 <!--     
                <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                 <option [value]="selectedDist" disabled selected="selected">
@@ -58,16 +58,7 @@
                   {{ dist.district_name }}
                 </option>
               </select>  -->
-              <div>
-                <!-- <app-multi-select></app-multi-select> -->
-                <!-- <app-multi-select #multiSelect1 style="float: left;width: auto; margin-right: 10px;"
-                    [list]="districtList" [text]="'District'"
-                    [width1]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '200px':'130px'"
-                    [width2]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '220px':'130px'"
-                    (shareCheckedList)="shareCheckedList($event)" from="trendChart"
-                    (clearSuccessors)="clearSuccessors($event)">
-                </app-multi-select> -->
-            </div>
+             
                <select id="choose_infra" [(ngModel)]="selectedDrop" (change)="onStateDropSelected(selectedDrop)" >
                 <option  disabled selected="selected">
                   Choose a District
@@ -76,23 +67,34 @@
                   {{ dist.name }}
                 </option>
               </select> 
-             
+              
+              <div *ngIf = "districtSelectBox">
+                <app-multi-select #multiSelect1 style="float: left;width: auto; margin-right: 10px;"
+                     
+                     [list]= "distToDropDown" [text]="'district'"
+                    [width1]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '200px':'130px'"
+                    [width2]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '220px':'130px'"
+                    (shareCheckedList)="onSelectDistrict($event)" from="trendChart"
+                    (clearSuccessors)="clearSuccessors($event)"
+                    >
+                </app-multi-select>
+            </div>
             </div>
           </div>
         </div>
       </div>
     <div class="row reportContainer d-flex flex-wrap">
       <div  *ngIf = 'distToggle' class="col-lg-8" style = "height: 70vh" >
-        <h4>State Level Usage</h4>
+        <h5 style="text-align: center;">{{state}} Total content Usage: {{stateContentUsage}}</h5>
         <div id="container" class="active" ></div>
       </div>
 
       <div  *ngIf = '!distToggle' class="col-lg-12" style = "height: 70vh" >
-        <h4>State Level Usage</h4>
+        <h5 style="text-align: center;">{{state}} Total content Usage: {{stateContentUsage}}</h5>
         <div id="container" class="active" ></div>
       </div>
     
-      <div *ngIf = 'distToggle' class = "col-lg-4" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;">
+      <div *ngIf = 'distToggle' class = "col-lg-4 justify-content-center" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;">
         <h4>District Level Data</h4>
         <!-- <app-pie-chart [data]= 'distPieData'></app-pie-chart> -->
        </div> 

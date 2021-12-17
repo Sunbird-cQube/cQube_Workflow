@@ -1,6 +1,6 @@
 <div class="main-panel" style="padding-top: 10px !important;">
-    <app-management-selector [reportGroup]="reportGroup">
-    </app-management-selector>
+    <!-- <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector> -->
 
     <div class="report-cards">
         <div class="row">
@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Usage by User Profile </h6>
+                            <h6>{{reportHeading.UsagebyUserProfile}} </h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.dscTooltip}}</p>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Usage by Textbook </h6>
+                            <h6>{{reportHeading.UsagebyTextbook}} </h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.utTooltip}}</p>
@@ -69,7 +69,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-table text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Usage By Textbook Content</h6>
+                            <h6>{{reportHeading.UsageByTextbookContent}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.utcTooltip}}</p>
@@ -99,7 +99,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -112,10 +112,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6> GPS of learning- ETB</h6>
+                            <h6> {{reportHeading.etbGpsOfLearning}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.utcTooltip}}</p>
+                            <p class="mb-0">{{toolTip.gpsOfLearningETBTooltip}}</p>
                         </div>
                     </div>
                 </span>
@@ -129,7 +129,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -142,10 +142,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Usage per capita</h6>
+                            <h6>{{reportHeading.Usagepercapita}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.utcTooltip}}</p>
+                            <p class="mb-0">{{toolTip.usagePerCapita}}</p>
                         </div>
                     </div>
                 </span>
@@ -159,7 +159,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-area-chart text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -172,10 +172,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Heartbeat of the Nation Learning </h6>
+                            <h6>{{reportHeading.heartbeatOfTheNationLearning}} </h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.utcTooltip}}</p>
+                            <p class="mb-0">{{toolTip.heartbeatOfTheNationLearning}}</p>
                         </div>
                     </div>
                 </span>
@@ -189,7 +189,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-line-chart text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -202,10 +202,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>User Onboarding </h6>
+                            <h6>{{reportHeading.UserOnboarding}} </h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.utcTooltip}}</p>
+                            <p class="mb-0">{{toolTip.userOnboarding}}</p>
                         </div>
                     </div>
                 </span>

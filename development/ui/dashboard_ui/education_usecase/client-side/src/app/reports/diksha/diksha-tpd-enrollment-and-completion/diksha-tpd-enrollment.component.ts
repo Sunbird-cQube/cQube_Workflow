@@ -1,11 +1,14 @@
 // The dashboard provides information on the total enrollments and
 // completions for Teacher Professional Development courses at the district level.
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
+import { FormControl,ReactiveFormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+
 
 @Component({
   selector: 'app-diksha-tpd-enrollment',
@@ -30,7 +33,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public reportName: String = "enrollment_completion";
   public report = "enroll/comp";
 
-
+  public expectedEnrolled = [];
   public enrollChartData = [];
   public compliChartData = [];
   public pecentChartData = [];
@@ -62,7 +65,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public timePeriod = 'overall';
   public hierName: any;
   public all: boolean = false;
-  public timeDetails: any = [{ id: "overall", name: "Overall" }, { id: "last_30_days", name: "Last 30 Days" }, { id: "last_7_days", name: "Last 7 Days" }, { id: "last_day", name: "Last Day" }];
+  public timeDetails: any = [{ id: "overall", name: "Overall" }, { id: "last_30_days", name: "Last 30 Days" },{ id: "last_90_days", name: "Last 90 Days" }, { id: "last_7_days", name: "Last 7 Days" }, { id: "last_day", name: "Last Day" }];
   public districtsDetails: any = '';
   public myChart: Chart;
   public showAllChart: boolean = false;
@@ -77,7 +80,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   reportData: any = [];
   y_axisValue;
   state: string;
-
+   
+  @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
+   /** control for the selected bank */
+   public bankCtrl: FormControl = new FormControl();
+    /** control for the MatSelect filter keyword */
+  public bankFilterCtrl: FormControl = new FormControl();
   constructor(
     public http: HttpClient,
     public service: DikshaReportService,
@@ -87,6 +95,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bankCtrl.setValue(this.collectionNames);
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
@@ -108,7 +117,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   homeClick() {
 
-    this.expEnrolChartData=[]
+    this.expEnrolChartData=[];
+    this.expectedEnrolled = [];
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
@@ -172,6 +182,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.commonService.errMsg();
     //this.collectionName = '';
     this.service.tpdgetCollection({ timePeriod: this.timePeriod, level: this.level, id: this.globalId }).subscribe(async (res) => {
+  
       this.collectionNames = [];
       this.collectionNames = res['allCollections'];
       this.collectionNames.sort((a, b) => (a > b) ? 1 : ((b > a) ? -1 : 0));
@@ -239,24 +250,29 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   
   /// demo data for expected Enrollment
 
-  public expEnrolChartData = [];
+  public expEnrolChartData:any = [];
 
 
   getBarChartData() {
     this.completion = [];
     let perCompletion = [],
+     expectedEnrolledVal = [],
+      enrComplitionVal = [],
+     certificatPer = [],
+     certificatVal = [],
     enrComplition = [],
     comComplition = [];
     this.chartData = [];
     this.category = [];
+    this.expectedEnrolled = [];
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
-    this.expEnrolChartData = [];
+    // this.expEnrolChartData = [356300, 456300, 356300, 0,456300, 145000];
     // this.expEnrolChartData = Array(29).fill(100);
-    for(let i = 0; i< this.result.labels.length; i++){
-      this.expEnrolChartData.push(100);
-    }
+    // for(let i = 0; i< this.result.labels.length; i++){
+    //   this.expEnrolChartData.push(300);
+    // }
     // this.expEnrolChartData = []
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
@@ -264,12 +280,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       }
     } else {
       this.result.labels.forEach(item => {
-        // let obj: any = {
-        //   name: item, categories: ["% Enrolled", " % Completed", "% Certificates"]
-        // }
-        // this.category.push(obj);
-
         this.category = this.result.labels;
+
       })
       // this.category = this.result.labels;
     }
@@ -278,18 +290,36 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       // this.chartData.push(Number(element[`enrollment`]));
       // this.chartData.push(Number(element[`completion`])); 
       // this.chartData.push(Number(element[`percent_completion`]));  
-      
-      this.enrollChartData.push(Number(element[`enrollment`]))
-      this.compliChartData.push(Number(element[`completion`]));
-      this.pecentChartData.push(Number(element[`percent_completion`]));
+      if(this.level === 'district'){
+        this.expectedEnrolled.push(Number(element[`expected_enrolled`]))
+        this.enrollChartData.push(Number(element[`enrolled_percentage`]))
+        this.compliChartData.push(Number(element[`percent_completion`]));
+        this.pecentChartData.push(Number(element[`certificate_per`]));
+      }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school'){
+        this.enrollChartData.push(Number(element[`enrollment`]))
+        this.compliChartData.push(Number(element[`completion`]))
+        this.pecentChartData.push(Number(element[`certificate_count`]));
+      }
 
       // tool tip
+      if(this.level === 'district'){
+        expectedEnrolledVal.push(Number([element[`expected_enrolled`]]));
+        certificatPer.push(Number([element[`certificate_per`]]));
+        certificatVal.push(Number([element[`certificate_value`]]));
         perCompletion.push(Number([element[`percent_completion`]]));
         enrComplition.push(Number([element[`enrollment`]]));
+        enrComplitionVal.push(Number([element[`enrollment`]]));
         comComplition.push(Number([element[`completion`]]));
-        this.completion.push([[...perCompletion], [...enrComplition], [...comComplition]])
+        this.completion.push([[...perCompletion], 
+          [...enrComplition],
+           [...comComplition],
+           [...expectedEnrolledVal],
+           [...enrComplitionVal],
+           [...expectedEnrolledVal]
+          ])
+      }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school'){
       
-
+      }
     });
     this.footer = (this.chartData.reduce((a, b) => Number(a) + Number(b), 0)).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
@@ -436,6 +466,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   //Get data based on selected collection:::::::::::::::
   getDataBasedOnCollections() {
+   
     this.emptyChart();
     this.reportData = [];
 
@@ -490,24 +521,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     element['total_enrolled'] = element.total_enrolled.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     element['total_completed'] = element.total_completed.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
     var data1 = {}, data2 = {}, data3 = {};
+    
+
     Object.keys(element).forEach(key => {
-      if (key !== "percentage_completion") {
-        data1[key] = element[key];
-      }
-    });
-    Object.keys(data1).forEach(key => {
-      if (key !== "percentage_teachers") {
-        data2[key] = data1[key];
-      }
-    });
-    var myKey = this.type == 'enrollment' ? "total_completed" : "total_enrolled";
-    Object.keys(data2).forEach(key => {
-      if (key !== myKey) {
-        data3[key] = data2[key];
-      }
-    }
-    );
-    this.dataToDownload.push(data3);
+        
+          data1[key] = element[key];
+      
+      });
+    this.dataToDownload.push(data1);
   }
 
   //download UI data::::::::::::

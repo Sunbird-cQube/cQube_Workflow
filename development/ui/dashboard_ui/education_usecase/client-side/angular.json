@@ -28,7 +28,8 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
-              "node_modules/fontawesome-4.7/css/font-awesome.css"
+              "node_modules/fontawesome-4.7/css/font-awesome.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css"
             ],
             "scripts": [
               "node_modules/keycloak-js/dist/keycloak.min.js",

@@ -131,7 +131,9 @@ export class DikshaBarChartComponent implements OnInit {
     this.collectionName = '';
     this.footer = '';
     this.reportData = [];
+    
     this.service.listCollectionNames({ collection_type: this.collection_type, timePeriod: this.timePeriod == 'all' ? '' : this.timePeriod }).subscribe(async (res) => {
+
       this.collectionNames = [];
       this.collectionNames = res['uniqueCollections'];
       this.collectionNames.sort((a, b) => (a > b) ? 1 : ((b > a) ? -1 : 0));

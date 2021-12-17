@@ -18,8 +18,16 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         chartData['labels'] = jsonData.map(a => {
             return a.district_name
         })
+        
         chartData['data'] = jsonData.map(a => {
-            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion }
+            return { enrollment: a.total_enrolled, 
+                completion: a.total_completed, 
+                 percent_completion: a.percentage_completion, 
+                 expected_enrolled: a.expected_total_enrolled, 
+                 enrolled_percentage:a.total_enrolled_percentage,
+                 certificate_value: a.certificate_count,
+                 certificate_per: a.certificate_percentage
+                }
         })
         logger.info('--- diksha chart allData api response sent ---');
         res.send({ chartData, downloadData: jsonData, footer });
@@ -43,7 +51,7 @@ router.post('/getCollections', auth.authController, async (req, res) => {
             fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
         }
         let jsonData = await s3File.readFileConfig(fileName);
-
+        console.log('coll', jsonData)
         if (jsonData) {
             let collections;
             collections = jsonData.data.map(val => {
@@ -122,7 +130,7 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         }
 
         chartData['data'] = jsonData.map(a => {
-            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, percent_completion: a.percentage_completion }
+            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_count: a.certificate_count }
         })
         logger.info('--- diksha get data on collection select api response sent ---');
         res.send({ chartData, downloadData: jsonData });

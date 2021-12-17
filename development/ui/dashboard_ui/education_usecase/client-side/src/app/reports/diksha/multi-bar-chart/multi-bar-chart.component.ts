@@ -49,175 +49,416 @@ export class MultiBarChartComponent implements OnInit {
     var level = this.level;
     var type = this.type;
     let scrollBarX
-   
-
-    this.chartOptions = {
-      chart: {
-        type: "bar",
-        backgroundColor: 'transparent',
-        inverted: true,
-        events: {
-          load: function() {
-            this.xAxis[0].setExtremes(0, 9);
-          }
-          }
-      },
-     
-      title: {
-        text: null
-      },
-      xAxis: {
-        labels: {
-          x: -7,
-          style: {
-            color: 'black',
-            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-          }
-        },
-        type: "category",
-        gridLineColor: 'transparent',
-        categories: this.category,
-        
-        title: {
-          text: this.yAxisLabel,
-          style: {
-            color: 'black',
-            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            fontWeight: "bold"
-          }
-        },
-        min: 0,
-        max: this.category.length-1,
-        scrollbar: {
-          minWidth: 2,
-          enabled: true,
-          opposite: true
-        },
-        tickLength: 0,
-      },
-      yAxis: {
-        labels: {
-          style: {
-            color: 'black',
-            fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-          },
-          formatter: function () {
-            return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-          },
+    if (level === 'district'){
+      this.chartOptions = {
+        chart: {
+          type: "bar",
+          backgroundColor: 'transparent',
+          inverted: true,
+          
         },
        
-        min: 0,
-        opposite: true,
-        // max: Math.max.apply(Math, this.data),
-        max: 100,
-        gridLineColor: 'transparent',
         title: {
-          // text: this.xAxisLabel,
-          text: "Percentage",
-          style: {
-            color: 'black',
-            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            fontWeight: "bold"
-          }
-        }
-      },
-      plotOptions: {
-        bar: {
-          groupPadding: 0.1,
-          pointPadding: 0,
-          dataLabels: {
-            enabled: true
-          },
+          text: null
         },
-      },
-      legend: {
-        enabled: true,
-        align: 'right',
-        verticalAlign: 'top',
-      },
-      credits: {
-        enabled: false
-      },
-      series: [
-        {
-          dataLabels: {
-            enabled: true,
+        xAxis: {
+          min: 0,
+          max: 4.5,
+          labels: {
+            x: -7,
             style: {
-              fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            },
-            formatter: function () {
-              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
             }
           },
-          color: '#396EB0',
-          name: '% Expected Enrollment',
-          data: this.data
-        },
-        {
-          dataLabels: {
-            enabled: true,
-            style: {
-              fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            },
-            formatter: function () {
-              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            }
-          },
-          color: '#bc5090',
-          name: "% Enrolled",
-          data: this.enrolData
-        },
-        {
-          dataLabels: {
-            enabled: true,
-            style: {
-              fontWeight: 1,
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            },
-            formatter: function () {
-              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            }
-          },
-          color: '#9C19E0',
+          type: "category",
+          gridLineColor: 'transparent',
+          categories: this.category,
           
-          name: '% Completed',
-          data: this.compData
-        },
-        {
-          dataLabels: {
-            enabled: true,
+          title: {
+            text: this.yAxisLabel,
             style: {
-              fontWeight: 1,
+              color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            },
-            formatter: function () {
-              return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              fontWeight: "bold"
             }
           },
-          color: '#ffa600',
-          name: '% Certificates',
-          data: this.perData
-        }        
-      ],
-      tooltip: {
-        style: {
-          fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-          opacity: 1,
-          backgroundColor: "white"
-        },
-        formatter: function () {
-          // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
-           return  this.points.reduce(function (s, point) {
-            return   s  + '<br/>' +  point.series.name + ': ' +
-                point.y;
-        },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
-        },
-        shared: true
         
+          scrollbar: {
+            minWidth: 2,
+            enabled: true,
+            opposite: true,
+            margin: 60
+          },
+          tickLength: 0,
+        },
+      
+        yAxis: {
+          labels: {
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+            },
+            formatter: function () {
+              return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            },
+          },
+         
+          min: 0,
+          opposite: true,
+          // max: Math.max.apply(Math, this.data),
+          max: 100,
+          gridLineColor: 'transparent',
+          title: {
+            // text: this.xAxisLabel,
+            text: "Percentage",
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: "bold"
+            }
+          }
+        },
+        plotOptions: {
+          bar: {
+            // groupPadding: 0.15,
+            // pointPadding: 0.7,
+            // pointWidth: 6,
+            dataLabels: {
+              enabled: true,
+              align: 'right',
+              allowOverlap: true,
+              crop: false,
+              overflow: 'allow',
+              inside: true,
+              x: 55,
+              verticalAlign: 'middle',
+              style:{
+                color: "#000"
+              },
+              // formatter: function(){
+              //   console.log('color', this)
+              //   return this.colorIndex === 0 ? this.y : this.y + '%';
+              //   // return '%'
+              // }
+            },
+            
+          },
+         
+        },
+        legend: {
+          enabled: true,
+          align: 'right',
+          verticalAlign: 'top',
+        },
+        credits: {
+          enabled: false
+        },
+        series: [
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight:  800,
+                fontSize: '12px',
+                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              },
+              formatter: function () {
+                return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              }
+            },
+            color: '#396EB0',
+            name: '% Expected Enrollment',
+            data: this.data
+          },
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight:  800,
+                fontSize: '12px',
+                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              },
+              formatter: function () {
+                
+                if(level == 'district'){
+                  return this.y + '%';
+                } else if(level == "block" || level == "cluster" || level == "school"){
+                   return this.y;
+                }
+                
+              }
+            },
+            color: '#bc5090',
+            name: "% Enrolled",
+            data: this.enrolData
+          },
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight: 800,
+                fontSize: '12px',
+                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              },
+              formatter: function () {
+                if(level == 'district'){
+                  return this.y + '%';
+                } else if(level == "block" || level == "cluster" || level == "school"){
+                   return this.y;
+                }
+              }
+            },
+            color: '#9C19E0',
+            
+            name: '% Completed',
+            data: this.compData
+          },
+          // {
+          //   dataLabels: {
+          //     enabled: true,
+          //     style: {
+          //       fontWeight:  800,
+          //       fontSize: '12px',
+          //       // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+          //     },
+          //     formatter: function () {
+          //       if(level == 'district'){
+          //         return this.y + '%';
+          //       } else if(level == "block" || level == "cluster" || level == "school"){
+          //          return this.y;
+          //       }
+          //     }
+          //   },
+          //   color: '#ffa600',
+          //   name: '% Certificates',
+          //   data: this.perData
+          // }        
+        ],
+        tooltip: {
+          style: {
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            opacity: 1,
+            backgroundColor: "white"
+          },
+          formatter: function () {
+            // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
+             return  this.points.reduce(function (s, point) {
+              return   s  + '<br/>' +  point.series.name + ': ' +
+                  point.y.toLocaleString('en-IN');
+          },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
+          },
+          shared: true
+          
+        }
+      }
+    } else {
+       
+      this.chartOptions = {
+        chart: {
+          type: "bar",
+          backgroundColor: 'transparent',
+          inverted: true,
+          
+        },
+       
+        title: {
+          text: null
+        },
+        xAxis: {
+          min: 0,
+          max: 4.5,
+          labels: {
+            x: -7,
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+            }
+          },
+          type: "category",
+          gridLineColor: 'transparent',
+          categories: this.category,
+          
+          title: {
+            text: this.yAxisLabel,
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: "bold"
+            }
+          },
+        
+          scrollbar: {
+            minWidth: 2,
+            enabled: true,
+            opposite: true,
+            margin: 60
+          },
+          tickLength: 0,
+        },
+      
+        yAxis: {
+          labels: {
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+            },
+            formatter: function () {
+              return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            },
+          },
+          tickAmount: 6,
+          min: 0,
+          opposite: true,
+          // max: Math.max.apply(Math, this.data),
+          // max: 100,
+          gridLineColor: 'transparent',
+          title: {
+            // text: this.xAxisLabel,
+            text: "Values",
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: "bold"
+            }
+          }
+        },
+        plotOptions: {
+          bar: {
+            // groupPadding: 0.15,
+            // pointPadding: 0.7,
+            // pointWidth: 6,
+            dataLabels: {
+              enabled: true,
+              align: 'right',
+              allowOverlap: true,
+              crop: false,
+              overflow: 'allow',
+              inside: true,
+              x: 55,
+              verticalAlign: 'middle',
+              style:{
+                color: "#000"
+              },
+              // formatter: function(){
+              //   console.log('color', this)
+              //   return this.colorIndex === 0 ? this.y : this.y + '%';
+              //   // return '%'
+              // }
+            },
+            
+          },
+         
+        },
+        legend: {
+          enabled: true,
+          align: 'right',
+          verticalAlign: 'top',
+        },
+        credits: {
+          enabled: false
+        },
+        series: [
+          // {
+          //   dataLabels: {
+          //     enabled: true,
+          //     style: {
+          //       fontWeight:  800,
+          //       fontSize: '12px',
+          //       // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+          //     },
+          //     formatter: function () {
+          //       return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          //     }
+          //   },
+          //   color: '#396EB0',
+          //   name: '% Expected Enrollment',
+          //   data: this.data
+          // },
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight:  800,
+                fontSize: '12px',
+                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              },
+              formatter: function () {
+                
+                if(level == 'district'){
+                  return this.y + '%';
+                } else if(level == "block" || level == "cluster" || level == "school"){
+                   return this.y;
+                }
+                
+              }
+            },
+            color: '#bc5090',
+            name: "Enrolled",
+            data: this.enrolData
+          },
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight: 800,
+                fontSize: '12px',
+                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              },
+              formatter: function () {
+                if(level == 'district'){
+                  return this.y + '%';
+                } else if(level == "block" || level == "cluster" || level == "school"){
+                   return this.y;
+                }
+              }
+            },
+            color: '#9C19E0',
+            
+            name: 'Completed',
+            data: this.compData
+          },
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight:  800,
+                fontSize: '12px',
+                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              },
+              formatter: function () {
+                if(level == 'district'){
+                  return this.y + '%';
+                } else if(level == "block" || level == "cluster" || level == "school"){
+                   return this.y;
+                }
+              }
+            },
+            color: '#ffa600',
+            name: 'Certificates',
+            data: this.perData
+          }        
+        ],
+        tooltip: {
+          style: {
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            opacity: 1,
+            backgroundColor: "white"
+          },
+          formatter: function () {
+            // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
+             return  this.points.reduce(function (s, point) {
+              return   s  + '<br/>' +  point.series.name + ': ' +
+                  point.y.toLocaleString('en-IN');
+          },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
+          },
+          shared: true
+          
+        }
       }
     }
+
+    
     this.Highcharts.chart("container", this.chartOptions);
 
     //Bar tooltips::::::::::::::::::::::
@@ -245,7 +486,6 @@ export class MultiBarChartComponent implements OnInit {
         return obj;
       }
       if (reportName == "enroll/comp") {
-       
 
       // obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category.parent.name} 
       //        ${xData[point.index] ? `<br><b>Enrollment: </b>${xData[0][1][point.index]}<br><b>Completion: </b>${xData[0][2][point.index]}<br>

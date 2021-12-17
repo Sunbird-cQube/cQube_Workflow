@@ -1,6 +1,6 @@
 <div class="main-panel" style="padding-top: 10px !important;">
-    <app-management-selector [reportGroup]="reportGroup">
-    </app-management-selector>
+    <!-- <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector> -->
 
     <div class="report-cards">
         <div class="row">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Usage By Course Content</h6>
+                            <h6>{{reportHeading.UsageByCourseContent}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.dtrTooltip}}</p>
@@ -77,7 +77,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-table text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>TPD Course Progress</h6>
+                            <h6>{{reportHeading.TPDCourseProgress}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.tpdcpTooltip}}</p>
@@ -126,10 +126,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>User Progress </h6>
+                            <h6>{{reportHeading.UserProgress}} </h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.tpdcpTooltip}}</p>
+                            <p class="mb-0">{{toolTip.userProgress}}</p>
                         </div>
                     </div>
                 </span>
@@ -143,7 +143,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-map text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -158,10 +158,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>GPS of learning- TPD</h6>
+                            <h6>{{reportHeading.tpdGpsOfLearning}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
+                            <p class="mb-0">{{toolTip.gpsOfLearningTPDTooltip}}</p>
                         </div>
                     </div>
                 </span>
@@ -191,10 +191,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6> Content Usage</h6>
+                            <h6> {{reportHeading.ContentPreference}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
+                            <p class="mb-0">{{toolTip.contentPreference}}</p>
                         </div>
                     </div>
                 </span>
@@ -207,7 +207,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-bar-chart text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -222,10 +222,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>User Engagement</h6>
+                            <h6>{{reportHeading.UserEngagement}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.tpdtpTooltip}}</p>
+                            <p class="mb-0">{{toolTip.userEngagement}}</p>
                         </div>
                     </div>
                 </span>

@@ -137,6 +137,7 @@ router.post('/setRoles', auth.authController, async (req, res) => {
 });
 
 router.get('/roles', auth.authController, async (req, res) => {
+    
     try {
         logger.info('---get roles api ---');
         var usersUrl = `${host}/auth/admin/realms/${realm}/roles`;
@@ -144,16 +145,20 @@ router.get('/roles', auth.authController, async (req, res) => {
             "Content-Type": "application/json",
             "Authorization": req.headers.token
         }
+        
         axios.get(usersUrl, { headers: headers }).then(resp => {
+
             var roles = resp.data.filter(role => {
                 return role.name != 'uma_authorization' && role.name != 'offline_access'
             })
             logger.info('---get roles api response sent ---');
             res.status(201).json({ roles: roles });
         }).catch(error => {
+           
             res.status(409).json({ errMsg: error.response.data.errorMessage });
         })
     } catch (e) {
+        console.log(error)
         logger.error(`Error :: ${e}`);
         res.status(500).json({ errMsg: "Internal error. Please try again!!" });
     }

@@ -54265,7 +54265,7 @@ ${query_type:startsWith('sat_exception_management_grade_school_last_30_days'):if
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>${azureolute.path}/${filename}</value>
+<value>${absolute.path}/${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -56974,7 +56974,7 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                             </entry>
                             <entry>
 <key>diksha</key>
-<value>${filename:startsWith('diksha')}</value>
+<value>${filename:startsWith('diksha'):and(${filename:startsWith('diksha_enrolment'):not()})}</value>
                             </entry>
                             <entry>
 <key>pat</key>
@@ -60638,10 +60638,16 @@ ${query_type:startsWith('diksha_pie_etb_state'):ifElse('diksha/pie/state.json',
 ${query_type:startsWith('diksha_pie_etb_district'):ifElse('diksha/pie/district.json',
 ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse('diksha/pie/district_meta.json',
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse('diksha/hbar/course/state.json',
-${query_type:startsWith('diksha_hbar_crs_district'):ifElse('diksha/hbar/course/district.json','None')}
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}
+${query_type:startsWith('diksha_hbar_crs_district'):ifElse('diksha/hbar/course/district.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_dist'):ifElse('diksha_tpd/enrolment_progress/all_collection_district.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_district'):ifElse('diksha_tpd/enrolment_progress/district.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_course'):ifElse('diksha_tpd/enrolment_progress/all_course.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse('diksha_tpd/enrolment_progress/state.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse('diksha_tpd/enrolment_progress/all_programs.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse('diksha_tpd/enrolment_progress/all_programs_collections.json','None')}
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )} )})}
-)})})})})})}</value>
+)})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -68994,7 +69000,7 @@ ${query_type:startsWith('sat_management_subject_footer_district_last_7_days'):if
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>${azureolute.path}/${filename}</value>
+<value>${absolute.path}/${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -71771,7 +71777,7 @@ ${emission_filename:substringAfter('/'):startsWith('diksha_data_summary'):ifElse
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>udise_s3_output_log_summary</name>
+                    <name>diksha_s3_output_log_summary</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -77683,5 +77689,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/06/2021 19:50:00 IST</timestamp>
+    <timestamp>12/17/2021 11:48:19 IST</timestamp>
 </template>

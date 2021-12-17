@@ -4,6 +4,7 @@ import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { environment } from "../../../../environments/environment";
 import { dashboardReportDescriptions } from "../../description.config";
 import { DataSourcesService } from "../data-sources.service";
+import { dashboardReportHeadings } from "../../reportHeading.config";
 
 @Component({
   selector: 'app-tpd-dashboard',
@@ -16,6 +17,7 @@ export class TpdDashboardComponent implements OnInit {
   reportGroup = "Teacher Professional Development"
   //tooltip texts::::::::::::::
   toolTip = dashboardReportDescriptions;
+  reportHeading = dashboardReportHeadings;
   dataSource = {};
 
   hiddenPass = false;

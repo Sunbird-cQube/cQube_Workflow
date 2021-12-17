@@ -119,6 +119,14 @@ const dikshaPieDistWise = require('./controller/diksha/content-usage-pie-chart/d
 const dikshaPieState = require('./controller/diksha/content-usage-pie-chart/stateData');
 const dikshaPieDistMeta = require('./controller/diksha/content-usage-pie-chart/distMeta');
 
+// enrollment progress
+const enrollmentProgressState = require('./controller/diksha/enrollment-progress/state')
+const enrollmentProgressDist = require('./controller/diksha/enrollment-progress/distWise')
+const enrollmentProgressAllColl = require('./controller/diksha/enrollment-progress/allDistCollection')
+const enrollmentProgressAllCourse = require('./controller/diksha/enrollment-progress/allCourse')
+const enrollmentProgressProgram =  require('./controller/diksha/enrollment-progress/programData')
+const enrollmentProgProgramWise = require('./controller/diksha/enrollment-progress/programWiseCollection')
+
 //diksha TPD enrollment/completion
 const distLevel = require('./controller/diksha/tpd-enroll-completion/distWise');
 const blockLevel = require('./controller/diksha/tpd-enroll-completion/blockWise');
@@ -285,6 +293,14 @@ router.use('/diksha/totalContentPlayOverYears', totalContentPlayDistData );
 // diksha average time spend on course
 router.use('/diksha/averageTimeSpend', avgTimeSpendOnCourse);
 router.use('/diksha/averageTimeSpend', avgTimeSpendDistWise);
+
+// emrollment progress
+router.use('/diksha/enrollmentProgress', enrollmentProgressState);
+router.use('/diksha/enrollmentProgress', enrollmentProgressDist);
+router.use('/diksha/enrollmentProgress', enrollmentProgressAllColl);
+router.use('/diksha/enrollmentProgress', enrollmentProgressAllCourse);
+router.use('/diksha/enrollmentProgress', enrollmentProgressProgram);
+router.use('/diksha/enrollmentProgress', enrollmentProgProgramWise)
 
 //download raw data
 const fileDownload = require('./controller/rawDataDownload');
