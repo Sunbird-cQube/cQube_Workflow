@@ -78,7 +78,7 @@
                 margin-top: -5px;
               " (click)="reset('all')" />
           </h5>
-          <span class="" style="font-size: 10px;"><Strong>Note:</Strong> Quartile percantage calculated based on Per Capita</span>
+          <span class="" style="font-size: 12px; font-weight: 800"><Strong>Note:</Strong> Quartile percantage calculated based on Per Capita</span>
           <div *ngFor="let value of values; let i = index">
             <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
               [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"
