@@ -10201,8 +10201,8 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse(#{static_diksha_enrolment_t
                     <id>4b678e46-332b-399a-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13944.0</x>
-                        <y>1216.0</y>
+                        <x>-13968.0</x>
+                        <y>1208.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12493,7 +12493,7 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse('diksha_enrolment_tpd_null_
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
                         <x>-12696.0</x>
-                        <y>632.0</y>
+                        <y>560.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -13612,14 +13612,14 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse('school_id',
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse('school_category_id',
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse('school_management_type_id',
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse('collection_id,district_id,batch_id',
+${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse('program_id,collection_id,district_id,batch_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse('district_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse('block_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse('cluster_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse('school_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse('school_category_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse('school_management_type_id',
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse('collection_id,district_id,batch_id','None')}
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse('program_id,collection_id,district_id,batch_id','None')}
 )})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
@@ -17652,8 +17652,8 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_
                     <id>f12b3ea2-69a6-3856-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-224.0</x>
-                        <y>1632.0</y>
+                        <x>-184.0</x>
+                        <y>1616.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -18872,5 +18872,5 @@ where ff_uuid= '${files_uuid}'</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/02/2021 12:14:09 IST</timestamp>
+    <timestamp>12/20/2021 17:09:25 IST</timestamp>
 </template>
