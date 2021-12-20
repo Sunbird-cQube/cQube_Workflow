@@ -28,14 +28,14 @@
     position: absolute;
     z-index: 100;
     top: 10%;
-    left: 63%;
+    left: 62%;
   }
 
   .dropDownInput{
      width: '200px'
   }
 
-  .ng-select.custom {
+  /* .ng-select.custom {
     border:0px;
     min-height: 0px;
     border-radius: 0;
@@ -45,4 +45,132 @@
     min-height: 0px;
     border-radius: 0;
     background-color: blue;
+} */
+
+#SearchDropDown .ng-select .ng-select-container .ng-value-container .ng-placeholder{
+  color: white !important;
+  /* font-size: 16px; */
 }
+/* @media screen and (min-width: 786px){
+  .vl {
+    display: none;
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 30%;
+  }
+
+  .vl2 {
+    display: none;
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 60%;
+  }
+} */
+
+/* @media screen and (max-width: 1179px){
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 40%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 65%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 40%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 65%;
+  }
+} */
+@media (min-width:2052px) and (max-width:2732px)
+{
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 40%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 65.5%;
+  }
+}
+
+@media (min-width:2733px) and (max-width:4102px) 
+{
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 40%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 66.3%;
+  }
+}
+
+@media (min-width:4103px) and (max-width:5464px)
+ {
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 39%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 66.3%;
+  }
+ }

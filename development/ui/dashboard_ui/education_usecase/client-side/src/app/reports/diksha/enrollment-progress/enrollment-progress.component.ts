@@ -3,6 +3,7 @@ import * as Highcharts from "highcharts/highstock";
 import { AppServiceComponent } from "src/app/app.service";
 import { EnrollmentProgressLineChartService } from "src/app/services/enrollment-progress-line-chart.service";
 import { ContentUsagePieService } from "src/app/services/content-usage-pie.service";
+import { element } from "protractor";
 @Component({
   selector: "app-enrollment-progress",
   templateUrl: "./enrollment-progress.component.html",
@@ -173,10 +174,10 @@ export class EnrollmentProgressComponent implements OnInit {
     this.courseToDropDown = [];
     this.uniqueDistCourse = [];
     try {
-      // document.getElementById("spinner").style.display = "block";
+      document.getElementById("spinner").style.display = "block";
       this.service.enrollProAllCollection().subscribe((res) => {
         this.allDistCollection = res["data"]["data"];
-        // document.getElementById("spinner").style.display = "none";
+        document.getElementById("spinner").style.display = "none";
       });
       
       // setTimeout(()=>{
@@ -308,7 +309,20 @@ export class EnrollmentProgressComponent implements OnInit {
         this.createLineChart(this.selectedDistWiseCourse);
         this.reportData = this.selectedDistWiseCourse;
         document.getElementById("spinner").style.display = "none";
-      } else {
+        }else if(this.programSelected === true) {
+          this.programSelected = false;
+        document.getElementById("spinner").style.display = "display";
+        this.selectedCourse = "";
+        this.selectedDistData = this.allDistCollection.filter( program =>{
+           return program.program_id === this.selectedProgram && program.district_id === this.selectedDist
+        })
+        
+
+        // this.getCollectionDropDown(this.selectedDistData);
+        this.reportData = this.selectedDistData;
+        this.createLineChart(this.selectedDistData);
+        document.getElementById("spinner").style.display = "none";
+      }else {
         document.getElementById("spinner").style.display = "display";
         this.selectedCourse = "";
         this.selectedDistData = this.distData[this.selectedDist];
@@ -325,9 +339,10 @@ export class EnrollmentProgressComponent implements OnInit {
 
   public selectedProgram;
   public selectedProgData;
+  public programSelected = false;
 
   onProgramSelected(progId) {
-    
+    this.programSelected = true;
     this.selectedDist = "";
     this.selectedCourse = "";
     this.uniqueDistCourse = [];

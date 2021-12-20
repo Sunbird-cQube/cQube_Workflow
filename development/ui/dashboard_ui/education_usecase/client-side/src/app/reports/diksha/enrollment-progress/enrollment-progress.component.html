@@ -48,7 +48,7 @@
                 </p>
               </div>
             </div>
-            <div class="row" style="margin-bottom: 10px">
+            <div class="row d-flex" style="margin-bottom: 10px">
               <div class="col-sm-12">
   
                 <select id="choose_infra" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
@@ -76,6 +76,10 @@
                     {{ course.collection_name }}
                   </option>
                 </select> 
+
+                <!-- <ng-select class="col-3" id = "SearchDropDown"   [items]="uniqueAllCourse" bindLabel="name"  placeholder="Search Course Name"  typeToSearchText="Please enter  or more characters"
+                [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
+            </ng-select> -->
                 <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                   <option [value]="selectedDist" disabled selected="selected">
                     Choose a District

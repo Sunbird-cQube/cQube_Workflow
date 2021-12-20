@@ -448,7 +448,6 @@ for (var key of Object.keys(orgObject)) {
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-   console.log('pere', value)
     // //getting relative colors for all markers:::::::::::
     var markers = [];
 
