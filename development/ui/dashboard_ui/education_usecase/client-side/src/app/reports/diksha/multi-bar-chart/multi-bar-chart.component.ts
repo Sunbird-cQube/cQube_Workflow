@@ -26,6 +26,7 @@ export class MultiBarChartComponent implements OnInit {
   @Input() public level: String;
   @Input() public type: String;
   @Input() height: any = window.innerHeight;
+  @Input() public courseSelected : boolean
 
   constructor(public changeDetection: ChangeDetectorRef) {
   }
@@ -49,7 +50,7 @@ export class MultiBarChartComponent implements OnInit {
     var level = this.level;
     var type = this.type;
     let scrollBarX
-    if (level === 'district'){
+    if ((level === 'district' || level === 'program') && this.courseSelected === false){
       this.chartOptions = {
         chart: {
           type: "bar",
@@ -85,10 +86,10 @@ export class MultiBarChartComponent implements OnInit {
           },
         
           scrollbar: {
-            minWidth: 2,
+            minWidth: 5,
             enabled: true,
             opposite: true,
-            margin: 60
+            margin: 80
           },
           tickLength: 0,
         },
@@ -164,7 +165,8 @@ export class MultiBarChartComponent implements OnInit {
                 // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
               },
               formatter: function () {
-                return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                // return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                return this.y + " (100 %)"
               }
             },
             color: '#396EB0',

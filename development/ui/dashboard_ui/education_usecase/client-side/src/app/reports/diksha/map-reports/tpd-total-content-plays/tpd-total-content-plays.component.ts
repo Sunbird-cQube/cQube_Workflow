@@ -255,8 +255,8 @@ export class TpdTotalContentPlaysComponent implements OnInit {
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
-            this.stateAvgTimeSpend = this.data.footer.average_time_state.toLocaleString('en-IN') + " " + "minutes" 
-            this.stateTotalContentPlay = this.data.footer.total_time_spent.toLocaleString('en-IN') + " " + "hours" 
+            this.stateAvgTimeSpend = this.data.footer.average_time_state.toLocaleString('en-IN') + " " + "Minutes" 
+            this.stateTotalContentPlay = this.data.footer.total_time_spent.toLocaleString('en-IN') + " " + "Hours" 
             
             this.data.data.forEach( item => {
               

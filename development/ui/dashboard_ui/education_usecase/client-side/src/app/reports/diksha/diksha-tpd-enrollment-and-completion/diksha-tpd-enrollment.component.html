@@ -83,18 +83,21 @@
                         </option>
                     </select>
                          
-                    <select id="choose_dist" >
-                        <option [value]="districtId" disabled selected="selected">Choose a program</option>
-                        <!-- <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
-                            {{dist.district_name}}
-                        </option> -->
+                    <select id="choose_dist"  [(ngModel)]="selectedProgram" name="selectedProgram" (change)="onProgramSelect(selectedProgram)">
+                        <option [value]="selectedProgram" disabled selected="selected">Choose a program</option>
+                        <option *ngFor="let program of uniqePrograms" [(ngValue)]="program.program_id">
+                            {{program.program_name}}
+                        </option>
                     </select>
-                    <ng-select class="col-3" id = "SearchDropDown"   [items]="collectionNames" bindLabel="name"  placeholder="Search"  typeToSearchText="Please enter  or more characters"
+                    <!-- <ng-select class="col-3" [hideSelected]="true"  [items]="collectionNames" bindLabel="name"  placeholder="Search Course Name"  typeToSearchText="Please enter  or more characters"
                     [(ngModel)]="collectionName" (change)="getDataBasedOnCollections()">
-                </ng-select>
+                </ng-select> -->
                   
+                <ng-select [items]="collectionNames" id="SearchDropDown" class="col-3" [hideSelected]="true"  placeholder = " Search Course"  notFoundText = "no courses found"
+                  bindLabel="name" [searchFn]="customSearchFn" clearAllText="Clear"  (change)="getDataBasedOnCollections($event)" (clear) = "onClear()"
+                 >
+                  </ng-select>
                  
-           
                      
                     <select id="choose_dist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
@@ -138,13 +141,13 @@
             <!-- <app-bar-chart *ngIf="chartData.length > 0" [category]="category" [data]="chartData" [xData]="completion"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type">[data] = "chartData"
             </app-bar-chart> -->
-            <span *ngIf = "level == 'district'" class="vl"></span>
-            <span *ngIf = "level == 'district'" class="vl2"></span>
+            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl"></span>
+            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl2"></span>
             <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category"  [data] = "expectedEnrolled" [enrolData] = "enrollChartData" [compData] = "compliChartData" [perData]= "pecentChartData" [xData]="completion"
-                [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type">
+                [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type" [courseSelected] = "courseSelected">
             </app-multi-bar-chart>
             <div *ngIf="enrollChartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
-                No Data Available
+                No Data Available 
             </div>
         </div>
     </div>

@@ -99,7 +99,6 @@ router.post('/dikshaGetCollectionData', auth.authController, async (req, res) =>
         let footerData = await s3File.readFileConfig(footerFile);
         footerData = footerData.collections[`${collection_name}`];
         let collectionData = await s3File.readFileConfig(fileName);
-        console.log('collec', collectionData)
         collectionData = collectionData.filter(a => {
             return a.collection_name == collection_name
         })

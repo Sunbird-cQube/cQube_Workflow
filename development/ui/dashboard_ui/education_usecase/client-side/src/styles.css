@@ -389,6 +389,14 @@ leaflet-right {
     color: white !important;
 }
 
+.ng-select .ng-select-container .ng-value-container .ng-placeholder{
+    color: white !important;
+    /* font-size: 16px; */
+  }
+  .ng-select .ng-select-container .ng-value-container .ng-input>input{
+      color: white !important;
+  } 
+
 .legends {
     width: 85%;
     height: 4.5vh;
