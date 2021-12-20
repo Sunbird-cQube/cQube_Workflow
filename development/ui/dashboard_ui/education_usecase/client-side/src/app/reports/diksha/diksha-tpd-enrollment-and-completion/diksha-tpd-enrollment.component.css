@@ -28,50 +28,40 @@
     position: absolute;
     z-index: 100;
     top: 10%;
-    left: 62%;
+    left: 60%;
   }
 
   .dropDownInput{
      width: '200px'
   }
 
-  /* .ng-select.custom {
-    border:0px;
-    min-height: 0px;
-    border-radius: 0;
-    background-color: blue;
-}
-.ng-select.custom .ng-select-container  {            
-    min-height: 0px;
-    border-radius: 0;
-    background-color: blue;
-} */
+  
 
 #SearchDropDown .ng-select .ng-select-container .ng-value-container .ng-placeholder{
   color: white !important;
   /* font-size: 16px; */
 }
-/* @media screen and (min-width: 786px){
+@media screen and (min-width: 786px){
   .vl {
-    display: none;
+    /* display: none; */
     border-left: 1.5px dotted black;
     height: 70vh;
     position: absolute;
     z-index: 100;
     top: 10%;
-    left: 30%;
+    left: 39%;
   }
 
   .vl2 {
-    display: none;
+    /* display: none; */
     border-left: 1.5px dotted black;
     height: 70vh;
     position: absolute;
     z-index: 100;
     top: 10%;
-    left: 60%;
+    left: 63%;
   }
-} */
+}
 
 /* @media screen and (max-width: 1179px){
   .vl {

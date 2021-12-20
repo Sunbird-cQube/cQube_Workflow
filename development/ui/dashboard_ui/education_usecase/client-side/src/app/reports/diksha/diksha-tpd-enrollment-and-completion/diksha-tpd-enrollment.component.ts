@@ -125,7 +125,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.compliChartData = [];
     this.pecentChartData = [];
     this.collectionName = ''
-    // var x = document.getElementsByClassName('ng-clear').classList.remove("hide-xyz");
+     document.getElementById('SearchDropDown').classList.remove("ng-clear");
    
     this.selectedProgram = '';
     this.timePeriod = 'overall';
@@ -351,13 +351,27 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
     this.emptyChart()
+     // added
+     document.getElementById('spinner').style.display='block'
+     this.expEnrolChartData=[]
+     this.enrollChartData = [];
+     this.compliChartData = [];
+     this.pecentChartData = [];
+     this.programBarData = [];
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     if (this.level == 'program') {
-      this.getProgramData();
+      
+         setTimeout(() => {
+          document.getElementById('spinner').style.display='none'
+         }, 200);
+        this.getProgramData();
+      
     }
     if (this.level == 'district') {
+      setTimeout(() => {
       this.getAllData();
+    }, 2000);
     }
     if (this.level == 'block') {
       this.onDistSelect(this.districtId);
@@ -398,7 +412,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
 
   getBarChartData() {
-
+    
     this.completion = [];
     let perCompletion = [],
       expectedEnrolledVal = [],
