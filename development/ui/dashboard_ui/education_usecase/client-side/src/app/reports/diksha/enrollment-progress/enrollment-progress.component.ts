@@ -296,21 +296,22 @@ export class EnrollmentProgressComponent implements OnInit {
 
     try {
       if (this.courseSelected === true) {
-         this.courseSelected = false;
+        //  this.courseSelected = false;
         this.selectedDistData = this.allDistCollection.filter((collection) => {
           return collection.district_id === this.selectedDist;
         });
         this.selectedDistWiseCourse = this.selectedDistData.filter(
           (collection) => {
-            return collection.collection_id === this.selectedCourse;
+            return collection.collection_id === this.selectedCourse && collection.program_id === this.selectedProgram;
           }
         );
+
        
         this.createLineChart(this.selectedDistWiseCourse);
         this.reportData = this.selectedDistWiseCourse;
         document.getElementById("spinner").style.display = "none";
         }else if(this.programSelected === true) {
-          this.programSelected = false;
+          // this.programSelected = false;
         document.getElementById("spinner").style.display = "display";
         this.selectedCourse = "";
         this.selectedDistData = this.allDistCollection.filter( program =>{

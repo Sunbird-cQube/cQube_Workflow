@@ -9,7 +9,6 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         let timePeriod = req.body.timePeriod;
         var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
         let jsonData = await s3File.readFileConfig(fileName);
-        console.log('90days', jsonData)
         var footer = jsonData['footer'];
         
         var chartData = {
