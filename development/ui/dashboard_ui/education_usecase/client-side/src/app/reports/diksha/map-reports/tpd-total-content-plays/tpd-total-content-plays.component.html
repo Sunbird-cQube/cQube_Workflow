@@ -50,7 +50,7 @@
 
   <div class="row reportContainer">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '84%' : '100%' }" >
+      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '82%' : '100%' }" >
         <div #mapContainer id="tpdMap" class="active" [ngStyle]="{
                 height:
                   height > 1760
@@ -63,7 +63,7 @@
               }"></div>
       </div>
 
-      <div *ngIf="selected == 'absolute'" style="float: right; width: 15%; margin-left: 1%; margin-top: 1%; z-index: 100;">
+      <div *ngIf="selected == 'absolute'" style="float: right; width: 17%; margin-left: 1%; margin-top: 1%; z-index: 100;">
         <h5 id="legend" style="margin-left: 1%">
          <span *ngIf = "selectedType == 'total_content_plays'">{{legandName}}</span>
          <span *ngIf = "selectedType == 'avg_time_spent'">{{legandName}} &#40; Minutes &#41;</span>
@@ -85,17 +85,17 @@
         </h5>
         <div *ngFor="let value of values; let i = index">
           <span id="{{ i }}" class="legends" style="float: left; cursor: pointer; width:120px"
-            [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"
+            [ngStyle]="{ color: i > 2 ? 'white':'black'}" (click)="selectRange(value, i); select(i)"
             [style.background-color]="legendColors[i]">
             {{ values[i] }}
           </span>
         </div>
       </div>
-      <div style="float: right; width: 15%; margin-left: 1%; margin-top: 3%; z-index: 100;">
+      <div style="float: right; width: 17%; margin-left: 1%; margin-top: 3%; z-index: 100;">
         <h5  style="margin-left: 1%; font-size: 12px; font-weight: bold;"> <u>Usage Outside State:-</u></h5> 
-        <span class="legends"  style="text-align: center; font-size: 11px;">Total Content Play: {{otherStateContentPlays}}  {{othersStatePercentage}} </span><br>    
-        <span class="legends"  style="text-align: center; font-size: 11px;">Total Time Spent: {{otherStateTotalTime}} hrs </span><br>
-        <span  class="legends"style="text-align: center; font-size: 11px;">Avg Time Spent: {{otherStateAvgTime}} min</span>
+        <span class="legends"  style="text-align: center; font-size: 12px;">Total Content Play: {{otherStateContentPlays}}  {{othersStatePercentage}} </span><br>    
+        <span class="legends"  style="text-align: center; font-size: 12px;">Total Time Spent: {{otherStateTotalTime}} hrs </span><br>
+        <span  class="legends"style="text-align: center; font-size: 12px;">Avg Time Spent: {{otherStateAvgTime}} min</span>
       </div>
     </div>
 

@@ -307,7 +307,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         this.reportData = this.programBarData
         setTimeout(() => {
           this.getBarChartData()
-        }, 300);
+        }, 100);
        
         this.commonService.loaderAndErr(this.result);
       } catch (error) {
@@ -352,7 +352,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   chooseTimeRange() {
     this.emptyChart()
      // added
-     document.getElementById('spinner').style.display='block'
+    //  document.getElementById('spinner').style.display='block'
      this.expEnrolChartData=[]
      this.enrollChartData = [];
      this.compliChartData = [];
@@ -371,7 +371,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     if (this.level == 'district') {
       setTimeout(() => {
       this.getAllData();
-    }, 2000);
+    }, 100);
     }
     if (this.level == 'block') {
       this.onDistSelect(this.districtId);
@@ -668,29 +668,33 @@ onClear(){
       this.service.getCollectionData({ timePeriod: this.timePeriod, collection_name: this.collectionName, level: this.level, id: this.globalId, clusterId: this.clusterId }).subscribe(async (res) => {
         this.result = res['chartData'];
         this.reportData = res['downloadData'];
-        if (this.level == 'block') {
-          this.districtHierarchy = {
-            distId: res['downloadData'][0].district_id,
-            districtName: res['downloadData'][0].district_name
+        if(this.reportData.length !== 0){
+          if (this.level == 'block') {
+            this.districtHierarchy = {
+              distId: res['downloadData'][0].district_id,
+              districtName: res['downloadData'][0].district_name
+            }
           }
-        }
-        if (this.level == 'cluster') {
-          this.blockHierarchy = {
-            distId: res['downloadData'][0].district_id,
-            districtName: res['downloadData'][0].district_name,
-            blockId: res['downloadData'][0].block_id,
-            blockName: res['downloadData'][0].block_name
+          if (this.level == 'cluster') {
+            this.blockHierarchy = {
+              distId: res['downloadData'][0].district_id,
+              districtName: res['downloadData'][0].district_name,
+              blockId: res['downloadData'][0].block_id,
+              blockName: res['downloadData'][0].block_name
+            }
           }
-        }
-        if (this.level == 'school') {
-          this.clusterHierarchy = {
-            distId: res['downloadData'][0].district_id,
-            districtName: res['downloadData'][0].district_name,
-            blockId: res['downloadData'][0].block_id,
-            blockName: res['downloadData'][0].block_name,
-            clusterId: res['downloadData'][0].cluster_id,
-            clusterName: res['downloadData'][0].cluster_name
+          if (this.level == 'school') {
+            this.clusterHierarchy = {
+              distId: res['downloadData'][0].district_id,
+              districtName: res['downloadData'][0].district_name,
+              blockId: res['downloadData'][0].block_id,
+              blockName: res['downloadData'][0].block_name,
+              clusterId: res['downloadData'][0].cluster_id,
+              clusterName: res['downloadData'][0].cluster_name
+            }
           }
+          
+          // this.commonService.loaderAndErr(this.result);
         }
         this.getBarChartData();
         this.commonService.loaderAndErr(this.result);
