@@ -9,7 +9,6 @@ router.get('/programData', auth.authController, async (req, res) => {
         
         var fileName = `diksha_tpd/report2/overall/district/all_program_collections.json`;
         let jsonData = await s3File.readFileConfig(fileName);
-        console.log('program', jsonData)
         logger.info('--- diksha multi bar chart api response sent ---');
         
         res.send({ data:jsonData, downloadData: jsonData, dropDown: jsonData });
