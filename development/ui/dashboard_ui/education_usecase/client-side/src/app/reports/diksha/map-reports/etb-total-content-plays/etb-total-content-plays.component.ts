@@ -270,11 +270,11 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             this.stateAvgTimeSpend =
               this.data.footer.average_time_state.toLocaleString("en-IN") +
               " " +
-              "minutes";
+              "Minutes";
             this.stateTotalContentPlay =
               this.data.footer.total_time_spent.toLocaleString("en-IN") +
               " " +
-              "hours";
+              "Hours";
             this.data.data.forEach((item) => {
               if (item.district_name === "Others") {
                 this.otherStateContentPlays =

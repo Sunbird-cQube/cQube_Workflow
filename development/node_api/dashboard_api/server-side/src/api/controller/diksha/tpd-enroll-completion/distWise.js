@@ -10,6 +10,7 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'];
+        
         var chartData = {
             labels: '',
             data: ''
@@ -51,7 +52,6 @@ router.post('/getCollections', auth.authController, async (req, res) => {
             fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
         }
         let jsonData = await s3File.readFileConfig(fileName);
-        console.log('coll', jsonData)
         if (jsonData) {
             let collections;
             collections = jsonData.data.map(val => {
@@ -63,7 +63,7 @@ router.post('/getCollections', auth.authController, async (req, res) => {
 
         }
         logger.info('--- diksha chart dikshaGetCollections api response sent ---');
-        res.send({ allCollections })
+        res.send({ allCollections, allData: jsonData })
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
@@ -133,7 +133,7 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
             return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_count: a.certificate_count }
         })
         logger.info('--- diksha get data on collection select api response sent ---');
-        res.send({ chartData, downloadData: jsonData });
+        res.send({ chartData, downloadData: jsonData, collectionData: jsonData });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

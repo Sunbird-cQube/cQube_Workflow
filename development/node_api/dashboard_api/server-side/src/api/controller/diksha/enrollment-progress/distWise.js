@@ -9,7 +9,6 @@ router.get('/distWise', auth.authController, async (req, res) => {
         let timePeriod = req.body.timePeriod;
         var fileName = `diksha_tpd/enrolment_progress/district.json`;
         let jsonData = await s3File.readFileConfig(fileName);
-        console.log('enrol', jsonData)
         var footer = jsonData['footer'];
         logger.info('--- diksha chart allData api response sent ---');
         // res.send({ chartData, downloadData: jsonData, footer });

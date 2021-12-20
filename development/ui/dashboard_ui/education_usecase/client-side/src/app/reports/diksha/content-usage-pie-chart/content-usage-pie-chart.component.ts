@@ -323,7 +323,7 @@ onStateDropSelected(data){
      Distdata.forEach(function(el:any,i) {
       var chartData = el
       var distName = el.name
-      var distWiseUsage = el.totalContentDistWise
+      var distWiseUsage =  el.totalContentDistWise
       var perOverState = el.percentOverState
      var distChartData = []
      
@@ -348,7 +348,7 @@ onStateDropSelected(data){
 
         },
         title:{
-          text:  `${distName}-Total content Usage: ${distWiseUsage} (${perOverState}%)`,
+          text:  `${distName}-Total Content Usage: ${distWiseUsage} (${perOverState}%)`,
         },
         // colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
         credits: {
@@ -408,8 +408,8 @@ onStateDropSelected(data){
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
         style: {
           // color: 'blue',
-          fontWeight: 'bold',
-          fontSize: '0.2rem'
+          // fontWeight: 'bold',
+          // fontSize: '0.2rem'
           // point.percentage
       }
     },
