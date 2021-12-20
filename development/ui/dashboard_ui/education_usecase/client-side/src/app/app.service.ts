@@ -157,6 +157,16 @@ export class AppServiceComponent {
           key = `total_content_plays_${this.state}`
          }
       }
+      if(reportName == 'perCapita'){
+        if(  key == 'expected_etb_users'  ){
+           key = `Expected_ETB_Users`
+         }
+         if(  key == 'actual_etb_users'  ){
+           key = `Actual_ETB_Users`
+         }
+
+         
+      }
        
         key = key
           .replace(/_/g, " ")
@@ -228,7 +238,9 @@ export class AppServiceComponent {
          value: actualKey
        });
       }
-    
+    if(key === "Expected Etb Users"){
+      return key = "Expected ETB Users"
+    }
    }else{
        updatedKeys.push({
          label: key,

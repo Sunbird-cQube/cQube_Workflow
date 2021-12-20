@@ -11,7 +11,6 @@ router.post('/clusterData', auth.authController, async (req, res) => {
         var fileName = `diksha_tpd/report2/${timePeriod}/cluster/all_collections/${blockId}.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'][`${blockId}`];
-        console.log('clust', jsonData)
         jsonData = jsonData.data.filter(a => {
             return a.block_id == blockId;
         });
