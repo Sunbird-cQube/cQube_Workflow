@@ -111,7 +111,6 @@ export class AverageTimeSpendBarComponent implements OnInit {
       document.getElementById('spinner').style.display = "block"
       this.service.getAvgTimespendDist().subscribe((res) => {
         this.distData = res["data"]["data"];
-        console.log('distName', res)
        this.commonService.loaderAndErr(this.distWiseData);
       });
     } catch (error) {
@@ -127,9 +126,23 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.chartData = [];
     this.result = pieData;
     try {
+
+      if (this.result.length <= 25) {
+        for (let i = 0; i <= 25; i++) {
+          this.catgory.push(this.result[i]?.collection_name ? this.result[i]?.collection_name : ' ')
+        }
+      } else {
+        this.chartData.forEach(element => {
+           this.catgory.push(element.collection_name);
+        })
+        
+      }
+     
+
       this.result.forEach((element) => {
+      
         this.chartData.push(element.avg_time_spent);
-        this.catgory.push(element.collection_name);
+        // this.catgory.push(element.collection_name);
         this.tooltipData.push(element);
         this.commonService.loaderAndErr(this.chartData);
       });
@@ -192,7 +205,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
       // this.distWiseData = this.distData.filter(
       //   (districtData) => districtData.district_id === data
       // );
-      console.log('avgDist', this.distWiseData)
+     
       // this.reportData = distWiseData;
       setTimeout(()=>{
         this.restructureBarChartData(this.distWiseData);
