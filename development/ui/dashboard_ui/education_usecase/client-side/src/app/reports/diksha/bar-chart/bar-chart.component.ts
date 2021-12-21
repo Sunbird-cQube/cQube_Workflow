@@ -47,7 +47,7 @@ export class BarChartComponent implements OnInit {
     } else {
       scrollBarX = true
     }
-      if(this.reportName = 'averageTimeSpend'){
+      if(this.reportName == 'averageTimeSpend'){
         this.chartOptions = {
           chart: {
             type: "bar",
@@ -78,7 +78,8 @@ export class BarChartComponent implements OnInit {
 
             },
             min: 0,
-            max: this.category.length-1,
+            max: 25,
+            showEmpty : false,
             scrollbar: {
               minWidth: 6,
               enabled: scrollBarX,
@@ -96,6 +97,7 @@ export class BarChartComponent implements OnInit {
               }
             },
             min: 0,
+            showEmpty : false,
             opposite: true,
             max: Math.max.apply(Math, this.data),
             gridLineColor: 'transparent',

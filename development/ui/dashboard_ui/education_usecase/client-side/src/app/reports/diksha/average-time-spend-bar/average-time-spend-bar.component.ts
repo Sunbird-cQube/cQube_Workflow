@@ -127,9 +127,23 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.chartData = [];
     this.result = pieData;
     try {
+
+      if (this.result.length <= 25) {
+        for (let i = 0; i <= 25; i++) {
+          this.catgory.push(this.result[i]?.collection_name ? this.result[i]?.collection_name : ' ')
+        }
+      } else {
+        this.chartData.forEach(element => {
+           this.catgory.push(element.collection_name);
+        })
+        
+      }
+      console.log('cater', this.catgory)
+
       this.result.forEach((element) => {
+      
         this.chartData.push(element.avg_time_spent);
-        this.catgory.push(element.collection_name);
+        // this.catgory.push(element.collection_name);
         this.tooltipData.push(element);
         this.commonService.loaderAndErr(this.chartData);
       });
