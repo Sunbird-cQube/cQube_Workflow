@@ -586,14 +586,6 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     }
  }
 ]""",
-"diksha_tpd_enrolment_progress_all_coll_dist_jolt_spec":"""[{
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "@": "data."
-      }
-    }
-}]""",
 "diksha_tpd_enrolment_progress_all_course_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
