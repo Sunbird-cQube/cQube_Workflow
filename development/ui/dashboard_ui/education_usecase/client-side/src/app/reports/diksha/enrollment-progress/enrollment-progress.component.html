@@ -80,7 +80,7 @@
                 <!-- <ng-select class="col-3" id = "SearchDropDown"   [items]="uniqueAllCourse" bindLabel="name"  placeholder="Search Course Name"  typeToSearchText="Please enter  or more characters"
                 [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
             </ng-select> -->
-                <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+                <select [hidden] = "districtHidden" id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                   <option [value]="selectedDist" disabled selected="selected">
                     Choose a District
                   </option>
