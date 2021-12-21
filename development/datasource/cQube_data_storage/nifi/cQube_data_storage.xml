@@ -60588,6 +60588,7 @@ ${query_type:startsWith('diksha_tpd_district_wise'):ifElse('diksha_tpd/district/
 ${query_type:startsWith('diksha_tpd_block_wise'):ifElse('diksha_tpd/block/${type}.json',
 ${query_type:startsWith('diksha_tpd_cluster_wise'):ifElse('diksha_tpd/cluster/${type}.json',
 ${query_type:startsWith('diksha_tpd_school_wise'):ifElse('diksha_tpd/school/${type}.json',
+${query_type:startsWith('diksha_tpd_r2_certificate_meta'):ifElse('diksha_tpd/report2/course_certificate_meta.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_day'):ifElse('diksha_tpd/report2/last_day/district/${type}.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/district/${type}.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/district/${type}.json',
@@ -60639,14 +60640,15 @@ ${query_type:startsWith('diksha_pie_etb_district'):ifElse('diksha/pie/district.j
 ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse('diksha/pie/district_meta.json',
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse('diksha/hbar/course/state.json',
 ${query_type:startsWith('diksha_hbar_crs_district'):ifElse('diksha/hbar/course/district.json',
-${query_type:startsWith('diksha_tpd_enrolment_progress_district'):ifElse('diksha_tpd/enrolment_progress/district.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_dist'):ifElse('diksha_tpd/enrolment_progress/all_collection_district.json',
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_course'):ifElse('diksha_tpd/enrolment_progress/all_course.json',
 ${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse('diksha_tpd/enrolment_progress/state.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_state'):ifElse('diksha_tpd/enrolment_progress/all_collections_state.json',
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse('diksha_tpd/enrolment_progress/all_programs.json',
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse('diksha_tpd/enrolment_progress/all_programs_collections.json','None')}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )} )})}
-)})})})})})})})})}</value>
+)})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -77688,5 +77690,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/21/2021 13:57:22 IST</timestamp>
+    <timestamp>12/21/2021 16:50:38 IST</timestamp>
 </template>
