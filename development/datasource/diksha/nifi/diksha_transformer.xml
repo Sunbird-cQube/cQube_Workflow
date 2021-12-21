@@ -32607,13 +32607,12 @@ ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse(#{diksha_pie_etb_
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse(#{diksha_hbar_crs_state_jolt_spec},
 ${query_type:startsWith('diksha_hbar_crs_district'):ifElse(#{diksha_hbar_crs_district_jolt_spec},
 ${query_type:startsWith('diksha_map_etb_per_capita'):ifElse(#{diksha_map_etb_per_capita_jolt_spec},
-${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_dist'):ifElse(#{diksha_tpd_enrolment_progress_all_coll_dist_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_district'):ifElse(#{diksha_tpd_enrolment_progress_district_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_course'):ifElse(#{diksha_tpd_enrolment_progress_all_course_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse(#{diksha_tpd_enrolment_progress_state_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse(#{diksha_tpd_enrolment_progress_all_program_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse(#{diksha_tpd_enrolment_progress_all_prog_coll_jolt_spec},'None')} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})}</value>
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -51303,5 +51302,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/17/2021 11:48:04 IST</timestamp>
+    <timestamp>12/21/2021 13:57:14 IST</timestamp>
 </template>
