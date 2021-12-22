@@ -196,7 +196,6 @@ export class EnrollmentProgressComponent implements OnInit {
   getProgramWiseColl(data) {
     this.service.enrollProgamWiseColl().subscribe((res) => {
       this.programWiseCollection = res["data"]["data"];
-       
       this.programWiseCourse = this.programWiseCollection.filter(
         (collection) => {
           return collection.program_id == data;
@@ -336,7 +335,7 @@ export class EnrollmentProgressComponent implements OnInit {
         //  this.courseSelected = false;
         this.selectedDistData = [];
         this.selectedDistWiseCourse = [];
-        this.selectedDistData = this.allDistCollection.filter((collection) => {
+        this.selectedDistData = this.distData.filter((collection) => {
           return collection.district_id === this.selectedDist;
         });
         this.selectedDistWiseCourse = this.selectedDistData.filter(
@@ -419,6 +418,7 @@ export class EnrollmentProgressComponent implements OnInit {
       this.createLineChart(this.selectedCourseData);
       // document.getElementById("spinner").style.display = "none";
     } else if (this.level === "program") {
+      this.selectedCourseData = []
       this.programWiseCourse.forEach((course) => {
         if (course.collection_id === this.selectedCourse) {
           this.selectedCourseData.push(course);
