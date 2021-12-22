@@ -7,6 +7,7 @@ router.post('/allDistData', auth.authController, async (req, res) => {
     try {
         logger.info('--- diksha chart allData api ---');
         let timePeriod = req.body.timePeriod;
+        // var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
         var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'];
@@ -16,9 +17,32 @@ router.post('/allDistData', auth.authController, async (req, res) => {
             data: ''
         }
         jsonData = jsonData.data.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
+        // console.log('chart',  jsonData)
         chartData['labels'] = jsonData.map(a => {
             return a.district_name
+                  
         })
+        // chartData['labels'] = [...new Set(chartData['labels'])];
+
+        //   chartData['labels'] =  [...new Set(chartData['labels'].map(item => { item.district_name}))];
+       
+          chartData['dropDown'] = jsonData.map(a => {
+            return {district_name:a.district_name,
+                    district_id:a.district_id       
+            }
+            
+        })
+       
+    
+    
+  
+  
+  const key = 'district_name';
+  
+   chartData['dropDown'] = [...new Map(chartData['dropDown'].map(item =>
+    [item[key], item])).values()];
+  
+
         
         chartData['data'] = jsonData.map(a => {
             return { enrollment: a.total_enrolled, 
@@ -55,11 +79,20 @@ router.post('/getCollections', auth.authController, async (req, res) => {
         if (jsonData) {
             let collections;
             collections = jsonData.data.map(val => {
-                return val.collection_name
+                return {collection_name:val.collection_name,
+                        collection_id: val.collection_id
+                }
             })
-            allCollections = collections.filter(function (elem, pos) {
-                return collections.indexOf(elem) == pos;
-            });
+            allCollections = [];
+
+            let collectionMap = new Map();
+
+            collections.forEach(collection => {
+                if (!collectionMap.has(collection.collection_id)) {
+                    allCollections.push(collection);
+                    collectionMap.set(collection.collection_id, true);
+                }
+            })
 
         }
         logger.info('--- diksha chart dikshaGetCollections api response sent ---');
@@ -73,67 +106,79 @@ router.post('/getCollections', auth.authController, async (req, res) => {
 router.post('/getCollectionData', auth.authController, async (req, res) => {
     try {
         logger.info('--- diksha get data on collection select api ---');
-        let collection_name = req.body.collection_name
+        let collectionId = req.body.collection_name
         var fileName;
 
         let timePeriod = req.body.timePeriod
         let level = req.body.level;
         let id = req.body.id;
         let clusterId = req.body.clusterId;
-
+        let programId = req.body.programId;
+        
         if (level == 'district') {
             fileName = `diksha_tpd/report2/${timePeriod}/district/collections.json`;
         } else {
             fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
         }
 
-        let jsonData = await s3File.readFileConfig(fileName);
-        jsonData = jsonData.data.filter(a => {
-            return a.collection_name == collection_name
-        })
-        var chartData = {
+        let collectionDataRes = await s3File.readFileConfig(fileName);
+        let collectionData = collectionDataRes.data;
+
+        if (programId !== undefined) {
+            collectionData = collectionData.filter(collection => {
+                return collection.program_id === programId;
+            });
+        }
+
+        if (collectionId !== undefined) {
+            collectionData = collectionData.filter(collection => {
+                return collection.collection_id === collectionId;
+            });
+        }
+        let chartData = {
             labels: '',
             data: ''
-        }
+        };
+
         if (level == "district") {
-            jsonData = jsonData.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
-            chartData['labels'] = jsonData.map(a => {
+            collectionData = collectionData.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
+            chartData['labels'] = collectionData.map(a => {
                 return a.district_name
             })
         }
         if (level == "block") {
-            jsonData = jsonData.filter(a => {
+            collectionData = collectionData.filter(a => {
                 return a.district_id == id;
             });
-            jsonData = jsonData.sort((a, b) => (a.block_name > b.block_name) ? 1 : -1)
-            chartData['labels'] = jsonData.map(a => {
+            collectionData = collectionData.sort((a, b) => (a.block_name > b.block_name) ? 1 : -1)
+            chartData['labels'] = collectionData.map(a => {
                 return a.block_name
             })
         }
         if (level == "cluster") {
-            jsonData = jsonData.filter(a => {
+            collectionData = collectionData.filter(a => {
                 return a.block_id == id;
             });
-            jsonData = jsonData.sort((a, b) => (a.cluster_name > b.cluster_name) ? 1 : -1)
-            chartData['labels'] = jsonData.map(a => {
+            collectionData = collectionData.sort((a, b) => (a.cluster_name > b.cluster_name) ? 1 : -1)
+            chartData['labels'] = collectionData.map(a => {
                 return a.cluster_name
             })
         }
         if (level == "school") {
-            jsonData = jsonData.filter(a => {
+            collectionData = collectionData.filter(a => {
                 return a.cluster_id == clusterId;
             });
-            jsonData = jsonData.sort((a, b) => (a.school_name > b.school_name) ? 1 : -1)
-            chartData['labels'] = jsonData.map(a => {
+            collectionData = collectionData.sort((a, b) => (a.school_name > b.school_name) ? 1 : -1)
+            chartData['labels'] = collectionData.map(a => {
                 return a.school_name
             })
         }
 
-        chartData['data'] = jsonData.map(a => {
-            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_count: a.certificate_count }
+        chartData['data'] = collectionData.map(a => {
+            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_value: a.certificate_count }
         })
         logger.info('--- diksha get data on collection select api response sent ---');
-        res.send({ chartData, downloadData: jsonData, collectionData: jsonData });
+        res.send({ chartData, downloadData: collectionData, collectionData: collectionData, collectionDataRes });
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

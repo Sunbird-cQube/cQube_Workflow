@@ -39,6 +39,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public compliChartData = [];
   public pecentChartData = [];
 
+  public selectedCourse = undefined;
+
   enrollTypes = [{ key: 'enrollment', name: 'Enrollment' }, { key: 'completion', name: 'Completion' }, { key: 'percent_completion', name: 'Percent Completion' }];
   type = 'enrollment';
   districts = [];
@@ -50,7 +52,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   blockHidden = true;
   clusterHidden = true;
-
+  public districtHidden = true;
   // to hide and show the hierarchy details
   public skul: boolean = false;
   public dist: boolean = false;
@@ -125,10 +127,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.compliChartData = [];
     this.pecentChartData = [];
     this.collectionName = ''
-     document.getElementById('SearchDropDown').classList.remove("ng-clear");
-   
+     this.selectedCourse = undefined;
+    this.districtHidden = true;
     this.selectedProgram = '';
     this.timePeriod = 'overall';
+    
     // this.type = 'enrollment';
     this.districtId = undefined;
     this.blockHidden = true;
@@ -138,9 +141,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     this.emptyChart();
-    this.getAllData()
+    this.getAllData();
+    this.getProgramData()
   }
-
+    
+  deleteSingle (id: string) {
+    this.collectionNames = this.collectionNames.filter(s => s != id);
+  } 
   //getting all chart data to show:::::::::
   async getAllData() {
     this.emptyChart();
@@ -171,7 +178,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.listCollectionNames();
     this.service.tpdDistEnrollCompAll({ timePeriod: this.timePeriod }).subscribe(async result => {
       this.result = result['chartData'];
-      this.districts = this.reportData = result['downloadData'];
+      this.districts = result['chartData']['dropDown']
+      this.reportData = result['downloadData'];
       this.getBarChartData();
       this.commonService.loaderAndErr(this.result);
     }, err => {
@@ -251,6 +259,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public programBarData:any = []
   onProgramSelect(progID){
     this.emptyChart()
+    this.districtId = undefined;
+    this.districtHidden = false;
+    this.selectedCourse = undefined;
+    this.collectionName = '';
+    this.courseSelected = false
+    this.blockHidden = true;
+    this.clusterHidden = true;
     this.collectionNames = [];
     // added
     
@@ -261,7 +276,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.programBarData = [];
     this.commonService.errMsg();
     this.selectedProgram = progID;
-    this.level = "program"
+    this.level = "district"
       
       try {
        
@@ -274,13 +289,17 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
            return program.program_id === this.selectedProgram
         })
         if (collectionlist) {
-          let collections;
-          collections = collectionlist.map(val => {
-              return val.collection_name
-          })
-          this.collectionNames = collections.filter(function (elem, pos) {
-              return collections.indexOf(elem) == pos;
-          });
+          let collections = [];
+         
+          let collectionMap = new Map();
+
+            collectionlist.forEach(collection => {
+                if (!collectionMap.has(collection.collection_id)) {
+                    collections.push(collection);
+                    collectionMap.set(collection.collection_id, true);
+                }
+            })
+            this.collectionNames = collections
 
       }
 
@@ -288,6 +307,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
               labels: '',
               data: ''
           }
+          this.programBarData = this.programBarData.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
 
           chartData['labels'] = this.programBarData.map(a => {
             return a.district_name
@@ -423,16 +443,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       comComplition = [];
     this.chartData = [];
     this.category = [];
-    this.expectedEnrolled = [];
-    this.enrollChartData = [];
-    this.compliChartData = [];
-    this.pecentChartData = [];
-    // this.expEnrolChartData = [356300, 456300, 356300, 0,456300, 145000];
-    // this.expEnrolChartData = Array(29).fill(100);
-    // for(let i = 0; i< this.result.labels.length; i++){
-    //   this.expEnrolChartData.push(300);
-    // }
-    // this.expEnrolChartData = []
+    let expectedEnrolled = [];
+    let enrollChartData = [];
+    let compliChartData = [];
+    let pecentChartData = [];
+    
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
         this.category.push(this.result.labels[i] ? this.result.labels[i] : ' ')
@@ -445,33 +460,23 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       // this.category = this.result.labels;
     }
     this.result.data.forEach(element => {
-      // this.chartData.push(Number(element[`${this.type}`]));
-      // this.chartData.push(Number(element[`enrollment`]));
-      // this.chartData.push(Number(element[`completion`])); 
-      // this.chartData.push(Number(element[`percent_completion`]));  
-      if(this.level === 'district' && this.courseSelected == false ){
-        this.expectedEnrolled.push(Number(element[`expected_enrolled`]))
-        this.enrollChartData.push(Number(element[`enrolled_percentage`]))
-        this.compliChartData.push(Number(element[`percent_completion`]));
-        this.pecentChartData.push(Number(element[`certificate_per`]));
+    
+      if((this.level === 'district' || this.level === 'program' )  &&  this.courseSelected === false){
+        expectedEnrolled.push(Number(element[`expected_enrolled`]))
+        enrollChartData.push(Number(element[`enrolled_percentage`]))
+        compliChartData.push(Number(element[`percent_completion`]));
+        pecentChartData.push(Number(element[`certificate_per`]));
       }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school' || this.level === 'course'){
-        this.enrollChartData.push(Number(element[`enrollment`]))
-        this.compliChartData.push(Number(element[`completion`]))
-        this.pecentChartData.push(Number(element[`certificate_count`]));
-      }else if(this.level === 'program'){
-      
-       this.expectedEnrolled.push(Number(element[`expected_enrolled`]))
-       this.enrollChartData.push(Number(element[`enrolled_percentage`]))
-       this.compliChartData.push(Number(element[`percent_completion`]));
-       this.pecentChartData.push(Number(element[`certificate_per`]));
+        enrollChartData.push(Number(element[`enrollment`]))
+        compliChartData.push(Number(element[`completion`]))
+        pecentChartData.push(Number(element[`certificate_value`]));
+      }else if(this.level === 'district' && this.courseSelected){
+        enrollChartData.push(Number(element[`enrollment`]))
+        compliChartData.push(Number(element[`completion`]))
+        pecentChartData.push(Number(element[`certificate_value`]));
+      }
        
-      }
-       if(this.level === 'district' && this.courseSelected == true ){
-         this.courseSelected = false
-        this.enrollChartData.push(Number(element[`enrollment`]))
-        this.compliChartData.push(Number(element[`completion`]))
-        this.pecentChartData.push(Number(element[`certificate_count`]));
-      }
+
 
       // tool tip
       if(this.level === 'district' || this.level === "program"){
@@ -492,7 +497,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       }else if (this.level === 'block' || this.level === 'cluster' || this.level === 'school'){
       
       }
+
     });
+
+    this.enrollChartData = enrollChartData;
+    this.expectedEnrolled = expectedEnrolled;
+    this.compliChartData = compliChartData;
+    this.pecentChartData = pecentChartData;
     this.footer = (this.chartData.reduce((a, b) => Number(a) + Number(b), 0)).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
     this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
@@ -504,6 +515,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.onDistSelect(districtId);
     // this.collectionName = '';
   }
+  
   onDistSelect(districtId) {
     this.emptyChart();
     this.commonService.errMsg();
@@ -512,6 +524,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
+
     // this.result = null;
     this.globalId = districtId;
     this.blockHidden = false;
@@ -527,13 +540,25 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blockId = undefined;
     this.clusterId = undefined;
     this.yAxisLabel = "Block Names"
+      
+     var requestBody: any = { timePeriod: this.timePeriod, districtId: districtId }
+     
+     if(this.selectedProgram){
+         requestBody.programId = this.selectedProgram
+     }
+     if(this.collectionName){
+      requestBody.courseId = this.collectionName
+  }
 
-    this.service.tpdBlockEnrollCompAll({ timePeriod: this.timePeriod, districtId: districtId }).subscribe(async (res) => {
+     this.service.tpdBlockEnrollCompAll(requestBody).subscribe(async (res) => {
       this.result = res['chartData'];
-      this.districtHierarchy = {
-        distId: res['downloadData'][0].district_id,
-        districtName: res['downloadData'][0].district_name
+      if(res['downloadData'].length !==0){
+        this.districtHierarchy = {
+          distId: res['downloadData'][0].district_id,
+          districtName: res['downloadData'][0].district_name
+        }
       }
+     
       this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${districtId}_${this.commonService.dateAndTime}`;
       this.blocks = this.reportData = res['downloadData'];
       this.getBarChartData();
@@ -555,7 +580,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.commonService.errMsg();
 
     // added
-    this.expEnrolChartData=[]
+    this.expEnrolChartData=[];
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
@@ -573,14 +598,17 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names"
 
-    this.service.tpdClusterEnrollCompAll({ timePeriod: this.timePeriod, blockId: blockId }).subscribe(async (res) => {
+    this.service.tpdClusterEnrollCompAll({ timePeriod: this.timePeriod, blockId: blockId, programId: this.selectedProgram, courseId:this.collectionName, districtId: this.districtId  }).subscribe(async (res) => {
       this.result = res['chartData'];
-      this.blockHierarchy = {
-        distId: res['downloadData'][0].district_id,
-        districtName: res['downloadData'][0].district_name,
-        blockId: res['downloadData'][0].block_id,
-        blockName: res['downloadData'][0].block_name
+      if(res['downloadData'].length !== 0){
+        this.blockHierarchy = {
+          distId: res['downloadData'][0].district_id,
+          districtName: res['downloadData'][0].district_name,
+          blockId: res['downloadData'][0].block_id,
+          blockName: res['downloadData'][0].block_name
+        }
       }
+     
       this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${blockId}_${this.commonService.dateAndTime}`;
       this.clusters = this.reportData = res['downloadData'];
       this.getBarChartData();
@@ -615,16 +643,19 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.yAxisLabel = "School Names"
 
-    this.service.tpdSchoolEnrollCompAll({ timePeriod: this.timePeriod, blockId: this.blockId, clusterId: clusterId }).subscribe(async (res) => {
+    this.service.tpdSchoolEnrollCompAll({ timePeriod: this.timePeriod, blockId: this.blockId, clusterId: clusterId, programId: this.selectedProgram, courseId:this.collectionName, districtId:this.districtId }).subscribe(async (res) => {
       this.result = res['chartData'];
-      this.clusterHierarchy = {
-        distId: res['downloadData'][0].district_id,
-        districtName: res['downloadData'][0].district_name,
-        blockId: res['downloadData'][0].block_id,
-        blockName: res['downloadData'][0].block_name,
-        clusterId: res['downloadData'][0].cluster_id,
-        clusterName: res['downloadData'][0].cluster_name
+      if(res['downloadData'].length !== 0){
+        this.clusterHierarchy = {
+          distId: res['downloadData'][0].district_id,
+          districtName: res['downloadData'][0].district_name,
+          blockId: res['downloadData'][0].block_id,
+          blockName: res['downloadData'][0].block_name,
+          clusterId: res['downloadData'][0].cluster_id,
+          clusterName: res['downloadData'][0].cluster_name
+        }
       }
+     
       this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${clusterId}_${this.commonService.dateAndTime}`;
       this.reportData = res['downloadData'];
       this.getBarChartData();
@@ -640,17 +671,23 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
 onClear(){
   this.collectionName = ''
-  this.homeClick()
+  if(this.selectedProgram !== undefined){
+   this.onProgramSelect(this.selectedProgram)
+  }else{
+    this.homeClick()
+  }
+  
 }
   //Get data based on selected collection:::::::::::::::
   public collectionData
   getDataBasedOnCollections($event) {
     this.courseSelected = true
+    
     // let requestBody = this.collectionName ? { timePeriod: this.timePeriod, collection_name: this.collectionName, level: this.level, id: this.globalId, clusterId: this.clusterId } :
     // { timePeriod: this.timePeriod, level: this.level, id: this.globalId, clusterId: this.clusterId }
-    this.collectionName = $event
-    if(this.collectionName){
-      
+    
+    if($event){
+      this.collectionName = $event.collection_id
       this.emptyChart();
       this.reportData = [];
   
@@ -664,8 +701,16 @@ onClear(){
       this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${this.globalId}_${this.commonService.dateAndTime}`;
       this.footer = '';
       this.result = [];
-     
-      this.service.getCollectionData({ timePeriod: this.timePeriod, collection_name: this.collectionName, level: this.level, id: this.globalId, clusterId: this.clusterId }).subscribe(async (res) => {
+       
+      let requestBody:any = {timePeriod: this.timePeriod, collection_name: this.collectionName, level: this.level, id: this.globalId}
+      if(this.selectedProgram) {
+        requestBody.programId=this.selectedProgram
+      }
+      if(this.clusterId) {
+        requestBody.clusterId=this.clusterId
+      }
+      
+      this.service.getCollectionData(requestBody).subscribe(async (res) => {
         this.result = res['chartData'];
         this.reportData = res['downloadData'];
         if(this.reportData.length !== 0){
@@ -701,21 +746,6 @@ onClear(){
       }, err => {
         this.commonService.loaderAndErr(this.result);
       });
-     }else{
-      if (this.level == 'district') {
-        this.getAllData();
-      }
-      if (this.level == 'block') {
-        this.onDistSelect(this.districtId);
-      }
-      if (this.level == 'cluster') {
-        this.onBlockSelect(this.blockId);
-      }
-      if (this.level == 'school') {
-        this.onClusterSelect(this.clusterId);
-      }
-      // this.listCollectionNames();
-      this.commonService.loaderAndErr(this.result);
      }
     
   }
