@@ -19272,16 +19272,19 @@ ${query_type:startsWith('diksha_tpd_r2_district_overall'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_last_30_days'):or(
+${query_type:startsWith('diksha_tpd_r2_block_last_90_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_overall'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_30_days'):or(
+${query_type:startsWith('diksha_tpd_r2_cluster_last_90_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_overall'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_30_days'):or(
+${query_type:startsWith('diksha_tpd_r2_school_last_90_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_overall')} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )})}</value>
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -32757,14 +32760,17 @@ ${query_type:startsWith('diksha_tpd_r2_district_overall'):ifElse(#{diksha_tpd_r2
 ${query_type:startsWith('diksha_tpd_r2_block_last_day'):ifElse(#{diksha_tpd_block_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):ifElse(#{diksha_tpd_block_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_block_last_30_days'):ifElse(#{diksha_tpd_block_r2_jolt},
+${query_type:startsWith('diksha_tpd_r2_block_last_90_days'):ifElse(#{diksha_tpd_block_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_block_overall'):ifElse(#{diksha_tpd_block_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_day'):ifElse(#{diksha_tpd_cluster_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_7_days'):ifElse(#{diksha_tpd_cluster_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_30_days'):ifElse(#{diksha_tpd_cluster_r2_jolt},
+${query_type:startsWith('diksha_tpd_r2_cluster_last_90_days'):ifElse(#{diksha_tpd_cluster_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_cluster_overall'):ifElse(#{diksha_tpd_cluster_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_school_last_day'):ifElse(#{diksha_tpd_school_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_school_last_7_days'):ifElse(#{diksha_tpd_school_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_school_last_30_days'):ifElse(#{diksha_tpd_school_r2_jolt},
+${query_type:startsWith('diksha_tpd_r2_school_last_90_days'):ifElse(#{diksha_tpd_school_r2_jolt},
 ${query_type:startsWith('diksha_tpd_r2_school_overall'):ifElse(#{diksha_tpd_school_r2_jolt},
 ${query_type:startsWith('diksha_stack_bar_raw'):or(
 ${query_type:startsWith('diksha_table_raw'):or(
@@ -32785,7 +32791,7 @@ ${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse(#{diksha_t
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_state'):ifElse(#{diksha_tpd_enrolment_progress_all_coll_state_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse(#{diksha_tpd_enrolment_progress_all_program_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse(#{diksha_tpd_enrolment_progress_all_prog_coll_jolt_spec},'None')} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})}</value>
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -37537,16 +37543,19 @@ ${filename:startsWith('diksha_tpd'):ifElse("delete from  diksha_tpd_staging wher
 <value>${query_type:startsWith('diksha_tpd_r2_block_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_last_30_days'):or(
+${query_type:startsWith('diksha_tpd_r2_block_last_90_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_block_overall'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_30_days'):or(
+${query_type:startsWith('diksha_tpd_r2_cluster_last_90_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_cluster_overall'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_day'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_7_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_last_30_days'):or(
+${query_type:startsWith('diksha_tpd_r2_school_last_90_days'):or(
 ${query_type:startsWith('diksha_tpd_r2_school_overall')} 
-)} )} )} )} )} )} )} )} )} )} )}</value>
+)} )} )} )} )} )} )} )} )} )} )})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>25</runDurationMillis>
@@ -47450,16 +47459,19 @@ file: ${filename} has invalid data type: invalid record=${count.invalid.lines} ,
 <value>${query_type:startsWith('diksha_tpd_r2_block_last_day'):ifElse('/district_id',
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):ifElse('/district_id',
 ${query_type:startsWith('diksha_tpd_r2_block_last_30_days'):ifElse('/district_id',
+${query_type:startsWith('diksha_tpd_r2_block_last_90_days'):ifElse('/district_id',
 ${query_type:startsWith('diksha_tpd_r2_block_overall'):ifElse('/district_id',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_day'):ifElse('/block_id',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_7_days'):ifElse('/block_id',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_30_days'):ifElse('/block_id',
+${query_type:startsWith('diksha_tpd_r2_cluster_last_90_days'):ifElse('/block_id',
 ${query_type:startsWith('diksha_tpd_r2_cluster_overall'):ifElse('/block_id',
 ${query_type:startsWith('diksha_tpd_r2_school_last_day'):ifElse('/block_id',
 ${query_type:startsWith('diksha_tpd_r2_school_last_7_days'):ifElse('/block_id',
 ${query_type:startsWith('diksha_tpd_r2_school_last_30_days'):ifElse('/block_id',
+${query_type:startsWith('diksha_tpd_r2_school_last_90_days'):ifElse('/block_id',
 ${query_type:startsWith('diksha_tpd_r2_school_overall'):ifElse('/block_id','None')} 
-)} )} )} )} )} )} )} )} )} )} )}</value>
+)} )} )} )} )} )} )} )} )} )} )})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>2000</runDurationMillis>
@@ -51489,5 +51501,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/21/2021 16:50:24 IST</timestamp>
+    <timestamp>12/22/2021 20:49:16 IST</timestamp>
 </template>
