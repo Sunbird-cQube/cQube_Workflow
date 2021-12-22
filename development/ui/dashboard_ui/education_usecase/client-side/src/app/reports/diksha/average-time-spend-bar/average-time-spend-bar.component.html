@@ -56,54 +56,6 @@
                           {{ dist.district_name }}
                         </option>
                       </select>  
-
-                    <!-- <select id="choose_enroll" [(ngModel)]="type" (change)="onTypeSelect(type)">
-                        <option [value]="type" disabled selected="selected">Choose a Type</option>
-                        <option *ngFor="let type of enrollTypes" [(ngValue)]="type.key">
-                            {{type.name}}
-                        </option>
-                    </select> -->
-
-                    <!-- <select id="coll_name" [(ngModel)]="collectionName" name="collectionName"
-                        (change)="getDataBasedOnCollections()">
-                        <option [value]="collectionName" disabled selected="selected">Choose course name
-                        </option>
-                        <option *ngFor="let collectionName of collectionNames; let i = index"
-                            [(ngValue)]="collectionNames[i]">
-                            {{collectionNames[i]}}
-                        </option>
-                    </select> -->
-
-                    <!-- <select id="choose_dist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
-                        <option [value]="districtId" disabled selected="selected">Choose a District</option>
-                        <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
-                            {{dist.district_name}}
-                        </option>
-                    </select> -->
-
-                    <!-- <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
-                        (change)="blockLinkClick(blockId)">
-                        <option [value]="blockId" disabled selected="selected">Choose a Block</option>
-                        <option *ngFor="let block of blocks" [(ngValue)]="block.block_id">
-                            {{block.block_name}}
-                        </option>
-                    </select> -->
-
-                    <!-- <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
-                        (change)="clusterLinkClick(clusterId)">
-                        <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
-                        <option *ngFor="let cluster of clusters" [(ngValue)]="cluster.cluster_id"
-                            [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
-                            {{cluster.cluster_name}}
-                        </option>
-                    </select> -->
-
-                    <!-- <span id="totalCount" style="float: right;"><strong>Total
-                            {{type.split('_').length > 1 ?
-                            commonService.changeingStringCases(type.split('_')[0])+ " "+commonService.changeingStringCases(type.split('_')[1])
-                            :
-                            commonService.changeingStringCases(type)}}:</strong>
-                        {{footer}}</span> -->
                 </div>
             </div>
         </div>
