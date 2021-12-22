@@ -3,6 +3,7 @@ const { logger } = require('../../../lib/logger');
 const auth = require('../../../middleware/check-auth');
 const s3File = require('../../../lib/reads3File');
 
+
 router.post('/schoolData', auth.authController, async (req, res) => {
     try {
         logger.info('--- diksha chart allData api ---');
@@ -16,7 +17,8 @@ router.post('/schoolData', auth.authController, async (req, res) => {
         var fileName = `diksha_tpd/report2/${timePeriod}/school/collections/${blockId}.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'][`${clusterId}`];
-        if(programId !== undefined && courseId !== undefined && districtId !== undefined && clusterId !== undefined){
+        if(programId !== undefined && courseId !== undefined && districtId !== undefined && blockId !== undefined){
+          
             var  result = jsonData.data.filter( data => {
                return  data.program_id === programId 
             }).filter( block => {
@@ -24,14 +26,13 @@ router.post('/schoolData', auth.authController, async (req, res) => {
             }).filter(cluster => {
                
                cluster.district_id === districtId 
-            }).filter( school =>{
-                school.cluster_id === clusterId
             })
         }
        
         result = result.filter(a => {
             return a.cluster_id == clusterId;
         });
+
         var chartData = {
             labels: '',
             data: ''

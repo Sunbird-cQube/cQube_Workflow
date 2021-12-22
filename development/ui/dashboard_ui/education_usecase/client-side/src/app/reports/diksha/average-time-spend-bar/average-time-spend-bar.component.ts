@@ -2,13 +2,11 @@ import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts";
 import _ from "lodash";
 
-// import addMore from "highcharts/highcharts-more";
 import HC_exportData from "highcharts/modules/export-data";
 import { AppServiceComponent } from "src/app/app.service";
 import { AverageTimeSpendBarService } from "src/app/services/average-time-spend-bar.service";
 import { ContentUsagePieService } from "src/app/services/content-usage-pie.service";
 HC_exportData(Highcharts);
-// addMore(Highcharts)
 
 @Component({
   selector: "app-average-time-spend-bar",
@@ -57,7 +55,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
     document.getElementById("backBtn")
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
-    
+
     this.getStateData();
     // this.getDistdata(this.selectedDist)
     this.getDistdata();
@@ -71,13 +69,12 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.data = [];
     this.chartData = [];
     this.catgory = [];
-  
   }
 
   getStateData() {
-    this.fileName = "Average_time_spend_state";
+    this.fileName = `Average_Time_Spent_${this.state}`;
     try {
-      document.getElementById('spinner').style.display = "block";
+      // document.getElementById('spinner').style.display = "block";
       this.service.getavgTimeSpendState().subscribe((res) => {
         this.data = res["data"]["data"];
         this.reportData = res["downloadData"]["data"];
@@ -106,15 +103,12 @@ export class AverageTimeSpendBarComponent implements OnInit {
   public distData;
   getDistdata() {
     this.emptyChart();
-    this.distWiseData = []
-    
+    this.distWiseData = [];
+
     try {
-     
       this.service.getAvgTimespendDist().subscribe((res) => {
         this.distData = res["data"]["data"];
-        // this.distWiseData = this.distData[this.selectedDist]
-        // this.restructureBarChartData(this.distWiseData);
-       this.commonService.loaderAndErr(this.distData);
+        this.commonService.loaderAndErr(this.distData);
       });
     } catch (error) {
       this.distData = [];
@@ -129,21 +123,22 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.chartData = [];
     this.result = pieData;
     try {
-
       if (this.result.length <= 25) {
         for (let i = 0; i <= 25; i++) {
-          this.catgory.push(this.result[i]?.collection_name ? this.result[i]?.collection_name : ' ')
+          this.catgory.push(
+            this.result[i]?.collection_name
+              ? this.result[i]?.collection_name
+              : " "
+          );
         }
       } else {
-        this.result.forEach(element => {
-           this.catgory.push(element.collection_name);
-        })
+        this.result.forEach((element) => {
+          this.catgory.push(element.collection_name);
+        });
       }
 
       this.result.forEach((element) => {
-      
         this.chartData.push(element.avg_time_spent);
-        // this.catgory.push(element.collection_name);
         this.tooltipData.push(element);
         this.commonService.loaderAndErr(this.chartData);
       });
@@ -152,9 +147,6 @@ export class AverageTimeSpendBarComponent implements OnInit {
       this.emptyChart();
       this.commonService.loaderAndErr(this.chartData);
     }
-
-    // this.chartData = data
-    // return data
   }
 
   public distMetaData;
@@ -183,42 +175,37 @@ export class AverageTimeSpendBarComponent implements OnInit {
   public distName;
 
   onDistSelected(data) {
-    // this.chartData = []
     this.emptyChart();
     this.data = [];
-    //  this.distWiseData = [];
     this.distPieData = [];
     this.dist = true;
     this.skul = false;
     this.distName = "";
-   
+
     try {
       this.selectedDist = data;
-      // this.getDistdata(data);
-     
+      document.getElementById("spinner").style.display = "block";
       this.distToDropDown.filter((distName) => {
         if (distName.district_id === this.selectedDist) {
           this.distName = distName.district_name;
         }
       });
       this.fileName = `Average_time_spend_${this.distName}`;
-      this.distWiseData = this.distData[this.selectedDist]
-      // this.getDistdata(this.selectedDist)
+      this.distWiseData = this.distData[this.selectedDist];
       // this.distWiseData = this.distData.filter(
       //   (districtData) => districtData.district_id === data
       // );
-     
-      // this.reportData = distWiseData;
-      setTimeout(()=>{
-        this.restructureBarChartData(this.distWiseData);
-      }, 300)
-      
 
-      this.commonService.loaderAndErr(this.distWiseData);
+      // this.reportData = distWiseData;
+      setTimeout(() => {
+        this.restructureBarChartData(this.distWiseData);
+      }, 300);
+
+      // this.commonService.loaderAndErr(this.distWiseData);
     } catch (error) {
       this.distWiseData = [];
       this.emptyChart();
-      this.commonService.loaderAndErr(this.distWiseData);
+      // this.commonService.loaderAndErr(this.distWiseData);
     }
   }
 
@@ -236,39 +223,60 @@ export class AverageTimeSpendBarComponent implements OnInit {
   }
 
   //download UI data::::::::::::
-   
+
   downloadReport() {
     this.dataToDownload = [];
-     let selectedDistricts = []
-     
-    if(this.selectedDist){
-       selectedDistricts = this.distToDropDown.filter(districtData => {
-          return districtData.district_id === this.selectedDist
-        })
-    }else{
-       selectedDistricts = this.distToDropDown.slice()
-    }
-     let reportData = _.cloneDeep(this.reportData);
-    reportData.forEach((element) => {
-     selectedDistricts.forEach((district) => {
-       
-       let distData = this.distData[district.district_id]
-        // let distData = this.distData.filter(districtData => {
-        //   return districtData.district_id === district.district_id
-        // })
-           
-       
-        let objectValue = distData.find(
-          (metric) => metric.collection_name === element.collection_name
-        );
-        let distName = district.district_name;
+    let selectedDistricts = [];
 
-        element[distName] =
-          objectValue && objectValue.avg_time_spent
-            ? objectValue.avg_time_spent
-            : 0;
-       
+    if (this.selectedDist) {
+      selectedDistricts = this.distToDropDown.filter((districtData) => {
+        return districtData.district_id === this.selectedDist;
       });
+    } else {
+      selectedDistricts = this.distToDropDown.slice();
+    }
+    let reportData = _.cloneDeep(this.reportData);
+    reportData.forEach((element) => {
+  if(this.selectedDist === undefined){
+    selectedDistricts.forEach((district) => {
+      let distData = this.distData[district.district_id];
+      let objectValue = distData.find(
+        (metric) => metric.collection_name === element.collection_name
+      );
+      let distName = `${district.district_name}_Average_Time_Spent`;
+      let distName1 = `${district.district_name}_Total_Enrolled`;
+
+      element[distName] =
+        objectValue !== undefined && objectValue.avg_time_spent
+          ? objectValue.avg_time_spent
+          : 0;
+
+          element[distName1] =
+        objectValue !== undefined && objectValue.total_enrolled
+          ? objectValue.total_enrolled
+          : 0;
+    });
+  }else{
+    selectedDistricts.forEach((district) => {
+      let distData = this.distData[district.district_id];
+      let objectValue = distData.find(
+        (metric) => metric.collection_name === element.collection_name
+      );
+      let distName = `${district.district_name}_Average_Time_Spent`;
+      let distName1 = `${district.district_name}_Total_Enrolled`;
+
+      element[distName] =
+        objectValue && objectValue.avg_time_spent
+          ? objectValue.avg_time_spent
+          : 0;
+
+          element[distName1] =
+        objectValue && objectValue.total_enrolled
+          ? objectValue.total_enrolled
+          : 0;
+    });
+  }
+      
       this.newDownload(element);
     });
     this.commonService.download(this.fileName, this.dataToDownload);

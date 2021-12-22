@@ -285,12 +285,7 @@ export class BarChartComponent implements OnInit {
         return obj;
       }
       if (reportName == "enroll/comp") {
-        // obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category}
-        //  <br> ${point.y !== null ? `<b>${type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()}:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        // ${type != `completion` && xData[point.index] ? `<br><span style="color: red"><b>Completion: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}</span>` : ''}
-        // ${type != `enrollment` && xData[point.index] ? `<br><b>Enrollment: </b>${xData[point.index].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}` : ''}
-        // `
-
+       
         obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category}
         <br> ${point.y !== null ? `<b style= 'color: blue'>${type.split('_').length > 1 ?
             type.split('_')[0].charAt(0).toUpperCase() + type.split('_')[0].substr(1).toLowerCase() + " " + type.split('_')[1].charAt(0).toUpperCase() + type.split('_')[1].substr(1).toLowerCase() :
@@ -310,13 +305,14 @@ export class BarChartComponent implements OnInit {
 
       }
       if(reportName = 'averageTimeSpend'){
-           xData.forEach(data =>{
-            obj =   `<b style="margin-left: '10px'"> Name:</b> ${point.category}
+           
+            obj =   `<b style="padding-left: '10px'">Name:</b> ${point.category}
           <br> ${point.y !== null ? `<b>Average Time Spend: </b>${point.y} Minutes` : ''}<br>
-           <b> Enrolled Users : ${data.total_enrolled}</b> 
+           <b> Enrolled Users : ${xData[point.index].total_enrolled}</b> 
           
-          `  
-     })
+           `  
+         
+     
       }
     
 

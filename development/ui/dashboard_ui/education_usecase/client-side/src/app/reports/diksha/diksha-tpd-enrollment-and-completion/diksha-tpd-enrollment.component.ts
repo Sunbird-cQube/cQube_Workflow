@@ -136,6 +136,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.districtId = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
+    this.courseSelected =false;
+    this.level= 'district'
     this.yAxisLabel = "District Names";
     this.collectionName = '';
     this.time = this.timePeriod == 'all' ? 'overall' : this.timePeriod;
@@ -642,6 +644,18 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = true;
 
     this.yAxisLabel = "School Names"
+     
+    var requestBody: any = { timePeriod: this.timePeriod, blockId: this.blockId, clusterId: clusterId }
+     
+     if(this.selectedProgram){
+         requestBody.programId = this.selectedProgram
+     }
+     if(this.collectionName){
+      requestBody.courseId = this.collectionName
+  }
+  if(this.districtId){
+    requestBody.disttrictId = this.districtId
+}
 
     this.service.tpdSchoolEnrollCompAll({ timePeriod: this.timePeriod, blockId: this.blockId, clusterId: clusterId, programId: this.selectedProgram, courseId:this.collectionName, districtId:this.districtId }).subscribe(async (res) => {
       this.result = res['chartData'];
