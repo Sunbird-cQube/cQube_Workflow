@@ -2016,6 +2016,39 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>2d148d31-222d-3e9f-0000-000000000000</id>
+                    <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>4112.0</x>
+                        <y>-624.0</y>
+                    </bends>
+                    <bends>
+                        <x>4336.0</x>
+                        <y>-256.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>f719e6a8-e252-3145-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_tpd_r2_meta</selectedRelationships>
+                    <source>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>bf5eec3d-644b-3b04-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>2da466b7-8575-3ae5-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -4264,6 +4297,31 @@
                     <source>
                         <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
                         <id>fbbee146-05c4-3a1e-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>5e11d84c-358e-39c3-0000-000000000000</id>
+                    <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>0df0df5f-b7b3-3a06-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>failure</selectedRelationships>
+                    <source>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>47e64f2b-5ce2-37fe-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -14233,8 +14291,8 @@ GET - summary rollup</label>
                     <id>84771da6-026f-3937-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3664.0</x>
-                        <y>-272.0</y>
+                        <x>3648.0</x>
+                        <y>-224.0</y>
                     </position>
                     <height>40.0</height>
                     <label>Transformations(JOLT)</label>
@@ -17167,6 +17225,120 @@ file: ${filename} null values are found.</value>
                     <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
+                    <id>0df0df5f-b7b3-3a06-0000-000000000000</id>
+                    <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-8408.0</x>
+                        <y>-1568.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Log Level</key>
+<value>
+    <name>Log Level</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Log Payload</key>
+<value>
+    <name>Log Payload</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Attributes to Log</key>
+<value>
+    <name>Attributes to Log</name>
+</value>
+                            </entry>
+                            <entry>
+<key>attributes-to-log-regex</key>
+<value>
+    <name>attributes-to-log-regex</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Attributes to Ignore</key>
+<value>
+    <name>Attributes to Ignore</name>
+</value>
+                            </entry>
+                            <entry>
+<key>attributes-to-ignore-regex</key>
+<value>
+    <name>attributes-to-ignore-regex</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Log prefix</key>
+<value>
+    <name>Log prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>character-set</key>
+<value>
+    <name>character-set</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Log Level</key>
+<value>error</value>
+                            </entry>
+                            <entry>
+<key>Log Payload</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>Attributes to Log</key>
+                            </entry>
+                            <entry>
+<key>attributes-to-log-regex</key>
+<value>.*</value>
+                            </entry>
+                            <entry>
+<key>Attributes to Ignore</key>
+                            </entry>
+                            <entry>
+<key>attributes-to-ignore-regex</key>
+                            </entry>
+                            <entry>
+<key>Log prefix</key>
+                            </entry>
+                            <entry>
+<key>character-set</key>
+<value>UTF-8</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>diksha_tp_mapping_change_column_error</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.LogAttribute</type>
+                </processors>
+                <processors>
                     <id>0fa477f4-9319-33b1-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <position>
@@ -19017,8 +19189,8 @@ ${diksha_columns:equals('false'):ifElse(#{diksha_data_summary_select_less_column
                     <id>1bf8fe22-af43-3cae-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3912.0</x>
-                        <y>-480.0</y>
+                        <x>3800.0</x>
+                        <y>-464.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -32607,12 +32779,13 @@ ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse(#{diksha_pie_etb_
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse(#{diksha_hbar_crs_state_jolt_spec},
 ${query_type:startsWith('diksha_hbar_crs_district'):ifElse(#{diksha_hbar_crs_district_jolt_spec},
 ${query_type:startsWith('diksha_map_etb_per_capita'):ifElse(#{diksha_map_etb_per_capita_jolt_spec},
-${query_type:startsWith('diksha_tpd_enrolment_progress_district'):ifElse(#{diksha_tpd_enrolment_progress_district_jolt_spec},
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_dist'):ifElse(#{diksha_tpd_enrolment_progress_all_coll_dist_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_course'):ifElse(#{diksha_tpd_enrolment_progress_all_course_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse(#{diksha_tpd_enrolment_progress_state_jolt_spec},
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_state'):ifElse(#{diksha_tpd_enrolment_progress_all_coll_state_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse(#{diksha_tpd_enrolment_progress_all_program_jolt_spec},
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse(#{diksha_tpd_enrolment_progress_all_prog_coll_jolt_spec},'None')} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})}</value>
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -41340,6 +41513,12 @@ file: ${filename} null values are not found.</value>
     <name>diksha_pie</name>
 </value>
                             </entry>
+                            <entry>
+<key>diksha_tpd_r2_meta</key>
+<value>
+    <name>diksha_tpd_r2_meta</name>
+</value>
+                            </entry>
                         </descriptors>
                         <executionNode>ALL</executionNode>
                         <lossTolerant>false</lossTolerant>
@@ -41373,6 +41552,10 @@ file: ${filename} null values are not found.</value>
 <key>diksha_pie</key>
 <value>${query_type:startsWith('diksha_pie')}</value>
                             </entry>
+                            <entry>
+<key>diksha_tpd_r2_meta</key>
+<value>${query_type:startsWith('diksha_tpd_r2_certificate_meta')}</value>
+                            </entry>
                         </properties>
                         <runDurationMillis>25</runDurationMillis>
                         <schedulingPeriod>0 sec</schedulingPeriod>
@@ -41404,6 +41587,10 @@ file: ${filename} null values are not found.</value>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>diksha_pie</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_tpd_r2_meta</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -51302,5 +51489,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/21/2021 13:57:14 IST</timestamp>
+    <timestamp>12/21/2021 16:50:24 IST</timestamp>
 </template>
