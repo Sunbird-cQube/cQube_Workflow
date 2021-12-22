@@ -60597,14 +60597,17 @@ ${query_type:startsWith('diksha_tpd_r2_district_overall'):ifElse('diksha_tpd/rep
 ${query_type:startsWith('diksha_tpd_r2_block_last_day'):ifElse('diksha_tpd/report2/last_day/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_block_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/block/${type}/${id}.json',
+${query_type:startsWith('diksha_tpd_r2_block_last_90_days'):ifElse('diksha_tpd/report2/last_90_days/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_block_overall'):ifElse('diksha_tpd/report2/overall/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_day'):ifElse('diksha_tpd/report2/last_day/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/cluster/${type}/${id}.json',
+${query_type:startsWith('diksha_tpd_r2_cluster_last_90_days'):ifElse('diksha_tpd/report2/last_90_days/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_overall'):ifElse('diksha_tpd/report2/overall/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_last_day'):ifElse('diksha_tpd/report2/last_day/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/school/${type}/${id}.json',
+${query_type:startsWith('diksha_tpd_r2_school_last_90_days'):ifElse('diksha_tpd/report2/last_90_days/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_overall'):ifElse('diksha_tpd/report2/overall/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_stack_bar_raw_all_last_day'):ifElse('diksha_raw_data/stack_bar_reports/last_day/last_day.csv',
 ${query_type:startsWith('diksha_stack_bar_raw_all_last_7_days'):ifElse('diksha_raw_data/stack_bar_reports/last_7_days/last_7_days.csv',
@@ -60648,7 +60651,7 @@ ${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse('dik
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse('diksha_tpd/enrolment_progress/all_programs_collections.json','None')}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )} )})}
-)})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -77690,5 +77693,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/21/2021 16:50:38 IST</timestamp>
+    <timestamp>12/22/2021 15:52:33 IST</timestamp>
 </template>
