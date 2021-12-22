@@ -541,7 +541,7 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "operation": "shift",
     "spec": {
       "*": {
-        "@": "data.[]"
+        "@": "data.@(1,district_id).[]"
       }
     }
   }
