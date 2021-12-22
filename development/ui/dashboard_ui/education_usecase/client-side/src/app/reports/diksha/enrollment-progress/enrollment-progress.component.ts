@@ -196,6 +196,7 @@ export class EnrollmentProgressComponent implements OnInit {
   getProgramWiseColl(data) {
     this.service.enrollProgamWiseColl().subscribe((res) => {
       this.programWiseCollection = res["data"]["data"];
+      console.log('programWise', this.programWiseCollection)
       this.programWiseCourse = this.programWiseCollection.filter(
         (collection) => {
           return collection.program_id == data;
@@ -451,11 +452,7 @@ export class EnrollmentProgressComponent implements OnInit {
       data1[key] = element[key];
       // }
     });
-    // Object.keys(data1).forEach(key => {
-    //   // if (key !== "percentage_teachers") {
-    //     data2[key] = data1[key];
-    //   // }
-    // });
+   
     this.dataToDownload.push(data1);
   }
 
