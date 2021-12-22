@@ -57,7 +57,6 @@ export class AverageTimeSpendBarComponent implements OnInit {
       : "";
 
     this.getStateData();
-    // this.getDistdata(this.selectedDist)
     this.getDistdata();
   }
 
@@ -74,14 +73,13 @@ export class AverageTimeSpendBarComponent implements OnInit {
   getStateData() {
     this.fileName = `Average_Time_Spent_${this.state}`;
     try {
-      // document.getElementById('spinner').style.display = "block";
       this.service.getavgTimeSpendState().subscribe((res) => {
         this.data = res["data"]["data"];
         this.reportData = res["downloadData"]["data"];
 
         let obj = [];
         this.restructureBarChartData(this.data);
-        // document.getElementById('spinner').style.display = "none"
+        
         this.getDistMeta();
         this.commonService.loaderAndErr(this.data);
       });
@@ -192,20 +190,14 @@ export class AverageTimeSpendBarComponent implements OnInit {
       });
       this.fileName = `Average_time_spend_${this.distName}`;
       this.distWiseData = this.distData[this.selectedDist];
-      // this.distWiseData = this.distData.filter(
-      //   (districtData) => districtData.district_id === data
-      // );
-
-      // this.reportData = distWiseData;
+     
       setTimeout(() => {
         this.restructureBarChartData(this.distWiseData);
       }, 300);
 
-      // this.commonService.loaderAndErr(this.distWiseData);
     } catch (error) {
       this.distWiseData = [];
       this.emptyChart();
-      // this.commonService.loaderAndErr(this.distWiseData);
     }
   }
 

@@ -185,9 +185,6 @@ export class EnrollmentProgressComponent implements OnInit {
         document.getElementById("spinner").style.display = "none";
       });
       
-      // setTimeout(()=>{
-      //   document.getElementById("spinner").style.display = "block";
-      // })
     } catch (error) {}
   }
 
@@ -196,7 +193,6 @@ export class EnrollmentProgressComponent implements OnInit {
   getProgramWiseColl(data) {
     this.service.enrollProgamWiseColl().subscribe((res) => {
       this.programWiseCollection = res["data"]["data"];
-      console.log('programWise', this.programWiseCollection)
       this.programWiseCourse = this.programWiseCollection.filter(
         (collection) => {
           return collection.program_id == data;
@@ -217,13 +213,7 @@ export class EnrollmentProgressComponent implements OnInit {
       this.service.enrollProAllCourse().subscribe((res) => {
         this.allCollection = res["data"]["data"];
         this.getCollectionDropDown(this.allCollection);
-        // this.allCollection.forEach(course => {
-        //   this.courseToDropDown.push({
-        //     collection_id : course.collection_id,
-        //     collection_name: course.collection_name
-        //   })
-        // })
-        // this.courseToDropDown.map(x => this.uniqueAllCourse.filter(a => a.collection_id == x.collection_id && a.collection_name == x.collection_name).length > 0 ? null : this.uniqueAllCourse.push(x));
+     
       });
     } catch (error) {}
   }
@@ -235,7 +225,6 @@ export class EnrollmentProgressComponent implements OnInit {
     try {
       document.getElementById("spinner").style.display = "display";
       if (this.level === "district") {
-        // document.getElementById("spinner").style.display = "display";
         this.distWiseCourse = this.allDistCollection.filter((collection) => {
           return collection.district_id == this.selectedDist;
         });
@@ -304,7 +293,6 @@ export class EnrollmentProgressComponent implements OnInit {
 
     try {
       if (this.courseSelected === true && this.programSelected === true) {
-        //  this.courseSelected = false;
         this.selectedDistData = this.allDistCollection.filter((collection) => {
           return collection.district_id === this.selectedDist;
         });
@@ -319,7 +307,6 @@ export class EnrollmentProgressComponent implements OnInit {
         this.reportData = this.selectedDistWiseCourse;
         document.getElementById("spinner").style.display = "none";
         }else if(this.programSelected === true && this.courseSelected !== true) {
-          // this.programSelected = false;
         document.getElementById("spinner").style.display = "display";
         this.selectedCourse = "";
         this.selectedDistData = [];
@@ -417,7 +404,6 @@ export class EnrollmentProgressComponent implements OnInit {
         }
       });
       this.createLineChart(this.selectedCourseData);
-      // document.getElementById("spinner").style.display = "none";
     } else if (this.level === "program") {
       this.selectedCourseData = []
       this.programWiseCourse.forEach((course) => {
@@ -426,18 +412,8 @@ export class EnrollmentProgressComponent implements OnInit {
         }
       });
       this.createLineChart(this.selectedCourseData);
-      // document.getElementById("spinner").style.display = "none";
     }
 
-
-    // this.programWiseCourse.forEach((course) => {
-    //       if (course.collection_id === this.selectedCourse) {
-    //         this.selectedCourseData.push(course);
-    //       }
-    //     });
-    //     this.createLineChart(this.selectedCourseData);
-
-    //  this.createLineChart(this.selectedCourseData)
   }
 
   //filter downloadable data
@@ -447,10 +423,8 @@ export class EnrollmentProgressComponent implements OnInit {
       data2 = {},
       data3 = {};
     Object.keys(element).forEach((key) => {
-      // if (key !== "percentage_completion") {
-
+     
       data1[key] = element[key];
-      // }
     });
    
     this.dataToDownload.push(data1);
@@ -476,7 +450,7 @@ export class EnrollmentProgressComponent implements OnInit {
     } else if (this.category.length > 120) {
       tickIntervlMonth = 7;
     }
-    // var pointStart = new Date( this.category[0]).getFullYear();
+   
     this.chartOptions = {
       chart: {
         type: "line",
@@ -511,7 +485,6 @@ export class EnrollmentProgressComponent implements OnInit {
         type: "datetime",
         tickInterval: tickIntervlMonth,
 
-        // categories: this.category,
         categories: this.category.map((date) => {
           return Highcharts.dateFormat("%d-%b-%Y", new Date(date).getTime());
         }),
@@ -532,16 +505,9 @@ export class EnrollmentProgressComponent implements OnInit {
         shared: true,
       },
 
-      // legend: {
-      //   layout: "vertical",
-      //   align: "right",
-      //   verticalAlign: "top",
-      // },
-
       plotOptions: {
         series: {
-          // pointStart      : pointStart,
-          // pointInterval   : 24 * 3600 * 1000*30
+         
         },
       },
 
@@ -558,20 +524,6 @@ export class EnrollmentProgressComponent implements OnInit {
         },
       ],
 
-      // responsive: {
-      //     rules: [{
-      //         // condition: {
-      //         //     maxWidth: 500
-      //         // },
-      //         chartOptions: {
-      //             // legend: {
-      //             //     layout: 'vertical',
-      //             //     align: 'center',
-      //             //     verticalAlign: 'bottom'
-      //             // }
-      //         }
-      //     }]
-      // }
     };
     this.Highcharts.chart("container", this.chartOptions);
   }
