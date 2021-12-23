@@ -7,7 +7,6 @@ router.post('/allDistData', auth.authController, async (req, res) => {
     try {
         logger.info('--- diksha chart allData api ---');
         let timePeriod = req.body.timePeriod;
-        // var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
         var fileName = `diksha_tpd/report2/${timePeriod}/district/all.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'];
@@ -17,14 +16,11 @@ router.post('/allDistData', auth.authController, async (req, res) => {
             data: ''
         }
         jsonData = jsonData.data.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
-        // console.log('chart',  jsonData)
         chartData['labels'] = jsonData.map(a => {
             return a.district_name
                   
         })
-        // chartData['labels'] = [...new Set(chartData['labels'])];
-
-        //   chartData['labels'] =  [...new Set(chartData['labels'].map(item => { item.district_name}))];
+       
        
           chartData['dropDown'] = jsonData.map(a => {
             return {district_name:a.district_name,
