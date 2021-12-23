@@ -396,6 +396,7 @@ export class EnrollmentProgressComponent implements OnInit {
       });
 
       this.createLineChart(this.selectedCourseData);
+      this.reportData = this.selectedCourseData;
       // document.getElementById("spinner").style.display = "none";
     } else if (this.level === "allCourse") {
       this.allCollection.forEach((course) => {
@@ -404,6 +405,7 @@ export class EnrollmentProgressComponent implements OnInit {
         }
       });
       this.createLineChart(this.selectedCourseData);
+      this.reportData = this.selectedCourseData;
     } else if (this.level === "program") {
       this.selectedCourseData = []
       this.programWiseCourse.forEach((course) => {
@@ -412,6 +414,7 @@ export class EnrollmentProgressComponent implements OnInit {
         }
       });
       this.createLineChart(this.selectedCourseData);
+      this.reportData = this.selectedCourseData;
     }
 
   }

@@ -8,7 +8,7 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         logger.info('--- diksha chart allData api ---');
         let timePeriod = req.body.timePeriod;
         // var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
-        var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
+        var fileName = `diksha_tpd/report2/${timePeriod}/district/all.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'];
         
@@ -71,9 +71,9 @@ router.post('/getCollections', auth.authController, async (req, res) => {
         let level = req.body.level;
         let id = req.body.id;
         if (level == 'district') {
-            fileName = `diksha_tpd/report2/${timePeriod}/district/collections.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/district/all_program_collections.json`;
         } else {
-            fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_collections/${id}.json`;
         }
         let jsonData = await s3File.readFileConfig(fileName);
         if (jsonData) {
@@ -116,9 +116,9 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         let programId = req.body.programId;
         
         if (level == 'district') {
-            fileName = `diksha_tpd/report2/${timePeriod}/district/collections.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/district/all_program_collections.json`;
         } else {
-            fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_collections/${id}.json`;
         }
 
         let collectionDataRes = await s3File.readFileConfig(fileName);

@@ -644,7 +644,7 @@ for (var key of Object.keys(orgObject)) {
         details[key] = markers[key];
       }
     });
-   
+    
     var ordered = {};
    
     var myobj = Object.assign(details, ordered);
