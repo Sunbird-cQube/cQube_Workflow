@@ -327,29 +327,14 @@ onStateDropSelected(data){
      
      createdDiv = document.createElement('div');
       createdDiv.style.display = 'inline-block';
-      // createdDiv.style.width = '370px';
-      // createdDiv.style.height = "350px";
-      // createdDiv.style.width = "600px"
-      // createdDiv.style.height = "580px"
-      // if(this.height > 1160 && this.height < 1760 ){
-      //   console.log('this.eight', this.height)
-      //   createdDiv.style.width = "600px"
-      // createdDiv.style.height = "580px"
-      // }else{
-      //   console.log('this.eight', this.height)
-      //   createdDiv.style.width = '370px';
-      // createdDiv.style.height = "350px";
-      // }
-       console.log('inner',window.innerHeight)
+  
       createdDiv.style.width = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "600px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
       createdDiv.style.height = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "580px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
       
       // createdDiv.id = `text${i}`
       
       mainContainer.appendChild(createdDiv); 
-      // Object.keys(dataEl).forEach( item=> {
-      //   
-      // })
+      
       Highcharts.chart(createdDiv, {
         chart:{
           plotBackgroundColor: 'transparent',
@@ -366,7 +351,7 @@ onStateDropSelected(data){
             fontSize: window.innerHeight > 1760 ? "32px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "24px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "12px" : "10px",
           }
         },
-        // colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+       
         credits: {
           enabled: false
         },
