@@ -19491,9 +19491,9 @@
 </value>
                             </entry>
                             <entry>
-<key>azureolute.path</key>
+<key>absolute.path</key>
 <value>
-    <name>azureolute.path</name>
+    <name>absolute.path</name>
 </value>
                             </entry>
                             <entry>
@@ -19534,7 +19534,7 @@
 <value>100</value>
                             </entry>
                             <entry>
-<key>azureolute.path</key>
+<key>absolute.path</key>
 <value>#{emission_directory}diksha/</value>
                             </entry>
                             <entry>
@@ -41770,11 +41770,11 @@ ${query_type:startsWith('sat_management_subject_footer_district_last_7_days'):if
                             </entry>
                             <entry>
 <key>emission_filename</key>
-<value>${azureolute.path:isEmpty():ifElse('',${path})}${filename}</value>
+<value>${absolute.path:isEmpty():ifElse('',${path})}${filename}</value>
                             </entry>
                             <entry>
 <key>source</key>
-<value>${source:isEmpty():ifElse(${azureolute.path:isEmpty():ifElse('s3','local')},${source})}</value>
+<value>${source:isEmpty():ifElse(${absolute.path:isEmpty():ifElse('s3','local')},${source})}</value>
                             </entry>
                             <entry>
 <key>source.uuid</key>
@@ -51018,7 +51018,7 @@ WHERE ff_uuid = '${source.uuid}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
-<value>true</value>
+<value>false</value>
                             </entry>
                             <entry>
 <key>database-session-autocommit</key>
@@ -60720,7 +60720,7 @@ ${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse('d
                             <entry>
 <key>log-message</key>
 <value>Processing started with the ${filename}
-Sucessfully fetched ${filename} from ${azureolute.path}.</value>
+Sucessfully fetched ${filename} from ${absolute.path}.</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -77693,5 +77693,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/22/2021 15:52:33 IST</timestamp>
+    <timestamp>12/23/2021 14:06:57 IST</timestamp>
 </template>
