@@ -244,7 +244,7 @@ export class MultiBarChartComponent implements OnInit {
           formatter: function () {
             // return '<b>' + getPointCategoryName(this.point, name, xData, level, type, this.series) + '</b>';
              return  this.points.reduce(function (s, point) {
-              return   s  + '<br/>' +  point.series.name + ': ' +
+              return   s+ '<br/>' +  point.series.name + ': ' +
                   point.y.toLocaleString('en-IN');
           },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
           },
@@ -558,8 +558,8 @@ export class MultiBarChartComponent implements OnInit {
             align: 'right',
             verticalAlign: 'top',
             itemStyle:{
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            }
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+          }
           },
           credits: {
             enabled: false

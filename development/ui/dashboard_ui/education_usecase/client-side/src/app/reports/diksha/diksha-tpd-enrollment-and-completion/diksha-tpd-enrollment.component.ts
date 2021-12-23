@@ -297,7 +297,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.programBarData = this.programData.filter((program) => {
         return program.program_id === this.selectedProgram;
       });
-
       let collectionlist = this.collectionData.data.filter((program) => {
         return program.program_id === this.selectedProgram;
       });

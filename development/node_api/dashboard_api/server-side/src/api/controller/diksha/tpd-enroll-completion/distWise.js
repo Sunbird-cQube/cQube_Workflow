@@ -7,8 +7,7 @@ router.post('/allDistData', auth.authController, async (req, res) => {
     try {
         logger.info('--- diksha chart allData api ---');
         let timePeriod = req.body.timePeriod;
-        // var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
-        var fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
+        var fileName = `diksha_tpd/report2/${timePeriod}/district/all.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'];
         
@@ -17,14 +16,11 @@ router.post('/allDistData', auth.authController, async (req, res) => {
             data: ''
         }
         jsonData = jsonData.data.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
-        // console.log('chart',  jsonData)
         chartData['labels'] = jsonData.map(a => {
             return a.district_name
                   
         })
-        // chartData['labels'] = [...new Set(chartData['labels'])];
-
-        //   chartData['labels'] =  [...new Set(chartData['labels'].map(item => { item.district_name}))];
+       
        
           chartData['dropDown'] = jsonData.map(a => {
             return {district_name:a.district_name,
@@ -71,9 +67,9 @@ router.post('/getCollections', auth.authController, async (req, res) => {
         let level = req.body.level;
         let id = req.body.id;
         if (level == 'district') {
-            fileName = `diksha_tpd/report2/${timePeriod}/district/collections.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/district/all_program_collections.json`;
         } else {
-            fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_collections/${id}.json`;
         }
         let jsonData = await s3File.readFileConfig(fileName);
         if (jsonData) {
@@ -116,9 +112,9 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         let programId = req.body.programId;
         
         if (level == 'district') {
-            fileName = `diksha_tpd/report2/${timePeriod}/district/collections.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/district/all_program_collections.json`;
         } else {
-            fileName = `diksha_tpd/report2/${timePeriod}/${level}/collections/${id}.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_collections/${id}.json`;
         }
 
         let collectionDataRes = await s3File.readFileConfig(fileName);
