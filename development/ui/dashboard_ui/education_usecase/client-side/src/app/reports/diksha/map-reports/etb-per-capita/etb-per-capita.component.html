@@ -5,7 +5,7 @@
           <div class="col-lg-9 col-md-9 col-sm-12">
             <div>
               <p id="dist">
-               Report on Usage per Capita:
+               Report on Usage Per Capita:
                 <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
               </p>
             </div>
@@ -83,11 +83,11 @@
               height > 1760
                 ? '33px'
                 : height > 1160 && height < 1760
-                ? '22px'
+                ? '25px'
                 : height > 667 && height < 1160
                 ? '12px'
                 : '12px'
-          }" ><Strong>Note:</Strong> Quartile percantage calculated based on Per Capita</h5>
+          }" ><Strong>Note:</Strong> Quartile percentage calculated based on Per Capita</h5>
           <div *ngFor="let value of values; let i = index">
             <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
               [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"

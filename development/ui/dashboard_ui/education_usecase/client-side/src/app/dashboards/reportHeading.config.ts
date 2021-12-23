@@ -7,7 +7,7 @@ export const dashboardReportHeadings = {
   // ----School Infrastructure reports -----
    InfrastructureAccessbyLocation : "Infrastructure Access by Location",
    CompositeReport : "Composite Report",
-   UDISEReport : "UDISEReport",
+   UDISEReport : "UDISE Report",
 
    // ---- student Perfomance reports ----
    SemesterAssesmentTest:"Semester Assesment Test",
@@ -34,7 +34,7 @@ export const dashboardReportHeadings = {
    UsagebyTextbook    : "Usage by Textbook ",
    UsageByTextbookContent : "Usage By Textbook Content",
    etbGpsOfLearning: "GPS of learning- ETB",
-   Usagepercapita :"Usage per capita",
+   Usagepercapita :"Usage Per capita",
    heartbeatOfTheNationLearning:"  Heartbeat of the Nation Learning",
    UserOnboarding: "User Onboarding",
    
