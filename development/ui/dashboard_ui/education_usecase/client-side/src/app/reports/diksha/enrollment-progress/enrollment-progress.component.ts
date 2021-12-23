@@ -25,7 +25,7 @@ export class EnrollmentProgressComponent implements OnInit {
   public selectedCourse;
   public reportData: any = [];
   public fileName;
-
+  public districtHidden  = true;
   constructor(
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
@@ -78,8 +78,11 @@ export class EnrollmentProgressComponent implements OnInit {
   clickHome() {
     this.dist = false;
     this.skul = true;
+    this.districtHidden = true;
     this.selectedDist = "";
     this.selectedCourse = "";
+    this.courseSelected = false;
+    this.programSelected = false;
     this.selectedProgram = "";
     this.emptyChart();
     this.getStateData();
@@ -92,7 +95,6 @@ export class EnrollmentProgressComponent implements OnInit {
     try {
       this.service.enrollmentProDist().subscribe((res) => {
         this.distData = res["data"]["data"];
-
         // this.reportData = this.distData
         // this.createLineChart(this.stateData);
         // this.getDistMeta()
@@ -106,6 +108,9 @@ export class EnrollmentProgressComponent implements OnInit {
 
   createLineChart(data) {
     this.chartData = [];
+    this.expectedEnrolled = [];
+    this.netEnrolled = [];
+    this.category = [];
     this.chartData = data;
     try {
       this.chartData.forEach((data) => {
@@ -180,9 +185,6 @@ export class EnrollmentProgressComponent implements OnInit {
         document.getElementById("spinner").style.display = "none";
       });
       
-      // setTimeout(()=>{
-      //   document.getElementById("spinner").style.display = "block";
-      // })
     } catch (error) {}
   }
 
@@ -191,7 +193,6 @@ export class EnrollmentProgressComponent implements OnInit {
   getProgramWiseColl(data) {
     this.service.enrollProgamWiseColl().subscribe((res) => {
       this.programWiseCollection = res["data"]["data"];
-      
       this.programWiseCourse = this.programWiseCollection.filter(
         (collection) => {
           return collection.program_id == data;
@@ -206,19 +207,13 @@ export class EnrollmentProgressComponent implements OnInit {
   getAllCollection() {
     this.emptyChart();
     this.uniqueAllCourse = [];
+    this.allCollection = [];
     this.level = "allCourse";
     try {
       this.service.enrollProAllCourse().subscribe((res) => {
         this.allCollection = res["data"]["data"];
-        //  this.distWiseCourse = this.allCollection
         this.getCollectionDropDown(this.allCollection);
-        // this.allCollection.forEach(course => {
-        //   this.courseToDropDown.push({
-        //     collection_id : course.collection_id,
-        //     collection_name: course.collection_name
-        //   })
-        // })
-        // this.courseToDropDown.map(x => this.uniqueAllCourse.filter(a => a.collection_id == x.collection_id && a.collection_name == x.collection_name).length > 0 ? null : this.uniqueAllCourse.push(x));
+     
       });
     } catch (error) {}
   }
@@ -230,7 +225,6 @@ export class EnrollmentProgressComponent implements OnInit {
     try {
       document.getElementById("spinner").style.display = "display";
       if (this.level === "district") {
-        // document.getElementById("spinner").style.display = "display";
         this.distWiseCourse = this.allDistCollection.filter((collection) => {
           return collection.district_id == this.selectedDist;
         });
@@ -275,7 +269,7 @@ export class EnrollmentProgressComponent implements OnInit {
   }
 
   public selectedDist;
-  public selectedDistData;
+  public selectedDistData:any;
   public districtName;
   public dist = false;
   public skul = true;
@@ -284,7 +278,10 @@ export class EnrollmentProgressComponent implements OnInit {
   onDistSelected(distId) {
     this.dist = true;
     this.skul = false;
+    this.selectedDist = ""
     this.selectedDistData = [];
+    this.selectedDistWiseCourse = [];
+    this.reportData = [];
     this.emptyChart();
     this.selectedDist = distId;
     this.level = "district";
@@ -295,8 +292,7 @@ export class EnrollmentProgressComponent implements OnInit {
     });
 
     try {
-      if (this.courseSelected === true) {
-        //  this.courseSelected = false;
+      if (this.courseSelected === true && this.programSelected === true) {
         this.selectedDistData = this.allDistCollection.filter((collection) => {
           return collection.district_id === this.selectedDist;
         });
@@ -310,28 +306,48 @@ export class EnrollmentProgressComponent implements OnInit {
         this.createLineChart(this.selectedDistWiseCourse);
         this.reportData = this.selectedDistWiseCourse;
         document.getElementById("spinner").style.display = "none";
-        }else if(this.programSelected === true) {
-          // this.programSelected = false;
+        }else if(this.programSelected === true && this.courseSelected !== true) {
         document.getElementById("spinner").style.display = "display";
         this.selectedCourse = "";
+        this.selectedDistData = [];
         this.selectedDistData = this.allDistCollection.filter( program =>{
            return program.program_id === this.selectedProgram && program.district_id === this.selectedDist
         })
-        
+         
 
         // this.getCollectionDropDown(this.selectedDistData);
         this.reportData = this.selectedDistData;
         this.createLineChart(this.selectedDistData);
         document.getElementById("spinner").style.display = "none";
-      }else {
-        document.getElementById("spinner").style.display = "display";
+      }else if(this.courseSelected === true && this.programSelected !== true ) {
+        //  this.courseSelected = false;
+        this.selectedDistData = [];
+        this.selectedDistWiseCourse = [];
+        this.selectedDistData = this.distData.filter((collection) => {
+          return collection.district_id === this.selectedDist;
+        });
+        this.selectedDistWiseCourse = this.selectedDistData.filter(
+          (collection) => {
+            return collection.collection_id === this.selectedCourse; 
+          }
+        );
+
+       
+        this.createLineChart(this.selectedDistWiseCourse);
+        this.reportData = this.selectedDistWiseCourse;
+        document.getElementById("spinner").style.display = "none";
+        }else {
+        
         this.selectedCourse = "";
+        this.selectedDistData = []
         this.selectedDistData = this.distData[this.selectedDist];
-         setTimeout(() => {
           this.getCollectionDropDown(this.selectedDistData);
-         }, 2000);
+        
         // this.getCollectionDropDown(this.selectedDistData);
         this.reportData = this.selectedDistData;
+        setTimeout(() => {
+          document.getElementById("spinner").style.display = "display";
+        }, 200);
         this.createLineChart(this.selectedDistData);
         document.getElementById("spinner").style.display = "none";
       }
@@ -344,6 +360,8 @@ export class EnrollmentProgressComponent implements OnInit {
 
   onProgramSelected(progId) {
     this.programSelected = true;
+    this.courseSelected = false;
+    this.selectedProgData = [];
     this.selectedDist = "";
     this.selectedCourse = "";
     this.uniqueDistCourse = [];
@@ -363,6 +381,8 @@ export class EnrollmentProgressComponent implements OnInit {
 
   onCourseSelected(courseId) {
     this.courseSelected = true;
+    this.districtHidden = false;
+    this.selectedDist = '';
     this.emptyChart();
     this.selectedCourseData = [];
     this.selectedCourse = courseId;
@@ -384,18 +404,16 @@ export class EnrollmentProgressComponent implements OnInit {
         }
       });
       this.createLineChart(this.selectedCourseData);
-      // document.getElementById("spinner").style.display = "none";
     } else if (this.level === "program") {
+      this.selectedCourseData = []
       this.programWiseCourse.forEach((course) => {
         if (course.collection_id === this.selectedCourse) {
           this.selectedCourseData.push(course);
         }
       });
       this.createLineChart(this.selectedCourseData);
-      // document.getElementById("spinner").style.display = "none";
     }
 
-    //  this.createLineChart(this.selectedCourseData)
   }
 
   //filter downloadable data
@@ -405,16 +423,10 @@ export class EnrollmentProgressComponent implements OnInit {
       data2 = {},
       data3 = {};
     Object.keys(element).forEach((key) => {
-      // if (key !== "percentage_completion") {
-
+     
       data1[key] = element[key];
-      // }
     });
-    // Object.keys(data1).forEach(key => {
-    //   // if (key !== "percentage_teachers") {
-    //     data2[key] = data1[key];
-    //   // }
-    // });
+   
     this.dataToDownload.push(data1);
   }
 
@@ -438,7 +450,7 @@ export class EnrollmentProgressComponent implements OnInit {
     } else if (this.category.length > 120) {
       tickIntervlMonth = 7;
     }
-    // var pointStart = new Date( this.category[0]).getFullYear();
+   
     this.chartOptions = {
       chart: {
         type: "line",
@@ -473,7 +485,6 @@ export class EnrollmentProgressComponent implements OnInit {
         type: "datetime",
         tickInterval: tickIntervlMonth,
 
-        // categories: this.category,
         categories: this.category.map((date) => {
           return Highcharts.dateFormat("%d-%b-%Y", new Date(date).getTime());
         }),
@@ -494,16 +505,9 @@ export class EnrollmentProgressComponent implements OnInit {
         shared: true,
       },
 
-      // legend: {
-      //   layout: "vertical",
-      //   align: "right",
-      //   verticalAlign: "top",
-      // },
-
       plotOptions: {
         series: {
-          // pointStart      : pointStart,
-          // pointInterval   : 24 * 3600 * 1000*30
+         
         },
       },
 
@@ -520,20 +524,6 @@ export class EnrollmentProgressComponent implements OnInit {
         },
       ],
 
-      // responsive: {
-      //     rules: [{
-      //         // condition: {
-      //         //     maxWidth: 500
-      //         // },
-      //         chartOptions: {
-      //             // legend: {
-      //             //     layout: 'vertical',
-      //             //     align: 'center',
-      //             //     verticalAlign: 'bottom'
-      //             // }
-      //         }
-      //     }]
-      // }
     };
     this.Highcharts.chart("container", this.chartOptions);
   }
