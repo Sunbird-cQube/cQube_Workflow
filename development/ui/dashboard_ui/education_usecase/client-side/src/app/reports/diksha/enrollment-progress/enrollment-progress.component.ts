@@ -468,8 +468,14 @@ export class EnrollmentProgressComponent implements OnInit {
           style: {
             fontWeight: "bold",
             color: "#000",
-            fontSize: "12px",
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           },
+        },
+        labels:{
+          style:{
+            fontWeight: "900",
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          }
         },
       },
 
@@ -479,15 +485,23 @@ export class EnrollmentProgressComponent implements OnInit {
           style: {
             fontWeight: "bold",
             color: "#000",
-            fontSize: "12px",
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           },
         },
+       
         type: "datetime",
         tickInterval: tickIntervlMonth,
 
         categories: this.category.map((date) => {
           return Highcharts.dateFormat("%d-%b-%Y", new Date(date).getTime());
         }),
+        labels:{
+          style:{
+            fontWeight: "900",
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          },
+          rotation : -20
+        },
       },
       credits: {
         enabled: false,
@@ -503,6 +517,11 @@ export class EnrollmentProgressComponent implements OnInit {
           `;
         },
         shared: true,
+      },
+      legend: {
+        itemStyle: {
+          fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+        }
       },
 
       plotOptions: {
