@@ -78,7 +78,16 @@
                 margin-top: -5px;
               " (click)="reset('all')" />
           </h5>
-          <span class="" style="font-size: 12px; font-weight: 800"><Strong>Note:</Strong> Quartile percantage calculated based on Per Capita</span>
+          <h5 class=""  [ngStyle]="{
+            fontSize:
+              height > 1760
+                ? '33px'
+                : height > 1160 && height < 1760
+                ? '22px'
+                : height > 667 && height < 1160
+                ? '12px'
+                : '12px'
+          }" ><Strong>Note:</Strong> Quartile percantage calculated based on Per Capita</h5>
           <div *ngFor="let value of values; let i = index">
             <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
               [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"
@@ -88,7 +97,17 @@
           </div>
         </div>
         <div style="float: right; width: 15%; margin-left: 1%; margin-top: 3%; z-index: 100;">
-          <h5  style="margin-left: 1%; font-size: 12px; font-weight: bold;"> <u>Usage Outside State:-</u></h5> 
+          <h5  style="margin-left: 1%;  font-weight: bold;"
+          [ngStyle]="{
+            fontSize:
+              height > 1760
+                ? '33px'
+                : height > 1160 && height < 1760
+                ? '22px'
+                : height > 667 && height < 1160
+                ? '12px'
+                : '12px'
+          }"> <u>Usage Outside State:-</u></h5> 
           <!-- <span  class="legends"style="text-align: center; font-size: 12px;">Expected Users: {{otherStateExpectdUser}}</span><br> -->
           <span  class="legends"style="text-align: center; font-size: 12px;">Actual Users: {{otherStateActualUsers}}</span><br>
           <span class="legends"  style="text-align: center; font-size: 12px;">Total Content Plays: {{otherStateContentPlays}}</span><br>

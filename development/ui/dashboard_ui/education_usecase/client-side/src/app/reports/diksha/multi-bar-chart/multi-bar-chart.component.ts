@@ -80,7 +80,7 @@ export class MultiBarChartComponent implements OnInit {
             text: this.yAxisLabel,
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               fontWeight: "bold"
             }
           },
@@ -98,7 +98,7 @@ export class MultiBarChartComponent implements OnInit {
           labels: {
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
             },
             formatter: function () {
               return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -137,11 +137,6 @@ export class MultiBarChartComponent implements OnInit {
               style:{
                 color: "#000"
               },
-              // formatter: function(){
-              //   console.log('color', this)
-              //   return this.colorIndex === 0 ? this.y : this.y + '%';
-              //   // return '%'
-              // }
             },
             
           },
@@ -151,6 +146,9 @@ export class MultiBarChartComponent implements OnInit {
           enabled: true,
           align: 'right',
           verticalAlign: 'top',
+          itemStyle:{
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+          }
         },
         credits: {
           enabled: false
@@ -161,8 +159,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 // return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -178,8 +176,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 
@@ -200,8 +198,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight: 800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 if(level == 'district' || level == 'program'){
@@ -273,7 +271,7 @@ export class MultiBarChartComponent implements OnInit {
             x: -7,
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
             }
           },
           type: "category",
@@ -284,7 +282,7 @@ export class MultiBarChartComponent implements OnInit {
             text: this.yAxisLabel,
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               fontWeight: "bold"
             }
           },
@@ -302,7 +300,7 @@ export class MultiBarChartComponent implements OnInit {
           labels: {
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
             },
             formatter: function () {
               return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -355,6 +353,9 @@ export class MultiBarChartComponent implements OnInit {
           enabled: true,
           align: 'right',
           verticalAlign: 'top',
+          itemStyle:{
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+          }
         },
         credits: {
           enabled: false
@@ -365,8 +366,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 // return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -382,8 +383,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 
@@ -404,8 +405,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight: 800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 if(level == 'district' || level == 'program'){
@@ -489,7 +490,7 @@ export class MultiBarChartComponent implements OnInit {
               text: this.yAxisLabel,
               style: {
                 color: 'black',
-                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 fontWeight: "bold"
               }
             },
@@ -507,7 +508,7 @@ export class MultiBarChartComponent implements OnInit {
             labels: {
               style: {
                 color: 'black',
-                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
               },
               formatter: function () {
                 return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -556,35 +557,22 @@ export class MultiBarChartComponent implements OnInit {
             enabled: true,
             align: 'right',
             verticalAlign: 'top',
+            itemStyle:{
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            }
           },
           credits: {
             enabled: false
           },
           series: [
-            // {
-            //   dataLabels: {
-            //     enabled: true,
-            //     style: {
-            //       fontWeight:  800,
-            //       fontSize: '12px',
-            //       // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-            //     },
-            //     formatter: function () {
-            //       // return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            //       return this.y + " (100 %)"
-            //     }
-            //   },
-            //   color: '#396EB0',
-            //   name: '% Expected Enrollment',
-            //   data: this.data
-            // },
+           
             {
               dataLabels: {
                 enabled: true,
                 style: {
                   fontWeight:  800,
-                  fontSize: '12px',
-                  // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                  // fontSize: '12px',
+                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 },
                 formatter: function () {
                   
@@ -605,8 +593,8 @@ export class MultiBarChartComponent implements OnInit {
                 enabled: true,
                 style: {
                   fontWeight: 800,
-                  fontSize: '12px',
-                  // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                  // fontSize: '12px',
+                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 },
                 formatter: function () {
                   if(level == 'district' || level == 'program'){
@@ -626,8 +614,8 @@ export class MultiBarChartComponent implements OnInit {
                 enabled: true,
                 style: {
                   fontWeight:  800,
-                  fontSize: '12px',
-                  // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                  // fontSize: '12px',
+                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 },
                 formatter: function () {
                   if(level == 'district'){
@@ -691,7 +679,7 @@ export class MultiBarChartComponent implements OnInit {
             text: this.yAxisLabel,
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               fontWeight: "bold"
             }
           },
@@ -709,7 +697,7 @@ export class MultiBarChartComponent implements OnInit {
           labels: {
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
             },
             formatter: function () {
               return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -762,6 +750,9 @@ export class MultiBarChartComponent implements OnInit {
           enabled: true,
           align: 'right',
           verticalAlign: 'top',
+          itemStyle:{
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+          }
         },
         credits: {
           enabled: false
@@ -788,8 +779,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 
@@ -810,8 +801,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight: 800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 if(level == 'district'){
@@ -831,8 +822,8 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                fontSize: '12px',
-                // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
                 if(level == 'district'){
@@ -895,17 +886,9 @@ export class MultiBarChartComponent implements OnInit {
       }
       if (reportName == "enroll/comp") {
 
-      // obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category.parent.name} 
-      //        ${xData[point.index] ? `<br><b>Enrollment: </b>${xData[0][1][point.index]}<br><b>Completion: </b>${xData[0][2][point.index]}<br>
-      //        <b>Percet Completion: </b>${xData[0][0][point.index]}%
-      //        ` : ''}`
+     
       let seriess = series.chart.series;
   
-    //   for(var i=0; i<seriess.length; i++) {
-               
-    //      obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category} 
-    //             <br><b>${series.name}: </b>${point.options.y}<br>`;
-    // }
             return obj;
       }
     }
