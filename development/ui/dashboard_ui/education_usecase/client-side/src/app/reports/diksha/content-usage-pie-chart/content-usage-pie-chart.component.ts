@@ -38,7 +38,7 @@ export class ContentUsagePieChartComponent implements OnInit {
     ) { }
 
     width = window.innerWidth;
-  height = window.innerHeight;
+    height = window.innerHeight;
   onResize() {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -59,9 +59,7 @@ export class ContentUsagePieChartComponent implements OnInit {
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getStateData();
-    // this.getDistData();
-    // this.createDistPiechart();
-    
+   
   }
  
  public skul = true;
@@ -310,7 +308,6 @@ onStateDropSelected(data){
     //  })
     
      let createdDiv;
-
      const mainContainer = document.getElementById('container1');
      function removeAllChildNodes(parent) {
       while (parent.firstChild) {
@@ -326,11 +323,26 @@ onStateDropSelected(data){
       var distWiseUsage =  el.totalContentDistWise
       var perOverState = el.percentOverState
      var distChartData = []
+    
      
      createdDiv = document.createElement('div');
       createdDiv.style.display = 'inline-block';
-      createdDiv.style.width = '370px';
-      createdDiv.style.height = "350px";
+      // createdDiv.style.width = '370px';
+      // createdDiv.style.height = "350px";
+      // createdDiv.style.width = "600px"
+      // createdDiv.style.height = "580px"
+      // if(this.height > 1160 && this.height < 1760 ){
+      //   console.log('this.eight', this.height)
+      //   createdDiv.style.width = "600px"
+      // createdDiv.style.height = "580px"
+      // }else{
+      //   console.log('this.eight', this.height)
+      //   createdDiv.style.width = '370px';
+      // createdDiv.style.height = "350px";
+      // }
+       console.log('inner',window.innerHeight)
+      createdDiv.style.width = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "600px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
+      createdDiv.style.height = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "580px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
       
       // createdDiv.id = `text${i}`
       
@@ -349,6 +361,10 @@ onStateDropSelected(data){
         },
         title:{
           text:  `${distName}-Total Content Usage: ${distWiseUsage} (${perOverState}%)`,
+          style:{
+            fontWeight: 'bold',
+            fontSize: window.innerHeight > 1760 ? "32px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "24px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "12px" : "10px",
+          }
         },
         // colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
         credits: {
@@ -356,7 +372,8 @@ onStateDropSelected(data){
         },
         plotOptions: {
           pie: {
-            size: 100,
+            // size: 250,
+            size: window.innerHeight > 1760 ? 400 : window.innerHeight > 1160 && window.innerHeight < 1760 ? 250 : window.innerHeight > 667 && window.innerHeight < 1160 ? 100 : 100,
               allowPointSelect: true,
               cursor: 'pointer',
               dataLabels: {
@@ -365,7 +382,7 @@ onStateDropSelected(data){
                   style: {
                     // color: 'blue',
                     // fontWeight: 'bold',
-                    fontSize: '0.6rem'
+                    fontSize: window.innerHeight > 1760 ? "32px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "22px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "12px" : "10px",
                 }
               },
               showInLegend: false
@@ -424,22 +441,25 @@ onStateDropSelected(data){
     legend: {
       layout:  'vertical',
       align: 'left',
-      // horizontalAlign: 'middle',
-      borderWidth: 0,
-      // width: '70%',
-      // itemWidth: '30%',
-      // itemMarginTop: 10,
-      itemMarginBottom: 7,
-      style: {
+      maxHeight: this.height > 1760 ? 800 : this.height > 1160 && this.height < 1760 ? 700 : this.height > 667 && this.height < 1160 ? 400 : 400,
+      verticalAlign: 'top',
+      // // horizontalAlign: 'middle',
+      // borderWidth: 0,
+      // width: '20%',
+      // // itemWidth: '30%',
+      // // itemMarginTop: 10,
+      // itemMarginBottom: 7,
+      itemStyle: {
         // color: 'blue',
         // fontWeight: 'bold',
-        fontSize: '0.5rem',
-        lineHeight: 2
+        fontSize:this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+        lineHeight: 3
     }
     },
     plotOptions: {
         pie: {
-          size: 280,
+          // size: 280,
+            size: this.height > 1760 ? 800 : this.height > 1160 && this.height < 1760 ? 600 : this.height > 667 && this.height < 1160 ? 280 : 280,
             allowPointSelect: true,
             cursor: 'pointer',
             dataLabels: {
@@ -448,7 +468,7 @@ onStateDropSelected(data){
                 style: {
                   // color: 'blue',
                   // fontWeight: 'bold',
-                  fontSize: '0.6rem'
+                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
               }
             },
             showInLegend: true
