@@ -5,7 +5,7 @@
           <div class="col-lg-9 col-md-9 col-sm-12">
             <div>
               <p id="dist">
-                Usage per capita:
+               Report on Usage Per Capita:
                 <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
               </p>
             </div>
@@ -49,7 +49,7 @@
   
     <div class="row reportContainer">
       <div class="col-sm-12">
-        <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }">
+        <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '83%' : '100%' }">
           <div #mapContainer id="etbMap" class="active" [ngStyle]="{
                   height:
                     height > 1760
@@ -62,9 +62,10 @@
                 }"></div>
         </div>
   
-        <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%; z-index: 100;">
+        <div *ngIf="selected == 'absolute'" style="float: right; width: 16%; margin-left: 1%; margin-top: 1%; z-index: 100;">
           <h5 id="legend" style="margin-left: 15%">
-            Legend
+            Usage Per Capita<br>
+            
             <img *ngIf=" valueRange != -1 && valueRange !== undefined" id="resetImg" src="../../../../assets/images/reset.png"
               alt="reset" title="Reset to all" style="
                 cursor: pointer;
@@ -75,8 +76,18 @@
                 border-radius: 20px;
                 padding: 5px;
                 margin-top: -5px;
-              " (click)="reset('0-100')" />
+              " (click)="reset('all')" />
           </h5>
+          <h5 class=""  [ngStyle]="{
+            fontSize:
+              height > 1760
+                ? '33px'
+                : height > 1160 && height < 1760
+                ? '25px'
+                : height > 667 && height < 1160
+                ? '12px'
+                : '12px'
+          }" ><Strong>Note:</Strong> Quartile percentage calculated based on Per Capita</h5>
           <div *ngFor="let value of values; let i = index">
             <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
               [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"
@@ -85,16 +96,44 @@
             </span>
           </div>
         </div>
+        <div style="float: right; width: 15%; margin-left: 1%; margin-top: 3%; z-index: 100;">
+          <h5  style="margin-left: 1%;  font-weight: bold;"
+          [ngStyle]="{
+            fontSize:
+              height > 1760
+                ? '33px'
+                : height > 1160 && height < 1760
+                ? '22px'
+                : height > 667 && height < 1160
+                ? '12px'
+                : '12px'
+          }"> <u>Usage Outside State:-</u></h5> 
+          <!-- <span  class="legends"style="text-align: center; font-size: 12px;">Expected Users: {{otherStateExpectdUser}}</span><br> -->
+          <span  class="legends"style="text-align: center; font-size: 12px;">Actual Users: {{otherStateActualUsers}}</span><br>
+          <span class="legends"  style="text-align: center; font-size: 12px;">Total Content Plays: {{otherStateContentPlays}}</span><br>
+          <!-- <span class="legends"  style="text-align: center; font-size: 12px;">Play per Capita: {{otherStatePlayPerCapita}}</span><br>     -->
+         
+        </div>
       </div>
   
     </div>
-    <div class="row d-flex justify-content-around" id="footer">
-      <div class="col-sm-5">
+    <div class="row d-flex justify-content-around text-center" id="footer">
+      
+      <div class="col-sm-3">
+        <span id="schools" class="note" style="text-align: center">Expected Users: {{stateExpectedUsers}}  </span>
+      </div>
+      <div class="col-sm-3">
+        <span id="schools" class="note" style="text-align: center">Actual Users: {{stateActualUsers}}  </span>
+      </div>
+      <div class="col-sm-3">
         <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
       </div>
-      <div class="col-sm-5 d-flex justify-content-end">
-        <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}</span>
+      <div class="col-sm-3">
+        <span id="schools" class="note" style="text-align: center">Play per Capita: {{statePlayPerCapita}} </span>
       </div>
+      <!-- <div class="col-sm-3 d-flex justify-content-end">
+        <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}</span>
+      </div> -->
     </div>
   </div>
   <div id="spinner">

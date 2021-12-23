@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts";
+import _ from "lodash";
 
 // import addMore from "highcharts/highcharts-more";
 import HC_exportData from "highcharts/modules/export-data";
@@ -19,7 +20,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   chartOptions;
 
   public state;
-
+  public reportName = "overTheYears"
   constructor(
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
@@ -35,7 +36,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.commonService.errMsg();
+    this.commonService.errMsg();
     this.changeDetection.detectChanges();
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
@@ -55,7 +56,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   emptyChart() {
     this.chartData = [];
     this.reportData = [];
-    this.fileName = "";
+    this.fileName = "Total_content_play_over_years";
     // this.districtHierarchy = {};
     // this.blockHierarchy = {};
     // this.clusterHierarchy = {};
@@ -95,7 +96,6 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   public distChartData;
 
   getDistrict() {
-    this.fileName = `Total_content_play_district`;
     try {
       this.service.getDistTotalCotentPlayLine().subscribe((res) => {
         this.distData = res["data"];
@@ -145,6 +145,8 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
           this.distName = distName.district_name;
         }
       });
+
+      this.fileName = `Total_content_play_${this.distName}`;
       this.distChartData = this.distData.data.filter((dist) => {
         return dist.district_id == this.selectedDist;
       });
@@ -181,28 +183,68 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
 
   //download UI data::::::::::::
 
-  downloadReport() {
-    this.dataToDownload = [];
-    this.reportData.forEach((element) => {
-      if(this.dist){
-        this.selectedDistricts.forEach(district => {
-         let distData = this.distData.data.filter((dist) => {
-            return dist.district_id == district
-          });
-          // let distData = this.distData[district];
-          let distName = distData[0].district_name;
-          let objectValue = distData.find(metric => metric.month === element.month);
+  // downloadReport() {
+  //   this.dataToDownload = [];
+  //   this.reportData.forEach((element) => {
+  //     if(this.dist){
+  //       this.selectedDistricts.forEach(district => {
+  //        let distData = this.distData.data.filter((dist) => {
+  //           return dist.district_id == district
+  //         });
+  //         // let distData = this.distData[district];
+  //         let distName = distData[0].district_name;
+  //         let objectValue = distData.find(metric => metric.month === element.month);
           
-          element[distName] = objectValue && objectValue.plays ? objectValue.plays : 0;
-        });
-      }
+  //         element[distName] = objectValue && objectValue.plays ? objectValue.plays : 0;
+  //       });
+  //     }
      
 
-      // }
+  //     // }
+  //     this.newDownload(element);
+  //   });
+  //   this.commonService.download(this.fileName, this.dataToDownload);
+  // }
+
+
+  downloadReport() {
+    this.dataToDownload = [];
+     let selectedDistricts = []
+     
+    if(this.selectedDist){
+       selectedDistricts = this.distToDropDown.filter(districtData => {
+          return districtData.district_id === this.selectedDist
+        })
+    }else{
+       selectedDistricts = this.distToDropDown.slice()
+    }
+     let reportData = _.cloneDeep(this.reportData);
+    reportData.forEach((element) => {
+     selectedDistricts.forEach((district) => {
+       
+      //  let distData = this.distData[district.district_id]
+        let distData = this.distData.data.filter(districtData => {
+          return districtData.district_id === district.district_id
+        })
+            
+        let objectValue = distData.find(
+          (metric) => metric.month === element.month
+        );
+
+        let distName = district.district_name;
+
+        element[distName] =
+          objectValue && objectValue.plays
+            ? objectValue.plays
+            : 0;
+       
+      });
       this.newDownload(element);
     });
-    this.commonService.download(this.fileName, this.dataToDownload);
+    this.commonService.download(this.fileName, this.dataToDownload, this.reportName);
   }
+
+
   changeingStringCases(str) {
     return str.replace(/\w\S*/g, function (txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -225,15 +267,25 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       yAxis: {
         title: {
           text: "Total Content Play",
+          style:{
+            color: 'black',
+            fontWeight: 'bold',
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          }
         },
         style: {
           color: 'black',
+          fontWeight: 'bold',
           fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
         },
         // formatter: function () {
         //   return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
         // }
         labels: {
+          style:{
+            color: 'black',
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          },
           formatter: function () {
               var label = this.axis.defaultLabelFormatter.call(this);
 
@@ -248,30 +300,33 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
 
       xAxis: {
         title: {
-          text: "Days",
+          text: "Months",
+          style:{
+            color: 'black',
+            fontWeight: 'bold',
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          }
+         
+        },
+        margin :"5px",
+        // style: {
+        //   fontWeight: "900",
+        //   color: 'black',
+        //   fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+        // },
+        labels:{
+          style:{
+            fontWeight: "900",
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          }
         },
         type: "datetime",
+        // categories: []
         categories: this.catgory,
-        // labels: {
-        //   formatter: function() {
-        //     return Highcharts.dateFormat('%b/%e/%Y', this.value);
-        //   }
-        // }
+       
       },
 
-      // xAxis: {
-      //   title: {
-      //     text: 'Days'
-      // },
-      //   min:Date.UTC(2020, 5, 1),
-      //   max:Date.UTC(2021, 10, 1),
-      //   //allowDecimals: false,
-      //   type           : 'datetime',
-      //   tickInterval   : 24 * 3600 * 1000*30, //one day
-      //   labels         : {
-      //       rotation : 0
-      //   },
-      // },
+      
       credits: {
         enabled: false,
       },
@@ -284,17 +339,17 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         formatter: function () {
           if (this.point.category != 0) {
             return '<span> <b>  Month:' +' '+ this.x +
-            '</b>'+ '<br>' +'<b> Value:' + ' '+ this.y.toLocaleString('en-IN')+ '</b></span>';
+            '</b>'+ '<br>' +'<b> Total Content Play:' + ' '+ this.y.toLocaleString('en-IN')+ '</b></span>';
           } else {
             return false;
           }
         }
       },
-      // legend: {
-      //   layout: "vertical",
-      //   align: "right",
-      //   verticalAlign: "middle",
-      // },
+      legend: {
+        itemStyle: {
+          fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+        }
+      },
 
       plotOptions: {
         series: {
@@ -313,29 +368,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         {
           name: "Total Content Plays",
           data: data,
-          //   data: [{
-          //     name: 'jan-2021',
-          //     y:  43934
-          //   },{
-          //     name: 'jan-2021',
-          //     y:  43934
-          //   }
-          // ]
-          // data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175,69658, 97031, 119931, 137133, 154175,97031, 119931, 137133, 154175,119931]
         },
-        // {
-        //     name: 'Manufacturing',
-        //     data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-        // }, {
-        //     name: 'Sales & Distribution',
-        //     data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-        // }, {
-        //     name: 'Project Development',
-        //     data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-        // }, {
-        //     name: 'Other',
-        //     data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-        // }
       ],
 
       responsive: {

@@ -292,6 +292,20 @@
     state: absent
   tags: [ install, update ]
 
+- name: Searching nifi-elasticsearch lib files
+  find:
+    paths: "{{ base_dir }}/cqube/nifi/nifi/lib"
+    patterns: "nifi-elasticsearch*"
+  register: files_to_delete
+  tags: [ install, update ]
+
+- name: Deleting nifi-elasticsearch lib files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
+  tags: [ install, update ]
+
 - name: Restart NiFi
   shell: "{{ base_dir }}/cqube/nifi/nifi/bin/nifi.sh restart"
   tags: [ install, update ]

@@ -30,5 +30,13 @@ export class EnrollmentProgressLineChartService {
     this.service.logoutOnTokenExpire();
     return this.http.get(`${this.baseUrl}/diksha/enrollmentProgress/allCourse`);
   }
+  enrollProgam() {
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/diksha/enrollmentProgress/allPrograms`);
+  }
+  enrollProgamWiseColl() {
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/diksha/enrollmentProgress/allProgCollection`);
+  }
 
 }

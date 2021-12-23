@@ -97,7 +97,10 @@ export class DikshaReportService {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/tpd/allDistData`, data);
   }
-
+  tpdProgramData(){
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/tpd/programData`);
+  }
   tpdgetCollection(data) {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/tpd/getCollections`, data);

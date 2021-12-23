@@ -19491,9 +19491,9 @@
 </value>
                             </entry>
                             <entry>
-<key>azureolute.path</key>
+<key>absolute.path</key>
 <value>
-    <name>azureolute.path</name>
+    <name>absolute.path</name>
 </value>
                             </entry>
                             <entry>
@@ -19534,7 +19534,7 @@
 <value>100</value>
                             </entry>
                             <entry>
-<key>azureolute.path</key>
+<key>absolute.path</key>
 <value>#{emission_directory}diksha/</value>
                             </entry>
                             <entry>
@@ -41770,11 +41770,11 @@ ${query_type:startsWith('sat_management_subject_footer_district_last_7_days'):if
                             </entry>
                             <entry>
 <key>emission_filename</key>
-<value>${azureolute.path:isEmpty():ifElse('',${path})}${filename}</value>
+<value>${absolute.path:isEmpty():ifElse('',${path})}${filename}</value>
                             </entry>
                             <entry>
 <key>source</key>
-<value>${source:isEmpty():ifElse(${azureolute.path:isEmpty():ifElse('s3','local')},${source})}</value>
+<value>${source:isEmpty():ifElse(${absolute.path:isEmpty():ifElse('s3','local')},${source})}</value>
                             </entry>
                             <entry>
 <key>source.uuid</key>
@@ -51018,7 +51018,7 @@ WHERE ff_uuid = '${source.uuid}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
-<value>true</value>
+<value>false</value>
                             </entry>
                             <entry>
 <key>database-session-autocommit</key>
@@ -54265,7 +54265,7 @@ ${query_type:startsWith('sat_exception_management_grade_school_last_30_days'):if
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>${azureolute.path}/${filename}</value>
+<value>${absolute.path}/${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -60588,6 +60588,7 @@ ${query_type:startsWith('diksha_tpd_district_wise'):ifElse('diksha_tpd/district/
 ${query_type:startsWith('diksha_tpd_block_wise'):ifElse('diksha_tpd/block/${type}.json',
 ${query_type:startsWith('diksha_tpd_cluster_wise'):ifElse('diksha_tpd/cluster/${type}.json',
 ${query_type:startsWith('diksha_tpd_school_wise'):ifElse('diksha_tpd/school/${type}.json',
+${query_type:startsWith('diksha_tpd_r2_certificate_meta'):ifElse('diksha_tpd/report2/course_certificate_meta.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_day'):ifElse('diksha_tpd/report2/last_day/district/${type}.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/district/${type}.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/district/${type}.json',
@@ -60596,14 +60597,17 @@ ${query_type:startsWith('diksha_tpd_r2_district_overall'):ifElse('diksha_tpd/rep
 ${query_type:startsWith('diksha_tpd_r2_block_last_day'):ifElse('diksha_tpd/report2/last_day/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_block_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_block_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/block/${type}/${id}.json',
+${query_type:startsWith('diksha_tpd_r2_block_last_90_days'):ifElse('diksha_tpd/report2/last_90_days/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_block_overall'):ifElse('diksha_tpd/report2/overall/block/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_day'):ifElse('diksha_tpd/report2/last_day/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/cluster/${type}/${id}.json',
+${query_type:startsWith('diksha_tpd_r2_cluster_last_90_days'):ifElse('diksha_tpd/report2/last_90_days/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_cluster_overall'):ifElse('diksha_tpd/report2/overall/cluster/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_last_day'):ifElse('diksha_tpd/report2/last_day/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/school/${type}/${id}.json',
+${query_type:startsWith('diksha_tpd_r2_school_last_90_days'):ifElse('diksha_tpd/report2/last_90_days/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_tpd_r2_school_overall'):ifElse('diksha_tpd/report2/overall/school/${type}/${id}.json',
 ${query_type:startsWith('diksha_stack_bar_raw_all_last_day'):ifElse('diksha_raw_data/stack_bar_reports/last_day/last_day.csv',
 ${query_type:startsWith('diksha_stack_bar_raw_all_last_7_days'):ifElse('diksha_raw_data/stack_bar_reports/last_7_days/last_7_days.csv',
@@ -60640,12 +60644,14 @@ ${query_type:startsWith('diksha_pie_etb_meta_district'):ifElse('diksha/pie/distr
 ${query_type:startsWith('diksha_hbar_crs_state'):ifElse('diksha/hbar/course/state.json',
 ${query_type:startsWith('diksha_hbar_crs_district'):ifElse('diksha/hbar/course/district.json',
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_dist'):ifElse('diksha_tpd/enrolment_progress/all_collection_district.json',
-${query_type:startsWith('diksha_tpd_enrolment_progress_district'):ifElse('diksha_tpd/enrolment_progress/district.json',
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_course'):ifElse('diksha_tpd/enrolment_progress/all_course.json',
-${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse('diksha_tpd/enrolment_progress/state.json','None')}
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}
+${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse('diksha_tpd/enrolment_progress/state.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_coll_state'):ifElse('diksha_tpd/enrolment_progress/all_collections_state.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse('diksha_tpd/enrolment_progress/all_programs.json',
+${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse('diksha_tpd/enrolment_progress/all_programs_collections.json','None')}
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )} )})}
-)})})})})})})})})})}</value>
+)})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -60714,7 +60720,7 @@ ${query_type:startsWith('diksha_tpd_enrolment_progress_state'):ifElse('diksha_tp
                             <entry>
 <key>log-message</key>
 <value>Processing started with the ${filename}
-Sucessfully fetched ${filename} from ${azureolute.path}.</value>
+Sucessfully fetched ${filename} from ${absolute.path}.</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -68998,7 +69004,7 @@ ${query_type:startsWith('sat_management_subject_footer_district_last_7_days'):if
                         <properties>
                             <entry>
 <key>File to Fetch</key>
-<value>${azureolute.path}/${filename}</value>
+<value>${absolute.path}/${filename}</value>
                             </entry>
                             <entry>
 <key>Completion Strategy</key>
@@ -71775,7 +71781,7 @@ ${emission_filename:substringAfter('/'):startsWith('diksha_data_summary'):ifElse
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>udise_s3_output_log_summary</name>
+                    <name>diksha_s3_output_log_summary</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -77687,5 +77693,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/09/2021 13:36:04 IST</timestamp>
+    <timestamp>12/23/2021 14:06:57 IST</timestamp>
 </template>

@@ -8,9 +8,7 @@
                 <p id="block">
                   Report on Content Preference:
                   <span (click)="clickHome()"style="cursor: pointer; text-decoration: underline">{{state}}</span>
-                  <!-- <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
-                    style="cursor: pointer; text-decoration: underline" class="selected-level">
-                    {{ districtHierarchy.districtName }}</span> -->
+                
                 </p>
               </div>
              
@@ -49,15 +47,7 @@
           </div>
           <div class="row" style="margin-bottom: 10px">
             <div class="col-sm-12 d-flex">
-<!--     
-               <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
-                <option [value]="selectedDist" disabled selected="selected">
-                  Choose a District
-                </option>
-                <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
-                  {{ dist.district_name }}
-                </option>
-              </select>  -->
+
              
                <select id="choose_infra" [(ngModel)]="selectedDrop" (change)="onStateDropSelected(selectedDrop)" >
                 <option  disabled selected="selected">
@@ -84,57 +74,61 @@
         </div>
       </div>
     <div class="row reportContainer d-flex flex-wrap">
-      <div  *ngIf = 'distToggle' class="col-lg-8" style = "height: 70vh" >
-        <h4>State Level Usage</h4>
-        <div id="container" class="active" ></div>
+      <div  *ngIf = 'distToggle' class="col-lg-8">
+        <h5 style="text-align: center; font-weight: bold;" [ngStyle]="{
+          fontSize:
+            height > 1760
+              ? '32px'
+              : height > 1160 && height < 1760
+              ? '25px'
+              : height > 667 && height < 1160
+              ? '24px'
+              : '15px'
+        }">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
+        <div id="container"  [ngStyle]="{
+          height:
+            height > 1760
+              ? '84vh'
+              : height > 1160 && height < 1760
+              ? '82vh'
+              : height > 667 && height < 1160
+              ? '78vh'
+              : '73vh'
+        }" class="active" ></div>
       </div>
 
       <div  *ngIf = '!distToggle' class="col-lg-12" style = "height: 70vh" >
-        <h4>State Level Usage</h4>
-        <div id="container" class="active" ></div>
+        <h5 style="text-align: center; font-weight: bold;" [ngStyle]="{
+          fontSize:
+            height > 1760
+              ? '50px'
+              : height > 1160 && height < 1760
+              ? '32px'
+              : height > 667 && height < 1160
+              ? '24px'
+              : '15px'
+        }">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
+        <div id="container"  [ngStyle]="{
+          height:
+            height > 1760
+              ? '84vh'
+              : height > 1160 && height < 1760
+              ? '82vh'
+              : height > 667 && height < 1160
+              ? '78vh'
+              : '73vh'
+        }"class="active" ></div>
       </div>
     
-      <div *ngIf = 'distToggle' class = "col-lg-4 justify-content-center" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;">
+      <div *ngIf = 'distToggle' class = "col-lg-4 justify-content-center" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;"
+     
+      >
         <h4>District Level Data</h4>
-        <!-- <app-pie-chart [data]= 'distPieData'></app-pie-chart> -->
+       
        </div> 
-        <!-- <div class="col-lg-4 d-flex flex-wrap" style="max-height: 70vh; overflow-y: scroll;">
-          <div class="col-lg-12">
-            <h4>District Level Usage</h4>
-          </div>
-          
-          <div class="col-lg-12 d-flex" *ngFor="let dist of distToDropDown">
-            {{dist.district_id}}
-              <div id=`container{{dist.district_id}}` class="active border" style="width: 300px;height: 400px" ></div>
-              
-          </div> -->
-         
-              
-             <!-- <div
-             id="container2" 
-            class="active col-6" ></div>
-            <div
-            id="container3" 
-           class="active col-6 bg-success" ></div>
-           <div
-           id="container4" 
-          class="active col-6 bg-danger" ></div> -->
+       
     </div>
  
-  <!-- </div> -->
-
-  <!-- <div class="row">
-    <div class="col-lg-4">
-      <app-diskha-pie-chart></app-diskha-pie-chart>
-    </div>
-    <div class="col-lg-4">
-      <app-diskha-pie-chart></app-diskha-pie-chart>
-    </div>
-    <div class="col-lg-4">
-      <app-diskha-pie-chart></app-diskha-pie-chart>
-    </div>-->
-   <!-- </div> -->
-
   
   <div id="spinner">
     <div id="loader" class="loading">Loading&#8230;</div>

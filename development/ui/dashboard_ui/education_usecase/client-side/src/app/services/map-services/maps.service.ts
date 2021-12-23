@@ -151,6 +151,7 @@ export class MapService {
             key.replace(
               /\w\S*/g,
               function (txt) {
+                txt = txt.replace("ETB","Etb")
                 txt = txt.replace('Id', '_id');
                 txt = txt.replace('Name', '_name');
                 txt = txt.replace(/_/g, ' ');
@@ -173,6 +174,13 @@ export class MapService {
             key.replace(
               /\w\S*/g,
               function (txt) {
+                txt = txt.replace("ETB","ETB")
+                if (txt.includes('expected_ETB_users') ) {
+                  return txt =  txt.replace('expected_ETB_users', 'Expected_ETB_Users')
+                }
+                if (txt.includes('actual_ETB_users') ) {
+                  return txt = txt.replace('actual_ETB_users', 'Actual_ETB_Users')
+                }
                 txt = txt.replace('Id', '_id');
                 txt = txt.replace('Name', '_name');
                 txt = txt.replace(/_/g, ' ');
@@ -186,6 +194,7 @@ export class MapService {
                 } else {
                   return toTitleCase(txt);
                 }
+               
               })
 
             + "</b>" + ": " + object[key] + `</span>`;

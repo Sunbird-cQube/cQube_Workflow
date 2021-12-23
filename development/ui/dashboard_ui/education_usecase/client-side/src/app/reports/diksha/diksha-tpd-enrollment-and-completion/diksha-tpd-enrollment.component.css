@@ -8,3 +8,121 @@
       overflow-y: scroll;
   }
   
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+
+  .vl {
+    border-left: 1px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 49%;
+  }
+
+  .vl2 {
+    border-left: 1px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 60%;
+  }
+
+  .dropDownInput{
+     width: '200px'
+  }
+
+  
+
+#SearchDropDown .ng-select .ng-select-container .ng-value-container .ng-placeholder{
+  color: white !important;
+  /* font-size: 16px; */
+}
+@media screen and (min-width: 786px){
+  .vl {
+    
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 37%;
+  }
+
+  .vl2 {
+    
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 63%;
+  }
+}
+
+
+@media (min-width:2052px) and (max-width:2732px)
+{
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 37%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 66%;
+  }
+}
+
+@media (min-width:2733px) and (max-width:4102px) 
+{
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 37.5%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 67%;
+  }
+}
+
+@media (min-width:4103px) and (max-width:5464px)
+ {
+  .vl {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 36%;
+  }
+
+  .vl2 {
+    border-left: 1.5px dotted black;
+    height: 70vh;
+    position: absolute;
+    z-index: 100;
+    top: 10%;
+    left: 66.3%;
+  }
+ }

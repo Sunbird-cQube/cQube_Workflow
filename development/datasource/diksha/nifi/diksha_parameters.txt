@@ -14,9 +14,23 @@
   {
     "operation": "shift",
     "spec": {
-      "*": "data"
+      "*": {
+        "object_type": "data.[&1].object_type",
+        "color_code": "data.[&1].color_code",
+        "total_content_plays_percent": "data.[&1].total_content_plays_percent",
+        "@total_content_plays": "data.[&1].total_content_plays",
+        "total_content_plays": "footer.total_content_plays[]"
+      }
     }
-  }
+  },
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "footer": {
+        "total_content_plays": "=intSum(@(1,total_content_plays))"
+      }
+    }
+	}
 ]""",
 "diksha_progress_exhaust_queries_filename":"""diksha_tpd_queries.json""",
 "diksha_tpd_jolt_for_log_summary":"""[{
@@ -100,7 +114,7 @@
 "diksha_data_summary_less_tmp_to_trans":"""select insert_diksha_trans()""",
 "save_to_diksha_tpd_dup":"""diksha_tpd_dup""",
 "save_to_diksha_tpd_agg":"""insert into diksha_tpd_agg(collection_id,collection_name,collection_progress,total_enrolled,total_completed,enrolled_date,
-school_id,school_name,cluster_id,cluster_name,block_id,block_name,district_id,district_name,created_on,updated_on)
+school_id,school_name,cluster_id,cluster_name,block_id,block_name,district_id,district_name,certificate_count,created_on,updated_on)
 select collection_id,collection_name,avg(progress) as collection_progress,
 count(distinct(uuid)) as total_enrolled,count(distinct(uuid)) filter (where progress=100) as total_completed,
 enrolment_date as enrolled_date, tpd.school_id,
@@ -111,6 +125,7 @@ CASE WHEN block_id is null THEN 9999 ELSE block_id END as block_id,
 CASE WHEN  block_name is null THEN 'Others' ELSE initcap(block_name) END as block_name,
 CASE WHEN district_id is null THEN 9999 ELSE district_id END as district_id,
 CASE WHEN  district_name is null THEN 'Others' ELSE initcap(district_name) END as district_name,
+count(distinct(uuid)) filter (where certificate_status='Issued') as certificate_count,
 now(),now() from diksha_tpd_trans as tpd left join (
 select school_id,school_name,cluster_id,cluster_name,block_id,block_name,district_id,district_name from school_hierarchy_details
 where school_name is not null and district_name is not null and cluster_name is not null and block_name is not null) as scl_hry on tpd.school_id=scl_hry.school_id
@@ -121,7 +136,7 @@ do update set
 school_id=excluded.school_id,school_name=excluded.school_name,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,
 block_id=excluded.block_id,block_name=excluded.block_name,district_id=excluded.district_id,district_name=excluded.district_name,
 collection_id=excluded.collection_id,collection_name=excluded.collection_name,collection_progress=excluded.collection_progress,
-total_enrolled=excluded.total_enrolled,total_completed=excluded.total_completed,
+total_enrolled=excluded.total_enrolled,total_completed=excluded.total_completed,certificate_count=excluded.certificate_count,
 enrolled_date=excluded.enrolled_date,updated_on=now()""",
 "save_to_diksha_dup":"""diksha_dup""",
 "JoltTransformJSON_all_collections":"""[
@@ -192,11 +207,13 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "total_time_spent": "data.[&1].total_time_spent",
-        "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
-        "others_percentage": "footer.others_percentage[]"
+        "@total_time_spent": "data.[&1].total_time_spent",
+        "total_time_spent": "footer.total_time_spent[]",
+        "avg_time_spent": "data.[&1].avg_time_spent",
+        "others_percentage": "footer.others_percentage[]",
+        "average_time_state": "footer.average_time_state[]"
       }
     }
 },
@@ -205,14 +222,16 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "spec": {
       "footer": {
         "total_content_plays": "=doubleSum(@(1,total_content_plays))",
-        "others_percentage": "=firstElement(@(1,others_percentage))"
+        "total_time_spent": "=doubleSum(@(1,total_time_spent))",
+        "others_percentage": "=firstElement(@(1,others_percentage))",
+        "average_time_state": "=firstElement(@(1,average_time_state))"
       }
     }
 	}
-
 ]""",
 "diksha_tpd_temp_tb":"""diksha_tpd_content_temp""",
-"diksha_columns":"""false""",
+
+
 "diksha_data_summary_select_all_columns_api":"""select "Date",dimensions_pdata_id,dimensions_pdata_pid,content_name,content_board,content_mimetype,content_medium,content_gradelevel,content_subject,content_created_for,
 object_id,object_type,object_rollup_l1,derived_loc_state,derived_loc_district,user_signin_type,user_login_type,collection_name,collection_board,collection_type,
 collection_medium,collection_gradelevel,collection_subject,collection_created_for,total_count,total_timespent from flowfile""",
@@ -370,10 +389,12 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
     "operation": "shift",
     "spec": {
       "*": {
-        "@district_name": "data.@(1,district_id).[&1].district_name",
+        "district_name": "data.@(1,district_id).[&1].district_name",
         "color_code": "data.@(1,district_id).[&1].color_code",
-        "@object_type": "data.@(1,district_id).[&1].object_type",
-        "@total_content_plays_percent": "data.@(1,district_id).[&1].total_content_plays_percent"
+        "object_type": "data.@(1,district_id).[&1].object_type",
+        "total_content_plays_districtwise": "data.@(1,district_id).[&1].total_content_plays_districtwise",
+        "percentage_over_state": "data.@(1,district_id).[&1].percentage_over_state",
+        "total_content_plays_percent": "data.@(1,district_id).[&1].total_content_plays_percent"
       }
     }
   },
@@ -392,11 +413,13 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
         "district_name": "data.[&1].district_name",
         "district_latitude": "data.[&1].latitude",
         "district_longitude": "data.[&1].longitude",
-        "total_time_spent": "data.[&1].total_time_spent",
-        "avg_time_spent": "data.[&1].avg_time_spent",
         "@total_content_plays": "data.[&1].total_content_plays",
         "total_content_plays": "footer.total_content_plays[]",
-        "others_percentage": "footer.others_percentage[]"
+        "@total_time_spent": "data.[&1].total_time_spent",
+        "total_time_spent": "footer.total_time_spent[]",
+        "avg_time_spent": "data.[&1].avg_time_spent",
+        "others_percentage": "footer.others_percentage[]",
+        "average_time_state": "footer.average_time_state[]"
       }
     }
 },
@@ -405,13 +428,14 @@ where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
     "spec": {
       "footer": {
         "total_content_plays": "=doubleSum(@(1,total_content_plays))",
-        "others_percentage": "=firstElement(@(1,others_percentage))"
+        "total_time_spent": "=doubleSum(@(1,total_time_spent))",
+        "others_percentage": "=firstElement(@(1,others_percentage))",
+        "average_time_state": "=firstElement(@(1,average_time_state))"
       }
     }
 	}
 
-]
-""",
+]""",
 "diksha_raw_jolt_spec":"""[
   {
     "operation": "shift",
@@ -517,7 +541,7 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "operation": "shift",
     "spec": {
       "*": {
-        "@": "data.[]"
+        "@": "data.@(1,district_id).[]"
       }
     }
   }
@@ -538,8 +562,14 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
         "latitude": "data.[&1].latitude",
         "longitude": "data.[&1].longitude",
         "plays_per_capita": "data.[&1].plays_per_capita",
+        "quartile": "data.[&1].quartile",
+        "@expected_etb_users": "data.[&1].expected_ETB_users",
+        "@actual_etb_users": "data.[&1].actual_ETB_users",
         "@total_content_plays": "data.[&1].total_content_plays",
-        "total_content_plays": "footer.total_content_plays[]"
+        "total_content_plays": "footer.total_content_plays[]",
+        "expected_etb_users": "footer.total_expected_ETB_users[]",
+        "actual_etb_users": "footer.total_actual_ETB_users[]",
+        "per_capita_statewise": "footer.per_capita_statewise[]"
       }
     }
 	},
@@ -548,19 +578,14 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     "operation": "modify-overwrite-beta",
     "spec": {
       "footer": {
-        "total_content_plays": "=intSum(@(1,total_content_plays))"
+        "total_content_plays": "=intSum(@(1,total_content_plays))",
+        "total_expected_ETB_users": "=intSum(@(1,total_expected_ETB_users))",
+        "total_actual_ETB_users": "=intSum(@(1,total_actual_ETB_users))",
+        "per_capita_statewise": "=firstElement(@(1,per_capita_statewise))"
       }
     }
  }
 ]""",
-"diksha_tpd_enrolment_progress_all_coll_dist_jolt_spec":"""[{
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "@": "data."
-      }
-    }
-}]""",
 "diksha_tpd_enrolment_progress_all_course_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
@@ -579,15 +604,40 @@ collection_medium,collection_subject,collection_created_for,total_count,total_ti
     }
 }
 ]""",
-"diksha_tpd_enrolment_progress_district_jolt_spec":"""[
-  {
+  "diksha_tpd_enrolment_progress_all_program_jolt_spec":"""[{
     "operation": "shift",
     "spec": {
       "*": {
-        "@": "data.@(1,district_id)"
+        "@": "data."
       }
     }
-  }
-  ]"""
+}
+]""",
+"diksha_tpd_enrolment_progress_all_prog_coll_jolt_spec":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}
+]""",
+"diksha_tpd_enrolment_progress_all_coll_dist_jolt_spec":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}]""",
+"diksha_tpd_enrolment_progress_all_coll_state_jolt_spec":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@": "data."
+      }
+    }
+}
+]"""
 
 }

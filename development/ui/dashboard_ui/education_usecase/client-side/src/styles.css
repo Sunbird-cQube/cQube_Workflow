@@ -325,6 +325,7 @@ leaflet-right {
 #choose_cluster,
 #time_range,
 #coll_name,
+#coll_input,
 #choose_enroll,
 #choose_infra,
 #academicYear,
@@ -344,6 +345,60 @@ leaflet-right {
     font-weight: bold;
     background: var(--theme-report-button-color);
 }
+
+#SearchDropDown{
+    margin-right: 15px;
+    margin-bottom: 3px;
+    padding: 5.2px;
+    color: white;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    background: var(--theme-report-button-color);
+    height:30px;
+}
+
+
+
+
+#SearchDropDown.ng-select.ng-select-single .ng-select-container{
+    height: 25px;
+    min-height: 25px;
+    background-color: var(--theme-report-button-color); 
+    border: 0;
+    color: white;
+    font-size: 11px;
+}
+
+#SearchDropDown.dropdown-panel .ng-dropdown-panel-items .ng-option{
+    background-color: var(--theme-report-button-color);
+    color: white;
+    font-size: 11px;
+}
+
+#SearchDropDown.ng-select .ng-clear-wrapper{
+   color: white
+}
+
+#SearchDropDown.ng-select .ng-arrow-wrapper .ng-arrow{
+    border-color: white transparent transparent
+}
+ 
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option{
+    background-color: var(--theme-report-button-color) !important;
+    border-bottom: 0.3px solid #444444;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option{
+    color: white !important;
+}
+
+.ng-select .ng-select-container .ng-value-container .ng-placeholder{
+    color: white !important;
+    /* font-size: 16px; */
+  }
+  .ng-select .ng-select-container .ng-value-container .ng-input>input{
+      color: white !important;
+  } 
 
 .legends {
     width: 85%;
@@ -468,6 +523,50 @@ border-color:var(--theme-back-button-border-color);
         font-size: 18px !important;
         max-width: 500px !important;
     }
+
+    /* #SearchDropDown{
+        font-size: 22px;
+        font-weight: bold;
+        height:45px;
+        border: 1px solid gray;
+    } */
+
+    #SearchDropDown{
+        font-size: 22px;
+        font-weight: bold;
+        height:4vh;
+        border: 1px solid gray;
+    }
+
+    #SearchDropDown.ng-select.ng-select-single .ng-select-container{
+        height: 2.5vh;
+        min-height: 2.5vh;
+        border: 0;
+        color: white;
+        font-size: 22px;
+    }
+   
+    .ng-select .ng-select-container .ng-value-container{
+        height:2.7vh
+    }
+      
+     #SearchDropDown.ng-select .ng-clear-wrapper {
+       width: 35px
+     }
+     .ng-select#SearchDropDown .ng-clear-wrapper .ng-clear{
+       font-size: 30px;
+     }
+    #SearchDropDown.ng-select .ng-arrow-wrapper .ng-arrow{
+        border-width: 12px 10px 2.5px
+    }
+    .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+        height:2.7vh,
+    }
+    .ng-select#SearchDropDown.ng-select-container .ng-value-container .ng-placeholder{
+        font-size: 22px !important;
+      }
+
+    
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
@@ -563,6 +662,7 @@ border-color:var(--theme-back-button-border-color);
     #choose_cluster,
     #time_range,
     #coll_name,
+    #coll_input,
     #choose_enroll,
     #choose_infra,
     #academicYear,
@@ -668,6 +768,9 @@ border-color:var(--theme-back-button-border-color);
         font-size: 24px !important;
         max-width: 600px !important;
     }
+
+   
+
     #footer {
         width: 100%;
         border-top: 1px solid #cdccc8;
@@ -763,6 +866,7 @@ border-color:var(--theme-back-button-border-color);
     #choose_cluster,
     #time_range,
     #coll_name,
+    #coll_input,
     #choose_enroll,
     #choose_infra,
     #academicYear,

@@ -21,7 +21,7 @@ import { PerCapitaMapReport } from 'src/app/services/per-capita-map-report.servi
 export class EtbPerCapitaComponent implements OnInit {
 
  
-  state: string;
+  public state: string;
   // initial center position for the map
   public lat: any;
   public lng: any;
@@ -41,14 +41,14 @@ export class EtbPerCapitaComponent implements OnInit {
   public fileName: any;
 
   public myData;
-
+  public reportName;
+  public reportName1 = "perCapita"
   public reportData
   public selectedType = 'total_content_plays';
+  // public selectedType = 'plays_per_capita';
 
   public selected = "absolute";
   public onRangeSelect;
-
-  reportName = "ETB_Per_capita";
 
   mapName
   constructor(
@@ -74,6 +74,7 @@ export class EtbPerCapitaComponent implements OnInit {
 
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
+    this.reportName = `ETB_Per_Capita_${this.state}`
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
@@ -94,6 +95,13 @@ export class EtbPerCapitaComponent implements OnInit {
   totalContentPlays
   othersStatePercentage
   otherStateContentPlays
+  statePlayPerCapita
+  stateExpectedUsers
+  otherStatePlayPerCapita
+  otherStateExpectdUser 
+  stateActualUsers
+  otherStateActualUsers
+  
 
   level;
   googleMapZoom
@@ -175,6 +183,7 @@ export class EtbPerCapitaComponent implements OnInit {
         this.myData = this.service.perCapitaState().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
+           
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
@@ -192,13 +201,18 @@ export class EtbPerCapitaComponent implements OnInit {
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
-            
+            this.statePlayPerCapita = this.data.footer.per_capita_statewise.toLocaleString('en-IN');
+            this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
+            this.stateActualUsers = this.data.footer.total_actual_ETB_users.toLocaleString('en-IN');
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){
-                   this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN')
-                   
-                 }  
+    
+                   this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
+                   this.otherStatePlayPerCapita = item.plays_per_capita.toLocaleString('en-IN');
+                   this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
+                   this.otherStateActualUsers = item.actual_ETB_users.toLocaleString('en-IN');
+                  }  
             });
             // options to set for markers in the map
             let options = {
@@ -321,7 +335,7 @@ export class EtbPerCapitaComponent implements OnInit {
   generateToolTip(marker, level, markerIcon, lat, lng) {
     this.popups(markerIcon, marker, level);
     var infraName = this.selectedType;
-    let colorText = `style='color:blue !important;'`;
+    let colorText = `style='color:"#212121" !important;'`;
     var details = {};
     var orgObject = {};
     Object.keys(marker).forEach((key) => {
@@ -345,28 +359,22 @@ export class EtbPerCapitaComponent implements OnInit {
 
 
   var metrics = {};
-  var yourData1;
+  // var yourData1;
   
   for (var key of Object.keys(orgObject)) {
-    if( key !== 'district_id' && key !== 'district_name')
+    if( key !== 'district_id' && key !== 'district_name' && key !== 'quartile')
     metrics[key] = orgObject[key]
 }
 
 for (var key of Object.keys(orgObject)) {
   if( key === 'total_content_plays')
   metrics[key] = orgObject[key].toLocaleString('en-IN');
+  if( key === 'expected_etb_users')
+  metrics[key] = orgObject[key].toLocaleString('en-IN');
+  if( key === 'actual_etb_users')
+  metrics[key] = orgObject[key].toLocaleString('en-IN');
 }
 
-for (var key of Object.keys(orgObject)) {
-  if( key === 'total_time_spent')
-  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Hours'
-}
-
-for (var key of Object.keys(orgObject)) {
-  if( key === 'avg_time_spent')
-  metrics[key] = orgObject[key].toLocaleString('en-IN') + " "+ 'Seconds'
-}
-    
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
     var yourData = this.globalService.getInfoFrom(metrics, "", level, "infra-map", infraName, colorText)
@@ -415,14 +423,14 @@ for (var key of Object.keys(orgObject)) {
 
 
   public legendColors: any = [
-    "#FFAFAF",
-    "#94B3FD",
     "#9AE66E",
+    "#94B3FD",
+    "#FFAFAF",
   ];
   public values = [
-    "Below Average",
-    "Average",
-    "Above Average"
+    "Upper Quartile ( above 75% )",
+    "Inter Quartile ( 25%-75% )",
+    "Bottom Quartile ( below 25% )",
   ];
 
 
@@ -440,50 +448,33 @@ for (var key of Object.keys(orgObject)) {
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
-  
-    let arr = [];
-    this.selectedType = 'total_content_plays'
-    for(let i = 0; i< this.data.data.length; i++){
-        arr.push(this.data.data[i][`${this.selectedType}`])
-    }
-    arr = arr.sort(function (a, b) { return   parseFloat(a) - parseFloat(b) });
-    
-
-   
-
-    //getting relative colors for all markers:::::::::::
+    // //getting relative colors for all markers:::::::::::
     var markers = [];
 
-    let slabArr = [];
-    // let slabLength = Math.round((arr.length)/3)
-
-    if (index > -1) {
-      let maxArr = arr[arr.length-1]
-      console.log('max', maxArr)
-      let partition = Math.round(maxArr/5)
-      //getting relative colors for all markers:::::::::::
-      
-      let min = partition*index+index;
-      let max = partition*(index+1)
-      slabArr = arr.filter(val => val >= min && val <= max)
-    } else {
-      slabArr = arr;
-    }
-    
     if (value) {
-      
-    
-      this.data.data.map(a => {
-       
-        if(a.latitude){
-          if(a[`${this.selectedType}`] <= Math.max(...slabArr) && a[`${this.selectedType}`] >= Math.min(...slabArr)){
-                
-                markers.push(a);
-              }         
-          
-       }    
-      
-    })
+      this.data.data.map(marker =>{
+        if(marker.latitude){
+            if(value === 'Upper Quartile ( above 75% )'){
+              if(marker['quartile'] === 3 ){
+                  markers.push(marker);
+                }    
+            }else if( value === "Inter Quartile ( 25%-75% )"){
+              if(marker['quartile'] === 2){
+                markers.push(marker);
+              }    
+            }else if( value === "Bottom Quartile ( below 25% )"){
+              if(marker['quartile'] === 1){
+                markers.push(marker);
+              }    
+            }else if( value === "all"){
+              
+                markers.push(marker);
+               
+            }          
+        }
+      })
+   
+
     } else {
       markers = this.data;
     }
@@ -533,7 +524,7 @@ for (var key of Object.keys(orgObject)) {
   downloadReport() {
     var position = this.reportName.length;
     this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
-    this.commonService.download(this.fileName, this.reportData);
+    this.commonService.download(this.fileName, this.reportData, this.reportName1);
   }
 
 
@@ -551,7 +542,7 @@ for (var key of Object.keys(orgObject)) {
     
     Object.keys(details).forEach((key) => {
       var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
-      if (key !== "longitude") {
+      if (key !== "longitude" && key !== 'quartile') {
         orgObject[`${str}`] = details[key];
       }
     });

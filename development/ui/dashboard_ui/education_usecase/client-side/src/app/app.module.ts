@@ -36,6 +36,10 @@ import { SatTrendsChartComponent } from './reports/student-performance/sat-trend
 import { apiKeys } from './apis.config';
 import { progressCardComponent } from './reports/progressCard/progress-card/progress-card.component';
 import { ContentUsagePieChartComponent } from './reports/diksha/content-usage-pie-chart/content-usage-pie-chart.component';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatSelectModule} from '@angular/material/select'; 
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -77,6 +81,10 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule,
+    NgSelectModule,
     NgCircleProgressModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: apiKeys.googleApi,

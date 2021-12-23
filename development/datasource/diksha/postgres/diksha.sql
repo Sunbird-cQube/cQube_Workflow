@@ -486,3 +486,16 @@ insert into color_codes(color_code) values('516BEB'),('A13333'),('EDD2F3'),('84D
 ('1F1D36'),('E9A6A6'),('105652'),('9C19E0'),('FF5DA2'),('161E54'),('88E0EF'),('FF5151'),('49FF00'),
 ('FF9300'),('87AAAA'),('A9333A'),('E1578A'),('3E7C17'),('F4A442')
 except (select color_code from color_codes);
+
+alter table diksha_tpd_agg add column if not exists certificate_count integer;
+
+alter table diksha_tpd_expected_enrollment add column if not exists program_id text;
+alter table diksha_tpd_expected_enrollment add column if not exists program_name text;
+
+alter table diksha_enrolment_tpd_dup add column if not exists program_id text;
+alter table diksha_enrolment_tpd_dup add column if not exists program_name text;
+
+alter table diksha_enrolment_tpd_null_col add column if not exists count_null_program_id int;
+
+alter table diksha_tpd_expected_enrollment drop constraint diksha_tpd_expected_enrollment_pkey cascade;
+alter table diksha_tpd_expected_enrollment add primary key(program_id,collection_id,District_id,batch_id);
