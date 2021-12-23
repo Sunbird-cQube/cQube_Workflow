@@ -74,17 +74,55 @@
         </div>
       </div>
     <div class="row reportContainer d-flex flex-wrap">
-      <div  *ngIf = 'distToggle' class="col-lg-8" style = "height: 70vh" >
-        <h5 style="text-align: center;">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
-        <div id="container" class="active" ></div>
+      <div  *ngIf = 'distToggle' class="col-lg-8">
+        <h5 style="text-align: center; font-weight: bold;" [ngStyle]="{
+          fontSize:
+            height > 1760
+              ? '32px'
+              : height > 1160 && height < 1760
+              ? '25px'
+              : height > 667 && height < 1160
+              ? '24px'
+              : '15px'
+        }">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
+        <div id="container"  [ngStyle]="{
+          height:
+            height > 1760
+              ? '84vh'
+              : height > 1160 && height < 1760
+              ? '82vh'
+              : height > 667 && height < 1160
+              ? '78vh'
+              : '73vh'
+        }" class="active" ></div>
       </div>
 
       <div  *ngIf = '!distToggle' class="col-lg-12" style = "height: 70vh" >
-        <h5 style="text-align: center;">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
-        <div id="container" class="active" ></div>
+        <h5 style="text-align: center; font-weight: bold;" [ngStyle]="{
+          fontSize:
+            height > 1760
+              ? '50px'
+              : height > 1160 && height < 1760
+              ? '32px'
+              : height > 667 && height < 1160
+              ? '24px'
+              : '15px'
+        }">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
+        <div id="container"  [ngStyle]="{
+          height:
+            height > 1760
+              ? '84vh'
+              : height > 1160 && height < 1760
+              ? '82vh'
+              : height > 667 && height < 1160
+              ? '78vh'
+              : '73vh'
+        }"class="active" ></div>
       </div>
     
-      <div *ngIf = 'distToggle' class = "col-lg-4 justify-content-center" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;">
+      <div *ngIf = 'distToggle' class = "col-lg-4 justify-content-center" id="container1" style="max-height: 70vh; overflow-y: scroll; padding: 0;"
+     
+      >
         <h4>District Level Data</h4>
        
        </div> 
