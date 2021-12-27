@@ -181,35 +181,4 @@
                 </span>
             </div>
 
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="utc"
-                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/enrollment-progress']"
-                    (click)="fetchTelemetry($event,'utc')" class="text-decoration-none">
-                    <div class="card my-3 bg-header">
-                        <div class="card-header border-0 bg-transparent">
-                            <div class="card-header-left">
-                                <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-line-chart text-white" aria-hidden="true"></i></li>
-                                </ul>
-                            </div>
-                            <div class="card-head-text">
-                                <p *ngIf="utcViews;else other_content" class="text-white mb-0" id="views"><strong>Views
-                                        :</strong>
-                                    {{utcViews}}</p>
-                                <ng-template #other_content>
-                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
-                                </ng-template>
-                            </div>
-                        </div>
-                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>{{reportHeading.UserOnboarding}} </h6>
-                        </div>
-                        <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">{{toolTip.userOnboarding}}</p>
-                        </div>
-                    </div>
-                </span>
-            </div>
-           
-
 </div>
