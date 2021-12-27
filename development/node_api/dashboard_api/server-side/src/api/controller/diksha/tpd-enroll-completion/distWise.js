@@ -28,11 +28,7 @@ router.post('/allDistData', auth.authController, async (req, res) => {
             }
             
         })
-       
-    
-    
-  
-  
+        
   const key = 'district_name';
   
    chartData['dropDown'] = [...new Map(chartData['dropDown'].map(item =>

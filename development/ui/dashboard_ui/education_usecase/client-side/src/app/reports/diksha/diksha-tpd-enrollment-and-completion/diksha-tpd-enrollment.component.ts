@@ -414,11 +414,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
    this.districtSelected = false;
    this.blockSelected = false;
 
-    // this.expEnrolChartData = [];
-    // this.enrollChartData = [];
-    // this.compliChartData = [];
-    // this.pecentChartData = [];
-    // this.programBarData = [];
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     if (this.level == "program") {
@@ -511,30 +506,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         compliChartData.push(Number(element[`completion`]));
         pecentChartData.push(Number(element[`certificate_value`]));
       }
-
+  
       // tool tip
-      if (this.level === "district" || this.level === "program") {
-        expectedEnrolledVal.push(Number([element[`expected_enrolled`]]));
-        certificatPer.push(Number([element[`certificate_per`]]));
-        certificatVal.push(Number([element[`certificate_value`]]));
-        perCompletion.push(Number([element[`percent_completion`]]));
-        enrComplition.push(Number([element[`enrollment`]]));
-        enrComplitionVal.push(Number([element[`enrollment`]]));
-        comComplition.push(Number([element[`completion`]]));
-        this.completion.push([
-          [...perCompletion],
-          [...enrComplition],
-          [...comComplition],
-          [...expectedEnrolledVal],
-          [...enrComplitionVal],
-          [...expectedEnrolledVal],
-        ]);
-      } else if (
-        this.level === "block" ||
-        this.level === "cluster" ||
-        this.level === "school"
-      ) {
-      }
+
+        this.completion.push(element)
+   
     });
 
     this.enrollChartData = enrollChartData;
