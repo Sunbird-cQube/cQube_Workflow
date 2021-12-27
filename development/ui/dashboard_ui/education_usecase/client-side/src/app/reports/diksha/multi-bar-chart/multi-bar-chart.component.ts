@@ -220,10 +220,6 @@ export class MultiBarChartComponent implements OnInit {
           },
           formatter: function () {
             return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course) + '</b>';
-          //    return  this.points.reduce(function (s, point) {
-          //     return   s+ '<br/>' +  point.series.name + ': ' +
-          //         point.y.toLocaleString('en-IN');
-          // },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
           },
           shared: true
           
@@ -301,9 +297,7 @@ export class MultiBarChartComponent implements OnInit {
         },
         plotOptions: {
           bar: {
-            // groupPadding: 0.15,
-            // pointPadding: 0.7,
-            // pointWidth: 6,
+            
             dataLabels: {
               enabled: true,
               align: 'right',
@@ -422,10 +416,7 @@ export class MultiBarChartComponent implements OnInit {
           },
           formatter: function () {
             return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course) + '</b>';
-          //    return  this.points.reduce(function (s, point) {
-          //     return   s  + '<br/>' +  point.series.name + ': ' +
-          //         point.y.toLocaleString('en-IN');
-          // },  '<u>'+'<b>' + this.x + '</b>'+ '</u>'+'</br>'); 
+         
           },
           shared: true
           
@@ -489,7 +480,7 @@ export class MultiBarChartComponent implements OnInit {
            
             min: 0,
             opposite: true,
-            // max: Math.max.apply(Math, this.data),
+           
             max: 100,
             gridLineColor: 'transparent',
             title: {
@@ -504,9 +495,6 @@ export class MultiBarChartComponent implements OnInit {
           },
           plotOptions: {
             bar: {
-              // groupPadding: 0.15,
-              // pointPadding: 0.7,
-              // pointWidth: 6,
               dataLabels: {
                 enabled: true,
                 align: 'right',
@@ -543,7 +531,7 @@ export class MultiBarChartComponent implements OnInit {
                 enabled: true,
                 style: {
                   fontWeight:  800,
-                  // fontSize: '12px',
+                 
                   fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 },
                 formatter: function () {
@@ -674,8 +662,7 @@ export class MultiBarChartComponent implements OnInit {
           tickAmount: 6,
           min: 0,
           opposite: true,
-          // max: Math.max.apply(Math, this.data),
-          // max: 100,
+         
           gridLineColor: 'transparent',
           title: {
             // text: this.xAxisLabel,
