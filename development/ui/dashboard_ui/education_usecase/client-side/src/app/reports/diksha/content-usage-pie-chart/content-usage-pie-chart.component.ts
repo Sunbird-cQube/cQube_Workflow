@@ -410,8 +410,8 @@ onStateDropSelected(data){
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
         style: {
           // color: 'blue',
-          // fontWeight: 'bold',
-          // fontSize: '0.2rem'
+          fontWeight: 'bold',
+          fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
           // point.percentage
       }
     },

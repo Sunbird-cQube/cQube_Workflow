@@ -231,7 +231,11 @@ export class AverageTimeSpendBarComponent implements OnInit {
     reportData.forEach((element) => {
   if(this.selectedDist === undefined){
     selectedDistricts.forEach((district) => {
-      let distData = this.distData[district.district_id];
+      let distData 
+      if(this.distData[district.district_id]){
+         distData = this.distData[district.district_id];
+     
+      // let distData = this.distData[district.district_id];
       let objectValue = distData.find(
         (metric) => metric.collection_name === element.collection_name
       );
@@ -247,7 +251,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
         objectValue !== undefined && objectValue.total_enrolled
           ? objectValue.total_enrolled
           : 0;
-    });
+        }});
   }else{
     selectedDistricts.forEach((district) => {
       let distData = this.distData[district.district_id];
