@@ -529,7 +529,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
       plotOptions: {
         series: {
-         
+          stickyTracking: false
         },
       },
 

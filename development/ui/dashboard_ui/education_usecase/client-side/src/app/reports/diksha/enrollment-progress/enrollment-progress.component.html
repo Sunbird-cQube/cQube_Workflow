@@ -9,9 +9,7 @@
                   <p id="block">
                     Report on User Onboarding:
                     <span (click) = "clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{state}}</span>
-                    <!-- <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
-                      style="cursor: pointer; text-decoration: underline" class="selected-level">
-                      {{ districtHierarchy.districtName }}</span> -->
+                   
                   </p>
                 </div>
                
@@ -51,7 +49,7 @@
             <div class="row d-flex" style="margin-bottom: 10px">
               <div class="col-sm-12">
   
-                <select id="choose_infra" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
+                <select id="choose_program" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
                   <option [value]="selectedProgram" disabled selected="selected">
                     Choose a Program
                   </option>
@@ -60,15 +58,8 @@
                   </option>
                 </select>  
                
-                  <!-- <select *ngIf = "level === 'program'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
-                  <option [value]="selectedCourse" disabled selected="selected">
-                    Choose a Course
-                  </option>
-                  <option *ngFor="let course of uniqueDistCourse" [(ngValue)]="course.collection_id">
-                    {{ course.collection_name }}
-                  </option>
-                </select>  -->
-                <select  id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
+                 
+                <select  id="choose_course"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
                   <option [value]="selectedCourse" disabled selected="selected">
                     Choose a Course
                   </option>
@@ -77,10 +68,7 @@
                   </option>
                 </select> 
 
-                <!-- <ng-select class="col-3" id = "SearchDropDown"   [items]="uniqueAllCourse" bindLabel="name"  placeholder="Search Course Name"  typeToSearchText="Please enter  or more characters"
-                [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
-            </ng-select> -->
-                <select [hidden] = "districtHidden" id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+                <select [hidden] = "districtHidden" id="choose_district" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                   <option [value]="selectedDist" disabled selected="selected">
                     Choose a District
                   </option>

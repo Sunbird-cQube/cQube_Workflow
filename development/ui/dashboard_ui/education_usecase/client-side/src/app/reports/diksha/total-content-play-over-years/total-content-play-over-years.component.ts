@@ -353,10 +353,12 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
 
       plotOptions: {
         series: {
+          stickyTracking: false,
           events: {
             legendItemClick: function (e) {
               e.preventDefault();
             },
+           
           },
 
           // pointStart      : pointStart,

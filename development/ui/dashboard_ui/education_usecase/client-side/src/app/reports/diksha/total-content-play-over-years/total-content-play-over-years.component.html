@@ -51,7 +51,7 @@
             <div class="row" style="margin-bottom: 10px">
               <div class="col-sm-12">
   
-                 <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+                 <select id="choose_district" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                   <option [value]="selectedDist" disabled selected="selected">
                     Choose a District
                   </option>
@@ -59,20 +59,6 @@
                     {{ dist.district_name }}
                   </option>
                 </select>  
-              
-                  <!-- <select id="choose_infra">
-                  <option disabled selected="selected">
-                    Choose a District
-                  </option> -->
-                  <!-- <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
-                    {{ dist.district_name }}
-                  </option> -->
-                <!-- </select>   -->
-                 
-                  <!-- <option *ngFor="let dist of stateDropDown" [(ngValue)]="dist.key">
-                    {{ dist.name }}
-                  </option> -->
-                <!-- </select>  -->
                 
               </div>
             </div>
