@@ -28,7 +28,9 @@ export class EtbDashboardComponent implements OnInit {
   dscViews;
   utViews;
   utcViews;
-
+  etbGpsViews;
+  etbCapitaViews;
+  etbHeartBeatViews;
   // diksha columns
   diksha_column =
     "diksha_columns" in environment ? environment["diksha_columns"] : true;
@@ -115,7 +117,17 @@ export class EtbDashboardComponent implements OnInit {
       if (element.reportid == "utc") {
         this.utcViews = element.number_of_views + " (" + timeStr + ")";
       }
+      if (element.reportid == "etb-gps") {
+        this.etbGpsViews = element.number_of_views + " (" + timeStr + ")";
+      }
+      if (element.reportid == "etbCapita") {
+        this.etbCapitaViews = element.number_of_views + " (" + timeStr + ")";
+      }
      
+      if (element.reportid == "etbHeartBeat") {
+        this.etbHeartBeatViews = element.number_of_views + " (" + timeStr + ")";
+      }
+      
     });
   }
 
