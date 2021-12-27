@@ -7,7 +7,7 @@
 - Navigate to the directory where cQube_Workflow has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.2
+git checkout release-3.3
 ```
 
 - Copy the config.yml.template to config.yml `cp config.yml.template config.yml`
@@ -136,7 +136,7 @@ python3 client.py
 - Navigate to the directory where cQube has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.2
+git checkout release-3.3
 ```
 - Copy the upgradation_config.yml.template to upgradation_config.yml `cp upgradation_config.yml.template upgradation_config.yml`
 - If you are opting for education_usecase. usecase_name as education_usecase Copy the education_usecase_upgradation_config.yml.template to education_usecase_upgradation_config.yml `cp education_usecase_upgradation_config.yml.template education_usecase_upgradation_config.yml`
@@ -167,4 +167,3 @@ Configuration filled in upgradation_config.yml will be validated first. If there
 
 Once upgradation is completed without any errors, you will be prompted the following message. 
 ```CQube upgraded successfully!!```
-
