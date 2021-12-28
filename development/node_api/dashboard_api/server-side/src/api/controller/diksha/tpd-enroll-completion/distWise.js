@@ -167,7 +167,6 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         }
 
         chartData['data'] = collectionData.map(a => {
-            // return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_value: a.certificate_count, expected_enrolled: a.expected_total_enrolled }
             return {enrollment: a.total_enrolled, 
                 completion: a.total_completed, 
                  percent_completion: a.percentage_completion, 
