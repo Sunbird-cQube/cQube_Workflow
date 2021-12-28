@@ -307,7 +307,7 @@ export class BarChartComponent implements OnInit {
       if(reportName = 'averageTimeSpend'){
            
             obj =   `<b style="padding-left: '10px'">Name:</b> ${point.category}
-          <br> ${point.y !== null ? `<b>Average Time Spent: </b>${point.y} Minutes` : ''}<br>
+          <br> ${point.y !== null ? `<b>Average Time Spent: </b>${point.y} Hours` : ''}<br>
            <b> Enrolled Users : ${xData[point.index].total_enrolled}</b> 
           
            `  
