@@ -52,10 +52,10 @@ export class InfrastructureDashboardComponent implements OnInit {
     }
     this.dataSource = this.sourceService.dataSources;    //calling function to show telemetry views..................
 
-    // this.callOnInterval();
-    // setInterval(() => {
-    //   this.callOnInterval();
-    // }, 30000);
+    this.callOnInterval();
+    setInterval(() => {
+      this.callOnInterval();
+    }, 30000);
   }
 
 

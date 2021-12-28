@@ -73,7 +73,6 @@ try {
 
   this.service.dikshaPieState().subscribe(res => {
     this.pieData = res['data'].data;
-    
     this.stateContentUsage = res['data'].footer.total_content_plays.toLocaleString('en-IN');
    
     this.fileName = 'Content-usage-state';
@@ -112,8 +111,8 @@ try {
        data.push({
             name: item.object_type,
             color: `#${item.color_code}`,
-            // y: Number((Math.round(item.total_content_plays_percent * 100) / 100).toFixed(2))
-            y: item.total_content_plays_percent
+            y: item.total_content_plays_percent,
+            value: item.total_content_plays
           })
       })
       return data
@@ -127,8 +126,6 @@ try {
      try {
         this.service.dikshaPieDist().subscribe(res => {
             this.distData = res['data'].data;
-            
-            // this.reportData = res['data'].data;
             this.createDistPiechart()
             }) 
     //  this.commonService.loaderAndErr(this.distData);
@@ -137,7 +134,6 @@ try {
       this.commonService.loaderAndErr(this.distData);
           console.log(error)
      }
-   
  }
 
     public distMetaData;
@@ -158,7 +154,7 @@ try {
               return dist
           })
           this.distToDropDown.sort((a, b) => a.district_name.localeCompare(b.district_name))
-          this.getDistData();
+          // this.getDistData();
         
            }) 
     } catch (error) {
@@ -180,8 +176,7 @@ onStateDropSelected(data){
       this.districtSelectBox = false;
     }
     this.getStateData();
-    // this.getDistData();
-    this.commonService.loaderAndErr(this.distData);
+    this.getDistData();
   } catch (error) {
     this.distData = [];
   this.commonService.loaderAndErr(this.distData);
@@ -231,11 +226,7 @@ onStateDropSelected(data){
         }
        
       });
-      // Object.keys(data1).forEach(key => {
-      //   // if (key !== "percentage_teachers") {
-      //     data2[key] = data1[key];
-      //   // }
-      // });
+     
       this.dataToDownload.push(data1);
     }
   
@@ -280,7 +271,6 @@ onStateDropSelected(data){
     let Distdata:any = []
     pieData.filter(district => {
       return this.selectedDistricts.find(districtId => districtId === +district.id ) 
-      //&& districtId === 2401
     }).forEach((district, i) =>{
         let  obj = {
           name: district.data[0].district_name,
@@ -290,8 +280,8 @@ onStateDropSelected(data){
         }
        
          district.data.forEach((metric, i) => {
-          //  obj.data.push([metric.object_type,metric.total_content_plays_percent]);
-           obj.data.push({name:metric.object_type, color: `#${metric.color_code}`, y:metric.total_content_plays_percent});
+         
+           obj.data.push({name:metric.object_type, color: `#${metric.color_code}`, y:metric.total_content_plays_percent, value: metric.total_content_plays_districtwise});
          });
 
 
@@ -300,12 +290,6 @@ onStateDropSelected(data){
     
         })
         
-
-    // this.service.diskshaPieMeta().subscribe(res => {
-    //   this.distPieChart = res['data'];
-    //  this.disttoLoop = this.distPieChart.Districts.map( (dist:any) =>{
-    //      return dist
-    //  })
     
      let createdDiv;
      const mainContainer = document.getElementById('container1');
@@ -331,7 +315,6 @@ onStateDropSelected(data){
       createdDiv.style.width = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "600px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
       createdDiv.style.height = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "580px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
       
-      // createdDiv.id = `text${i}`
       
       mainContainer.appendChild(createdDiv); 
       
@@ -351,13 +334,21 @@ onStateDropSelected(data){
             fontSize: window.innerHeight > 1760 ? "32px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "24px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "12px" : "10px",
           }
         },
-       
+       tooltip:{
+        formatter : function(){
+           return `
+           <b> &nbsp;District </b> : ${this.series.name}<br>
+           <b> Name </b> : ${this.point.name}<br>
+           <b> Percentage</b> : ${this.percentage.toFixed(2)} % <br>
+           <b> Total Content Play </b>: ${this.point.value.toLocaleString('en-IN')} 
+           `
+        },
+       },
         credits: {
           enabled: false
         },
         plotOptions: {
           pie: {
-            // size: 250,
             size: window.innerHeight > 1760 ? 400 : window.innerHeight > 1160 && window.innerHeight < 1760 ? 250 : window.innerHeight > 667 && window.innerHeight < 1160 ? 100 : 100,
               allowPointSelect: true,
               cursor: 'pointer',
@@ -365,31 +356,24 @@ onStateDropSelected(data){
                   enabled: true,
                   format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                   style: {
-                    // color: 'blue',
-                    // fontWeight: 'bold',
                     fontSize: window.innerHeight > 1760 ? "32px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "22px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "12px" : "10px",
                 }
               },
               showInLegend: false
           }
         },
-        // series: [{
-        //   type: 'pie',
-        //   colorByPoint: true,
-        //   data: [el]
-        // }]
+      
         series : [chartData]
         
       });
      
     })    
-      // }) 
+       
     }
 
    
 
   createPieChart(data){
-
     this.chartOptions = { 
       chart: {
         plotBackgroundColor: 'transparent',
@@ -398,7 +382,7 @@ onStateDropSelected(data){
         type: 'pie',
         backgroundColor: 'transparent'
     },
-    // colors: ['#50B432', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    
     title: {
         text: '',
         align: 'left',
@@ -407,12 +391,17 @@ onStateDropSelected(data){
         }  
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+        
+        formatter : function(){
+           return `
+           <b> &nbsp;Name </b> : ${this.point.name}<br>
+           <b> ${this.series.name}</b> : ${this.percentage.toFixed(2)} % <br>
+           <b> Total Content Play </b>: ${this.point.value.toLocaleString('en-IN')} 
+           `
+        },
         style: {
-          // color: 'blue',
           fontWeight: 'bold',
           fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-          // point.percentage
       }
     },
     accessibility: {
@@ -428,22 +417,16 @@ onStateDropSelected(data){
       align: 'left',
       maxHeight: this.height > 1760 ? 800 : this.height > 1160 && this.height < 1760 ? 700 : this.height > 667 && this.height < 1160 ? 400 : 400,
       verticalAlign: 'top',
-      // // horizontalAlign: 'middle',
-      // borderWidth: 0,
-      // width: '20%',
-      // // itemWidth: '30%',
-      // // itemMarginTop: 10,
-      // itemMarginBottom: 7,
+    
       itemStyle: {
-        // color: 'blue',
-        // fontWeight: 'bold',
+        
         fontSize:this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
         lineHeight: 3
     }
     },
     plotOptions: {
         pie: {
-          // size: 280,
+          
             size: this.height > 1760 ? 800 : this.height > 1160 && this.height < 1760 ? 600 : this.height > 667 && this.height < 1160 ? 280 : 280,
             allowPointSelect: true,
             cursor: 'pointer',
@@ -451,8 +434,7 @@ onStateDropSelected(data){
                 enabled: true,
                 format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                 style: {
-                  // color: 'blue',
-                  // fontWeight: 'bold',
+                  
                   fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
               }
             },
