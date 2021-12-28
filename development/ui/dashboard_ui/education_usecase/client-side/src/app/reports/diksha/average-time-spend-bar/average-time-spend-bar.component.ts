@@ -27,7 +27,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
   public blok: boolean = false;
   public clust: boolean = false;
 
-  public xAxisLabel: String = "Average Time ( Minutes )";
+  public xAxisLabel: String = "Average Time ( Hours )";
 
   public dataToDownload: any = [];
   public reportData: any = [];
