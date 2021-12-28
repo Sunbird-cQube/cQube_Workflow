@@ -26,7 +26,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public chartData: Number[] = [];
   // public completion: Number[] = [];
   public completion: any;
-  public xAxisLabel: String = "Percentage";
+  public xAxisLabel: String = ""
   public yAxisLabel: String;
   public reportName: String = "enrollment_completion";
   public report = "enroll/comp";
@@ -108,7 +108,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.bankCtrl.setValue(this.collectionNames);
+   
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
@@ -184,7 +184,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blok = false;
     this.clust = false;
     this.yAxisLabel = "District Names";
-
+    this.xAxisLabel= "Total Number";
+    
     this.listCollectionNames();
     this.service
       .tpdDistEnrollCompAll({ timePeriod: this.timePeriod })
@@ -291,7 +292,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.programBarData = [];
     this.commonService.errMsg();
     this.selectedProgram = progID;
-    this.level = "district";
+    this.level = "program";
+    this.xAxisLabel = "Percentage",
+    this.yAxisLabel = "District names"
 
     try {
       this.programBarData = this.programData.filter((program) => {
@@ -485,13 +488,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }
     this.result.data.forEach((element) => {
       if (
-        (this.level === "district" || this.level === "program") &&
+        (this.level === "district" ) &&
         this.courseSelected === false
       ) {
-        expectedEnrolled.push(Number(element[`expected_enrolled`]));
-        enrollChartData.push(Number(element[`enrolled_percentage`]));
-        compliChartData.push(Number(element[`percent_completion`]));
-        pecentChartData.push(Number(element[`certificate_per`]));
+        
+        enrollChartData.push(Number(element[`enrollment`]));
+        compliChartData.push(Number(element[`completion`]));
       } else if (
         this.level === "block" ||
         this.level === "cluster" ||
@@ -502,9 +504,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         compliChartData.push(Number(element[`completion`]));
         pecentChartData.push(Number(element[`certificate_value`]));
       } else if (this.level === "district" && this.courseSelected) {
-        enrollChartData.push(Number(element[`enrollment`]));
-        compliChartData.push(Number(element[`completion`]));
-        pecentChartData.push(Number(element[`certificate_value`]));
+        expectedEnrolled.push(Number(element[`expected_enrolled`]));
+        enrollChartData.push(Number(element[`enrolled_percentage`]));
+        compliChartData.push(Number(element[`percent_completion`]));
+        pecentChartData.push(Number(element[`certificate_per`]));
+      }else if (this.level === "program" && this.courseSelected === false) {
+        expectedEnrolled.push(Number(element[`expected_enrolled`]));
+        enrollChartData.push(Number(element[`enrolled_percentage`]));
+        compliChartData.push(Number(element[`percent_completion`]));
+        pecentChartData.push(Number(element[`certificate_per`]));
       }
   
       // tool tip
@@ -522,7 +530,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .toString()
       .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-    this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
+    // this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
   }
 
   //Showing district data based on selected id:::::::::::::::::
@@ -556,7 +564,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blockId = undefined;
     this.clusterId = undefined;
     this.yAxisLabel = "Block Names";
-
+    this.xAxisLabel = "Total Numbers"
     var requestBody: any = {
       timePeriod: this.timePeriod,
       districtId: districtId,
@@ -782,7 +790,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.districtId = undefined;
     this.clusterId = undefined;
     
-    this.level = 'district'
+    this.level = 'district';
+    this.xAxisLabel = "Percentage";
+    this.yAxisLabel = "District names"
     if ($event) {
       this.collectionName = $event.collection_id;
       this.emptyChart();

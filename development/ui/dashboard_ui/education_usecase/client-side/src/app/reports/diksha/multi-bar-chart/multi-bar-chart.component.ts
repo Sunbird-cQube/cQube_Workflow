@@ -48,8 +48,8 @@ export class MultiBarChartComponent implements OnInit {
     var name = this.reportName;
     var level = this.level;
     var type = this.type;
-    var course = this.courseSelected
-    let scrollBarX
+    var course = this.courseSelected;
+
     if ((level === 'program') && this.courseSelected === false){
       this.chartOptions = {
         chart: {
@@ -111,8 +111,8 @@ export class MultiBarChartComponent implements OnInit {
           max: 100,
           gridLineColor: 'transparent',
           title: {
-            // text: this.xAxisLabel,
-            text: "Percentage",
+            text: this.xAxisLabel,
+            // text: "Percentage",
             style: {
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -165,8 +165,8 @@ export class MultiBarChartComponent implements OnInit {
               }
             },
             color: '#396EB0',
-            name: '% Expected Enrollment',
-            data: this.data
+            name: this.data.length > 0 ? 'Expected Enrollment' : '',
+            data: this.data.length > 0 ? this.data : null 
           },
           {
             dataLabels: {
@@ -211,6 +211,27 @@ export class MultiBarChartComponent implements OnInit {
             name: '% Completed',
             data: this.compData
           },
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight: 800,
+                // fontSize: '12px',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
+              },
+              formatter: function () {
+                if(level == 'district' || level == 'program'){
+                  return this.y + '%';
+                } else if(level == "block" || level == "cluster" || level == "school"){
+                   return this.y;
+                }
+              }
+            },
+            color: '#D4AC2B',
+            
+            name: this.perData.length > 0 ? '% Certificates' : '',
+            data: this.perData.length > 0 ? this.perData : null
+          },
         ],
         tooltip: {
           style: {
@@ -225,7 +246,7 @@ export class MultiBarChartComponent implements OnInit {
           
         }
       }
-    }else if ((level === 'district' || level === 'program') && this.courseSelected === false){
+    }else if ((level === 'district') && this.courseSelected === false){
       this.chartOptions = {
         chart: {
           type: "bar",
@@ -283,11 +304,11 @@ export class MultiBarChartComponent implements OnInit {
           min: 0,
           opposite: true,
           // max: Math.max.apply(Math, this.data),
-          max: 100,
+          // max: 100,
           gridLineColor: 'transparent',
           title: {
-            // text: this.xAxisLabel,
-            text: "Percentage",
+            text: this.xAxisLabel,
+            // text: "Percentage",
             style: {
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -327,23 +348,7 @@ export class MultiBarChartComponent implements OnInit {
           enabled: false
         },
         series: [
-          {
-            dataLabels: {
-              enabled: true,
-              style: {
-                fontWeight:  800,
-                // fontSize: '12px',
-                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
-              },
-              formatter: function () {
-                // return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                return this.y + " (100 %)"
-              }
-            },
-            color: '#396EB0',
-            name: '% Expected Enrollment',
-            data: this.data
-          },
+         
           {
             dataLabels: {
               enabled: true,
@@ -355,7 +360,7 @@ export class MultiBarChartComponent implements OnInit {
               formatter: function () {
                 
                 if(level == 'district' || level == 'program'){
-                  return this.y + '%';
+                  return this.y ;
                 } else if(level == "block" || level == "cluster" || level == "school"){
                    return this.y;
                 }
@@ -363,7 +368,7 @@ export class MultiBarChartComponent implements OnInit {
               }
             },
             color: '#bc5090',
-            name: "% Enrolled",
+            name: "Enrolled",
             data: this.enrolData
           },
           {
@@ -376,7 +381,7 @@ export class MultiBarChartComponent implements OnInit {
               },
               formatter: function () {
                 if(level == 'district' || level == 'program'){
-                  return this.y + '%';
+                  return this.y;
                 } else if(level == "block" || level == "cluster" || level == "school"){
                    return this.y;
                 }
@@ -384,29 +389,9 @@ export class MultiBarChartComponent implements OnInit {
             },
             color: '#9C19E0',
             
-            name: '% Completed',
+            name: 'Completed',
             data: this.compData
-          },
-          // {
-          //   dataLabels: {
-          //     enabled: true,
-          //     style: {
-          //       fontWeight:  800,
-          //       fontSize: '12px',
-          //       // fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-          //     },
-          //     formatter: function () {
-          //       if(level == 'district'){
-          //         return this.y + '%';
-          //       } else if(level == "block" || level == "cluster" || level == "school"){
-          //          return this.y;
-          //       }
-          //     }
-          //   },
-          //   color: '#ffa600',
-          //   name: '% Certificates',
-          //   data: this.perData
-          // }        
+          }
         ],
         tooltip: {
           style: {
@@ -423,7 +408,7 @@ export class MultiBarChartComponent implements OnInit {
         }
       }
     } else
-      if ((level === 'district') && this.courseSelected === true){
+      if ((level === 'district' || level === 'program') && this.courseSelected === true){
         this.chartOptions = {
           chart: {
             type: "bar",
@@ -484,8 +469,7 @@ export class MultiBarChartComponent implements OnInit {
             max: 100,
             gridLineColor: 'transparent',
             title: {
-              // text: this.xAxisLabel,
-              text: "Percentage",
+              text: this.xAxisLabel,
               style: {
                 color: 'black',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -525,7 +509,28 @@ export class MultiBarChartComponent implements OnInit {
             enabled: false
           },
           series: [
-           
+           {
+              dataLabels: {
+                enabled: true,
+                style: {
+                  fontWeight:  800,
+                 
+                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
+                },
+                formatter: function () {
+                  
+                  if(level == 'district' || level == 'program'){
+                    return this.y + "( 100% )" ;
+                  } else if(level == "block" || level == "cluster" || level == "school"){
+                     return this.y;
+                  }
+                  
+                }
+              },
+              color: '#396EB0',
+              name: this.data.length > 0 ? " Expected Enrolled" : '',
+              data: this.data.length > 0 ? this.data : null
+            },
             {
               dataLabels: {
                 enabled: true,
@@ -537,7 +542,7 @@ export class MultiBarChartComponent implements OnInit {
                 formatter: function () {
                   
                   if(level == 'district' || level == 'program'){
-                    return this.y ;
+                    return this.y + "%" ;
                   } else if(level == "block" || level == "cluster" || level == "school"){
                      return this.y;
                   }
@@ -545,7 +550,7 @@ export class MultiBarChartComponent implements OnInit {
                 }
               },
               color: '#bc5090',
-              name: " Enrolled",
+              name: "% Enrolled",
               data: this.enrolData
             },
             {
@@ -558,7 +563,7 @@ export class MultiBarChartComponent implements OnInit {
                 },
                 formatter: function () {
                   if(level == 'district' || level == 'program'){
-                    return this.y ;
+                    return this.y + "%";
                   } else if(level == "block" || level == "cluster" || level == "school"){
                      return this.y;
                   }
@@ -566,7 +571,7 @@ export class MultiBarChartComponent implements OnInit {
               },
               color: '#9C19E0',
               
-              name: 'Completed',
+              name: '% Completed',
               data: this.compData
             },
             {
@@ -578,16 +583,16 @@ export class MultiBarChartComponent implements OnInit {
                   fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 },
                 formatter: function () {
-                  if(level == 'district'){
-                    return this.y ;
+                  if(level == 'district' || level === "program"){
+                    return this.y + "%";
                   } else if(level == "block" || level == "cluster" || level == "school"){
                      return this.y;
                   }
                 }
               },
-              color: '#ffa600',
-              name: ' Certificates',
-              data: this.perData
+              color: '#D4AC2B',
+              name:this.perData.length > 0 ? '% Certificates': '',
+              data: this.perData.length > 0? this.perData : null
             }        
           ],
           tooltip: {
@@ -665,8 +670,8 @@ export class MultiBarChartComponent implements OnInit {
          
           gridLineColor: 'transparent',
           title: {
-            // text: this.xAxisLabel,
-            text: "Values",
+            text: this.xAxisLabel,
+            // text: "Values",
             style: {
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -765,7 +770,7 @@ export class MultiBarChartComponent implements OnInit {
                 }
               }
             },
-            color: '#ffa600',
+            color: '#D4AC2B',
             name: 'Certificates',
             data: this.perData
           }        
@@ -792,20 +797,30 @@ export class MultiBarChartComponent implements OnInit {
     function getPointCategoryName(points, reportName, xData, level, type, series, courseSelected) {
       var obj = '';
       if (reportName == "enroll/comp") {
-    
-     if((level === 'district' || level == "program") && courseSelected === false){
+     if((level === 'district' || level == "program") && courseSelected === true){
       obj = `&nbsp<b>District Name:</b> ${points[0].x}
       <br> ${points.y !== null ? `<b>Expected Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['expected_enrolled']}` : ''}
       <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
       <br> ${points.y !== null ? `<b>% Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrolled_percentage']} %` : ''}
       <br> ${points.y !== null ? `<b>completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
       <br> ${points.y !== null ? `<b>% completed:</b> &nbsp ${xData[`${points[0].point.index}`]['percent_completion']} %` : ''}
+      <br> ${points.y !== null ? `<b>certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
+      <br> ${points.y !== null ? `<b>% certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_per']} %` : ''}
+      `
+     }else if(level === 'program' ){
+      obj = `&nbsp<b>District Name:</b> ${points[0].x}
+      <br> ${points.y !== null ? `<b>Expected Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['expected_enrolled']}` : ''}
+      <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
+      <br> ${points.y !== null ? `<b>% Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrolled_percentage']} %` : ''}
+      <br> ${points.y !== null ? `<b>completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
+      <br> ${points.y !== null ? `<b>% completed:</b> &nbsp ${xData[`${points[0].point.index}`]['percent_completion']} %` : ''}
+      <br> ${points.y !== null ? `<b>certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
+      <br> ${points.y !== null ? `<b>% certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_per']} %` : ''}
      `
-     }else if((level === 'district' || level == "program") && courseSelected === true){
+     }else if(level === 'district' ){
       obj = `&nbsp<b>District Name:</b> ${points[0].x}
       <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
       <br> ${points.y !== null ? `<b>Completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
-      <br> ${points.y !== null ? `<b> Certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
      `
      }else {
       obj = `&nbsp<b>District Name:</b> ${points[0].x}

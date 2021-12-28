@@ -115,7 +115,7 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
 
         let collectionDataRes = await s3File.readFileConfig(fileName);
         let collectionData = collectionDataRes.data;
-
+        
         if (programId !== undefined) {
             collectionData = collectionData.filter(collection => {
                 return collection.program_id === programId;
@@ -167,7 +167,14 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         }
 
         chartData['data'] = collectionData.map(a => {
-            return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_value: a.certificate_count }
+            // return { enrollment: a.total_enrolled, completion: a.total_completed, percent_teachers: a.percentage_teachers, certificate_value: a.certificate_count, expected_enrolled: a.expected_total_enrolled }
+            return {enrollment: a.total_enrolled, 
+                completion: a.total_completed, 
+                 percent_completion: a.percentage_completion, 
+                 expected_enrolled: a.expected_total_enrolled, 
+                 enrolled_percentage:a.total_enrolled_percentage,
+                 certificate_value: a.certificate_count,
+                 certificate_per: a.certificate_percentage}
         })
         logger.info('--- diksha get data on collection select api response sent ---');
         res.send({ chartData, downloadData: collectionData, collectionData: collectionData, collectionDataRes });

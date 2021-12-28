@@ -89,8 +89,8 @@
 
         </div>
         <div class="col-lg-10" id="r1" style="position: relative;">
-            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl"></span>
-            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl2"></span>
+            <span *ngIf = "(level == 'program'  && enrollChartData.length > 0) ||  (courseSelected == true && districtSelected !== true)" class="vl"></span>
+            <span *ngIf = "(level == 'program'  && enrollChartData.length > 0) || (courseSelected == true && districtSelected !== true)"  class="vl2"></span>
             <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category"  [data] = "expectedEnrolled" [enrolData] = "enrollChartData" [compData] = "compliChartData" [perData]= "pecentChartData" [xData]="completion"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type" [courseSelected] = "courseSelected">
             </app-multi-bar-chart>
