@@ -177,7 +177,6 @@ onStateDropSelected(data){
     }
     this.getStateData();
     this.getDistData();
-    // this.commonService.loaderAndErr(this.distData);
   } catch (error) {
     this.distData = [];
   this.commonService.loaderAndErr(this.distData);
@@ -272,7 +271,6 @@ onStateDropSelected(data){
     let Distdata:any = []
     pieData.filter(district => {
       return this.selectedDistricts.find(districtId => districtId === +district.id ) 
-      //&& districtId === 2401
     }).forEach((district, i) =>{
         let  obj = {
           name: district.data[0].district_name,
@@ -317,7 +315,6 @@ onStateDropSelected(data){
       createdDiv.style.width = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "600px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
       createdDiv.style.height = window.innerHeight > 1760 ? "380px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "580px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "340px" : "340px";
       
-      // createdDiv.id = `text${i}`
       
       mainContainer.appendChild(createdDiv); 
       
@@ -352,7 +349,6 @@ onStateDropSelected(data){
         },
         plotOptions: {
           pie: {
-            // size: 250,
             size: window.innerHeight > 1760 ? 400 : window.innerHeight > 1160 && window.innerHeight < 1760 ? 250 : window.innerHeight > 667 && window.innerHeight < 1160 ? 100 : 100,
               allowPointSelect: true,
               cursor: 'pointer',
@@ -360,8 +356,6 @@ onStateDropSelected(data){
                   enabled: true,
                   format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                   style: {
-                    // color: 'blue',
-                    // fontWeight: 'bold',
                     fontSize: window.innerHeight > 1760 ? "32px" : window.innerHeight > 1160 && window.innerHeight < 1760 ? "22px" : window.innerHeight > 667 && window.innerHeight < 1160 ? "12px" : "10px",
                 }
               },
@@ -374,7 +368,7 @@ onStateDropSelected(data){
       });
      
     })    
-      // }) 
+       
     }
 
    
@@ -397,7 +391,7 @@ onStateDropSelected(data){
         }  
     },
     tooltip: {
-        // pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+        
         formatter : function(){
            return `
            <b> &nbsp;Name </b> : ${this.point.name}<br>
@@ -406,10 +400,8 @@ onStateDropSelected(data){
            `
         },
         style: {
-          // color: 'blue',
           fontWeight: 'bold',
           fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-          // point.percentage
       }
     },
     accessibility: {

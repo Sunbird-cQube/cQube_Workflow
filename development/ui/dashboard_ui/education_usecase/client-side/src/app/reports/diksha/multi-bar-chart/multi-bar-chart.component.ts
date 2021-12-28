@@ -107,12 +107,10 @@ export class MultiBarChartComponent implements OnInit {
          
           min: 0,
           opposite: true,
-          // max: Math.max.apply(Math, this.data),
           max: 100,
           gridLineColor: 'transparent',
           title: {
             text: this.xAxisLabel,
-            // text: "Percentage",
             style: {
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -157,7 +155,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -173,7 +170,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -195,7 +191,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight: 800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -216,7 +211,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight: 800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -303,12 +297,11 @@ export class MultiBarChartComponent implements OnInit {
          
           min: 0,
           opposite: true,
-          // max: Math.max.apply(Math, this.data),
-          // max: 100,
+       
           gridLineColor: 'transparent',
           title: {
             text: this.xAxisLabel,
-            // text: "Percentage",
+           
             style: {
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -354,7 +347,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -376,7 +368,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight: 800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -558,7 +549,6 @@ export class MultiBarChartComponent implements OnInit {
                 enabled: true,
                 style: {
                   fontWeight: 800,
-                  // fontSize: '12px',
                   fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 },
                 formatter: function () {
@@ -579,7 +569,6 @@ export class MultiBarChartComponent implements OnInit {
                 enabled: true,
                 style: {
                   fontWeight:  800,
-                  // fontSize: '12px',
                   fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 },
                 formatter: function () {
@@ -671,7 +660,6 @@ export class MultiBarChartComponent implements OnInit {
           gridLineColor: 'transparent',
           title: {
             text: this.xAxisLabel,
-            // text: "Values",
             style: {
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -716,7 +704,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -738,7 +725,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight: 800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
@@ -759,7 +745,6 @@ export class MultiBarChartComponent implements OnInit {
               enabled: true,
               style: {
                 fontWeight:  800,
-                // fontSize: '12px',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
               formatter: function () {
