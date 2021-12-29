@@ -88,7 +88,7 @@
 		font-weight: bold;
 	}
 	
-	#choose_district, #choose_blok, #choose_clust , #x_axis, #y_axis{
+	#choose_district1, #choose_blok, #choose_clust , #x_axis, #y_axis{
 		padding: 8px;
 		width: 100%; 
 		border-radius: 6px; 
@@ -125,7 +125,7 @@
 		font-weight: bold;
 	}
 	
-	#choose_district, #choose_blok, #choose_clust , #x_axis, #y_axis{
+	#choose_district1, #choose_blok, #choose_clust , #x_axis, #y_axis{
 		padding: 8px !important;
 		width: 100%; 
 		border-radius: 8px; 
@@ -162,7 +162,7 @@
 		font-weight: bold;
 	}
 	
-	#choose_district, #choose_blok, #choose_clust , #x_axis, #y_axis{
+	#choose_district1, #choose_blok, #choose_clust , #x_axis, #y_axis{
 		padding: 12px !important;
 		width: 100%; 
 		border-radius: 10px; 
