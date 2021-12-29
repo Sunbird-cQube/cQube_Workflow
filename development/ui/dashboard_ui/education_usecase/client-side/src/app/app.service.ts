@@ -407,24 +407,27 @@ export class AppServiceComponent {
     });
     
     let uniqueItems1 = []
-    let maxArr = uniqueItems[uniqueItems.length - 1];
-    let partition;
-    if (filter.value == "avg_time_spent") {
-      partition = maxArr / 5;
-      //  partition = partition.toFixed(2)
-      //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
-    } else {
-      partition = Math.round(maxArr / 5);
-    }
-    for (let i = 0; i < 5; i++) {
-      if (filter.value == "avg_time_spent") {
-        uniqueItems1.push(Number(`${(partition * (i + 1)).toFixed(2)}`)); // 0-partition /  partition+1-partition*2
-      } else {
-        // uniqueItems1.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
-        uniqueItems1.push(Number(`${partition * (i + 1)}`));
-      }
-    }
+    
+    const min = Math.min(...uniqueItems);
+    const max = Math.max(...uniqueItems);
    
+   
+    const ranges = [];
+    
+    const getRangeArray = (min, max, n) => {
+      const delta = (max - min) / n;
+      let range1 = min;
+      for (let i = 0; i < n; i += 1) {
+          const range2 = range1 + delta;
+          uniqueItems1.push(`${range2}`);
+         
+          range1 = range2;
+      }
+    
+      return ranges;
+    };
+    
+    const rangeArrayIn5Parts = getRangeArray(min, max, 5);
    
    var colorsArr = ["#d9ef8b","#a6d96a", "#66bd63","#1a9850", "#006837"]
     var colors = {};
@@ -440,7 +443,7 @@ export class AppServiceComponent {
        }else if(a > uniqueItems1[3]){
         colors[`${a}`] = colorsArr[4];
        }
-      // colors[`${a}`] = colorsArr[i];
+     
     });
     return colors;
 

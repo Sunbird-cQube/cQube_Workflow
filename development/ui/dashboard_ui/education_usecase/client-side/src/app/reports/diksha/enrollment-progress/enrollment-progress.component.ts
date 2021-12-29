@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts/highstock";
+import HC_exportData from 'highcharts/modules/export-data';
+HC_exportData(Highcharts);
 import { AppServiceComponent } from "src/app/app.service";
 import { EnrollmentProgressLineChartService } from "src/app/services/enrollment-progress-line-chart.service";
 import { ContentUsagePieService } from "src/app/services/content-usage-pie.service";
-import { element } from "protractor";
+
 @Component({
   selector: "app-enrollment-progress",
   templateUrl: "./enrollment-progress.component.html",
@@ -443,17 +445,7 @@ export class EnrollmentProgressComponent implements OnInit {
   }
 
   getLineChart() {
-    let tickIntervlMonth = 1;
-    if (this.category.length > 30 && this.category.length < 60) {
-      tickIntervlMonth = 2;
-    } else if (this.category.length > 60 && this.category.length < 90) {
-      tickIntervlMonth = 3;
-    } else if (this.category.length > 90 && this.category.length < 120) {
-      tickIntervlMonth = 4;
-    } else if (this.category.length > 120) {
-      tickIntervlMonth = 7;
-    }
-   
+    let tickIntervlMonth = 6;
     this.chartOptions = {
       chart: {
         type: "line",
@@ -496,7 +488,7 @@ export class EnrollmentProgressComponent implements OnInit {
         tickInterval: tickIntervlMonth,
 
         categories: this.category.map((date) => {
-          return Highcharts.dateFormat("%d-%b-%Y", new Date(date).getTime());
+          return Highcharts.dateFormat("%d-%m-%Y", new Date(date).getTime());
         }),
         labels:{
           style:{
