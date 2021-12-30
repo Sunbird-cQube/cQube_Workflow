@@ -183,7 +183,6 @@ export class EtbPerCapitaComponent implements OnInit {
         this.myData = this.service.perCapitaState().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
-           
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
@@ -203,7 +202,7 @@ export class EtbPerCapitaComponent implements OnInit {
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
             this.statePlayPerCapita = this.data.footer.per_capita_statewise.toLocaleString('en-IN');
             this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
-            this.stateActualUsers = this.data.footer.total_actual_ETB_users.toLocaleString('en-IN');
+           
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){
@@ -211,7 +210,7 @@ export class EtbPerCapitaComponent implements OnInit {
                    this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
                    this.otherStatePlayPerCapita = item.plays_per_capita.toLocaleString('en-IN');
                    this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
-                   this.otherStateActualUsers = item.actual_ETB_users.toLocaleString('en-IN');
+                 
                   }  
             });
             // options to set for markers in the map
