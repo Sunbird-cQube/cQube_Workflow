@@ -200,7 +200,7 @@ export class EtbPerCapitaComponent implements OnInit {
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
-            this.statePlayPerCapita = this.data.footer.per_capita_statewise.toLocaleString('en-IN');
+            this.statePlayPerCapita = this.data.footer.per_capita_statewise.toFixed(2);
             this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
            
             this.data.data.forEach( item => {
@@ -208,7 +208,7 @@ export class EtbPerCapitaComponent implements OnInit {
                  if(item.district_name === "Others"){
     
                    this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
-                   this.otherStatePlayPerCapita = item.plays_per_capita.toLocaleString('en-IN');
+                   this.otherStatePlayPerCapita = item.plays_per_capita.toFixed(2);
                    this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
                  
                   }  
@@ -372,6 +372,8 @@ for (var key of Object.keys(orgObject)) {
   metrics[key] = orgObject[key].toLocaleString('en-IN');
   if( key === 'actual_etb_users')
   metrics[key] = orgObject[key].toLocaleString('en-IN');
+  if( key === 'plays_per_capita')
+  metrics[key] = orgObject[key].toFixed(2);
 }
 
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
@@ -391,13 +393,7 @@ for (var key of Object.keys(orgObject)) {
         "<br><br><b><u>Metrics of Content Play</u></b>" +
         "<br>" +
         yourData
-        // `
-        // <b><u>Details</u></b> 
-        // <br>  ${yourData1}
-        // <br><br><b><u>Metrics of Content Play</u></b> 
-        // <br> 
-        // ${yourData}
-        // `
+       
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
