@@ -173,7 +173,8 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
                  expected_enrolled: a.expected_total_enrolled, 
                  enrolled_percentage:a.total_enrolled_percentage,
                  certificate_value: a.certificate_count,
-                 certificate_per: a.certificate_percentage}
+                 certificate_per: a.certificate_percentage,
+                collectionId: a.collection_id}
         })
         logger.info('--- diksha get data on collection select api response sent ---');
         res.send({ chartData, downloadData: collectionData, collectionData: collectionData, collectionDataRes });

@@ -111,6 +111,11 @@ export class DikshaReportService {
     return this.http.post(`${this.baseUrl}/tpd/getCollectionData`, data);
   }
 
+  getCertifictaMeta(){
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/tpd/certificateMeta`);
+  }
+
   tpdBlockEnrollCompAll(data) {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/tpd/blockData`, data);
