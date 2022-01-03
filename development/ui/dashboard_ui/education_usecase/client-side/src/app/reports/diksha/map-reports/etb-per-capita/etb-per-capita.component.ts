@@ -45,10 +45,11 @@ export class EtbPerCapitaComponent implements OnInit {
   public reportName1 = "perCapita"
   public reportData
   public selectedType = 'total_content_plays';
-  // public selectedType = 'plays_per_capita';
+  
 
   public selected = "absolute";
   public onRangeSelect;
+  public mapHide
 
   mapName
   constructor(
@@ -78,7 +79,9 @@ export class EtbPerCapitaComponent implements OnInit {
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.globalService.initMap("etbMap", [[this.lat, this.lng]]);
+      this.globalService.initMap("etbMap", [[this.lat, this.lng]]);
+    
+   
     if (this.mapName == 'googlemap') {
       document.getElementById('leafletmap').style.display = "none";
     }
@@ -133,7 +136,7 @@ export class EtbPerCapitaComponent implements OnInit {
       this.selectedIndex = undefined;
       this.deSelect();
 
-      this.deSelect();
+      // this.deSelect();
 
       if (this.myDistData && this.myDistData['data'].length) {
         this.data = this.myDistData;
@@ -201,8 +204,9 @@ export class EtbPerCapitaComponent implements OnInit {
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
             this.statePlayPerCapita = this.data.footer.per_capita_statewise.toFixed(2);
-            this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
-           
+            this.mapHide = this.data.footer.total_expected_ETB_users;
+        
+        this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){

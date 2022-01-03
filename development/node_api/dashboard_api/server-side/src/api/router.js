@@ -132,7 +132,8 @@ const distLevel = require('./controller/diksha/tpd-enroll-completion/distWise');
 const blockLevel = require('./controller/diksha/tpd-enroll-completion/blockWise');
 const clusterLevel = require('./controller/diksha/tpd-enroll-completion/clusterWise');
 const schoolLevel = require('./controller/diksha/tpd-enroll-completion/schoolWise');
-const programData = require('./controller/diksha/tpd-enroll-completion/programData')
+const programData = require('./controller/diksha/tpd-enroll-completion/programData');
+const certificateMate = require('./controller/diksha/tpd-enroll-completion/certificateMeta');
 
 // diskha total content play over years
 const totalContentPlaystateData = require('./controller/diksha/total-content-play-over-years/stateData')
@@ -274,6 +275,7 @@ router.use('/tpd', blockLevel);
 router.use('/tpd', clusterLevel);
 router.use('/tpd', schoolLevel);
 router.use('/tpd',programData);
+router.use('/tpd',certificateMate);
 
 // disha Tpd/Etb map api
 router.use('/tpdMap', tpdMapDistwise);
