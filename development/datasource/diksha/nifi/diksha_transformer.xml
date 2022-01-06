@@ -2040,6 +2040,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>diksha_tpd_r2_enrolment_meta</selectedRelationships>
                     <selectedRelationships>diksha_tpd_r2_meta</selectedRelationships>
                     <source>
                         <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
@@ -39408,8 +39409,8 @@ json_build_object('batchFilter','#{diksha_api_progress_exhaust_batch_id_list}'),
                     <id>b3ce39ac-217a-316e-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-24816.0</x>
-                        <y>-8296.0</y>
+                        <x>-24616.0</x>
+                        <y>-8312.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -41523,6 +41524,12 @@ file: ${filename} null values are not found.</value>
 </value>
                             </entry>
                             <entry>
+<key>diksha_tpd_r2_enrolment_meta</key>
+<value>
+    <name>diksha_tpd_r2_enrolment_meta</name>
+</value>
+                            </entry>
+                            <entry>
 <key>diksha_tpd_r2_meta</key>
 <value>
     <name>diksha_tpd_r2_meta</name>
@@ -41562,6 +41569,10 @@ file: ${filename} null values are not found.</value>
 <value>${query_type:startsWith('diksha_pie')}</value>
                             </entry>
                             <entry>
+<key>diksha_tpd_r2_enrolment_meta</key>
+<value>${query_type:startsWith('diksha_tpd_r2_enrolment_meta')}</value>
+                            </entry>
+                            <entry>
 <key>diksha_tpd_r2_meta</key>
 <value>${query_type:startsWith('diksha_tpd_r2_certificate_meta')}</value>
                             </entry>
@@ -41596,6 +41607,10 @@ file: ${filename} null values are not found.</value>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>diksha_pie</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_tpd_r2_enrolment_meta</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -51501,5 +51516,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/22/2021 20:49:16 IST</timestamp>
+    <timestamp>01/06/2022 12:03:43 IST</timestamp>
 </template>
