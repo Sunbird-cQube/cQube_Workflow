@@ -20,7 +20,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   chartOptions;
 
   public state;
-
+  public reportName = "overTheYears"
   constructor(
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
@@ -241,7 +241,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       });
       this.newDownload(element);
     });
-    this.commonService.download(this.fileName, this.dataToDownload);
+    this.commonService.download(this.fileName, this.dataToDownload, this.reportName);
   }
 
 
@@ -267,6 +267,11 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       yAxis: {
         title: {
           text: "Total Content Play",
+          style:{
+            color: 'black',
+            fontWeight: 'bold',
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          }
         },
         style: {
           color: 'black',
@@ -277,6 +282,10 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         //   return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
         // }
         labels: {
+          style:{
+            color: 'black',
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          },
           formatter: function () {
               var label = this.axis.defaultLabelFormatter.call(this);
 
@@ -292,42 +301,32 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       xAxis: {
         title: {
           text: "Months",
-          fontWeight: 900,
+          style:{
+            color: 'black',
+            fontWeight: 'bold',
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+          }
+         
         },
         margin :"5px",
-        style: {
-          fontWeight: "900",
-          color: 'black',
-          fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-        },
-        label:{
+        // style: {
+        //   fontWeight: "900",
+        //   color: 'black',
+        //   fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+        // },
+        labels:{
           style:{
-            fontWeight: "900"
+            fontWeight: "900",
+            fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           }
         },
         type: "datetime",
         // categories: []
         categories: this.catgory,
-        // labels: {
-        //   formatter: function() {
-        //     return Highcharts.dateFormat('%b/%e/%Y', this.value);
-        //   }
-        // }
+       
       },
 
-      // xAxis: {
-      //   title: {
-      //     text: 'Days'
-      // },
-      //   min:Date.UTC(2020, 5, 1),
-      //   max:Date.UTC(2021, 10, 1),
-      //   //allowDecimals: false,
-      //   type           : 'datetime',
-      //   tickInterval   : 24 * 3600 * 1000*30, //one day
-      //   labels         : {
-      //       rotation : 0
-      //   },
-      // },
+      
       credits: {
         enabled: false,
       },
@@ -346,18 +345,20 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
           }
         }
       },
-      // legend: {
-      //   layout: "vertical",
-      //   align: "right",
-      //   verticalAlign: "middle",
-      // },
+      legend: {
+        itemStyle: {
+          fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+        }
+      },
 
       plotOptions: {
         series: {
+          stickyTracking: false,
           events: {
             legendItemClick: function (e) {
               e.preventDefault();
             },
+           
           },
 
           // pointStart      : pointStart,

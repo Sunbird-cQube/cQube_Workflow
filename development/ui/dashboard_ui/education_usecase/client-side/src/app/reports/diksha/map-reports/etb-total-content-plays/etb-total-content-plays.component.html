@@ -34,7 +34,7 @@
       </div>
       <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
-          <select id="choose_infra" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
+          <select id="choose_type" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
             <option [value]="selectedType" disabled selected="selected">
               Choose Type
             </option>
@@ -65,8 +65,8 @@
       <div *ngIf="selected == 'absolute'" style="float: right; width: 16%; margin-left: 1%; margin-top: 1%; z-index: 100;">
         <h5 id="legend" style="margin-left: 1%">
           <span *ngIf = "selectedType == 'total_content_plays'">{{legandName}}</span>
-         <span *ngIf = "selectedType == 'avg_time_spent'">{{legandName}} &#40; minutes &#41;</span>
-         <span *ngIf = "selectedType == 'total_time_spent'" >{{legandName}} &#40; hours &#41;</span> 
+         <span *ngIf = "selectedType == 'avg_time_spent'">{{legandName}} &#40; Minutes &#41;</span>
+         <span *ngIf = "selectedType == 'total_time_spent'" >{{legandName}} &#40; Hours &#41;</span> 
           <img *ngIf="valueRange != -1 && valueRange !== undefined" id="resetImg" src="../../../../assets/images/reset.png"
             alt="reset" title="Reset to all" style="
               cursor: pointer;
@@ -81,30 +81,40 @@
         </h5>
         <div *ngFor="let value of values; let i = index">
           <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
-            [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"
+          [ngStyle]="{ color: i > 2 ? 'white':'black'}" (click)="selectRange(value, i); select(i)"
             [style.background-color]="legendColors[i]">
             {{ values[i] }}
           </span>
         </div>
       </div>
       <div style="float: right; width: 16%; margin-left: 1%; margin-top: 3%; z-index: 100;">
-        <h5  style="margin-left: 1%; font-size: 12px; font-weight: bold;"> <u>Usage Outside State:-</u></h5> 
-        <span class="legends"  style="text-align: center; font-size: 12px;">Total content play: {{otherStateContentPlays}}  {{othersStatePercentage}} </span><br>    
-        <span class="legends"  style="text-align: center; font-size: 12px;">Total time spent: {{otherStateTotalTime}} hrs </span><br>
-        <span  class="legends"style="text-align: center; font-size: 12px;">Avg time spent: {{otherStateAvgTime}} min</span>
+        <h5  style="margin-left: 1%;  font-weight: 900;" 
+        [ngStyle]="{
+          fontSize:
+            height > 1760
+              ? '33px'
+              : height > 1160 && height < 1760
+              ? '25px'
+              : height > 667 && height < 1160
+              ? '16px'
+              : '16px'
+        }"> <u>Usage Outside State:-</u></h5> 
+        <span class="legends"  style="text-align: center; font-size: 12px;">Total Content Play: {{otherStateContentPlays}}  {{othersStatePercentage}} </span><br>    
+        <span class="legends"  style="text-align: center; font-size: 12px;">Total Time Spent: {{otherStateTotalTime}} Hrs </span><br>
+        <span  class="legends"style="text-align: center; font-size: 12px;">Avg Time Spent: {{otherStateAvgTime}} Mins</span>
       </div>
     </div>
 
   </div>
   <div class="row d-flex justify-content-around text-center" id="footer">
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
+      <span id="etbFooter" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
     </div>
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Total Time Spent: {{stateTotalContentPlay}} </span>
+      <span id="etbFooter" class="note" style="text-align: center">Total Time Spent: {{stateTotalContentPlay}} </span>
     </div>
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Avg Time Spent: {{stateAvgTimeSpend}} </span>
+      <span id="etbFooter" class="note" style="text-align: center">Avg Time Spent: {{stateAvgTimeSpend}} </span>
     </div>
   </div>
 </div>

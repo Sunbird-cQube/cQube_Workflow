@@ -9,9 +9,7 @@
                   <p id="block">
                     Report on User Onboarding:
                     <span (click) = "clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{state}}</span>
-                    <!-- <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
-                      style="cursor: pointer; text-decoration: underline" class="selected-level">
-                      {{ districtHierarchy.districtName }}</span> -->
+                   
                   </p>
                 </div>
                
@@ -48,10 +46,10 @@
                 </p>
               </div>
             </div>
-            <div class="row" style="margin-bottom: 10px">
+            <div class="row d-flex" style="margin-bottom: 10px">
               <div class="col-sm-12">
   
-                <select id="choose_infra" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
+                <select id="choose_program" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
                   <option [value]="selectedProgram" disabled selected="selected">
                     Choose a Program
                   </option>
@@ -60,15 +58,8 @@
                   </option>
                 </select>  
                
-                  <select *ngIf = "level === 'program'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
-                  <option [value]="selectedCourse" disabled selected="selected">
-                    Choose a Course
-                  </option>
-                  <option *ngFor="let course of uniqueDistCourse" [(ngValue)]="course.collection_id">
-                    {{ course.collection_name }}
-                  </option>
-                </select> 
-                <select *ngIf = "level === 'allCourse'" id="choose_infra"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
+                 
+                <select  id="choose_course"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
                   <option [value]="selectedCourse" disabled selected="selected">
                     Choose a Course
                   </option>
@@ -76,7 +67,8 @@
                     {{ course.collection_name }}
                   </option>
                 </select> 
-                <select id="choose_infra" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+
+                <select [hidden] = "districtHidden" id="choose_district" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
                   <option [value]="selectedDist" disabled selected="selected">
                     Choose a District
                   </option>
@@ -90,17 +82,14 @@
           </div>
     </div>
     <div class="row reportContainer pt-4">
-      <div  *ngIf="chartData" class="col-lg-12 m-auto">
-        <div  id="container" class="col-lg-12 m-auto" style="height: 66vh">
+      <div *ngIf ="chartData"   class="col-lg-12 m-auto">
+        <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
 
         </div>
       </div>
         
-      
-      
-        <div *ngIf ="!chartData">
-             Data is not Available
-        </div>
+        <div *ngIf ="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+             Data is not Available 
     </div>
     
 </div>

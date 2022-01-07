@@ -563,7 +563,6 @@ export class SatHeatChartComponent implements OnInit {
       this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
       if (this.grade !== 'all') {
         this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
-        console.log(this.subjects);
         this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
         this.gradeSelected = true;
       } else {

@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6>Usage by Course</h6>
+                            <h6>{{reportHeading.UsagebyCourse}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
                             <p class="mb-0">{{toolTip.dccTooltip}}</p>
@@ -137,8 +137,8 @@
 
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-total-content-plays']"
-                    (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
+                <span id="tpd-gps" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-total-content-plays']"
+                    (click)="fetchTelemetry($event,'tpd-gps')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
@@ -147,10 +147,10 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p *ngIf="tpdcompViews;else other_content" class="text-white mb-0" id="views">
+                                <p *ngIf="tpdgpsViews;else other_content" class="text-white mb-0" id="views">
                                     <strong>Views
                                         :</strong>
-                                    {{tpdcompViews}}
+                                    {{tpdgpsViews}}
                                 </p>
                                 <ng-template #other_content>
                                     <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
@@ -170,8 +170,8 @@
            
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/content-usage-pie-chart']"
-                    (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
+                <span id="tpd-content" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/content-usage-pie-chart']"
+                    (click)="fetchTelemetry($event,'tpd-content')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
@@ -180,10 +180,10 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p *ngIf="tpdcompViews;else other_content" class="text-white mb-0" id="views">
+                                <p *ngIf="tpdcontentViews;else other_content" class="text-white mb-0" id="views">
                                     <strong>Views
                                         :</strong>
-                                    {{tpdcompViews}}
+                                    {{tpdcontentViews}}
                                 </p>
                                 <ng-template #other_content>
                                     <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
@@ -201,8 +201,8 @@
             </div>
 
             <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="tpd-comp" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/average-time-spend']"
-                    (click)="fetchTelemetry($event,'tpd-comp')" class="text-decoration-none">
+                <span id="tpd-userEngag" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/average-time-spend']"
+                    (click)="fetchTelemetry($event,'tpd-userEngag')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
@@ -211,10 +211,10 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p *ngIf="tpdcompViews;else other_content" class="text-white mb-0" id="views">
+                                <p *ngIf="tpdUserEngagViews;else other_content" class="text-white mb-0" id="views">
                                     <strong>Views
                                         :</strong>
-                                    {{tpdcompViews}}
+                                    {{tpdUserEngagViews}}
                                 </p>
                                 <ng-template #other_content>
                                     <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
@@ -230,6 +230,43 @@
                     </div>
                 </span>
             </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+
+                <span id="tpd-userOnboard"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/enrollment-progress']"
+                    (click)="fetchTelemetry($event,'tpd-userOnboard')" class="text-decoration-none">
+
+       
+
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-line-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+
+                                <p *ngIf="tpduserOnboardViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{tpduserOnboardViews}}</p>
+
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>{{reportHeading.UserOnboarding}} </h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.userOnboarding}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
         </div>
     </div>
+
+  
 </div>

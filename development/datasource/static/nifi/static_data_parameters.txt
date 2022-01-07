@@ -478,12 +478,9 @@ or longitude like '0' or longitude like '0.0'""",
 "static_select_cols_diksha_enrolment_tpd_state":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,collection_type,no_of_actual_users,program_id,program_name from flowfile""",
 "static_select_cols_district_state_final":"""SELECT DistrictId as " district_id",District as "district_name" from flowfile""",
 "static_data_type_cluster_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(ParseLong())""",
-"static_process_rec_diksha_enrolment_tpd":"""update log_summary as b
+"static_process_rec_diksha_enrolment_tpd":"""update  log_summary as b
 	set processed_records= a.processed_records
-	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
-		from log_summary group by ff_uuid) as a
-	where a.ff_uuid=b.ff_uuid;""",
+	from (select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(collection_id,batch_id,batch_start_date,district_id))) as processed_records from log_summary group by ff_uuid) as a where a.ff_uuid=b.ff_uuid""",
 "static_save_district_mst_state":"""district_mst""",
 "static_save_district_mst_udise":"""district_mst""",
 "static_diksha_enrolment_tpd_not_null":"""select * from flowfile

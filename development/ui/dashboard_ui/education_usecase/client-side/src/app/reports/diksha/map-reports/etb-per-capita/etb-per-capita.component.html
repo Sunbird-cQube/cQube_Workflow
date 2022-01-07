@@ -5,7 +5,7 @@
           <div class="col-lg-9 col-md-9 col-sm-12">
             <div>
               <p id="dist">
-               Report on Usage per capita:
+               Report on Usage Per Capita:
                 <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
               </p>
             </div>
@@ -16,7 +16,7 @@
                 <p id="errMsg" class="note"></p>
               </div>
               <div class="col-sm-7">
-                <button  class="btn btn-primary" title="Download Report" id="download1"
+                <button *ngIf= "mapHide > 0" class="btn btn-primary" title="Download Report" id="download1"
                           (click)="downloadReport()">
                           Download Report &nbsp;
                           <i class="fa fa-arrow-down" aria-hidden="true"></i>
@@ -34,21 +34,14 @@
         </div>
         <div class="row" style="margin-bottom: 10px">
           <div class="col-sm-12">
-            <!-- <select id="choose_infra" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
-              <option [value]="selectedType" disabled selected="selected">
-                Choose Type
-              </option>
-              <option *ngFor="let selected of selectionType" [(ngValue)]="selected.id">
-                {{ selected.name }}
-              </option>
-            </select> -->
+          
           </div>
         </div>
       </div>
     </div>
   
     <div class="row reportContainer">
-      <div class="col-sm-12">
+      <div [hidden]= "mapHide === 0" class="col-sm-12">
         <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '83%' : '100%' }">
           <div #mapContainer id="etbMap" class="active" [ngStyle]="{
                   height:
@@ -78,7 +71,16 @@
                 margin-top: -5px;
               " (click)="reset('all')" />
           </h5>
-          <span class="" style="font-size: 10px;"><Strong>Note:</Strong> Quartile percantage calculated based on Per Capita</span>
+          <h5 class=""  [ngStyle]="{
+            fontSize:
+              height > 1760
+                ? '33px'
+                : height > 1160 && height < 1760
+                ? '25px'
+                : height > 667 && height < 1160
+                ? '12px'
+                : '12px'
+          }" ><Strong>Note:</Strong> Quartile percentage calculated based on Per Capita</h5>
           <div *ngFor="let value of values; let i = index">
             <span id="{{ i }}" class="legends" style="float: left; cursor: pointer"
               [ngStyle]="{ color: 'black' }" (click)="selectRange(value, i); select(i)"
@@ -88,33 +90,39 @@
           </div>
         </div>
         <div style="float: right; width: 15%; margin-left: 1%; margin-top: 3%; z-index: 100;">
-          <h5  style="margin-left: 1%; font-size: 12px; font-weight: bold;"> <u>Usage Outside State:-</u></h5> 
-          <!-- <span  class="legends"style="text-align: center; font-size: 12px;">Expected Users: {{otherStateExpectdUser}}</span><br> -->
-          <span  class="legends"style="text-align: center; font-size: 12px;">Actual Users: {{otherStateActualUsers}}</span><br>
+          <h5  style="margin-left: 1%;  font-weight: 900;"
+          [ngStyle]="{
+            fontSize:
+              height > 1760
+                ? '33px'
+                : height > 1160 && height < 1760
+                ? '22px'
+                : height > 667 && height < 1160
+                ? '16px'
+                : '16px'
+          }"> <u>Usage Outside State:-</u></h5> 
+        
           <span class="legends"  style="text-align: center; font-size: 12px;">Total Content Plays: {{otherStateContentPlays}}</span><br>
-          <!-- <span class="legends"  style="text-align: center; font-size: 12px;">Play per Capita: {{otherStatePlayPerCapita}}</span><br>     -->
          
         </div>
       </div>
-  
+      <div [hidden]= "mapHide !== 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+        Expected Users is not provided By the State
+    </div> 
     </div>
-    <div class="row d-flex justify-content-around text-center" id="footer">
+    <div *ngIf= "mapHide > 0" class="row d-flex justify-content-around text-center" id="footer">
       
       <div class="col-sm-3">
-        <span id="schools" class="note" style="text-align: center">Expected Users:{{stateExpectedUsers}}  </span>
+        <span id="etbFooter" class="note" style="text-align: center">Expected Users: {{stateExpectedUsers}}  </span>
+      </div>
+    
+      <div class="col-sm-3">
+        <span id="etbFooter" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
       </div>
       <div class="col-sm-3">
-        <span id="schools" class="note" style="text-align: center">Actual Users:{{stateActualUsers}}  </span>
+        <span id="etbFooter" class="note" style="text-align: center">Play per Capita: {{statePlayPerCapita}} </span>
       </div>
-      <div class="col-sm-3">
-        <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
-      </div>
-      <div class="col-sm-3">
-        <span id="schools" class="note" style="text-align: center">Play per Capita: {{statePlayPerCapita}} </span>
-      </div>
-      <!-- <div class="col-sm-3 d-flex justify-content-end">
-        <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}</span>
-      </div> -->
+     
     </div>
   </div>
   <div id="spinner">

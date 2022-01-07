@@ -5,6 +5,8 @@ import { KeycloakSecurityService } from './keycloak-security.service';
 import * as config from '../assets/config.json';
 import { ExportToCsv } from 'export-to-csv';
 import { BehaviorSubject } from 'rxjs';
+import * as json2csv  from 'json2csv';
+import { saveAs } from 'file-saver';
 
 export var globalMap;
 declare const $;
@@ -30,7 +32,7 @@ export class AppServiceComponent {
 
   constructor(
     public http: HttpClient,
-    public keyCloakService: KeycloakSecurityService
+    public keyCloakService: KeycloakSecurityService,
   ) {
     this.token = keyCloakService.kc.token;
     localStorage.setItem("token", this.token);
@@ -129,14 +131,43 @@ export class AppServiceComponent {
     return key;
   }
 
+
+  
+
   //Download reports....
-  download(fileName, reportData) {
+  download(fileName, reportData, reportName= "") {
     if (reportData.length <= 0) {
       alert("No data found to download");
     } else {
       var keys = Object.keys(reportData[0]);
       var updatedKeys = [];
       keys.map((key) => {
+        let actualKey = key;
+      if(reportName == 'pieChart'){
+        if(  key == 'total_content_plays'  ){
+          key = key.concat(`_${this.state}`)
+         }
+         if(  key == 'total_content_plays_percent'  ){
+          key = key.concat(`_${this.state}`)
+         }
+      }
+
+      if(reportName == 'overTheYears'){
+        if(  key == 'plays'  ){
+          key = `total_content_plays_${this.state}`
+         }
+      }
+      if(reportName == 'perCapita'){
+        if(  key == 'expected_etb_users'  ){
+           key = `Expected_ETB_Users`
+         }
+         if(  key == 'actual_etb_users'  ){
+           key = `Actual_ETB_Users`
+         }
+
+         
+      }
+       
         key = key
           .replace(/_/g, " ")
           .toLowerCase()
@@ -144,23 +175,105 @@ export class AppServiceComponent {
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ");
         key = this.capitalize(key);
-        updatedKeys.push(key);
+       if(reportName == "pieChart"){
+        if( key == "Object Type"){
+          updatedKeys.unshift({
+            label: key,
+            value: actualKey
+          })
+        }else{
+          updatedKeys.push({
+            label: key,
+            value: actualKey
+          });
+         }
+       
+       }else if(reportName == "gpsOfLearningTpd"  ){
+         if(key == "District ID"){
+          updatedKeys.splice(0,0,{
+            label: key,
+            value: actualKey
+          });
+         }
+        else  if(key == "District Name"){
+          updatedKeys.splice(1,0,{
+            label: key,
+            value: actualKey
+          });
+         }else{
+          updatedKeys.push({
+            label: key,
+            value: actualKey
+          });
+         }
+       
+      }else if(reportName == "gpsOfLearningEtb"  ){
+        if(key == "District ID"){
+         updatedKeys.splice(0,0,{
+           label: key,
+           value: actualKey
+         });
+        }
+       else  if(key == "District Name"){
+         updatedKeys.splice(1,0,{
+           label: key,
+           value: actualKey
+         });
+        }else{
+         updatedKeys.push({
+           label: key,
+           value: actualKey
+         });
+        }
+      
+     }else if(reportName == "perCapita"  ){
+        if(key == "District Name"){
+       updatedKeys.splice(0,0,{
+         label: key,
+         value: actualKey
+       });
+      }else{
+       updatedKeys.push({
+         label: key,
+         value: actualKey
+       });
+      }
+    if(key === "Expected Etb Users"){
+      return key = "Expected ETB Users"
+    }
+   }else{
+       updatedKeys.push({
+         label: key,
+         value: actualKey
+       });
+      }
+       
+     
       });
-      const options = {
-        fieldSeparator: ",",
-        quoteStrings: '"',
-        decimalSeparator: ".",
-        showLabels: true,
-        showTitle: false,
-        title: "My Awesome CSV",
-        useTextFile: false,
-        useBom: true,
-        // useKeysAsHeaders: true,
-        headers: updatedKeys,
-        filename: fileName,
-      };
-      const csvExporter = new ExportToCsv(options);
-      csvExporter.generateCsv(reportData);
+      
+      // const options = {
+      //   fieldSeparator: ",",
+      //   quoteStrings: '"',
+      //   decimalSeparator: ".",
+      //   showLabels: true,
+      //   showTitle: false,
+      //   title: "My Awesome CSV",
+      //   useTextFile: false,
+      //   useBom: true,
+      //   useKeysAsHeaders: true,
+      //   headers: updatedKeys,
+      //   filename: fileName,
+      // };
+      // const csvExporter = new ExportToCsv(options);
+      // csvExporter.generateCsv(reportData);
+      
+
+      const opts = { fields:updatedKeys, output: fileName };
+      const csv = json2csv.parse(reportData, opts);
+      // this.domSanitizer.bypassSecurityTrustUrl('data:text/csv,' + encodeURIComponent(csv));
+
+      let file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      saveAs(file,`${fileName}.csv`);
     }
   }
 
@@ -294,24 +407,27 @@ export class AppServiceComponent {
     });
     
     let uniqueItems1 = []
-    let maxArr = uniqueItems[uniqueItems.length - 1];
-    let partition;
-    if (filter.value == "avg_time_spent") {
-      partition = maxArr / 5;
-      //  partition = partition.toFixed(2)
-      //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
-    } else {
-      partition = Math.round(maxArr / 5);
-    }
-    for (let i = 0; i < 5; i++) {
-      if (filter.value == "avg_time_spent") {
-        uniqueItems1.push(Number(`${(partition * (i + 1)).toFixed(2)}`)); // 0-partition /  partition+1-partition*2
-      } else {
-        // uniqueItems1.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
-        uniqueItems1.push(Number(`${partition * (i + 1)}`));
-      }
-    }
+    
+    const min = Math.min(...uniqueItems);
+    const max = Math.max(...uniqueItems);
    
+   
+    const ranges = [];
+    
+    const getRangeArray = (min, max, n) => {
+      const delta = (max - min) / n;
+      let range1 = min;
+      for (let i = 0; i < n; i += 1) {
+          const range2 = range1 + delta;
+          uniqueItems1.push(`${range2}`);
+         
+          range1 = range2;
+      }
+    
+      return ranges;
+    };
+    
+    const rangeArrayIn5Parts = getRangeArray(min, max, 5);
    
    var colorsArr = ["#d9ef8b","#a6d96a", "#66bd63","#1a9850", "#006837"]
     var colors = {};
@@ -327,7 +443,7 @@ export class AppServiceComponent {
        }else if(a > uniqueItems1[3]){
         colors[`${a}`] = colorsArr[4];
        }
-      // colors[`${a}`] = colorsArr[i];
+     
     });
     return colors;
 
