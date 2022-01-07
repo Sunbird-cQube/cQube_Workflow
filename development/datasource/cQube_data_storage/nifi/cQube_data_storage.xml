@@ -5854,10 +5854,9 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>diksha_program_course</selectedRelationships>
                     <selectedRelationships>static_block</selectedRelationships>
                     <selectedRelationships>static_cluster</selectedRelationships>
-                    <selectedRelationships>static_diksha_tpd_enrolment</selectedRelationships>
+                    <selectedRelationships>static_diksha_enrolment</selectedRelationships>
                     <selectedRelationships>static_district</selectedRelationships>
                     <selectedRelationships>static_school_master</selectedRelationships>
                     <source>
@@ -10651,12 +10650,10 @@
                     <selectedRelationships>cqube_telemetry</selectedRelationships>
                     <selectedRelationships>crc</selectedRelationships>
                     <selectedRelationships>data_replay_retention</selectedRelationships>
-                    <selectedRelationships>diksha_programs</selectedRelationships>
-                    <selectedRelationships>diksha_tpd_enrolment</selectedRelationships>
+                    <selectedRelationships>diksha_enroment</selectedRelationships>
                     <selectedRelationships>district_master</selectedRelationships>
                     <selectedRelationships>infra_trans</selectedRelationships>
                     <selectedRelationships>pat</selectedRelationships>
-                    <selectedRelationships>program_course</selectedRelationships>
                     <selectedRelationships>sat</selectedRelationships>
                     <selectedRelationships>school_category</selectedRelationships>
                     <selectedRelationships>school_management</selectedRelationships>
@@ -27542,15 +27539,9 @@ ${query_type:startsWith('pat_exception_management_grade_school_last_30_days'):if
 </value>
                             </entry>
                             <entry>
-<key>diksha_programs</key>
+<key>diksha_enroment</key>
 <value>
-    <name>diksha_programs</name>
-</value>
-                            </entry>
-                            <entry>
-<key>diksha_tpd_enrolment</key>
-<value>
-    <name>diksha_tpd_enrolment</name>
+    <name>diksha_enroment</name>
 </value>
                             </entry>
                             <entry>
@@ -27569,12 +27560,6 @@ ${query_type:startsWith('pat_exception_management_grade_school_last_30_days'):if
 <key>pat</key>
 <value>
     <name>pat</name>
-</value>
-                            </entry>
-                            <entry>
-<key>program_course</key>
-<value>
-    <name>program_course</name>
 </value>
                             </entry>
                             <entry>
@@ -27659,11 +27644,7 @@ or(${filename:startsWith('diksha_tpd_mapping'):
 or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
                             </entry>
                             <entry>
-<key>diksha_programs</key>
-<value>${filename:startsWith('diksha_enrollment')}</value>
-                            </entry>
-                            <entry>
-<key>diksha_tpd_enrolment</key>
+<key>diksha_enroment</key>
 <value>${filename:startsWith('diksha_enrolment')}</value>
                             </entry>
                             <entry>
@@ -27677,10 +27658,6 @@ or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
                             <entry>
 <key>pat</key>
 <value>${filename:startsWith('periodic_'):or(${filename:startsWith('pat/')})}</value>
-                            </entry>
-                            <entry>
-<key>program_course</key>
-<value>${filename:startsWith('program_course ')}</value>
                             </entry>
                             <entry>
 <key>sat</key>
@@ -27813,11 +27790,7 @@ ${filename:startsWith('sch_safety')}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>diksha_programs</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>diksha_tpd_enrolment</name>
+                        <name>diksha_enroment</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -27830,10 +27803,6 @@ ${filename:startsWith('sch_safety')}
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>pat</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>program_course</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -43078,12 +43047,6 @@ ${query_type:startsWith('tch_att_management_exception_school_overall'):ifElse('e
 </value>
                             </entry>
                             <entry>
-<key>diksha_program_course</key>
-<value>
-    <name>diksha_program_course</name>
-</value>
-                            </entry>
-                            <entry>
 <key>infra_trans</key>
 <value>
     <name>infra_trans</name>
@@ -43114,9 +43077,9 @@ ${query_type:startsWith('tch_att_management_exception_school_overall'):ifElse('e
 </value>
                             </entry>
                             <entry>
-<key>static_diksha_tpd_enrolment</key>
+<key>static_diksha_enrolment</key>
 <value>
-    <name>static_diksha_tpd_enrolment</name>
+    <name>static_diksha_enrolment</name>
 </value>
                             </entry>
                             <entry>
@@ -43173,11 +43136,10 @@ or(${filename:startsWith('data_replay')})}</value>
                             </entry>
                             <entry>
 <key>diksha</key>
-<value>${filename:startsWith('diksha')}</value>
-                            </entry>
-                            <entry>
-<key>diksha_program_course</key>
-<value>${filename:startsWith('program_course')}</value>
+<value>${filename:startsWith('diksha'):and(
+${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_etb_enrolment')})}):not()}</value>
                             </entry>
                             <entry>
 <key>infra_trans</key>
@@ -43210,8 +43172,10 @@ ${filename:startsWith('semester_exam_subject_details')}
 <value>${filename:startsWith('cluster')}</value>
                             </entry>
                             <entry>
-<key>static_diksha_tpd_enrolment</key>
-<value>${filename:startsWith('diksha_enrolment')}</value>
+<key>static_diksha_enrolment</key>
+<value>${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_etb_enrolment')})}</value>
                             </entry>
                             <entry>
 <key>static_district</key>
@@ -43293,10 +43257,6 @@ ${filename:startsWith('sch_safety')}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>diksha_program_course</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
                         <name>infra_trans</name>
                     </relationships>
                     <relationships>
@@ -43317,7 +43277,7 @@ ${filename:startsWith('sch_safety')}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>static_diksha_tpd_enrolment</name>
+                        <name>static_diksha_enrolment</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -77754,5 +77714,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/06/2022 12:04:40 IST</timestamp>
+    <timestamp>01/07/2022 17:15:55 IST</timestamp>
 </template>
