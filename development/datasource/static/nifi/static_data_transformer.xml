@@ -448,6 +448,39 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>263273e3-b834-39b0-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-8968.0</x>
+                        <y>1872.0</y>
+                    </bends>
+                    <bends>
+                        <x>-8864.0</x>
+                        <y>2464.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>2930646d-f05c-3cee-0000-000000000000</id>
+                        <type>FUNNEL</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_enrolment</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>6d8cd8bd-5e8a-371e-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>26adc989-7a5a-3d92-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -992,7 +1025,7 @@
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>-13064.0</x>
+                        <x>-13072.0</x>
                         <y>2632.0</y>
                     </bends>
                     <destination>
@@ -1182,8 +1215,8 @@
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>-12640.0</x>
-                        <y>2632.0</y>
+                        <x>-12656.0</x>
+                        <y>2624.0</y>
                     </bends>
                     <destination>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
@@ -1597,7 +1630,7 @@
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>-13464.0</x>
+                        <x>-13448.0</x>
                         <y>2640.0</y>
                     </bends>
                     <destination>
@@ -1855,7 +1888,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
-                        <id>dbc023e4-4034-3b40-0000-000000000000</id>
+                        <id>6d8cd8bd-5e8a-371e-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -2003,7 +2036,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>diksha_tpd_expected_enrolment</selectedRelationships>
+                    <selectedRelationships>diksha_enrolment</selectedRelationships>
                     <selectedRelationships>school_category</selectedRelationships>
                     <selectedRelationships>school_management</selectedRelationships>
                     <selectedRelationships>static_block</selectedRelationships>
@@ -3364,6 +3397,31 @@
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
                         <id>dbc023e4-4034-3b40-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>e58910fe-c3ec-36af-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>dbc023e4-4034-3b40-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>6d8cd8bd-5e8a-371e-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -6048,8 +6106,8 @@
                     <id>bbf7c5fb-822c-3fb9-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-2680.0</x>
-                        <y>1904.0</y>
+                        <x>-2760.0</x>
+                        <y>1896.0</y>
                     </position>
                     <height>584.0</height>
                     <label>Geo 
@@ -6465,15 +6523,17 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_record_check_school_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_record_check_school_category_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_check_school_management_state},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_record_check_diksha_enrolment_tpd_state},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_same_record_check_diksha_program_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_same_record_check_diksha_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_record_check_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_record_check_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_record_check_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_record_check_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_record_check_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_record_check_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_record_check_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_check_school_management_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_record_check_diksha_enrolment_tpd_udise},'None')}
-)})})})})})})} )} )} )} )})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_check_school_management_udise},'None')}
+)})})})})})})} )} )} )} )})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -6965,15 +7025,17 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_select_cols_school_state_final},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_select_cols_school_category_state_final},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_state_final},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_select_cols_diksha_enrolment_tpd_state_final},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_select_cols_diksha_program_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_select_cols_diksha_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_select_cols_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_select_cols_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_select_cols_district_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_select_cols_block_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_select_cols_cluster_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_select_cols_school_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_select_cols_school_category_udise_final},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_udise_final},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_select_cols_diksha_enrolment_tpd_udise_final},'None')}
-)})})})})})})})})})})})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_udise_final},'None')}
+)})})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -7250,7 +7312,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>STOPPED</state>
+                    <state>DISABLED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ListFile</type>
                 </processors>
@@ -7570,7 +7632,7 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse('processed_file_count_diksh
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>STOPPED</state>
+                    <state>DISABLED</state>
                     <style/>
                     <type>org.apache.nifi.processors.azure.storage.ListAzureBlobStorage</type>
                 </processors>
@@ -10158,7 +10220,10 @@ ${filename:startsWith('cluster_m'):ifElse(#{static_cluster_check_if_null},
 ${filename:startsWith('district_m'):ifElse(#{static_district_check_if_null},
 ${filename:startsWith('school_category_master'):ifElse(#{static_school_category_check_if_null},
 ${filename:startsWith('school_management_master'):ifElse(#{static_school_management_check_if_null},
-${filename:startsWith('diksha_enrolment_tpd'):ifElse(#{static_diksha_enrolment_tpd_check_if_null},'None')} )} )} )} )})}</value>
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_check_if_null},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_check_if_null},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_check_if_null},
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_check_if_null},'None')} )} )} )} )})})})})}</value>
                             </entry>
                             <entry>
 <key>not_null</key>
@@ -10167,7 +10232,10 @@ ${filename:startsWith('cluster_m'):ifElse(#{static_cluster_not_null},
 ${filename:startsWith('district_m'):ifElse(#{static_district_not_null},
 ${filename:startsWith('school_category_master'):ifElse(#{static_school_category_not_null},
 ${filename:startsWith('school_management_master'):ifElse(#{static_school_management_not_null},
-${filename:startsWith('diksha_enrolment_tpd'):ifElse(#{static_diksha_enrolment_tpd_not_null},'None')} )} )} )} )})}</value>
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_not_null},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_not_null},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_not_null},
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_not_null},'None')} )} )} )} )})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -11525,6 +11593,68 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse('input_record_count_diksha_
                     <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
                 </processors>
                 <processors>
+                    <id>6d8cd8bd-5e8a-371e-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-9096.0</x>
+                        <y>1632.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_enrolment</key>
+<value>
+    <name>diksha_enrolment</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>diksha_enrolment</key>
+<value>${filename:startsWith('diksha_course_details'):or(${filename:startsWith('diksha_program_course_details')})}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>static_route_diksha_enrolment</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_enrolment</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>6de31b15-8b2b-307e-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
@@ -11602,14 +11732,14 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_id_filter_school_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_id_filter_school_category_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_filter_school_management_state},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_id_filter_diksha_enrolment_tpd_state},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_id_filter_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_id_filter_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_id_filter_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_id_filter_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_id_filter_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_id_filter_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_id_filter_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_filter_school_management_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_id_filter_diksha_enrolment_tpd_udise},'None')}
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_filter_school_management_udise},'None')}
 )})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
@@ -12416,7 +12546,10 @@ ${filename:startsWith('school_category_master'):ifElse('school_category_null_col
 ${filename:startsWith('school_management_master'):ifElse('school_management_null_col',
 ${filename:startsWith('semester_exam_grade_details'):ifElse('sat_null_col',
 ${filename:startsWith('semester_exam_subject_details'):ifElse('sat_null_col',
-${filename:startsWith('diksha_enrolment_tpd'):ifElse('diksha_enrolment_tpd_null_col','None')} )} )} )} )})})})}</value>
+${filename:startsWith('diksha_program_course_details'):ifElse('diksha_program_course_details_null_col',
+${filename:startsWith('diksha_course_details'):ifElse('diksha_course_details_null_col',
+${filename:startsWith('diksha_course_enrolment'):ifElse('diksha_course_enrolment_null_col',
+${filename:startsWith('diksha_etb_enrolment'):ifElse('diksha_etb_enrolment_null_col','None')} )} )} )} )})})})})})}</value>
                             </entry>
                             <entry>
 <key>put-db-record-translate-field-names</key>
@@ -13098,15 +13231,17 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_data_type_school_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_data_type_school_category_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_data_type_school_management_state},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_data_type_diksha_enrolment_tpd_state},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_data_type_diksha_program_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_data_type_diksha_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_data_type_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_data_type_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_data_type_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_data_type_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_data_type_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_data_type_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_data_type_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_data_type_school_management_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_data_type_diksha_enrolment_tpd_udise},'None')}
-)})})})})})})} )} )} )} )})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_data_type_school_management_udise},'None')}
+)})})})})})})} )} )} )} )})})})})}</value>
                             </entry>
                             <entry>
 <key>validate-csv-header</key>
@@ -13582,15 +13717,17 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_save_school_mst_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_save_school_category_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_save_school_management_state},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_save_diksha_enrolment_tpd_state},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_save_diksha_program_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_save_diksha_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_save_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_save_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_save_district_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_save_block_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_save_cluster_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_save_school_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_save_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_save_school_management_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_save_diksha_enrolment_tpd_udise},'None')}
-)})})})})})})})})})})})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_save_school_management_udise},'None')}
+)})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>put-db-record-translate-field-names</key>
@@ -13612,15 +13749,17 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse('school_id',
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse('school_category_id',
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse('school_management_type_id',
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse('program_id,collection_id,district_id,batch_id',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse('program_id',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse('course_id,course_start_date',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse('course_id,district_id',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse('academic_year,district_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse('district_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse('block_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse('cluster_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse('school_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse('school_category_id',
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse('school_management_type_id',
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse('program_id,collection_id,district_id,batch_id','None')}
-)})})})})})})})})})})})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse('school_management_type_id','None')}
+)})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>put-db-record-field-containing-sql</key>
@@ -14334,15 +14473,17 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_record_filter_school_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_record_filter_school_category_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_filter_school_management_state},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_record_filter_diksha_enrolment_tpd_state},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_same_record_filter_diksha_program_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_same_record_filter_diksha_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_record_filter_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_record_filter_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_record_filter_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_record_filter_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_record_filter_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_record_filter_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_record_filter_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_filter_school_management_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_record_filter_diksha_enrolment_tpd_udise},
-'None')})})})})})})})} )} )} )} )})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_filter_school_management_udise},'None')})})})})})})})} )} )} )} 
+)})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -14450,7 +14591,14 @@ ${filename:startsWith('cluster_m'):ifElse(#{static_cluster_null_log},
 ${filename:startsWith('district_m'):ifElse(#{static_district_null_log},
 ${filename:startsWith('school_category_master'):ifElse(#{static_school_category_null_log},
 ${filename:startsWith('school_management_master'):ifElse(#{static_school_management_null_log},
-${filename:startsWith('diksha_enrolment_tpd'):ifElse(#{static_diksha_enrolment_tpd_null_log},'None')} )} )} )} )})}</value>
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_null_log},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_null_log},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_null_log},
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_null_log},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_null_log},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_null_log},
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_null_log},'None')} )} 
+)} )} )})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -16161,14 +16309,14 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_id_check_school_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_id_check_school_category_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_check_school_management_state},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_id_check_diksha_enrolment_tpd_state},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_id_check_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_id_check_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_id_check_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_id_check_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_id_check_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_id_check_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_id_check_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_check_school_management_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_same_id_check_diksha_enrolment_tpd_udise},'None')}
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_check_school_management_udise},'None')}
 )})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
@@ -17614,15 +17762,17 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_select_cols_school_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_select_cols_school_category_state},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_state},
-${static_datasource:toLower():equals('state'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_select_cols_diksha_enrolment_tpd_state},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_select_cols_diksha_program_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_select_cols_diksha_course_details},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_select_cols_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_select_cols_diksha_etb_enrolment},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_select_cols_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_select_cols_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_select_cols_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_select_cols_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_select_cols_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_enrolment_tpd')}):ifElse(#{static_select_cols_diksha_enrolment_tpd_udise},'None')} )} 
-)} )} )} )} )} )} )} )} )} )})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_udise},'None')} )} 
+)} )} )} )} )} )} )} )} )} )})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -17766,9 +17916,9 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_
 </value>
                             </entry>
                             <entry>
-<key>diksha_tpd_expected_enrolment</key>
+<key>diksha_enrolment</key>
 <value>
-    <name>diksha_tpd_expected_enrolment</name>
+    <name>diksha_enrolment</name>
 </value>
                             </entry>
                             <entry>
@@ -17817,7 +17967,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_
 <value>Route to Property name</value>
                             </entry>
                             <entry>
-<key>diksha_tpd_expected_enrolment</key>
+<key>diksha_enrolment</key>
 <value>${path:startsWith('diksha_enrolment/'):or(${filename:startsWith('diksha_enrolment/'):or(${azure.blobname:startsWith('diksha_enrolment/')})})}</value>
                             </entry>
                             <entry>
@@ -17854,7 +18004,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('diksha_
                     <name>route_based_on_s3_dir</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>diksha_tpd_expected_enrolment</name>
+                        <name>diksha_enrolment</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -18337,7 +18487,15 @@ ${filename:startsWith('cluster_m'):ifElse(#{static_cluster_null_value_count},
 ${filename:startsWith('district_m'):ifElse(#{static_district_count_null_vals},
 ${filename:startsWith('school_category_master'):ifElse(#{static_school_category_count_null_vals},
 ${filename:startsWith('school_management_master'):ifElse(#{static_school_management_count_null_vals},
-${filename:startsWith('diksha_enrolment_tpd'):ifElse(#{static_diksha_enrolment_tpd_count_null_vals},'None')} )} )} )} )})}</value>
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_count_null_vals},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_count_null_vals},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_count_null_vals},
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_count_null_vals},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_count_null_vals},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_count_null_vals},
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_count_null_vals},'None')} 
+)} )} )} )})})})})})})})}
+</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -18872,5 +19030,5 @@ where ff_uuid= '${files_uuid}'</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/20/2021 17:09:25 IST</timestamp>
+    <timestamp>01/07/2022 19:10:35 IST</timestamp>
 </template>
