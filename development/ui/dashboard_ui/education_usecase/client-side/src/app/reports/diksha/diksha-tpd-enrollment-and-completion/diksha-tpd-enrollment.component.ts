@@ -111,6 +111,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
     this.getAllData();
     this.getProgramData();
+    // this.getCertiMeta();
   }
 
   //making chart empty:::::::::
@@ -191,7 +192,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           this.districts = result["chartData"]["dropDown"];
           this.reportData = result["downloadData"];
           this.getBarChartData();
-          this.getCertiMeta()
+
           this.commonService.loaderAndErr(this.result);
         },
         (err) => {
@@ -231,19 +232,21 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   // certificate meta
   public certificateMeta: any
+  certificateTrue = []
+  certificateFalse = []
+  certificateBarToggle: boolean
   getCertiMeta() {
     try {
+      this.certificateTrue = []
+      this.certificateFalse = []
       this.service.getCertifictaMeta().subscribe(res => {
         this.certificateMeta = res['data'];
-        let certificateTrue = []
-        let certificateFalse = []
         this.certificateMeta.forEach(certificate => {
-          if (certificate.is_certificate_available === true) {
-            certificateTrue.push(certificate.collection_id)
-          } else if (certificate.is_certificate_available === true) {
-            certificateFalse.push(certificate.collection_id)
+          if (certificate.collection_id === this.selectedCourse) {
+            return this.certificateBarToggle = certificate.certficate_status
           }
         })
+
       })
     } catch (error) {
 
@@ -314,26 +317,32 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.xAxisLabel = "Percentage",
       this.yAxisLabel = "District names"
 
+
     try {
+      this.listCollectionNames()
       this.programBarData = this.programData.filter((program) => {
         return program.program_id === this.selectedProgram;
       });
-      let collectionlist = this.collectionData.data.filter((program) => {
-        return program.program_id === this.selectedProgram;
-      });
-      if (collectionlist) {
-        let collections = [];
+      // let collectionlist = this.collectionData.data.filter((program) => {
+      //   return program.program_id === this.selectedProgram;
+      // });
 
-        let collectionMap = new Map();
+      // console.log('allcoll', collectionlist)
 
-        collectionlist.forEach((collection) => {
-          if (!collectionMap.has(collection.collection_id)) {
-            collections.push(collection);
-            collectionMap.set(collection.collection_id, true);
-          }
-        });
-        this.collectionNames = collections;
-      }
+      // if (collectionlist) {
+      //   let collections = [];
+
+      //   let collectionMap = new Map();
+
+      //   collectionlist.forEach((collection) => {
+      //     if (!collectionMap.has(collection.collection_id)) {
+      //       collections.push(collection);
+      //       collectionMap.set(collection.collection_id, true);
+      //     }
+      //   });
+      //   this.collectionNames = collections;
+
+      // }
 
       var chartData = {
         labels: "",
@@ -375,7 +384,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Lsiting all collection  names::::::::::::::::::
   listCollectionNames() {
     this.commonService.errMsg();
-
     this.service
       .tpdgetCollection({
         timePeriod: this.timePeriod,
@@ -385,15 +393,41 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.collectionNames = [];
-          this.collectionNames = res["allCollections"];
-          this.collectionData = res["allData"];
-          this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
-          document.getElementById("spinner").style.display = "none";
+          if (this.level == 'district') {
+            this.collectionNames = res["allCollections"];
+            this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+          }
+
+          if (this.level == 'program') {
+            this.collectionNames = []
+            this.collectionData = res["allData"];
+            let collectionlist = this.collectionData.data.filter((program) => {
+              return program.program_id === this.selectedProgram;
+            });
+
+
+            if (collectionlist) {
+              let collections = [];
+
+              let collectionMap = new Map();
+
+              collectionlist.forEach((collection) => {
+                if (!collectionMap.has(collection.collection_id)) {
+                  collections.push(collection);
+                  collectionMap.set(collection.collection_id, true);
+                }
+              });
+              this.collectionNames = collections;
+
+            }
+          }
+          // document.getElementById("spinner").style.display = "none";
+          this.commonService.loaderAndErr(this.collectionNames);
         },
         (err) => {
-          this.result = [];
+          this.collectionNames = [];
           this.emptyChart();
-          this.commonService.loaderAndErr(this.result);
+          this.commonService.loaderAndErr(this.collectionNames);
         }
       );
   }
@@ -493,7 +527,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     let compliChartData = [];
     let pecentChartData = [];
 
-
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
         this.category.push(this.result.labels[i] ? this.result.labels[i] : " ");
@@ -505,8 +538,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     }
     this.result.data.forEach((element, i) => {
-
-
 
       if (
         (this.level === "district") &&
@@ -524,23 +555,52 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         enrollChartData.push(Number(element[`enrollment`]));
         compliChartData.push(Number(element[`completion`]));
 
-      } else if (this.level === "district" && this.courseSelected) {
+      } else if ((this.level === "district" || this.level === 'program') && this.courseSelected) {
+        if (element[`expected_enrolled`] === 0 && this.certificateBarToggle === true) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+          pecentChartData.push(Number(element[`certificate_value`]));
+        } else if (element[`expected_enrolled`] === 0 && this.certificateBarToggle !== true) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+        } else if (element[`expected_enrolled`] > 0 && this.certificateBarToggle === true) {
+          expectedEnrolled.push(Number(element[`expected_enrolled`]));
+          enrollChartData.push(Number(element[`enrolled_percentage`]));
+          compliChartData.push(Number(element[`percent_completion`]));
+          pecentChartData.push(Number(element[`certificate_per`]));
+        } else if (element[`expected_enrolled`] > 0 && this.certificateBarToggle !== true) {
+          expectedEnrolled.push(Number(element[`expected_enrolled`]));
+          enrollChartData.push(Number(element[`enrolled_percentage`]));
+          compliChartData.push(Number(element[`percent_completion`]));
+          // pecentChartData.push(Number(element[`certificate_per`]));
+        }
+      } else if (this.level === "program" && this.courseSelected === false) {
         if (element[`expected_enrolled`] === 0) {
-          expectedEnrolled.push(Number(element[`enrollment`]));
-          enrollChartData.push(Number(element[`completion`]));
-          compliChartData.push(Number(element[`certificate_value`]));
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+          pecentChartData.push(Number(element[`certificate_value`]));
         } else {
           expectedEnrolled.push(Number(element[`expected_enrolled`]));
           enrollChartData.push(Number(element[`enrolled_percentage`]));
           compliChartData.push(Number(element[`percent_completion`]));
           pecentChartData.push(Number(element[`certificate_per`]));
         }
-      } else if (this.level === "program" && this.courseSelected === false) {
-        expectedEnrolled.push(Number(element[`expected_enrolled`]));
-        enrollChartData.push(Number(element[`enrolled_percentage`]));
-        compliChartData.push(Number(element[`percent_completion`]));
-        pecentChartData.push(Number(element[`certificate_per`]));
+
       }
+      //  else if (this.level === "program" && this.courseSelected) {
+      //   if (element[`expected_enrolled`] === 0) {
+      //     enrollChartData.push(Number(element[`enrollment`]));
+      //     compliChartData.push(Number(element[`completion`]));
+      //     pecentChartData.push(Number(element[`certificate_value`]));
+      //   } else {
+      //     expectedEnrolled.push(Number(element[`expected_enrolled`]));
+      //     enrollChartData.push(Number(element[`enrolled_percentage`]));
+      //     compliChartData.push(Number(element[`percent_completion`]));
+      //     pecentChartData.push(Number(element[`certificate_per`]));
+      //   }
+
+      // }
+
 
       // tool tip
 
@@ -817,9 +877,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.districtId = undefined;
     this.clusterId = undefined;
 
-    this.level = 'district';
+    this.level = this.programSeleted ? 'program' : 'district';
     this.xAxisLabel = "Percentage";
-    this.yAxisLabel = "District names"
+    this.yAxisLabel = "District names";
+
+
     if ($event) {
       this.collectionName = $event.collection_id;
       this.emptyChart();
@@ -848,6 +910,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       if (this.clusterId) {
         requestBody.clusterId = this.clusterId;
       }
+      this.getCertiMeta();
 
       this.service.getCollectionData(requestBody).subscribe(
         async (res) => {
@@ -881,7 +944,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
             // this.commonService.loaderAndErr(this.result);
           }
+          // this.getCertiMeta();
           this.getBarChartData();
+
           this.commonService.loaderAndErr(this.result);
         },
         (err) => {
