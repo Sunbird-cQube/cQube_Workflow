@@ -16,7 +16,7 @@
                 <p id="errMsg" class="note"></p>
               </div>
               <div class="col-sm-7">
-                <button  class="btn btn-primary" title="Download Report" id="download1"
+                <button *ngIf= "mapHide > 0" class="btn btn-primary" title="Download Report" id="download1"
                           (click)="downloadReport()">
                           Download Report &nbsp;
                           <i class="fa fa-arrow-down" aria-hidden="true"></i>
@@ -41,7 +41,7 @@
     </div>
   
     <div class="row reportContainer">
-      <div class="col-sm-12">
+      <div [hidden]= "mapHide === 0" class="col-sm-12">
         <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '83%' : '100%' }">
           <div #mapContainer id="etbMap" class="active" [ngStyle]="{
                   height:
@@ -101,21 +101,21 @@
                 ? '16px'
                 : '16px'
           }"> <u>Usage Outside State:-</u></h5> 
-          <span  class="legends"style="text-align: center; font-size: 12px;">Actual Users: {{otherStateActualUsers}}</span><br>
+        
           <span class="legends"  style="text-align: center; font-size: 12px;">Total Content Plays: {{otherStateContentPlays}}</span><br>
          
         </div>
       </div>
-  
+      <div [hidden]= "mapHide !== 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+        Expected Users is not provided By the State
+    </div> 
     </div>
-    <div class="row d-flex justify-content-around text-center" id="footer">
+    <div *ngIf= "mapHide > 0" class="row d-flex justify-content-around text-center" id="footer">
       
       <div class="col-sm-3">
         <span id="etbFooter" class="note" style="text-align: center">Expected Users: {{stateExpectedUsers}}  </span>
       </div>
-      <div class="col-sm-3">
-        <span id="etbFooter" class="note" style="text-align: center">Actual Users: {{stateActualUsers}}  </span>
-      </div>
+    
       <div class="col-sm-3">
         <span id="etbFooter" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
       </div>

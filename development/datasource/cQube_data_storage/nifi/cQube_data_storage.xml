@@ -118,31 +118,6 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>02b37d56-d6e5-3fa2-0000-000000000000</id>
-                    <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
-                        <id>0839b399-92d9-3130-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
-                        <id>f661bc31-42c6-3a86-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
                     <id>02c04452-230a-3ee5-0000-000000000000</id>
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -5512,6 +5487,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>6d7160f5-7be4-3ef3-0000-000000000000</id>
+                    <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
+                        <id>4dde8d72-142a-342b-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
+                        <id>5c4faeb6-c3e7-3647-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>6e8fc0dd-0c46-3b9b-0000-000000000000</id>
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -5856,7 +5856,7 @@
                     <name></name>
                     <selectedRelationships>static_block</selectedRelationships>
                     <selectedRelationships>static_cluster</selectedRelationships>
-                    <selectedRelationships>static_diksha_tpd_enrolment</selectedRelationships>
+                    <selectedRelationships>static_diksha_enrolment</selectedRelationships>
                     <selectedRelationships>static_district</selectedRelationships>
                     <selectedRelationships>static_school_master</selectedRelationships>
                     <source>
@@ -7677,6 +7677,7 @@
                     <name></name>
                     <selectedRelationships>cqube_telemetry</selectedRelationships>
                     <selectedRelationships>data_replay_retention</selectedRelationships>
+                    <selectedRelationships>diksha_tpd_mapping</selectedRelationships>
                     <selectedRelationships>infra_trans</selectedRelationships>
                     <selectedRelationships>unmatched</selectedRelationships>
                     <source>
@@ -8475,7 +8476,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
-                        <id>4dde8d72-142a-342b-0000-000000000000</id>
+                        <id>5c4faeb6-c3e7-3647-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -10534,7 +10535,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
-                        <id>f661bc31-42c6-3a86-0000-000000000000</id>
+                        <id>0839b399-92d9-3130-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -10649,7 +10650,7 @@
                     <selectedRelationships>cqube_telemetry</selectedRelationships>
                     <selectedRelationships>crc</selectedRelationships>
                     <selectedRelationships>data_replay_retention</selectedRelationships>
-                    <selectedRelationships>diksha_tpd_enrolment</selectedRelationships>
+                    <selectedRelationships>diksha_enroment</selectedRelationships>
                     <selectedRelationships>district_master</selectedRelationships>
                     <selectedRelationships>infra_trans</selectedRelationships>
                     <selectedRelationships>pat</selectedRelationships>
@@ -16029,7 +16030,7 @@
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <position>
                         <x>11888.0</x>
-                        <y>-576.0</y>
+                        <y>-728.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -21064,8 +21065,8 @@ where ff_uuid= '${zip_identifier}'
                     <id>0839b399-92d9-3130-0000-000000000000</id>
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <position>
-                        <x>11568.0</x>
-                        <y>104.0</y>
+                        <x>11576.0</x>
+                        <y>-136.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -22975,13 +22976,7 @@ file:${filename} successfully stored "${query_type}" output into output storage.
                         <properties>
                             <entry>
 <key>Object Key</key>
-<value>${filename:startsWith('district_m'):ifElse('log_summary/static/log_summary_district.json',
-${filename:startsWith('block_m'):ifElse('log_summary/static/log_summary_block.json',
-${filename:startsWith('cluster_m'):ifElse('log_summary/static/log_summary_cluster.json',
-${filename:startsWith('school_mst'):ifElse('log_summary/static/log_summary_school.json',
-${filename:startsWith('school_management'):ifElse('log_summary/static/log_summary_school_management.json',
-${filename:startsWith('diksha_enrolment_tpd'):ifElse('log_summary/static/log_summary_diksha_enrolment_tpd.json','NONE')}
-)} )} )} )})}</value>
+<value>${filename}</value>
                             </entry>
                             <entry>
 <key>Bucket</key>
@@ -27538,9 +27533,9 @@ ${query_type:startsWith('pat_exception_management_grade_school_last_30_days'):if
 </value>
                             </entry>
                             <entry>
-<key>diksha_tpd_enrolment</key>
+<key>diksha_enroment</key>
 <value>
-    <name>diksha_tpd_enrolment</name>
+    <name>diksha_enroment</name>
 </value>
                             </entry>
                             <entry>
@@ -27643,7 +27638,7 @@ or(${filename:startsWith('diksha_tpd_mapping'):
 or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
                             </entry>
                             <entry>
-<key>diksha_tpd_enrolment</key>
+<key>diksha_enroment</key>
 <value>${filename:startsWith('diksha_enrolment')}</value>
                             </entry>
                             <entry>
@@ -27789,7 +27784,7 @@ ${filename:startsWith('sch_safety')}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>diksha_tpd_enrolment</name>
+                        <name>diksha_enroment</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -41930,6 +41925,101 @@ ${query_type:startsWith('sat_management_subject_footer_district_last_7_days'):if
                     <type>org.apache.nifi.processors.azure.storage.PutAzureBlobStorage</type>
                 </processors>
                 <processors>
+                    <id>5c4faeb6-c3e7-3647-0000-000000000000</id>
+                    <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>11832.0</x>
+                        <y>-616.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>
+    <name>filename</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>${filename:startsWith('district_m'):ifElse('log_summary/static/log_summary_district.json',
+${filename:startsWith('block_m'):ifElse('log_summary/static/log_summary_block.json',
+${filename:startsWith('cluster_m'):ifElse('log_summary/static/log_summary_cluster.json',
+${filename:startsWith('school_mst'):ifElse('log_summary/static/log_summary_school.json',
+${filename:startsWith('school_management'):ifElse('log_summary/static/log_summary_school_management.json',
+${filename:startsWith('diksha_program_details'):ifElse('log_summary/static/diksha_enrolment/log_summary_diksha_program_details.json',
+${filename:startsWith('diksha_program_course_details'):ifElse('log_summary/static/diksha_enrolment/log_summary_diksha_program_course_details.json',
+${filename:startsWith('diksha_course_details'):ifElse('log_summary/static/diksha_enrolment/log_summary_diksha_course_details.json',
+${filename:startsWith('diksha_course_enrolment'):ifElse('log_summary/static/diksha_enrolment/log_summary_diksha_course_enrolment.json',
+${filename:startsWith('diksha_etb_enrolment'):ifElse('log_summary/static/diksha_enrolment/log_summary_diksha_etb_enrolment.json','None')})})})})})})})})})}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>UpdateAttribute</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
                     <id>5ccc2f96-f069-3808-0000-000000000000</id>
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <position>
@@ -43076,9 +43166,9 @@ ${query_type:startsWith('tch_att_management_exception_school_overall'):ifElse('e
 </value>
                             </entry>
                             <entry>
-<key>static_diksha_tpd_enrolment</key>
+<key>static_diksha_enrolment</key>
 <value>
-    <name>static_diksha_tpd_enrolment</name>
+    <name>static_diksha_enrolment</name>
 </value>
                             </entry>
                             <entry>
@@ -43135,7 +43225,10 @@ or(${filename:startsWith('data_replay')})}</value>
                             </entry>
                             <entry>
 <key>diksha</key>
-<value>${filename:startsWith('diksha')}</value>
+<value>${filename:startsWith('diksha'):and(
+${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_etb_enrolment')})}):not()}</value>
                             </entry>
                             <entry>
 <key>infra_trans</key>
@@ -43168,8 +43261,11 @@ ${filename:startsWith('semester_exam_subject_details')}
 <value>${filename:startsWith('cluster')}</value>
                             </entry>
                             <entry>
-<key>static_diksha_tpd_enrolment</key>
-<value>${filename:startsWith('diksha_enrolment')}</value>
+<key>static_diksha_enrolment</key>
+<value>${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_etb_enrolment')}):or(${filename:startsWith('diksha_program_details')}):
+or(${filename:startsWith('diksha_enrolment')})}</value>
                             </entry>
                             <entry>
 <key>static_district</key>
@@ -43271,7 +43367,7 @@ ${filename:startsWith('sch_safety')}
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>static_diksha_tpd_enrolment</name>
+                        <name>static_diksha_enrolment</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -43829,7 +43925,7 @@ file: ${filename} contain null  in district_name or block_name or cluster_name.S
                             </entry>
                             <entry>
 <key>filename</key>
-<value>${emission_filename:contains('diksha_tpd'):ifElse('log_summary_diksha_tpd.json',
+<value>${emission_filename:contains('diksha_tpd'):or(${emission_filename:contains('diksha/diksha_tpd')}):ifElse('log_summary_diksha_tpd.json',
 ${emission_filename:contains('data_summary')}):ifElse('log_summary_diksha.json','None')}</value>
                             </entry>
                         </properties>
@@ -48757,6 +48853,12 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
 </value>
                             </entry>
                             <entry>
+<key>diksha_tpd_mapping</key>
+<value>
+    <name>diksha_tpd_mapping</name>
+</value>
+                            </entry>
+                            <entry>
 <key>infra_trans</key>
 <value>
     <name>infra_trans</name>
@@ -48781,6 +48883,10 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
 or(${filename:startsWith('data_replay')})}</value>
                             </entry>
                             <entry>
+<key>diksha_tpd_mapping</key>
+<value>${filename:startsWith('diksha_tpd_mapping')}</value>
+                            </entry>
+                            <entry>
 <key>infra_trans</key>
 <value>${filename:startsWith('infra_trans')}</value>
                             </entry>
@@ -48799,6 +48905,10 @@ or(${filename:startsWith('data_replay')})}</value>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>data_replay_retention</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_tpd_mapping</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -59314,8 +59424,11 @@ total_count,
 total_time_spent,
 user_login_type,
 user_signin_type,
-batch_id,
-batch_start_date)
+program_name,
+course_id,
+course_start_date,
+expected_etb_users,
+academic_year)
 VALUES ('${emission_filename:substringAfter('/')}',
         '${source.uuid}',
         0,
@@ -59386,7 +59499,7 @@ VALUES ('${emission_filename:substringAfter('/')}',
         0,
         0,
         0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)</value>
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -60589,6 +60702,7 @@ ${query_type:startsWith('diksha_tpd_block_wise'):ifElse('diksha_tpd/block/${type
 ${query_type:startsWith('diksha_tpd_cluster_wise'):ifElse('diksha_tpd/cluster/${type}.json',
 ${query_type:startsWith('diksha_tpd_school_wise'):ifElse('diksha_tpd/school/${type}.json',
 ${query_type:startsWith('diksha_tpd_r2_certificate_meta'):ifElse('diksha_tpd/report2/course_certificate_meta.json',
+${query_type:startsWith('diksha_tpd_r2_enrolment_meta'):ifElse('diksha_tpd/report2/course_enrolment_meta.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_day'):ifElse('diksha_tpd/report2/last_day/district/${type}.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_7_days'):ifElse('diksha_tpd/report2/last_7_days/district/${type}.json',
 ${query_type:startsWith('diksha_tpd_r2_district_last_30_days'):ifElse('diksha_tpd/report2/last_30_days/district/${type}.json',
@@ -60651,7 +60765,7 @@ ${query_type:startsWith('diksha_tpd_enrolment_progress_all_program'):ifElse('dik
 ${query_type:startsWith('diksha_tpd_enrolment_progress_all_prog_coll'):ifElse('diksha_tpd/enrolment_progress/all_programs_collections.json','None')}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})}
 )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )}  )}  )} )} )} )} )})}
-)})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -65054,7 +65168,7 @@ and(${filename:startsWith('diksha_tpd_api'):not()})}</value>
                     <id>cf8a1ec7-d7d0-39dc-0000-000000000000</id>
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <position>
-                        <x>5000.0</x>
+                        <x>5008.0</x>
                         <y>-1264.0</y>
                     </position>
                     <bundle>
@@ -72717,13 +72831,7 @@ ${emission_filename:substringAfter('/'):startsWith('diksha_data_summary'):ifElse
                             </entry>
                             <entry>
 <key>blob</key>
-<value>${filename:startsWith('district_m'):ifElse('log_summary/static/log_summary_district.json',
-${filename:startsWith('block_m'):ifElse('log_summary/static/log_summary_block.json',
-${filename:startsWith('cluster_m'):ifElse('log_summary/static/log_summary_cluster.json',
-${filename:startsWith('school_mst'):ifElse('log_summary/static/log_summary_school.json',
-${filename:startsWith('school_management'):ifElse('log_summary/static/log_summary_school_management.json',
-${filename:startsWith('diksha_enrolment_tpd'):ifElse('log_summary/static/log_summary_diksha_enrolment_tpd.json','NONE')}
-)} )} )} )})}</value>
+<value>${filename}</value>
                             </entry>
                             <entry>
 <key>azure-create-container</key>
@@ -75526,98 +75634,6 @@ ${query_type:startsWith('stud_att_management_category_school_by_month_year'):ifE
                     <type>org.apache.nifi.processors.standard.Notify</type>
                 </processors>
                 <processors>
-                    <id>f661bc31-42c6-3a86-0000-000000000000</id>
-                    <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>11568.0</x>
-                        <y>-160.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-update-attribute-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>Delete Attributes Expression</key>
-<value>
-    <name>Delete Attributes Expression</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Store State</key>
-<value>
-    <name>Store State</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Stateful Variables Initial Value</key>
-<value>
-    <name>Stateful Variables Initial Value</name>
-</value>
-                            </entry>
-                            <entry>
-<key>canonical-value-lookup-cache-size</key>
-<value>
-    <name>canonical-value-lookup-cache-size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>filename</key>
-<value>
-    <name>filename</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>Delete Attributes Expression</key>
-                            </entry>
-                            <entry>
-<key>Store State</key>
-<value>Do not store state</value>
-                            </entry>
-                            <entry>
-<key>Stateful Variables Initial Value</key>
-                            </entry>
-                            <entry>
-<key>canonical-value-lookup-cache-size</key>
-<value>100</value>
-                            </entry>
-                            <entry>
-<key>filename</key>
-<value>${filename:startsWith('district_m'):ifElse('log_summary_district.json',
-${filename:startsWith('block_m'):ifElse('log_summary_block.json',
-${filename:startsWith('cluster_m'):ifElse('log_summary_cluster.json',
-${filename:startsWith('school_mst'):ifElse('log_summary_school.json',
-${filename:startsWith('school_management'):ifElse('log_summary_school_management.json',
-${filename:startsWith('diksha_enrolment_tpd'):ifElse('log_summary_diksha_enrolment_tpd.json','NONE')}
-)} )} )} )})}</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>0 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>UpdateAttribute</name>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>success</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
-                </processors>
-                <processors>
                     <id>f6b76c4e-07b5-3aee-0000-000000000000</id>
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <position>
@@ -77693,5 +77709,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>12/23/2021 14:06:57 IST</timestamp>
+    <timestamp>01/11/2022 16:59:48 IST</timestamp>
 </template>

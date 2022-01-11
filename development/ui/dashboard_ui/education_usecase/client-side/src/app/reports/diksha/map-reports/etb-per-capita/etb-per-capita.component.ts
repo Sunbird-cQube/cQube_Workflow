@@ -45,10 +45,11 @@ export class EtbPerCapitaComponent implements OnInit {
   public reportName1 = "perCapita"
   public reportData
   public selectedType = 'total_content_plays';
-  // public selectedType = 'plays_per_capita';
+  
 
   public selected = "absolute";
   public onRangeSelect;
+  public mapHide
 
   mapName
   constructor(
@@ -78,7 +79,9 @@ export class EtbPerCapitaComponent implements OnInit {
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.globalService.initMap("etbMap", [[this.lat, this.lng]]);
+      this.globalService.initMap("etbMap", [[this.lat, this.lng]]);
+    
+   
     if (this.mapName == 'googlemap') {
       document.getElementById('leafletmap').style.display = "none";
     }
@@ -133,7 +136,7 @@ export class EtbPerCapitaComponent implements OnInit {
       this.selectedIndex = undefined;
       this.deSelect();
 
-      this.deSelect();
+      // this.deSelect();
 
       if (this.myDistData && this.myDistData['data'].length) {
         this.data = this.myDistData;
@@ -183,7 +186,6 @@ export class EtbPerCapitaComponent implements OnInit {
         this.myData = this.service.perCapitaState().subscribe(
           (res) => {
             this.myDistData = this.data = res["data"];
-           
             let keys = Object.keys(this.data.data[0])
             let obj = {}
             for (let i = 0; i < keys.length ; i++) {
@@ -201,17 +203,18 @@ export class EtbPerCapitaComponent implements OnInit {
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
-            this.statePlayPerCapita = this.data.footer.per_capita_statewise.toLocaleString('en-IN');
-            this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
-            this.stateActualUsers = this.data.footer.total_actual_ETB_users.toLocaleString('en-IN');
+            this.statePlayPerCapita = this.data.footer.per_capita_statewise.toFixed(2);
+            this.mapHide = this.data.footer.total_expected_ETB_users;
+        
+        this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
             this.data.data.forEach( item => {
               
                  if(item.district_name === "Others"){
     
                    this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
-                   this.otherStatePlayPerCapita = item.plays_per_capita.toLocaleString('en-IN');
+                   this.otherStatePlayPerCapita = item.plays_per_capita.toFixed(2);
                    this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
-                   this.otherStateActualUsers = item.actual_ETB_users.toLocaleString('en-IN');
+                 
                   }  
             });
             // options to set for markers in the map
@@ -373,6 +376,8 @@ for (var key of Object.keys(orgObject)) {
   metrics[key] = orgObject[key].toLocaleString('en-IN');
   if( key === 'actual_etb_users')
   metrics[key] = orgObject[key].toLocaleString('en-IN');
+  if( key === 'plays_per_capita')
+  metrics[key] = orgObject[key].toFixed(2);
 }
 
      yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
@@ -392,13 +397,7 @@ for (var key of Object.keys(orgObject)) {
         "<br><br><b><u>Metrics of Content Play</u></b>" +
         "<br>" +
         yourData
-        // `
-        // <b><u>Details</u></b> 
-        // <br>  ${yourData1}
-        // <br><br><b><u>Metrics of Content Play</u></b> 
-        // <br> 
-        // ${yourData}
-        // `
+       
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {

@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts/highstock";
+import HC_exportData from 'highcharts/modules/export-data';
+HC_exportData(Highcharts);
 import { AppServiceComponent } from "src/app/app.service";
 import { EnrollmentProgressLineChartService } from "src/app/services/enrollment-progress-line-chart.service";
 import { ContentUsagePieService } from "src/app/services/content-usage-pie.service";
-import { element } from "protractor";
+
 @Component({
   selector: "app-enrollment-progress",
   templateUrl: "./enrollment-progress.component.html",
@@ -53,13 +55,13 @@ export class EnrollmentProgressComponent implements OnInit {
   }
 
   emptyChart() {
-    //  this.chartData = [];
+    
     this.expectedEnrolled = [];
     this.netEnrolled = [];
     this.category = [];
-    //  this.selectedCourseData = [];
+   
     this.courseToDropDown = [];
-    //  this.reportData= [];
+   
   }
 
   getStateData() {
@@ -70,7 +72,7 @@ export class EnrollmentProgressComponent implements OnInit {
         this.reportData = this.stateData;
         this.createLineChart(this.stateData);
         this.getDistMeta();
-        // this.getAllDistCollection();
+        
       });
     } catch (error) {}
   }
@@ -91,13 +93,11 @@ export class EnrollmentProgressComponent implements OnInit {
   public distData;
   getDistWise() {
     this.emptyChart();
-    // this.reportData = [];
+    
     try {
       this.service.enrollmentProDist().subscribe((res) => {
         this.distData = res["data"]["data"];
-        // this.reportData = this.distData
-        // this.createLineChart(this.stateData);
-        // this.getDistMeta()
+       
       });
     } catch (error) {}
   }
@@ -315,12 +315,12 @@ export class EnrollmentProgressComponent implements OnInit {
         })
          
 
-        // this.getCollectionDropDown(this.selectedDistData);
+        
         this.reportData = this.selectedDistData;
         this.createLineChart(this.selectedDistData);
         document.getElementById("spinner").style.display = "none";
       }else if(this.courseSelected === true && this.programSelected !== true ) {
-        //  this.courseSelected = false;
+        
         this.selectedDistData = [];
         this.selectedDistWiseCourse = [];
         this.selectedDistData = this.distData.filter((collection) => {
@@ -343,7 +343,7 @@ export class EnrollmentProgressComponent implements OnInit {
         this.selectedDistData = this.distData[this.selectedDist];
           this.getCollectionDropDown(this.selectedDistData);
         
-        // this.getCollectionDropDown(this.selectedDistData);
+        
         this.reportData = this.selectedDistData;
         setTimeout(() => {
           document.getElementById("spinner").style.display = "display";
@@ -386,7 +386,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.emptyChart();
     this.selectedCourseData = [];
     this.selectedCourse = courseId;
-    // document.getElementById("spinner").style.display = "display";
+    
     if (this.level === "district") {
       
       this.distWiseCourse.forEach((course) => {
@@ -397,7 +397,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
       this.createLineChart(this.selectedCourseData);
       this.reportData = this.selectedCourseData;
-      // document.getElementById("spinner").style.display = "none";
+     
     } else if (this.level === "allCourse") {
       this.allCollection.forEach((course) => {
         if (course.collection_id === this.selectedCourse) {
@@ -443,17 +443,12 @@ export class EnrollmentProgressComponent implements OnInit {
   }
 
   getLineChart() {
-    let tickIntervlMonth = 1;
-    if (this.category.length > 30 && this.category.length < 60) {
-      tickIntervlMonth = 2;
-    } else if (this.category.length > 60 && this.category.length < 90) {
-      tickIntervlMonth = 3;
-    } else if (this.category.length > 90 && this.category.length < 120) {
-      tickIntervlMonth = 4;
-    } else if (this.category.length > 120) {
-      tickIntervlMonth = 7;
+    let tickIntervlMonth 
+    if(this.category.length < 90){
+       tickIntervlMonth = 6;
+    }else if(this.category.length > 90){
+       tickIntervlMonth = this.category.length/15;
     }
-   
     this.chartOptions = {
       chart: {
         type: "line",
@@ -496,7 +491,7 @@ export class EnrollmentProgressComponent implements OnInit {
         tickInterval: tickIntervlMonth,
 
         categories: this.category.map((date) => {
-          return Highcharts.dateFormat("%d-%b-%Y", new Date(date).getTime());
+          return Highcharts.dateFormat("%d-%m-%Y", new Date(date).getTime());
         }),
         labels:{
           style:{

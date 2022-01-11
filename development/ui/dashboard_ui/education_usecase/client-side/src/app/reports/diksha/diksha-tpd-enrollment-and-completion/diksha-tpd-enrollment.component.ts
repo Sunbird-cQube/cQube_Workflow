@@ -26,7 +26,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public chartData: Number[] = [];
   // public completion: Number[] = [];
   public completion: any;
-  public xAxisLabel: String = "Percentage";
+  public xAxisLabel: String = ""
   public yAxisLabel: String;
   public reportName: String = "enrollment_completion";
   public report = "enroll/comp";
@@ -96,24 +96,22 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   state: string;
 
   @ViewChild("singleSelect", { static: true }) singleSelect: MatSelect;
-  /** control for the selected bank */
-  public bankCtrl: FormControl = new FormControl();
-  /** control for the MatSelect filter keyword */
-  public bankFilterCtrl: FormControl = new FormControl();
+
   constructor(
     public http: HttpClient,
     public service: DikshaReportService,
     public commonService: AppServiceComponent,
     public router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    // this.bankCtrl.setValue(this.collectionNames);
+
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
     this.getAllData();
     this.getProgramData();
+    // this.getCertiMeta();
   }
 
   //making chart empty:::::::::
@@ -137,15 +135,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.collectionName = "";
     this.selectedCourse = undefined;
     this.districtHidden = true;
-    this.selectedProgram = "";
+    this.selectedProgram = undefined;
     this.timePeriod = "overall";
     this.programSeleted = false;
     this.districtId = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
     this.courseSelected = false;
-   this.districtSelected = false;
-   this.blockSelected = false;
+    this.districtSelected = false;
+    this.blockSelected = false;
 
     this.level = "district";
     this.yAxisLabel = "District Names";
@@ -174,7 +172,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.collectionNames = [];
     this.commonService.errMsg();
     this.level = "district";
-    //this.collectionName = '';
     this.footer = "";
     this.fileName = `${this.reportName}_${this.type}_all_district_${this.timePeriod}_${this.commonService.dateAndTime}`;
     this.result = [];
@@ -184,6 +181,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blok = false;
     this.clust = false;
     this.yAxisLabel = "District Names";
+    this.xAxisLabel = "Total Number";
 
     this.listCollectionNames();
     this.service
@@ -194,6 +192,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           this.districts = result["chartData"]["dropDown"];
           this.reportData = result["downloadData"];
           this.getBarChartData();
+
           this.commonService.loaderAndErr(this.result);
         },
         (err) => {
@@ -213,9 +212,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clusters = [];
     this.blockId = undefined;
     this.clusterId = undefined;
-    // this.collectionNames = [];
+
     this.commonService.errMsg();
-    // this.level = "district"
+
     try {
       this.service.tpdProgramData().subscribe((res) => {
         this.programData = res["data"]["data"];
@@ -230,6 +229,29 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }
   }
 
+
+  // certificate meta
+  public certificateMeta: any
+  certificateTrue = []
+  certificateFalse = []
+  certificateBarToggle: boolean
+  getCertiMeta() {
+    try {
+      this.certificateTrue = []
+      this.certificateFalse = []
+      this.service.getCertifictaMeta().subscribe(res => {
+        this.certificateMeta = res['data'];
+        this.certificateMeta.forEach(certificate => {
+          if (certificate.collection_id === this.selectedCourse) {
+            return this.certificateBarToggle = certificate.certficate_status
+          }
+        })
+
+      })
+    } catch (error) {
+
+    }
+  }
   ///---custom search function---
 
   customSearchFn(term: string, item: any) {
@@ -253,7 +275,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         program_name: program.program_name,
       });
     });
-    // this.programToDropDown.map(x => this.uniqeProgram.filter(a => a.id == x.id && a.name == x.name).length > 0 ? null : this.uniqeProgram.push(x));
+
 
     let mymap = new Map();
 
@@ -276,7 +298,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.collectionName = "";
     this.courseSelected = false;
     this.districtSelected = false;
-    this.blockSelected =false;
+    this.blockSelected = false;
 
     this.programSeleted = true;
     this.blockHidden = true;
@@ -291,28 +313,36 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.programBarData = [];
     this.commonService.errMsg();
     this.selectedProgram = progID;
-    this.level = "district";
+    this.level = "program";
+    this.xAxisLabel = "Percentage",
+      this.yAxisLabel = "District names"
+
 
     try {
+      this.listCollectionNames()
       this.programBarData = this.programData.filter((program) => {
         return program.program_id === this.selectedProgram;
       });
-      let collectionlist = this.collectionData.data.filter((program) => {
-        return program.program_id === this.selectedProgram;
-      });
-      if (collectionlist) {
-        let collections = [];
+      // let collectionlist = this.collectionData.data.filter((program) => {
+      //   return program.program_id === this.selectedProgram;
+      // });
 
-        let collectionMap = new Map();
+      // console.log('allcoll', collectionlist)
 
-        collectionlist.forEach((collection) => {
-          if (!collectionMap.has(collection.collection_id)) {
-            collections.push(collection);
-            collectionMap.set(collection.collection_id, true);
-          }
-        });
-        this.collectionNames = collections;
-      }
+      // if (collectionlist) {
+      //   let collections = [];
+
+      //   let collectionMap = new Map();
+
+      //   collectionlist.forEach((collection) => {
+      //     if (!collectionMap.has(collection.collection_id)) {
+      //       collections.push(collection);
+      //       collectionMap.set(collection.collection_id, true);
+      //     }
+      //   });
+      //   this.collectionNames = collections;
+
+      // }
 
       var chartData = {
         labels: "",
@@ -354,7 +384,6 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Lsiting all collection  names::::::::::::::::::
   listCollectionNames() {
     this.commonService.errMsg();
-    //this.collectionName = '';
     this.service
       .tpdgetCollection({
         timePeriod: this.timePeriod,
@@ -364,15 +393,41 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.collectionNames = [];
-          this.collectionNames = res["allCollections"];
-          this.collectionData = res["allData"];
-          this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
-          document.getElementById("spinner").style.display = "none";
+          if (this.level == 'district') {
+            this.collectionNames = res["allCollections"];
+            this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+          }
+
+          if (this.level == 'program') {
+            this.collectionNames = []
+            this.collectionData = res["allData"];
+            let collectionlist = this.collectionData.data.filter((program) => {
+              return program.program_id === this.selectedProgram;
+            });
+
+
+            if (collectionlist) {
+              let collections = [];
+
+              let collectionMap = new Map();
+
+              collectionlist.forEach((collection) => {
+                if (!collectionMap.has(collection.collection_id)) {
+                  collections.push(collection);
+                  collectionMap.set(collection.collection_id, true);
+                }
+              });
+              this.collectionNames = collections;
+
+            }
+          }
+          // document.getElementById("spinner").style.display = "none";
+          this.commonService.loaderAndErr(this.collectionNames);
         },
         (err) => {
-          this.result = [];
+          this.collectionNames = [];
           this.emptyChart();
-          this.commonService.loaderAndErr(this.result);
+          this.commonService.loaderAndErr(this.collectionNames);
         }
       );
   }
@@ -395,7 +450,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
     this.emptyChart();
-     this.level = 'district'
+    this.level = 'district'
     this.expEnrolChartData = [];
     this.expectedEnrolled = [];
     this.enrollChartData = [];
@@ -405,14 +460,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.selectedCourse = undefined;
     this.districtHidden = true;
     this.selectedProgram = "";
-    // this.timePeriod = "overall";
     this.programSeleted = false;
     this.districtId = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
     this.courseSelected = false;
-   this.districtSelected = false;
-   this.blockSelected = false;
+    this.districtSelected = false;
+    this.blockSelected = false;
 
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
@@ -454,7 +508,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }
   }
 
-  
+
   public expEnrolChartData: any = [];
 
   getBarChartData() {
@@ -481,17 +535,17 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.result.labels.forEach((item) => {
         this.category = this.result.labels;
       });
-      // this.category = this.result.labels;
+
     }
-    this.result.data.forEach((element) => {
+    this.result.data.forEach((element, i) => {
+
       if (
-        (this.level === "district" || this.level === "program") &&
+        (this.level === "district") &&
         this.courseSelected === false
       ) {
-        expectedEnrolled.push(Number(element[`expected_enrolled`]));
-        enrollChartData.push(Number(element[`enrolled_percentage`]));
-        compliChartData.push(Number(element[`percent_completion`]));
-        pecentChartData.push(Number(element[`certificate_per`]));
+
+        enrollChartData.push(Number(element[`enrollment`]));
+        compliChartData.push(Number(element[`completion`]));
       } else if (
         this.level === "block" ||
         this.level === "cluster" ||
@@ -500,17 +554,58 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       ) {
         enrollChartData.push(Number(element[`enrollment`]));
         compliChartData.push(Number(element[`completion`]));
-        pecentChartData.push(Number(element[`certificate_value`]));
-      } else if (this.level === "district" && this.courseSelected) {
-        enrollChartData.push(Number(element[`enrollment`]));
-        compliChartData.push(Number(element[`completion`]));
-        pecentChartData.push(Number(element[`certificate_value`]));
+
+      } else if ((this.level === "district" || this.level === 'program') && this.courseSelected) {
+        if (element[`expected_enrolled`] === 0 && this.certificateBarToggle === true) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+          pecentChartData.push(Number(element[`certificate_value`]));
+        } else if (element[`expected_enrolled`] === 0 && this.certificateBarToggle !== true) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+        } else if (element[`expected_enrolled`] > 0 && this.certificateBarToggle === true) {
+          expectedEnrolled.push(Number(element[`expected_enrolled`]));
+          enrollChartData.push(Number(element[`enrolled_percentage`]));
+          compliChartData.push(Number(element[`percent_completion`]));
+          pecentChartData.push(Number(element[`certificate_per`]));
+        } else if (element[`expected_enrolled`] > 0 && this.certificateBarToggle !== true) {
+          expectedEnrolled.push(Number(element[`expected_enrolled`]));
+          enrollChartData.push(Number(element[`enrolled_percentage`]));
+          compliChartData.push(Number(element[`percent_completion`]));
+          // pecentChartData.push(Number(element[`certificate_per`]));
+        }
+      } else if (this.level === "program" && this.courseSelected === false) {
+        if (element[`expected_enrolled`] === 0) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+          pecentChartData.push(Number(element[`certificate_value`]));
+        } else {
+          expectedEnrolled.push(Number(element[`expected_enrolled`]));
+          enrollChartData.push(Number(element[`enrolled_percentage`]));
+          compliChartData.push(Number(element[`percent_completion`]));
+          pecentChartData.push(Number(element[`certificate_per`]));
+        }
+
       }
-  
+      //  else if (this.level === "program" && this.courseSelected) {
+      //   if (element[`expected_enrolled`] === 0) {
+      //     enrollChartData.push(Number(element[`enrollment`]));
+      //     compliChartData.push(Number(element[`completion`]));
+      //     pecentChartData.push(Number(element[`certificate_value`]));
+      //   } else {
+      //     expectedEnrolled.push(Number(element[`expected_enrolled`]));
+      //     enrollChartData.push(Number(element[`enrolled_percentage`]));
+      //     compliChartData.push(Number(element[`percent_completion`]));
+      //     pecentChartData.push(Number(element[`certificate_per`]));
+      //   }
+
+      // }
+
+
       // tool tip
 
-        this.completion.push(element)
-   
+      this.completion.push(element)
+
     });
 
     this.enrollChartData = enrollChartData;
@@ -522,13 +617,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .toString()
       .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-    this.xAxisLabel = this.type.charAt(0).toUpperCase() + this.type.slice(1);
+
   }
 
   //Showing district data based on selected id:::::::::::::::::
   distLinkClick(districtId) {
     this.onDistSelect(districtId);
-    // this.collectionName = '';
+
   }
 
   onDistSelect(districtId) {
@@ -541,7 +636,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.pecentChartData = [];
     this.districtSelected = true;
     this.blockSelected = false;
-    // this.result = null;
+
     this.globalId = districtId;
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -556,7 +651,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blockId = undefined;
     this.clusterId = undefined;
     this.yAxisLabel = "Block Names";
-
+    this.xAxisLabel = "Total Numbers"
     var requestBody: any = {
       timePeriod: this.timePeriod,
       districtId: districtId,
@@ -586,7 +681,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
             districtName: res["downloadData"][0].district_name,
           };
         }
-       
+
         this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${districtId}_${this.commonService.dateAndTime}`;
         this.blocks = this.reportData = res["downloadData"];
         this.getBarChartData();
@@ -603,7 +698,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Showing block data based on selected id:::::::::::::::::
   blockLinkClick(blockId) {
     this.onBlockSelect(blockId);
-    // this.collectionName = '';
+
   }
   onBlockSelect(blockId) {
     this.emptyChart();
@@ -627,8 +722,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names";
-    
-     
+
+
     var requestBody: any = {
       timePeriod: this.timePeriod,
       blockId: blockId,
@@ -726,11 +821,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     if (this.courseSelected) {
       requestBody.courseSelected = this.courseSelected;
     }
-    if(this.districtSelected){
+    if (this.districtSelected) {
       requestBody.districtSelected = this.districtSelected;
     }
 
-    if(this.blockSelected){
+    if (this.blockSelected) {
       requestBody.blockSelected = this.blockSelected;
     }
 
@@ -781,8 +876,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clusterHidden = true;
     this.districtId = undefined;
     this.clusterId = undefined;
-    
-    this.level = 'district'
+
+    this.level = this.programSeleted ? 'program' : 'district';
+    this.xAxisLabel = "Percentage";
+    this.yAxisLabel = "District names";
+
+
     if ($event) {
       this.collectionName = $event.collection_id;
       this.emptyChart();
@@ -811,6 +910,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       if (this.clusterId) {
         requestBody.clusterId = this.clusterId;
       }
+      this.getCertiMeta();
 
       this.service.getCollectionData(requestBody).subscribe(
         async (res) => {
@@ -844,7 +944,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
             // this.commonService.loaderAndErr(this.result);
           }
+          // this.getCertiMeta();
           this.getBarChartData();
+
           this.commonService.loaderAndErr(this.result);
         },
         (err) => {
