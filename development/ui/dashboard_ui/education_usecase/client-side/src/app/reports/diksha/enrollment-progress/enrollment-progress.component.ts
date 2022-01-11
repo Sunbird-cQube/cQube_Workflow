@@ -27,13 +27,14 @@ export class EnrollmentProgressComponent implements OnInit {
   public selectedCourse;
   public reportData: any = [];
   public fileName;
-  public districtHidden  = true;
+  public districtHidden = true;
+  public data
   constructor(
     private changeDetection: ChangeDetectorRef,
     public commonService: AppServiceComponent,
     public service: EnrollmentProgressLineChartService,
     public metaService: ContentUsagePieService
-  ) {}
+  ) { }
 
   width = window.innerWidth;
   height = window.innerHeight;
@@ -52,29 +53,35 @@ export class EnrollmentProgressComponent implements OnInit {
     this.getStateData();
     this.getProgramData();
     this.getAllDistCollection();
+
   }
 
   emptyChart() {
-    
+
     this.expectedEnrolled = [];
     this.netEnrolled = [];
     this.category = [];
-   
+
     this.courseToDropDown = [];
-   
+
   }
 
   getStateData() {
+    this.commonService.errMsg();
     this.fileName = "enrollment-progress-state";
     try {
       this.service.enrollmentProState().subscribe((res) => {
-        this.stateData = res["data"]["data"];
+        this.chartData = this.stateData = res["data"]["data"];
         this.reportData = this.stateData;
         this.createLineChart(this.stateData);
         this.getDistMeta();
-        
+        this.commonService.loaderAndErr(this.stateData);
       });
-    } catch (error) {}
+    } catch (error) {
+      this.stateData = []
+      console.log(error)
+      this.commonService.loaderAndErr(this.stateData);
+    }
   }
 
   clickHome() {
@@ -93,13 +100,17 @@ export class EnrollmentProgressComponent implements OnInit {
   public distData;
   getDistWise() {
     this.emptyChart();
-    
+
     try {
       this.service.enrollmentProDist().subscribe((res) => {
         this.distData = res["data"]["data"];
-       
+        this.commonService.loaderAndErr(this.distData);
       });
-    } catch (error) {}
+    } catch (error) {
+      this.distData = [];
+      console.log(error);
+      this.commonService.loaderAndErr(this.distData);
+    }
   }
 
   public expectedEnrolled = [];
@@ -119,7 +130,7 @@ export class EnrollmentProgressComponent implements OnInit {
         this.category.push(data.date);
       });
       this.getLineChart();
-    } catch (error) {}
+    } catch (error) { }
   }
 
   public selectedDistricts;
@@ -155,7 +166,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.uniquePrograms = [];
     try {
       this.service.enrollProgam().subscribe((res) => {
-        this.programData = res["data"]["data"]
+        this.data = this.programData = res["data"]["data"]
         this.programData.forEach((course) => {
           this.programDropDown.push({
             program_id: course.program_id,
@@ -170,8 +181,13 @@ export class EnrollmentProgressComponent implements OnInit {
             ? null
             : this.uniquePrograms.push(x)
         );
+        this.commonService.loaderAndErr(this.programData)
       });
-    } catch (error) {}
+    } catch (error) {
+      this.programData = []
+      console.log(error)
+      this.commonService.loaderAndErr(this.programData)
+    }
   }
 
   getAllDistCollection() {
@@ -184,8 +200,8 @@ export class EnrollmentProgressComponent implements OnInit {
         this.allDistCollection = res["data"]["data"];
         document.getElementById("spinner").style.display = "none";
       });
-      
-    } catch (error) {}
+
+    } catch (error) { }
   }
 
   public programWiseCollection;
@@ -213,9 +229,13 @@ export class EnrollmentProgressComponent implements OnInit {
       this.service.enrollProAllCourse().subscribe((res) => {
         this.allCollection = res["data"]["data"];
         this.getCollectionDropDown(this.allCollection);
-     
+        this.commonService.loaderAndErr(this.allCollection);
       });
-    } catch (error) {}
+    } catch (error) {
+      this.allCollection = []
+      console.log(error)
+      this.commonService.loaderAndErr(this.allCollection)
+    }
   }
 
   public collectionDropDown;
@@ -253,23 +273,23 @@ export class EnrollmentProgressComponent implements OnInit {
         });
 
         let mymap = new Map();
-  
+
         this.uniqueAllCourse = this.courseToDropDown.filter(el => {
-           
-            if(mymap.has(el.collection_id)) {
-                 return false
-            }
-            mymap.set(el.collection_id,el.collection_name );
-            return true;
+
+          if (mymap.has(el.collection_id)) {
+            return false
+          }
+          mymap.set(el.collection_id, el.collection_name);
+          return true;
         });
 
       }
 
-    } catch (error) {}
+    } catch (error) { }
   }
 
   public selectedDist;
-  public selectedDistData:any;
+  public selectedDistData: any;
   public districtName;
   public dist = false;
   public skul = true;
@@ -302,25 +322,25 @@ export class EnrollmentProgressComponent implements OnInit {
           }
         );
 
-       
+
         this.createLineChart(this.selectedDistWiseCourse);
         this.reportData = this.selectedDistWiseCourse;
         document.getElementById("spinner").style.display = "none";
-        }else if(this.programSelected === true && this.courseSelected !== true) {
+      } else if (this.programSelected === true && this.courseSelected !== true) {
         document.getElementById("spinner").style.display = "display";
         this.selectedCourse = "";
         this.selectedDistData = [];
-        this.selectedDistData = this.allDistCollection.filter( program =>{
-           return program.program_id === this.selectedProgram && program.district_id === this.selectedDist
+        this.selectedDistData = this.allDistCollection.filter(program => {
+          return program.program_id === this.selectedProgram && program.district_id === this.selectedDist
         })
-         
 
-        
+
+
         this.reportData = this.selectedDistData;
         this.createLineChart(this.selectedDistData);
         document.getElementById("spinner").style.display = "none";
-      }else if(this.courseSelected === true && this.programSelected !== true ) {
-        
+      } else if (this.courseSelected === true && this.programSelected !== true) {
+
         this.selectedDistData = [];
         this.selectedDistWiseCourse = [];
         this.selectedDistData = this.distData.filter((collection) => {
@@ -328,22 +348,22 @@ export class EnrollmentProgressComponent implements OnInit {
         });
         this.selectedDistWiseCourse = this.selectedDistData.filter(
           (collection) => {
-            return collection.collection_id === this.selectedCourse; 
+            return collection.collection_id === this.selectedCourse;
           }
         );
 
-       
+
         this.createLineChart(this.selectedDistWiseCourse);
         this.reportData = this.selectedDistWiseCourse;
         document.getElementById("spinner").style.display = "none";
-        }else {
-        
+      } else {
+
         this.selectedCourse = "";
         this.selectedDistData = []
         this.selectedDistData = this.distData[this.selectedDist];
-          this.getCollectionDropDown(this.selectedDistData);
-        
-        
+        this.getCollectionDropDown(this.selectedDistData);
+
+
         this.reportData = this.selectedDistData;
         setTimeout(() => {
           document.getElementById("spinner").style.display = "display";
@@ -351,7 +371,7 @@ export class EnrollmentProgressComponent implements OnInit {
         this.createLineChart(this.selectedDistData);
         document.getElementById("spinner").style.display = "none";
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   public selectedProgram;
@@ -386,9 +406,9 @@ export class EnrollmentProgressComponent implements OnInit {
     this.emptyChart();
     this.selectedCourseData = [];
     this.selectedCourse = courseId;
-    
+
     if (this.level === "district") {
-      
+
       this.distWiseCourse.forEach((course) => {
         if (course.collection_id === this.selectedCourse) {
           this.selectedCourseData.push(course);
@@ -397,7 +417,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
       this.createLineChart(this.selectedCourseData);
       this.reportData = this.selectedCourseData;
-     
+
     } else if (this.level === "allCourse") {
       this.allCollection.forEach((course) => {
         if (course.collection_id === this.selectedCourse) {
@@ -426,10 +446,10 @@ export class EnrollmentProgressComponent implements OnInit {
       data2 = {},
       data3 = {};
     Object.keys(element).forEach((key) => {
-     
+
       data1[key] = element[key];
     });
-   
+
     this.dataToDownload.push(data1);
   }
 
@@ -443,11 +463,11 @@ export class EnrollmentProgressComponent implements OnInit {
   }
 
   getLineChart() {
-    let tickIntervlMonth 
-    if(this.category.length < 90){
-       tickIntervlMonth = 6;
-    }else if(this.category.length > 90){
-       tickIntervlMonth = this.category.length/15;
+    let tickIntervlMonth
+    if (this.category.length < 90) {
+      tickIntervlMonth = 6;
+    } else if (this.category.length > 90) {
+      tickIntervlMonth = this.category.length / 15;
     }
     this.chartOptions = {
       chart: {
@@ -469,8 +489,8 @@ export class EnrollmentProgressComponent implements OnInit {
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           },
         },
-        labels:{
-          style:{
+        labels: {
+          style: {
             fontWeight: "900",
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           }
@@ -486,19 +506,19 @@ export class EnrollmentProgressComponent implements OnInit {
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           },
         },
-       
+
         type: "datetime",
         tickInterval: tickIntervlMonth,
 
         categories: this.category.map((date) => {
           return Highcharts.dateFormat("%d-%m-%Y", new Date(date).getTime());
         }),
-        labels:{
-          style:{
+        labels: {
+          style: {
             fontWeight: "900",
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           },
-          rotation : -20
+          rotation: -20
         },
       },
       credits: {
@@ -509,8 +529,8 @@ export class EnrollmentProgressComponent implements OnInit {
           return `
                <b> Date:${this.x}</b></br>
                <b> Expected Enrollment: ${this.points[0].y.toLocaleString(
-                 "en-IN"
-               )}</b></br>
+            "en-IN"
+          )}</b></br>
                <b> Net Enrolled: ${this.points[1].y.toLocaleString("en-IN")}</b>
           `;
         },

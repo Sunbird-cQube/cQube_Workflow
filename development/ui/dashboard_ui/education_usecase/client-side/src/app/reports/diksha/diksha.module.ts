@@ -7,7 +7,6 @@ import { AuthGuard } from 'src/app/auth.guard';
 import { DikshaBarChartComponent } from './diksha-bar-chart/diksha-bar-chart.component';
 import { DikshaChartComponent } from './diksha-chart/diksha-chart.component';
 import { DikshaTableComponent } from './diksha-table/diksha-table.component';
-import { DikshaUsageByTextBookComponent } from './diksha-usage-by-text-book/diksha-usage-by-text-book.component';
 import { UsageByTextbookContentComponent } from './usage-by-textbook-content/usage-by-textbook-content.component';
 import { DikshaTPDContentProgressComponent } from './tpd/diksha-tpd-course-progress/diksha-tpd-content-progress.component';
 import { DikshaTPDTeachersPercentageComponent } from './tpd/diksha-tpd-teachers-percentage/diksha-tpd-teachers-percentage.component';
@@ -24,10 +23,7 @@ import { TotalContentPlayOverYearsComponent } from './total-content-play-over-ye
 import { EnrollmentProgressComponent } from './enrollment-progress/enrollment-progress.component';
 import { AverageTimeSpendBarComponent } from './average-time-spend-bar/average-time-spend-bar.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-// import { MatFormFieldModule } from '@angular/material/form-field/form-field-module';
-// import { MultiSelectComponent } from 'src/app/common/multi-select/multi-select.component';
-
-// import { EtbPerCapitaComponent } from '..//etb-per-capita/etb-per-capita.component';
+import { DikshaUsageByTextBookComponent } from './diksha-usage-by-text-book/diksha-usage-by-text-book.component';
 
 const dikshaRoutes: Routes = [
   {
@@ -100,7 +96,7 @@ const dikshaRoutes: Routes = [
     TotalContentPlayOverYearsComponent,
     EnrollmentProgressComponent,
     AverageTimeSpendBarComponent,
-    
+
   ],
   imports: [
     CommonModule,
