@@ -1,9 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import * as Highcharts from 'highcharts/highstock';
 
-// import info from 'src/assets/images/'
-// import * as GroupedCategories from 'highcharts-grouped-categories/grouped-categories';
-// GroupedCategories(Highcharts);
 declare var $
 
 @Component({
@@ -60,67 +57,6 @@ export class MultiBarChartComponent implements OnInit {
           type: "bar",
           backgroundColor: 'transparent',
           inverted: true,
-          
-          // events: {
-          //   load: function () {
-          //     var chart = this,
-          //       legend = chart.legend;
-
-          //     for (var i = 0, len = legend.allItems.length; i < len; i++) {
-          //       let expected: any = legend.allItems[i].name;
-
-          //       // if (expected === "Expected Enrollment") {
-
-          //       (function (i) {
-                  
-
-          //         var item = legend.allItems[0].legendItem.parentGroup,
-
-          //           group = $('.highcharts-legend-tooltip'),
-          //           rectElem = $('.legend-tooltip'),
-          //           textElem = $('.legend-tooltip-text'),
-          //           box;
-
-          //         item.on('mouseover', function (e) {
-
-          //           // Define legend-tooltip text
-          //           // var str = chart.series[i].userOptions.fullName
-
-          //           var str = 'Program expected: '
-
-          //           textElem.text(str)
-
-          //           // Adjust rect size to text
-          //           box = textElem[0].getBBox()
-          //           rectElem.attr({
-          //             x: box.x - 8,
-          //             y: box.y - 5,
-          //             width: box.width + 15,
-          //             height: box.height + 40
-          //           })
-
-          //           // Show tooltip
-          //           group.attr({
-          //             transform: `translate(${e.clientX - 80}, ${e.clientY - 120})`
-          //           })
-
-          //         }).on('mouseout', function (e) {
-
-          //           // Hide tooltip
-          //           group.attr({
-          //             transform: 'translate(-9999,-9999)'
-          //           })
-          //         });
-
-
-          //       })(i)
-          //       // };
-          //     }
-
-          //   }
-          // }
-
-         
 
         },
 
@@ -196,7 +132,7 @@ export class MultiBarChartComponent implements OnInit {
             zIndex: 5
           }],
           title: {
-            text: this.xAxisLabel,
+            text: expectedData.length > 0 ? this.xAxisLabel : 'Total numbers',
             style: {
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -205,6 +141,14 @@ export class MultiBarChartComponent implements OnInit {
           }
         },
         plotOptions: {
+          series: {
+            events: {
+              legendItemClick: function (e) {
+                e.preventDefault();
+              }
+            }
+          },
+
           bar: {
 
             dataLabels: {
@@ -229,14 +173,19 @@ export class MultiBarChartComponent implements OnInit {
           align: 'right',
           verticalAlign: 'top',
           itemStyle: {
-            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
+            width: '500px',
 
           },
 
           useHTML: true,
           labelFormatter: function () {
             if (this.name === 'Expected Enrollment') {
-              return '<span class="legandTooltip"  data-index=""' + this.index + '">' + this.name + '</span>&nbsp;&nbsp;<span style="font-size: 10px; color: orange; " data-toggle="tooltip" data-placement="top" title="Tooltip on top" >&#9432;</span>';
+              let str = '<span style="display: flex; align-item: start"><span class="legandTooltip" style="margin-right: 2px" data-index=""' + this.index + '">' + this.name + '</span><span style="font-size: 14px; margin-top: -1px; margin-left: 2px " class="infoIcon" tabindex="0" data-toggle="tooltip" title="The program expected enrollments are equal to the total of courses expected enrollments which are in the selected program."><i class="fa fa-info-circle"></i></span></span>';
+              $(function () {
+                $('.infoIcon[title]').tooltip();
+              });
+              return str
             } else {
               return '<span>' + this.name + '</span>';
             }
@@ -433,6 +382,13 @@ export class MultiBarChartComponent implements OnInit {
           }
         },
         plotOptions: {
+          series: {
+            events: {
+              legendItemClick: function (e) {
+                e.preventDefault();
+              }
+            }
+          },
           bar: {
 
             dataLabels: {
@@ -604,7 +560,7 @@ export class MultiBarChartComponent implements OnInit {
               zIndex: 5
             }],
             title: {
-              text: this.xAxisLabel,
+              text: expectedData.length > 0 ? this.xAxisLabel : 'Total Numbers',
               style: {
                 color: 'black',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
@@ -614,6 +570,13 @@ export class MultiBarChartComponent implements OnInit {
           },
 
           plotOptions: {
+            series: {
+              events: {
+                legendItemClick: function (e) {
+                  e.preventDefault();
+                }
+              }
+            },
             bar: {
               dataLabels: {
                 enabled: true,
@@ -835,6 +798,13 @@ export class MultiBarChartComponent implements OnInit {
             }
           },
           plotOptions: {
+            series: {
+              events: {
+                legendItemClick: function (e) {
+                  e.preventDefault();
+                }
+              }
+            },
             bar: {
               dataLabels: {
                 enabled: true,
@@ -951,15 +921,6 @@ export class MultiBarChartComponent implements OnInit {
     );
 
 
-
-    // $(".legandTooltip").hover(function () {
-    //   $(this).css('cursor', 'pointer').attr('title', 'This is a hover text.');
-    // }, function () {
-    //   $(this).css('cursor', 'auto');
-    // });
-
-
-
     //Bar tooltips::::::::::::::::::::::
     function getPointCategoryName(points, reportName, xData, level, type, series, courseSelected) {
       var obj = '';
@@ -984,7 +945,7 @@ export class MultiBarChartComponent implements OnInit {
           }
 
         }
-       
+
 
         else if (level === 'district') {
           obj = `&nbsp<b>District Name:</b> ${points[0].x}

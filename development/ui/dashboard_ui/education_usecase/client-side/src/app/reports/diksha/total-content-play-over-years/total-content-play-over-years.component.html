@@ -1,75 +1,74 @@
-
 <div class="container-fluid">
-    <div class="row reportHeader">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="row" (window:resize)="onResize()">
-              <div class="col-lg-9 col-md-9 col-sm-12">
-               
-                <div *ngIf = "stateLevel">
-                  <p id="block">
-                    Report on Heartbeat of the Nation Learning:
-                    <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{state}}</span>
-                    <!-- <span> | </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
-                      style="cursor: pointer; text-decoration: underline" class="selected-level">
-                      {{ districtHierarchy.districtName }}</span> -->
-                  </p>
-                </div>
-               
-                <div *ngIf="dist">
-                  <p id="block">
-                    Report on Heartbeat of the Nation Learning:
-                    <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
-                    <span> | </span><span  class="selected-level">
-                     {{distName}} </span>
-                  </p>
-                </div>
-              
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="row">
-                  <div class="col-sm-5">
-                    <p id="errMsg" class="note"></p>
-                  </div>
-                  <div class="col-sm-7">
-                    <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
-                      (click)="downloadReport()">
-                      Download Report &nbsp;
-                      <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p class="note">
-                  <strong> About the dashboard:</strong> The dashboard provides a macro overview of the total content plays over the last two academic years for {{state}}
-  
-                </p>
-              </div>
-            </div>
-            <div class="row" style="margin-bottom: 10px">
-              <div class="col-sm-12">
-  
-                 <select id="choose_district" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
-                  <option [value]="selectedDist" disabled selected="selected">
-                    Choose a District
-                  </option>
-                  <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
-                    {{ dist.district_name }}
-                  </option>
-                </select>  
-                
-              </div>
-            </div>
+  <div class="row reportHeader">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="row" (window:resize)="onResize()">
+        <div class="col-lg-9 col-md-9 col-sm-12">
+
+          <div *ngIf="stateLevel">
+            <p id="block">
+              Report on Heartbeat of the Nation Learning:
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline"
+                class="selected-level">{{state}}</span>
+            </p>
           </div>
-    </div>
-    <div class="row reportContainer pt-4">
-        <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
+
+          <div *ngIf="dist">
+            <p id="block">
+              Report on Heartbeat of the Nation Learning:
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{
+                state }}</span>
+              <span> | </span><span class="selected-level">
+                {{distName}} </span>
+            </p>
+          </div>
 
         </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="row">
+            <div class="col-sm-5">
+              <p id="errMsg" class="note"></p>
+            </div>
+            <div class="col-sm-7">
+              <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
+                (click)="downloadReport()">
+                Download Report &nbsp;
+                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="note">
+            <strong> About the dashboard:</strong> The dashboard provides a macro overview of the total content plays
+            over the last two academic years for {{state}}
+
+          </p>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+
+          <select id="choose_district" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+            <option [value]="selectedDist" disabled selected="selected">
+              Choose a District
+            </option>
+            <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
+              {{ dist.district_name }}
+            </option>
+          </select>
+
+        </div>
+      </div>
     </div>
-    
+  </div>
+  <div class="row reportContainer pt-4">
+    <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
+
+    </div>
+  </div>
+
 </div>
 
 <div id="spinner">

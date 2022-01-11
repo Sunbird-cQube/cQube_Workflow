@@ -114,14 +114,11 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         let id = req.body.id;
         let clusterId = req.body.clusterId;
         let programId = req.body.programId;
-        console.log('id', id)
 
         if (level == 'district') {
             fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
-            console.log('distrit')
         } else if (level == 'program') {
             fileName = `diksha_tpd/report2/${timePeriod}/district/all_program_collections.json`;
-            console.log('program')
         } else {
             fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_collections/${id}.json`;
         }
