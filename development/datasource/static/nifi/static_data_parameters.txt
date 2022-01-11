@@ -1,6 +1,12 @@
 {"static_select_cols_school_udise":"""select udise_sch_code as schoolid,school_name as school,
 sch_mgmt_id as school_management_type_id,sch_category_id as school_category_id,
 state_cd as stateid,district_cd as districtid,block_cd_1 as blockid,cluster_cd as clusterid,latitude,longitude from flowfile""",
+"static_process_rec_diksha_program_course_details":"""update log_summary as b
+set processed_records= a.processed_records from
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(program_name,course_id)))as processed_records
+         from log_summary
+         group by ff_uuid) as a
+where a.ff_uuid=b.ff_uuid""",
 "static_same_id_filter_school_category_state":"""SELECT school_category_id,school_category from 
 (SELECT school_category_id,school_category,count(*)
 over (partition by school_category_id) as rn from FLOWFILE) sq Where rn =1""",
@@ -42,8 +48,7 @@ from school_geo_master where school_latitude>0 or school_longitude>0 group by di
 FROM flowfile
 GROUP BY DistrictId,District
 HAVING  COUNT(*) > 1""",
-"static_same_record_filter_diksha_enrolment_tpd_state":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,collection_type,no_of_actual_users,program_id,program_name from (SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,collection_type,no_of_actual_users,program_id,program_name, row_number() over (partition by  collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,collection_type,no_of_actual_users,program_id,program_name) as rn from flowfile)sq where rn=1""",
-"static_save_diksha_course_details":"""diksha_program_course_temp""",
+"static_save_diksha_course_details":"""diksha_course_details_temp""",
 "static_update_category_management_school_hierarchy_qry":"""update school_hierarchy_details shd set school_management_type=replace(lower(scm.school_management_type),' ','_'),school_category=replace(lower(scm.school_category),' ','_')
 
 from (select school_id,smm.school_management_type,scm.school_category
@@ -61,7 +66,19 @@ HAVING  COUNT(*) > 1""",
 where course_id IS NULL
 or course_start_date IS NULL""",
 "static_district_exception":"""select school_id,school_name,block_id,district_id,cluster_id from school_hierarchy_details where  district_name is null""",
-"static_save_diksha_program_course_details":"""diksha_program_course_temp""",
+"static_process_rec_diksha_etb_enrolment":"""update log_summary as b
+set processed_records= a.processed_records from
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(district_id,academic_year,expected_etb_users)))as processed_records
+         from log_summary
+         group by ff_uuid) as a
+where a.ff_uuid=b.ff_uuid""",
+"static_process_rec_diksha_course_details":"""update log_summary as b
+set processed_records= a.processed_records from
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(course_id,course_start_date)))as processed_records
+         from log_summary
+         group by ff_uuid) as a
+where a.ff_uuid=b.ff_uuid""",
+"static_save_diksha_program_course_details":"""diksha_program_course_details_temp""",
 "static_same_record_filter_school_udise":"""select schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude from
 (select schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude,row_number() over (partition by  schoolid,school,school_management_type_id,school_category_id,stateid,districtid,blockid,clusterid,latitude,longitude) as rn from flowfile)sq where rn=1""",
 "static_data_type_block_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseLong()),optional(ParseLong()),Optional(ParseLong())""",
@@ -95,7 +112,7 @@ from flowfile)""",
 "static_process_rec_district":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(district_id,district_name)))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-greatest(district_id,district_name))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_same_id_check_school_category_udise":"""select *,count(*) as num_of_times from (
@@ -117,11 +134,15 @@ AND course_start_date IS NOT NULL""",
 "static_same_id_filter_district_udise":"""SELECT DistrictId,District from 
 (SELECT DistrictId,District,count(*)
 over (partition by DistrictId) as rn from FLOWFILE) sq Where rn =1""",
+"static_log_summary_diksha_course_details_qry":"""select * from log_summary where filename like '%diksha_course_details%'""",
 "static_same_id_filter_cluster_udise":"""SELECT ClusterId,Cluster,BlockId from 
 (SELECT ClusterId,Cluster,BlockId ,count(*)
 over (partition by ClusterId) as rn from FLOWFILE) sq Where rn =1""",
 "static_select_cols_school_category_udise_final":"""SELECT school_category_id,school_category from flowfile""",
 "static_same_record_filter_district_state":"""select DistrictId,District from (SELECT DistrictId,District, row_number() over (partition by  DistrictId,District) as rn from flowfile)sq where rn=1""",
+"static_diksha_program_details_not_null":"""select * from flowfile
+where program_name IS NOT NULL
+AND district_id IS NOT NULL""",
 "static_log_summary_school_management_qry":"""select filename,ff_uuid,total_records,blank_lines,duplicate_records,datatype_mismatch,school_management_type_id,school_management_type,processed_records,process_start_time,process_end_time from log_summary where filename like 'school_management%'""",
 "static_same_record_filter_district_udise":"""select DistrictId,District from (SELECT DistrictId,District, row_number() over 
 (partition by  DistrictId,District) as rn from flowfile)sq where rn=1""",
@@ -185,6 +206,7 @@ over (partition by BlockId) as rn from FLOWFILE) sq Where rn =1""",
 "static_school_not_null":"""select * from flowfile 
 where school is not NULL and
 latitude is not null  and longitude is not null and latitude not like '0'  and latitude not like '0.0' and longitude not like '0' and longitude not like '0.0'""",
+"static_data_type_diksha_program_details":"""Optional(StrNotNullOrEmpty()),Optional(ParseInt()),Optional(ParseLong())""",
 "school_managment_unique":"""select * from flowfile where school_management_type is NOT NULL""",
 "static_log_summary_cluster_qry":"""select * from log_summary where filename like '%cluster%'""",
 "static_same_id_check_diksha_course_enrolment":"""select *,count(*) as num_of_times from (
@@ -193,6 +215,7 @@ over (partition by course_id,district_id) as rn from FLOWFILE) sq Where rn >1) g
 "static_same_record_filter_cluster_state":"""select ClusterId,Cluster,BlockId,DistrictId from (SELECT ClusterId,Cluster,BlockId,DistrictId,row_number() over (partition by  ClusterId,Cluster,BlockId,DistrictId) as rn from flowfile)sq where rn=1""",
 "static_select_cols_diksha_course_details":"""select course_id,course_start_date,course_end_date from flowfile""",
 "static_select_cols_block_state":"""SELECT BlockId,Block,DistrictId from flowfile""",
+"static_log_summary_diksha_program_details_qry":"""select * from log_summary where filename like '%diksha_program_details%'""",
 "static_same_id_check_district_state":"""select *,count(*) as num_of_times from (
 select DistrictId,District from (SELECT DistrictId,District,count(*)
 over (partition by DistrictId) as rn from FLOWFILE) sq Where rn >1) group by DistrictId,District""",
@@ -218,6 +241,10 @@ SET course_start_date = diksha_course_details_null_col.count_null_course_start_d
 course_id = diksha_course_details_null_col.count_null_course_id
 from diksha_course_details_null_col
 where diksha_course_details_null_col.ff_uuid = log_summary.ff_uuid""",
+"static_same_record_check_diksha_program_details":"""select program_name,district_id,expected_enrollments,count(*)-1  num_of_times
+FROM flowfile
+GROUP BY program_name,district_id,expected_enrollments
+HAVING  COUNT(*) > 1""",
 "static_save_district_mst_udise":"""district_mst""",
 "static_same_id_check_diksha_etb_enrolment":"""select *,count(*) as num_of_times from (
 select academic_year,district_id,expected_etb_users from (SELECT academic_year,district_id,expected_etb_users,count(*)
@@ -225,6 +252,7 @@ over (partition by academic_year,district_id) as rn from FLOWFILE) sq Where rn >
 "static_same_id_filter_diksha_course_enrolment":"""SELECT course_id,district_id,expected_enrollment from 
 (SELECT course_id,district_id,expected_enrollment,count(*)
 over (partition by course_id,district_id) as rn from FLOWFILE) sq Where rn =1""",
+"static_select_cols_diksha_course_enrolment_final":"""select course_id as collection_id,district_id,expected_enrollment from flowfile""",
 "static_same_record_filter_diksha_etb_enrolment":"""select academic_year,district_id,expected_etb_users from (SELECT academic_year,district_id,expected_etb_users, row_number() over (partition by  academic_year,district_id,expected_etb_users) as rn from flowfile)sq where rn=1""",
 "static_same_record_filter_school_state":"""select schoolid,school,lowclass,highclass,schmgt,schcat,schoolmedium,StateId,districtid,blockid,clusterid,latitude,longitude from(select schoolid,school,lowclass,highclass,schmgt,schcat,schoolmedium,StateId,districtid,blockid,clusterid,latitude,longitude,row_number() over (partition by  schoolid,school,lowclass,highclass,schmgt,schcat,schoolmedium,StateId,districtid,blockid,clusterid,latitude,longitude) as rn from flowfile)sq where rn=1""",
 "static_save_school_management_udise":"""school_management_master""",
@@ -232,8 +260,9 @@ over (partition by course_id,district_id) as rn from FLOWFILE) sq Where rn =1"""
 FROM flowfile
 GROUP BY BlockId,Block,DistrictId,stateid
 HAVING  COUNT(*) > 1""",
-"static_data_type_diksha_etb_enrolment":"""Optional(ParseDate("yyyy-MM-dd")),Optional(ParseInt()),Optional(ParseLong())""",
+"static_data_type_diksha_etb_enrolment":"""Optional(StrNotNullOrEmpty()),Optional(ParseInt()),Optional(ParseLong())""",
 "static_same_record_filter_block_state":"""select BlockId,Block,DistrictId from (SELECT BlockId,Block,DistrictId,row_number() over (partition by  BlockId,Block,DistrictId) as rn from flowfile)sq where rn=1""",
+"static_log_summary_diksha_course_enrolment_qry":"""select * from log_summary where filename like '%diksha_course_enrolment%'""",
 "static_same_id_filter_school_management_state":"""SELECT school_management_type_id,school_management_type from 
 (SELECT school_management_type_id,school_management_type,count(*)
 over (partition by school_management_type_id) as rn from FLOWFILE) sq Where rn =1""",
@@ -245,6 +274,7 @@ from flowfile)""",
 "static_same_id_check_school_management_state":"""select *,count(*) as num_of_times from (
 select school_management_type_id,school_management_type from (SELECT school_management_type_id,school_management_type,count(*)
 over (partition by school_management_type_id) as rn from FLOWFILE) sq Where rn >1) group by school_management_type_id,school_management_type""",
+"static_save_diksha_program_details":"""diksha_program_expected_temp""",
 "static_cluster_null_value_count":"""(select 
 SUM(CASE when ClusterId IS NULL THEN 1 ELSE 0 END) AS count_null_clusterId,
 SUM(CASE when BlockId IS NULL THEN 1 ELSE 0 END) AS count_null_blockid,
@@ -253,11 +283,10 @@ from flowfile)""",
 "static_diksha_etb_enrolment_not_null":"""select * from flowfile
 where academic_year IS NOT NULL
 AND district_id IS NOT NULL
-AND expected_etb_user IS NOT NULL""",
+AND expected_etb_users IS NOT NULL""",
 "static_diksha_program_course_details_not_null":"""select * from flowfile
 where program_name IS NOT NULL
 AND course_id IS NOT NULL""",
-"static_same_record_filter_diksha_enrolment_tpd_udise":"""select collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,collection_type,no_of_actual_users,program_id,program_name from (SELECT collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,collection_type,no_of_actual_users,program_id,program_name, row_number() over (partition by  collection_id,collection_name,batch_id,batch_start_date,batch_end_date,state_id,state,district_id,district,expected_enrollment,is_certificate_available,collection_type,no_of_actual_users,program_id,program_name) as rn from flowfile)sq where rn=1""",
 "static_same_record_check_diksha_etb_enrolment":"""select academic_year,district_id,expected_etb_users,count(*)-1  num_of_times
 FROM flowfile
 GROUP BY academic_year,district_id,expected_etb_users
@@ -283,38 +312,42 @@ from
      from log_summary
      group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
-"static_jolt_log_summary":"""[{
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "filename": "[&1].filename",
-        "ff_uuid": "[&1].ff_uuid",
-        "total_records": "[&1].total_records",
-        "blank_lines": "[&1].blank_lines",
-        "duplicate_records": "[&1].duplicate_records",
-        "datatype_mismatch": "[&1].datatype_mismatch",
-        "district_name": "[&1].records_with_null_value.district_name",
-        "block_name": "[&1].records_with_null_value.block_name",
-        "block_id": "[&1].records_with_null_value.block_id",
-        "district_id": "[&1].records_with_null_value.district_id",
-        "cluster_name": "[&1].records_with_null_value.cluster_name",
-        "cluster_id": "[&1].records_with_null_value.cluster_id",
-        "school_name": "[&1].records_with_null_value.school_name",
-        "latitude": "[&1].records_with_null_value.latitude",
-        "longitude": "[&1].records_with_null_value.longitude",
-        "school_category_id": "[&1].records_with_null_value.school_category_id",
-        "school_category": "[&1].records_with_null_value.school_category",
-        "school_management_type_id": "[&1].records_with_null_value.school_management_type_id",
-        "school_management_type": "[&1].records_with_null_value.school_management_type",
-        "collection_id": "[&1].records_with_null_value.collection_id",
-        "batch_id": "[&1].records_with_null_value.batch_id",
-        "batch_start_date": "[&1].records_with_null_value.batch_start_date",
-        "processed_records": "[&1].processed_records",
-        "process_start_time": "[&1].process_start_time",
-        "process_end_time": "[&1].process_end_time"
-      }
+"static_jolt_log_summary":"""[
+    {
+        "operation": "shift",
+        "spec": {
+            "*": {
+                "filename": "[&1].filename",
+                "ff_uuid": "[&1].ff_uuid",
+                "total_records": "[&1].total_records",
+                "blank_lines": "[&1].blank_lines",
+                "duplicate_records": "[&1].duplicate_records",
+                "datatype_mismatch": "[&1].datatype_mismatch",
+                "district_name": "[&1].records_with_null_value.district_name",
+                "block_name": "[&1].records_with_null_value.block_name",
+                "block_id": "[&1].records_with_null_value.block_id",
+                "district_id": "[&1].records_with_null_value.district_id",
+                "cluster_name": "[&1].records_with_null_value.cluster_name",
+                "cluster_id": "[&1].records_with_null_value.cluster_id",
+                "school_name": "[&1].records_with_null_value.school_name",
+                "latitude": "[&1].records_with_null_value.latitude",
+                "longitude": "[&1].records_with_null_value.longitude",
+                "school_category_id": "[&1].records_with_null_value.school_category_id",
+                "school_category": "[&1].records_with_null_value.school_category",
+                "school_management_type_id": "[&1].records_with_null_value.school_management_type_id",
+                "school_management_type": "[&1].records_with_null_value.school_management_type",
+                "collection_id": "[&1].records_with_null_value.collection_id",
+                "program_name": "[&1].records_with_null_value.program_name",
+                "course_id": "[&1].records_with_null_value.course_id",
+                "course_start_date": "[&1].records_with_null_value.course_start_date",
+                "expected_etb_user": "[&1].records_with_null_value.expected_etb_user",
+                "academic_year": "[&1].records_with_null_value.academic_year",
+                "processed_records": "[&1].processed_records",
+                "process_start_time": "[&1].process_start_time",
+                "process_end_time": "[&1].process_end_time"
+            }
+        }
     }
-	}
 ]""",
 "static_save_school_category_udise":"""school_category_master""",
 "static_select_cols_school_management_state_final":"""SELECT school_management_type_id,school_management_type from flowfile""",
@@ -331,6 +364,10 @@ over (partition by DistrictId) as rn from FLOWFILE) sq Where rn =1""",
 SUM(CASE when school_management_type_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_management_type_id,
 SUM(CASE when school_management_type IS NULL THEN 1 ELSE 0 END) AS count_null_school_management_type
 from flowfile)""",
+"static_diksha_program_details_count_null_vals":"""(select 
+SUM(CASE when district_id IS NULL THEN 1 ELSE 0 END) AS count_null_district_id,
+SUM(CASE when program_name IS NULL THEN 1 ELSE 0 END) AS count_null_program_name
+from flowfile)""",
 "static_diksha_program_course_details_count_null_vals":"""(select 
 SUM(CASE when program_name IS NULL THEN 1 ELSE 0 END) AS count_null_program_name,
 SUM(CASE when course_id IS NULL THEN 1 ELSE 0 END) AS count_null_course_id
@@ -341,9 +378,9 @@ over (partition by ClusterId) as rn from FLOWFILE) sq Where rn >1) group by  Clu
 "static_diksha_etb_enrolment_count_null_vals":"""(select 
 SUM(CASE when district_id IS NULL THEN 1 ELSE 0 END) AS count_null_district_id,
 SUM(CASE when academic_year IS NULL THEN 1 ELSE 0 END) AS count_null_academic_year,
-SUM(CASE when expected_etb_user IS NULL THEN 1 ELSE 0 END) AS count_null_expected_etb_user
+SUM(CASE when expected_etb_users IS NULL THEN 1 ELSE 0 END) AS count_null_expected_etb_users
 from flowfile)""",
-"static_select_cols_diksha_program_course_details":"""select program_id,program_name,expected_enrollments,course_id from flow file""",
+"static_select_cols_diksha_program_course_details":"""select program_id,program_name,expected_enrollments,course_id from flowfile""",
 "static_update_query_cluster_geo":"""update school_geo_master as b
 	set cluster_latitude=a.cluster_latitude,
 	cluster_longitude=a.cluster_longitude,
@@ -359,6 +396,13 @@ from school_geo_master where school_latitude>0 or school_longitude>0 group by cl
 		sum(case when latitude=longitude then latitude else (select greatest(latitude,longitude))end))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
+"static_select_cols_diksha_program_details":"""select program_name,district_id,expected_enrollments from flowfile""",
+"static_process_rec_diksha_course_enrolment":"""update log_summary as b
+set processed_records= a.processed_records from
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(course_id,district_id)))as processed_records
+         from log_summary
+         group by ff_uuid) as a
+where a.ff_uuid=b.ff_uuid""",
 "static_log_summary_diksha_enrolment_tpd_qry":"""select * from log_summary where filename like '%diksha_enrolment_tpd%'""",
 "static_select_cols_district_state":"""SELECT DistrictId,District from flowfile""",
 "static_select_cols_cluster_state_final":"""SELECT ClusterId as "cluster_id",Cluster as "cluster_name",BlockId as "block_id",DistrictId as "district_id" from flowfile""",
@@ -381,6 +425,10 @@ over (partition by school_category_id) as rn from FLOWFILE) sq Where rn =1""",
 where DistrictId IS NOT NULL
 and District IS NOT NULL""",
 "static_same_record_filter_school_category_udise":"""select school_category_id,school_category from (SELECT school_category_id,school_category, row_number() over (partition by  school_category_id,school_category) as rn from flowfile)sq where rn=1""",
+"static_diksha_program_details_check_if_null":"""select * from flowfile 
+where program_name IS NULL
+or district_id IS NULL""",
+"static_log_summary_diksha_program_course_details_qry":"""select * from log_summary where filename like '%diksha_program_course_details%'""",
 "static_same_record_check_school_category_state":"""SELECT school_category_id,school_category, count(*)-1 as num_of_times
 from flowfile
 group by school_category_id,school_category
@@ -399,6 +447,9 @@ from flowfile)""",
 percentile_disc(0.5) within group (order by cluster_longitude) as block_longitude 
 from school_geo_master where school_latitude>0 or school_longitude>0 group by block_id) as a
 	where a.block_id=b.block_id;""",
+"static_same_id_filter_diksha_program_details":"""SELECT program_name,district_id,expected_enrollments from 
+(SELECT program_name,district_id,expected_enrollments,count(*)
+over (partition by program_name,district_id) as rn from FLOWFILE) sq Where rn =1""",
 "static_same_record_check_diksha_course_details":"""select course_id,course_start_date,course_end_date,count(*)-1  num_of_times
 FROM flowfile
 GROUP BY course_id,course_start_date,course_end_date
@@ -421,6 +472,12 @@ over (partition by BlockId) as rn from FLOWFILE) sq Where rn =1""",
 "static_log_summary_block_qry":"""select * from log_summary where filename like '%block%'""",
 "static_block_exception":"""select school_id,school_name,block_id,district_id,cluster_id from school_hierarchy_details where block_name is null """,
 "static_select_cols_cluster_state":"""SELECT ClusterId,Cluster,BlockId,DistrictId from flowfile""",
+"static_process_rec_diksha_program_details":"""update log_summary as b
+set processed_records= a.processed_records from
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(district_id,program_name)))as processed_records
+         from log_summary
+         group by ff_uuid) as a
+where a.ff_uuid=b.ff_uuid""",
 "static_data_type_school_state":"""Optional(ParseLong()),Optional(StrNotNullOrEmpty()),Optional(ParseInt()),Optional(ParseInt()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),
 Optional(ParseInt()),Optional(ParseInt()),Optional(ParseLong()),Optional(ParseLong()),Optional(ParseBigDecimal()),Optional(ParseBigDecimal())""",
 "static_diksha_course_enrolment_check_if_null":"""select * from flowfile 
@@ -452,7 +509,7 @@ over (partition by BlockId) as rn from FLOWFILE) sq Where rn >1) group by  Block
 "static_diksha_etb_enrolment_null_log":"""update log_summary
 SET district_id = diksha_etb_enrolment_null_col.count_null_district_id,
 academic_year = diksha_etb_enrolment_null_col.count_null_academic_year,
-expected_etb_user = diksha_etb_enrolment_null_col.count_null_expected_etb_user,
+expected_etb_users = diksha_etb_enrolment_null_col.count_null_expected_etb_users
 from diksha_etb_enrolment_null_col
 where diksha_etb_enrolment_null_col.ff_uuid = log_summary.ff_uuid""",
 "static_save_diksha_course_enrolment":"""diksha_course_expected_temp""",
@@ -462,6 +519,7 @@ where diksha_etb_enrolment_null_col.ff_uuid = log_summary.ff_uuid""",
 FROM flowfile
 GROUP BY ClusterId,Cluster,BlockId
 HAVING  COUNT(*) > 1""",
+"static_select_cols_diksha_program_course_details_final":"""select program_id,program_name,expected_enrollments,course_id as collection_id from flowfile""",
 "static_cluster_not_null":"""select * from flowfile
 where ClusterId IS NOT NULL
 AND BlockId IS NOT NULL
@@ -487,9 +545,11 @@ where block_null_col.ff_uuid = log_summary.ff_uuid""",
 "static_same_record_check_school_management_udise":"""select school_management_type_id,school_management_type, count(*)-1 as num_of_times
 from flowfile
 group by school_management_type_id,school_management_type having  count(*) >1""",
+"static_log_summary_diksha_etb_enrolment_qry":"""select * from log_summary where filename like '%diksha_etb_enrolment%'""",
 "static_save_cluster_mst_state":"""cluster_mst""",
 "static_save_school_mst_state":"""school_master""",
 "static_same_record_filter_cluster_udise":"""select ClusterId,Cluster,BlockId from (SELECT ClusterId,Cluster,BlockId ,row_number() over (partition by  ClusterId,Cluster,BlockId) as rn from flowfile)sq where rn=1""",
+"static_select_cols_diksha_course_details_final":"""select course_id as collection_id,course_start_date,course_end_date from flowfile""",
 "static_diksha_program_course_details_null_log":"""update log_summary
 SET program_name = diksha_program_course_details_null_col.count_null_program_name,
 course_id = diksha_program_course_details_null_col.count_null_course_id
@@ -527,11 +587,15 @@ or latitude is NULL
 or longitude is NULL
 or latitude like '0' or latitude like '0.0'
 or longitude like '0' or longitude like '0.0'""",
-"static_data_type_diksha_program_course_details":"""Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(StrNotNullOrEmpty())""",
+"static_data_type_diksha_program_course_details":"""Optional(ParseLong()),Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(StrNotNullOrEmpty())""",
+"static_same_id_check_diksha_program_details":"""select *,count(*) as num_of_times from (
+select program_name,district_id,expected_enrollments from (SELECT program_name,district_id,expected_enrollments,count(*)
+over (partition by program_name,district_id) as rn from FLOWFILE) sq Where rn >1) group by program_name,district_id,expected_enrollments""",
+"static_same_record_filter_diksha_program_details":"""select program_name,district_id,expected_enrollments from (SELECT program_name,district_id,expected_enrollments, row_number() over (partition by  program_name,district_id,expected_enrollments) as rn from flowfile)sq where rn=1""",
 "static_diksha_etb_enrolment_check_if_null":"""select * from flowfile 
 where academic_year IS NULL
 or district_id IS NULL
-or expected_etb_user IS NULL""",
+or expected_etb_users IS NULL""",
 "static_select_cols_district_state_final":"""SELECT DistrictId as " district_id",District as "district_name" from flowfile""",
 "static_data_type_cluster_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(ParseLong())""",
 "static_process_rec_diksha_enrolment_tpd":"""update  log_summary as b
@@ -548,5 +612,23 @@ or expected_etb_user IS NULL""",
 "static_school_management_check_if_null":"""select * from flowfile
 where school_management_type_id IS NULL
 or school_management_type IS NULL""",
-"static_data_type_district_state":"""Optional(ParseInt()),Optional(StrNotNullOrEmpty())"""
+"static_data_type_district_state":"""Optional(ParseInt()),Optional(StrNotNullOrEmpty())""",
+"static_diksha_program_details_null_log":"""update log_summary
+SET district_id = diksha_program_details_null_col.count_null_district_id,
+program_name = diksha_program_details_null_col.count_null_program_name
+from diksha_program_details_null_col
+where diksha_program_details_null_col.ff_uuid = log_summary.ff_uuid""",
+"static_diksha_enrolment_temp_to_mst":"""insert into diksha_tpd_expected_enrollment(program_id,program_name,collection_id,collection_name,course_start_date,course_end_date,district_id,district,expected_enrollment,program_expected_enrollment,program_expected_state,created_on,updated_on)
+ select program_id,a.program_name,a.collection_id,collection_name,course_start_date,course_end_date,a.district_id,district_name,a.expected_enrollment,program_expected_enrollment,a.program_expected_state,now(),now() from (
+select program_id,program_name,a.collection_id,collection_name,course_start_date,course_end_date,program_expected_state,exp_enrol.district_id,district_name,expected_enrollment from
+ (select pct.program_id,pct.program_name,pct.collection_id,dce.course_start_date,dce.course_end_date,pct.expected_enrollment as program_expected_state from diksha_program_course_details pct join diksha_course_details_temp dce on pct.collection_id=dce.collection_id ) as a
+  join 
+ (select collection_id,district_id,expected_enrollment from diksha_course_expected_temp) as exp_enrol on a.collection_id=exp_enrol.collection_id 
+ join 
+ (select distinct collection_id,collection_name,district_id,district_name from diksha_tpd_agg ) as b  on exp_enrol.collection_id=b.collection_id and exp_enrol.district_id=b.district_id) as a
+ left join 
+ (select program_name,district_id,expected_enrollment as program_expected_enrollment from diksha_program_expected_temp) as c on lower(a.program_name)=lower(c.program_name) and a.district_id=c.district_id
+ on conflict(program_id,collection_id,district_id) do update 
+ set program_name=excluded.program_name,collection_id=excluded.collection_id,collection_name=excluded.collection_name,course_start_date=excluded.course_start_date,course_end_date=excluded.course_end_date,
+ district_id=excluded.district_id,district=excluded.district,expected_enrollment=excluded.expected_enrollment,program_expected_enrollment = excluded.program_expected_enrollment, program_expected_state=excluded.program_expected_state, created_on=excluded.updated_on,updated_on=now();"""
 }
