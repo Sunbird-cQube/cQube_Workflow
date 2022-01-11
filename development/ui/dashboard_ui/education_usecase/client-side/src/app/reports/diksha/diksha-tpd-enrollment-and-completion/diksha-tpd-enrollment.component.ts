@@ -96,24 +96,22 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   state: string;
 
   @ViewChild("singleSelect", { static: true }) singleSelect: MatSelect;
-  /** control for the selected bank */
-  public bankCtrl: FormControl = new FormControl();
-  /** control for the MatSelect filter keyword */
-  public bankFilterCtrl: FormControl = new FormControl();
+
   constructor(
     public http: HttpClient,
     public service: DikshaReportService,
     public commonService: AppServiceComponent,
     public router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-   
+
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
     this.getAllData();
     this.getProgramData();
+    // this.getCertiMeta();
   }
 
   //making chart empty:::::::::
@@ -144,8 +142,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.courseSelected = false;
-   this.districtSelected = false;
-   this.blockSelected = false;
+    this.districtSelected = false;
+    this.blockSelected = false;
 
     this.level = "district";
     this.yAxisLabel = "District Names";
@@ -183,8 +181,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blok = false;
     this.clust = false;
     this.yAxisLabel = "District Names";
-    this.xAxisLabel= "Total Number";
-    
+    this.xAxisLabel = "Total Number";
+
     this.listCollectionNames();
     this.service
       .tpdDistEnrollCompAll({ timePeriod: this.timePeriod })
@@ -194,7 +192,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           this.districts = result["chartData"]["dropDown"];
           this.reportData = result["downloadData"];
           this.getBarChartData();
-          this.getCertiMeta()
+
           this.commonService.loaderAndErr(this.result);
         },
         (err) => {
@@ -214,9 +212,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clusters = [];
     this.blockId = undefined;
     this.clusterId = undefined;
-    
+
     this.commonService.errMsg();
-    
+
     try {
       this.service.tpdProgramData().subscribe((res) => {
         this.programData = res["data"]["data"];
@@ -233,23 +231,25 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
 
   // certificate meta
-public certificateMeta:any
-  getCertiMeta(){
+  public certificateMeta: any
+  certificateTrue = []
+  certificateFalse = []
+  certificateBarToggle: boolean
+  getCertiMeta() {
     try {
+      this.certificateTrue = []
+      this.certificateFalse = []
       this.service.getCertifictaMeta().subscribe(res => {
-       this.certificateMeta = res['data'];
-       let certificateTrue = []
-       let certificateFalse = []
-       this.certificateMeta.forEach( certificate => {
-        if(certificate.is_certificate_available === true){
-          certificateTrue.push(certificate.collection_id)
-        }else if(certificate.is_certificate_available === true){
-          certificateFalse.push(certificate.collection_id)
-        }
-       } )
+        this.certificateMeta = res['data'];
+        this.certificateMeta.forEach(certificate => {
+          if (certificate.collection_id === this.selectedCourse) {
+            return this.certificateBarToggle = certificate.certficate_status
+          }
+        })
+
       })
     } catch (error) {
-      
+
     }
   }
   ///---custom search function---
@@ -275,7 +275,7 @@ public certificateMeta:any
         program_name: program.program_name,
       });
     });
-    
+
 
     let mymap = new Map();
 
@@ -298,7 +298,7 @@ public certificateMeta:any
     this.collectionName = "";
     this.courseSelected = false;
     this.districtSelected = false;
-    this.blockSelected =false;
+    this.blockSelected = false;
 
     this.programSeleted = true;
     this.blockHidden = true;
@@ -315,28 +315,34 @@ public certificateMeta:any
     this.selectedProgram = progID;
     this.level = "program";
     this.xAxisLabel = "Percentage",
-    this.yAxisLabel = "District names"
+      this.yAxisLabel = "District names"
+
 
     try {
+      this.listCollectionNames()
       this.programBarData = this.programData.filter((program) => {
         return program.program_id === this.selectedProgram;
       });
-      let collectionlist = this.collectionData.data.filter((program) => {
-        return program.program_id === this.selectedProgram;
-      });
-      if (collectionlist) {
-        let collections = [];
+      // let collectionlist = this.collectionData.data.filter((program) => {
+      //   return program.program_id === this.selectedProgram;
+      // });
 
-        let collectionMap = new Map();
+      // console.log('allcoll', collectionlist)
 
-        collectionlist.forEach((collection) => {
-          if (!collectionMap.has(collection.collection_id)) {
-            collections.push(collection);
-            collectionMap.set(collection.collection_id, true);
-          }
-        });
-        this.collectionNames = collections;
-      }
+      // if (collectionlist) {
+      //   let collections = [];
+
+      //   let collectionMap = new Map();
+
+      //   collectionlist.forEach((collection) => {
+      //     if (!collectionMap.has(collection.collection_id)) {
+      //       collections.push(collection);
+      //       collectionMap.set(collection.collection_id, true);
+      //     }
+      //   });
+      //   this.collectionNames = collections;
+
+      // }
 
       var chartData = {
         labels: "",
@@ -378,7 +384,6 @@ public certificateMeta:any
   //Lsiting all collection  names::::::::::::::::::
   listCollectionNames() {
     this.commonService.errMsg();
-    
     this.service
       .tpdgetCollection({
         timePeriod: this.timePeriod,
@@ -388,15 +393,41 @@ public certificateMeta:any
       .subscribe(
         async (res) => {
           this.collectionNames = [];
-          this.collectionNames = res["allCollections"];
-          this.collectionData = res["allData"];
-          this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
-          document.getElementById("spinner").style.display = "none";
+          if (this.level == 'district') {
+            this.collectionNames = res["allCollections"];
+            this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+          }
+
+          if (this.level == 'program') {
+            this.collectionNames = []
+            this.collectionData = res["allData"];
+            let collectionlist = this.collectionData.data.filter((program) => {
+              return program.program_id === this.selectedProgram;
+            });
+
+
+            if (collectionlist) {
+              let collections = [];
+
+              let collectionMap = new Map();
+
+              collectionlist.forEach((collection) => {
+                if (!collectionMap.has(collection.collection_id)) {
+                  collections.push(collection);
+                  collectionMap.set(collection.collection_id, true);
+                }
+              });
+              this.collectionNames = collections;
+
+            }
+          }
+          // document.getElementById("spinner").style.display = "none";
+          this.commonService.loaderAndErr(this.collectionNames);
         },
         (err) => {
-          this.result = [];
+          this.collectionNames = [];
           this.emptyChart();
-          this.commonService.loaderAndErr(this.result);
+          this.commonService.loaderAndErr(this.collectionNames);
         }
       );
   }
@@ -419,7 +450,7 @@ public certificateMeta:any
   //Show data based on time-period selection:::::::::::::
   chooseTimeRange() {
     this.emptyChart();
-     this.level = 'district'
+    this.level = 'district'
     this.expEnrolChartData = [];
     this.expectedEnrolled = [];
     this.enrollChartData = [];
@@ -434,8 +465,8 @@ public certificateMeta:any
     this.blockHidden = true;
     this.clusterHidden = true;
     this.courseSelected = false;
-   this.districtSelected = false;
-   this.blockSelected = false;
+    this.districtSelected = false;
+    this.blockSelected = false;
 
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
@@ -477,7 +508,7 @@ public certificateMeta:any
     }
   }
 
-  
+
   public expEnrolChartData: any = [];
 
   getBarChartData() {
@@ -495,7 +526,6 @@ public certificateMeta:any
     let enrollChartData = [];
     let compliChartData = [];
     let pecentChartData = [];
-    
 
     if (this.result.labels.length <= 25) {
       for (let i = 0; i <= 25; i++) {
@@ -505,17 +535,15 @@ public certificateMeta:any
       this.result.labels.forEach((item) => {
         this.category = this.result.labels;
       });
-      
+
     }
     this.result.data.forEach((element, i) => {
-     
-    
 
       if (
-        (this.level === "district" ) &&
+        (this.level === "district") &&
         this.courseSelected === false
       ) {
-        
+
         enrollChartData.push(Number(element[`enrollment`]));
         compliChartData.push(Number(element[`completion`]));
       } else if (
@@ -526,29 +554,58 @@ public certificateMeta:any
       ) {
         enrollChartData.push(Number(element[`enrollment`]));
         compliChartData.push(Number(element[`completion`]));
-        
-      } else if (this.level === "district" && this.courseSelected) {
-        if(element[`expected_enrolled`] === 0){
-          expectedEnrolled.push(Number(element[`enrollment`]));
-          enrollChartData.push(Number(element[`completion`]));
-          compliChartData.push(Number(element[`certificate_value`]));
-        }else{
+
+      } else if ((this.level === "district" || this.level === 'program') && this.courseSelected) {
+        if (element[`expected_enrolled`] === 0 && this.certificateBarToggle === true) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+          pecentChartData.push(Number(element[`certificate_value`]));
+        } else if (element[`expected_enrolled`] === 0 && this.certificateBarToggle !== true) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+        } else if (element[`expected_enrolled`] > 0 && this.certificateBarToggle === true) {
+          expectedEnrolled.push(Number(element[`expected_enrolled`]));
+          enrollChartData.push(Number(element[`enrolled_percentage`]));
+          compliChartData.push(Number(element[`percent_completion`]));
+          pecentChartData.push(Number(element[`certificate_per`]));
+        } else if (element[`expected_enrolled`] > 0 && this.certificateBarToggle !== true) {
+          expectedEnrolled.push(Number(element[`expected_enrolled`]));
+          enrollChartData.push(Number(element[`enrolled_percentage`]));
+          compliChartData.push(Number(element[`percent_completion`]));
+          // pecentChartData.push(Number(element[`certificate_per`]));
+        }
+      } else if (this.level === "program" && this.courseSelected === false) {
+        if (element[`expected_enrolled`] === 0) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+          pecentChartData.push(Number(element[`certificate_value`]));
+        } else {
           expectedEnrolled.push(Number(element[`expected_enrolled`]));
           enrollChartData.push(Number(element[`enrolled_percentage`]));
           compliChartData.push(Number(element[`percent_completion`]));
           pecentChartData.push(Number(element[`certificate_per`]));
         }
-      }else if (this.level === "program" && this.courseSelected === false) {
-        expectedEnrolled.push(Number(element[`expected_enrolled`]));
-        enrollChartData.push(Number(element[`enrolled_percentage`]));
-        compliChartData.push(Number(element[`percent_completion`]));
-        pecentChartData.push(Number(element[`certificate_per`]));
+
       }
-  
+      //  else if (this.level === "program" && this.courseSelected) {
+      //   if (element[`expected_enrolled`] === 0) {
+      //     enrollChartData.push(Number(element[`enrollment`]));
+      //     compliChartData.push(Number(element[`completion`]));
+      //     pecentChartData.push(Number(element[`certificate_value`]));
+      //   } else {
+      //     expectedEnrolled.push(Number(element[`expected_enrolled`]));
+      //     enrollChartData.push(Number(element[`enrolled_percentage`]));
+      //     compliChartData.push(Number(element[`percent_completion`]));
+      //     pecentChartData.push(Number(element[`certificate_per`]));
+      //   }
+
+      // }
+
+
       // tool tip
 
-        this.completion.push(element)
-   
+      this.completion.push(element)
+
     });
 
     this.enrollChartData = enrollChartData;
@@ -560,13 +617,13 @@ public certificateMeta:any
       .toString()
       .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-    
+
   }
 
   //Showing district data based on selected id:::::::::::::::::
   distLinkClick(districtId) {
     this.onDistSelect(districtId);
-   
+
   }
 
   onDistSelect(districtId) {
@@ -579,7 +636,7 @@ public certificateMeta:any
     this.pecentChartData = [];
     this.districtSelected = true;
     this.blockSelected = false;
-    
+
     this.globalId = districtId;
     this.blockHidden = false;
     this.clusterHidden = true;
@@ -624,7 +681,7 @@ public certificateMeta:any
             districtName: res["downloadData"][0].district_name,
           };
         }
-       
+
         this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${districtId}_${this.commonService.dateAndTime}`;
         this.blocks = this.reportData = res["downloadData"];
         this.getBarChartData();
@@ -641,7 +698,7 @@ public certificateMeta:any
   //Showing block data based on selected id:::::::::::::::::
   blockLinkClick(blockId) {
     this.onBlockSelect(blockId);
-   
+
   }
   onBlockSelect(blockId) {
     this.emptyChart();
@@ -665,8 +722,8 @@ public certificateMeta:any
 
     this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names";
-    
-     
+
+
     var requestBody: any = {
       timePeriod: this.timePeriod,
       blockId: blockId,
@@ -764,11 +821,11 @@ public certificateMeta:any
     if (this.courseSelected) {
       requestBody.courseSelected = this.courseSelected;
     }
-    if(this.districtSelected){
+    if (this.districtSelected) {
       requestBody.districtSelected = this.districtSelected;
     }
 
-    if(this.blockSelected){
+    if (this.blockSelected) {
       requestBody.blockSelected = this.blockSelected;
     }
 
@@ -803,7 +860,7 @@ public certificateMeta:any
 
   onClear() {
     this.collectionName = "";
-    if ( this.selectedProgram !== undefined) {
+    if (this.selectedProgram !== undefined) {
       this.onProgramSelect(this.selectedProgram);
     } else {
       this.homeClick();
@@ -819,10 +876,12 @@ public certificateMeta:any
     this.clusterHidden = true;
     this.districtId = undefined;
     this.clusterId = undefined;
-    
-    this.level = 'district';
+
+    this.level = this.programSeleted ? 'program' : 'district';
     this.xAxisLabel = "Percentage";
-    this.yAxisLabel = "District names"
+    this.yAxisLabel = "District names";
+
+
     if ($event) {
       this.collectionName = $event.collection_id;
       this.emptyChart();
@@ -851,6 +910,7 @@ public certificateMeta:any
       if (this.clusterId) {
         requestBody.clusterId = this.clusterId;
       }
+      this.getCertiMeta();
 
       this.service.getCollectionData(requestBody).subscribe(
         async (res) => {
@@ -884,7 +944,9 @@ public certificateMeta:any
 
             // this.commonService.loaderAndErr(this.result);
           }
+          // this.getCertiMeta();
           this.getBarChartData();
+
           this.commonService.loaderAndErr(this.result);
         },
         (err) => {
