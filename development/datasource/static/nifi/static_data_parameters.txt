@@ -111,10 +111,10 @@ from flowfile)""",
 "static_diksha_enrolment_temp_to_mst":"""insert into diksha_tpd_expected_enrollment(program_id,program_name,collection_id,collection_name,course_start_date,course_end_date,district_id,district,expected_enrollment,program_expected_enrollment,program_expected_state,created_on,updated_on)
  select program_id,a.program_name,a.collection_id,collection_name,course_start_date,course_end_date,a.district_id,district_name,a.expected_enrollment,program_expected_enrollment,a.program_expected_state,now(),now() from (
 select program_id,program_name,a.collection_id,collection_name,course_start_date,course_end_date,program_expected_state,exp_enrol.district_id,district_name,expected_enrollment from
- (select pct.program_id,pct.program_name,pct.collection_id,dce.course_start_date,dce.course_end_date,pct.expected_enrollment as program_expected_state from diksha_program_course_details pct join diksha_course_details_temp dce on pct.collection_id=dce.collection_id ) as a
+ (select pct.program_id,pct.program_name,pct.collection_id,dce.course_start_date,dce.course_end_date,pct.expected_enrollment as program_expected_state from diksha_program_course_details_temp pct join diksha_course_details_temp dce on pct.collection_id=dce.collection_id ) as a
   join 
  (select collection_id,district_id,expected_enrollment from diksha_course_expected_temp) as exp_enrol on a.collection_id=exp_enrol.collection_id 
- join 
+ left join 
  (select distinct collection_id,collection_name,district_id,district_name from diksha_tpd_agg ) as b  on exp_enrol.collection_id=b.collection_id and exp_enrol.district_id=b.district_id) as a
  left join 
  (select program_name,district_id,expected_enrollment as program_expected_enrollment from diksha_program_expected_temp) as c on lower(a.program_name)=lower(c.program_name) and a.district_id=c.district_id
