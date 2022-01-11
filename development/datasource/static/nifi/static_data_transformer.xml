@@ -14,6 +14,34 @@
             <comments></comments>
             <contents>
                 <connections>
+                    <id>01905c27-94cb-3465-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-13424.0</x>
+                        <y>912.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>835bf462-311a-330d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>3216482b-9a4d-3cd2-0000-000000000000</id>
+                        <type>INPUT_PORT</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>0206d412-19c0-3059-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -166,6 +194,31 @@
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
                         <id>2881054c-5f5f-3a43-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>0a45d5f1-9cb0-3459-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>c1a64ae0-16b1-3ec4-0000-000000000000</id>
+                        <type>FUNNEL</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>b7493c93-5bfa-33fe-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -505,6 +558,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>27b46c69-e9c5-342a-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>110cc04b-213b-3395-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>failure</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>7a189798-7666-3764-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>2b40e5cb-c9d3-34c8-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -525,6 +603,31 @@
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
                         <id>461e57f2-ff39-39c2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>2c000af8-70ec-3b9c-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>12ad416b-0984-34ae-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_program_course_expected</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>17e4c268-b3ff-3af7-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -575,6 +678,31 @@
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
                         <id>aab54b00-df65-3d82-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>2d19be96-c1d3-3c7b-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>eaa4fc3d-e651-3d9c-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>835bf462-311a-330d-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -728,6 +856,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>diksha_etb_enrolment</selectedRelationships>
                     <selectedRelationships>district_block_cluster</selectedRelationships>
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
@@ -794,6 +923,43 @@
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
                         <id>a148b396-487c-3193-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>3f6de675-313e-3d26-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-14096.0</x>
+                        <y>1176.0</y>
+                    </bends>
+                    <bends>
+                        <x>-14096.0439453125</x>
+                        <y>641.7611694335938</y>
+                    </bends>
+                    <bends>
+                        <x>-1776.0</x>
+                        <y>704.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>432675b5-27f0-307f-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>output stream</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>67950202-2f4b-3590-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -962,6 +1128,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>499a2889-0e14-3cd8-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>402ed1bd-f4a9-33a1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>nonzero status</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>67950202-2f4b-3590-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>4b304f97-cc9d-3d77-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -1106,26 +1297,43 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>5998b79a-56f7-38e3-0000-000000000000</id>
+                    <id>598ab3af-5f14-333a-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-14752.0</x>
+                        <y>1040.0</y>
+                    </bends>
+                    <bends>
+                        <x>-14760.0</x>
+                        <y>520.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2568.0</x>
+                        <y>624.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2530.826416015625</x>
+                        <y>1761.049560546875</y>
+                    </bends>
                     <destination>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
-                        <id>eaa4fc3d-e651-3d9c-0000-000000000000</id>
-                        <type>PROCESSOR</type>
+                        <id>e9e138e6-8ea8-36b9-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>nonzero status</selectedRelationships>
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
-                        <id>3216482b-9a4d-3cd2-0000-000000000000</id>
-                        <type>INPUT_PORT</type>
+                        <id>67950202-2f4b-3590-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -1401,6 +1609,47 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>6ebf72bb-2bc1-3080-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-14752.0</x>
+                        <y>840.0</y>
+                    </bends>
+                    <bends>
+                        <x>-14745.4619140625</x>
+                        <y>547.4016723632812</y>
+                    </bends>
+                    <bends>
+                        <x>-2599.2265625</x>
+                        <y>609.0676879882812</y>
+                    </bends>
+                    <bends>
+                        <x>-2532.052490234375</x>
+                        <y>1742.659912109375</y>
+                    </bends>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>e9e138e6-8ea8-36b9-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>failure</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>7a189798-7666-3764-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>6eff4279-60fb-3b00-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -1575,6 +1824,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>7c449b89-9d33-3b65-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>67950202-2f4b-3590-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>7a189798-7666-3764-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>7c55a3bb-d207-35f4-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -1623,6 +1897,43 @@
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>7ff9971c-0593-39e0-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-14056.0</x>
+                        <y>1072.0</y>
+                    </bends>
+                    <bends>
+                        <x>-14034.1640625</x>
+                        <y>670.075927734375</y>
+                    </bends>
+                    <bends>
+                        <x>-5005.97119140625</x>
+                        <y>821.5878295898438</y>
+                    </bends>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>4095f706-93b1-3c73-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_enrolment</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>835bf462-311a-330d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>1</zIndex>
                 </connections>
                 <connections>
                     <id>825d7626-719f-3a28-0000-000000000000</id>
@@ -1959,6 +2270,39 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>92b7cc11-0515-35ab-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-2784.0</x>
+                        <y>1272.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2752.0</x>
+                        <y>1736.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>e9e138e6-8ea8-36b9-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>failure</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>b7493c93-5bfa-33fe-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>92ff3c3d-a725-394a-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -2258,6 +2602,39 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>a041a882-e6f1-3f44-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-2752.0</x>
+                        <y>1432.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2720.0</x>
+                        <y>1720.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>e9e138e6-8ea8-36b9-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>failure</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>12ad416b-0984-34ae-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>a309d7a4-aff0-39d1-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -2527,6 +2904,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>ac694a10-a306-33fb-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>b7493c93-5bfa-33fe-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>12ad416b-0984-34ae-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>ad7ddd21-6e6d-3b78-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -2790,7 +3192,7 @@
                         <id>17e4c268-b3ff-3af7-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
-                    <zIndex>0</zIndex>
+                    <zIndex>3</zIndex>
                 </connections>
                 <connections>
                     <id>bd240f59-7bb0-3e10-0000-000000000000</id>
@@ -3270,6 +3672,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>e0d7248a-60cf-3dd2-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>7a189798-7666-3764-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>diksha_enrolment</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>835bf462-311a-330d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>2</zIndex>
+                </connections>
+                <connections>
                     <id>e0e0f9c5-9537-3163-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -3336,7 +3763,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
-                    <selectedRelationships>diksha_tpd_enrolment</selectedRelationships>
+                    <selectedRelationships>diksha_enrolment</selectedRelationships>
                     <selectedRelationships>grade_details</selectedRelationships>
                     <selectedRelationships>static_block</selectedRelationships>
                     <selectedRelationships>static_cluster</selectedRelationships>
@@ -3422,6 +3849,31 @@
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
                         <id>6d8cd8bd-5e8a-371e-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>e5a9aa21-92d2-3d96-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>432675b5-27f0-307f-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>b7493c93-5bfa-33fe-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -3571,6 +4023,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <selectedRelationships>diksha_etb_enrolment</selectedRelationships>
                     <selectedRelationships>district_block_cluster</selectedRelationships>
                     <source>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
@@ -5875,7 +6328,7 @@
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
                         <x>-13264.0</x>
-                        <y>832.0</y>
+                        <y>840.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -5883,6 +6336,27 @@
                     <state>STOPPED</state>
                     <type>INPUT_PORT</type>
                 </inputPorts>
+                <labels>
+                    <id>133d0f53-cfd2-35d5-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-14616.0</x>
+                        <y>736.0</y>
+                    </position>
+                    <height>48.0</height>
+                    <label>               Diksha enrollment</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#456da1</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>448.0</width>
+                </labels>
                 <labels>
                     <id>1f92912c-5a38-381b-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
@@ -5963,8 +6437,8 @@
                     <id>616c86c9-a872-34be-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13112.0</x>
-                        <y>48.0</y>
+                        <x>-13304.0</x>
+                        <y>-272.0</y>
                     </position>
                     <height>168.0</height>
                     <label>S3 data source</label>
@@ -5984,8 +6458,8 @@
                     <id>6ad17216-9f20-3f91-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13688.0</x>
-                        <y>40.0</y>
+                        <x>-13792.0</x>
+                        <y>-272.0</y>
                     </position>
                     <height>168.0</height>
                     <label>On premise </label>
@@ -6064,8 +6538,8 @@
                     <id>aff507cd-916d-312b-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-12648.0</x>
-                        <y>48.0</y>
+                        <x>-12744.0</x>
+                        <y>-272.0</y>
                     </position>
                     <height>168.0</height>
                     <label>azure List Blob</label>
@@ -6244,8 +6718,8 @@ Loading</label>
                     <id>50ffc719-d69e-3bcd-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13320.0</x>
-                        <y>544.0</y>
+                        <x>-13224.0</x>
+                        <y>184.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -6527,13 +7001,14 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_same_record_check_diksha_course_details},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_record_check_diksha_course_enrolment},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_record_check_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_same_record_check_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_record_check_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_record_check_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_record_check_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_record_check_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_record_check_school_category_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_check_school_management_udise},'None')}
-)})})})})})})} )} )} )} )})})})})}</value>
+)})})})})})})} )} )} )} )})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -6948,6 +7423,200 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                     <type>org.apache.nifi.processors.standard.PutSQL</type>
                 </processors>
                 <processors>
+                    <id>110cc04b-213b-3395-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-15248.0</x>
+                        <y>832.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>log-level</key>
+<value>
+    <name>log-level</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>
+    <name>log-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+<value>
+    <name>log-message</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>log-level</key>
+<value>error</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>-------DIKSHA ENROLMENT DATA STORAGE-------</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+<value>Error while storing file=${filename} into #{base_dir}/cqube/nifi/diksha_enrolment</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>LogMessage</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.LogMessage</type>
+                </processors>
+                <processors>
+                    <id>12ad416b-0984-34ae-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-3312.0</x>
+                        <y>1352.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>JDBC Connection Pool</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.dbcp.DBCPService</identifiesControllerService>
+    <name>JDBC Connection Pool</name>
+</value>
+                            </entry>
+                            <entry>
+<key>putsql-sql-statement</key>
+<value>
+    <name>putsql-sql-statement</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Support Fragmented Transactions</key>
+<value>
+    <name>Support Fragmented Transactions</name>
+</value>
+                            </entry>
+                            <entry>
+<key>database-session-autocommit</key>
+<value>
+    <name>database-session-autocommit</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Transaction Timeout</key>
+<value>
+    <name>Transaction Timeout</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>
+    <name>Batch Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Obtain Generated Keys</key>
+<value>
+    <name>Obtain Generated Keys</name>
+</value>
+                            </entry>
+                            <entry>
+<key>rollback-on-failure</key>
+<value>
+    <name>rollback-on-failure</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>JDBC Connection Pool</key>
+<value>92120a58-561b-31c4-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>putsql-sql-statement</key>
+<value>#{static_diksha_enrolment_temp_to_mst}</value>
+                            </entry>
+                            <entry>
+<key>Support Fragmented Transactions</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>database-session-autocommit</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>Transaction Timeout</key>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>Obtain Generated Keys</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>rollback-on-failure</key>
+<value>false</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>1 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>static_diksha_program_course</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>retry</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PutSQL</type>
+                </processors>
+                <processors>
                     <id>17471ac6-e89d-3b58-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
@@ -7025,17 +7694,18 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse(#{static_select_cols_school_state_final},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_select_cols_school_category_state_final},
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_state_final},
-${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_select_cols_diksha_program_course_details},
-${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_select_cols_diksha_course_details},
-${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_select_cols_diksha_course_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse(#{static_select_cols_diksha_program_course_details_final},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_select_cols_diksha_course_details_final},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_select_cols_diksha_course_enrolment_final},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_select_cols_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_select_cols_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_select_cols_district_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_select_cols_block_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_select_cols_cluster_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_select_cols_school_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_select_cols_school_category_udise_final},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_udise_final},'None')}
-)})})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -7065,8 +7735,8 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                     <id>178058b1-ac28-3759-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13664.0</x>
-                        <y>72.0</y>
+                        <x>-13752.0</x>
+                        <y>-240.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -7312,7 +7982,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>DISABLED</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ListFile</type>
                 </processors>
@@ -7337,6 +8007,18 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
 <key>Routing Strategy</key>
 <value>
     <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_etb_enrolment</key>
+<value>
+    <name>diksha_etb_enrolment</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_program_course_expected</key>
+<value>
+    <name>diksha_program_course_expected</name>
 </value>
                             </entry>
                             <entry>
@@ -7367,6 +8049,16 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
 <value>Route to Property name</value>
                             </entry>
                             <entry>
+<key>diksha_etb_enrolment</key>
+<value>${filename:startsWith('diksha_etb_enrolment')}</value>
+                            </entry>
+                            <entry>
+<key>diksha_program_course_expected</key>
+<value>${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_program_details')})}</value>
+                            </entry>
+                            <entry>
 <key>district_block_cluster</key>
 <value>${filename:startsWith('district_m'):or(
 ${filename:startsWith('block_m'):or(
@@ -7389,6 +8081,14 @@ ${filename:startsWith('diksha_enrolment_tpd')} )} )})}</value>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
                     <name>RouteOnAttribute</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_etb_enrolment</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_program_course_expected</name>
+                    </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>district_block_cluster</name>
@@ -7449,8 +8149,12 @@ ${filename:startsWith('diksha_enrolment_tpd')} )} )})}</value>
 ${filename:startsWith('block_m'):ifElse('processed_file_count_block',
 ${filename:startsWith('cluster_m'):ifElse('processed_file_count_cluster',
 ${filename:startsWith('school_m'):ifElse('processed_file_count_school',
-${filename:startsWith('diksha_enrolment_tpd'):ifElse('processed_file_count_diksha_enrolment_tpd','None')}
-)} )} )})}</value>
+${filename:startsWith('diksha_program_details'):ifElse('processed_file_count_diksha_program_details',
+${filename:startsWith('diksha_program_course_details'):ifElse('processed_file_count_diksha_program_course_details',
+${filename:startsWith('diksha_course_details'):ifElse('processed_file_count_diksha_course_details',
+${filename:startsWith('diksha_course_enrolment'):ifElse('processed_file_count_diksha_course_enrolment',
+${filename:startsWith('diksha_etb_enrolment'):ifElse('processed_file_count_diksha_etb_enrolment','None')})})})})})})}
+)} )}</value>
                             </entry>
                             <entry>
 <key>delta</key>
@@ -7476,8 +8180,8 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse('processed_file_count_diksh
                     <id>1edf3847-ecf8-34e2-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-12632.0</x>
-                        <y>80.0</y>
+                        <x>-12720.0</x>
+                        <y>-240.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-azure-nar</artifact>
@@ -7632,7 +8336,7 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse('processed_file_count_diksh
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>DISABLED</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.azure.storage.ListAzureBlobStorage</type>
                 </processors>
@@ -8486,6 +9190,74 @@ group by a.ff_uuid,a.school_id,a.block_id,a.cluster_id,a.district_id) as data wh
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
+                </processors>
+                <processors>
+                    <id>402ed1bd-f4a9-33a1-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-15248.0</x>
+                        <y>1064.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>log-level</key>
+<value>
+    <name>log-level</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>
+    <name>log-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+<value>
+    <name>log-message</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>log-level</key>
+<value>error</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>-------DIKSHA ENROLMENT DATA STORAGE-------</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+<value>Error while splitting file=${filename} </value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>LogMessage</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
                     <id>41236447-1164-331d-0000-000000000000</id>
@@ -9606,9 +10378,9 @@ same id data validation of file:${filename}, same id records found </value>
 </value>
                             </entry>
                             <entry>
-<key>diksha_tpd_enrolment</key>
+<key>diksha_enrolment</key>
 <value>
-    <name>diksha_tpd_enrolment</name>
+    <name>diksha_enrolment</name>
 </value>
                             </entry>
                             <entry>
@@ -9669,8 +10441,11 @@ same id data validation of file:${filename}, same id records found </value>
 <value>Route to Property name</value>
                             </entry>
                             <entry>
-<key>diksha_tpd_enrolment</key>
-<value>${filename:startsWith('diksha_enrolment')}</value>
+<key>diksha_enrolment</key>
+<value>${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_etb_enrolment')})
+:or(${filename:startsWith('diksha_program_details')})}</value>
                             </entry>
                             <entry>
 <key>grade_details</key>
@@ -9714,7 +10489,7 @@ same id data validation of file:${filename}, same id records found </value>
                     <name>route_based_on_content</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
-                        <name>diksha_tpd_enrolment</name>
+                        <name>diksha_enrolment</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -9872,8 +10647,8 @@ same id data validation of file:${filename}, same id records found </value>
                     <id>4a44313d-cf5e-32d9-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13080.0</x>
-                        <y>80.0</y>
+                        <x>-13280.0</x>
+                        <y>-240.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-aws-nar</artifact>
@@ -10223,7 +10998,8 @@ ${filename:startsWith('school_management_master'):ifElse(#{static_school_managem
 ${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_check_if_null},
 ${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_check_if_null},
 ${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_check_if_null},
-${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_check_if_null},'None')} )} )} )} )})})})})}</value>
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_check_if_null},
+${filename:startsWith('diksha_program_details'):ifElse(#{static_diksha_program_details_check_if_null},'None')} )} )} )} )})})})})})}</value>
                             </entry>
                             <entry>
 <key>not_null</key>
@@ -10235,7 +11011,8 @@ ${filename:startsWith('school_management_master'):ifElse(#{static_school_managem
 ${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_not_null},
 ${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_not_null},
 ${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_not_null},
-${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_not_null},'None')} )} )} )} )})})})})}</value>
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_not_null},
+${filename:startsWith('diksha_program_details'):ifElse(#{static_diksha_program_details_not_null},'None')} )} )} )} )})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -10269,7 +11046,7 @@ ${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolme
                     <id>4b678e46-332b-399a-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13968.0</x>
+                        <x>-13952.0</x>
                         <y>1208.0</y>
                     </position>
                     <bundle>
@@ -11295,6 +12072,131 @@ on data.school_id=shd.school_id where data.ff_uuid='${files_uuid}';</value>
                     <type>org.apache.nifi.processors.standard.Notify</type>
                 </processors>
                 <processors>
+                    <id>67950202-2f4b-3590-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-14608.0</x>
+                        <y>1064.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>argumentsStrategy</key>
+<value>
+    <name>argumentsStrategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Command Arguments</key>
+<value>
+    <name>Command Arguments</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Command Path</key>
+<value>
+    <name>Command Path</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Ignore STDIN</key>
+<value>
+    <name>Ignore STDIN</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Working Directory</key>
+<value>
+    <name>Working Directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Argument Delimiter</key>
+<value>
+    <name>Argument Delimiter</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Output Destination Attribute</key>
+<value>
+    <name>Output Destination Attribute</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Max Attribute Length</key>
+<value>
+    <name>Max Attribute Length</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>argumentsStrategy</key>
+<value>Command Arguments Property</value>
+                            </entry>
+                            <entry>
+<key>Command Arguments</key>
+<value>diksha_enrolment_file_split.py;#{base_dir}/cqube/nifi/diksha_enrolment/${filename};${source};${emission_directory}</value>
+                            </entry>
+                            <entry>
+<key>Command Path</key>
+<value>#{base_dir}/cqube/emission_app/flaskenv/bin/python</value>
+                            </entry>
+                            <entry>
+<key>Ignore STDIN</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>Working Directory</key>
+<value>#{base_dir}/cqube/emission_app/python</value>
+                            </entry>
+                            <entry>
+<key>Argument Delimiter</key>
+<value>;</value>
+                            </entry>
+                            <entry>
+<key>Output Destination Attribute</key>
+                            </entry>
+                            <entry>
+<key>Max Attribute Length</key>
+<value>256</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>static_diksha_enrolment_file_split</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>nonzero status</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>original</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>output stream</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.ExecuteStreamCommand</type>
+                </processors>
+                <processors>
                     <id>6a9cac34-37da-3c3e-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
@@ -11734,13 +12636,14 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_filter_school_management_state},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_id_filter_diksha_course_enrolment},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_id_filter_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_same_id_filter_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_id_filter_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_id_filter_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_id_filter_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_id_filter_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_id_filter_school_category_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_filter_school_management_udise},'None')}
-)})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -12222,6 +13125,123 @@ Mirror data validation of file:${filename} started</value>
                     <type>org.apache.nifi.processors.standard.JoltTransformJSON</type>
                 </processors>
                 <processors>
+                    <id>7a189798-7666-3764-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-14600.0</x>
+                        <y>832.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Directory</key>
+<value>
+    <name>Directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>
+    <name>Conflict Resolution Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>
+    <name>Create Missing Directories</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+<value>
+    <name>Maximum File Count</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+<value>
+    <name>Last Modified Time</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+<value>
+    <name>Permissions</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Group</key>
+<value>
+    <name>Group</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Directory</key>
+<value>#{base_dir}/cqube/nifi/diksha_enrolment</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>replace</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+                            </entry>
+                            <entry>
+<key>Group</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>static_diksha_enrolment_file_load</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PutFile</type>
+                </processors>
+                <processors>
                     <id>826662da-3b05-3c0d-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
@@ -12278,6 +13298,68 @@ Mirror data validation of file:${filename} started</value>
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.UpdateCounter</type>
+                </processors>
+                <processors>
+                    <id>835bf462-311a-330d-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-13952.0</x>
+                        <y>1016.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>diksha_enrolment</key>
+<value>
+    <name>diksha_enrolment</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>diksha_enrolment</key>
+<value>${filename:startsWith('diksha_enrolment')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>route_based_on_s3_dir</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>diksha_enrolment</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
                 </processors>
                 <processors>
                     <id>86206f28-746f-34bd-0000-000000000000</id>
@@ -12549,7 +13631,8 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse('sat_null_col',
 ${filename:startsWith('diksha_program_course_details'):ifElse('diksha_program_course_details_null_col',
 ${filename:startsWith('diksha_course_details'):ifElse('diksha_course_details_null_col',
 ${filename:startsWith('diksha_course_enrolment'):ifElse('diksha_course_enrolment_null_col',
-${filename:startsWith('diksha_etb_enrolment'):ifElse('diksha_etb_enrolment_null_col','None')} )} )} )} )})})})})})}</value>
+${filename:startsWith('diksha_etb_enrolment'):ifElse('diksha_etb_enrolment_null_col',
+${filename:startsWith('diksha_program_details'):ifElse('diksha_program_details_null_col','None')} )} )} )} )})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>put-db-record-translate-field-names</key>
@@ -12625,8 +13708,8 @@ ${filename:startsWith('diksha_etb_enrolment'):ifElse('diksha_etb_enrolment_null_
                     <id>920bd4ee-4510-37c7-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-12696.0</x>
-                        <y>560.0</y>
+                        <x>-12704.0</x>
+                        <y>1016.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12832,7 +13915,12 @@ ${filename:startsWith('cluster_m'):ifElse(#{static_process_rec_cluster},
 ${filename:startsWith('school_mst'):ifElse(#{static_process_rec_school},
 ${filename:startsWith('school_category'):ifElse(#{static_process_rec_school_category},
 ${filename:startsWith('school_management'):ifElse(#{static_process_rec_school_management},
-${filename:startsWith('diksha_enrolment_tpd'):ifElse(#{static_process_rec_diksha_enrolment_tpd},'None')})})})})})})}</value>
+${filename:startsWith('diksha_program_details'):ifElse(#{static_process_rec_diksha_program_details},
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_process_rec_diksha_program_course_details},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_process_rec_diksha_course_details},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_process_rec_diksha_course_enrolment},
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_process_rec_diksha_etb_enrolment},'None')})})})})})})}
+)})})})}</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -13112,7 +14200,11 @@ ${filename:startsWith('cluster_m'):ifElse(#{static_log_summary_cluster_qry},
 ${filename:startsWith('school_mst'):ifElse(#{static_log_summary_school_qry},
 ${filename:startsWith('school_category'):ifElse(#{static_log_summary_school_category_qry},
 ${filename:startsWith('school_management'):ifElse(#{static_log_summary_school_management_qry},
-${filename:startsWith('diksha_enrolment_tpd'):ifElse(#{static_log_summary_diksha_enrolment_tpd_qry},'None')})})})})})})}</value>
+${filename:startsWith('diksha_program_details'):ifElse(#{static_log_summary_diksha_program_details_qry},
+${filename:startsWith('diksha_program_course_details'):ifElse(#{static_log_summary_diksha_program_course_details_qry},
+${filename:startsWith('diksha_course_details'):ifElse(#{static_log_summary_diksha_course_details_qry},
+${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_log_summary_diksha_course_enrolment_qry},
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_log_summary_diksha_etb_enrolment_qry},'None')})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>sql-post-query</key>
@@ -13235,13 +14327,14 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_data_type_diksha_course_details},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_data_type_diksha_course_enrolment},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_data_type_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_data_type_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_data_type_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_data_type_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_data_type_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_data_type_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_data_type_school_category_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_data_type_school_management_udise},'None')}
-)})})})})})})} )} )} )} )})})})})}</value>
+)})})})})})})} )} )} )} )})})})})})}</value>
                             </entry>
                             <entry>
 <key>validate-csv-header</key>
@@ -13721,13 +14814,14 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_save_diksha_course_details},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_save_diksha_course_enrolment},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_save_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_save_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_save_district_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_save_block_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_save_cluster_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_save_school_mst_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_save_school_category_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_save_school_management_udise},'None')}
-)})})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>put-db-record-translate-field-names</key>
@@ -13749,17 +14843,18 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('cluster
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_mst')}):ifElse('school_id',
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_category_master')}):ifElse('school_category_id',
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse('school_management_type_id',
-${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse('program_id',
-${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse('course_id,course_start_date',
-${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse('course_id,district_id',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_course_details')}):ifElse('program_id,collection_id',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse('collection_id',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse('collection_id,district_id',
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse('academic_year,district_id',
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse('program_name,district_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse('district_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse('block_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse('cluster_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse('school_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse('school_category_id',
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse('school_management_type_id','None')}
-)})})})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>put-db-record-field-containing-sql</key>
@@ -13998,7 +15093,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                     <id>a4d0ce4e-f79f-3095-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13936.0</x>
+                        <x>-13952.0</x>
                         <y>800.0</y>
                     </position>
                     <bundle>
@@ -14477,13 +15572,14 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_same_record_filter_diksha_course_details},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_record_filter_diksha_course_enrolment},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_record_filter_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_same_record_filter_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_record_filter_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_record_filter_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_record_filter_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_record_filter_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_record_filter_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_filter_school_management_udise},'None')})})})})})})})} )} )} )} 
-)})})})})}</value>
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_record_filter_school_management_udise},'None')})})})})})})})}
+ )} )} )} )})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -14594,11 +15690,9 @@ ${filename:startsWith('school_management_master'):ifElse(#{static_school_managem
 ${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_null_log},
 ${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_null_log},
 ${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_null_log},
-${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_null_log},
-${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_null_log},
-${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_null_log},
-${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_null_log},'None')} )} 
-)} )} )})})})})})})})}</value>
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_null_log},
+${filename:startsWith('diksha_program_details'):ifElse(#{static_diksha_program_details_null_log},'None')} )} 
+)} )} )})})})})})}</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -14997,8 +16091,13 @@ file: ${filename} has invalid data type: invalid record=${count.invalid.lines} ,
 ${filename:startsWith('block_m'):ifElse('processed_record_count_block',
 ${filename:startsWith('cluster_m'):ifElse('processed_record_count_cluster',
 ${filename:startsWith('school_m'):ifElse('processed_record_count_school',
-${filename:startsWith('diksha_enrolment_tpd'):ifElse('processed_record_count_diksha_enrolment_tpd','None')}
-)} )} )})}</value>
+${filename:startsWith('diksha_program_details'):ifElse('processed_record_count_diksha_program_details',
+${filename:startsWith('diksha_program_course_details'):ifElse('processed_record_count_diksha_program_course_details',
+${filename:startsWith('diksha_course_details'):ifElse('processed_record_count_diksha_course_details',
+${filename:startsWith('diksha_course_enrolment'):ifElse('processed_record_count_diksha_course_enrolment',
+${filename:startsWith('diksha_etb_enrolment'):ifElse('processed_record_count_diksha_etb_enrolment','None')})})})})})})}
+)} )}
+</value>
                             </entry>
                             <entry>
 <key>delta</key>
@@ -15103,6 +16202,135 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse('processed_record_count_dik
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.UpdateRecord</type>
+                </processors>
+                <processors>
+                    <id>b7493c93-5bfa-33fe-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-3304.0</x>
+                        <y>1152.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>JDBC Connection Pool</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.dbcp.DBCPService</identifiesControllerService>
+    <name>JDBC Connection Pool</name>
+</value>
+                            </entry>
+                            <entry>
+<key>putsql-sql-statement</key>
+<value>
+    <name>putsql-sql-statement</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Support Fragmented Transactions</key>
+<value>
+    <name>Support Fragmented Transactions</name>
+</value>
+                            </entry>
+                            <entry>
+<key>database-session-autocommit</key>
+<value>
+    <name>database-session-autocommit</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Transaction Timeout</key>
+<value>
+    <name>Transaction Timeout</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>
+    <name>Batch Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Obtain Generated Keys</key>
+<value>
+    <name>Obtain Generated Keys</name>
+</value>
+                            </entry>
+                            <entry>
+<key>rollback-on-failure</key>
+<value>
+    <name>rollback-on-failure</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>JDBC Connection Pool</key>
+<value>92120a58-561b-31c4-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>putsql-sql-statement</key>
+<value>${filename:startsWith('diksha_program_course_details'):ifElse('truncate table diksha_program_course_details_temp',
+${filename:startsWith('diksha_course_details'):ifElse('truncate table diksha_course_details_temp',
+${filename:startsWith('diksha_course_enrolment'):ifElse('truncate table diksha_course_expected_temp',
+${filename:startsWith('diksha_program_details'):ifElse('truncate table diksha_program_expected_temp','None')})})})}</value>
+                            </entry>
+                            <entry>
+<key>Support Fragmented Transactions</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>database-session-autocommit</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>Transaction Timeout</key>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>Obtain Generated Keys</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>rollback-on-failure</key>
+<value>false</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>1 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>static_diksha_program_course_truncate</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>retry</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PutSQL</type>
                 </processors>
                 <processors>
                     <id>b8bbeb2e-ffd1-3a2c-0000-000000000000</id>
@@ -16311,13 +17539,14 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_
 ${static_datasource:toLower():equals('state'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_check_school_management_state},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_same_id_check_diksha_course_enrolment},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_same_id_check_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_same_id_check_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_same_id_check_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_same_id_check_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_same_id_check_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_same_id_check_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_same_id_check_school_category_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_same_id_check_school_management_udise},'None')}
-)})})})})})})})})})})})})}</value>
+)})})})})})})})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -17431,7 +18660,12 @@ ${filename:startsWith('school_mst'):ifElse('school_dup',
 ${filename:startsWith('school_category_master'):ifElse('school_category_dup',
 ${filename:startsWith('school_management_master'):ifElse('school_management_dup',
 ${filename:startsWith('diksha_enrolment_tpd'):ifElse('diksha_enrolment_tpd_dup',
-'None')} )} )} )} )} )})}</value>
+${filename:startsWith('diksha_program_course_details'):ifElse('diksha_program_course_details_dup',
+${filename:startsWith('diksha_course_details'):ifElse('diksha_program_course_details_dup',
+${filename:startsWith('diksha_course_enrolment'):ifElse('diksha_course_expected_dup',
+${filename:startsWith('diksha_etb_enrolment'):ifElse('diksha_etb_expected_enrolment_dup',
+${filename:startsWith('diksha_program_details'):ifElse('diksha_program_expected_dup','None')}
+ )} )} )} )})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>put-db-record-translate-field-names</key>
@@ -17508,7 +18742,7 @@ ${filename:startsWith('diksha_enrolment_tpd'):ifElse('diksha_enrolment_tpd_dup',
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
                         <x>-13320.0</x>
-                        <y>1008.0</y>
+                        <y>1016.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -17766,12 +19000,13 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_details')}):ifElse(#{static_select_cols_diksha_course_details},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_course_enrolment')}):ifElse(#{static_select_cols_diksha_course_enrolment},
 ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_etb_enrolment')}):ifElse(#{static_select_cols_diksha_etb_enrolment},
+${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():equals('udise')}):and(${filename:startsWith('diksha_program_details')}):ifElse(#{static_select_cols_diksha_program_details},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('district_m')}):ifElse(#{static_select_cols_district_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('block_m')}):ifElse(#{static_select_cols_block_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('cluster_m')}):ifElse(#{static_select_cols_cluster_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_mst')}):ifElse(#{static_select_cols_school_udise},
 ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_category_master')}):ifElse(#{static_select_cols_school_category_udise},
-${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_udise},'None')} )} 
+${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_management_master')}):ifElse(#{static_select_cols_school_management_udise},'None')})})}
 )} )} )} )} )} )} )} )} )} )})})})})}</value>
                             </entry>
                         </properties>
@@ -17896,8 +19131,8 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                     <id>f1aacd1c-a6ef-31a9-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13376.0</x>
-                        <y>312.0</y>
+                        <x>-13280.0</x>
+                        <y>0.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -18490,11 +19725,9 @@ ${filename:startsWith('school_management_master'):ifElse(#{static_school_managem
 ${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_count_null_vals},
 ${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_count_null_vals},
 ${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_count_null_vals},
-${filename:startsWith('diksha_program_course_details'):ifElse(#{static_diksha_program_course_details_count_null_vals},
-${filename:startsWith('diksha_course_details'):ifElse(#{static_diksha_course_details_count_null_vals},
-${filename:startsWith('diksha_course_enrolment'):ifElse(#{static_diksha_course_enrolment_count_null_vals},
-${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_count_null_vals},'None')} 
-)} )} )} )})})})})})})})}
+${filename:startsWith('diksha_etb_enrolment'):ifElse(#{static_diksha_etb_enrolment_count_null_vals},
+${filename:startsWith('diksha_program_details'):ifElse(#{static_diksha_program_details_count_null_vals},'None')} 
+)} )} )} )})})})})})}
 </value>
                             </entry>
                         </properties>
@@ -19030,5 +20263,5 @@ where ff_uuid= '${files_uuid}'</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/07/2022 19:10:35 IST</timestamp>
+    <timestamp>01/11/2022 17:07:19 IST</timestamp>
 </template>
