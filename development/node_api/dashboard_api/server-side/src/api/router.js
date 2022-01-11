@@ -12,6 +12,7 @@ const tAttd_schoolWise = require('./controller/attendanceRoutes/teacher_attendan
 const tAttd_dateRange = require('./controller/attendanceRoutes/teacher_attendance/getDateRange');
 
 const changePasswd = require('./controller/users/changePassword');
+const login = require('./controller/users/logIn')
 
 //deeksha
 const deekshaData = require('./controller/diksha/diksha');
@@ -172,6 +173,7 @@ router.use('/teacher_attendance', tAttd_dateRange);
 
 // user details routes
 router.use('/changePassword', changePasswd);
+router.use('/login', login)
 
 // Infra
 router.use('/infra', infraDistWise);

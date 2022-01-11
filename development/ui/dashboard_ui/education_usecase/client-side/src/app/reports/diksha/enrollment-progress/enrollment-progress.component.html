@@ -1,99 +1,101 @@
-
 <div class="container-fluid">
-    <div class="row reportHeader">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="row" (window:resize)="onResize()">
-              <div class="col-lg-9 col-md-9 col-sm-12">
-               
-                <div *ngIf="skul">
-                  <p id="block">
-                    Report on User Onboarding:
-                    <span (click) = "clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{state}}</span>
-                   
-                  </p>
-                </div>
-               
-                <div *ngIf="dist">
-                  <p id="block">
-                    Report on User Onboarding:
-                    <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
-                    <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
-                     {{districtName}} </span>
-                  </p>
-                </div>
-              
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="row">
-                  <div class="col-sm-5">
-                    <p id="errMsg" class="note"></p>
-                  </div>
-                  <div class="col-sm-7">
-                    <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
-                      (click)="downloadReport()">
-                      Download Report &nbsp;
-                      <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p class="note">
-                  <strong> About the dashboard:</strong> The dashboards provides insights on the user onboarding progress across various TPD courses for {{state}} over time
-  
-                </p>
-              </div>
-            </div>
-            <div class="row d-flex" style="margin-bottom: 10px">
-              <div class="col-sm-12">
-  
-                <select id="choose_program" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
-                  <option [value]="selectedProgram" disabled selected="selected">
-                    Choose a Program
-                  </option>
-                  <option *ngFor="let program of uniquePrograms" [(ngValue)]="program.program_id">
-                    {{ program.program_name }}
-                  </option>
-                </select>  
-               
-                 
-                <select  id="choose_course"  [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
-                  <option [value]="selectedCourse" disabled selected="selected">
-                    Choose a Course
-                  </option>
-                  <option *ngFor="let course of uniqueAllCourse" [(ngValue)]="course.collection_id">
-                    {{ course.collection_name }}
-                  </option>
-                </select> 
+  <div class="row reportHeader">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="row" (window:resize)="onResize()">
+        <div class="col-lg-9 col-md-9 col-sm-12">
 
-                <select [hidden] = "districtHidden" id="choose_district" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
-                  <option [value]="selectedDist" disabled selected="selected">
-                    Choose a District
-                  </option>
-                  <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
-                    {{ dist.district_name }}
-                  </option>
-                </select>  
-                
-              </div>
+          <div *ngIf="skul">
+            <p id="block">
+              Report on User Onboarding:
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline"
+                class="selected-level">{{state}}</span>
+
+            </p>
+          </div>
+
+          <div *ngIf="dist">
+            <p id="block">
+              Report on User Onboarding:
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
+              <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
+                {{districtName}} </span>
+            </p>
+          </div>
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="row">
+            <div class="col-sm-5">
+              <p id="errMsg" class="note"></p>
+            </div>
+            <div class="col-sm-7">
+              <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
+                (click)="downloadReport()">
+                Download Report &nbsp;
+                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
-    </div>
-    <div class="row reportContainer pt-4">
-      <div *ngIf ="chartData"   class="col-lg-12 m-auto">
-        <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="note">
+            <strong> About the dashboard:</strong> The dashboards provides insights on the user onboarding progress
+            across various TPD courses for {{state}} over time
+
+          </p>
+        </div>
+      </div>
+      <div class="row d-flex" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+
+          <select id="choose_program" [(ngModel)]="selectedProgram" (change)="onProgramSelected(selectedProgram)">
+            <option [value]="selectedProgram" disabled selected="selected">
+              Choose a Program
+            </option>
+            <option *ngFor="let program of uniquePrograms" [(ngValue)]="program.program_id">
+              {{ program.program_name }}
+            </option>
+          </select>
+
+
+          <select id="choose_course" [(ngModel)]="selectedCourse" (change)="onCourseSelected(selectedCourse)">
+            <option [value]="selectedCourse" disabled selected="selected">
+              Choose a Course
+            </option>
+            <option *ngFor="let course of uniqueAllCourse" [(ngValue)]="course.collection_id">
+              {{ course.collection_name }}
+            </option>
+          </select>
+
+          <select [hidden]="districtHidden" id="choose_district" [(ngModel)]="selectedDist"
+            (change)="onDistSelected(selectedDist)">
+            <option [value]="selectedDist" disabled selected="selected">
+              Choose a District
+            </option>
+            <option *ngFor="let dist of distToDropDown" [(ngValue)]="dist.district_id">
+              {{ dist.district_name }}
+            </option>
+          </select>
 
         </div>
       </div>
-        
-        <div *ngIf ="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
-             Data is not Available 
     </div>
-    
-</div>
+  </div>
+  <div class="row reportContainer pt-4">
+    <div [hidden]="chartData.length === 0" class="col-lg-12 m-auto">
+      <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
 
-<div id="spinner" style="display: none;">
-  <div id="loader" class="loading">Loading&#8230;</div>
-</div>
+      </div>
+    </div>
+
+    <div *ngIf="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+      Data is not Available
+    </div>
+
+  </div>
+
+  <div id="spinner" style="display: none;">
+    <div id="loader" class="loading">Loading&#8230;</div>
+  </div>

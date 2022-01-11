@@ -10,7 +10,7 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         var fileName = `diksha_tpd/report2/${timePeriod}/district/all.json`;
         let jsonData = await s3File.readFileConfig(fileName);
         var footer = jsonData['footer'];
-        
+
         var chartData = {
             labels: '',
             data: ''
@@ -18,33 +18,35 @@ router.post('/allDistData', auth.authController, async (req, res) => {
         jsonData = jsonData.data.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
         chartData['labels'] = jsonData.map(a => {
             return a.district_name
-                  
-        })
-       
-       
-          chartData['dropDown'] = jsonData.map(a => {
-            return {district_name:a.district_name,
-                    district_id:a.district_id       
-            }
-            
-        })
-        
-  const key = 'district_name';
-  
-   chartData['dropDown'] = [...new Map(chartData['dropDown'].map(item =>
-    [item[key], item])).values()];
-  
 
-        
+        })
+
+
+        chartData['dropDown'] = jsonData.map(a => {
+            return {
+                district_name: a.district_name,
+                district_id: a.district_id
+            }
+
+        })
+
+        const key = 'district_name';
+
+        chartData['dropDown'] = [...new Map(chartData['dropDown'].map(item =>
+            [item[key], item])).values()];
+
+
+
         chartData['data'] = jsonData.map(a => {
-            return { enrollment: a.total_enrolled, 
-                completion: a.total_completed, 
-                 percent_completion: a.percentage_completion, 
-                 expected_enrolled: a.expected_total_enrolled, 
-                 enrolled_percentage:a.total_enrolled_percentage,
-                 certificate_value: a.certificate_count,
-                 certificate_per: a.certificate_percentage
-                }
+            return {
+                enrollment: a.total_enrolled,
+                completion: a.total_completed,
+                percent_completion: a.percentage_completion,
+                expected_enrolled: a.expected_total_enrolled,
+                enrolled_percentage: a.total_enrolled_percentage,
+                certificate_value: a.certificate_count,
+                certificate_per: a.certificate_percentage
+            }
         })
         logger.info('--- diksha chart allData api response sent ---');
         res.send({ chartData, downloadData: jsonData, footer });
@@ -62,17 +64,23 @@ router.post('/getCollections', auth.authController, async (req, res) => {
         let timePeriod = req.body.timePeriod
         let level = req.body.level;
         let id = req.body.id;
+
         if (level == 'district') {
+            fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
+        } else if (level == 'program') {
             fileName = `diksha_tpd/report2/${timePeriod}/district/all_program_collections.json`;
         } else {
-            fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_collections/${id}.json`;
+            fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_program_collections/${id}.json`;
         }
+
+
         let jsonData = await s3File.readFileConfig(fileName);
         if (jsonData) {
             let collections;
             collections = jsonData.data.map(val => {
-                return {collection_name:val.collection_name,
-                        collection_id: val.collection_id
+                return {
+                    collection_name: val.collection_name,
+                    collection_id: val.collection_id
                 }
             })
             allCollections = [];
@@ -106,8 +114,10 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         let id = req.body.id;
         let clusterId = req.body.clusterId;
         let programId = req.body.programId;
-        
+
         if (level == 'district') {
+            fileName = `diksha_tpd/report2/${timePeriod}/district/all_collections.json`;
+        } else if (level == 'program') {
             fileName = `diksha_tpd/report2/${timePeriod}/district/all_program_collections.json`;
         } else {
             fileName = `diksha_tpd/report2/${timePeriod}/${level}/all_collections/${id}.json`;
@@ -115,7 +125,7 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
 
         let collectionDataRes = await s3File.readFileConfig(fileName);
         let collectionData = collectionDataRes.data;
-        
+
         if (programId !== undefined) {
             collectionData = collectionData.filter(collection => {
                 return collection.program_id === programId;
@@ -132,7 +142,7 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
             data: ''
         };
 
-        if (level == "district") {
+        if (level == "district" || level == "program") {
             collectionData = collectionData.sort((a, b) => (a.district_name > b.district_name) ? 1 : -1)
             chartData['labels'] = collectionData.map(a => {
                 return a.district_name
@@ -167,14 +177,16 @@ router.post('/getCollectionData', auth.authController, async (req, res) => {
         }
 
         chartData['data'] = collectionData.map(a => {
-            return {enrollment: a.total_enrolled, 
-                completion: a.total_completed, 
-                 percent_completion: a.percentage_completion, 
-                 expected_enrolled: a.expected_total_enrolled, 
-                 enrolled_percentage:a.total_enrolled_percentage,
-                 certificate_value: a.certificate_count,
-                 certificate_per: a.certificate_percentage,
-                collectionId: a.collection_id}
+            return {
+                enrollment: a.total_enrolled,
+                completion: a.total_completed,
+                percent_completion: a.percentage_completion,
+                expected_enrolled: a.expected_total_enrolled,
+                enrolled_percentage: a.total_enrolled_percentage,
+                certificate_value: a.certificate_count,
+                certificate_per: a.certificate_percentage,
+                collectionId: a.collection_id
+            }
         })
         logger.info('--- diksha get data on collection select api response sent ---');
         res.send({ chartData, downloadData: collectionData, collectionData: collectionData, collectionDataRes });
