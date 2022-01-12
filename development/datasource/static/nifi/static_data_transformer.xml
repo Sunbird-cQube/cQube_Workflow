@@ -18661,7 +18661,7 @@ ${filename:startsWith('school_category_master'):ifElse('school_category_dup',
 ${filename:startsWith('school_management_master'):ifElse('school_management_dup',
 ${filename:startsWith('diksha_enrolment_tpd'):ifElse('diksha_enrolment_tpd_dup',
 ${filename:startsWith('diksha_program_course_details'):ifElse('diksha_program_course_details_dup',
-${filename:startsWith('diksha_course_details'):ifElse('diksha_program_course_details_dup',
+${filename:startsWith('diksha_course_details'):ifElse('diksha_course_details_dup',
 ${filename:startsWith('diksha_course_enrolment'):ifElse('diksha_course_expected_dup',
 ${filename:startsWith('diksha_etb_enrolment'):ifElse('diksha_etb_expected_enrolment_dup',
 ${filename:startsWith('diksha_program_details'):ifElse('diksha_program_expected_dup','None')}
@@ -20263,5 +20263,5 @@ where ff_uuid= '${files_uuid}'</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/11/2022 17:07:19 IST</timestamp>
+    <timestamp>01/12/2022 11:45:30 IST</timestamp>
 </template>

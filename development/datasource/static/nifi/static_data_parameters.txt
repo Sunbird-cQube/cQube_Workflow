@@ -417,7 +417,6 @@ set processed_records= a.processed_records from
          group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
 "static_select_cols_district_state":"""SELECT DistrictId,District from flowfile""",
-"static_log_summary_diksha_enrolment_tpd_qry":"""select * from log_summary where filename like '%diksha_enrolment_tpd%'""",
 "static_select_cols_cluster_state_final":"""SELECT ClusterId as "cluster_id",Cluster as "cluster_name",BlockId as "block_id",DistrictId as "district_id" from flowfile""",
 "static_select_cols_school_state_final":"""select SchoolId as school_id,School as school_name,lowclass as school_lowest_class,highclass as school_highest_class,
 SchMgt as school_management_type_id,SchCat as school_category_id,SchoolMedium as school_medium_id,StateId as state_id,
@@ -612,9 +611,6 @@ or expected_etb_users IS NULL""",
 "static_data_type_cluster_udise":"""Optional(StrNotNullOrEmpty()),Optional(ParseLong()),Optional(ParseLong())""",
 "static_select_cols_district_state_final":"""SELECT DistrictId as " district_id",District as "district_name" from flowfile""",
 "static_save_district_mst_state":"""district_mst""",
-"static_process_rec_diksha_enrolment_tpd":"""update  log_summary as b
-	set processed_records= a.processed_records
-	from (select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-sum(greatest(collection_id,batch_id,batch_start_date,district_id))) as processed_records from log_summary group by ff_uuid) as a where a.ff_uuid=b.ff_uuid""",
 "static_process_rec_block":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
