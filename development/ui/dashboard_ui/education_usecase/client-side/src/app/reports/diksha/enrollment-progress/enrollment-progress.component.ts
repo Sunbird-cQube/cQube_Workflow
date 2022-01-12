@@ -49,7 +49,7 @@ export class EnrollmentProgressComponent implements OnInit {
     document.getElementById("backBtn")
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
-
+    document.getElementById('spinner').style.display = "none"
     this.getStateData();
     this.getProgramData();
     this.getAllDistCollection();
@@ -67,11 +67,10 @@ export class EnrollmentProgressComponent implements OnInit {
   }
 
   getStateData() {
-    this.commonService.errMsg();
     this.fileName = "enrollment-progress-state";
     try {
       this.service.enrollmentProState().subscribe((res) => {
-        this.chartData = this.stateData = res["data"]["data"];
+        this.stateData = res["data"]["data"];
         this.reportData = this.stateData;
         this.createLineChart(this.stateData);
         this.getDistMeta();
@@ -195,13 +194,17 @@ export class EnrollmentProgressComponent implements OnInit {
     this.courseToDropDown = [];
     this.uniqueDistCourse = [];
     try {
-      document.getElementById("spinner").style.display = "block";
+      // document.getElementById("spinner").style.display = "block";
       this.service.enrollProAllCollection().subscribe((res) => {
         this.allDistCollection = res["data"]["data"];
-        document.getElementById("spinner").style.display = "none";
+        this.commonService.loaderAndErr(this.allDistCollection)
       });
 
-    } catch (error) { }
+    } catch (error) {
+      this.allDistCollection = []
+      console.log(error)
+      this.commonService.loaderAndErr(this.allDistCollection)
+    }
   }
 
   public programWiseCollection;
@@ -243,7 +246,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.courseToDropDown = [];
     this.collectionDropDown = data.slice();
     try {
-      document.getElementById("spinner").style.display = "display";
+      // document.getElementById("spinner").style.display = "block";
       if (this.level === "district") {
         this.distWiseCourse = this.allDistCollection.filter((collection) => {
           return collection.district_id == this.selectedDist;
@@ -327,15 +330,12 @@ export class EnrollmentProgressComponent implements OnInit {
         this.reportData = this.selectedDistWiseCourse;
         document.getElementById("spinner").style.display = "none";
       } else if (this.programSelected === true && this.courseSelected !== true) {
-        document.getElementById("spinner").style.display = "display";
+        document.getElementById("spinner").style.display = "block";
         this.selectedCourse = "";
         this.selectedDistData = [];
         this.selectedDistData = this.allDistCollection.filter(program => {
           return program.program_id === this.selectedProgram && program.district_id === this.selectedDist
         })
-
-
-
         this.reportData = this.selectedDistData;
         this.createLineChart(this.selectedDistData);
         document.getElementById("spinner").style.display = "none";
@@ -366,7 +366,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
         this.reportData = this.selectedDistData;
         setTimeout(() => {
-          document.getElementById("spinner").style.display = "display";
+          document.getElementById("spinner").style.display = "block";
         }, 200);
         this.createLineChart(this.selectedDistData);
         document.getElementById("spinner").style.display = "none";
