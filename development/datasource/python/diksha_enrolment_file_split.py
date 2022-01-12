@@ -14,8 +14,6 @@ def creat_csv_file(list_of_items, filename):
     removeSpecialChars = f.translate({ord(c): "_" for c in " !@#$%^&*()[]{};:,./<>?\|`~-=_+"})
     filename_d = 'diksha_' + removeSpecialChars + '.csv'
 
-
-
     with open(filename_d, 'w', newline="") as file:
         csvwriter = csv.writer(file,delimiter = '|')
         csvwriter.writerows(list_of_items)
@@ -23,12 +21,13 @@ def creat_csv_file(list_of_items, filename):
     with zipfile.ZipFile('diksha_' + removeSpecialChars  +'.zip', 'w', zipfile.ZIP_DEFLATED) as zip_file:
         zip_file.write(filename_d )
 
-
     if storage_type == 's3':
         upload_file(removeSpecialChars)
     elif storage_type == 'local':
-
         os.rename('diksha_' + removeSpecialChars  +'.zip', emission_dir_path+'/'+'diksha_' + removeSpecialChars  +'.zip')
+
+    if os.path.exists(filename_d):
+         os.remove(filename_d)
 
 
 
@@ -48,17 +47,13 @@ def upload_file(file):
     )
 
 
-
-
-
 def separate_csv(filepath):
     file = open(filepath)
-    data = csv.reader(file)
     keywords = ['End of Program-Course Details','End Of program details','End Of Course details','End of Course enrolments']
     mycsv = []
     keyIndex = 0
     key = keywords[keyIndex]
-    for row in data:
+    for row in csv.reader(file):
         if row[0] == key:
             if row[0] == 'End of Program-Course Details' :
                 df = pd.DataFrame(mycsv)
@@ -66,15 +61,13 @@ def separate_csv(filepath):
                 df = df[1:]
                 df.columns = new_header
                 df.insert(0, 'program_id', range(1, 1 + len(df)))
-                d = pd.melt(df,id_vars=['program_id','program_name' , 'expected_enrollments'],var_name= 'Course_Id').sort_values(['program_id','program_name' , 'expected_enrollments']).reset_index(drop=True)
+                d = pd.melt(df,id_vars=['program_id','program_name' , 'expected_enrollments'],var_name= 'Course_Id')\
+                    .sort_values(['program_id','program_name' , 'expected_enrollments']).reset_index(drop=True)
                 df1 = d.drop(columns = ['Course_Id']).rename(columns = {'value' : 'Course_ID'})
-                df1.replace("", float("NaN"), inplace=True)
                 df2 = df1.dropna(subset = ['Course_ID'],inplace = False)
                 col = df2.columns.tolist()
                 val = df2.values.tolist()
                 mycsv = [col]+val
-
-
             creat_csv_file(mycsv, key)
             mycsv.clear()
             keyIndex+=1
