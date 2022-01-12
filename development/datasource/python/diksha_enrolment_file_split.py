@@ -1,6 +1,6 @@
+from env import *
 import os
 import zipfile
-from env import  *
 import csv
 import sys
 import pandas as pd
@@ -11,10 +11,11 @@ import boto3
 def creat_csv_file(list_of_items, filename):
     f_name = filename.lower()
     f = f_name.split(' ',2)[2]
-    removeSpecialChars = f.translate({ord(c): "_" for c in " !@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+    f2 = f.replace('-', ' ')
+    removeSpecialChars = f2.replace(' ', '_')
     filename_d = 'diksha_' + removeSpecialChars + '.csv'
 
-    with open(filename_d, 'w', newline="") as file:
+    with open(filename_d, 'w') as file:
         csvwriter = csv.writer(file,delimiter = '|')
         csvwriter.writerows(list_of_items)
 
@@ -86,4 +87,5 @@ if len (sys.argv[1:]) > 0:
 
 else:
     print('please provide the arguement')
+
 
