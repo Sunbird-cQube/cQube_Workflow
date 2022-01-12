@@ -533,26 +533,22 @@ border-color:var(--theme-back-button-border-color);
         max-width: 500px !important;
     }
 
-    /* #SearchDropDown{
-        font-size: 22px;
-        font-weight: bold;
-        height:45px;
-        border: 1px solid gray;
-    } */
+    
 
     #SearchDropDown{
-        font-size: 22px;
+        font-size: 26px;
         font-weight: bold;
         height:4vh;
         border: 1px solid gray;
     }
 
     #SearchDropDown.ng-select.ng-select-single .ng-select-container{
-        height: 2.5vh;
+        height: 2.9vh;
         min-height: 2.5vh;
         border: 0;
         color: white;
-        font-size: 22px;
+        font-size: 32px;
+        padding-top: 10px;
     }
    
     .ng-select .ng-select-container .ng-value-container{
@@ -572,7 +568,12 @@ border-color:var(--theme-back-button-border-color);
         height:2.7vh,
     }
     .ng-select#SearchDropDown.ng-select-container .ng-value-container .ng-placeholder{
-        font-size: 22px !important;
+        font-size: 25px !important;
+      }
+
+     #SearchDropDown .ng-dropdown-panel .ng-dropdown-panel-items{
+          font-size: 30px;
+          max-height: 600px;
       }
 
     
