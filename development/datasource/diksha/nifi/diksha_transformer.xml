@@ -14,6 +14,43 @@
             <comments></comments>
             <contents>
                 <connections>
+                    <id>01823d74-f7d9-3ff4-0000-000000000000</id>
+                    <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-2104.0</x>
+                        <y>-928.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2232.0</x>
+                        <y>-824.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2232.0</x>
+                        <y>-560.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>ef5bf078-f7e7-30e9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>04a242df-a5da-3166-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>01ae3308-8fa1-348f-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -30891,7 +30928,8 @@ ${filename:startsWith('diksha_tpd'):ifElse(#{diksha_tpd_null_to_log_db},'None')}
                             </entry>
                             <entry>
 <key>diksha_tpd</key>
-<value>${filename:startsWith('diksha_tpd'):or(${filename:startsWith('diksha/diksha_tpd'):or(${azure.blobname:startsWith('diksha_tpd')})}):and(${filename:contains('api'):not()})}</value>
+<value>${filename:startsWith('diksha_tpd'):or(${filename:startsWith('diksha/diksha_tpd'):or(${azure.blobname:startsWith('diksha_tpd')})})
+:and(${filename:startsWith('diksha_tpd_mapping'):or(${filename:startsWith('diksha/diksha_tpd_mapping')}):or(${azure.blobname:startsWith('diksha_tpd_mapping')}):or(${filename:contains('api')})}):not()}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -51516,5 +51554,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/06/2022 12:03:43 IST</timestamp>
+    <timestamp>01/12/2022 13:08:37 IST</timestamp>
 </template>
