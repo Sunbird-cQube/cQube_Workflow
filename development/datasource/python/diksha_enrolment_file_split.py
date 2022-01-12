@@ -1,3 +1,4 @@
+import shutil
 from env import *
 import os
 import zipfile
@@ -25,10 +26,15 @@ def creat_csv_file(list_of_items, filename):
     if storage_type == 's3':
         upload_file(removeSpecialChars)
     elif storage_type == 'local':
-        os.rename('diksha_' + removeSpecialChars  +'.zip', emission_dir_path+'/'+'diksha_' + removeSpecialChars  +'.zip')
+        shutil.copy('diksha_' + removeSpecialChars  +'.zip', emission_dir_path+'diksha_' + removeSpecialChars  +'.zip')
+    
 
     if os.path.exists(filename_d):
          os.remove(filename_d)
+
+    if os.path.exists('diksha_' + removeSpecialChars + '.zip'):
+        os.remove('diksha_' + removeSpecialChars + '.zip')
+
 
 
 
@@ -69,8 +75,9 @@ def separate_csv(filepath):
                 col = df2.columns.tolist()
                 val = df2.values.tolist()
                 mycsv = [col]+val
+                
             creat_csv_file(mycsv, key)
-            mycsv.clear()
+            del mycsv[:]
             keyIndex+=1
             if keyIndex == len(keywords):
                 break
@@ -87,5 +94,3 @@ if len (sys.argv[1:]) > 0:
 
 else:
     print('please provide the arguement')
-
-
