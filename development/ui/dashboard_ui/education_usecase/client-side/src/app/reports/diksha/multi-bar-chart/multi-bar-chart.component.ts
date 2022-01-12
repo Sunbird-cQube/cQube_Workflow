@@ -949,7 +949,7 @@ export class MultiBarChartComponent implements OnInit {
             obj = `&nbsp<b>District Name:</b> ${points[0].x}
         <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment'].toLocaleString('en-IN')}` : ''}
         <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['certificate_value'] !== null ? `<b>Certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value'].toLocaleString('en-IN')}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['certificate_value'] !== null ? `<b>Certificate:</b>  ${xData[`${points[0].point.index}`]['certificate_value'].toLocaleString('en-IN')}` : ''}
         `
           }
         }
