@@ -928,34 +928,31 @@ export class MultiBarChartComponent implements OnInit {
         if (((level === 'district' || level == "program") && courseSelected === true) || level === "program") {
           if (expectedData.length > 0) {
             obj = `&nbsp<b>District Name:</b> ${points[0].x}
-        <br> ${xData[`${points[0].point.index}`]['expected_enrolled'] ? `<b>Expected Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['expected_enrolled']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['enrollment'] ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['enrolled_percentage'] ? `<b>% Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrolled_percentage']} %` : ''}
-        <br> ${xData[`${points[0].point.index}`]['completion'] ? `<b>completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['percent_completion'] ? `<b>% completed:</b> &nbsp ${xData[`${points[0].point.index}`]['percent_completion']} %` : ''}
-        <br> ${xData[`${points[0].point.index}`]['certificate_value'] ? `<b>certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['certificate_per'] ? `<b>% certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_per']} %` : ''}
+        <br> ${xData[`${points[0].point.index}`]['expected_enrolled'] !== null ? `<b>Expected Enrolled:</b>  ${xData[`${points[0].point.index}`]['expected_enrolled']}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['enrollment'] !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['enrolled_percentage'] !== null ? `<b>% Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrolled_percentage']} %` : ''}
+        <br> ${xData[`${points[0].point.index}`]['completion'] !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion']}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['percent_completion'] !== null ? `<b>% Completed:</b>  ${xData[`${points[0].point.index}`]['percent_completion']} %` : ''}
+        <br> ${xData[`${points[0].point.index}`]['certificate_value'] !== null ? `<b>Certificate:</b>  ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['certificate_per'] !== null ? `<b>% Certificate:</b>  ${xData[`${points[0].point.index}`]['certificate_per']} %` : ''}
         `
           } else {
             obj = `&nbsp<b>District Name:</b> ${points[0].x}
-        <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-        <br> ${points.y !== null ? `<b>completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['certificate_value'] ? `<b>certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
+        <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
+        <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion']}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['certificate_value'] !== null ? `<b>Certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
         `
           }
-
         }
-
-
         else if (level === 'district') {
           obj = `&nbsp<b>District Name:</b> ${points[0].x}
-      <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-      <br> ${points.y !== null ? `<b>Completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
+      <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
+      <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion']}` : ''}
      `
         } else {
-          obj = `&nbsp<b>District Name:</b> ${points[0].x}
-      <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-      <br> ${points.y !== null ? `<b>Completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
+          obj = `&nbsp<b>${level.charAt(0).toUpperCase() + level.slice(1)} Name:</b> ${points[0].x}
+      <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
+      <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion']}` : ''}
       
      `
         }
