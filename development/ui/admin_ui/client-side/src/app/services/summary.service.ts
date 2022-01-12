@@ -77,9 +77,34 @@ export class SummaryService {
     return this.http.post(`${this.baseUrl}/summary/teacherAttedndance`, {});
   }
 
-  getSATSummary(){
+  getSATSummary() {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/summary/summarySAT`, {});
   }
 
+
+  getDikshaProgramSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/dikshaProgramDetails`, {});
+  }
+
+  getDikshaProgramCourseSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/dikshaProgramCourseDetails`, {});
+  }
+
+  getDikshaCourseSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/dikshaCourseDetails`, {});
+  }
+
+  getDikshaEnrollSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/dikshaCourseEnrolment`, {});
+  }
+
+  getDikshaEtbSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/dikshaEtbEnrolment`, {});
+  }
 }
