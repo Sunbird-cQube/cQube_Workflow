@@ -20,7 +20,7 @@ import { PerCapitaMapReport } from 'src/app/services/per-capita-map-report.servi
 })
 export class EtbPerCapitaComponent implements OnInit {
 
- 
+
   public state: string;
   // initial center position for the map
   public lat: any;
@@ -45,7 +45,7 @@ export class EtbPerCapitaComponent implements OnInit {
   public reportName1 = "perCapita"
   public reportData
   public selectedType = 'total_content_plays';
-  
+
 
   public selected = "absolute";
   public onRangeSelect;
@@ -79,9 +79,9 @@ export class EtbPerCapitaComponent implements OnInit {
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-      this.globalService.initMap("etbMap", [[this.lat, this.lng]]);
-    
-   
+    this.globalService.initMap("etbMap", [[this.lat, this.lng]]);
+
+
     if (this.mapName == 'googlemap') {
       document.getElementById('leafletmap').style.display = "none";
     }
@@ -101,10 +101,10 @@ export class EtbPerCapitaComponent implements OnInit {
   statePlayPerCapita
   stateExpectedUsers
   otherStatePlayPerCapita
-  otherStateExpectdUser 
+  otherStateExpectdUser
   stateActualUsers
   otherStateActualUsers
-  
+
 
   level;
   googleMapZoom
@@ -113,7 +113,7 @@ export class EtbPerCapitaComponent implements OnInit {
 
 
   clickHome() {
-    this.onRangeSelect =""
+    this.onRangeSelect = ""
     this.infraData = "infrastructure_score";
     this.getDistData();
   }
@@ -131,7 +131,7 @@ export class EtbPerCapitaComponent implements OnInit {
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}`;
       this.selectionType = [];
-     
+
       this.valueRange = undefined;
       this.selectedIndex = undefined;
       this.deSelect();
@@ -141,7 +141,7 @@ export class EtbPerCapitaComponent implements OnInit {
       if (this.myDistData && this.myDistData['data'].length) {
         this.data = this.myDistData;
         let keys = Object.keys(this.data.data[0])
-        
+
         let obj = {}
         for (let i = 0; i < keys.length; i++) {
           if (i == 0 || i == 5 || i == 6) {
@@ -150,12 +150,12 @@ export class EtbPerCapitaComponent implements OnInit {
               name: this.commonService.changeingStringCases(keys[i])
             }
             this.selectionType.push(obj)
-           }
+          }
         }
         // to show only in dropdowns
         this.districtMarkers = this.data.data
         // options to set for markers in the map
-        
+
         let options = {
           radius: 6,
           fillOpacity: 1,
@@ -188,34 +188,34 @@ export class EtbPerCapitaComponent implements OnInit {
             this.myDistData = this.data = res["data"];
             let keys = Object.keys(this.data.data[0])
             let obj = {}
-            for (let i = 0; i < keys.length ; i++) {
-             if (i == 0 || i == 5 || i == 6) {
-              obj = {
-                id: keys[i],
-                name: this.commonService.changeingStringCases(keys[i])
+            for (let i = 0; i < keys.length; i++) {
+              if (i == 0 || i == 5 || i == 6) {
+                obj = {
+                  id: keys[i],
+                  name: this.commonService.changeingStringCases(keys[i])
+                }
+                this.selectionType.push(obj)
               }
-              this.selectionType.push(obj)
-             }
-             
-              
+
+
             }
             // to show only in dropdowns
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
-            this.othersStatePercentage ="(" +this.data.footer.others_percentage+ "%"+")";
+            this.othersStatePercentage = "(" + this.data.footer.others_percentage + "%" + ")";
             this.statePlayPerCapita = this.data.footer.per_capita_statewise.toFixed(2);
             this.mapHide = this.data.footer.total_expected_ETB_users;
-        
-        this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
-            this.data.data.forEach( item => {
-              
-                 if(item.district_name === "Others"){
-    
-                   this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
-                   this.otherStatePlayPerCapita = item.plays_per_capita.toFixed(2);
-                   this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
-                 
-                  }  
+
+            this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
+            this.data.data.forEach(item => {
+
+              if (item.district_name === "Others") {
+
+                this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
+                this.otherStatePlayPerCapita = item.plays_per_capita.toFixed(2);
+                this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
+
+              }
             });
             // options to set for markers in the map
             let options = {
@@ -259,12 +259,12 @@ export class EtbPerCapitaComponent implements OnInit {
   }
 
   // common function for all the data to show in the map
- 
+
   onSelectType(data) {
     this.selectedType = data;
     this.getDistData()
   }
- 
+
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
@@ -282,12 +282,12 @@ export class EtbPerCapitaComponent implements OnInit {
       for (let i = 0; i < this.markers.length; i++) {
         var color;
         if (this.onRangeSelect == "absolute") {
-        color = this.commonService.tpdCapitaColorGredient(
-          this.markers[i],
-          this.valueRange,
-          // colors
-        );
-        }else{
+          color = this.commonService.tpdCapitaColorGredient(
+            this.markers[i],
+            this.valueRange,
+            // colors
+          );
+        } else {
           color = this.commonService.colorGredientForCapitaMaps(
             this.markers[i],
             this.selectedType,
@@ -351,36 +351,36 @@ export class EtbPerCapitaComponent implements OnInit {
         orgObject[key] = details[key];
       }
     });
-    
+
     var detailUsage = {};
     var yourData1;
-    
+
     for (var key of Object.keys(orgObject)) {
-      if( key === 'district_id' || key === 'district_name')
-      detailUsage[key] = orgObject[key]
-  }
+      if (key === 'district_id' || key === 'district_name')
+        detailUsage[key] = orgObject[key]
+    }
 
 
-  var metrics = {};
-  // var yourData1;
-  
-  for (var key of Object.keys(orgObject)) {
-    if( key !== 'district_id' && key !== 'district_name' && key !== 'quartile')
-    metrics[key] = orgObject[key]
-}
+    var metrics = {};
+    // var yourData1;
 
-for (var key of Object.keys(orgObject)) {
-  if( key === 'total_content_plays')
-  metrics[key] = orgObject[key].toLocaleString('en-IN');
-  if( key === 'expected_etb_users')
-  metrics[key] = orgObject[key].toLocaleString('en-IN');
-  if( key === 'actual_etb_users')
-  metrics[key] = orgObject[key].toLocaleString('en-IN');
-  if( key === 'plays_per_capita')
-  metrics[key] = orgObject[key].toFixed(2);
-}
+    for (var key of Object.keys(orgObject)) {
+      if (key !== 'district_id' && key !== 'district_name' && key !== 'quartile')
+        metrics[key] = orgObject[key]
+    }
 
-     yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
+    for (var key of Object.keys(orgObject)) {
+      if (key === 'total_content_plays')
+        metrics[key] = orgObject[key].toLocaleString('en-IN');
+      if (key === 'expected_ETB_users')
+        metrics[key] = orgObject[key].toLocaleString('en-IN');
+      if (key === 'actual_etb_users')
+        metrics[key] = orgObject[key].toLocaleString('en-IN');
+      if (key === 'plays_per_capita')
+        metrics[key] = orgObject[key].toFixed(2);
+    }
+
+    yourData1 = this.globalService.getInfoFrom(detailUsage, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
     var yourData = this.globalService.getInfoFrom(metrics, "", level, "infra-map", infraName, colorText)
       .join(" <br>");
@@ -393,11 +393,11 @@ for (var key of Object.keys(orgObject)) {
       }).setContent(
         "<b><u>Details</u></b>" +
         "<br>" + yourData1
-         +
+        +
         "<br><br><b><u>Metrics of Content Play</u></b>" +
         "<br>" +
         yourData
-       
+
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
@@ -451,28 +451,28 @@ for (var key of Object.keys(orgObject)) {
     var markers = [];
 
     if (value) {
-      this.data.data.map(marker =>{
-        if(marker.latitude){
-            if(value === 'Upper Quartile ( above 75% )'){
-              if(marker['quartile'] === 3 ){
-                  markers.push(marker);
-                }    
-            }else if( value === "Inter Quartile ( 25%-75% )"){
-              if(marker['quartile'] === 2){
-                markers.push(marker);
-              }    
-            }else if( value === "Bottom Quartile ( below 25% )"){
-              if(marker['quartile'] === 1){
-                markers.push(marker);
-              }    
-            }else if( value === "all"){
-              
-                markers.push(marker);
-               
-            }          
+      this.data.data.map(marker => {
+        if (marker.latitude) {
+          if (value === 'Upper Quartile ( above 75% )') {
+            if (marker['quartile'] === 3) {
+              markers.push(marker);
+            }
+          } else if (value === "Inter Quartile ( 25%-75% )") {
+            if (marker['quartile'] === 2) {
+              markers.push(marker);
+            }
+          } else if (value === "Bottom Quartile ( below 25% )") {
+            if (marker['quartile'] === 1) {
+              markers.push(marker);
+            }
+          } else if (value === "all") {
+
+            markers.push(marker);
+
+          }
         }
       })
-   
+
 
     } else {
       markers = this.data;
@@ -480,9 +480,9 @@ for (var key of Object.keys(orgObject)) {
 
     this.genericFun(markers, this.dataOptions, this.fileName);
     this.commonService.errMsg();
-   
-      this.districtMarkers = markers;
-   
+
+    this.districtMarkers = markers;
+
 
     //adjusting marker size and other UI on screen resize:::::::::::
     this.globalService.onResize(this.level);
@@ -507,9 +507,9 @@ for (var key of Object.keys(orgObject)) {
         elements[j]['style'].transform = "scale(1.0)";
       }
     }
-  
-      this.districtMarkers = this.data;
-   
+
+    this.districtMarkers = this.data;
+
   }
 
   reset(value) {
@@ -528,7 +528,7 @@ for (var key of Object.keys(orgObject)) {
 
 
   getDownloadableData(markers, level) {
- 
+
     var details = {};
     var orgObject = {};
     var data1 = {};
@@ -538,7 +538,7 @@ for (var key of Object.keys(orgObject)) {
         details[key] = markers[key];
       }
     });
-    
+
     Object.keys(details).forEach((key) => {
       var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
       if (key !== "longitude" && key !== 'quartile') {
@@ -546,8 +546,8 @@ for (var key of Object.keys(orgObject)) {
       }
     });
     var ordered = {};
-   
-  
+
+
     var myobj = Object.assign(orgObject, ordered);
     this.reportData.push(myobj);
   }
