@@ -547,7 +547,7 @@ border-color:var(--theme-back-button-border-color);
         min-height: 2.5vh;
         border: 0;
         color: white;
-        font-size: 32px;
+        font-size: 22px;
         padding-top: 10px;
     }
    
@@ -567,12 +567,12 @@ border-color:var(--theme-back-button-border-color);
     .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
         height:2.7vh,
     }
-    .ng-select#SearchDropDown.ng-select-container .ng-value-container .ng-placeholder{
+   .ng-select#SearchDropDown.ng-select-container .ng-value-container .ng-placeholder{
         font-size: 25px !important;
       }
 
      #SearchDropDown .ng-dropdown-panel .ng-dropdown-panel-items{
-          font-size: 30px;
+          font-size: 22px;
           max-height: 600px;
       }
 
@@ -787,8 +787,38 @@ border-color:var(--theme-back-button-border-color);
         font-size: 24px !important;
         max-width: 600px !important;
     }
+    
 
+    #SearchDropDown.ng-select.ng-select-single .ng-select-container{
+        font-size: 32px;
+    }
    
+    #SearchDropDown .ng-dropdown-panel .ng-dropdown-panel-items{
+          font-size: 32px;
+          max-height: 800px;
+      }
+
+       .ng-select .ng-select-container .ng-value-container{
+        height:3vh
+    }
+      
+     #SearchDropDown.ng-select .ng-clear-wrapper {
+       width: 44px
+     }
+     .ng-select#SearchDropDown .ng-clear-wrapper .ng-clear{
+       font-size: 36px;
+     }
+
+     #SearchDropDown.ng-select .ng-arrow-wrapper{
+      width: 40px;
+     }
+    #SearchDropDown.ng-select .ng-arrow-wrapper .ng-arrow{
+        border-width: 16px 14px 4px;
+        margin-right: 4px
+    }
+    .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+        height:2.7vh,
+    }
 
     #footer {
         width: 100%;

@@ -224,6 +224,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>0ad6b25d-547f-3acd-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>50ffc719-d69e-3bcd-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
+                        <id>349be9a4-713e-3564-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>0b2c4ab2-350c-34fa-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -2370,8 +2395,8 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>719f115e-2341-3c9a-0000-000000000000</groupId>
-                        <id>50ffc719-d69e-3bcd-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
+                        <id>349be9a4-713e-3564-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
                     <labelIndex>1</labelIndex>
@@ -6437,8 +6462,8 @@
                     <id>616c86c9-a872-34be-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13304.0</x>
-                        <y>-272.0</y>
+                        <x>-13704.0</x>
+                        <y>-488.0</y>
                     </position>
                     <height>168.0</height>
                     <label>S3 data source</label>
@@ -6458,8 +6483,8 @@
                     <id>6ad17216-9f20-3f91-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13792.0</x>
-                        <y>-272.0</y>
+                        <x>-14192.0</x>
+                        <y>-488.0</y>
                     </position>
                     <height>168.0</height>
                     <label>On premise </label>
@@ -6538,8 +6563,8 @@
                     <id>aff507cd-916d-312b-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-12744.0</x>
-                        <y>-272.0</y>
+                        <x>-13144.0</x>
+                        <y>-488.0</y>
                     </position>
                     <height>168.0</height>
                     <label>azure List Blob</label>
@@ -6718,8 +6743,8 @@ Loading</label>
                     <id>50ffc719-d69e-3bcd-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13224.0</x>
-                        <y>184.0</y>
+                        <x>-13624.0</x>
+                        <y>208.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -7494,7 +7519,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                     <id>12ad416b-0984-34ae-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-3312.0</x>
+                        <x>-3320.0</x>
                         <y>1352.0</y>
                     </position>
                     <bundle>
@@ -7735,8 +7760,8 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                     <id>178058b1-ac28-3759-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13752.0</x>
-                        <y>-240.0</y>
+                        <x>-14152.0</x>
+                        <y>-456.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -8180,8 +8205,8 @@ ${filename:startsWith('diksha_etb_enrolment'):ifElse('processed_file_count_diksh
                     <id>1edf3847-ecf8-34e2-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-12720.0</x>
-                        <y>-240.0</y>
+                        <x>-13120.0</x>
+                        <y>-456.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-azure-nar</artifact>
@@ -8976,6 +9001,95 @@ group by a.ff_uuid,a.school_id,a.block_id,a.cluster_id,a.district_id) as data wh
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.UpdateRecord</type>
+                </processors>
+                <processors>
+                    <id>349be9a4-713e-3564-0000-000000000000</id>
+                    <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-13680.0</x>
+                        <y>-8.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>path</key>
+<value>
+    <name>path</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>path</key>
+<value>${filename:startsWith('diksha_program_course_details')
+:or(${filename:startsWith('diksha_program_details')})
+:or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')}):ifElse('diksha_enrolment/',${path})}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>static_update_path</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
                 </processors>
                 <processors>
                     <id>383ac6f7-2ed5-3055-0000-000000000000</id>
@@ -10647,8 +10761,8 @@ same id data validation of file:${filename}, same id records found </value>
                     <id>4a44313d-cf5e-32d9-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13280.0</x>
-                        <y>-240.0</y>
+                        <x>-13680.0</x>
+                        <y>-456.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-aws-nar</artifact>
@@ -16207,7 +16321,7 @@ ${filename:startsWith('diksha_etb_enrolment'):ifElse('processed_record_count_dik
                     <id>b7493c93-5bfa-33fe-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-3304.0</x>
+                        <x>-3320.0</x>
                         <y>1152.0</y>
                     </position>
                     <bundle>
@@ -19131,8 +19245,8 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                     <id>f1aacd1c-a6ef-31a9-0000-000000000000</id>
                     <parentGroupId>719f115e-2341-3c9a-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13280.0</x>
-                        <y>0.0</y>
+                        <x>-13680.0</x>
+                        <y>-216.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -19203,7 +19317,12 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                             </entry>
                             <entry>
 <key>diksha_enrolment</key>
-<value>${path:startsWith('diksha_enrolment/'):or(${filename:startsWith('diksha_enrolment/'):or(${azure.blobname:startsWith('diksha_enrolment/')})})}</value>
+<value>${path:startsWith('diksha_enrolment/'):or(${filename:startsWith('diksha_enrolment/'):or(${azure.blobname:startsWith('diksha_enrolment/')})
+:or(${filename:startsWith('diksha_program_course_details')})
+:or(${filename:startsWith('diksha_program_details')})
+:or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_etb_enrolment')})})}</value>
                             </entry>
                             <entry>
 <key>school_category</key>
@@ -20263,5 +20382,5 @@ where ff_uuid= '${files_uuid}'</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/12/2022 11:45:30 IST</timestamp>
+    <timestamp>01/12/2022 19:41:01 IST</timestamp>
 </template>
