@@ -6,7 +6,7 @@ import csv
 import pandas as pd
 import boto3
 import sys
-# from update_batch_id import update_parameter_ctx
+from update_batch_id import update_parameter_ctx
 
 
 def creat_csv_file(list_of_items, filename):
@@ -156,7 +156,7 @@ if len(sys.argv[1:]) > 0:
     separate_csv(path)
     value = count_number(local_path)
     emission_folder(local_path,emission_dir_path,storage_type)
-    # update_parameter_ctx("static_data_parameters", "diksha_enrolment_file_count", value)
+    update_parameter_ctx("static_data_parameters", "diksha_enrolment_file_count", value)
     delete_files(local_path)
 
 else:
