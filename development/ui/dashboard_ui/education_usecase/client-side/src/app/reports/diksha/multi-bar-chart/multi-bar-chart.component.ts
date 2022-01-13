@@ -97,7 +97,7 @@ export class MultiBarChartComponent implements OnInit {
           },
 
           scrollbar: {
-            minWidth: 8,
+            minWidth: 5,
             size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
             enabled: true,
             opposite: true,
