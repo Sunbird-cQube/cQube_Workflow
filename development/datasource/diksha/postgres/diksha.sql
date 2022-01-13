@@ -450,7 +450,7 @@ create table if not exists diksha_program_course_details_temp(
  collection_id text,
  expected_enrollment bigint,
 primary key(program_id,collection_id) );
-  
+
 create table if not exists diksha_course_details_temp(
 collection_id text,
 course_start_date date not null,
@@ -566,4 +566,11 @@ filename varchar(200),
 ff_uuid varchar(200),
 count_null_district_id int,
 count_null_program_name int);
+
+alter table diksha_program_course_details_temp drop column if exists expected_enrollment;
+alter table diksha_program_course_details_dup drop column if exists expected_enrollment;
+alter table diksha_tpd_expected_enrollment drop column if exists program_expected_state;
+alter table diksha_tpd_expected_enrollment drop constraint if exists diksha_tpd_expected_enrollment_pkey;
+
+CREATE UNIQUE INDEX if not exists  diksha_tpd_expected_enrollment_idx ON diksha_tpd_expected_enrollment (program_id,collection_id,district_id);
 
