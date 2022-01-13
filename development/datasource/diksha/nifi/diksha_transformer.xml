@@ -30929,7 +30929,7 @@ ${filename:startsWith('diksha_tpd'):ifElse(#{diksha_tpd_null_to_log_db},'None')}
                             <entry>
 <key>diksha_tpd</key>
 <value>${filename:startsWith('diksha_tpd'):or(${filename:startsWith('diksha/diksha_tpd'):or(${azure.blobname:startsWith('diksha_tpd')})})
-:and(${filename:startsWith('diksha_tpd_mapping'):or(${filename:startsWith('diksha/diksha_tpd_mapping')}):or(${azure.blobname:startsWith('diksha_tpd_mapping')}):or(${filename:contains('api')})}):not()}</value>
+:and(${filename:contains('api'):or(${filename:startsWith('diksha_tpd_mapping')}):not()})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -51554,5 +51554,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/12/2022 13:08:37 IST</timestamp>
+    <timestamp>01/12/2022 15:43:09 IST</timestamp>
 </template>
