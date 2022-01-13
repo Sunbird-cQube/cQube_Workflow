@@ -574,3 +574,8 @@ alter table diksha_tpd_expected_enrollment drop constraint if exists diksha_tpd_
 
 CREATE UNIQUE INDEX if not exists  diksha_tpd_expected_enrollment_idx ON diksha_tpd_expected_enrollment (program_id,collection_id,district_id);
 
+alter table diksha_program_expected_temp drop column if exists expected_enrollment;
+alter table diksha_program_expected_temp add column if not exists expected_enrollments bigint;
+alter table diksha_program_expected_dup drop column if exists expected_enrollment;
+alter table diksha_program_expected_dup add column if not exists expected_enrollments bigint;
+
