@@ -626,5 +626,6 @@ or school_management_type IS NULL""",
 SET district_id = diksha_program_details_null_col.count_null_district_id,
 program_name = diksha_program_details_null_col.count_null_program_name
 from diksha_program_details_null_col
-where diksha_program_details_null_col.ff_uuid = log_summary.ff_uuid"""
+where diksha_program_details_null_col.ff_uuid = log_summary.ff_uuid""",
+"diksha_enrolment_file_count":"""1"""
 }
