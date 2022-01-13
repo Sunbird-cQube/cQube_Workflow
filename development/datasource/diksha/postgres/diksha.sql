@@ -476,16 +476,14 @@ program_id int,
 program_name text,
  collection_id text,
  collection_name text,
- course_start_date  date not null,
+ course_start_date date,
  course_end_date date,
  District_id bigint,
  District character varying(100),
  expected_enrollment bigint,
  program_expected_enrollment bigint,
- program_expected_state bigint,
  created_on timestamp without time zone,
- updated_on timestamp without time zone,
- primary key(program_id,collection_id,district_id));
+ updated_on timestamp without time zone);
 
 create table if not exists diksha_etb_expected_enrolment(
 academic_year text not null,
@@ -569,8 +567,6 @@ count_null_program_name int);
 
 alter table diksha_program_course_details_temp drop column if exists expected_enrollment;
 alter table diksha_program_course_details_dup drop column if exists expected_enrollment;
-alter table diksha_tpd_expected_enrollment drop column if exists program_expected_state;
-alter table diksha_tpd_expected_enrollment drop constraint if exists diksha_tpd_expected_enrollment_pkey;
 
 CREATE UNIQUE INDEX if not exists  diksha_tpd_expected_enrollment_idx ON diksha_tpd_expected_enrollment (program_id,collection_id,district_id);
 
