@@ -70,7 +70,7 @@ export class MultiBarChartComponent implements OnInit {
             x: -7,
             useHTML: true,
             style: {
-              width: this.height > 1760 ? "120px" : this.height > 1160 && this.height < 1760 ? "100px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
+              width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               whiteSpace: 'normal'
@@ -97,7 +97,8 @@ export class MultiBarChartComponent implements OnInit {
           },
 
           scrollbar: {
-            minWidth: 5,
+            minWidth: 8,
+            size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
             enabled: true,
             opposite: true,
             margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
@@ -325,7 +326,7 @@ export class MultiBarChartComponent implements OnInit {
 
             useHTML: true,
             style: {
-              width: '80px',
+              width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               whiteSpace: 'normal'
@@ -353,9 +354,10 @@ export class MultiBarChartComponent implements OnInit {
 
           scrollbar: {
             minWidth: 5,
+            size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
             enabled: true,
             opposite: true,
-            margin: 120
+            margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
           },
           tickLength: 0,
         },
@@ -364,7 +366,8 @@ export class MultiBarChartComponent implements OnInit {
           labels: {
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+              fontWeight: "bold",
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
             },
             formatter: function () {
               return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -403,7 +406,7 @@ export class MultiBarChartComponent implements OnInit {
               crop: false,
               overflow: 'allow',
               inside: true,
-              x: 55,
+              x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
               verticalAlign: 'middle',
               style: {
                 color: "#000"
@@ -502,7 +505,7 @@ export class MultiBarChartComponent implements OnInit {
               x: -7,
               useHTML: true,
               style: {
-                width: '85px',
+                width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
                 color: 'black',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 whiteSpace: 'normal'
@@ -530,9 +533,10 @@ export class MultiBarChartComponent implements OnInit {
 
             scrollbar: {
               minWidth: 5,
+              size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
               enabled: true,
               opposite: true,
-              margin: 120
+              margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
             },
             tickLength: 0,
           },
@@ -541,7 +545,8 @@ export class MultiBarChartComponent implements OnInit {
             labels: {
               style: {
                 color: 'black',
-                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+                fontWeight: 'bold',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
               },
               formatter: function () {
                 return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -592,7 +597,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: 100,
+                x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
@@ -747,7 +752,7 @@ export class MultiBarChartComponent implements OnInit {
               x: -7,
               useHTML: true,
               style: {
-                width: '80px',
+                width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
                 color: 'black',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 whiteSpace: 'normal'
@@ -773,10 +778,11 @@ export class MultiBarChartComponent implements OnInit {
             },
 
             scrollbar: {
-              minWidth: 2,
+              minWidth: 5,
+              size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
               enabled: true,
               opposite: true,
-              margin: 60
+              margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
             },
             tickLength: 0,
           },
@@ -785,7 +791,8 @@ export class MultiBarChartComponent implements OnInit {
             labels: {
               style: {
                 color: 'black',
-                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+                fontWeight: 'bold',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
               },
               formatter: function () {
                 return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -822,7 +829,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: 55,
+                x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
