@@ -94,8 +94,9 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.dist = false;
     this.skul = true;
     this.emptyChart();
-    this.selectedDist = "";
+    this.selectedDist = undefined;
     this.getStateData();
+    this.getDistdata();
   }
 
   public distData;
