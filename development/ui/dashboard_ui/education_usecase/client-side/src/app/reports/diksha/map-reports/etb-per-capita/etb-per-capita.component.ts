@@ -201,7 +201,7 @@ export class EtbPerCapitaComponent implements OnInit {
             this.districtMarkers = this.data.data;
             this.totalContentPlays = this.data.footer.total_content_plays.toLocaleString('en-IN');
             this.othersStatePercentage = "(" + this.data.footer.others_percentage + "%" + ")";
-            this.statePlayPerCapita = this.data.footer.per_capita_statewise.toFixed(2);
+            this.statePlayPerCapita = this.data.footer.per_capita_statewise?.toFixed(2);
             this.mapHide = this.data.footer.total_expected_ETB_users;
 
             this.stateExpectedUsers = this.data.footer.total_expected_ETB_users.toLocaleString('en-IN');
