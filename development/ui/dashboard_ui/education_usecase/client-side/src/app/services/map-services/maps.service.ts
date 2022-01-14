@@ -40,10 +40,10 @@ export class MapService {
         }
       ).addTo(globalMap);
     } else {
-      globalMap = new MapmyIndia.Map(map, { hasTip: false, touchZoom: false, autoPan: false, offset: [15, 20],dragging: environment.stateName == 'UP' ? false : true  }, {
+      globalMap = new MapmyIndia.Map(map, { hasTip: false, touchZoom: false, autoPan: false, offset: [15, 20], dragging: environment.stateName == 'UP' ? false : true }, {
         zoomControl: false,
         hybrid: false,
-      }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel); 
+      }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
     }
     var data = mapData.default;
     function applyCountryBorder(map) {
@@ -151,7 +151,7 @@ export class MapService {
             key.replace(
               /\w\S*/g,
               function (txt) {
-                txt = txt.replace("ETB","Etb")
+                txt = txt.replace("ETB", "Etb")
                 txt = txt.replace('Id', '_id');
                 txt = txt.replace('Name', '_name');
                 txt = txt.replace(/_/g, ' ');
@@ -174,11 +174,11 @@ export class MapService {
             key.replace(
               /\w\S*/g,
               function (txt) {
-                txt = txt.replace("ETB","ETB")
-                if (txt.includes('expected_ETB_users') ) {
-                  return txt =  txt.replace('expected_ETB_users', 'Expected_ETB_Users')
+                txt = txt.replace("ETB", "ETB")
+                if (txt.includes('expected_ETB_users')) {
+                  return txt = txt.replace('expected_ETB_users', 'Expected ETB Users')
                 }
-                if (txt.includes('actual_ETB_users') ) {
+                if (txt.includes('actual_ETB_users')) {
                   return txt = txt.replace('actual_ETB_users', 'Actual_ETB_Users')
                 }
                 txt = txt.replace('Id', '_id');
@@ -194,7 +194,7 @@ export class MapService {
                 } else {
                   return toTitleCase(txt);
                 }
-               
+
               })
 
             + "</b>" + ": " + object[key] + `</span>`;

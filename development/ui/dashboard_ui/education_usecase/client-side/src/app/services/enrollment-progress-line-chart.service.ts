@@ -38,5 +38,9 @@ export class EnrollmentProgressLineChartService {
     this.service.logoutOnTokenExpire();
     return this.http.get(`${this.baseUrl}/diksha/enrollmentProgress/allProgCollection`);
   }
+  enrollExpectedMeta(){
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/diksha/enrollmentProgress/expectedMeta`);
+  }
 
 }

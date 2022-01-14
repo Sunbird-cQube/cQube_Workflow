@@ -35,7 +35,7 @@
       </div>
       <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12" >
-          <select id="choose_infra" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
+          <select id="choose_type" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
             <option [value]="selectedType" disabled selected="selected">
               Choose Type
             </option>
@@ -112,17 +112,14 @@
   </div>
   <div class="row d-flex justify-content-around text-center" id="footer">
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
+      <span id="contentPlays" class="note" style="text-align: center">Total Content Plays: {{totalContentPlays}} </span>
     </div>
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Total Time Spent: {{stateTotalContentPlay}} </span>
+      <span id="timeSpent" class="note" style="text-align: center">Total Time Spent: {{stateTotalContentPlay}} </span>
     </div>
     <div class="col-sm-4">
-      <span id="schools" class="note" style="text-align: center">Avg Time Spent: {{stateAvgTimeSpend}} </span>
+      <span id="avgTime" class="note" style="text-align: center">Avg Time Spent: {{stateAvgTimeSpend}} </span>
     </div>
-    <!-- <div class="col-sm-3 d-flex justify-content-end">
-      <span id="schools" class="note" style="text-align: center">Usage outside the state: {{otherStateContentPlays}}  {{othersStatePercentage}}</span>
-    </div> -->
   </div>
 </div>
 <div id="spinner">

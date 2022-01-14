@@ -31,7 +31,10 @@ export class TpdDashboardComponent implements OnInit {
   tpdcpViews = "";
   tpdenrollViews = "";
   tpdcompViews = "";
-
+  tpdcontentViews = "";
+  tpdgpsViews = "";
+  tpdUserEngagViews = "";
+  tpduserOnboardViews = ""
   // diksha columns
   diksha_column =
     "diksha_columns" in environment ? environment["diksha_columns"] : true;
@@ -124,6 +127,19 @@ export class TpdDashboardComponent implements OnInit {
       if (element.reportid == "tpd-comp") {
         this.tpdcompViews = element.number_of_views + " (" + timeStr + ")";
       }
+      if (element.reportid == "tpd-content") {
+        this.tpdcontentViews = element.number_of_views + " (" + timeStr + ")";
+      }
+      if (element.reportid == "tpd-gps") {
+        this.tpdgpsViews = element.number_of_views + " (" + timeStr + ")";
+      }
+      if (element.reportid == "tpd-userEngag") {
+        this.tpdUserEngagViews = element.number_of_views + " (" + timeStr + ")";
+      }
+      if (element.reportid == "tpd-userOnboard") {
+        this.tpduserOnboardViews = element.number_of_views + " (" + timeStr + ")";
+      }
+      
     });
   }
 

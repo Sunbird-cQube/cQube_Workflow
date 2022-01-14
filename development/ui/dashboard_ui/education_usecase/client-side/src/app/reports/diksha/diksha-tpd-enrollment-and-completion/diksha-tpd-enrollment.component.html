@@ -3,13 +3,13 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 ">
-                    <div >
+                    <div>
                         <p id="dist">
-                          Report on User Progress: <span (click)="homeClick()"
+                            Report on User Progress: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;"
                                 class="selected-level">{{state}}</span></p>
                     </div>
-                  
+
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="row">
@@ -30,7 +30,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <p class="note">
-                        <strong> About the dashboard:</strong> The dashboard provides insights on user onboarding, completion and certification across various TPD courses for {{state}}.
+                        <strong> About the dashboard:</strong> The dashboard provides insights on user progress
+                        completion and certification across various TPD courses for {{state}}.
                     </p>
                 </div>
             </div>
@@ -43,20 +44,22 @@
                             {{time.name}}
                         </option>
                     </select>
-                         
-                    <select id="choose_dist"  [(ngModel)]="selectedProgram" name="selectedProgram" (change)="onProgramSelect(selectedProgram)">
-                        <option [value]="selectedProgram" disabled selected="selected">Choose a program</option>
+
+                    <select id="choose_dist" [(ngModel)]="selectedProgram" name="selectedProgram"
+                        (change)="onProgramSelect(selectedProgram)">
+                        <option [value]="selectedProgram" disabled selected="selected">Choose a Program</option>
                         <option *ngFor="let program of uniqePrograms" [(ngValue)]="program.program_id">
                             {{program.program_name}}
                         </option>
                     </select>
-                  
-                <ng-select [items]="collectionNames" id="SearchDropDown" class="col-3" [hideSelected]="true"  placeholder = " Search Course"  notFoundText = "no courses found"
-                  bindLabel="collection_name" [(ngModel)] = "selectedCourse" bindValue="collection_id"   clearAllText="Clear"  (change)="getDataBasedOnCollections($event)" (clear) = "onClear()"
-                 >
-                  </ng-select>
-                 
-                     
+
+                    <ng-select [items]="collectionNames" id="SearchDropDown" class="col-3" [hideSelected]="true"
+                        placeholder=" Search Course" notFoundText="no courses found" bindLabel="collection_name"
+                        [(ngModel)]="selectedCourse" bindValue="collection_id" clearAllText="Clear"
+                        (change)="getDataBasedOnCollections($event)" (clear)="onClear()">
+                    </ng-select>
+
+
                     <select id="choose_dist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
@@ -89,13 +92,14 @@
 
         </div>
         <div class="col-lg-10" id="r1" style="position: relative;">
-            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl"></span>
-            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl2"></span>
-            <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category"  [data] = "expectedEnrolled" [enrolData] = "enrollChartData" [compData] = "compliChartData" [perData]= "pecentChartData" [xData]="completion"
-                [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type" [courseSelected] = "courseSelected">
+
+            <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category" [data]="expectedEnrolled"
+                [enrolData]="enrollChartData" [compData]="compliChartData" [perData]="pecentChartData"
+                [xData]="completion" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report"
+                [level]="level" [type]="type" [courseSelected]="courseSelected">
             </app-multi-bar-chart>
             <div *ngIf="enrollChartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
-                No Data Available 
+                No Data Available
             </div>
         </div>
     </div>

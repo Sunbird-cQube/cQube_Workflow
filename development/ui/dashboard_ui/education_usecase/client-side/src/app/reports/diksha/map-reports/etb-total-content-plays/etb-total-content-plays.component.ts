@@ -64,7 +64,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef
-  ) {}
+  ) { }
 
   geoJson = this.globalService.geoJson;
 
@@ -133,10 +133,6 @@ export class EtbTotalContentPlaysComponent implements OnInit {
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}`;
       this.selectionType = [];
-      //   this.selectionType = [{id: 'total_time_spent', name: 'Total Time Spent '},
-      //   {id: 'total_content_plays', name: 'Total Content Plays '},
-      //   {id: 'avg_time_spent', name: 'Avg Time Spent '}
-      // ];
 
       this.valueRange = undefined;
       this.selectedIndex = undefined;
@@ -168,23 +164,31 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         arr = arr.sort(function (a, b) {
           return parseFloat(a) - parseFloat(b);
         });
-        let maxArr = arr[arr.length - 1];
-        let partition;
-        if (this.selectedType == "avg_time_spent") {
-          partition = maxArr / 5;
-          //  partition = partition.toFixed(2)
-          //  partition = Math.round((partition + Number.EPSILON) * 100) / 100
-        } else {
-          partition = Math.ceil(maxArr / 5);
-        }
-        for (let i = 0; i < 5; i++) {
-          if (this.selectedType == "avg_time_spent") {
-            this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
-          } else {
-            // this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
-            this.values.push(`${Number(partition * i + i).toLocaleString('en-IN')}-${Number(partition * (i + 1)).toLocaleString('en-IN')}`);
+
+
+        const min = Math.min(...arr);
+        const max = Math.max(...arr);
+
+        const getRangeArray = (min, max, n) => {
+          const delta = (max - min) / n;
+
+          const ranges = [];
+          let range1 = min;
+          for (let i = 0; i < n; i += 1) {
+            const range2 = range1 + delta;
+            this.values.push(
+              `${Number(range1).toLocaleString("en-IN")}-${Number(
+                range2
+              ).toLocaleString("en-IN")}`
+            );
+            ranges.push([range1, range2]);
+            range1 = range2;
           }
-        }
+
+          return ranges;
+        };
+
+        const rangeArrayIn3Parts = getRangeArray(min, max, 5);
 
         // to show only in dropdowns
         this.districtMarkers = this.data.data;
@@ -231,23 +235,30 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             arr = arr.sort(function (a, b) {
               return parseFloat(a) - parseFloat(b);
             });
-            let maxArr = arr[arr.length - 1];
-            let partition;
-            if (this.selectedType == "avg_time_spent") {
-              partition = maxArr / 5;
-              //  partition = +partition.toFixed(2)
-            } else {
-              partition = Math.ceil(maxArr / 5);
-            }
 
-            for (let i = 0; i < 5; i++) {
-              if (this.selectedType == "avg_time_spent") {
-                this.values.push(`${(partition * i).toFixed(2)}-${(partition * (i + 1)).toFixed(2)}`); // 0-partition /  partition+1-partition*2
-              } else {
-                // this.values.push(`${partition * i + i}-${partition * (i + 1)}`); // 0-partition /  partition+1-partition*2
-                this.values.push(`${Number(partition * i + i).toLocaleString('en-IN')}-${Number(partition * (i + 1)).toLocaleString('en-IN')}`);
+
+            const min = Math.min(...arr);
+            const max = Math.max(...arr);
+
+            const getRangeArray = (min, max, n) => {
+              const delta = (max - min) / n;
+              const ranges = [];
+              let range1 = min;
+              for (let i = 0; i < n; i += 1) {
+                const range2 = range1 + delta;
+                this.values.push(
+                  `${Number(range1).toLocaleString("en-IN")}-${Number(
+                    range2
+                  ).toLocaleString("en-IN")}`
+                );
+                ranges.push([range1, range2]);
+                range1 = range2;
               }
-            }
+
+              return ranges;
+            };
+
+            const rangeArrayIn3Parts = getRangeArray(min, max, 5);
 
             let keys = Object.keys(this.data.data[0]);
 
@@ -326,7 +337,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   onSelectType(data) {
     this.selectedType = data;
-    
+
     this.reportName = `ETB_${this.selectedType}`
     this.getDistData();
   }
@@ -460,18 +471,12 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         offset: [15, 20],
       }).setContent(
         "<b><u>Details</u></b>" +
-          "<br>" +
-          yourData1 +
-          "<br><br><b><u>Metrics of Content Play</u></b>" +
-          "<br>" +
-          yourData
-        // `
-        // <b><u>Details</u></b>
-        // <br>  ${yourData1}
-        // <br><br><b><u>Metrics of Content Play</u></b>
-        // <br>
-        // ${yourData}
-        // `
+        "<br>" +
+        yourData1 +
+        "<br><br><b><u>Metrics of Content Play</u></b>" +
+        "<br>" +
+        yourData
+
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
@@ -499,13 +504,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     "#1a9850",
     "#006837",
   ];
-  // public values = [
-  //   "0-20",
-  //   "21-40",
-  //   "41-60",
-  //   "61-80",
-  //   "81-100",
-  // ];
+
 
   public values = [];
 
@@ -536,27 +535,25 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     let slabArr = [];
 
     if (index > -1) {
-      let maxArr = arr[arr.length - 1];
-      // let partition = Math.round(maxArr/5)
-      let partition;
-      if (this.selectedType == "avg_time_spent") {
-        partition = maxArr / 5;
-        //  partition = +partition.toFixed(2)
-      } else {
-        partition = Math.ceil(maxArr / 5);
-      }
-      //getting relative colors for all markers:::::::::::
 
-      // let min = partition*index+index;
-      let min;
+      const min = Math.min(...arr);
+      const max = Math.max(...arr);
+      const ranges = [];
+      const getRangeArray = (min, max, n) => {
+        const delta = (max - min) / n;
+        let range1 = min;
+        for (let i = 0; i < n; i += 1) {
+          const range2 = range1 + delta;
+          ranges.push([range1, range2]);
+          range1 = range2;
+        }
+        return ranges;
+      };
 
-      if (this.selectedType == "avg_time_spent") {
-        min = partition * index + 0.1;
-      } else {
-        min = partition * index + index;
-      }
-      let max = partition * (index + 1);
-      slabArr = arr.filter((val) => val >= min && val <= max);
+      const rangeArrayIn5Parts = getRangeArray(min, max, 5);
+      slabArr = arr.filter(
+        (val) => val >= ranges[index][0] && val <= ranges[index][1]
+      );
     } else {
       slabArr = arr;
     }
@@ -592,7 +589,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     this.selectedIndex = i;
     document.getElementById(`${i}`)
       ? (document.getElementById(`${i}`).style.border =
-          this.height < 1100 ? "2px solid gray" : "6px solid gray")
+        this.height < 1100 ? "2px solid gray" : "6px solid gray")
       : "";
     document.getElementById(`${i}`)
       ? (document.getElementById(`${i}`).style.transform = "scale(1.1)")
@@ -623,7 +620,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   // to download the csv report
   downloadReport() {
     var position = this.reportName.length;
-    this.fileName = this.commonService.changeingStringCases(this.fileName)
+    this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
+    
     this.commonService.download(this.fileName, this.reportData, this.reportName1);
   }
 

@@ -12,6 +12,7 @@ const tAttd_schoolWise = require('./controller/attendanceRoutes/teacher_attendan
 const tAttd_dateRange = require('./controller/attendanceRoutes/teacher_attendance/getDateRange');
 
 const changePasswd = require('./controller/users/changePassword');
+const login = require('./controller/users/logIn')
 
 //deeksha
 const deekshaData = require('./controller/diksha/diksha');
@@ -124,15 +125,16 @@ const enrollmentProgressState = require('./controller/diksha/enrollment-progress
 const enrollmentProgressDist = require('./controller/diksha/enrollment-progress/distWise')
 const enrollmentProgressAllColl = require('./controller/diksha/enrollment-progress/allDistCollection')
 const enrollmentProgressAllCourse = require('./controller/diksha/enrollment-progress/allCourse')
-const enrollmentProgressProgram =  require('./controller/diksha/enrollment-progress/programData')
+const enrollmentProgressProgram = require('./controller/diksha/enrollment-progress/programData')
 const enrollmentProgProgramWise = require('./controller/diksha/enrollment-progress/programWiseCollection')
-
+const enrollExpectedMeta = require('./controller/diksha/enrollment-progress/expectedMeta')
 //diksha TPD enrollment/completion
 const distLevel = require('./controller/diksha/tpd-enroll-completion/distWise');
 const blockLevel = require('./controller/diksha/tpd-enroll-completion/blockWise');
 const clusterLevel = require('./controller/diksha/tpd-enroll-completion/clusterWise');
 const schoolLevel = require('./controller/diksha/tpd-enroll-completion/schoolWise');
-const programData = require('./controller/diksha/tpd-enroll-completion/programData')
+const programData = require('./controller/diksha/tpd-enroll-completion/programData');
+const certificateMate = require('./controller/diksha/tpd-enroll-completion/certificateMeta');
 
 // diskha total content play over years
 const totalContentPlaystateData = require('./controller/diksha/total-content-play-over-years/stateData')
@@ -140,7 +142,7 @@ const totalContentPlayDistData = require('./controller/diksha/total-content-play
 
 // diksha average time spend on course
 const avgTimeSpendOnCourse = require('./controller/diksha/average-time-spend-on-course/stateData');
-const avgTimeSpendDistWise =  require('./controller/diksha/average-time-spend-on-course/distWise');
+const avgTimeSpendDistWise = require('./controller/diksha/average-time-spend-on-course/distWise');
 
 // sem routes
 router.use('/sem', semDistrictWise);
@@ -171,6 +173,7 @@ router.use('/teacher_attendance', tAttd_dateRange);
 
 // user details routes
 router.use('/changePassword', changePasswd);
+router.use('/login', login)
 
 // Infra
 router.use('/infra', infraDistWise);
@@ -273,7 +276,8 @@ router.use('/tpd', distLevel);
 router.use('/tpd', blockLevel);
 router.use('/tpd', clusterLevel);
 router.use('/tpd', schoolLevel);
-router.use('/tpd',programData);
+router.use('/tpd', programData);
+router.use('/tpd', certificateMate);
 
 // disha Tpd/Etb map api
 router.use('/tpdMap', tpdMapDistwise);
@@ -288,8 +292,8 @@ router.use('/diksha/contentUsage', dikshaPieState);
 router.use('/diksha/contentUsage', dikshaPieDistMeta);
 
 // diskha total content play over years line chart
-router.use('/diksha/totalContentPlayOverYears', totalContentPlaystateData );
-router.use('/diksha/totalContentPlayOverYears', totalContentPlayDistData );
+router.use('/diksha/totalContentPlayOverYears', totalContentPlaystateData);
+router.use('/diksha/totalContentPlayOverYears', totalContentPlayDistData);
 
 
 // diksha average time spend on course
@@ -302,7 +306,8 @@ router.use('/diksha/enrollmentProgress', enrollmentProgressDist);
 router.use('/diksha/enrollmentProgress', enrollmentProgressAllColl);
 router.use('/diksha/enrollmentProgress', enrollmentProgressAllCourse);
 router.use('/diksha/enrollmentProgress', enrollmentProgressProgram);
-router.use('/diksha/enrollmentProgress', enrollmentProgProgramWise)
+router.use('/diksha/enrollmentProgress', enrollmentProgProgramWise);
+router.use('/diksha/enrollmentProgress', enrollExpectedMeta)
 
 //download raw data
 const fileDownload = require('./controller/rawDataDownload');

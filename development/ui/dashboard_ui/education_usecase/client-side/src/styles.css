@@ -295,6 +295,11 @@ leaflet-right {
 .note,
 #students,
 #schools,
+#tpdFooter,
+#contentPlays,
+#timeSpent,
+#avgTime,
+#etbFooter,
 #dateRange,
 #totalCount,
 #visits,
@@ -328,6 +333,10 @@ leaflet-right {
 #coll_input,
 #choose_enroll,
 #choose_infra,
+#choose_district,
+#choose_program,
+#choose_type,
+#choose_course,
 #academicYear,
 #year,#year1,
 #month,
@@ -524,26 +533,22 @@ border-color:var(--theme-back-button-border-color);
         max-width: 500px !important;
     }
 
-    /* #SearchDropDown{
-        font-size: 22px;
-        font-weight: bold;
-        height:45px;
-        border: 1px solid gray;
-    } */
+    
 
     #SearchDropDown{
-        font-size: 22px;
+        font-size: 26px;
         font-weight: bold;
         height:4vh;
         border: 1px solid gray;
     }
 
     #SearchDropDown.ng-select.ng-select-single .ng-select-container{
-        height: 2.5vh;
+        height: 2.9vh;
         min-height: 2.5vh;
         border: 0;
         color: white;
         font-size: 22px;
+        padding-top: 10px;
     }
    
     .ng-select .ng-select-container .ng-value-container{
@@ -562,8 +567,13 @@ border-color:var(--theme-back-button-border-color);
     .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
         height:2.7vh,
     }
-    .ng-select#SearchDropDown.ng-select-container .ng-value-container .ng-placeholder{
-        font-size: 22px !important;
+   .ng-select#SearchDropDown.ng-select-container .ng-value-container .ng-placeholder{
+        font-size: 25px !important;
+      }
+
+     #SearchDropDown .ng-dropdown-panel .ng-dropdown-panel-items{
+          font-size: 22px;
+          max-height: 600px;
       }
 
     
@@ -645,6 +655,11 @@ border-color:var(--theme-back-button-border-color);
     .note,
     #students,
     #schools,
+    #tpdFooter,
+    #contentPlays,
+    #timeSpent,
+    #avgTime,
+    #etbFooter,
     #dateRange,
     #totalCount,
     #visits,
@@ -665,6 +680,10 @@ border-color:var(--theme-back-button-border-color);
     #coll_input,
     #choose_enroll,
     #choose_infra,
+    #choose_district,
+    #choose_program,
+    #choose_type,
+    #choose_course,
     #academicYear,
     #year,#year1,
     #month,
@@ -768,8 +787,38 @@ border-color:var(--theme-back-button-border-color);
         font-size: 24px !important;
         max-width: 600px !important;
     }
+    
 
+    #SearchDropDown.ng-select.ng-select-single .ng-select-container{
+        font-size: 32px;
+    }
    
+    #SearchDropDown .ng-dropdown-panel .ng-dropdown-panel-items{
+          font-size: 32px;
+          max-height: 800px;
+      }
+
+       .ng-select .ng-select-container .ng-value-container{
+        height:3vh
+    }
+      
+     #SearchDropDown.ng-select .ng-clear-wrapper {
+       width: 44px
+     }
+     .ng-select#SearchDropDown .ng-clear-wrapper .ng-clear{
+       font-size: 36px;
+     }
+
+     #SearchDropDown.ng-select .ng-arrow-wrapper{
+      width: 40px;
+     }
+    #SearchDropDown.ng-select .ng-arrow-wrapper .ng-arrow{
+        border-width: 16px 14px 4px;
+        margin-right: 4px
+    }
+    .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+        height:2.7vh,
+    }
 
     #footer {
         width: 100%;
@@ -849,6 +898,11 @@ border-color:var(--theme-back-button-border-color);
     .note,
     #students,
     #schools,
+    #tpdFooter,
+    #contentPlays,
+    #timeSpent,
+    #avgTime,
+    #etbFooter,
     #dateRange,
     #totalCount,
     #visits,
@@ -869,6 +923,10 @@ border-color:var(--theme-back-button-border-color);
     #coll_input,
     #choose_enroll,
     #choose_infra,
+    #choose_district,
+    #choose_program,
+    #choose_type,
+    #choose_course,
     #academicYear,
     #year,#year1,
     #month,
