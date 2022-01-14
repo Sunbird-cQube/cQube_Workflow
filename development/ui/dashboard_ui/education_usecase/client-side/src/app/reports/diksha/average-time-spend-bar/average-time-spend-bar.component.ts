@@ -74,8 +74,8 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.fileName = `Average_Time_Spent_${this.state}`;
     try {
       this.service.getavgTimeSpendState().subscribe((res) => {
-        this.data = res["data"]["data"];
-        this.reportData = res["downloadData"]["data"];
+        res['data'] ? this.data = res["data"]["data"] : this.data = [];
+        res['data'] ? this.reportData = res["downloadData"]["data"] : this.reportData = [];
 
         let obj = [];
         this.restructureBarChartData(this.data);
@@ -106,7 +106,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
 
     try {
       this.service.getAvgTimespendDist().subscribe((res) => {
-        this.distData = res["data"]["data"];
+        res['data'] ? this.distData = res["data"]["data"] : this.distData = [];
         this.commonService.loaderAndErr(this.distData);
       });
     } catch (error) {
