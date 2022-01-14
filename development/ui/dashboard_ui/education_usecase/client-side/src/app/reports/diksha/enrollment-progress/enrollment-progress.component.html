@@ -84,14 +84,19 @@
     </div>
   </div>
   <div class="row reportContainer pt-4">
-    <div [hidden]="chartData.length === 0" class="col-lg-12 m-auto">
-      <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
+    <div *ngIf='expectedMeta'>
+      <div [hidden]="chartData.length === 0" class="col-lg-12 m-auto">
+        <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
 
+        </div>
+      </div>
+
+      <div *ngIf="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+        No Data Available
       </div>
     </div>
-
-    <div *ngIf="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
-      No Data Available
+    <div *ngIf="expectedMeta === false" style="position: absolute; left: 40%; top: 120px;color: red;">
+      Expected Enrollemt Value is not available
     </div>
 
   </div>
