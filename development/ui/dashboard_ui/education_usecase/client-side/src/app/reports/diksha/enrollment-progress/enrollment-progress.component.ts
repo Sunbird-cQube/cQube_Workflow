@@ -194,7 +194,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.courseToDropDown = [];
     this.uniqueDistCourse = [];
     try {
-      // document.getElementById("spinner").style.display = "block";
+
       this.service.enrollProAllCollection().subscribe((res) => {
         this.allDistCollection = res["data"]["data"];
         this.commonService.loaderAndErr(this.allDistCollection)
@@ -243,10 +243,11 @@ export class EnrollmentProgressComponent implements OnInit {
 
   public collectionDropDown;
   getCollectionDropDown(data) {
+    this.uniqueAllCourse = []
     this.courseToDropDown = [];
     this.collectionDropDown = data.slice();
     try {
-      // document.getElementById("spinner").style.display = "block";
+
       if (this.level === "district") {
         this.distWiseCourse = this.allDistCollection.filter((collection) => {
           return collection.district_id == this.selectedDist;
@@ -267,7 +268,7 @@ export class EnrollmentProgressComponent implements OnInit {
             : this.uniqueAllCourse.push(x)
         );
         document.getElementById("spinner").style.display = "none";
-      } else {
+      } else if (this.level === "allCourse") {
         this.collectionDropDown.forEach((course) => {
           this.courseToDropDown.push({
             collection_id: course.collection_id,
@@ -275,17 +276,34 @@ export class EnrollmentProgressComponent implements OnInit {
           });
         });
 
-        let mymap = new Map();
+        this.courseToDropDown.map((x) =>
+          this.uniqueAllCourse.filter(
+            (a) =>
+              a.collection_id == x.collection_id &&
+              a.collection_name == x.collection_name
+          ).length > 0
+            ? null
+            : this.uniqueAllCourse.push(x)
+        );
 
-        this.uniqueAllCourse = this.courseToDropDown.filter(el => {
+      } else if (this.level === 'program') {
 
-          if (mymap.has(el.collection_id)) {
-            return false
-          }
-          mymap.set(el.collection_id, el.collection_name);
-          return true;
+        this.collectionDropDown.forEach((course) => {
+          this.courseToDropDown.push({
+            collection_id: course.collection_id,
+            collection_name: course.collection_name,
+          });
         });
 
+        this.courseToDropDown.map((x) =>
+          this.uniqueAllCourse.filter(
+            (a) =>
+              a.collection_id == x.collection_id &&
+              a.collection_name == x.collection_name
+          ).length > 0
+            ? null
+            : this.uniqueAllCourse.push(x)
+        );
       }
 
     } catch (error) { }
@@ -307,7 +325,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.reportData = [];
     this.emptyChart();
     this.selectedDist = distId;
-    this.level = "district";
+
     this.distToDropDown.filter((district) => {
       if (district.district_id === this.selectedDist) {
         this.districtName = district.district_name;
