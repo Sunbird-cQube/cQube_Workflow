@@ -201,6 +201,7 @@ end;
 $body$
 language plpgsql;
 
+/* function for loading the expected enrollment data into master table */
 
 CREATE OR REPLACE FUNCTION insert_diksha_expected_enrolment()
  RETURNS int 
@@ -242,7 +243,7 @@ program_course_available = 'insert into diksha_tpd_expected_enrollment(program_i
  full join (select collection_id,district_id,expected_enrollment from diksha_course_expected_temp) as exp_enrol on a.collection_id=exp_enrol.collection_id 
  on conflict(program_id,collection_id,district_id) do update 
  set program_id=excluded.program_id, program_name=excluded.program_name,collection_id=excluded.collection_id,course_start_date=excluded.course_start_date,course_end_date=excluded.course_end_date,
- district_id=excluded.district_id,program_expected_enrollment = excluded.program_expected_enrollment,updated_on=now();';
+ district_id=excluded.district_id,expected_enrollment=excluded.expected_enrollment,program_expected_enrollment = excluded.program_expected_enrollment,updated_on=now();';
  
 EXECUTE program_course_available;
 end IF;
