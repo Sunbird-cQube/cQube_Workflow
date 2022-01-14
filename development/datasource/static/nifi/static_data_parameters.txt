@@ -108,19 +108,7 @@ from flowfile)""",
 "static_same_record_filter_diksha_course_details":"""select course_id,course_start_date,course_end_date from (SELECT course_id,course_start_date,course_end_date, row_number() over (partition by  course_id,course_start_date,course_end_date) as rn from flowfile)sq where rn=1""",
 "static_select_cols_district_udise":"""select district_name as district,udise_district_code as districtid from flowfile""",
 "static_select_cols_school_category_state":"""select SchoolCategoryId as school_category_id,SchoolCategory as school_category from flowfile""",
-"static_diksha_enrolment_temp_to_mst":"""insert into diksha_tpd_expected_enrollment(program_id,program_name,collection_id,collection_name,course_start_date,course_end_date,district_id,district,expected_enrollment,program_expected_enrollment,created_on,updated_on)
- select COALESCE(a.program_id,0) as program_id,INITCAP(a.program_name) as program_name,COALESCE(a.collection_id,'') as collection_id,collection_name,course_start_date,course_end_date,COALESCE(case when a.district_id is null then c.district_id else a.district_id end,0) as district_id,district_name,a.expected_enrollment,program_expected_enrollment,now(),now() from (
-select program_id,program_name,case when a.collection_id is null then exp_enrol.collection_id else a.collection_id end as collection_id,collection_name,course_start_date,course_end_date,exp_enrol.district_id,district_name,expected_enrollment from
- (select pct.program_id,pct.program_name,case when pct.collection_id is null then dce.collection_id else pct.collection_id end as collection_id,dce.course_start_date,dce.course_end_date from diksha_program_course_details_temp pct full join diksha_course_details_temp dce on pct.collection_id=dce.collection_id where program_name is not null) as a
- FULL join 
- (select collection_id,district_id,expected_enrollment from diksha_course_expected_temp) as exp_enrol on a.collection_id=exp_enrol.collection_id 
- left join 
- (select distinct collection_id,collection_name,district_id,district_name from diksha_tpd_agg ) as b  on exp_enrol.collection_id=b.collection_id and exp_enrol.district_id=b.district_id) as a
- left join 
- (select program_name,district_id,expected_enrollments as program_expected_enrollment from diksha_program_expected_temp) as c on lower(a.program_name)=lower(c.program_name) and a.district_id=c.district_id 
- on conflict(program_id,collection_id,district_id) do update 
- set program_name=excluded.program_name,collection_id=excluded.collection_id,collection_name=excluded.collection_name,course_start_date=excluded.course_start_date,course_end_date=excluded.course_end_date,
- district_id=excluded.district_id,district=excluded.district,expected_enrollment=excluded.expected_enrollment,program_expected_enrollment = excluded.program_expected_enrollment,created_on=excluded.updated_on,updated_on=now();""",
+"static_diksha_enrolment_temp_to_mst":"""select insert_diksha_expected_enrolment();""",
 "static_select_cols_school_management_state":"""select ManagementId as school_management_type_id,Management as school_management_type from flowfile""",
 "static_process_rec_district":"""update log_summary as b
 set processed_records= a.processed_records from
