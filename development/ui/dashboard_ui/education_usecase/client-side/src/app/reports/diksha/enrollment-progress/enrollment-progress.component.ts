@@ -53,7 +53,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.getStateData();
     this.getProgramData();
     this.getAllDistCollection();
-
+    this.getExpectedMeta();
   }
 
   emptyChart() {
@@ -70,7 +70,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.fileName = "enrollment-progress-state";
     try {
       this.service.enrollmentProState().subscribe((res) => {
-        this.stateData = res["data"]["data"];
+        res['data'] ? this.stateData = res["data"]["data"] : this.stateData = [];
         this.reportData = this.stateData;
         this.createLineChart(this.stateData);
         this.getDistMeta();
@@ -82,6 +82,21 @@ export class EnrollmentProgressComponent implements OnInit {
       this.commonService.loaderAndErr(this.stateData);
     }
   }
+
+  expectedMeta: boolean
+  getExpectedMeta() {
+    try {
+      this.service.enrollExpectedMeta().subscribe(res => {
+        
+        this.expectedMeta = res['jsonData'][0].data_is_available
+
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  enrollExpectedMeta
 
   clickHome() {
     this.dist = false;
@@ -196,7 +211,7 @@ export class EnrollmentProgressComponent implements OnInit {
     try {
 
       this.service.enrollProAllCollection().subscribe((res) => {
-        this.allDistCollection = res["data"]["data"];
+        res['data'] ? this.allDistCollection = res["data"]["data"] : this.allDistCollection = [];
         this.commonService.loaderAndErr(this.allDistCollection)
       });
 
