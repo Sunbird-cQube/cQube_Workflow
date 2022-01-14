@@ -136,8 +136,6 @@ export class EtbPerCapitaComponent implements OnInit {
       this.selectedIndex = undefined;
       this.deSelect();
 
-      // this.deSelect();
-
       if (this.myDistData && this.myDistData['data'].length) {
         this.data = this.myDistData;
         let keys = Object.keys(this.data.data[0])
@@ -212,8 +210,7 @@ export class EtbPerCapitaComponent implements OnInit {
               if (item.district_name === "Others") {
 
                 this.otherStateContentPlays = item.total_content_plays.toLocaleString('en-IN');
-                this.otherStatePlayPerCapita = item.plays_per_capita.toFixed(2);
-                this.otherStateExpectdUser = item.expected_ETB_users.toLocaleString('en-IN')
+
 
               }
             });
