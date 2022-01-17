@@ -50,10 +50,11 @@ export class EnrollmentProgressComponent implements OnInit {
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
     document.getElementById('spinner').style.display = "none"
+    this.getExpectedMeta();
     this.getStateData();
     this.getProgramData();
     this.getAllDistCollection();
-    this.getExpectedMeta();
+
   }
 
   emptyChart() {
@@ -87,9 +88,8 @@ export class EnrollmentProgressComponent implements OnInit {
   getExpectedMeta() {
     try {
       this.service.enrollExpectedMeta().subscribe(res => {
-        
-        this.expectedMeta = res['jsonData'][0].data_is_available
 
+        this.expectedMeta = res['jsonData'][0].data_is_available
       })
     } catch (error) {
       console.log(error)
@@ -497,10 +497,14 @@ export class EnrollmentProgressComponent implements OnInit {
 
   getLineChart() {
     let tickIntervlMonth
-    if (this.category.length < 90) {
-      tickIntervlMonth = 6;
-    } else if (this.category.length > 90) {
-      tickIntervlMonth = this.category.length / 15;
+    if (this.category.length < 30) {
+      tickIntervlMonth = 2;
+    } else if (this.category.length > 30 && this.category.length < 90) {
+      tickIntervlMonth = 5;
+    } else if (this.category.length > 90 && this.category.length < 120) {
+      tickIntervlMonth = 7;
+    } else if (this.category.length > 120) {
+      tickIntervlMonth = 15;
     }
     this.chartOptions = {
       chart: {
