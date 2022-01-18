@@ -111,7 +111,8 @@ longitude=excluded.longitude,in_school_location=excluded.in_school_location,crea
 "crc_inspec_null_log_summary":"""update log_summary
 SET school_id = crc_inspec_null_col.count_null_schoolid,
 inspection_id = crc_inspec_null_col.count_null_inspectionid,
-observer_id = crc_inspec_null_col.count_null_observerid
+observer_id = crc_inspec_null_col.count_null_observerid,
+count_of_null_rows = crc_inspec_null_col.count_of_null_rows
 from crc_inspec_null_col
 where crc_inspec_null_col.ff_uuid = log_summary.ff_uuid""",
 "crc_transform_block_wise_jolt":"""[{
@@ -242,7 +243,8 @@ or ObserverId IS NULL""",
 "crc_insp_count_null":"""(select 
 SUM(CASE when SchoolId IS NULL THEN 1 ELSE 0 END) AS count_null_schoolid,
 SUM(CASE when InspectionId IS NULL THEN 1 ELSE 0 END) AS count_null_inspectionid,
-SUM(CASE when ObserverId IS NULL THEN 1 ELSE 0 END) AS count_null_observerid
+SUM(CASE when ObserverId IS NULL THEN 1 ELSE 0 END) AS count_null_observerid,
+sum(case when SchoolId is null or InspectionId is null or ObserverId is null then 1 else 0 end) as count_of_null_rows
 from flowfile)""",
 "crc_trans_to_crc_visits_frequency_pre_query":"""create or replace view crc_trans_to_aggregate as 
 select  a.school_id,INITCAP(b.school_name)as school_name,b.district_id,INITCAP(b.district_name)as district_name,b.block_id,
@@ -306,7 +308,8 @@ created_on = crc_loc_null_col.count_null_createdon,
 latitude = crc_loc_null_col.count_latitude,
 longitude = crc_loc_null_col.count_longitude,
 user_location_master_id = crc_loc_null_col.count_null_userlocmasterid,
-user_master_id = crc_loc_null_col.count_null_usermasterid
+user_master_id = crc_loc_null_col.count_null_usermasterid,
+count_of_null_rows = crc_loc_null_col.count_of_null_rows
 from crc_loc_null_col
 where crc_loc_null_col.ff_uuid = log_summary.ff_uuid""",
 "crc_loc_dup_tb_name":"""crc_location_dup""",
@@ -442,7 +445,8 @@ SUM(CASE when CreatedOn IS NULL THEN 1 ELSE 0 END) AS count_null_createdon,
 SUM(CASE when  Latitude IS NULL THEN 1 ELSE 0 END) AS count_latitude,
 SUM(CASE when  Longitude IS NULL THEN 1 ELSE 0 END) AS count_longitude,
 SUM(CASE when UserLocationMasterId IS NULL THEN 1 ELSE 0 END) AS count_null_userlocmasertid,
-SUM(CASE when UserMasterId IS NULL THEN 1 ELSE 0 END) AS count_null_usermasterid
+SUM(CASE when UserMasterId IS NULL THEN 1 ELSE 0 END) AS count_null_usermasterid,
+sum(case when SchoolId is null or InspectionId is null or InSchoolLocation is null or CreatedOn is null or Latitude is null or Longitude is null or UserLocationMasterId is null or UserMasterId is null then 1 else 0 end) as count_of_null_rows
 from flowfile)""",
 "crc_inspec_null_table":"""crc_inspec_null_col""",
 "crc_transform_district_wise_jolt":"""[{
