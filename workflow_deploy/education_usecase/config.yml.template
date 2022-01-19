@@ -41,3 +41,7 @@ slab2:                                     #Enter slab2 value range is greater t
 slab3:                                     #Enter slab3 value range is greater than slab2 and between 1-100 ( eg: slab3: 60-75 ) 
 
 slab4:                                     #Enter slab4 value is greater than or equal to slab3 last value between 1-100 ( eg: slab4 75 )
+
+auth_api: 
+
+auth_api_key:
