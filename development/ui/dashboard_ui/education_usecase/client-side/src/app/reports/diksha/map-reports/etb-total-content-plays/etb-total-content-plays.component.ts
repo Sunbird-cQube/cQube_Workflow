@@ -64,7 +64,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     private changeDetection: ChangeDetectorRef
-  ) {}
+  ) { }
 
   geoJson = this.globalService.geoJson;
 
@@ -133,7 +133,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}`;
       this.selectionType = [];
-     
+
       this.valueRange = undefined;
       this.selectedIndex = undefined;
       this.deSelect();
@@ -164,7 +164,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         arr = arr.sort(function (a, b) {
           return parseFloat(a) - parseFloat(b);
         });
-       
+
 
         const min = Math.min(...arr);
         const max = Math.max(...arr);
@@ -235,7 +235,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             arr = arr.sort(function (a, b) {
               return parseFloat(a) - parseFloat(b);
             });
-           
+
 
             const min = Math.min(...arr);
             const max = Math.max(...arr);
@@ -337,7 +337,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   onSelectType(data) {
     this.selectedType = data;
-    
+
     this.reportName = `ETB_${this.selectedType}`
     this.getDistData();
   }
@@ -471,12 +471,12 @@ export class EtbTotalContentPlaysComponent implements OnInit {
         offset: [15, 20],
       }).setContent(
         "<b><u>Details</u></b>" +
-          "<br>" +
-          yourData1 +
-          "<br><br><b><u>Metrics of Content Play</u></b>" +
-          "<br>" +
-          yourData
-       
+        "<br>" +
+        yourData1 +
+        "<br><br><b><u>Metrics of Content Play</u></b>" +
+        "<br>" +
+        yourData
+
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
@@ -504,7 +504,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     "#1a9850",
     "#006837",
   ];
-  
+
 
   public values = [];
 
@@ -535,7 +535,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     let slabArr = [];
 
     if (index > -1) {
-      
+
       const min = Math.min(...arr);
       const max = Math.max(...arr);
       const ranges = [];
@@ -589,7 +589,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     this.selectedIndex = i;
     document.getElementById(`${i}`)
       ? (document.getElementById(`${i}`).style.border =
-          this.height < 1100 ? "2px solid gray" : "6px solid gray")
+        this.height < 1100 ? "2px solid gray" : "6px solid gray")
       : "";
     document.getElementById(`${i}`)
       ? (document.getElementById(`${i}`).style.transform = "scale(1.1)")
@@ -620,7 +620,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   // to download the csv report
   downloadReport() {
     var position = this.reportName.length;
-    this.fileName = this.commonService.changeingStringCases(this.fileName)
+    this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
+    
     this.commonService.download(this.fileName, this.reportData, this.reportName1);
   }
 

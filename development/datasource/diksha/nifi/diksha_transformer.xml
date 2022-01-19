@@ -14,6 +14,43 @@
             <comments></comments>
             <contents>
                 <connections>
+                    <id>01823d74-f7d9-3ff4-0000-000000000000</id>
+                    <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>-2104.0</x>
+                        <y>-928.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2232.0</x>
+                        <y>-824.0</y>
+                    </bends>
+                    <bends>
+                        <x>-2232.0</x>
+                        <y>-560.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>ef5bf078-f7e7-30e9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>b229e8c4-bb62-3884-0000-000000000000</groupId>
+                        <id>04a242df-a5da-3166-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>01ae3308-8fa1-348f-0000-000000000000</id>
                     <parentGroupId>b229e8c4-bb62-3884-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -9965,8 +10002,8 @@
                         <y>-308.5408630371094</y>
                     </bends>
                     <bends>
-                        <x>6422.17431640625</x>
-                        <y>-428.5408630371094</y>
+                        <x>6424.0</x>
+                        <y>-472.0</y>
                     </bends>
                     <bends>
                         <x>6462.17431640625</x>
@@ -30891,7 +30928,8 @@ ${filename:startsWith('diksha_tpd'):ifElse(#{diksha_tpd_null_to_log_db},'None')}
                             </entry>
                             <entry>
 <key>diksha_tpd</key>
-<value>${filename:startsWith('diksha_tpd'):or(${filename:startsWith('diksha/diksha_tpd'):or(${azure.blobname:startsWith('diksha_tpd')})}):and(${filename:contains('api'):not()})}</value>
+<value>${filename:startsWith('diksha_tpd'):or(${filename:startsWith('diksha/diksha_tpd'):or(${azure.blobname:startsWith('diksha_tpd')})})
+:and(${filename:contains('api'):or(${filename:startsWith('diksha_tpd_mapping')}):not()})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -48135,8 +48173,9 @@ Mirror data validation of file:${filename} completed and deleted the mirror data
                             </entry>
                             <entry>
 <key>SQL select query</key>
-<value>${filename:startsWith('diksha_data_summary'):ifElse(${diksha_columns:equals('true'):ifElse("(select SUM(CASE when content_view_date IS NULL THEN 1 ELSE 0 END) AS count_null_content_view_date, SUM(CASE when dimensions_pdata_id IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_id, SUM(CASE when dimensions_pdata_pid IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_pid, SUM(CASE when content_name IS NULL THEN 1 ELSE 0 END) AS count_null_content_name, SUM(CASE when content_board IS NULL THEN 1 ELSE 0 END) AS count_null_content_board, SUM(CASE when content_mimetype IS NULL THEN 1 ELSE 0 END) AS count_null_content_mimetype, SUM(CASE when content_medium IS NULL THEN 1 ELSE 0 END) AS count_null_content_medium, SUM(CASE when content_gradelevel IS NULL THEN 1 ELSE 0 END) AS count_null_content_gradelevel, SUM(CASE when content_subject IS NULL THEN 1 ELSE 0 END) AS count_null_content_subject, SUM(CASE when content_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_content_created_for,SUM(CASE when object_id IS NULL THEN 1 ELSE 0 END) AS count_null_object_id, SUM(CASE when object_rollup_l1 IS NULL THEN 1 ELSE 0 END) AS count_null_object_rollup_l1,SUM(CASE when derived_loc_state IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_state,SUM(CASE when derived_loc_district IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_district, SUM(CASE when user_signin_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_signin_type,SUM(CASE when user_login_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_login_type,SUM(CASE when collection_type IS NULL THEN 1 ELSE 0 END) AS count_null_collection_type, SUM(CASE when collection_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_collection_created_for,SUM(CASE when total_count IS NULL THEN 1 ELSE 0 END) AS count_null_total_count,SUM(CASE when total_time_spent IS NULL THEN 1 ELSE 0 END) AS count_null_total_time_spent from diksha_content_staging where ff_uuid='${files_uuid}')",${diksha_columns:equals('false'):ifElse("(select SUM(CASE when content_view_date IS NULL THEN 1 ELSE 0 END) AS count_null_content_view_date,SUM(CASE when dimensions_pdata_id IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_id,SUM(CASE when dimensions_pdata_pid IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_pid,SUM(CASE when content_name IS NULL THEN 1 ELSE 0 END) AS count_null_content_name,SUM(CASE when content_board IS NULL THEN 1 ELSE 0 END) AS count_null_content_board,SUM(CASE when content_mimetype IS NULL THEN 1 ELSE 0 END) AS count_null_content_mimetype,SUM(CASE when content_medium IS NULL THEN 1 ELSE 0 END) AS count_null_content_medium,SUM(CASE when content_subject IS NULL THEN 1 ELSE 0 END) AS count_null_content_subject,SUM(CASE when content_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_content_created_for,SUM(CASE when object_id IS NULL THEN 1 ELSE 0 END) AS count_null_object_id,SUM(CASE when object_rollup_l1 IS NULL THEN 1 ELSE 0 END) AS count_null_object_rollup_l1,SUM(CASE when derived_loc_state IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_state,SUM(CASE when derived_loc_district IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_district,SUM(CASE when user_signin_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_signin_type,SUM(CASE when user_login_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_login_type,SUM(CASE when collection_type IS NULL THEN 1 ELSE 0 END) AS count_null_collection_type,SUM(CASE when collection_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_collection_created_for,SUM(CASE when total_count IS NULL THEN 1 ELSE 0 END) AS count_null_total_count,SUM(CASE when total_time_spent IS NULL THEN 1 ELSE 0 END) AS count_null_total_time_spent from diksha_content_staging where ff_uuid='${files_uuid}')",'None')})},
-${filename:startsWith('diksha_tpd'):ifElse("(select SUM(CASE when collection_id IS NULL THEN 1 ELSE 0 END) AS count_null_collection_id, SUM(CASE when uuid IS NULL THEN 1 ELSE 0 END) AS count_null_uuid from diksha_tpd_staging where ff_uuid='${files_uuid}')",'None')} )}</value>
+<value>${filename:startsWith('diksha_data_summary'):ifElse(${diksha_columns:equals('true'):ifElse("(select SUM(CASE when content_view_date IS NULL THEN 1 ELSE 0 END) AS count_null_content_view_date, SUM(CASE when dimensions_pdata_id IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_id, SUM(CASE when dimensions_pdata_pid IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_pid, SUM(CASE when content_name IS NULL THEN 1 ELSE 0 END) AS count_null_content_name, SUM(CASE when content_board IS NULL THEN 1 ELSE 0 END) AS count_null_content_board, SUM(CASE when content_mimetype IS NULL THEN 1 ELSE 0 END) AS count_null_content_mimetype, SUM(CASE when content_medium IS NULL THEN 1 ELSE 0 END) AS count_null_content_medium, SUM(CASE when content_gradelevel IS NULL THEN 1 ELSE 0 END) AS count_null_content_gradelevel, SUM(CASE when content_subject IS NULL THEN 1 ELSE 0 END) AS count_null_content_subject, SUM(CASE when content_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_content_created_for,SUM(CASE when object_id IS NULL THEN 1 ELSE 0 END) AS count_null_object_id, SUM(CASE when object_rollup_l1 IS NULL THEN 1 ELSE 0 END) AS count_null_object_rollup_l1,SUM(CASE when derived_loc_state IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_state,SUM(CASE when derived_loc_district IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_district, SUM(CASE when user_signin_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_signin_type,SUM(CASE when user_login_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_login_type,SUM(CASE when collection_type IS NULL THEN 1 ELSE 0 END) AS count_null_collection_type, SUM(CASE when collection_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_collection_created_for,SUM(CASE when total_count IS NULL THEN 1 ELSE 0 END) AS count_null_total_count,SUM(CASE when total_time_spent IS NULL THEN 1 ELSE 0 END) AS count_null_total_time_spent,sum(case when content_view_date is null or dimensions_pdata_id is null or dimensions_pdata_pid is null or content_name is null or content_board is null or content_mimetype is null or content_medium is null or content_gradelevel is null or content_subject is null or content_created_for is null or object_id is null or object_rollup_l1 is null or derived_loc_state is null or derived_loc_district is null or user_signin_type is null or user_login_type is null or    collection_type is null or collection_created_for is null or total_count is null or total_time_spent is null then 1 else 0 end) as count_of_null_rows from diksha_content_staging where ff_uuid='${files_uuid}')",
+${diksha_columns:equals('false'):ifElse("(select SUM(CASE when content_view_date IS NULL THEN 1 ELSE 0 END) AS count_null_content_view_date,SUM(CASE when dimensions_pdata_id IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_id,SUM(CASE when dimensions_pdata_pid IS NULL THEN 1 ELSE 0 END) AS count_null_dimensions_pdata_pid,SUM(CASE when content_name IS NULL THEN 1 ELSE 0 END) AS count_null_content_name,SUM(CASE when content_board IS NULL THEN 1 ELSE 0 END) AS count_null_content_board,SUM(CASE when content_mimetype IS NULL THEN 1 ELSE 0 END) AS count_null_content_mimetype,SUM(CASE when content_medium IS NULL THEN 1 ELSE 0 END) AS count_null_content_medium,SUM(CASE when content_subject IS NULL THEN 1 ELSE 0 END) AS count_null_content_subject,SUM(CASE when content_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_content_created_for,SUM(CASE when object_id IS NULL THEN 1 ELSE 0 END) AS count_null_object_id,SUM(CASE when object_rollup_l1 IS NULL THEN 1 ELSE 0 END) AS count_null_object_rollup_l1,SUM(CASE when derived_loc_state IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_state,SUM(CASE when derived_loc_district IS NULL THEN 1 ELSE 0 END) AS count_null_derived_loc_district,SUM(CASE when user_signin_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_signin_type,SUM(CASE when user_login_type IS NULL THEN 1 ELSE 0 END) AS count_null_user_login_type,SUM(CASE when collection_type IS NULL THEN 1 ELSE 0 END) AS count_null_collection_type,SUM(CASE when collection_created_for IS NULL THEN 1 ELSE 0 END) AS count_null_collection_created_for,SUM(CASE when total_count IS NULL THEN 1 ELSE 0 END) AS count_null_total_count,SUM(CASE when total_time_spent IS NULL THEN 1 ELSE 0 END) AS count_null_total_time_spent,sum(case when content_view_date is null or dimensions_pdata_id is null or dimensions_pdata_pid is null or content_name is null or content_board is null or content_mimetype is null or content_medium is null or content_subject is null or content_created_for is null or object_id is null or object_rollup_l1 is null or derived_loc_state is null or derived_loc_district is null or user_signin_type is null or user_login_type is null or collection_type is null or collection_created_for is null or total_count is null or total_time_spent is null then 1 else 0 end) as count_of_null_rows from diksha_content_staging where ff_uuid='${files_uuid}')",'None')})},
+${filename:startsWith('diksha_tpd'):ifElse("(select SUM(CASE when collection_id IS NULL THEN 1 ELSE 0 END) AS count_null_collection_id, SUM(CASE when uuid IS NULL THEN 1 ELSE 0 END) AS count_null_uuid,sum(case when collection_id is null or uuid is null then 1 else 0 end) as count_of_null_rows from diksha_tpd_staging where ff_uuid='${files_uuid}')",'None')} )}</value>
                             </entry>
                             <entry>
 <key>sql-post-query</key>
@@ -51516,5 +51555,5 @@ file:${filename},Error while executing "${query_type}" query.</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/06/2022 12:03:43 IST</timestamp>
+    <timestamp>01/18/2022 15:11:53 IST</timestamp>
 </template>

@@ -10535,7 +10535,7 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
-                        <id>0839b399-92d9-3130-0000-000000000000</id>
+                        <id>7299fb80-910b-30bc-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
@@ -13027,6 +13027,31 @@
                     <source>
                         <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
                         <id>59d1bbfd-0e92-3fa8-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>f1b04ecf-b749-3656-0000-000000000000</id>
+                    <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
+                        <id>0839b399-92d9-3130-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>bf682c82-c6a7-3c62-0000-000000000000</groupId>
+                        <id>7299fb80-910b-30bc-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -21065,8 +21090,8 @@ where ff_uuid= '${zip_identifier}'
                     <id>0839b399-92d9-3130-0000-000000000000</id>
                     <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
                     <position>
-                        <x>11576.0</x>
-                        <y>-136.0</y>
+                        <x>11552.0</x>
+                        <y>64.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -21133,7 +21158,7 @@ where ff_uuid= '${zip_identifier}'
                         <properties>
                             <entry>
 <key>Directory</key>
-<value>#{output_directory}log_summary/static</value>
+<value>#{output_directory}${directory}/</value>
                             </entry>
                             <entry>
 <key>Conflict Resolution Strategy</key>
@@ -27639,7 +27664,12 @@ or(${filename:startsWith('diksha/diksha_tpd_mapping')})})})}</value>
                             </entry>
                             <entry>
 <key>diksha_enroment</key>
-<value>${filename:startsWith('diksha_enrolment')}</value>
+<value>${filename:startsWith('diksha_enrolment')
+:or(${filename:startsWith('diksha_program_course_details')})
+:or(${filename:startsWith('diksha_program_details')})
+:or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_etb_enrolment')})}</value>
                             </entry>
                             <entry>
 <key>district_master</key>
@@ -43228,7 +43258,9 @@ or(${filename:startsWith('data_replay')})}</value>
 <value>${filename:startsWith('diksha'):and(
 ${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
 :or(${filename:startsWith('diksha_course_enrolment')})
-:or(${filename:startsWith('diksha_etb_enrolment')})}):not()}</value>
+:or(${filename:startsWith('diksha_etb_enrolment')})
+:or(${filename:startsWith('diksha_program_details')})})
+:not()}</value>
                             </entry>
                             <entry>
 <key>infra_trans</key>
@@ -48921,6 +48953,102 @@ or(${filename:startsWith('data_replay')})}</value>
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
+                    <id>7299fb80-910b-30bc-0000-000000000000</id>
+                    <parentGroupId>bf682c82-c6a7-3c62-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>11552.0</x>
+                        <y>-136.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>directory</key>
+<value>
+    <name>directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>
+    <name>filename</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>directory</key>
+<value>${filename:substringBeforeLast('/')}</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>${filename:substringAfterLast('/')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>update_filename_directory</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
                 </processors>
                 <processors>
                     <id>73c3eef2-dcd4-312a-0000-000000000000</id>
@@ -57084,7 +57212,13 @@ ${query_type:startsWith('tch_att_management_category_school_by_month_year'):ifEl
                             </entry>
                             <entry>
 <key>diksha</key>
-<value>${filename:startsWith('diksha'):and(${filename:startsWith('diksha_enrolment'):not()})}</value>
+<value>${filename:startsWith('diksha'):and(${filename:startsWith('diksha_enrolment')
+:or(${filename:startsWith('diksha_program_course_details')})
+:or(${filename:startsWith('diksha_course_enrolment')})
+:or(${filename:startsWith('diksha_course_details')})
+:or(${filename:startsWith('diksha_etb_enrolment')})
+:or(${filename:startsWith('diksha_program_details')})
+:not()})}</value>
                             </entry>
                             <entry>
 <key>pat</key>
@@ -77709,5 +77843,5 @@ ${query_type:startsWith('pat_management_subject_footer_district_last_7_days'):if
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>01/11/2022 16:59:48 IST</timestamp>
+    <timestamp>01/12/2022 19:55:21 IST</timestamp>
 </template>

@@ -258,4 +258,90 @@ router.post('/summaryDikshaTPD', auth.authController, async (req, res) => {
     }
 });
 
+
+router.post('/dikshaProgramDetails', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha program details summary api ---');
+        var fileName = 'log_summary/static/diksha_enrolment/log_summary_diksha_program_details.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha program details summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+
+router.post('/dikshaProgramCourseDetails', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha program  course details summary api ---');
+        var fileName = 'log_summary/static/diksha_enrolment/log_summary_diksha_program_course_details.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha program course details summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+
+router.post('/dikshaCourseDetails', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha course details summary api ---');
+        var fileName = 'log_summary/static/diksha_enrolment/log_summary_diksha_course_details.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha course details summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+
+router.post('/dikshaCourseEnrolment', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha course enrollment summary api ---');
+        var fileName = 'log_summary/static/diksha_enrolment/log_summary_diksha_course_enrolment.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha course enrollment summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+
+router.post('/dikshaEtbEnrolment', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha etb enrollment summary api ---');
+        var fileName = 'log_summary/static/diksha_enrolment/log_summary_diksha_etb_enrolment.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha etb enrollment summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+
 module.exports = router

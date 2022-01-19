@@ -39,7 +39,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
     public commonService: AppServiceComponent,
     public service: AverageTimeSpendBarService,
     public metaService: ContentUsagePieService
-  ) {}
+  ) { }
 
   width = window.innerWidth;
   height = window.innerHeight;
@@ -74,12 +74,12 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.fileName = `Average_Time_Spent_${this.state}`;
     try {
       this.service.getavgTimeSpendState().subscribe((res) => {
-        this.data = res["data"]["data"];
-        this.reportData = res["downloadData"]["data"];
+        res['data'] ? this.data = res["data"]["data"] : this.data = [];
+        res['data'] ? this.reportData = res["downloadData"]["data"] : this.reportData = [];
 
         let obj = [];
         this.restructureBarChartData(this.data);
-        
+
         this.getDistMeta();
         this.commonService.loaderAndErr(this.data);
       });
@@ -94,8 +94,9 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.dist = false;
     this.skul = true;
     this.emptyChart();
-    this.selectedDist = "";
+    this.selectedDist = undefined;
     this.getStateData();
+    this.getDistdata();
   }
 
   public distData;
@@ -105,7 +106,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
 
     try {
       this.service.getAvgTimespendDist().subscribe((res) => {
-        this.distData = res["data"]["data"];
+        res['data'] ? this.distData = res["data"]["data"] : this.distData = [];
         this.commonService.loaderAndErr(this.distData);
       });
     } catch (error) {
@@ -190,7 +191,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
       });
       this.fileName = `Average_time_spend_${this.distName}`;
       this.distWiseData = this.distData[this.selectedDist];
-     
+
       setTimeout(() => {
         this.restructureBarChartData(this.distWiseData);
       }, 300);
@@ -229,50 +230,51 @@ export class AverageTimeSpendBarComponent implements OnInit {
     }
     let reportData = _.cloneDeep(this.reportData);
     reportData.forEach((element) => {
-  if(this.selectedDist === undefined){
-    selectedDistricts.forEach((district) => {
-      let distData 
-      if(this.distData[district.district_id]){
-         distData = this.distData[district.district_id];
-     
-      // let distData = this.distData[district.district_id];
-      let objectValue = distData.find(
-        (metric) => metric.collection_name === element.collection_name
-      );
-      let distName = `${district.district_name}_Average_Time_Spent`;
-      let distName1 = `${district.district_name}_Total_Enrolled`;
+      if (this.selectedDist === undefined) {
+        selectedDistricts.forEach((district) => {
+          let distData
+          if (this.distData[district.district_id]) {
+            distData = this.distData[district.district_id];
 
-      element[distName] =
-        objectValue !== undefined && objectValue.avg_time_spent
-          ? objectValue.avg_time_spent
-          : 0;
+            // let distData = this.distData[district.district_id];
+            let objectValue = distData.find(
+              (metric) => metric.collection_name === element.collection_name
+            );
+            let distName = `${district.district_name}_Average_Time_Spent`;
+            let distName1 = `${district.district_name}_Total_Enrolled`;
+
+            element[distName] =
+              objectValue !== undefined && objectValue.avg_time_spent
+                ? objectValue.avg_time_spent
+                : 0;
+
+            element[distName1] =
+              objectValue !== undefined && objectValue.total_enrolled
+                ? objectValue.total_enrolled
+                : 0;
+          }
+        });
+      } else {
+        selectedDistricts.forEach((district) => {
+          let distData = this.distData[district.district_id];
+          let objectValue = distData.find(
+            (metric) => metric.collection_name === element.collection_name
+          );
+          let distName = `${district.district_name}_Average_Time_Spent`;
+          let distName1 = `${district.district_name}_Total_Enrolled`;
+
+          element[distName] =
+            objectValue && objectValue.avg_time_spent
+              ? objectValue.avg_time_spent
+              : 0;
 
           element[distName1] =
-        objectValue !== undefined && objectValue.total_enrolled
-          ? objectValue.total_enrolled
-          : 0;
-        }});
-  }else{
-    selectedDistricts.forEach((district) => {
-      let distData = this.distData[district.district_id];
-      let objectValue = distData.find(
-        (metric) => metric.collection_name === element.collection_name
-      );
-      let distName = `${district.district_name}_Average_Time_Spent`;
-      let distName1 = `${district.district_name}_Total_Enrolled`;
+            objectValue && objectValue.total_enrolled
+              ? objectValue.total_enrolled
+              : 0;
+        });
+      }
 
-      element[distName] =
-        objectValue && objectValue.avg_time_spent
-          ? objectValue.avg_time_spent
-          : 0;
-
-          element[distName1] =
-        objectValue && objectValue.total_enrolled
-          ? objectValue.total_enrolled
-          : 0;
-    });
-  }
-      
       this.newDownload(element);
     });
     this.commonService.download(this.fileName, this.dataToDownload);

@@ -70,14 +70,16 @@ export class MultiBarChartComponent implements OnInit {
             x: -7,
             useHTML: true,
             style: {
-              width: '80px',
+              width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               whiteSpace: 'normal'
             },
             step: 1,
             formatter: function () {
-              return '<div style="word-wrap: break-word;word-break: break-all;width:80px">' + this.value + '</div>';
+
+              let distWidth = window.innerHeight > 1760 ? '180px' : window.innerHeight > 1160 && window.innerHeight < 1760 ? '130px' : window.innerHeight > 667 && window.innerHeight < 1160 ? '80px' : '80px';
+              return '<div style="word-wrap: break-word;word-break: break-all;width:' + distWidth + '">' + this.value + '</div>';
             }
           },
           type: "category",
@@ -96,9 +98,10 @@ export class MultiBarChartComponent implements OnInit {
 
           scrollbar: {
             minWidth: 5,
+            size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
             enabled: true,
             opposite: true,
-            margin: 120
+            margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
           },
           tickLength: 0,
         },
@@ -158,7 +161,7 @@ export class MultiBarChartComponent implements OnInit {
               crop: false,
               overflow: 'allow',
               inside: true,
-              x: 100,
+              x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
               verticalAlign: 'middle',
               style: {
                 color: "#000"
@@ -181,7 +184,8 @@ export class MultiBarChartComponent implements OnInit {
           useHTML: true,
           labelFormatter: function () {
             if (this.name === 'Expected Enrollment') {
-              let str = '<span style="display: flex; align-item: start"><span class="legandTooltip" style="margin-right: 2px" data-index=""' + this.index + '">' + this.name + '</span><span style="font-size: 14px; margin-top: -1px; margin-left: 2px " class="infoIcon" tabindex="0" data-toggle="tooltip" title="The program expected enrollments are equal to the total of courses expected enrollments which are in the selected program."><i class="fa fa-info-circle"></i></span></span>';
+              let iconSize = window.innerHeight > 1760 ? '36px' : window.innerHeight > 1160 && window.innerHeight < 1760 ? '26px' : window.innerHeight > 667 && window.innerHeight < 1160 ? '14px' : '14px';
+              let str = '<span style="display: flex; align-item: start"><span class="legandTooltip" style="margin-right: 2px" data-index=""' + this.index + '">' + this.name + '</span><span style="font-size:' + iconSize + '; margin-top: -1px; margin-left: 2px " class="infoIcon" tabindex="0" data-toggle="tooltip" title="The program expected enrollments are equal to the total of courses expected enrollments which are in the selected program."><i class="fa fa-info-circle"></i></span></span>';
               $(function () {
                 $('.infoIcon[title]').tooltip();
               });
@@ -322,14 +326,16 @@ export class MultiBarChartComponent implements OnInit {
 
             useHTML: true,
             style: {
-              width: '80px',
+              width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
               color: 'black',
               fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               whiteSpace: 'normal'
             },
             step: 1,
             formatter: function () {
-              return '<div style="word-wrap: break-word;word-break: break-all;width:80px">' + this.value + '</div>';
+
+              let distWidth = window.innerHeight > 1760 ? '180px' : window.innerHeight > 1160 && window.innerHeight < 1760 ? '130px' : window.innerHeight > 667 && window.innerHeight < 1160 ? '80px' : '80px';
+              return '<div style="word-wrap: break-word;word-break: break-all;width:' + distWidth + '">' + this.value + '</div>';
             }
           },
           type: "category",
@@ -348,9 +354,10 @@ export class MultiBarChartComponent implements OnInit {
 
           scrollbar: {
             minWidth: 5,
+            size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
             enabled: true,
             opposite: true,
-            margin: 120
+            margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
           },
           tickLength: 0,
         },
@@ -359,7 +366,8 @@ export class MultiBarChartComponent implements OnInit {
           labels: {
             style: {
               color: 'black',
-              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+              fontWeight: "bold",
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
             },
             formatter: function () {
               return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -398,7 +406,7 @@ export class MultiBarChartComponent implements OnInit {
               crop: false,
               overflow: 'allow',
               inside: true,
-              x: 55,
+              x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
               verticalAlign: 'middle',
               style: {
                 color: "#000"
@@ -497,14 +505,16 @@ export class MultiBarChartComponent implements OnInit {
               x: -7,
               useHTML: true,
               style: {
-                width: '85px',
+                width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
                 color: 'black',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 whiteSpace: 'normal'
               },
               step: 1,
               formatter: function () {
-                return '<div  style="word-wrap: break-word;word-break: break-all;width:85px">' + this.value + '</div>';
+
+                let distWidth = window.innerHeight > 1760 ? '180px' : window.innerHeight > 1160 && window.innerHeight < 1760 ? '130px' : window.innerHeight > 667 && window.innerHeight < 1160 ? '80px' : '80px';
+                return '<div style="word-wrap: break-word;word-break: break-all;width:' + distWidth + '">' + this.value + '</div>';
               }
             },
             type: "category",
@@ -523,9 +533,10 @@ export class MultiBarChartComponent implements OnInit {
 
             scrollbar: {
               minWidth: 5,
+              size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
               enabled: true,
               opposite: true,
-              margin: 120
+              margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
             },
             tickLength: 0,
           },
@@ -534,7 +545,8 @@ export class MultiBarChartComponent implements OnInit {
             labels: {
               style: {
                 color: 'black',
-                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+                fontWeight: 'bold',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
               },
               formatter: function () {
                 return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -585,7 +597,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: 100,
+                x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
@@ -740,14 +752,16 @@ export class MultiBarChartComponent implements OnInit {
               x: -7,
               useHTML: true,
               style: {
-                width: '80px',
+                width: this.height > 1760 ? "190px" : this.height > 1160 && this.height < 1760 ? "140px" : this.height > 667 && this.height < 1160 ? "80px" : '80px',
                 color: 'black',
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
                 whiteSpace: 'normal'
               },
               step: 1,
               formatter: function () {
-                return '<div  style="word-wrap: break-word;word-break: break-all;width:80px">' + this.value + '</div>';
+
+                let distWidth = window.innerHeight > 1760 ? '180px' : window.innerHeight > 1160 && window.innerHeight < 1760 ? '130px' : window.innerHeight > 667 && window.innerHeight < 1160 ? '80px' : '80px';
+                return '<div style="word-wrap: break-word;word-break: break-all;width:' + distWidth + '">' + this.value + '</div>';
               }
             },
             type: "category",
@@ -764,10 +778,11 @@ export class MultiBarChartComponent implements OnInit {
             },
 
             scrollbar: {
-              minWidth: 2,
+              minWidth: 5,
+              size: this.height > 1760 ? 30 : this.height > 1160 && this.height < 1760 ? 20 : this.height > 667 && this.height < 1160 ? 14 : 14,
               enabled: true,
               opposite: true,
-              margin: 60
+              margin: this.height > 1760 ? 300 : this.height > 1160 && this.height < 1760 ? 220 : this.height > 667 && this.height < 1160 ? 120 : 120,
             },
             tickLength: 0,
           },
@@ -776,7 +791,8 @@ export class MultiBarChartComponent implements OnInit {
             labels: {
               style: {
                 color: 'black',
-                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
+                fontWeight: 'bold',
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
               },
               formatter: function () {
                 return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
@@ -813,7 +829,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: 55,
+                x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
@@ -928,34 +944,31 @@ export class MultiBarChartComponent implements OnInit {
         if (((level === 'district' || level == "program") && courseSelected === true) || level === "program") {
           if (expectedData.length > 0) {
             obj = `&nbsp<b>District Name:</b> ${points[0].x}
-        <br> ${xData[`${points[0].point.index}`]['expected_enrolled'] ? `<b>Expected Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['expected_enrolled']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['enrollment'] ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['enrolled_percentage'] ? `<b>% Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrolled_percentage']} %` : ''}
-        <br> ${xData[`${points[0].point.index}`]['completion'] ? `<b>completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['percent_completion'] ? `<b>% completed:</b> &nbsp ${xData[`${points[0].point.index}`]['percent_completion']} %` : ''}
-        <br> ${xData[`${points[0].point.index}`]['certificate_value'] ? `<b>certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['certificate_per'] ? `<b>% certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_per']} %` : ''}
+        <br> ${xData[`${points[0].point.index}`]['expected_enrolled'] !== null ? `<b>Expected Enrolled:</b>  ${xData[`${points[0].point.index}`]['expected_enrolled'].toLocaleString('en-IN')}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['enrollment'] !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment'].toLocaleString('en-IN')}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['enrolled_percentage'] !== null ? `<b>% Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrolled_percentage']} %` : ''}
+        <br> ${xData[`${points[0].point.index}`]['completion'] !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['percent_completion'] !== null ? `<b>% Completed:</b>  ${xData[`${points[0].point.index}`]['percent_completion']} %` : ''}
+        <br> ${xData[`${points[0].point.index}`]['certificate_value'] !== null ? `<b>Certificate:</b>  ${xData[`${points[0].point.index}`]['certificate_value'].toLocaleString('en-IN')}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['certificate_per'] !== null ? `<b>% Certificate:</b>  ${xData[`${points[0].point.index}`]['certificate_per']} %` : ''}
         `
           } else {
             obj = `&nbsp<b>District Name:</b> ${points[0].x}
-        <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-        <br> ${points.y !== null ? `<b>completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
-        <br> ${xData[`${points[0].point.index}`]['certificate_value'] ? `<b>certificate:</b> &nbsp ${xData[`${points[0].point.index}`]['certificate_value']}` : ''}
+        <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment'].toLocaleString('en-IN')}` : ''}
+        <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
+        <br> ${xData[`${points[0].point.index}`]['certificate_value'] !== null ? `<b>Certificate:</b>  ${xData[`${points[0].point.index}`]['certificate_value'].toLocaleString('en-IN')}` : ''}
         `
           }
-
         }
-
-
         else if (level === 'district') {
           obj = `&nbsp<b>District Name:</b> ${points[0].x}
-      <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-      <br> ${points.y !== null ? `<b>Completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
+      <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment'].toLocaleString('en-IN')}` : ''}
+      <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
      `
         } else {
-          obj = `&nbsp<b>District Name:</b> ${points[0].x}
-      <br> ${points.y !== null ? `<b>Enrolled:</b> &nbsp ${xData[`${points[0].point.index}`]['enrollment']}` : ''}
-      <br> ${points.y !== null ? `<b>Completed:</b> &nbsp ${xData[`${points[0].point.index}`]['completion']}` : ''}
+          obj = `&nbsp<b>${level.charAt(0).toUpperCase() + level.slice(1)} Name:</b> ${points[0].x}
+      <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment'].toLocaleString('en-IN')}` : ''}
+      <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
       
      `
         }

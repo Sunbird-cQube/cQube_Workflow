@@ -176,7 +176,8 @@ user_login_type = diksha_null_col.count_null_user_login_type,
 collection_type = diksha_null_col.count_null_collection_type,
 collection_created_for = diksha_null_col.count_null_collection_created_for,
 total_count = diksha_null_col.count_null_total_count,
-total_time_spent = diksha_null_col.count_null_total_time_spent
+total_time_spent = diksha_null_col.count_null_total_time_spent,
+count_of_null_rows = diksha_null_col.count_of_null_rows
 from diksha_null_col
 where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
 "diksha_sum_of_dup":"""select sum(num_of_times) from flowfile""",
@@ -245,7 +246,8 @@ collection_medium,collection_gradelevel,collection_subject,collection_created_fo
 ]""",
 "diksha_tpd_null_to_log_db":"""update log_summary
 SET collection_id = diksha_null_col.count_null_collection_id,
-uuid = diksha_null_col.count_null_uuid
+uuid = diksha_null_col.count_null_uuid,
+count_of_null_rows = diksha_null_col.count_of_null_rows
 from diksha_null_col
 where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
 "diksha_tpd_school_r2_jolt":"""[
@@ -378,7 +380,8 @@ user_login_type = diksha_null_col.count_null_user_login_type,
 collection_type = diksha_null_col.count_null_collection_type,
 collection_created_for = diksha_null_col.count_null_collection_created_for,
 total_count = diksha_null_col.count_null_total_count,
-total_time_spent = diksha_null_col.count_null_total_time_spent
+total_time_spent = diksha_null_col.count_null_total_time_spent,
+count_of_null_rows = diksha_null_col.count_of_null_rows
 from diksha_null_col
 where diksha_null_col.ff_uuid = log_summary.ff_uuid""",
 "diksha_temp_tb":"""diksha_content_temp""",

@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <p class="note">
-                        <strong> About the dashboard:</strong> The dashboard provides insights on user onboarding,
+                        <strong> About the dashboard:</strong> The dashboard provides insights on user progress
                         completion and certification across various TPD courses for {{state}}.
                     </p>
                 </div>
@@ -47,7 +47,7 @@
 
                     <select id="choose_dist" [(ngModel)]="selectedProgram" name="selectedProgram"
                         (change)="onProgramSelect(selectedProgram)">
-                        <option [value]="selectedProgram" disabled selected="selected">Choose a program</option>
+                        <option [value]="selectedProgram" disabled selected="selected">Choose a Program</option>
                         <option *ngFor="let program of uniqePrograms" [(ngValue)]="program.program_id">
                             {{program.program_name}}
                         </option>

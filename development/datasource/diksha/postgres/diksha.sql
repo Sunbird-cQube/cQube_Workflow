@@ -450,7 +450,7 @@ create table if not exists diksha_program_course_details_temp(
  collection_id text,
  expected_enrollment bigint,
 primary key(program_id,collection_id) );
-  
+
 create table if not exists diksha_course_details_temp(
 collection_id text,
 course_start_date date not null,
@@ -476,16 +476,14 @@ program_id int,
 program_name text,
  collection_id text,
  collection_name text,
- course_start_date  date not null,
+ course_start_date date,
  course_end_date date,
  District_id bigint,
  District character varying(100),
  expected_enrollment bigint,
  program_expected_enrollment bigint,
- program_expected_state bigint,
  created_on timestamp without time zone,
- updated_on timestamp without time zone,
- primary key(program_id,collection_id,district_id));
+ updated_on timestamp without time zone);
 
 create table if not exists diksha_etb_expected_enrolment(
 academic_year text not null,
@@ -500,30 +498,40 @@ created_on_file_process timestamp default current_timestamp,
 program_id bigint,
 program_name text,
 course_id text,
-course_start_date date,
-course_end_date date,
-expected_enrollment bigint );
+expected_enrollment bigint,
+num_of_times bigint);
   
 create table if not exists diksha_course_expected_dup(
 ff_uuid varchar(255),
 created_on_file_process timestamp default current_timestamp,
 course_id text,
 district_id bigint,
-expected_enrollment bigint);
+expected_enrollment bigint,
+num_of_times bigint);
 
 create table if not exists diksha_program_expected_dup(
 ff_uuid varchar(255),
 created_on_file_process timestamp default current_timestamp,
-program_name text not NULL,
-district_id bigint not NULL,
-expected_enrollment bigint);
+program_name text,
+district_id bigint,
+expected_enrollment bigint,
+num_of_times bigint);
  
+create table if not exists diksha_course_details_dup(
+ff_uuid varchar(255),
+created_on_file_process timestamp default current_timestamp,
+collection_id text,
+course_start_date date,
+course_end_date date,
+num_of_times bigint);
+
 create table if not exists diksha_etb_expected_enrolment_dup(
 ff_uuid varchar(255),
 created_on_file_process timestamp default current_timestamp,
 academic_year text not null,
 district_id bigint,
-expected_etb_users bigint);
+expected_etb_users bigint,
+num_of_times bigint);
 
 create table if not exists diksha_program_course_details_null_col(
 filename varchar(200) ,
@@ -556,4 +564,14 @@ filename varchar(200),
 ff_uuid varchar(200),
 count_null_district_id int,
 count_null_program_name int);
+
+alter table diksha_program_course_details_temp drop column if exists expected_enrollment;
+alter table diksha_program_course_details_dup drop column if exists expected_enrollment;
+
+CREATE UNIQUE INDEX if not exists  diksha_tpd_expected_enrollment_idx ON diksha_tpd_expected_enrollment (program_id,collection_id,district_id);
+
+alter table diksha_program_expected_temp drop column if exists expected_enrollment;
+alter table diksha_program_expected_temp add column if not exists expected_enrollments bigint;
+alter table diksha_program_expected_dup drop column if exists expected_enrollment;
+alter table diksha_program_expected_dup add column if not exists expected_enrollments bigint;
 
