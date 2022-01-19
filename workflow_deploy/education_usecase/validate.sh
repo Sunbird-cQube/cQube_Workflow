@@ -219,6 +219,14 @@ else
 fi
 }
 
+check_auth_api(){
+if [[ $auth_api == "cqube" ]]; then
+    if ! [[ $auth_api_key == "$auth_api" ]]; then
+        echo "Error - Please provide auth_api_key as cqube"; fail=1
+    fi
+fi
+}
+
 get_config_values(){
 key=$1
 vals[$key]=$(awk ''/^$key:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
@@ -237,7 +245,7 @@ echo -e "\e[0;33m${bold}Validating the config file...${normal}"
 
 
 # An array of mandatory values
-declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout" "map_name" "theme" "google_api_key" "slab1" "slab2" "slab3" "slab4") 
+declare -a arr=("base_dir" "state_code" "diksha_columns" "static_datasource" "management" "session_timeout" "map_name" "theme" "google_api_key" "slab1" "slab2" "slab3" "slab4" "auth_api" "auth_api_key")  
 # Create and empty array which will store the key and value pair from config file
 declare -A vals
 
@@ -250,6 +258,8 @@ slab1=$(awk ''/^slab1:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab2=$(awk ''/^slab2:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab3=$(awk ''/^slab3:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+auth_api=$(awk ''/^auth_api:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+auth_api_key=$(awk ''/^auth_api_key:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 #check_mem
 check_version 
@@ -352,6 +362,20 @@ case $key in
           check_slab $key $value
        fi
        ;;
+   auth_api)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_auth_api $key $value
+       fi
+       ;;
+   auth_api_key)
+       if [[ $value == "" ]]; then
+          echo "Error - in $key. Unable to get the value. Please check."; fail=1
+       else
+          check_auth_api $key $value
+       fi
+	   
    *)
        if [[ $value == "" ]]; then
           echo -e "\e[0;31m${bold}Error - Value for $key cannot be empty. Please fill this value${normal}"; fail=1
