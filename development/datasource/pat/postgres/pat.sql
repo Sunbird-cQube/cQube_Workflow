@@ -384,3 +384,7 @@ create table if not exists latest_data_to_be_processed_pat(
 exam_code text);
 
 create table if not exists periodic_exam_stud_grade_count(exam_code varchar(100),student_uid bigint,school_id bigint,studying_class bigint,primary key(exam_code,student_uid,school_id));
+
+alter table pat_trans_null_col add column if not exists count_of_null_rows int;
+alter table pat_null_col add column if not exists count_of_null_rows int;
+

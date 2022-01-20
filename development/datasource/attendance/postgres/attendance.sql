@@ -962,3 +962,4 @@ alter table student_attendance_exception_agg add column if not exists school_cat
 alter table student_attendance_trans drop constraint if exists student_attendance_trans_pkey;
 alter table student_attendance_trans add primary key(attendance_id,month,year);
 
+alter table stud_att_null_col add column if not exists count_of_null_rows int;
