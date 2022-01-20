@@ -576,3 +576,10 @@ alter table diksha_program_expected_dup drop column if exists expected_enrollmen
 alter table diksha_program_expected_dup add column if not exists expected_enrollments bigint;
 
 alter table diksha_null_col add column if not exists count_of_null_rows int;
+
+alter table diksha_course_details_null_col add column if not exists count_of_null_rows int;
+alter table diksha_course_enrolment_null_col add column if not exists count_of_null_rows int;
+alter table diksha_program_course_details_null_col add column if not exists count_of_null_rows int;
+alter table diksha_program_details_null_col add column if not exists count_of_null_rows int;
+alter table diksha_etb_enrolment_null_col add column if not exists count_of_null_rows int;
+
