@@ -826,10 +826,4 @@ alter table cluster_null_col add column if not exists count_of_null_rows int;
 alter table school_null_col add column if not exists count_of_null_rows int;
 alter table school_management_null_col add column if not exists count_of_null_rows int;
 alter table school_category_null_col add column if not exists count_of_null_rows int;
-alter table diksha_course_details_null_col add column if not exists count_of_null_rows int;
-alter table diksha_course_enrolment_null_col add column if not exists count_of_null_rows int;
-alter table diksha_program_course_details_null_col add column if not exists count_of_null_rows int;
-alter table diksha_program_details_null_col add column if not exists count_of_null_rows int;
-alter table diksha_etb_enrolment_null_col add column if not exists count_of_null_rows int;
-
 
