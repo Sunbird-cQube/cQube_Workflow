@@ -204,3 +204,7 @@ alter table crc_loc_null_col add column if not exists  count_null_userlocmasteri
 alter table crc_loc_null_col add column if not exists count_null_usermasterid int;
 
 alter table crc_inspec_null_col add column if not exists count_null_observerid int;
+
+alter table crc_inspec_null_col add column if not exists count_of_null_rows int;
+alter table crc_loc_null_col add column if not exists count_of_null_rows int;
+

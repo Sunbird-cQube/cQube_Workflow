@@ -377,3 +377,20 @@ created_on  timestamp,
 updated_on  timestamp,
 primary key(academic_year,exam_code,school_id,indicator)
 );
+
+create table if not exists sat_trans_null_col(
+filename varchar(200) ,
+ff_uuid varchar(200),
+count_null_exam_id int,
+count_null_question_id int,
+count_null_exam_code int,
+count_null_exam_date int,
+count_null_id int,
+count_null_student_uid int,
+count_null_school_id int,
+count_null_studying_class int,
+count_null_obtained_marks int,
+count_of_null_rows int
+);
+
+alter table sat_null_col add column if not exists count_of_null_rows int;
