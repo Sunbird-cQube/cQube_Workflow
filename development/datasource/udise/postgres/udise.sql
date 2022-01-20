@@ -2015,3 +2015,4 @@ create table if not exists udise_sch_exmres_c8_dup( udise_sch_code bigint primar
 
 alter table udise_sch_exmres_c8_dup drop constraint if exists udise_sch_exmres_c8_dup_key;
 
+alter table udise_null_col add column if not exists count_of_null_rows int;

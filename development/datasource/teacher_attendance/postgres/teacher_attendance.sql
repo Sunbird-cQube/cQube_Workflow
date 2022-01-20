@@ -975,3 +975,5 @@ primary key(school_id,month,year));
 
 alter table teacher_attendance_exception_agg add column if not exists school_management_type varchar(100);
 alter table teacher_attendance_exception_agg add column if not exists school_category varchar(100);
+
+alter table tch_att_null_col add column if not exists count_of_null_rows int;
