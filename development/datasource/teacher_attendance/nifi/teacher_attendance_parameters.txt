@@ -204,7 +204,8 @@
 SET teacher_id = tch_att_null_col.count_null_teacherid,
 school_id = tch_att_null_col.count_null_schoolid,
 year = tch_att_null_col.count_null_academicyear,
-month = tch_att_null_col.count_null_month
+month = tch_att_null_col.count_null_month,
+count_of_null_rows = tch_att_null_col.count_of_null_rows
 from tch_att_null_col
 where tch_att_null_col.ff_uuid = log_summary.ff_uuid	""",
 "teacher_attendance_select_columns":"""select TCHCD as "teacher_id",SCHCD as "school_id",AC_YEAR as "year","Month",
@@ -1176,7 +1177,8 @@ b.day_18,b.day_19,b.day_20,b.day_21,b.day_22,b.day_23,b.day_24,b.day_25,b.day_26
 SUM(CASE when teacher_id IS NULL THEN 1 ELSE 0 END) AS count_null_teacherid,
 SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_schoolid,
 SUM(CASE when year IS NULL THEN 1 ELSE 0 END) AS count_null_AcademicYear,
-SUM(CASE when month IS NULL THEN 1 ELSE 0 END) AS count_null_Month
+SUM(CASE when month IS NULL THEN 1 ELSE 0 END) AS count_null_Month,
+sum(case when teacher_id IS NULL or school_id is NULL or year is NULL or month is NULL then 1 else 0 end) as count_of_null_rows
 from teacher_attendance_staging_1)""",
 "teacher_attendance_datatype_validation":"""Optional(parseLong()),Optional(parseLong()),Optional(StrNotNullOrEmpty()),Optional(parseLong()),
 Optional(parseInt()),Optional(parseInt()),Optional(parseInt()),Optional(parseInt()),Optional(parseInt()),

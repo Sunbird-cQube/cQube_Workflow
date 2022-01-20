@@ -86,7 +86,8 @@ student_uid = pat_trans_null_col.count_null_student_uid,
 school_id = pat_trans_null_col.count_null_school_id,
 studying_class = pat_trans_null_col.count_null_studying_class,
 question_id = pat_trans_null_col.count_null_question_id,
-obtained_marks = pat_trans_null_col.count_null_obtained_marks
+obtained_marks = pat_trans_null_col.count_null_obtained_marks,
+count_of_null_rows = pat_trans_null_col.count_of_null_rows
 from pat_trans_null_col
 where pat_trans_null_col.ff_uuid = log_summary.ff_uuid""",
 "periodic_exam_result_unique_record_same_id_qry":"""insert into periodic_exam_result_trans(id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks)
@@ -109,7 +110,8 @@ updated_on=now()""",
 "pat_select_columns_periodic_exam_qst_mst_qry":"""select question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks from flowfile""",
 "periodic_exam_grade_details_count_null":"""(select
 SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_id,
-SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
+SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade,
+sum(case when school_id is null or grade is null then 1 else 0 end ) as count_of_null_rows
 from flowfile)""",
 "pat_periodic_exam_qst_mst_datatype":"""Optional(parseInt()),Optional(parseInt()),Optional(parseInt()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty())
 Optional(StrNotNullOrEmpty()),Optional(ParseDouble())""",
@@ -214,7 +216,8 @@ exam_type = pat_null_col.count_null_exam_type,
 exam_code = pat_null_col.count_null_exam_code,
 exam_date = pat_null_col.count_null_exam_date,
 total_questions = pat_null_col.count_null_total_questions,
-total_marks = pat_null_col.count_null_total_marks
+total_marks = pat_null_col.count_null_total_marks,
+count_of_null_rows = pat_null_col.count_of_null_rows
 from pat_null_col
 where pat_null_col.ff_uuid = log_summary.ff_uuid""",
 "pat_filter_same_id_record_periodic_exam_qst_mst_qry":"""SELECT  question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks from 
@@ -235,7 +238,8 @@ from flowfile""",
 """,
 "periodic_exam_subject_details_count_null":"""(select
 SUM(CASE when subject_id IS NULL THEN 1 ELSE 0 END) AS count_null_subject_id,
-SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
+SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade,
+sum(case when subject_id is null or grade is null then 1 else 0 end ) as count_of_null_rows
 from flowfile)""",
 "pat_meta_jolt_spec":"""[
   {
@@ -246,6 +250,15 @@ from flowfile)""",
       }
     }
   }]""",
+"pat_update_null_count_periodic_exam_qst_mst_qry":"""update log_summary
+SET question_id = pat_null_col.count_null_question_id,
+exam_id = pat_null_col.count_null_exam_id,
+question_title = pat_null_col.count_null_question_title,
+question = pat_null_col.count_null_question,
+question_marks = pat_null_col.count_null_question_marks,
+count_of_null_rows = pat_null_col.count_of_null_rows
+from pat_null_col
+where pat_null_col.ff_uuid = log_summary.ff_uuid""",
 "pat_periodic_result_trans_count_null":"""(select
 SUM(CASE when id IS NULL THEN 1 ELSE 0 END) AS count_null_id,
 SUM(CASE when exam_id IS NULL THEN 1 ELSE 0 END) AS count_null_exam_id,
@@ -254,15 +267,9 @@ SUM(CASE when student_uid IS NULL THEN 1 ELSE 0 END) AS count_null_student_uid,
 SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_id,
 SUM(CASE when studying_class IS NULL THEN 1 ELSE 0 END) AS count_null_studying_class,
 SUM(CASE when question_id IS NULL THEN 1 ELSE 0 END) AS count_null_question_id,
-SUM(CASE when obtained_marks IS NULL THEN 1 ELSE 0 END) AS count_null_obtained_marks from periodic_exam_result_staging_1)""",
-"pat_update_null_count_periodic_exam_qst_mst_qry":"""update log_summary
-SET question_id = pat_null_col.count_null_question_id,
-exam_id = pat_null_col.count_null_exam_id,
-question_title = pat_null_col.count_null_question_title,
-question = pat_null_col.count_null_question,
-question_marks = pat_null_col.count_null_question_marks
-from pat_null_col
-where pat_null_col.ff_uuid = log_summary.ff_uuid""",
+SUM(CASE when obtained_marks IS NULL THEN 1 ELSE 0 END) AS count_null_obtained_marks,
+sum(case when id is null or exam_id is null or exam_code is null or student_uid is null or school_id is null or studying_class is null or question_id is null or obtained_marks is nulll  then 1 else 0 end ) as count_of_null_rows
+from periodic_exam_result_staging_1)""",
 "pat_qst_to_agg":"""insert into periodic_exam_school_result(school_id,exam_code,exam_date,grade,academic_year,subject,total_marks,obtained_marks
 ,school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,students_count,students_attended,
 block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,school_category,created_on,updated_on)
@@ -486,6 +493,12 @@ Optional(StrNotNullOrEmpty()),Optional(parseInt()),Optional(StrNotNullOrEmpty())
     }
   }
 ]""",
+"pat_update_processed_record":"""update log_summary as b
+	set processed_records= a.processed_records
+	from (
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+		from log_summary where filename like 'periodic%' group by ff_uuid) as a
+	where a.ff_uuid=b.ff_uuid""",
 "pat_check_same_id_record_periodic_exam_subject_details_qry":"""SELECT b.subject_id,b.subject,b.grade,count(*) num_of_times  from (select subject_id,grade from flowfile
 group by subject_id,grade having count(1)>1) as a, flowfile  b
 where a.subject_id=b.subject_id and
@@ -648,10 +661,10 @@ group by b.school_id,b.grade,b.students_count""",
 "pat_select_columns_periodic_exam_subject_details_qry":"""select subject_id,subject,grade from flowfile""",
 "pat_update_null_count_periodic_exam_subject_details_qry":"""update log_summary
 SET subject_id = pat_null_col.count_null_subject_id,
-grade = pat_null_col.count_null_grade
+grade = pat_null_col.count_null_grade,
+count_of_null_rows = pat_null_col.count_of_null_rows
 from pat_null_col
 where pat_null_col.ff_uuid = log_summary.ff_uuid""",
-"pat_periodic_exam_result_dup_table_name":"""periodic_exam_result_dup""",
 "pat_periodic_result_trans_check_if_null":"""select * from periodic_exam_result_staging_1
 where id  IS NULL
 or exam_id IS NULL
@@ -661,6 +674,7 @@ or school_id IS NULL
 or studying_class IS NULL
 or question_id IS NULL
 or obtained_marks IS NULL""",
+"pat_periodic_exam_result_dup_table_name":"""periodic_exam_result_dup""",
 "pat_exception_grade_school_jolt_spec":"""[
   {
     "operation": "modify-overwrite-beta",
@@ -782,7 +796,8 @@ SUM(CASE when exam_type IS NULL THEN 1 ELSE 0 END) AS count_null_exam_type,
 SUM(CASE when exam_code IS NULL THEN 1 ELSE 0 END) AS count_null_exam_code,
 SUM(CASE when exam_date IS NULL THEN 1 ELSE 0 END) AS count_null_exam_date,
 SUM(CASE when total_questions IS NULL THEN 1 ELSE 0 END) AS count_null_total_questions,
-SUM(CASE when total_marks IS NULL THEN 1 ELSE 0 END) AS count_null_total_marks
+SUM(CASE when total_marks IS NULL THEN 1 ELSE 0 END) AS count_null_total_marks,
+sum(case when exam_id is null or assessment_year is null or medium is null or standard is null or subject_id is null or subject_name is null or exam_type_id is null or exam_type is null or exam_code is null or exam_date is null or total_questions is null or total_marks is null then 1 else 0 end ) as count_of_null_rows
 from flowfile)""",
 "pat_queries_filename":"""pat_queries.json""",
 "periodic_exam_result_stg_2_to_trans_qry":"""
@@ -866,6 +881,15 @@ updated_on=now()""",
       }
     }
 	}]""",
+"pat_meta_jolt_grade_year_month":"""[
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "data": ""
+      }
+    }
+  }]""",
 "pat_exception_cluster_jolt_spec":"""[
   {
     "operation": "shift",
@@ -953,15 +977,6 @@ updated_on=now()""",
   }
 ]
 """,
-"pat_meta_jolt_grade_year_month":"""[
-  {
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "data": ""
-      }
-    }
-  }]""",
 "pat_filter_same_id_record_periodic_exam_mst_qry":"""SELECT  exam_id,assessment_year,medium,standard,division,subject_id,subject_name,exam_type_id,exam_type,exam_code,exam_date,total_questions,
 total_marks from 
 (SELECT  exam_id,assessment_year,medium,standard,division,subject_id,subject_name,exam_type_id,exam_type,exam_code,exam_date,total_questions,
@@ -980,6 +995,25 @@ total_marks,count(*) over (partition by exam_id,assessment_year) as rn from FLOW
 group by question_id having count(1)>1)  as a, flowfile  b
 where a.question_id=b.question_id
 group by b.question_id,b.exam_id,b.indicator_id,b.indicator_title,b."indicator",b.question_title,b.question,b.question_marks""",
+"pat_subject_footer_cluster_jolt_spec":"""[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "cluster_id": ["=toString", null]
+      }
+    }
+	},
+  {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@json_object_agg": "@cluster_id"
+      }
+    }
+	}
+]
+""",
 "pat_exception_grade_district_jolt_spec":"""[
   {
     "operation": "shift",
@@ -1028,25 +1062,6 @@ group by b.question_id,b.exam_id,b.indicator_id,b.indicator_title,b."indicator",
     }
   }
 ]""",
-"pat_subject_footer_cluster_jolt_spec":"""[
-  {
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": {
-        "cluster_id": ["=toString", null]
-      }
-    }
-	},
-  {
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "@json_object_agg": "@cluster_id"
-      }
-    }
-	}
-]
-""",
 "pat_periodic_exam_result_trans_datatype":"""Optional(parseInt()),Optional(parseInt()),Optional(StrNotNullOrEmpty()),Optional(parseLong()),Optional(parseLong()),Optional(parseLong()),Optional(parseInt()),
 Optional(StrNotNullOrEmpty()),Optional(parseInt()),Optional(parseDouble())""",
 "sch_hrchy_rm_special_char_2":"""update school_hierarchy_details set school_name=replace(school_name,']','') where school_name like '%]%';""",
@@ -1100,7 +1115,8 @@ from  periodic_exam_result_staging_1""",
 "periodic_exam_grade_details_datatype":"""Optional(parseLong()),Optional(parseInt()),Optional(parseInt())""",
 "pat_update_null_periodic_exam_grade_details_qry":"""update log_summary
 SET school_id = pat_null_col.count_null_school_id,
-grade = pat_null_col.count_null_grade
+grade = pat_null_col.count_null_grade,
+count_of_null_rows = pat_null_col.count_of_null_rows
 from pat_null_col
 where pat_null_col.ff_uuid = log_summary.ff_uuid""",
 "periodic_exam_subject_details_datatype":"""Optional(parseInt()),StrNotNullOrEmpty(),Optional(parseInt())""",
@@ -1265,7 +1281,15 @@ HAVING  COUNT(*) > 1""",
     }
 	}]
 """,
-
+"pat_insert_periodic_exam_stud_grade_count_qry":"""insert into periodic_exam_stud_grade_count(exam_code,student_uid,school_id,studying_class)
+select distinct exam_code,student_uid,school_id,studying_class
+from  periodic_exam_result_trans
+on conflict(exam_code,student_uid,school_id)
+do update set 	
+exam_code=excluded.exam_code,
+student_uid=excluded.student_uid,
+school_id=excluded.school_id,
+studying_class=excluded.studying_class;""",
 "periodic_exam_subject_details_check_if_null":"""select * from flowfile
 where subject_id is null or grade is null""",
 "pat_periodic_exam_subject_details_dup_table_name":"""pat_subject_details_dup""",
@@ -1497,6 +1521,7 @@ group by b.exam_id,b.assessment_year,b.medium,b.standard,b.division,b.subject_id
     }
   }
 ]""",
+"pat_remove_data_retention_qry":"""WITH deleted AS (delete from periodic_exam_result_staging_1 where exam_code not in (select unnest(string_to_array(regexp_replace(exam_code,'[^a-zA-Z0-9,]','','g'),',')) as exam_code from data_replay_meta where created_on>now()-'5days'::interval and cqube_process_status='SUCCESS' and data_source='periodic_assessment_test') and to_date(substr(exam_code,8,14),'ddmmyyyy')<(now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval)::date IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from periodic_exam_result_staging_1 due to retention policy' else 'PAT staging_1 completed' end as msg FROM deleted;""",
 "pat_mv_pre_query":"""REFRESH MATERIALIZED VIEW stud_count_school_grade_mgmt_year_month;
 REFRESH MATERIALIZED VIEW stud_count_school_mgmt_year_month;
 truncate table student_att_count;
@@ -1684,7 +1709,8 @@ SUM(CASE when question_id IS NULL THEN 1 ELSE 0 END) AS count_null_question_id,
 SUM(CASE when exam_id IS NULL THEN 1 ELSE 0 END) AS count_null_exam_id,
 SUM(CASE when question_title IS NULL THEN 1 ELSE 0 END) AS count_null_question_title,
 SUM(CASE when question IS NULL THEN 1 ELSE 0 END) AS count_null_question,
-SUM(CASE when question_marks IS NULL THEN 1 ELSE 0 END) AS count_null_question_marks
+SUM(CASE when question_marks IS NULL THEN 1 ELSE 0 END) AS count_null_question_marks,
+sum(case when question_id is null or exam_id is null or question_title is null or question is null or question_marks is null then 1 else 0 end ) as count_of_null_rows
 from flowfile)""",
 "pat_periodic_exam_mst_check_if_null":"""select * from flowfile
 where exam_id  IS NULL
@@ -1713,15 +1739,5 @@ and exam_id IS NOT NULL
 and question_title IS NOT NULL
 and question IS NOT NULL
 and question_marks IS NOT NULL""",
-"pat_periodic_exam_subject_details_table_name":"""subject_details""",
-"pat_insert_periodic_exam_stud_grade_count_qry":"""insert into periodic_exam_stud_grade_count(exam_code,student_uid,school_id,studying_class)
-select distinct exam_code,student_uid,school_id,studying_class
-from  periodic_exam_result_trans
-on conflict(exam_code,student_uid,school_id)
-do update set 	
-exam_code=excluded.exam_code,
-student_uid=excluded.student_uid,
-school_id=excluded.school_id,
-studying_class=excluded.studying_class;""",
-"pat_remove_data_retention_qry":"""WITH deleted AS (delete from periodic_exam_result_staging_1 where exam_code not in (select unnest(string_to_array(regexp_replace(exam_code,'[^a-zA-Z0-9,]','','g'),',')) as exam_code from data_replay_meta where created_on>now()-'5days'::interval and cqube_process_status='SUCCESS' and data_source='periodic_assessment_test') and to_date(substr(exam_code,8,14),'ddmmyyyy')<(now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval)::date IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from periodic_exam_result_staging_1 due to retention policy' else 'PAT staging_1 completed' end as msg FROM deleted;"""
+"pat_periodic_exam_subject_details_table_name":"""subject_details"""
 }
