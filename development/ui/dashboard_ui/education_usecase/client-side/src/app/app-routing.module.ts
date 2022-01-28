@@ -5,10 +5,15 @@ import { AuthGuard } from './auth.guard';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ComingSoonComponent } from './common/coming-soon/coming-soon.component';
 import { progressCardComponent } from './reports/progressCard/progress-card/progress-card.component';
+import { SigninComponent } from './signin/signin.component';
+import { environment } from 'src/environments/environment';
 
 var routes: Routes = [
   {
     path: '', redirectTo: `home`, pathMatch: 'full'
+  },
+  { 
+    path: 'signin', component: SigninComponent,
   },
   {
     path: 'home', component: HomePageComponent, canActivate: [AuthGuard], data: ['admin', 'report_viewer', 'all']
@@ -46,6 +51,7 @@ var routes: Routes = [
   },
   // { path: "**", component: PageNotFoundComponent }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],

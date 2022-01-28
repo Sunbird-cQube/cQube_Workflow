@@ -196,6 +196,24 @@ leaflet-right {
 }
 
 /*//////////////////////////////////////////////////////////////////*/
+
+/* Demo logo on maps */
+
+#demoLogoConatiner{
+    position: absolute;
+    width: 300px auto;
+    /* height: 200px; */
+    z-index : 999;
+    font-size: 30px;
+    top: 170px;
+    left: 100px;
+    color:rgba(0, 0, 0, 0.5);
+    -ms-transform: rotate(20deg); /* IE 9 */
+  transform: rotate(-20deg);
+}
+
+
+
 .tooltip-inner{
     font-size: 12px;
     max-width: 350px !important;

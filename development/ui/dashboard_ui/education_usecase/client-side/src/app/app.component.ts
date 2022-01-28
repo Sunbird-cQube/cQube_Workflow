@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { KeycloakSecurityService } from './keycloak-security.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,13 @@ export class AppComponent implements OnDestroy, OnInit {
   }
   constructor(public keycloakService: KeycloakSecurityService) { }
   ngOnInit() {
-    if (this.keycloakService.kc.tokenParsed.realm_access.roles.includes('admin')) {
-      localStorage.setItem('roleName', 'admin');
-    } else if (this.keycloakService.kc.tokenParsed.realm_access.roles.includes('report_viewer')) {
-      localStorage.setItem('roleName', 'report_viewer');
+    if (environment.AUTH_API === 'cQube') {
+      if (this.keycloakService.kc.tokenParsed.realm_access.roles.includes('admin')) {
+        localStorage.setItem('roleName', 'admin');
+      } else if (this.keycloakService.kc.tokenParsed.realm_access.roles.includes('report_viewer')) {
+        localStorage.setItem('roleName', 'report_viewer');
+      }
     }
+
   }
 }

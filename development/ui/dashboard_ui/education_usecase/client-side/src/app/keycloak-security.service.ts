@@ -12,19 +12,31 @@ export class KeycloakSecurityService {
 
   }
   async init() {
-    this.kc = new Keycloak({
-      url: environment.keycloakUrl,
-      realm: environment.realm,
-      clientId: environment.clientId,
-      // credentials: environment.credentials
-      enableBearerInterceptor: true,
-    });
-    await this.kc.init({
-      onLoad: 'login-required',
-      checkLoginIframe: false,
-    });
+    let role = localStorage.getItem('roleName')
+    if (environment.AUTH_API !== 'cQube') {
+      if (role === null) {
+        this.router.navigate(['signin'])
+      }
 
-    localStorage.setItem('user_id', this.kc.tokenParsed.sub);
-    localStorage.setItem('userName', this.kc.tokenParsed['preferred_username']);
+    } else {
+      this.kc = new Keycloak({
+        url: environment.keycloakUrl,
+        realm: environment.realm,
+        clientId: environment.clientId,
+        // credentials: environment.credentials
+        enableBearerInterceptor: true,
+      });
+      await this.kc.init({
+        onLoad: 'login-required',
+        checkLoginIframe: false,
+      });
+
+      localStorage.setItem('user_id', this.kc.tokenParsed.sub);
+      localStorage.setItem('userName', this.kc.tokenParsed['preferred_username']);
+    }
+
+
   }
+
+
 }

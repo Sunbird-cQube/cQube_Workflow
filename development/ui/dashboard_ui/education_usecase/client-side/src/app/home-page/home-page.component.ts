@@ -7,7 +7,7 @@ import { AppServiceComponent } from '../app.service';
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class HomePageComponent implements OnInit {
   adminUrl;
