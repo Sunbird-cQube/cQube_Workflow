@@ -989,7 +989,8 @@ SET attendance_id = stud_att_null_col.count_null_studentattid,
 student_id = stud_att_null_col.count_null_studentid,
 school_id = stud_att_null_col.count_null_schoolid,
 year = stud_att_null_col.count_null_academicyear,
-month = stud_att_null_col.count_null_month
+month = stud_att_null_col.count_null_month,
+count_of_null_rows = stud_att_null_col.count_of_null_rows
 from stud_att_null_col
 where stud_att_null_col.ff_uuid = log_summary.ff_uuid""",
 "stud_att_transform_cluster_wise":"""[{
@@ -1705,7 +1706,8 @@ SUM(CASE when attendance_id IS NULL THEN 1 ELSE 0 END) AS count_null_studentatti
 SUM(CASE when student_id IS NULL THEN 1 ELSE 0 END) AS count_null_studentid,
 SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_schoolid,
 SUM(CASE when year IS NULL THEN 1 ELSE 0 END) AS count_null_AcademicYear,
-SUM(CASE when month IS NULL THEN 1 ELSE 0 END) AS count_null_Month
+SUM(CASE when month IS NULL THEN 1 ELSE 0 END) AS count_null_Month,
+sum(case when attendance_id IS NULL or student_id IS NULL or school_id is NULL or year is NULL or month is NULL then 1 else 0 end) as count_of_null_rows
 from student_attendance_staging_1)""",
 "stud_att_raw_block_jolt_spec":"""[
   {
