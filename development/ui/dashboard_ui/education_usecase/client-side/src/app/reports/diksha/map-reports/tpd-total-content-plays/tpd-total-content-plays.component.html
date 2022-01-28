@@ -5,8 +5,9 @@
         <div class="col-lg-9 col-md-9 col-sm-12">
           <div>
             <p id="dist">
-             Report on GPS of Learning- TPD:
-              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{ state }}</span>
+              Report on GPS of Learning- TPD:
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{
+                state }}</span>
             </p>
           </div>
         </div>
@@ -16,11 +17,10 @@
               <p id="errMsg" class="note"></p>
             </div>
             <div class="col-sm-7">
-              <button  class="btn btn-primary" title="Download Report" id="download1"
-                        (click)="downloadReport()">
-                        Download Report &nbsp;
-                        <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                      </button>
+              <button class="btn btn-primary" title="Download Report" id="download1" (click)="downloadReport()">
+                Download Report &nbsp;
+                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -28,13 +28,14 @@
       <div class="row">
         <div class="col-sm-12">
           <p class="note">
-            <strong> About the dashboard:</strong> The dashboard provides details on the total content plays, total time spent and average time spent for Teacher Professional Development (TPD) by location for
+            <strong> About the dashboard:</strong> The dashboard provides details on the total content plays, total time
+            spent and average time spent for Teacher Professional Development (TPD) by location for
             {{ state }}.
           </p>
         </div>
       </div>
       <div class="row" style="margin-bottom: 10px">
-        <div class="col-sm-12" >
+        <div class="col-sm-12">
           <select id="choose_type" [(ngModel)]="selectedType" (change)="onSelectType(selectedType)">
             <option [value]="selectedType" disabled selected="selected">
               Choose Type
@@ -50,7 +51,7 @@
 
   <div class="row reportContainer">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '82%' : '100%' }" >
+      <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '82%' : '100%' }">
         <div #mapContainer id="tpdMap" class="active" [ngStyle]="{
                 height:
                   height > 1760
@@ -61,18 +62,24 @@
                     ? '77vh'
                     : '70vh'
               }"></div>
+        <div id='demoLogoConatiner'>
+          <span><span>Test Data, Not Representative</span>
+            <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
+        </div>
       </div>
 
-      <div *ngIf="selected == 'absolute'" style="float: right; width: 17%; margin-left: 1%; margin-top: 1%; z-index: 100;">
+      <div *ngIf="selected == 'absolute'"
+        style="float: right; width: 17%; margin-left: 1%; margin-top: 1%; z-index: 100;">
         <h5 id="legend" style="margin-left: 1%">
-         <span *ngIf = "selectedType == 'total_content_plays'">{{legandName}}</span>
-         <span *ngIf = "selectedType == 'avg_time_spent'">{{legandName}} &#40; Minutes &#41;</span>
-         <span *ngIf = "selectedType == 'total_time_spent'" >{{legandName}} &#40; Hours &#41;</span> 
-         <ng-template #legand>
-          {{legandName}} &#40; Minutes &#41;
-        </ng-template>
-          <img *ngIf="valueRange != -1 && valueRange !== undefined" id="resetImg" src="../../../../assets/images/reset.png"
-            alt="reset" title="Reset to all" style="
+          <span *ngIf="selectedType == 'total_content_plays'">{{legandName}}</span>
+          <span *ngIf="selectedType == 'avg_time_spent'">{{legandName}} &#40; Minutes &#41;</span>
+          <span *ngIf="selectedType == 'total_time_spent'">{{legandName}} &#40; Hours &#41;</span>
+          <ng-template #legand>
+            {{legandName}} &#40; Minutes &#41;
+          </ng-template>
+          <img *ngIf="valueRange != -1 && valueRange !== undefined" id="resetImg"
+            src="../../../../assets/images/reset.png" alt="reset" title="Reset to all" style="
               cursor: pointer;
               height: 20px;
               width: 20px;
@@ -92,8 +99,7 @@
         </div>
       </div>
       <div style="float: right; width: 17%; margin-left: 1%; margin-top: 3%; z-index: 100;">
-        <h5  style="margin-left: 1%;  font-weight: 900;" 
-        [ngStyle]="{
+        <h5 style="margin-left: 1%;  font-weight: 900;" [ngStyle]="{
           fontSize:
             height > 1760
               ? '33px'
@@ -102,10 +108,13 @@
               : height > 667 && height < 1160
               ? '16px'
               : '16px'
-        }"> <u>Usage Outside State:-</u></h5> 
-        <span class="legends"  style="text-align: center; font-size: 12px;">Total Content Play: {{otherStateContentPlays}}  {{othersStatePercentage}} </span><br>    
-        <span class="legends"  style="text-align: center; font-size: 12px;">Total Time Spent: {{otherStateTotalTime}} Hrs </span><br>
-        <span  class="legends"style="text-align: center; font-size: 12px;">Avg Time Spent: {{otherStateAvgTime}} Mins</span>
+        }"> <u>Usage Outside State:-</u></h5>
+        <span class="legends" style="text-align: center; font-size: 12px;">Total Content Play:
+          {{otherStateContentPlays}} {{othersStatePercentage}} </span><br>
+        <span class="legends" style="text-align: center; font-size: 12px;">Total Time Spent: {{otherStateTotalTime}} Hrs
+        </span><br>
+        <span class="legends" style="text-align: center; font-size: 12px;">Avg Time Spent: {{otherStateAvgTime}}
+          Mins</span>
       </div>
     </div>
 
