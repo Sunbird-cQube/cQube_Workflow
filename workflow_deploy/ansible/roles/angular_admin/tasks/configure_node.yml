@@ -75,6 +75,8 @@
       AZURE_OUTPUT_STORAGE = "{{ azure_output_container }}"
       AZURE_INPUT_STORAGE = "{{ azure_input_container }}"
       AZURE_EMISSION_STORAGE = "{{ azure_emission_container }}"
+      AUTH_API = "{{ auth_api }}"
+      AUTH_API_KEY = "{{ auth_api_key }}"
 
   when: mode_of_installation != "localhost"
   tags: [ install, update ]
@@ -115,6 +117,9 @@
       LOG= "console"
       LOG_DIRECTORY= ""
       KONG_BASE_URL = "http://localhost:8001/consumers"
+      AUTH_API = "{{ auth_api }}"
+      AUTH_API_KEY = "{{ auth_api_key }}"
+
   when: mode_of_installation == "localhost"
   tags: [ install, update ]
 
