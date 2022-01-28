@@ -14,6 +14,7 @@ import { ExceptionDashboardComponent } from './group-dashboards/exception-dashbo
 import { TelemetryDashboardComponent } from './group-dashboards/telemetry-dashboard/telemetry-dashboard.component';
 import { ManagementSelectorComponent } from 'src/app/common/management-selector/management-selector.component';
 import { FormsModule } from '@angular/forms';
+import { CommonDashboardComponent } from './group-dashboards/common-dashboard/common-dashboard.component';
 
 var dashboardRoutes: Routes = [
   {
@@ -43,6 +44,9 @@ var dashboardRoutes: Routes = [
         path: 'attendance-dashboard', component: AttendanceDashboardComponent
       },
       {
+        path: 'common-dashboard', component: CommonDashboardComponent
+      },
+      {
         path: 'exception-dashboard', component: ExceptionDashboardComponent
       },
       {
@@ -66,7 +70,8 @@ var dashboardRoutes: Routes = [
     AttendanceDashboardComponent,
     ExceptionDashboardComponent,
     TelemetryDashboardComponent,
-    ManagementSelectorComponent
+    ManagementSelectorComponent,
+    CommonDashboardComponent
   ],
   imports: [
     CommonModule,
