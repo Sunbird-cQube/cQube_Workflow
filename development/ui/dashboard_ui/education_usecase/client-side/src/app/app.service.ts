@@ -5,8 +5,9 @@ import { KeycloakSecurityService } from './keycloak-security.service';
 import * as config from '../assets/config.json';
 import { ExportToCsv } from 'export-to-csv';
 import { BehaviorSubject } from 'rxjs';
-import * as json2csv  from 'json2csv';
+import * as json2csv from 'json2csv';
 import { saveAs } from 'file-saver';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export var globalMap;
 declare const $;
@@ -33,9 +34,14 @@ export class AppServiceComponent {
   constructor(
     public http: HttpClient,
     public keyCloakService: KeycloakSecurityService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
-    this.token = keyCloakService.kc.token;
-    localStorage.setItem("token", this.token);
+    if (environment.AUTH_API === 'cQube') {
+      this.token = keyCloakService.kc.token;
+      localStorage.setItem("token", this.token);
+    }
+
     this.dateAndTime = `${("0" + this.date.getDate()).slice(-2)}-${(
       "0" +
       (this.date.getMonth() + 1)
@@ -63,17 +69,38 @@ export class AppServiceComponent {
     return result;
   }
 
+  private tokenExpired(token: string) {
+    let dateNow = new Date();
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+
+    return (Math.round(dateNow.getTime() / 1000)) >= expiry;
+  }
+
   logoutOnTokenExpire() {
-    if (this.keyCloakService.kc.isTokenExpired()) {
-      localStorage.removeItem("management");
-      localStorage.removeItem("category");
-      let options = {
-        redirectUri: environment.appUrl,
-      };
-      sessionStorage.clear();
-      this.keyCloakService.kc.clearToken();
-      this.keyCloakService.kc.logout(options);
+    if (environment.AUTH_API === 'cQube') {
+      if (this.keyCloakService.kc.isTokenExpired()) {
+        localStorage.removeItem("management");
+        localStorage.removeItem("category");
+        let options = {
+          redirectUri: environment.appUrl,
+        };
+        sessionStorage.clear();
+        this.keyCloakService.kc.clearToken();
+        this.keyCloakService.kc.logout(options);
+      }
+    } else  {
+      if (this.tokenExpired(localStorage.getItem('token'))) {
+        localStorage.removeItem("management");
+        localStorage.removeItem("category");
+        sessionStorage.clear();
+        localStorage.removeItem('roleName')
+        localStorage.removeItem('token')
+        this.router.navigate(['/signin'])
+      }
     }
+
+
+
   }
 
   changePassword(data, id) {
@@ -132,10 +159,10 @@ export class AppServiceComponent {
   }
 
 
-  
+
 
   //Download reports....
-  download(fileName, reportData, reportName= "") {
+  download(fileName, reportData, reportName = "") {
     if (reportData.length <= 0) {
       alert("No data found to download");
     } else {
@@ -143,31 +170,31 @@ export class AppServiceComponent {
       var updatedKeys = [];
       keys.map((key) => {
         let actualKey = key;
-      if(reportName == 'pieChart'){
-        if(  key == 'total_content_plays'  ){
-          key = key.concat(`_${this.state}`)
-         }
-         if(  key == 'total_content_plays_percent'  ){
-          key = key.concat(`_${this.state}`)
-         }
-      }
+        if (reportName == 'pieChart') {
+          if (key == 'total_content_plays') {
+            key = key.concat(`_${this.state}`)
+          }
+          if (key == 'total_content_plays_percent') {
+            key = key.concat(`_${this.state}`)
+          }
+        }
 
-      if(reportName == 'overTheYears'){
-        if(  key == 'plays'  ){
-          key = `total_content_plays_${this.state}`
-         }
-      }
-      if(reportName == 'perCapita'){
-        if(  key == 'expected_etb_users'  ){
-           key = `Expected_ETB_Users`
-         }
-         if(  key == 'actual_etb_users'  ){
-           key = `Actual_ETB_Users`
-         }
+        if (reportName == 'overTheYears') {
+          if (key == 'plays') {
+            key = `total_content_plays_${this.state}`
+          }
+        }
+        if (reportName == 'perCapita') {
+          if (key == 'expected_etb_users') {
+            key = `Expected_ETB_Users`
+          }
+          if (key == 'actual_etb_users') {
+            key = `Actual_ETB_Users`
+          }
 
-         
-      }
-       
+
+        }
+
         key = key
           .replace(/_/g, " ")
           .toLowerCase()
@@ -175,82 +202,82 @@ export class AppServiceComponent {
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ");
         key = this.capitalize(key);
-       if(reportName == "pieChart"){
-        if( key == "Object Type"){
-          updatedKeys.unshift({
-            label: key,
-            value: actualKey
-          })
-        }else{
+        if (reportName == "pieChart") {
+          if (key == "Object Type") {
+            updatedKeys.unshift({
+              label: key,
+              value: actualKey
+            })
+          } else {
+            updatedKeys.push({
+              label: key,
+              value: actualKey
+            });
+          }
+
+        } else if (reportName == "gpsOfLearningTpd") {
+          if (key == "District ID") {
+            updatedKeys.splice(0, 0, {
+              label: key,
+              value: actualKey
+            });
+          }
+          else if (key == "District Name") {
+            updatedKeys.splice(1, 0, {
+              label: key,
+              value: actualKey
+            });
+          } else {
+            updatedKeys.push({
+              label: key,
+              value: actualKey
+            });
+          }
+
+        } else if (reportName == "gpsOfLearningEtb") {
+          if (key == "District ID") {
+            updatedKeys.splice(0, 0, {
+              label: key,
+              value: actualKey
+            });
+          }
+          else if (key == "District Name") {
+            updatedKeys.splice(1, 0, {
+              label: key,
+              value: actualKey
+            });
+          } else {
+            updatedKeys.push({
+              label: key,
+              value: actualKey
+            });
+          }
+
+        } else if (reportName == "perCapita") {
+          if (key == "District Name") {
+            updatedKeys.splice(0, 0, {
+              label: key,
+              value: actualKey
+            });
+          } else {
+            updatedKeys.push({
+              label: key,
+              value: actualKey
+            });
+          }
+          if (key === "Expected Etb Users") {
+            return key = "Expected ETB Users"
+          }
+        } else {
           updatedKeys.push({
             label: key,
             value: actualKey
           });
-         }
-       
-       }else if(reportName == "gpsOfLearningTpd"  ){
-         if(key == "District ID"){
-          updatedKeys.splice(0,0,{
-            label: key,
-            value: actualKey
-          });
-         }
-        else  if(key == "District Name"){
-          updatedKeys.splice(1,0,{
-            label: key,
-            value: actualKey
-          });
-         }else{
-          updatedKeys.push({
-            label: key,
-            value: actualKey
-          });
-         }
-       
-      }else if(reportName == "gpsOfLearningEtb"  ){
-        if(key == "District ID"){
-         updatedKeys.splice(0,0,{
-           label: key,
-           value: actualKey
-         });
         }
-       else  if(key == "District Name"){
-         updatedKeys.splice(1,0,{
-           label: key,
-           value: actualKey
-         });
-        }else{
-         updatedKeys.push({
-           label: key,
-           value: actualKey
-         });
-        }
-      
-     }else if(reportName == "perCapita"  ){
-        if(key == "District Name"){
-       updatedKeys.splice(0,0,{
-         label: key,
-         value: actualKey
-       });
-      }else{
-       updatedKeys.push({
-         label: key,
-         value: actualKey
-       });
-      }
-    if(key === "Expected Etb Users"){
-      return key = "Expected ETB Users"
-    }
-   }else{
-       updatedKeys.push({
-         label: key,
-         value: actualKey
-       });
-      }
-       
-     
+
+
       });
-      
+
       // const options = {
       //   fieldSeparator: ",",
       //   quoteStrings: '"',
@@ -266,14 +293,14 @@ export class AppServiceComponent {
       // };
       // const csvExporter = new ExportToCsv(options);
       // csvExporter.generateCsv(reportData);
-      
 
-      const opts = { fields:updatedKeys, output: fileName };
+
+      const opts = { fields: updatedKeys, output: fileName };
       const csv = json2csv.parse(reportData, opts);
       // this.domSanitizer.bypassSecurityTrustUrl('data:text/csv,' + encodeURIComponent(csv));
 
       let file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-      saveAs(file,`${fileName}.csv`);
+      saveAs(file, `${fileName}.csv`);
     }
   }
 
@@ -405,45 +432,45 @@ export class AppServiceComponent {
         ? parseFloat(a) - parseFloat(b)
         : parseFloat(b) - parseFloat(a);
     });
-    
+
     let uniqueItems1 = []
-    
+
     const min = Math.min(...uniqueItems);
     const max = Math.max(...uniqueItems);
-   
-   
+
+
     const ranges = [];
-    
+
     const getRangeArray = (min, max, n) => {
       const delta = (max - min) / n;
       let range1 = min;
       for (let i = 0; i < n; i += 1) {
-          const range2 = range1 + delta;
-          uniqueItems1.push(`${range2}`);
-         
-          range1 = range2;
+        const range2 = range1 + delta;
+        uniqueItems1.push(`${range2}`);
+
+        range1 = range2;
       }
-    
+
       return ranges;
     };
-    
+
     const rangeArrayIn5Parts = getRangeArray(min, max, 5);
-   
-   var colorsArr = ["#d9ef8b","#a6d96a", "#66bd63","#1a9850", "#006837"]
+
+    var colorsArr = ["#d9ef8b", "#a6d96a", "#66bd63", "#1a9850", "#006837"]
     var colors = {};
     uniqueItems.map((a, i) => {
-       if(a <= uniqueItems1[0]){
+      if (a <= uniqueItems1[0]) {
         colors[`${a}`] = colorsArr[0];
-       } else if(a > uniqueItems1[0] && a <= uniqueItems1[1]){
+      } else if (a > uniqueItems1[0] && a <= uniqueItems1[1]) {
         colors[`${a}`] = colorsArr[1];
-       }else if(a > uniqueItems1[1] && a <= uniqueItems1[2]){
+      } else if (a > uniqueItems1[1] && a <= uniqueItems1[2]) {
         colors[`${a}`] = colorsArr[2];
-       }else if(a > uniqueItems1[2] && a <= uniqueItems1[3]){
+      } else if (a > uniqueItems1[2] && a <= uniqueItems1[3]) {
         colors[`${a}`] = colorsArr[3];
-       }else if(a > uniqueItems1[3]){
+      } else if (a > uniqueItems1[3]) {
         colors[`${a}`] = colorsArr[4];
-       }
-     
+      }
+
     });
     return colors;
 
@@ -472,7 +499,7 @@ export class AppServiceComponent {
   }
 
   colorGredientForDikshaMaps(data, filter, colors) {
-    
+
     let keys = Object.keys(colors);
     let setColor = "";
     for (let i = 0; i < keys.length; i++) {
@@ -608,11 +635,11 @@ export class AppServiceComponent {
           ? ["#00FF00"]
           : ["red"]
         : this.exceptionColor().generateGradient(
-            "#FF0000",
-            "#00FF00",
-            uniqueItems.length,
-            "rgb"
-          );
+          "#FF0000",
+          "#00FF00",
+          uniqueItems.length,
+          "rgb"
+        );
     var colors = {};
     uniqueItems.map((a, i) => {
       colors[`${a}`] = colorsArr[i];
@@ -654,7 +681,8 @@ export class AppServiceComponent {
       seconds: ("0" + this.edate.getSeconds()).slice(-2),
     };
     obj = {
-      uid: this.keyCloakService.kc.tokenParsed.sub,
+
+      uid: environment.AUTH_API === 'cQube' ? this.keyCloakService.kc.tokenParsed.sub : localStorage.getItem('userId'),
       eventType: event,
       reportId: reportId,
       time:
@@ -674,7 +702,7 @@ export class AppServiceComponent {
     this.telemetryData.push(obj);
 
     this.telemetry(dateObj).subscribe(
-      (res) => {},
+      (res) => { },
       (err) => {
         console.log(err);
       }
@@ -715,10 +743,10 @@ export class AppServiceComponent {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return result
         ? [
-            parseInt(result[1], 16),
-            parseInt(result[2], 16),
-            parseInt(result[3], 16),
-          ]
+          parseInt(result[1], 16),
+          parseInt(result[2], 16),
+          parseInt(result[3], 16),
+        ]
         : null;
     }
 

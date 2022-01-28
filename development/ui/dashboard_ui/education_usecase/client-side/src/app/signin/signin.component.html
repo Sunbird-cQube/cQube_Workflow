@@ -1,0 +1,128 @@
+<div class="container-fluid background" id="background">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="logo">
+                <img src="../../assets/img/GroupLogo.svg" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="logoText">
+                        <p>cQube</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card-pf">
+                        <div id="kc-content-wrapper">
+                           
+                            <div *ngIf="wrongCredintional" class="alert alert-error d-flex">
+                                <span class="pficon fa fa-times-circle fa-2x text-danger"></span>
+
+                                <!--<span class="${properties.kcFeedbackWarningIcon!}"></span>
+
+                                <span class="${properties.kcFeedbackErrorIcon!}"></span>
+                                <span class="${properties.kcFeedbackInfoIcon!}"></span> -->
+                                <span class="kc-feedback-text ml-2">{{errorMsg}}</span>
+                            </div>
+
+                            <div>
+                                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off"
+                                    id="kc-form-login1" class="form">
+                                    <label>User ID </label><br />
+                                    <input id="username1" (input)="myFun($event)" class="login-field"
+                                        formControlName="username" placeholder="Enter your user ID" type="text"
+                                        name="username" tabindex="1">
+                                    <br /><br />
+                                    <label>Password</label><br />
+                                    <input id="password1" class="login-field" (input)="myFun($event); onChange($event)"
+                                        formControlName="password" placeholder="Enter your password"
+                                        [type]="togglePassword ? 'text' : 'password'" name="password" tabindex="2">
+
+                                    <i class="fa fa-eye" id="togglePassword" (click)="test($event)"
+                                        style="display : none"></i>
+                                    <br /><br />
+                                    <input class="submit" [disabled]="!loginForm.valid" type="submit" id="login"
+                                        value="Login" tabindex="3"
+                                        [style.background-color]="loginForm.valid ? '#31d08c' : ''"
+                                        [style.color]="loginForm.valid ? '#fff' : ''">
+                                    <img src="../../assets/img/Shape1.svg" aria-hidden="true" id="signinSymbol">
+                                    <img src="../../assets/img/Shape.svg" aria-hidden="true" id="signinSymbolWithInput">
+                                </form>
+                            </div>
+
+                          
+                        </div>
+                        <div id="otp-container" style="display: none;">
+                            <ol id="kc-totp-settings">
+                                <li>
+                                    <p>Install one of the following applications on your mobile</p>
+
+                                    <ul id="kc-totp-supported-apps">
+                                        <li>FreeOTP</li>
+                                        <li>Google Authenticator</li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <p>Open the application and scan the barcode</p>
+                                    <!-- <img id="kc-totp-secret-qr-code"
+                                        src="data:image/png;base64,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"
+                                        alt="Figure: Barcode"><br /> -->
+                                    <!-- <img id="kc-totp-secret-qr-code" [src]='otpUrl.dataURL' alt="Figure: Barcode"><br /> -->
+                                    <!-- <p><a href="http://localhost:8080/auth/realms/cQube/login-actions/required-action?execution=CONFIGURE_TOTP&amp;client_id=cQube_Application&amp;tab_id=G2yxB7g2WDM&amp;mode=manual"
+                                            id="mode-manual">Unable to scan?</a></p> -->
+                                </li>
+                                <li>
+                                    <p>Enter the one-time code provided by the application and click Submit to
+                                        finish
+                                        the setup</p>
+                                </li>
+                            </ol>
+
+                            <form [formGroup]="otpForm" (ngSubmit)="verifyQRCOde()" class="form-horizontal"
+                                id="kc-totp-settings-form">
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <input type="text" id="totp" formControlName="otp" name="totp"
+                                            autocomplete="off" class="form-control" />
+                                    </div>
+
+                                    <input type="hidden" id="totpSecret" formControlName="secret" name="totpSecret"
+                                        [ngModel]="tempSecret" />
+
+                                </div>
+
+                                <input class="btn btn-primary btn-block btn-lg" type="submit" value="Submit" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="infoText" style="color: white; padding: 0px 20px 0px 0px;">
+                        <h6
+                            style="color:white; font-size: 16px; font-weight: bold;line-height:1.4em; margin-top: 20px;">
+                            Utilizing
+                            data to drive action on the ground by enabling the
+                            ability to see, solve and act</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <div class="backImg">
+                <img src="./../../assets/img/back1.png">
+            </div>
+
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>

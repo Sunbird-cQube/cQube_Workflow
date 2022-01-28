@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,15 +36,15 @@ import { SatTrendsChartComponent } from './reports/student-performance/sat-trend
 import { apiKeys } from './apis.config';
 import { progressCardComponent } from './reports/progressCard/progress-card/progress-card.component';
 import { ContentUsagePieChartComponent } from './reports/diksha/content-usage-pie-chart/content-usage-pie-chart.component';
-import { MatFormFieldModule} from '@angular/material/form-field';
-import { MatSelectModule} from '@angular/material/select'; 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SigninComponent } from './signin/signin.component';
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
 }
-
 
 @NgModule({
   declarations: [
@@ -65,6 +65,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     PageNotFoundComponent,
     SatTrendsChartComponent,
     ContentUsagePieChartComponent,
+    SigninComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +78,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     MatTableModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     ChartsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
