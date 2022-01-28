@@ -13,7 +13,7 @@ export class KeycloakSecurityService {
   }
   async init() {
     let role = localStorage.getItem('roleName')
-    if (environment.AUTH_API !== 'cQube') {
+    if (environment.auth_api !== 'cQube') {
       if (role === null) {
         this.router.navigate(['signin'])
       }

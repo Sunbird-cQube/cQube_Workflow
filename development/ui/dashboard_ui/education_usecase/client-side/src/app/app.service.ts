@@ -37,7 +37,7 @@ export class AppServiceComponent {
     private route: ActivatedRoute,
     private router: Router,
   ) {
-    if (environment.AUTH_API === 'cQube') {
+    if (environment.auth_api === 'cQube') {
       this.token = keyCloakService.kc.token;
       localStorage.setItem("token", this.token);
     }
@@ -77,7 +77,7 @@ export class AppServiceComponent {
   }
 
   logoutOnTokenExpire() {
-    if (environment.AUTH_API === 'cQube') {
+    if (environment.auth_api === 'cQube') {
       if (this.keyCloakService.kc.isTokenExpired()) {
         localStorage.removeItem("management");
         localStorage.removeItem("category");
@@ -88,7 +88,7 @@ export class AppServiceComponent {
         this.keyCloakService.kc.clearToken();
         this.keyCloakService.kc.logout(options);
       }
-    } else  {
+    } else {
       if (this.tokenExpired(localStorage.getItem('token'))) {
         localStorage.removeItem("management");
         localStorage.removeItem("category");
@@ -682,7 +682,7 @@ export class AppServiceComponent {
     };
     obj = {
 
-      uid: environment.AUTH_API === 'cQube' ? this.keyCloakService.kc.tokenParsed.sub : localStorage.getItem('userId'),
+      uid: environment.auth_api === 'cQube' ? this.keyCloakService.kc.tokenParsed.sub : localStorage.getItem('userId'),
       eventType: event,
       reportId: reportId,
       time:
