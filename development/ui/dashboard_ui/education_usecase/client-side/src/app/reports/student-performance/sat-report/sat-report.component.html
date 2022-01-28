@@ -113,7 +113,7 @@
               <ng-template #other_content> {{grade.grade}}</ng-template>
             </option>
           </select>
-          
+
           <select [hidden]="subjectHidden" id="subjects" [(ngModel)]="subject" (change)="onSubjectSelect(subject)">
             <option [value]="subject" disabled selected="selected">
               Choose a Subject
@@ -177,6 +177,11 @@
                 ? '74vh'
                 : '69vh'
           }"></div>
+        <div id='demoLogoConatiner'>
+          <span><span>Test Data, Not Representative</span>
+            <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
+        </div>
       </div>
 
       <!-- google map =============================-->
