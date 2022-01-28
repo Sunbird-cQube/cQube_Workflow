@@ -14,10 +14,10 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  
+
   currentDashboardGroup: any = "/dashboard/infrastructure-dashboard";
   edate: Date;
-
+  public hideChangePass: boolean = environment.AUTH_API !== 'cQube' ? false : true;
   sidenavMode: any = 'side';
 
   @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   showBackBtn: boolean = false;
 
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
-    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice:ThemeService) {
+    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -105,14 +105,21 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
-    this.clearSessionStorage();
-    let options = {
-      redirectUri: environment.appUrl
+    if (environment.AUTH_API === 'cQube') {
+      localStorage.clear();
+      this.clearSessionStorage();
+      let options = {
+        redirectUri: environment.appUrl
+      }
+      sessionStorage.clear();
+      this.keyCloakService.kc.clearToken();
+      this.keyCloakService.kc.logout(options);
+    } else {
+      localStorage.clear();
+      this.clearSessionStorage();
+      this.router.navigate(['/signin'])
     }
-    sessionStorage.clear();
-    this.keyCloakService.kc.clearToken();
-    this.keyCloakService.kc.logout(options);
+
   }
 
 

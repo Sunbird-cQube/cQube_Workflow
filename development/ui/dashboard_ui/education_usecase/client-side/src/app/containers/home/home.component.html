@@ -121,14 +121,18 @@
                           (click)="logout()">
                           <span class="btn-label p-3 log-out"><img src="assets/images/logout.svg"
                               alt=""></span>Logout</button>
-                        <div *ngIf="role != 'admin'" id="chPass"><a [routerLink]="['/user/changePassword']"
-                            class="text-decoration-underline" style="text-decoration: underline !important;">Change
-                            Password</a></div>
 
+                        <div *ngIf="hideChangePass">
+                          <div *ngIf="role != 'admin'" id="chPass"><a [routerLink]="['/user/changePassword']"
+                              class="text-decoration-underline" style="text-decoration: underline !important;">Change
+                              Password</a></div>
+
+                        </div>
                       </div>
+
                       <div class="row versions">
-                        <span class="col-sm-6" style="opacity:0.5">Version : 3.3</span>
-                        <span class="col-sm-6" style="opacity:0.5">Date : 14/01/2022</span>
+                        <span class="col-sm-6" style="opacity:0.5">Version : 3.4</span>
+                        <span class="col-sm-6" style="opacity:0.5">Date : 28/01/2022</span>
                       </div>
                     </div>
                   </div>

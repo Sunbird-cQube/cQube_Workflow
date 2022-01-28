@@ -10,6 +10,7 @@ dotenv.config();
 
 var host = process.env.KEYCLOAK_HOST;
 var realm = process.env.KEYCLOAK_REALM;
+var authType = process.env.AUTH_API
 
 router.post('/', auth.authController, async function (req, res) {
     try {
@@ -137,7 +138,7 @@ router.post('/setRoles', auth.authController, async (req, res) => {
 });
 
 router.get('/roles', auth.authController, async (req, res) => {
-    
+
     try {
         logger.info('---get roles api ---');
         var usersUrl = `${host}/auth/admin/realms/${realm}/roles`;
@@ -145,16 +146,21 @@ router.get('/roles', auth.authController, async (req, res) => {
             "Content-Type": "application/json",
             "Authorization": req.headers.token
         }
-        
+
         axios.get(usersUrl, { headers: headers }).then(resp => {
 
             var roles = resp.data.filter(role => {
-                return role.name != 'uma_authorization' && role.name != 'offline_access'
+                if (authType === 'cQube') {
+                    return role.name != 'uma_authorization' && role.name != 'offline_access'
+                } else {
+                    return role.name != 'uma_authorization' && role.name != 'offline_access' && role.name != 'report_viewer'
+                }
+
             })
             logger.info('---get roles api response sent ---');
             res.status(201).json({ roles: roles });
         }).catch(error => {
-           
+
             res.status(409).json({ errMsg: error.response.data.errorMessage });
         })
     } catch (e) {
