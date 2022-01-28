@@ -13,7 +13,7 @@ export class AppComponent implements OnDestroy, OnInit {
   }
   constructor(public keycloakService: KeycloakSecurityService) { }
   ngOnInit() {
-    if (environment.AUTH_API === 'cQube') {
+    if (environment.auth_api === 'cQube') {
       if (this.keycloakService.kc.tokenParsed.realm_access.roles.includes('admin')) {
         localStorage.setItem('roleName', 'admin');
       } else if (this.keycloakService.kc.tokenParsed.realm_access.roles.includes('report_viewer')) {
