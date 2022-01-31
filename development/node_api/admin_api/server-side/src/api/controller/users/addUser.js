@@ -150,7 +150,7 @@ router.get('/roles', auth.authController, async (req, res) => {
         axios.get(usersUrl, { headers: headers }).then(resp => {
 
             var roles = resp.data.filter(role => {
-                if (authType === 'cQube') {
+                if (authType === 'cqube') {
                     return role.name != 'uma_authorization' && role.name != 'offline_access'
                 } else {
                     return role.name != 'uma_authorization' && role.name != 'offline_access' && role.name != 'report_viewer'

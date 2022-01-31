@@ -13,7 +13,7 @@ export class KeycloakSecurityService {
   }
   async init() {
     let role = localStorage.getItem('roleName')
-    if (environment.auth_api !== 'cQube') {
+    if (environment.auth_api !== 'cqube') {
       if (role === null) {
         this.router.navigate(['signin'])
       }
@@ -30,7 +30,7 @@ export class KeycloakSecurityService {
         onLoad: 'login-required',
         checkLoginIframe: false,
       });
-
+      console.log('kc', this.kc)
       localStorage.setItem('user_id', this.kc.tokenParsed.sub);
       localStorage.setItem('userName', this.kc.tokenParsed['preferred_username']);
     }

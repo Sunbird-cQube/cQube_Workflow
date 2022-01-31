@@ -17,7 +17,7 @@ export const environment = {
   mapName: "mapmyindia",
   progressCardConfig: ['33', '33-60', '60-75', '75'],
   report_viewer_config_otp: false,
-  auth_api: 'state'
+  auth_api: 'cqube'
 
 };
 

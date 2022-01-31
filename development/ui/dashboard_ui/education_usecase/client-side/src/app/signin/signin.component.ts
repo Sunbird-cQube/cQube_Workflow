@@ -25,6 +25,7 @@ export class SigninComponent implements OnInit {
     public service: LoginService) { }
 
   ngOnInit(): void {
+    
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -87,16 +88,32 @@ export class SigninComponent implements OnInit {
     // })
 
     this.service.login(this.loginForm.value).subscribe(res => {
-      let role = res['role'];
-      let token = res['token'];
-      let username = res['username'];
-      let userId = res['userId']
+      console.log('res', res)
+      let response = res
+      if (response['role'] === 'report_viewer') {
+        let role = res['role'];
+        let token = res['token'];
+        let username = res['username'];
+        let userId = res['userId']
 
-      localStorage.setItem('roleName', role);
-      localStorage.setItem('token', token);
-      localStorage.setItem('userName', username);
-      localStorage.setItem('userid', userId)
-      this.router.navigate(['/dashboard/infrastructure-dashboard'])
+        localStorage.setItem('roleName', role);
+        localStorage.setItem('token', token);
+        localStorage.setItem('userName', username);
+        localStorage.setItem('userid', userId)
+        this.router.navigate(['/dashboard/infrastructure-dashboard'])
+      } else if (response['role'] === 'admin') {
+        console.log('adminnnn')
+        let role = res['role'];
+        let token = res['token'];
+        let username = res['username'];
+        let userId = res['userId']
+        localStorage.setItem('roleName', role);
+        localStorage.setItem('token', token);
+        localStorage.setItem('userName', username);
+        localStorage.setItem('userid', userId)
+        this.router.navigate(['home'])
+      }
+
 
     }, err => {
       this.wrongCredintional = true;
