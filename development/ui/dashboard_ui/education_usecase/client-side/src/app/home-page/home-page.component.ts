@@ -3,6 +3,7 @@ import { KeycloakSecurityService } from '../keycloak-security.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../app.service';
+import { CookieService } from 'ngx-cookie-service'
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -11,14 +12,18 @@ import { AppServiceComponent } from '../app.service';
 })
 export class HomePageComponent implements OnInit {
   adminUrl;
-  adminDashUrl
-  constructor(public keycloakService: KeycloakSecurityService, public router: Router, public service: AppServiceComponent) {
+  adminDashUrl;
+  role;
+  storage
+  hideAdmin
+  constructor(public keycloakService: KeycloakSecurityService, public router: Router, public service: AppServiceComponent, public cookieService: CookieService) {
     service.logoutOnTokenExpire();
   }
 
   ngOnInit(): void {
     this.adminUrl = environment.adminUrl;
-
+    this.storage = window.localStorage;
+    this.hideAdmin = environment.auth_api === 'cqube' ? true : false;
     if (localStorage.getItem('roleName') != 'admin') {
       this.router.navigate(['/home']);
     }
@@ -49,6 +54,10 @@ export class HomePageComponent implements OnInit {
         this.keycloakService.kc.clearToken();
         this.keycloakService.kc.logout(options);
       }
+    } else {
+      this.role = localStorage.getItem('role')
+      this.router.navigate(['/home']);
+
     }
   }
 
@@ -66,5 +75,14 @@ export class HomePageComponent implements OnInit {
     }
   }
 
+
+  test() {
+    this.cookieService.set('userid', localStorage.getItem('userid'))
+    this.cookieService.set('roleName', localStorage.getItem('roleName'))
+    this.cookieService.set('userName', localStorage.getItem('userName'))
+    this.cookieService.set('token', localStorage.getItem('token'))
+    window.location.href = `${environment.adminUrl}/#/admin_dashboard`;
+
+  }
 
 }
