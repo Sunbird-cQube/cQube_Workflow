@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment'
 import { KeycloakSecurityService } from '../keycloak-security.service';
-
+import { NavigationEnd, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,7 +13,7 @@ export class HomeComponent implements OnInit {
   public storageType = environment.storageType;
   public listFileName = ""
   logoutVar;
-  constructor(public keyCloakService: KeycloakSecurityService) {
+  constructor(public keyCloakService: KeycloakSecurityService, public router: Router, public cookieService: CookieService) {
     this.listFileName = this.storageType == 's3' ? "Download \n S3 Files" : "List \n Local Files"
 
   }
@@ -38,12 +39,19 @@ export class HomeComponent implements OnInit {
     }
   }
   logout() {
-    localStorage.clear();
-    let options = {
-      redirectUri: `${this.appUrl}`
+    if (environment.auth_api === 'cqube') {
+      localStorage.clear();
+      let options = {
+        redirectUri: `${this.appUrl}`
+      }
+      this.keyCloakService.kc.clearToken();
+      this.keyCloakService.kc.logout(options);
+    } else {
+      localStorage.clear();
+      this.cookieService.deleteAll();
+      window.location.href = `${environment.appUrl}/#/signin`;
     }
-    this.keyCloakService.kc.clearToken();
-    this.keyCloakService.kc.logout(options);
+
   }
 
   back() {

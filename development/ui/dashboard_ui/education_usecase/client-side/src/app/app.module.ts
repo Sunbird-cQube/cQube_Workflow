@@ -41,6 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SigninComponent } from './signin/signin.component';
+import { CookieService } from 'ngx-cookie-service'
 
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
@@ -108,6 +109,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
       multi: true
     },
     AuthGuard,
+    CookieService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
