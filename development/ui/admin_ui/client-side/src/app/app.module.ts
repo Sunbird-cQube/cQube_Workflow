@@ -26,7 +26,7 @@ import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DataReplayComponent } from './components/data-replay/data-replay.component';
 import { MultiSelectComponent } from './components/data-replay/multi-select/multi-select.component';
 import { DikshaConfigComponent } from './components/diksha-config/diksha-config.component';
-
+import { CookieService } from 'ngx-cookie-service';
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
 }
@@ -61,7 +61,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     BrowserAnimationsModule,
     NoopAnimationsModule,
     BsDatepickerModule.forRoot(),
-    DatepickerModule.forRoot() 
+    DatepickerModule.forRoot()
   ],
   providers: [
     {
@@ -74,7 +74,8 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
