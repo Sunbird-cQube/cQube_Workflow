@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 
   currentDashboardGroup: any = "/dashboard/infrastructure-dashboard";
   edate: Date;
-  public hideChangePass: boolean = environment.auth_api !== 'cQube' ? false : true;
+  public hideChangePass: boolean = environment.auth_api !== 'cqube' ? false : true;
   sidenavMode: any = 'side';
 
   @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    if (environment.auth_api === 'cQube') {
+    if (environment.auth_api === 'cqube') {
       localStorage.clear();
       this.clearSessionStorage();
       let options = {

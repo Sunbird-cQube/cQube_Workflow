@@ -5,12 +5,12 @@ dotenv.config();
 
 const keycloakHost = process.env.KEYCLOAK_HOST;
 const realmName = process.env.KEYCLOAK_REALM;
-const authType = process.env.authURL
+const authType = process.env.AUTH_API
 // check each request for a valid bearer token
 exports.authController = (req, res, next) => {
     // assumes bearer token is passed as an authorization header
     if (req.headers.token) {
-        if (authType === 'cQube') {
+        if (authType === 'cqube') {
             // configure the request to your keycloak server
             const options = {
                 method: 'GET',
