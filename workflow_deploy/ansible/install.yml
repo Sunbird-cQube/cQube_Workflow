@@ -44,6 +44,10 @@
             tags: install
             when: pat
 
+          - role: datascience
+            tags: install
+            when: datascience
+
           - role: teacher_attendance
             tags: install
             when: teacher_attendance

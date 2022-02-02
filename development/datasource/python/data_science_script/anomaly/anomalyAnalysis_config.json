@@ -1,0 +1,9 @@
+{
+    "ConfigDetails": {
+        "maximum_score": "5",
+        "minimum_score": "0",
+        "exam_result_table": "periodic_exam_result_trans",
+        "school_hierarchy_table": "school_hierarchy_details",
+        "school_geo_master_table": "school_geo_master"
+    }
+}

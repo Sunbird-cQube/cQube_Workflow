@@ -46,6 +46,10 @@
             tags: update
             when: pat
 
+          - role: datascience
+            tags: update
+            when: datascience
+
           - role: teacher_attendance
             tags: update
             when: teacher_attendance

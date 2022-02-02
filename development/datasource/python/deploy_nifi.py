@@ -335,6 +335,7 @@ if __name__ == "__main__":
         'udise_transformer': ['cQube_s3_udise', 'postgres_udise','cQube_azure_udise'],
         'composite_transformer': ['cQube_s3_composite', 'postgres_composite'],
         'pat_transformer': ['cQube_s3_pat', 'postgres_pat','cQube_azure_pat'],
+        'datascience_transformer': ['cQube_s3_datascience', 'postgres_datascience'],
         'data_replay_transformer': ['cQube_s3_data_replay', 'postgres_data_replay','cQube_azure_data_replay'],
         'progress_card_transformer': ['postgres_progress_card']
     }
