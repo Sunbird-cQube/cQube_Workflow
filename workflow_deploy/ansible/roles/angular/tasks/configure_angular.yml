@@ -46,6 +46,15 @@
     mode: "0644"
   tags: [ install, update ]
 
+- name: copying maps script to googleMap
+  copy:
+    src: "../../development/ui/dashboard_ui/maps/{{state_code}}.json" 
+    dest: "../../development/ui/dashboard_ui/{{usecase_name}}/client-side/src/assets/googleMap.json"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+    mode: "0644"
+  tags: [ install, update ]
+
 - name: copying client-side script
   shell: "cp -R ../../development/ui/dashboard_ui/{{usecase_name}}/client-side/* {{base_dir}}/cqube/dashboard/client_side"
   tags: [ install, update ]

@@ -36,6 +36,10 @@
 - name: Copy pat.txt files
   shell: cp -R ../../development/datasource/pat/nifi/pat_parameters.txt {{ base_dir }}/cqube/emission_app/python/
   tags: [ install, update ]
+  
+- name: Copy datascience.txt files
+  shell: cp -R ../../development/datasource/datascience/nifi/datascience_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  tags: [ install, update ]
 
 - name: Copy composite.txt files
   shell: cp -R ../../development/datasource/composite/nifi/composite_parameters.txt {{ base_dir }}/cqube/emission_app/python/

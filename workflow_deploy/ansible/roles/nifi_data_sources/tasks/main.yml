@@ -33,6 +33,10 @@
   when: nifi_pat
   tags: [ install, update ]
 
+- include_tasks: nifi_datascience.yml
+  when: nifi_datascience
+  tags: [ install, update ]
+
 - include_tasks: nifi_composite.yml
   when: nifi_composite
   tags: [ install, update ]

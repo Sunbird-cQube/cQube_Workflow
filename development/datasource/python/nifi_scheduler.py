@@ -26,7 +26,8 @@ def schedule_processor_groups(pg_list):
 'semester_transformer':{"state":"RUNNING","time": {"hours": "22", "minutes": "10"}, "stopTime": 2},
 'diksha_transformer':{"state":"RUNNING","time": {"hours": "00", "minutes": "20"}, "stopTime": 4},
 'composite_transformer':{"state":"RUNNING","time": {"hours": "05", "minutes": "40"}, "stopTime": 1},
-'progress_card_transformer':{"state":"RUNNING","time": {"hours": "06", "minutes": "50"}, "stopTime": 1}
+'progress_card_transformer':{"state":"RUNNING","time": {"hours": "06", "minutes": "50"}, "stopTime": 1},
+'datascience_transformer':{"state":"RUNNING","time": {"hours": "08", "minutes": "00"}, "stopTime": 1}
 }
 	try:
 		for x,y in pg_list.items():

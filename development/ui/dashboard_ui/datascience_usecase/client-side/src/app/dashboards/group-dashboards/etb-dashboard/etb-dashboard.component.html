@@ -1,0 +1,184 @@
+<div class="main-panel" style="padding-top: 10px !important;">
+    <!-- <app-management-selector [reportGroup]="reportGroup">
+    </app-management-selector> -->
+
+    <div class="report-cards">
+        <div class="row">
+            <div *ngIf="diksha_column" class="col-sm-12 col-md-6 col-xl-4">
+                <span id="ut" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
+                    (click)="fetchTelemetry($event,'ut')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src=" ../../assets/images/ic_equalizer.svg" alt=""></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="dscViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{dscViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>{{reportHeading.UsagebyUserProfile}} </h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.dscTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="ut" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/usage-by-textbook']"
+                    (click)="fetchTelemetry($event,'ut')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><img class="card-icon" src=" ../../assets/images/ic_equalizer.svg" alt=""></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="utViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{utViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>{{reportHeading.UsagebyTextbook}} </h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.utTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="utc"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/usage-by-textbook-content']"
+                    (click)="fetchTelemetry($event,'utc')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-table text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="utcViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{utcViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>{{reportHeading.UsageByTextbookContent}}</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.utcTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="utc"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/etb-total-content-plays']"
+                    (click)="fetchTelemetry($event,'utc')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="utcViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{utcViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6> {{reportHeading.etbGpsOfLearning}}</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.gpsOfLearningETBTooltip}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="utc"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/etb-per-capita']"
+                    (click)="fetchTelemetry($event,'utc')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="utcViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{utcViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>{{reportHeading.Usagepercapita}}</h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.usagePerCapita}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <span id="utc"
+                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/total-content-play']"
+                    (click)="fetchTelemetry($event,'utc')" class="text-decoration-none">
+                    <div class="card my-3 bg-header">
+                        <div class="card-header border-0 bg-transparent">
+                            <div class="card-header-left">
+                                <ul class="list-unstyled card-option mb-0">
+                                    <li><i class="fa fa-area-chart text-white" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card-head-text">
+                                <p *ngIf="utcViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                        :</strong>
+                                    {{utcViews}}</p>
+                                <ng-template #other_content>
+                                    <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light-grad-pink d-flex align-items-center">
+                            <h6>{{reportHeading.heartbeatOfTheNationLearning}} </h6>
+                        </div>
+                        <div class="card-footer bg-footer border-0">
+                            <p class="mb-0">{{toolTip.heartbeatOfTheNationLearning}}</p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+</div>

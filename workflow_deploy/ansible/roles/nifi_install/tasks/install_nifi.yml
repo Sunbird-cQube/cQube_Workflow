@@ -103,6 +103,15 @@
     - pat_transformer.xml
   tags: [ install, update ]
 
+- name: Copying the datascience nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/datascience/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - datascience_transformer.xml
+  tags: [ install, update ]
+
 - name: Copying the composite nifi templetes to nifi directory
   copy:
     src: ../../development/datasource/composite/nifi/{{ item }}

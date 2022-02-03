@@ -172,6 +172,8 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                               {'OUTPUT_PORT': 'pat_s3_save_output_empty_files_success_output_port','INPUT_PORT': 'pat_s3_save_output_empty_files_success_input_port'},
                                               {'OUTPUT_PORT': 'pat_save_output_s3_success_output_port','INPUT_PORT': 'pat_save_output_s3_sucess_input_port'}
                                              ],
+                            'datascience_transformer': [{'OUTPUT_PORT': 'pat_save_output_s3_success_output_port','INPUT_PORT': 'datascience_input'}
+                                              ],
                           'sat_transformer': [
                                               {'OUTPUT_PORT': 'sat_wait_file_success_output', 'INPUT_PORT': 'sat_wait_file_success_input'},
                                               {'OUTPUT_PORT': 'sat_files','INPUT_PORT': 'sat_input'},

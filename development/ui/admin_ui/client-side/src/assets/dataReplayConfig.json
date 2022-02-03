@@ -58,5 +58,10 @@
         "template": "nifi_composite",
         "status": false,
         "sourceName": "Composite"
+    },
+    {
+        "template": "nifi_datascience",
+        "status": true,
+        "sourceName": "Datascience"
     }
 ]
