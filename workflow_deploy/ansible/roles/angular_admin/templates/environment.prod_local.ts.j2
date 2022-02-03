@@ -7,5 +7,6 @@ export const environment = {
   realm: "{{ realm_name }}",
   clientId: "{{ admin_app_client_id }}",
   storageType: "{{ storage_type }}",
-  report_viewer_config_otp: {% if report_viewer_config_otp == True %}true{% endif %}{% if report_viewer_config_otp == False %}false{% endif %}
+  report_viewer_config_otp: {% if report_viewer_config_otp == True %}true{% endif %}{% if report_viewer_config_otp == False %}false{% endif %},
+  auth_api: "{{ auth_api }}"
 };
