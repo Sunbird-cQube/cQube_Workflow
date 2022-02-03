@@ -4,11 +4,11 @@ dotenv.config();
 const { Pool, Client } = require("pg");
 
 const pool = new Pool({
-    user: "cqube_db_user",
+    user: "",
     host: "localhost",
     database: "cqube_db",
-    password: "Tibil@123",
-    port: "5434"
+    password: "",
+    port: "5432"
 });
 
 
