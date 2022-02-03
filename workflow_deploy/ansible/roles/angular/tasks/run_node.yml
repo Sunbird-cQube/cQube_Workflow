@@ -27,22 +27,22 @@
 - name: Copying the config.js file to keycloak_otp directory
   template:
     src: config.js.j2
-	dest: "{{ base_dir }}/cqube/dashboard/server-side/src/api/controller/users/keycloak-otp/config.js"
-	owner: "{{ system_user_name }}"
-	group: "{{ system_user_name }}"
-	mode: "0644"
+    dest: "{{ base_dir }}/cqube/dashboard/server_side/src/api/controller/users/keycloak-otp/config.js"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+    mode: "0644"
   tags: [ install, update ]
 
 - name: Running the node script.js
   shell: node cqube.js
   args:
-    chdir: "{{ base_dir }}/cqube/dashboard/server-side/src/api/controller/users/keycloak-otp"
+    chdir: "{{ base_dir }}/cqube/dashboard/server_side/src/api/controller/users/keycloak-otp"
   when: auth_api == "cqube"
   tags: [ install, update ]
 
 - name: Running the node script.js
   shell: node state.js 
   args:
-    chdir: "{{ base_dir }}/cqube/dashboard/server-side/src/api/controller/users/keycloak-otp"
+    chdir: "{{ base_dir }}/cqube/dashboard/server_side/src/api/controller/users/keycloak-otp"
   when: auth_api != "cqube"
   tags: [ install, update ]
