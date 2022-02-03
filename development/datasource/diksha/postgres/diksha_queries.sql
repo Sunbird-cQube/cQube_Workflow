@@ -237,10 +237,10 @@ EXECUTE program_details_available;
 
 else 
 program_course_available = 'insert into diksha_tpd_expected_enrollment(program_id,program_name,collection_id,course_start_date,course_end_date,district_id,expected_enrollment,program_expected_enrollment,created_on,updated_on)
- select  COALESCE(a.program_id,0),a.program_name,a.collection_id,a.course_start_date,a.course_end_date,COALESCE(case when b.district_id is null then exp_enrol.district_id else b.district_id end,0) as district_id,expected_enrollment,program_expected_enrollment,now(),now()
- from (select pct.program_id,pct.program_name,case when pct.collection_id is null then dce.collection_id else pct.collection_id end as collection_id,dce.course_start_date,dce.course_end_date from diksha_program_course_details_temp pct full join diksha_course_details_temp dce on pct.collection_id=dce.collection_id ) as a
- left join  (select program_name,district_id,expected_enrollments as program_expected_enrollment from diksha_program_expected_temp) as b on lower(a.program_name)=lower(b.program_name) 
- full join (select collection_id,district_id,expected_enrollment from diksha_course_expected_temp) as exp_enrol on a.collection_id=exp_enrol.collection_id 
+ select  COALESCE(a.program_id,0),a.program_name,a.collection_id,a.course_start_date,a.course_end_date,district_id,expected_enrollment,program_expected_enrollment,now(),now()
+ from ( select pr.program_id,pr.program_name,pr.collection_id,pr.course_start_date,pr.course_end_date,pr.district_id,pr.program_expected_enrollment,expected_enrollment from (select program_id,a.program_name,collection_id,course_start_date,course_end_date,district_id,program_expected_enrollment from (select pct.program_id,pct.program_name,case when pct.collection_id is null then dce.collection_id else pct.collection_id end as collection_id,dce.course_start_date,dce.course_end_date from diksha_program_course_details_temp pct full join diksha_course_details_temp dce on pct.collection_id=dce.collection_id ) as a
+ left join  (select program_name,district_id,expected_enrollments as program_expected_enrollment from diksha_program_expected_temp) as b on lower(a.program_name)=lower(b.program_name)) as pr 
+ full join (select collection_id,district_id,expected_enrollment from diksha_course_expected_temp) as exp_enrol on pr.collection_id=exp_enrol.collection_id  and pr.district_id=exp_enrol.district_id) as a
  on conflict(program_id,collection_id,district_id) do update 
  set program_id=excluded.program_id, program_name=excluded.program_name,collection_id=excluded.collection_id,course_start_date=excluded.course_start_date,course_end_date=excluded.course_end_date,
  district_id=excluded.district_id,expected_enrollment=excluded.expected_enrollment,program_expected_enrollment = excluded.program_expected_enrollment,updated_on=now();';
@@ -250,5 +250,6 @@ end IF;
 return 1;
 END;
 $function$;
+
 
 
