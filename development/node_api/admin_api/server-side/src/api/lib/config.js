@@ -41,10 +41,16 @@ var getParams1 = {
     Key: '', // replace file location with your s3 file location
 };
 
+let userStatus = {
+    CREATE_PASSWORD : 'create_password',
+    PASSWORD_GENERATED: 'password_generated'
+}
+
 module.exports = {
     Config,
     s3,
     s3_download,
     getParams,
-    getParams1
+    getParams1,
+    userStatus
 };
