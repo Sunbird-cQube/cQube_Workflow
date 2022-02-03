@@ -18,7 +18,7 @@ export class KeycloakSecurityService {
         this.router.navigate(['signin'])
       }
 
-    } else {
+    } else if (environment.auth_api === 'cqube') {
       this.kc = new Keycloak({
         url: environment.keycloakUrl,
         realm: environment.realm,
@@ -30,13 +30,11 @@ export class KeycloakSecurityService {
         onLoad: 'login-required',
         checkLoginIframe: false,
       });
-      console.log('kc', this.kc)
+
       localStorage.setItem('user_id', this.kc.tokenParsed.sub);
       localStorage.setItem('userName', this.kc.tokenParsed['preferred_username']);
     }
 
-
   }
-
 
 }

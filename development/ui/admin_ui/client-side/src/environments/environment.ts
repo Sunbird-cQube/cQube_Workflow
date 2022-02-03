@@ -12,7 +12,7 @@ export const environment = {
   clientId: "cQube_Admin",
   storageType: "s3",
   report_viewer_config_otp: false,
-  auth_api: "cqube"
+  auth_api: "state"
 };
 
 /*
