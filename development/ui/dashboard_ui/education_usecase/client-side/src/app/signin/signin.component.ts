@@ -140,13 +140,22 @@ export class SigninComponent implements OnInit {
         let token = res['token'];
         let username = res['username'];
         let userId = res['userId']
-        document.getElementById("otp-container").style.display = "none";
-        document.getElementById("kc-form-login1").style.display = "none";
-        document.getElementById("updatePassword").style.display = "block";
-        localStorage.setItem('roleName', role);
-        localStorage.setItem('token', token);
-        localStorage.setItem('userName', username);
-        localStorage.setItem('userid', userId)
+        if (this.userStatus === "true") {
+          document.getElementById("otp-container").style.display = "none";
+          document.getElementById("kc-form-login1").style.display = "none";
+          document.getElementById("updatePassword").style.display = "block";
+          localStorage.setItem('roleName', role);
+          localStorage.setItem('token', token);
+          localStorage.setItem('userName', username);
+          localStorage.setItem('userid', userId)
+        } else if (this.userStatus !== "true") {
+          localStorage.setItem('roleName', role);
+          localStorage.setItem('token', token);
+          localStorage.setItem('userName', username);
+          localStorage.setItem('userid', userId);
+          this.router.navigate(['home'])
+        }
+
       }
 
 

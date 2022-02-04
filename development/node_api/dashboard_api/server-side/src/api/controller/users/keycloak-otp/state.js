@@ -10,8 +10,8 @@ dotenv.config();
 const keycloakHost = config.KEYCLOAK_HOST;
 const realmName = config.KEYCLOAK_REALM;
 const keycloakClient = config.KEYCLOAK_CLIENT;
-let username = config.KEACLOAK_ADM_PASSWD;
-let password = config.KEACLOAK_ADM_PASSWD;
+let username = config.KEYCLOAK_ADM_USER;
+let password = config.KEYCLOAK_ADM_PASSWD;
 
 
 const getDetails = async () => {
@@ -22,6 +22,7 @@ const getDetails = async () => {
         'password': password,
         'grant_type': 'password'
     });
+
 
 
     let url = `${keycloakHost}/auth/realms/${realmName}/protocol/openid-connect/token`;
@@ -48,15 +49,19 @@ const getDetails = async () => {
                         let userList = res['data']
 
                         userList.forEach(data => {
+
                             if (data['totp'] === true) {
+
 
                                 axios.get(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/credentials`, { headers: { "Authorization": `Bearer ${token}` } }).then(res => {
                                     if (res.status === 200) {
                                         let userCredentials = res['data'];
+
                                         userCredentials.forEach(Credentials => {
                                             if (Credentials['type'] === 'otp') {
+
                                                 axios.delete(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/credentials/${Credentials['id']}`, { headers: { "Authorization": `Bearer ${token}` } }).then(res => {
-                                                    console.log(res)
+                                                    let response = resp1
                                                 }).catch(err => {
                                                     console.log(err)
                                                 })
@@ -66,6 +71,20 @@ const getDetails = async () => {
                                 }).catch(err => {
                                     console.log(err)
                                 })
+                            }
+                            if (data['requiredActions'].length) {
+
+                                var updateUser = `${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}`
+                                var actionsRequired = {
+                                    requiredActions: [],
+                                }
+                                axios.put(updateUser, actionsRequired, { headers: { "Authorization": `Bearer ${token}` } }).then(async resp1 => {
+
+                                }).catch(error => {
+                                    console.log(error)
+
+                                })
+
                             }
                         })
                     }
