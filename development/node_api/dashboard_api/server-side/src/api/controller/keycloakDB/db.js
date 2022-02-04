@@ -3,6 +3,7 @@ dotenv.config();
 
 const { Pool, Client } = require("pg");
 
+
 let user = process.env.DB_USER;
 let password = process.env.DB_PASSWORD;
 let database = process.env.DB_NAME;
@@ -17,7 +18,4 @@ const pool = new Pool({
     port: port
 });
 
-
-
 module.exports = pool
-

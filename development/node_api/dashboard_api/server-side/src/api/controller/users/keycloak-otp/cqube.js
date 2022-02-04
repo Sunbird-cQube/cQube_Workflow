@@ -10,7 +10,7 @@ const keycloakHost = config.KEYCLOAK_HOST;
 const realmName = config.KEYCLOAK_REALM;
 const keycloakClient = config.KEYCLOAK_CLIENT;
 let username = config.KEYCLOAK_ADM_USER;
-let password = config.KEACLOAK_ADM_PASSWD;
+let password = config.KEYCLOAK_ADM_PASSWD;
 
 
 const getDetails = async () => {
@@ -21,7 +21,6 @@ const getDetails = async () => {
         'password': password,
         'grant_type': 'password'
     });
-
 
     let url = `${keycloakHost}/auth/realms/${realmName}/protocol/openid-connect/token`;
 
@@ -36,7 +35,7 @@ const getDetails = async () => {
 
     await axios(config)
         .then(function (response) {
-
+            
             if (JSON.stringify(response.data['access_token'])) {
                 let res = JSON.stringify(response.data)
                 let token = response.data['access_token']
@@ -68,16 +67,17 @@ const getDetails = async () => {
 
                                             axios.get(actionsUrl, { headers: innerHeader }).then(async actions => {
                                                 // take only CONFIGURE_TOTP to check for two factor auth enable for the application
+                                                
                                                 let requiredActions = actions.data.filter(data => {
                                                     return data.alias == 'CONFIGURE_TOTP'
 
                                                 })
 
-                                                // api to update the user 
+                                                // api to update the user
                                                 var updateUser = `${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}`
                                                 var actionsRequired = {
                                                     requiredActions: [
-                                                        ''
+                                                        'CONFIGURE_TOTP'
                                                     ],
                                                 }
 

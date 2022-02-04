@@ -42,7 +42,7 @@ router.post('/', auth.authController, async function (req, res) {
 
                 res.status(201).json({ msg: "User Created" });
             }).catch(error => {
-                // console.log('err', error)
+                
                 res.status(409).json({ errMsg: error.response.data.errorMessage });
             })
         } else {
@@ -50,14 +50,15 @@ router.post('/', auth.authController, async function (req, res) {
 
                 db1.query('INSERT INTO keycloak_users (keycloak_username, status) VALUES ($1, $2)', [req.body.username, "true"], (error, results) => {
                     if (error) {
+                        logger.info('---user create in DB error ---');
                         throw error
                     }
+                    logger.info('---user created in DB success ---');
                     res.status(201).json({ msg: "User Created" });
                 })
 
             }).catch(error => {
-                console.log('err', error)
-                // res.status(409).json({ errMsg: error.response.data.errorMessage });
+                logger.error(`Error :: ${error}`);
             })
         }
 
