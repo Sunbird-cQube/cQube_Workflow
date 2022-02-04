@@ -76,6 +76,10 @@
       AZURE_INPUT_STORAGE = "{{ azure_input_container }}"
       AZURE_EMISSION_STORAGE = "{{ azure_emission_container }}"
       AUTH_API = "{{ auth_api }}"
+      DB_USER = "{{ db_user }}"
+      DB_PASSWORD = "{{ db_password }}"
+      DB_NAME = "{{ db_name }}"
+      DB_PORT = "5432"
 
   when: mode_of_installation != "localhost"
   tags: [ install, update ]
@@ -117,6 +121,10 @@
       LOG_DIRECTORY= ""
       KONG_BASE_URL = "http://localhost:8001/consumers"
       AUTH_API = "{{ auth_api }}"
+      DB_USER = "{{ db_user }}"
+      DB_PASSWORD = "{{ db_password }}"
+      DB_NAME = "{{ db_name }}"
+      DB_PORT = "5432"
 
   when: mode_of_installation == "localhost"
   tags: [ install, update ]
