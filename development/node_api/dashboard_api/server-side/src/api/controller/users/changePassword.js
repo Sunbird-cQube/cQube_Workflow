@@ -3,7 +3,7 @@ const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 const axios = require('axios');
 const dotenv = require('dotenv');
-const db = require('../kekcloakDB/db')
+const db = require('../keycloakDB/db')
 
 dotenv.config();
 
