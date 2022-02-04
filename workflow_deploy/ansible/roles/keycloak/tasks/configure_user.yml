@@ -6,10 +6,18 @@
   tags: install
 
 - name: Reseting the password for realm admin user
+  shell: ./kcadm.sh set-password -r {{ realm_name }} --username {{ keycloak_adm_user | lower }} --new-password {{ keycloak_adm_passwd }} --temporary --no-config --server http://localhost:8080/auth --realm master --user {{ keycloak_adm_user }} --password {{ keycloak_adm_passwd }}
+  args:
+    chdir: "{{ base_dir }}/cqube/keycloak/bin/"
+  when: auth_api == "cqube" 	
+  tags: install
+
+- name: Reseting the password for realm admin user
   shell: ./kcadm.sh set-password -r {{ realm_name }} --username {{ keycloak_adm_user | lower }} --new-password {{ keycloak_adm_passwd }} --no-config --server http://localhost:8080/auth --realm master --user {{ keycloak_adm_user }} --password {{ keycloak_adm_passwd }}
   args:
     chdir: "{{ base_dir }}/cqube/keycloak/bin/"
-  tags: install
+  when: auth_api != "cqube"	
+  tags: install  
 
 - name: Assigning roles to realm admin user
   shell: ./kcadm.sh add-roles --uusername {{ keycloak_adm_user | lower }} --rolename admin -r {{ realm_name }} --no-config --server http://localhost:8080/auth --realm master --user {{ keycloak_adm_user }} --password {{ keycloak_adm_passwd }}
