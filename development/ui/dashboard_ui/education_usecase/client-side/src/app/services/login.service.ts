@@ -36,4 +36,11 @@ export class LoginService {
     return this.http.get('http://localhost:8080/auth/realms/cQube/account');
 
   }
+  getSecret(data) {
+
+    let username = data;
+
+    return this.http.post(`${this.baseUrl}/getSecret`, { username: username });
+
+  }
 }

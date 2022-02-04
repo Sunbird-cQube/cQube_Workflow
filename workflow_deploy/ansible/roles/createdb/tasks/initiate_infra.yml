@@ -139,6 +139,24 @@
   tags: [ install, update ]
   when: progresscard  
 
+- name: copy template file to /tmp/postgres
+  template:
+    src: keycloak_users_table.sql.j2
+    dest: /tmp/postgres/keycloak_users_table.sql
+    owner: postgres
+    mode: "0644"
+  when: auth_api != "cqube"	
+  tags: [ install, update ]
+
+- name: Run keycloak user queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/keycloak_users_table.sql
+  when: auth_api != "cqube"
+  tags: [ install, update ]
+  
 - name: Truncating previous tables
   shell: psql "host=localhost dbname={{ db_name }} user={{ db_user }} password={{ db_password }}" -a -q -f "/tmp/postgres/truncate_tables.sql"
   when: datasource_status == "unmatched"

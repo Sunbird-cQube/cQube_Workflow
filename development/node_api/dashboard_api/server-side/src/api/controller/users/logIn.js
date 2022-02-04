@@ -7,17 +7,19 @@ const querystring = require('querystring');
 const qr = require('qrcode');
 const speakeasy = require("speakeasy");
 const common = require('./common');
-const { userInfo } = require('os');
-
+const { generateSecret, verify } = require('2fa-util');
+const db = require('../keycloakDB/db')
 dotenv.config();
 const authURL = process.env.AUTH_API
 const keyCloakURL = process.env.KEYCLOAK_HOST
 const keyClockRealm = process.env.KEYCLOAK_REALM
+const keyClockClient = process.env.KEYCLOAK_CLIENT
 
 router.post('/login', async (req, res, next) => {
 
     const { email, password } = req.body;
     let role = '';
+    let userStatus = ''
 
     let stateheaders = {
         "Content-Type": "application/json",
@@ -30,7 +32,7 @@ router.post('/login', async (req, res, next) => {
 
     try {
         logger.info('--- custom login  api ---');
-        // let url = 'http://0.0.0.0:6001/login';
+
         let url = authURL;
         let headers = {
             "Content-Type": "application/json",
@@ -46,7 +48,7 @@ router.post('/login', async (req, res, next) => {
         }
 
         let keyCloakdetails = new URLSearchParams({
-            client_id: 'cQube_Application',
+            client_id: keyClockClient,
             username: req.body.email,
             password: req.body.password,
             grant_type: 'password',
@@ -58,7 +60,7 @@ router.post('/login', async (req, res, next) => {
 
 
         await axios.post(kcUrl, keyCloakdetails, { headers: keycloakheaders }).then(resp => {
-
+            logger.info('---token generated from keyclock ---');
             let response = resp['data']
             let jwt = resp['data'].access_token;
             let username = ''
@@ -92,7 +94,18 @@ router.post('/login', async (req, res, next) => {
 
 
             if (role === 'admin') {
-                res.send({ token: jwt, role: role, username: username, userId, userId, res: response })
+                let userStatus = ''
+
+                db.query('SELECT * FROM keycloak_users WHERE keycloak_username = $1', [req.body.email], (error, results) => {
+                    if (error) {
+                        logger.info('---user status from DB error ---');
+                        throw error
+                    }
+                    logger.info('---user status from DB success ---');
+                    res.send({ token: jwt, role: role, username: username, userId: userId, status: results.rows[0].status, res: response })
+
+                })
+
             }
 
             if (role === 'emission') {
@@ -103,7 +116,7 @@ router.post('/login', async (req, res, next) => {
             }
             if (role == 'report_viewer') {
 
-                let url = 'http://0.0.0.0:6001/login';
+                let url = authURL;
                 let headers = {
                     "Content-Type": "application/json",
                 }
@@ -114,7 +127,7 @@ router.post('/login', async (req, res, next) => {
                 };
 
                 axios.post(url, details, { headers: headers }).then(resp => {
-
+                    logger.info('---token from state api success ---');
                     let token = resp.data.access_token
                     userId = resp.data.payload.id
                     if (resp.status === 200) {
@@ -147,7 +160,7 @@ router.post('/login', async (req, res, next) => {
         ).catch(error => {
             logger.error(`Error :: ${error}`)
             if (role === '' || role === undefined) {
-                let url = 'http://0.0.0.0:6001/login';
+                let url = authURL;
 
                 let username = '';
                 let userId = '';
@@ -158,7 +171,7 @@ router.post('/login', async (req, res, next) => {
                 };
 
                 axios.post(url, details, { headers: stateheaders }).then(resp => {
-
+                    logger.info('---user token from state success ---');
                     let token = resp.data.access_token;
                     userId = resp.data.payload.id
                     if (resp.status === 200) {
@@ -214,56 +227,53 @@ router.get('/authenticate', async (req, res, next) => {
 })
 router.post('/getTotp', async (req, res, next) => {
     const { email, password } = req.body;
-    common.userObject = {};
 
-    common.userObject.uname = email;
-    common.userObject.upass = password;
+    const secret = await generateSecret(email, 'cQube');
+    db.query('UPDATE keycloak_users set qr_secret= $2 where keycloak_username=$1;', [req.body.email, secret.secret], (error, results) => {
+        if (error) {
+            logger.info('---QR code from DB error ---');
+            throw error
+        }
+        logger.info('---qr code from DB success ---');
+        res.status(201).json({ msg: "qrcode saved" });
 
-    const secret = speakeasy.generateSecret({
-        length: 10,
-        name: common.userObject.uname,
-    });
-
-    var url = speakeasy.otpauthURL({
-        secret: secret.base32,
-        label: common.userObject.uname,
-        encoding: 'base32',
-        step: 200
-    });
-
-
-    qr.toDataURL(url, (err, dataURL) => {
-        common.userObject.tfa = {
-            secret: '',
-            tempSecret: secret.base32,
-            dataURL,
-            tfaURL: url,
-            lable: email
-        };
-        return res.json({
-            message: 'TFA Auth needs to be verified',
-            tempSecret: secret.base32,
-            dataURL,
-            tfaURL: secret.otpauth_url
-        });
-    });
+    })
+    return res.json({
+        message: 'TFA Auth needs to be verified',
+        tempSecret: secret.secret,
+        dataURL: secret.qrcode,
+        tfaURL: secret.otpauth
+    })
 
 
 })
 
+router.post('/getSecret', async (req, res) => {
 
-router.post('/totpVerify', (req, res) => {
+    const { username } = req.body
+
+    db.query('SELECT qr_secret FROM keycloak_users WHERE keycloak_username = $1', [req.body.username], (error, results) => {
+        if (error) {
+            logger.info('---user secrect from DB error  ---');
+            throw error
+        }
+        logger.info('---user secrect from DB success  ---');
+        res.send({ status: 200, secret: results.rows[0].qr_secret })
+
+    })
+});
+
+
+router.post('/totpVerify', async (req, res) => {
     const { secret, token } = req.body
 
-    let isVerified = speakeasy.totp.verify({
-        secret: secret,
-        encoding: 'base32',
-        token: token,
-    });
+    let isVerified = await verify(token, secret);
+
     if (isVerified) {
         return res.send({
             "status": 200,
-            "message": "Two-factor Auth is enabled successfully"
+            "message": "Two-factor Auth is enabled successfully",
+            "loginedIn": common.userObject.loginedIn
         });
     }
 

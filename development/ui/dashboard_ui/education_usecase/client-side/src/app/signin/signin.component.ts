@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { GetQRcodeService } from '../services/get-qrcode.service'
 import { environment } from '../../environments/environment'
+import { AppServiceComponent } from '../app.service'
 
 declare let $
 @Component({
@@ -15,14 +16,18 @@ declare let $
 export class SigninComponent implements OnInit {
 
   loginForm!: FormGroup;
-  otpForm!: FormGroup
+  otpForm!: FormGroup;
+  passwordForm!: FormGroup
   loading = false;
   submitted = false;
+  adminUserId = '';
+  public tempSecret: '';
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    public service: LoginService) { }
+    public service: LoginService,
+    public commonService: AppServiceComponent) { }
 
   ngOnInit(): void {
 
@@ -33,6 +38,13 @@ export class SigninComponent implements OnInit {
     this.otpForm = this.formBuilder.group({
       otp: ['', Validators.required],
       secret: ['', Validators.required]
+    })
+
+
+    this.passwordForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      cnfpass: ['', Validators.required]
     })
   }
 
@@ -70,7 +82,10 @@ export class SigninComponent implements OnInit {
   public wrongCredintional: boolean = false;
   public errorMsg = '';
   public otpUrl: any
-  public tempSecret: any
+
+  public userName = ''
+  public userStatus = ''
+  public qrcode
 
   onSubmit() {
     this.submitted = true;
@@ -80,15 +95,24 @@ export class SigninComponent implements OnInit {
       return;
     }
 
-    // ++++ custom qr code for 2FA
 
-    // this.service.getQRcode(this.loginForm.value).subscribe(res => {
-    //   this.otpUrl = res
-    //   this.tempSecret = res['tempSecret']
-    // })
+
 
     this.service.login(this.loginForm.value).subscribe(res => {
+      this.wrongCredintional = false;
       let response = res
+      this.userName = res['username']
+      this.adminUserId = res['userId']
+      this.userStatus = res['status']
+      if (this.userStatus === 'true') {
+        this.tempSecret = ''
+        // ++++ custom qr code for 2FA
+        this.service.getQRcode(this.loginForm.value).subscribe(res => {
+          this.otpUrl = res
+          this.qrcode = res['dataURL']
+          this.tempSecret = res['tempSecret'];
+        })
+      }
       if (response['role'] === 'report_viewer') {
         let role = res['role'];
         let token = res['token'];
@@ -100,17 +124,38 @@ export class SigninComponent implements OnInit {
         localStorage.setItem('userName', username);
         localStorage.setItem('userid', userId)
         this.router.navigate(['/dashboard/infrastructure-dashboard'])
-      } else if (response['role'] === 'admin') {
+      } else if (response['role'] === 'admin' && this.userName !== environment.keycloak_adm_user) {
         let role = res['role'];
         let token = res['token'];
         let username = res['username'];
         let userId = res['userId']
+        document.getElementById("otp-container").style.display = "block";
+        document.getElementById("kc-form-login1").style.display = "none";
         localStorage.setItem('roleName', role);
         localStorage.setItem('token', token);
         localStorage.setItem('userName', username);
         localStorage.setItem('userid', userId)
+      } else if (response['role'] === 'admin' && this.userName === environment.keycloak_adm_user) {
+        let role = res['role'];
+        let token = res['token'];
+        let username = res['username'];
+        let userId = res['userId']
+        if (this.userStatus === "true") {
+          document.getElementById("otp-container").style.display = "none";
+          document.getElementById("kc-form-login1").style.display = "none";
+          document.getElementById("updatePassword").style.display = "block";
+          localStorage.setItem('roleName', role);
+          localStorage.setItem('token', token);
+          localStorage.setItem('userName', username);
+          localStorage.setItem('userid', userId)
+        } else if (this.userStatus !== "true") {
+          localStorage.setItem('roleName', role);
+          localStorage.setItem('token', token);
+          localStorage.setItem('userName', username);
+          localStorage.setItem('userid', userId);
+          this.router.navigate(['home'])
+        }
 
-        this.router.navigate(['home'])
       }
 
 
@@ -122,13 +167,75 @@ export class SigninComponent implements OnInit {
 
 
   }
+
+
+
+
   public otpStatus: any
 
   verifyQRCOde() {
-    this.service.getQRverify(this.otpForm.value).subscribe(res => {
-      this.otpStatus = res
+    if (this.userStatus === 'true') {
+      this.service.getQRverify(this.otpForm.value).subscribe(res => {
+        this.otpStatus = res
+        if (res['status'] === 200) {
 
-      this.router.navigate(['home'])
-    })
+          document.getElementById("otp-container").style.display = "none";
+          document.getElementById("qr-code").style.display = "none"
+          document.getElementById("updatePassword").style.display = "block";
+          document.getElementById("kc-form-login1").style.display = "none";
+
+        }
+
+      }, err => {
+        this.wrongCredintional = true;
+        this.errorMsg = err.error.errMsg;
+
+      })
+
+    } else if (this.userStatus !== 'true') {
+
+      this.service.getSecret(this.userName).subscribe(res => {
+
+        if (res['status'] === 200) {
+          let otpSecret = res['secret']
+          let data = {
+            secret: otpSecret,
+            otp: this.otpForm.value.otp
+
+          }
+          this.service.getQRverify(data).subscribe(res => {
+            this.otpStatus = res
+            if (res['status'] === 200) {
+              this.router.navigate(['home'])
+            }
+
+          })
+
+        }
+      })
+    }
+
   }
+
+  changePasswordStatus: any
+  err: any
+
+  changePassword() {
+    let data = {
+      cnfpass: this.passwordForm.value.cnfpass,
+      username: this.passwordForm.value.username
+
+    }
+    if (this.passwordForm.value.newPassword != this.passwordForm.value.cnfpass) {
+      this.err = "Password not matched"
+    } else {
+      this.commonService.changePassword(data, this.adminUserId).subscribe(res => {
+        this.changePasswordStatus = res
+        this.router.navigate(['home'])
+      })
+    }
+
+  }
+
+
 }

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "2fa-util": "^1.1.1",
     "@types/speakeasy": "^2.0.7",
     "aws-sdk": "^2.633.0",
     "axios": "^0.19.2",
@@ -26,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.25.3",
     "npm": "^6.14.8",
+    "pg": "^8.7.1",
     "qrcode": "^1.5.0",
     "request": "^2.88.2",
     "s3-append": "^1.1.0",

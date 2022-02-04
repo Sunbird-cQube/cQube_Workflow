@@ -4,13 +4,16 @@ const auth = require('../../middleware/check-auth');
 const axios = require('axios');
 const qs = require('querystring');
 var jwt = require('jsonwebtoken');
-
+const config = require('../../lib/config')
 const dotenv = require('dotenv');
 dotenv.config();
+const db = require('../keyclockDB/db')
+const db1 = require('../keyclockDB/db')
 
 var host = process.env.KEYCLOAK_HOST;
 var realm = process.env.KEYCLOAK_REALM;
-var authType = process.env.AUTH_API
+var authType = process.env.AUTH_API;
+
 
 router.post('/', auth.authController, async function (req, res) {
     try {
@@ -34,11 +37,32 @@ router.post('/', auth.authController, async function (req, res) {
             enabled: "true"
         };
 
-        axios.post(usersUrl, userDetails, { headers: headers }).then(resp => {
-            res.status(201).json({ msg: "User Created" });
-        }).catch(error => {
-            res.status(409).json({ errMsg: error.response.data.errorMessage });
-        })
+        if (authType === 'cqube') {
+            axios.post(usersUrl, userDetails, { headers: headers }).then(resp => {
+
+                res.status(201).json({ msg: "User Created" });
+            }).catch(error => {
+                
+                res.status(409).json({ errMsg: error.response.data.errorMessage });
+            })
+        } else {
+            axios.post(usersUrl, userDetails, { headers: headers }).then(resp => {
+
+                db1.query('INSERT INTO keycloak_users (keycloak_username, status) VALUES ($1, $2)', [req.body.username, "true"], (error, results) => {
+                    if (error) {
+                        logger.info('---user create in DB error ---');
+                        throw error
+                    }
+                    logger.info('---user created in DB success ---');
+                    res.status(201).json({ msg: "User Created" });
+                })
+
+            }).catch(error => {
+                logger.error(`Error :: ${error}`);
+            })
+        }
+
+
 
 
     } catch (e) {

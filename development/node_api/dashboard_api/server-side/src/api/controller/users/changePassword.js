@@ -3,11 +3,13 @@ const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 const axios = require('axios');
 const dotenv = require('dotenv');
+const db = require('../keycloakDB/db')
 
 dotenv.config();
 
 var host = process.env.KEYCLOAK_HOST;
 var realm = process.env.KEYCLOAK_REALM;
+var authType = process.env.AUTH_API
 
 router.post('/:id', auth.authController, async (req, res) => {
     try {
@@ -19,18 +21,43 @@ router.post('/:id', auth.authController, async (req, res) => {
             "Content-Type": "application/json",
             "Authorization": req.headers.token
         }
-        var newPass = {
-            type: "password",
-            value: req.body.cnfpass,
-            temporary: false
-        };
 
-        axios.put(usersUrl, newPass, { headers: headers }).then(resp => {
-            logger.info('---change password api response sent---');
-            res.status(201).json({ msg: "Password changed" });
-        }).catch(error => {
-            res.status(error.response.status).json({ errMsg: error.response.data.errorMessage });
-        })
+        if (authType === 'cqube') {
+            let newPass = {
+                type: "password",
+                value: req.body.cnfpass,
+                temporary: false
+            };
+
+            axios.put(usersUrl, newPass, { headers: headers }).then(resp => {
+                logger.info('---change password api response sent---');
+                res.status(201).json({ msg: "Password changed" });
+            }).catch(error => {
+                res.status(error.response.status).json({ errMsg: error.response.data.errorMessage });
+            })
+        } else {
+
+            let newPass = {
+                type: "password",
+                value: req.body.cnfpass,
+                temporary: false
+            };
+            axios.put(usersUrl, newPass, { headers: headers }).then(resp => {
+                logger.info('---change password api response sent---');
+                db.query('UPDATE keycloak_users set status= $2 where keycloak_username=$1;', [req.body.username, 'false'], (error, results) => {
+                    if (error) {
+                        throw error
+                    }
+                    res.status(201).json({ msg: "Password changed" });
+
+                })
+
+            }).catch(error => {
+                res.status(error.response.status).json({ errMsg: error.response.data.errorMessage });
+            })
+        }
+
+
 
     } catch (e) {
         logger.error(`Error :: ${e}`);
