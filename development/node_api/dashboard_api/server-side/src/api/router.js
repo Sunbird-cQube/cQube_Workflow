@@ -15,7 +15,7 @@ const changePasswd = require('./controller/users/changePassword');
 const login = require('./controller/users/logIn');
 const totp = require('./controller/users/logIn');
 const totpVerify = require('./controller/users/logIn');
-const authenticate = require('./controller/users/logIn');
+const addUserToDB = require('./controller/users/logIn');
 const getSecret = require('./controller/users/logIn');
 
 
@@ -182,7 +182,7 @@ router.use('/changePassword', changePasswd);
 router.use('/login', login);
 router.use('/totp', totp)
 router.use('/', totpVerify)
-router.use('/', authenticate)
+router.use('/', addUserToDB)
 router.use('/', getSecret)
 
 // Infra

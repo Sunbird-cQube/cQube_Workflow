@@ -1,5 +1,6 @@
 
 var axios = require('axios');
+const { logger } = require('../../../lib/logger');
 var qs = require('qs');
 const dotenv = require('dotenv');
 const config = require('./config')
@@ -27,6 +28,7 @@ const getDetails = async () => {
 
     let url = `${keycloakHost}/auth/realms/${realmName}/protocol/openid-connect/token`;
 
+
     let config = {
         method: 'post',
         url: url,
@@ -41,13 +43,14 @@ const getDetails = async () => {
 
             if (JSON.stringify(response.data['access_token'])) {
                 let res = JSON.stringify(response.data)
+                logger.info('---token received ---');
                 let token = response.data['access_token']
 
                 axios.get(`${keycloakHost}/auth/admin/realms/${realmName}/users`, { headers: { "Authorization": `Bearer ${token}` } }).then(res => {
 
                     if (res.status === 200) {
                         let userList = res['data']
-
+                        logger.info('---users list  received ---');
                         userList.forEach(data => {
 
                             if (data['totp'] === true) {
@@ -62,6 +65,7 @@ const getDetails = async () => {
 
                                                 axios.delete(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/credentials/${Credentials['id']}`, { headers: { "Authorization": `Bearer ${token}` } }).then(res => {
                                                     let response = resp1
+                                                    logger.info('---credentials type totp removed ---');
                                                 }).catch(err => {
                                                     console.log(err)
                                                 })
@@ -82,20 +86,23 @@ const getDetails = async () => {
 
                                 }).catch(error => {
                                     console.log(error)
-
+                                    logger.info('---user info fail ---');
                                 })
 
                             }
                         })
                     }
                 }).catch(err => {
+                    logger.info('---user list fail ---');
                     console.log(err)
                 })
 
             }
         })
         .catch(function (error) {
-            console.log(error);
+            // console.log(error);
+            console.log('erro')
+            logger.info('---token received fail ---');
         });
 }
 

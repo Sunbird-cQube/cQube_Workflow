@@ -101,8 +101,14 @@ router.post('/login', async (req, res, next) => {
                         logger.info('---user status from DB error ---');
                         throw error
                     }
-                    logger.info('---user status from DB success ---');
-                    res.send({ token: jwt, role: role, username: username, userId: userId, status: results.rows[0].status, res: response })
+                    if (results.rows.length) {
+                        logger.info('---user status from DB success ---');
+                        res.send({ token: jwt, role: role, username: username, userId: userId, status: results.rows[0].status, res: response })
+
+                    } else {
+                        logger.info('---user status not available in DB ---');
+                        res.send({ token: jwt, role: role, username: username, userId: userId, res: response })
+                    }
 
                 })
 
@@ -207,23 +213,19 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
-router.get('/authenticate', async (req, res, next) => {
-    let url = 'http://localhost:8080/auth/realms/cQube/account'
-    let header = {
-        'Content-Type': 'text/html;charset=utf-8',
+router.post('/adduser', async (req, res, next) => {
+    const { email } = req.body
+    logger.info('---new user added ---');
+    console.log('request', req.body)
+    db.query('INSERT INTO keycloak_users (keycloak_username, status) VALUES ($1, $2)', [req.body.username, "false"], (error, results) => {
+        if (error) {
+            logger.info('---user create in DB error ---');
+            throw error
+        }
+        logger.info('---user created in DB success ---');
+        res.status(201).json({ msg: "User Created" });
+    })
 
-    }
-
-    try {
-
-        await axios.get(url, { headers: header }).then(resp => {
-
-            resp.send({ data: resp })
-        })
-    } catch (error) {
-
-        res.status(409).json({ errMsg: error.response.data.errorMessage });
-    }
 })
 router.post('/getTotp', async (req, res, next) => {
     const { email, password } = req.body;
@@ -279,7 +281,7 @@ router.post('/totpVerify', async (req, res) => {
 
     return res.send({
         "status": 403,
-        "message": "Invalid Auth Code, verification failed. Please verify the system Date and Time"
+        "message": "Invalid Auth Code"
     });
 });
 

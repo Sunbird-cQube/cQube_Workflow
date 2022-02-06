@@ -42,7 +42,7 @@ router.post('/', auth.authController, async function (req, res) {
 
                 res.status(201).json({ msg: "User Created" });
             }).catch(error => {
-                
+
                 res.status(409).json({ errMsg: error.response.data.errorMessage });
             })
         } else {
@@ -130,9 +130,13 @@ router.post('/setRoles', auth.authController, async (req, res) => {
             if (otpConfig && req.body.role.name == 'report_viewer' && requiredActions[0].alias == 'CONFIGURE_TOTP' && requiredActions[0].enabled == true
                 || req.body.role.name == 'admin' && requiredActions[0].alias == 'CONFIGURE_TOTP' && requiredActions[0].enabled == true) {
                 // assign two factor auth only for admin and report_viewer roles not for emission user
-                if (req.body.role.name != 'emission') {
-                    actionsRequired.requiredActions.push('CONFIGURE_TOTP')
+
+                if (authType === 'cqube') {
+                    if (req.body.role.name != 'emission') {
+                        actionsRequired.requiredActions.push('CONFIGURE_TOTP')
+                    }
                 }
+
                 // updating user api call
                 axios.put(updateUser, actionsRequired, { headers: headers }).then(async resp1 => {
                     // assigning roles to user api call                    
