@@ -54,7 +54,7 @@
 
                         </div>
                         <div id="otp-container" style="display: none;">
-                            <div id="qr-code" *ngIf="userStatus === 'true'">
+                            <div id="qr-code" *ngIf="userStatus === 'true' || userStatus === undefined">
 
                                 <ol id="kc-totp-settings">
                                     <li>
@@ -82,6 +82,12 @@
 
                             </div>
                             <h4 class="ml-3"> Enter Otp</h4>
+
+                            <div *ngIf="wrongOtp" class="alert alert-error d-flex">
+                                <span class="pficon fa fa-times-circle fa-2x text-danger"></span>
+
+                                <span class="kc-feedback-text ml-2">{{errorMsg}}</span>
+                            </div>
                             <form [formGroup]="otpForm" (ngSubmit)="verifyQRCOde()" class="form-horizontal"
                                 id="kc-totp-settings-form">
                                 <div class="form-group">
@@ -99,6 +105,11 @@
                             </form>
                         </div>
                         <div id="updatePassword" style="display: none;">
+                            <div *ngIf="passwordMatch" class="alert alert-error d-flex">
+                                <span class="pficon fa fa-times-circle fa-2x text-danger"></span>
+
+                                <span class="kc-feedback-text ml-2">{{errorMsg}}</span>
+                            </div>
                             <form id="kc-passwd-update-form" [formGroup]='passwordForm' (ngSubmit)="changePassword()"
                                 class="form-horizontal">
                                 <input type="text" id="username" name="username" formControlName="username"
