@@ -14,5 +14,6 @@ export const environment = {
   report_viewer_config_otp: {% if report_viewer_config_otp == True %}true{% endif %}{% if report_viewer_config_otp == False %}false{% endif %},
   progressCardConfig: ['{{ slab1 }}', '{{ slab2 }}', '{{ slab3 }}', '{{ slab4 }}'],
   auth_api: "{{ auth_api }}",
-  keycloak_adm_user: "{{ keycloak_adm_user }}"
+  keycloak_adm_user: "{{ keycloak_adm_user }}",
+  adminApiEndPoint: "http://{{ local_ipv4_address }}:3001/api"
 };
