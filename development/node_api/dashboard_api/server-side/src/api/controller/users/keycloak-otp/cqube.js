@@ -82,18 +82,18 @@ const getDetails = async () => {
                                                 }
 
                                                 // check for required actions configured -- CONFIGURE_TOTP and update the user for two factor auth
-                                                if (requiredActions[0].alias == 'CONFIGURE_TOTP' && requiredActions[0].enabled == true) {
+                                                
 
                                                     // updating user api call
                                                     axios.put(updateUser, actionsRequired, { headers: innerHeader }).then(async resp1 => {
-
+                                                   
 
 
                                                     }).catch(error => {
                                                         console.log(error)
 
                                                     })
-                                                }
+                                                
                                             }).catch(error => {
                                                 res.status(409).json({ errMsg: error.response });
                                             })

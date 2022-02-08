@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiEndpoint: "http://localhost:3000/api",
+  adminApiEndPoint: "http://localhost:3001/api",
   adminUrl: "http://localhost:4201",
   appUrl: "http://localhost:4200",
   keycloakUrl: "http://localhost:8080/auth",

@@ -20,6 +20,14 @@ router.use('/', getMonthAndYear);
 const saveDataToS3 = require('./controller/data-replay/saveData');
 router.use('/savetoS3', saveDataToS3);
 
+// user info
+const getUser = require('./controller/users/userDetails');
+router.use('/', getUser);
+
+// send user info
+const sendUser = require('./controller/users/getUserDetails');
+router.use('/', sendUser);
+
 // user details routes
 router.use('/addUser', addUser);
 router.use('/changePassword', changePasswd);
