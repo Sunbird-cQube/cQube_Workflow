@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { GetQRcodeService } from '../services/get-qrcode.service'
 import { environment } from '../../environments/environment'
-import { AppServiceComponent } from '../app.service'
+import { AppServiceComponent } from '../app.service';
+import { CookieService } from 'ngx-cookie-service';
+
 
 declare let $
 @Component({
@@ -29,7 +31,8 @@ export class SigninComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public service: LoginService,
-    public commonService: AppServiceComponent) { }
+    public commonService: AppServiceComponent,
+    public cookies: CookieService) { }
 
   ngOnInit(): void {
 
@@ -105,6 +108,7 @@ export class SigninComponent implements OnInit {
       this.userName = res['username']
       this.adminUserId = res['userId']
       this.userStatus = res['status']
+
 
       if (this.userStatus === 'true') {
         this.tempSecret = ''

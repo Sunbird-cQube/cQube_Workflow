@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../src/environments/environment';
-import { KeycloakSecurityService } from './../keycloak-security.service';
 import { AppService } from '../app.service';
 
 @Injectable({
@@ -9,7 +8,7 @@ import { AppService } from '../app.service';
 })
 export class UsersService {
   public baseUrl = environment.apiEndpoint;
-  constructor(public http: HttpClient, public keyCloakService: KeycloakSecurityService, private service: AppService) { }
+  constructor(public http: HttpClient, private service: AppService) { }
 
   //User management...........
   addUser(data) {

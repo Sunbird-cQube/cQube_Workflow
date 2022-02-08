@@ -7,6 +7,8 @@ const axios = require('axios');
 const env = require('dotenv');
 env.config();
 
+global.userSessionDetails = {}
+
 const port = process.env.PORT || 3002;
 
 app.use(bodyParser.json());
