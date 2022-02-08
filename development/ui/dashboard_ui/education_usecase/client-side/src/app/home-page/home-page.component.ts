@@ -3,7 +3,9 @@ import { KeycloakSecurityService } from '../keycloak-security.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../app.service';
-import { CookieService } from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service';
+import { LoginService } from '../../app/services/login.service'
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -16,7 +18,7 @@ export class HomePageComponent implements OnInit {
   role;
   storage
   hideAdmin
-  constructor(public keycloakService: KeycloakSecurityService, public router: Router, public service: AppServiceComponent, public cookieService: CookieService) {
+  constructor(public keycloakService: KeycloakSecurityService, public router: Router, public service: AppServiceComponent, public cookieService: CookieService, public logInservice: LoginService) {
     service.logoutOnTokenExpire();
   }
 
@@ -77,11 +79,25 @@ export class HomePageComponent implements OnInit {
 
 
   test() {
-    this.cookieService.set('userid', localStorage.getItem('userid'))
-    this.cookieService.set('roleName', localStorage.getItem('roleName'))
-    this.cookieService.set('userName', localStorage.getItem('userName'))
-    this.cookieService.set('token', localStorage.getItem('token'))
-    window.location.href = `${environment.adminUrl}/#/admin_dashboard`;
+
+    let obj = {
+      'userid': localStorage.getItem('userid'),
+      'roleName': localStorage.getItem('roleName'),
+      'userName': localStorage.getItem('userName'),
+      'token': localStorage.getItem('token')
+    }
+
+    this.logInservice.postUserDetails(obj).subscribe(res => {
+      try {
+
+        window.location.href = `${environment.adminUrl}/#/admin-dashboard?userid=${obj.userid}`;
+
+
+      } catch (error) {
+        console.log(error)
+      }
+    })
+   
 
   }
 

@@ -192,7 +192,7 @@ router.get('/roles', auth.authController, async (req, res) => {
             res.status(409).json({ errMsg: error.response.data.errorMessage });
         })
     } catch (e) {
-        console.log(error)
+
         logger.error(`Error :: ${e}`);
         res.status(500).json({ errMsg: "Internal error. Please try again!!" });
     }
