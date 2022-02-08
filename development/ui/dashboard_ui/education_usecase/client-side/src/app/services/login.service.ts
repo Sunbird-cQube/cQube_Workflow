@@ -43,4 +43,11 @@ export class LoginService {
     return this.http.post(`${this.baseUrl}/getSecret`, { username: username });
 
   }
+  addUser(data) {
+
+    let username = data;
+
+    return this.http.post(`${this.baseUrl}/adduser`, { username: username });
+
+  }
 }
