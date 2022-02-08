@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppServiceComponent } from '../app.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   public baseUrl;
+  public adminUrl = environment.adminApiEndPoint
   constructor(public http: HttpClient, public service: AppServiceComponent) {
     this.baseUrl = service.baseUrl;
+
   }
 
   login(user: any) {
@@ -49,5 +52,9 @@ export class LoginService {
 
     return this.http.post(`${this.baseUrl}/adduser`, { username: username });
 
+  }
+
+  postUserDetails(data) {
+    return this.http.post(`${this.adminUrl}/userdetails`, data)
   }
 }
