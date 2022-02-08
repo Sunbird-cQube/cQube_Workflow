@@ -290,7 +290,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
               if (item.district_name === "Others") {
                 this.otherStateContentPlays =
                   item.total_content_plays.toLocaleString("en-IN");
-                this.otherStateTotalTime = item.total_time_spent;
+                this.otherStateTotalTime = item.total_time_spent.toLocaleString("en-IN");
                 this.otherStateAvgTime = item.avg_time_spent;
               }
             });
@@ -618,7 +618,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   // to download the csv report
   downloadReport() {
     var position = this.reportName.length;
-    
+
     this.fileName = [this.fileName.slice(0, position), this.fileName.slice(position)].join('');
     this.commonService.download(
       this.fileName,

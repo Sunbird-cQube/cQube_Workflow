@@ -892,6 +892,26 @@ export class MultiBarChartComponent implements OnInit {
 
               name: 'Completed',
               data: this.compData
+            },
+            {
+              dataLabels: {
+                enabled: true,
+                style: {
+                  fontWeight: 800,
+                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
+                },
+                formatter: function () {
+                  if (level == 'district') {
+                    return this.y + '%';
+                  } else if (level == "block" || level == "cluster" || level == "school") {
+                    return this.y;
+                  }
+                }
+              },
+              color: this.perData.length > 0 ? '#9C19E0' : 'transparent',
+
+              name: this.perData.length > 0 ? 'Certificate' : '',
+              data: this.perData.length > 0 ? this.perData : null
             }
           ],
           tooltip: {
