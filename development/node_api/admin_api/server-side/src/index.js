@@ -18,6 +18,13 @@ app.use(compression());
 
 const router = require('./api/router');
 app.use('/api', router);
+const sessionRouter = require('./api/sessionRouter');
+app.use('/admin_api', sessionRouter);
+app.use((req, res, next) => {
+    const error = new Error('Not found');
+    error.status = 404;
+    next(error);
+});
 
 const restartSchedular = require('./api/controller/niFiScheduler/restartSchedular');
 

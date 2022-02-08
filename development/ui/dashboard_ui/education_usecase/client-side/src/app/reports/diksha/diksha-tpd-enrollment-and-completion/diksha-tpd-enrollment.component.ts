@@ -517,11 +517,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     }
     this.result.data.forEach((element, i) => {
+
       if (
         (this.level === "district") &&
         this.courseSelected === false
       ) {
-
         enrollChartData.push(Number(element[`enrollment`]));
         compliChartData.push(Number(element[`completion`]));
       } else if (
@@ -530,8 +530,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         this.level === "school" ||
         this.level === "course"
       ) {
-        enrollChartData.push(Number(element[`enrollment`]));
-        compliChartData.push(Number(element[`completion`]));
+        if (this.courseSelected === false && this.programSeleted === false) {
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+        } else {
+
+          enrollChartData.push(Number(element[`enrollment`]));
+          compliChartData.push(Number(element[`completion`]));
+          pecentChartData.push(Number(element[`certificate_value`]));
+        }
 
       } else if ((this.level === "district" || this.level === 'program') && this.courseSelected) {
         if (element[`expected_enrolled`] === 0 && this.certificateBarToggle === true) {
