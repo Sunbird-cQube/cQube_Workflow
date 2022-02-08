@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
-// const globalObj = require('../../../globalvariable')
+
 
 const axios = require('axios');
 const dotenv = require('dotenv');
@@ -13,7 +13,7 @@ dotenv.config();
 router.get('/getUserdetails/:id', async function (req, res) {
     try {
         logger.info('---userdetails api ---');
-     
+
         return res.send({
             status: 200,
             userObj: global.userSessionDetails[req.params.id]

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
-// const globalObj = require('../../../globalvariable')
+
 
 const axios = require('axios');
 const dotenv = require('dotenv');
@@ -11,7 +11,7 @@ dotenv.config();
 
 var host = process.env.KEYCLOAK_HOST;
 var realm = process.env.KEYCLOAK_REALM;
-// var client_id = process.env.KEYCLOAK_CLIENT
+
 
 router.post('/userdetails', async function (req, res) {
     try {
