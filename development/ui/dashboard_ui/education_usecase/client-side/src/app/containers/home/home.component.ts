@@ -116,14 +116,9 @@ export class HomeComponent implements OnInit {
       this.keyCloakService.kc.clearToken();
       this.keyCloakService.kc.logout(options);
     } else {
-      
-      let refreshToken = localStorage.getItem('refToken')
-      
+      localStorage.clear();
+      this.router.navigate(['/signin'])
 
-      this.logInservice.logout(localStorage.getItem('refToken')).subscribe(res => {
-        localStorage.clear();
-        this.router.navigate(['/signin'])
-      })
 
     }
 

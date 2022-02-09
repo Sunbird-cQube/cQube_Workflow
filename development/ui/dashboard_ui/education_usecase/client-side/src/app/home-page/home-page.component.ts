@@ -73,14 +73,8 @@ export class HomePageComponent implements OnInit {
       this.keycloakService.kc.logout(options);
     } else {
 
-      let refreshToken = localStorage.getItem('refToken')
-
-
-      this.logInservice.logout(localStorage.getItem('refToken')).subscribe(res => {
-        if (res['status'] === 200)
-          localStorage.clear();
-        this.router.navigate(['/signin'])
-      })
+      localStorage.clear();
+      this.router.navigate(['/signin'])
     }
   }
 

@@ -26,6 +26,7 @@ export class SigninComponent implements OnInit {
   public tempSecret: '';
   public wrongOtp: boolean = false;
   public passwordMatch: boolean = false;
+  public roletype
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -109,8 +110,8 @@ export class SigninComponent implements OnInit {
       this.userName = res['username']
       this.adminUserId = res['userId']
       this.userStatus = res['status']
-      let refreshToken = res['res'].refresh_token
-      localStorage.setItem('refToken', refreshToken)
+     
+     
 
       if (this.userStatus === 'true') {
         this.tempSecret = ''
