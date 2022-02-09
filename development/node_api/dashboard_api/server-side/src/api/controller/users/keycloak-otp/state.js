@@ -2,9 +2,8 @@
 var axios = require('axios');
 const { logger } = require('../../../lib/logger');
 var qs = require('qs');
-const dotenv = require('dotenv');
+
 const config = require('./config')
-dotenv.config();
 
 
 
@@ -40,7 +39,7 @@ const getDetails = async () => {
 
     await axios(config)
         .then(function (response) {
-
+            console.log(response)
             if (JSON.stringify(response.data['access_token'])) {
                 let res = JSON.stringify(response.data)
                 logger.info('---token received ---');

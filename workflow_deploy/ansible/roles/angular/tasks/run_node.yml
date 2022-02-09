@@ -33,14 +33,14 @@
     mode: "0644"
   tags: [ install, update ]
 
-- name: Running the node script.js
+- name: Running the node cqube.js
   shell: node cqube.js
   args:
     chdir: "{{ base_dir }}/cqube/dashboard/server_side/src/api/controller/users/keycloak-otp"
   when: auth_api == "cqube"
   tags: [ install, update ]
 
-- name: Running the node script.js
+- name: Running the node state.js
   shell: node state.js 
   args:
     chdir: "{{ base_dir }}/cqube/dashboard/server_side/src/api/controller/users/keycloak-otp"
