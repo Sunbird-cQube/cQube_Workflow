@@ -116,8 +116,19 @@ export class HomeComponent implements OnInit {
       this.keyCloakService.kc.clearToken();
       this.keyCloakService.kc.logout(options);
     } else {
-      localStorage.clear();
-      this.router.navigate(['/signin'])
+
+      if (localStorage.getItem('role') === 'admin') {
+        let refreshToken = localStorage.getItem('refToken')
+
+
+        this.logInservice.logout(localStorage.getItem('refToken')).subscribe(res => {
+          localStorage.clear();
+          this.router.navigate(['/signin'])
+        })
+      } else {
+        localStorage.clear();
+        this.router.navigate(['/signin'])
+      }
 
 
     }
