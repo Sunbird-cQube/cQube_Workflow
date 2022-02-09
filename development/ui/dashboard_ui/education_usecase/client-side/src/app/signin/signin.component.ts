@@ -110,8 +110,11 @@ export class SigninComponent implements OnInit {
       this.userName = res['username']
       this.adminUserId = res['userId']
       this.userStatus = res['status']
-     
-     
+      this.roletype = res['role']    
+      if(this.roletype === 'admin'){
+        let refreshToken = res['res'].refresh_token
+        localStorage.setItem('refToken', refreshToken)
+      }
 
       if (this.userStatus === 'true') {
         this.tempSecret = ''

@@ -72,9 +72,19 @@ export class HomePageComponent implements OnInit {
       this.keycloakService.kc.clearToken();
       this.keycloakService.kc.logout(options);
     } else {
+      if (localStorage.getItem('role') === 'admin') {
+        let refreshToken = localStorage.getItem('refToken')
 
-      localStorage.clear();
-      this.router.navigate(['/signin'])
+
+        this.logInservice.logout(localStorage.getItem('refToken')).subscribe(res => {
+          localStorage.clear();
+          this.router.navigate(['/signin'])
+        })
+      } else {
+        localStorage.clear();
+        this.router.navigate(['/signin'])
+      }
+
     }
   }
 
