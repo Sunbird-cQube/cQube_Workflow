@@ -63,6 +63,7 @@ router.post('/login', async (req, res, next) => {
             logger.info('---token generated from keyclock ---');
             let response = resp['data']
             let jwt = resp['data'].access_token;
+
             let username = ''
             let userId = ''
             if (resp.status === 200) {
@@ -245,6 +246,31 @@ router.post('/getTotp', async (req, res, next) => {
         tempSecret: secret.secret,
         dataURL: secret.qrcode,
         tfaURL: secret.otpauth
+    })
+
+
+})
+
+router.post('/logout', async (req, res, next) => {
+    
+   console.log
+    let headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    let details = new URLSearchParams({
+        client_id: keyClockClient,
+        refresh_token: req.body.refToken
+
+    });
+    let logoutUrl = `${keyCloakURL}/auth/realms/${keyClockRealm}/protocol/openid-connect/logout`
+
+    await axios.post(logoutUrl, details, { headers: headers }).then(resp => {
+        return res.send({
+            status: 200
+        })
+    }).catch(err => {
+        logger.error(`Error :: ${err}`)
+        res.status(404).json({ errMessage: "Internal error. Please try again!!" })
     })
 
 

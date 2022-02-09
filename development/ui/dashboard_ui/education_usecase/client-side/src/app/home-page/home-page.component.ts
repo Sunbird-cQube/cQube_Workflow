@@ -72,8 +72,15 @@ export class HomePageComponent implements OnInit {
       this.keycloakService.kc.clearToken();
       this.keycloakService.kc.logout(options);
     } else {
-      localStorage.clear();
-      this.router.navigate(['signin'])
+
+      let refreshToken = localStorage.getItem('refToken')
+
+
+      this.logInservice.logout(localStorage.getItem('refToken')).subscribe(res => {
+        if (res['status'] === 200)
+          localStorage.clear();
+        this.router.navigate(['/signin'])
+      })
     }
   }
 
@@ -97,7 +104,7 @@ export class HomePageComponent implements OnInit {
         console.log(error)
       }
     })
-   
+
 
   }
 

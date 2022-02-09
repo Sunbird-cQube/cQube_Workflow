@@ -57,4 +57,8 @@ export class LoginService {
   postUserDetails(data) {
     return this.http.post(`${this.adminUrl}/userdetails`, data)
   }
+
+  logout(data) {
+    return this.http.post(`${this.baseUrl}/logout`, { refToken: data })
+  }
 }

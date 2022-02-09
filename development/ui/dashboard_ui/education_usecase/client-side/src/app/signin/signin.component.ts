@@ -104,11 +104,13 @@ export class SigninComponent implements OnInit {
 
     this.service.login(this.loginForm.value).subscribe(res => {
       this.wrongCredintional = false;
+
       let response = res
       this.userName = res['username']
       this.adminUserId = res['userId']
       this.userStatus = res['status']
-
+      let refreshToken = res['res'].refresh_token
+      localStorage.setItem('refToken', refreshToken)
 
       if (this.userStatus === 'true') {
         this.tempSecret = ''
