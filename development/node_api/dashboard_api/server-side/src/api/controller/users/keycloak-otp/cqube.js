@@ -1,8 +1,7 @@
 var axios = require('axios');
 var qs = require('qs');
-const dotenv = require('dotenv');
 const config = require('./config')
-dotenv.config();
+
 
 
 
@@ -35,7 +34,7 @@ const getDetails = async () => {
 
     await axios(config)
         .then(function (response) {
-            
+
             if (JSON.stringify(response.data['access_token'])) {
                 let res = JSON.stringify(response.data)
                 let token = response.data['access_token']
@@ -67,7 +66,7 @@ const getDetails = async () => {
 
                                             axios.get(actionsUrl, { headers: innerHeader }).then(async actions => {
                                                 // take only CONFIGURE_TOTP to check for two factor auth enable for the application
-                                                
+
                                                 let requiredActions = actions.data.filter(data => {
                                                     return data.alias == 'CONFIGURE_TOTP'
 
@@ -82,18 +81,18 @@ const getDetails = async () => {
                                                 }
 
                                                 // check for required actions configured -- CONFIGURE_TOTP and update the user for two factor auth
-                                                
-
-                                                    // updating user api call
-                                                    axios.put(updateUser, actionsRequired, { headers: innerHeader }).then(async resp1 => {
-                                                   
 
 
-                                                    }).catch(error => {
-                                                        console.log(error)
+                                                // updating user api call
+                                                axios.put(updateUser, actionsRequired, { headers: innerHeader }).then(async resp1 => {
 
-                                                    })
-                                                
+
+
+                                                }).catch(error => {
+                                                    console.log(error)
+
+                                                })
+
                                             }).catch(error => {
                                                 res.status(409).json({ errMsg: error.response });
                                             })
