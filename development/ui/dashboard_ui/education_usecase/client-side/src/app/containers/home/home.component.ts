@@ -7,6 +7,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
+import { LoginService } from '../../services/login.service'
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit {
   showBackBtn: boolean = false;
 
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
-    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService) {
+    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService, public logInservice: LoginService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -115,9 +116,21 @@ export class HomeComponent implements OnInit {
       this.keyCloakService.kc.clearToken();
       this.keyCloakService.kc.logout(options);
     } else {
-      localStorage.clear();
-      this.clearSessionStorage();
-      this.router.navigate(['/signin'])
+
+      if (localStorage.getItem('role') === 'admin') {
+        let refreshToken = localStorage.getItem('refToken')
+
+
+        this.logInservice.logout(localStorage.getItem('refToken')).subscribe(res => {
+          localStorage.clear();
+          this.router.navigate(['/signin'])
+        })
+      } else {
+        localStorage.clear();
+        this.router.navigate(['/signin'])
+      }
+
+
     }
 
   }

@@ -17,6 +17,8 @@ const totp = require('./controller/users/logIn');
 const totpVerify = require('./controller/users/logIn');
 const addUserToDB = require('./controller/users/logIn');
 const getSecret = require('./controller/users/logIn');
+const logout = require('./controller/users/logIn');
+
 
 
 
@@ -184,6 +186,8 @@ router.use('/totp', totp)
 router.use('/', totpVerify)
 router.use('/', addUserToDB)
 router.use('/', getSecret)
+router.use('/', logout)
+
 
 // Infra
 router.use('/infra', infraDistWise);

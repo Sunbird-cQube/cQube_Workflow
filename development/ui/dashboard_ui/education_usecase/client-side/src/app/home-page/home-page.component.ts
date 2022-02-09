@@ -72,8 +72,19 @@ export class HomePageComponent implements OnInit {
       this.keycloakService.kc.clearToken();
       this.keycloakService.kc.logout(options);
     } else {
-      localStorage.clear();
-      this.router.navigate(['signin'])
+      if (localStorage.getItem('role') === 'admin') {
+        let refreshToken = localStorage.getItem('refToken')
+
+
+        this.logInservice.logout(localStorage.getItem('refToken')).subscribe(res => {
+          localStorage.clear();
+          this.router.navigate(['/signin'])
+        })
+      } else {
+        localStorage.clear();
+        this.router.navigate(['/signin'])
+      }
+
     }
   }
 
@@ -97,7 +108,7 @@ export class HomePageComponent implements OnInit {
         console.log(error)
       }
     })
-   
+
 
   }
 
