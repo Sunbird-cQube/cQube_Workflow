@@ -153,7 +153,11 @@ export class MultiBarChartComponent implements OnInit {
                 e.preventDefault();
               },
 
-            }
+            },
+
+            pointPadding: 0.1,
+            groupPadding: 0.1,
+
           },
 
           bar: {
@@ -170,6 +174,7 @@ export class MultiBarChartComponent implements OnInit {
               style: {
                 color: "#000"
               },
+
             },
 
           },
@@ -592,7 +597,9 @@ export class MultiBarChartComponent implements OnInit {
                 legendItemClick: function (e) {
                   e.preventDefault();
                 }
-              }
+              },
+              pointPadding: 0.1,
+              groupPadding: 0.1,
             },
             bar: {
               dataLabels: {
