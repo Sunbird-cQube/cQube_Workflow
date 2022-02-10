@@ -47,219 +47,219 @@ export class BarChartComponent implements OnInit {
     } else {
       scrollBarX = true
     }
-      if(this.reportName == 'averageTimeSpend'){
-        this.chartOptions = {
-          chart: {
-            type: "bar",
-            backgroundColor: 'transparent',
+    if (this.reportName == 'averageTimeSpend') {
+      this.chartOptions = {
+        chart: {
+          type: "bar",
+          backgroundColor: 'transparent',
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          labels: {
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+            }
           },
+          type: "category",
+          gridLineColor: 'transparent',
+          categories: this.category,
           title: {
-            text: null
-          },
-          xAxis: {
-            labels: {
-              style: {
-                color: 'black',
-                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-              }
-            },
-            type: "category",
-            gridLineColor: 'transparent',
-            categories: this.category,
-            title: {
-              text: this.yAxisLabel,
-              style: {
-                color: 'black',
-                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-                fontWeight: "bold"
-              }
-            },
-            plotOptions: {
-
-            },
-            min: 0,
-            max: 25,
-            showEmpty : false,
-            scrollbar: {
-              minWidth: 6,
-              enabled: scrollBarX,
-            },
-            tickLength: 0
-          },
-          yAxis: {
-            labels: {
-              style: {
-                color: 'black',
-                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-              },
-              formatter: function () {
-                return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              }
-            },
-            min: 0,
-            showEmpty : false,
-            opposite: true,
-            max: Math.max.apply(Math, this.data),
-            gridLineColor: 'transparent',
-            title: {
-              text: this.xAxisLabel,
-              style: {
-                color: 'black',
-                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-                fontWeight: "bold"
-              }
+            text: this.yAxisLabel,
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: "bold"
             }
           },
           plotOptions: {
-            bar: {
-              dataLabels: {
-                enabled: true
-              }
-            },
-            series: {
-              pointPadding: 0,
-              groupPadding: 0,
-            }
+
           },
-          legend: {
-            enabled: false,
+          min: 0,
+          max: 25,
+          showEmpty: false,
+          scrollbar: {
+            minWidth: 6,
+            enabled: scrollBarX,
           },
-          credits: {
-            enabled: false
-          },
-          series: [
-            {
-              dataLabels: {
-                enabled: true,
-                style: {
-                  fontWeight: 1,
-                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-                },
-                formatter: function () {
-                  return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                }
-              },
-              
-              name: this.xAxisLabel,
-              data: this.data
-            }
-          ],
-          tooltip: {
+          tickLength: 0
+        },
+        yAxis: {
+          labels: {
             style: {
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-              opacity: 1,
-              backgroundColor: "white"
+              color: 'black',
+              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
             },
             formatter: function () {
-              return '<b>' + getPointCategoryName(this.point, name, xData, level, type) + '</b>';
+              return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            }
+          },
+          min: 0,
+          showEmpty: false,
+          opposite: true,
+          max: Math.max.apply(Math, this.data),
+          gridLineColor: 'transparent',
+          title: {
+            text: this.xAxisLabel,
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: "bold"
             }
           }
-        }
-      }else{
-        this.chartOptions = {
-          chart: {
-            type: "bar",
-            backgroundColor: 'transparent',
+        },
+        plotOptions: {
+          bar: {
+            dataLabels: {
+              enabled: true
+            }
           },
-          title: {
-            text: null
-          },
-          xAxis: {
-            labels: {
+          series: {
+            pointPadding: 0.1,
+            groupPadding: 0,
+          }
+        },
+        legend: {
+          enabled: false,
+        },
+        credits: {
+          enabled: false
+        },
+        series: [
+          {
+            dataLabels: {
+              enabled: true,
               style: {
-                color: 'black',
+                fontWeight: 1,
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-              }
-            },
-            type: "category",
-            gridLineColor: 'transparent',
-            categories: this.category,
-            title: {
-              text: this.yAxisLabel,
-              style: {
-                color: 'black',
-                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-                fontWeight: "bold"
-              }
-            },
-            min: 0,
-            max: 25,
-            scrollbar: {
-              minWidth: 6,
-              enabled: scrollBarX,
-            },
-            tickLength: 0
-          },
-          yAxis: {
-            labels: {
-              style: {
-                color: 'black',
-                fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
               },
               formatter: function () {
-                return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               }
             },
-            min: 0,
-            opposite: true,
-            max: Math.max.apply(Math, this.data),
-            gridLineColor: 'transparent',
-            title: {
-              text: this.xAxisLabel,
-              style: {
-                color: 'black',
-                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-                fontWeight: "bold"
-              }
-            }
+
+            name: this.xAxisLabel,
+            data: this.data
+          }
+        ],
+        tooltip: {
+          style: {
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            opacity: 1,
+            backgroundColor: "white"
           },
-          plotOptions: {
-            bar: {
-              dataLabels: {
-                enabled: true
-              }
-            },
-            series: {
-              pointPadding: 0,
-              groupPadding: 0
-            }
-          },
-          legend: {
-            enabled: false,
-          },
-          credits: {
-            enabled: false
-          },
-          series: [
-            {
-              dataLabels: {
-                enabled: true,
-                style: {
-                  fontWeight: 1,
-                  fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
-                },
-                formatter: function () {
-                  return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-                }
-              },
-              
-              name: this.xAxisLabel,
-              data: this.data
-            }
-          ],
-          tooltip: {
-            style: {
-              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
-              opacity: 1,
-              backgroundColor: "white"
-            },
-            formatter: function () {
-              return '<b>' + getPointCategoryName(this.point, name, xData, level, type) + '</b>';
-            }
+          formatter: function () {
+            return '<b>' + getPointCategoryName(this.point, name, xData, level, type) + '</b>';
           }
         }
       }
-   
+    } else {
+      this.chartOptions = {
+        chart: {
+          type: "bar",
+          backgroundColor: 'transparent',
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          labels: {
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+            }
+          },
+          type: "category",
+          gridLineColor: 'transparent',
+          categories: this.category,
+          title: {
+            text: this.yAxisLabel,
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: "bold"
+            }
+          },
+          min: 0,
+          max: 25,
+          scrollbar: {
+            minWidth: 6,
+            enabled: scrollBarX,
+          },
+          tickLength: 0
+        },
+        yAxis: {
+          labels: {
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "26px" : this.height > 1160 && this.height < 1760 ? "16px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+            },
+            formatter: function () {
+              return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            }
+          },
+          min: 0,
+          opposite: true,
+          max: Math.max.apply(Math, this.data),
+          gridLineColor: 'transparent',
+          title: {
+            text: this.xAxisLabel,
+            style: {
+              color: 'black',
+              fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+              fontWeight: "bold"
+            }
+          }
+        },
+        plotOptions: {
+          bar: {
+            dataLabels: {
+              enabled: true
+            }
+          },
+          series: {
+            pointPadding: 0,
+            groupPadding: 0
+          }
+        },
+        legend: {
+          enabled: false,
+        },
+        credits: {
+          enabled: false
+        },
+        series: [
+          {
+            dataLabels: {
+              enabled: true,
+              style: {
+                fontWeight: 1,
+                fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
+              },
+              formatter: function () {
+                return this.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              }
+            },
+
+            name: this.xAxisLabel,
+            data: this.data
+          }
+        ],
+        tooltip: {
+          style: {
+            fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+            opacity: 1,
+            backgroundColor: "white"
+          },
+          formatter: function () {
+            return '<b>' + getPointCategoryName(this.point, name, xData, level, type) + '</b>';
+          }
+        }
+      }
+    }
+
     this.Highcharts.chart("container", this.chartOptions);
 
     //Bar tooltips::::::::::::::::::::::
@@ -285,7 +285,7 @@ export class BarChartComponent implements OnInit {
         return obj;
       }
       if (reportName == "enroll/comp") {
-       
+
         obj = `<b>${level.charAt(0).toUpperCase() + level.substr(1).toLowerCase()} Name:</b> ${point.category}
         <br> ${point.y !== null ? `<b style= 'color: blue'>${type.split('_').length > 1 ?
             type.split('_')[0].charAt(0).toUpperCase() + type.split('_')[0].substr(1).toLowerCase() + " " + type.split('_')[1].charAt(0).toUpperCase() + type.split('_')[1].substr(1).toLowerCase() :
@@ -304,15 +304,15 @@ export class BarChartComponent implements OnInit {
         return obj;
 
       }
-      if(reportName = 'averageTimeSpend'){
-           
-            obj =   `<b style="padding-left: '10px'">Name:</b> ${point.category}
+      if (reportName = 'averageTimeSpend') {
+
+        obj = `<b style="padding-left: '10px'">Name:</b> ${point.category}
           <br> ${point.y !== null ? `<b>Average Time Spent: </b>${point.y} Hours` : ''}<br>
            <b> Enrolled Users : ${xData[point.index].total_enrolled}</b> 
           
-           `  
+           `
       }
-    
+
 
       return obj
     }

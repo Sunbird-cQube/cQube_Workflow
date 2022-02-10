@@ -96,7 +96,7 @@
             <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category" [data]="expectedEnrolled"
                 [enrolData]="enrollChartData" [compData]="compliChartData" [perData]="pecentChartData"
                 [xData]="completion" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report"
-                [level]="level" [type]="type" [courseSelected]="courseSelected">
+                [level]="level" [type]="type" [courseSelected]="courseSelected" [programSelected]="programSeleted">
             </app-multi-bar-chart>
             <div *ngIf="enrollChartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
                 No Data Available
