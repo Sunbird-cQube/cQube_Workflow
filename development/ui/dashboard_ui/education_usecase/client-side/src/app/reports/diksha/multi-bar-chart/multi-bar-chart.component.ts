@@ -169,7 +169,7 @@ export class MultiBarChartComponent implements OnInit {
               crop: false,
               overflow: 'allow',
               inside: true,
-              x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 60 : 60,
+              x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
               verticalAlign: 'middle',
               style: {
                 color: "#000"
@@ -416,7 +416,7 @@ export class MultiBarChartComponent implements OnInit {
               crop: false,
               overflow: 'allow',
               inside: true,
-              x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 60 : 60,
+              x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
               verticalAlign: 'middle',
               style: {
                 color: "#000"
@@ -609,7 +609,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 60 : 60,
+                x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
@@ -841,7 +841,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 60 : 60,
+                x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
