@@ -38,7 +38,7 @@ const getDetails = async () => {
 
     await axios(config)
         .then(function (response) {
-            console.log(response)
+
             if (JSON.stringify(response.data['access_token'])) {
                 let res = JSON.stringify(response.data)
                 logger.info('---token received ---');
@@ -50,7 +50,7 @@ const getDetails = async () => {
                         let userList = res['data']
                         logger.info('---users list  received ---');
                         userList.forEach(data => {
-
+                            console.log()
                             if (data['totp'] === true) {
 
 
@@ -62,7 +62,7 @@ const getDetails = async () => {
                                             if (Credentials['type'] === 'otp') {
 
                                                 axios.delete(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/credentials/${Credentials['id']}`, { headers: { "Authorization": `Bearer ${token}` } }).then(res => {
-                                                    
+
                                                     logger.info('---credentials type totp removed ---');
                                                 }).catch(err => {
                                                     logger.info('---credentials type totp removing failed ---');
@@ -84,7 +84,7 @@ const getDetails = async () => {
                                 axios.put(updateUser, actionsRequired, { headers: { "Authorization": `Bearer ${token}` } }).then(async resp1 => {
                                     logger.info('---removing of required action fail ---');
                                 }).catch(error => {
-                                    
+
                                     logger.info('---user info fail ---');
                                 })
 
@@ -93,13 +93,13 @@ const getDetails = async () => {
                     }
                 }).catch(err => {
                     logger.info('---user list fail ---');
-                    
+
                 })
 
             }
         })
         .catch(function (error) {
-            
+
             logger.info('---token received fail ---');
         });
 }
