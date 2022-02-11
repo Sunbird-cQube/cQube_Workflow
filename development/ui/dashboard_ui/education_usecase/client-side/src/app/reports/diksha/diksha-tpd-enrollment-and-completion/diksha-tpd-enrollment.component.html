@@ -3,11 +3,44 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 ">
-                    <div>
+                    <div *ngIf='skul'>
                         <p id="dist">
                             Report on User Progress: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;"
                                 class="selected-level">{{state}}</span></p>
+                    </div>
+                    <div *ngIf='dist'>
+                        <p id="block">
+                            Report on User Progress: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
+                            </span><span (click)="distLinkClick(districtHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                                {{districtHierarchy.districtName}}</span> </p>
+                    </div>
+                    <div *ngIf="blok">
+                        <p id="cluster">
+                            Report on User Progress: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="distLinkClick(blockHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{blockHierarchy.districtName}}</span><span> | </span><span
+                                (click)="blockLinkClick(blockHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                                {{blockHierarchy.blockName}}</span></p>
+                    </div>
+                    <div *ngIf="clust">
+                        <p id="school">
+                            Report on User Progress: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
+                            </span><span (click)="distLinkClick(clusterHierarchy.distId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.districtName}}</span><span> | </span><span
+                                (click)="blockLinkClick(clusterHierarchy.blockId)"
+                                style="cursor: pointer;text-decoration: underline;">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span
+                                (click)="clusterLinkClick(clusterHierarchy.clusterId)"
+                                style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                                {{clusterHierarchy.clusterName}}</span></p>
                     </div>
 
                 </div>
@@ -96,7 +129,7 @@
             <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category" [data]="expectedEnrolled"
                 [enrolData]="enrollChartData" [compData]="compliChartData" [perData]="pecentChartData"
                 [xData]="completion" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report"
-                [level]="level" [type]="type" [courseSelected]="courseSelected">
+                [level]="level" [type]="type" [courseSelected]="courseSelected" [programSelected]="programSeleted">
             </app-multi-bar-chart>
             <div *ngIf="enrollChartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
                 No Data Available

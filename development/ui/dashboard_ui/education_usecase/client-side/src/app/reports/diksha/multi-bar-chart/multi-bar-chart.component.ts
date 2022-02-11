@@ -26,7 +26,9 @@ export class MultiBarChartComponent implements OnInit {
   @Input() public level: String;
   @Input() public type: String;
   @Input() height: any = window.innerHeight;
-  @Input() public courseSelected: boolean
+  @Input() public courseSelected: boolean;
+  @Input() public programSelected: boolean;
+
 
   constructor(public changeDetection: ChangeDetectorRef) {
   }
@@ -50,6 +52,7 @@ export class MultiBarChartComponent implements OnInit {
     var type = this.type;
     var course = this.courseSelected;
     var expectedData = this.data
+    var programStatus = this.programSelected
 
     if ((level === 'program') && this.courseSelected === false) {
       this.chartOptions = {
@@ -148,8 +151,13 @@ export class MultiBarChartComponent implements OnInit {
             events: {
               legendItemClick: function (e) {
                 e.preventDefault();
-              }
-            }
+              },
+
+            },
+
+            pointPadding: 0.1,
+            groupPadding: 0.1,
+
           },
 
           bar: {
@@ -161,11 +169,12 @@ export class MultiBarChartComponent implements OnInit {
               crop: false,
               overflow: 'allow',
               inside: true,
-              x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
+              x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
               verticalAlign: 'middle',
               style: {
                 color: "#000"
               },
+
             },
 
           },
@@ -206,6 +215,7 @@ export class MultiBarChartComponent implements OnInit {
               enableMouseTracking: false,
               enabled: true,
               style: {
+                marginLeft: '30px',
                 fontWeight: 800,
                 fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "12px",
               },
@@ -300,7 +310,7 @@ export class MultiBarChartComponent implements OnInit {
             backgroundColor: "white"
           },
           formatter: function () {
-            return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course) + '</b>';
+            return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course, programStatus) + '</b>';
           },
           shared: true
 
@@ -406,7 +416,7 @@ export class MultiBarChartComponent implements OnInit {
               crop: false,
               overflow: 'allow',
               inside: true,
-              x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
+              x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
               verticalAlign: 'middle',
               style: {
                 color: "#000"
@@ -478,7 +488,7 @@ export class MultiBarChartComponent implements OnInit {
             backgroundColor: "white"
           },
           formatter: function () {
-            return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course) + '</b>';
+            return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course, programStatus) + '</b>';
 
           },
           shared: true
@@ -587,7 +597,9 @@ export class MultiBarChartComponent implements OnInit {
                 legendItemClick: function (e) {
                   e.preventDefault();
                 }
-              }
+              },
+              pointPadding: 0.1,
+              groupPadding: 0.1,
             },
             bar: {
               dataLabels: {
@@ -597,7 +609,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
+                x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
@@ -725,7 +737,7 @@ export class MultiBarChartComponent implements OnInit {
               backgroundColor: "white"
             },
             formatter: function () {
-              return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course) + '</b>';
+              return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course, programStatus) + '</b>';
             },
             shared: true
 
@@ -829,7 +841,7 @@ export class MultiBarChartComponent implements OnInit {
                 crop: false,
                 overflow: 'allow',
                 inside: true,
-                x: this.height > 1760 ? 240 : this.height > 1160 && this.height < 1760 ? 150 : this.height > 667 && this.height < 1160 ? 100 : 100,
+                x: this.height > 1760 ? 200 : this.height > 1160 && this.height < 1760 ? 100 : this.height > 667 && this.height < 1160 ? 50 : 50,
                 verticalAlign: 'middle',
                 style: {
                   color: "#000"
@@ -921,7 +933,7 @@ export class MultiBarChartComponent implements OnInit {
               backgroundColor: "white"
             },
             formatter: function () {
-              return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course) + '</b>';
+              return '<b>' + getPointCategoryName(this.points, name, xData, level, type, this.series, course, programStatus) + '</b>';
             },
             shared: true
 
@@ -958,7 +970,7 @@ export class MultiBarChartComponent implements OnInit {
 
 
     //Bar tooltips::::::::::::::::::::::
-    function getPointCategoryName(points, reportName, xData, level, type, series, courseSelected) {
+    function getPointCategoryName(points, reportName, xData, level, type, series, courseSelected, programStatus) {
       var obj = '';
       if (reportName == "enroll/comp") {
         if (((level === 'district' || level == "program") && courseSelected === true) || level === "program") {
@@ -986,11 +998,21 @@ export class MultiBarChartComponent implements OnInit {
       <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
      `
         } else {
-          obj = `&nbsp<b>${level.charAt(0).toUpperCase() + level.slice(1)} Name:</b> ${points[0].x}
+          if (courseSelected === true || programStatus === true) {
+            obj = `&nbsp<b>${level.charAt(0).toUpperCase() + level.slice(1)} Name:</b> ${points[0].x}
       <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment'].toLocaleString('en-IN')}` : ''}
       <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
+      <br> ${points.y !== null ? `<b>Certificate:</b>  ${xData[`${points[0].point.index}`]['certificate_value'].toLocaleString('en-IN')}` : ''}
+     `
+          } else {
+            obj = `&nbsp<b>${level.charAt(0).toUpperCase() + level.slice(1)} Name:</b> ${points[0].x}
+      <br> ${points.y !== null ? `<b>Enrolled:</b>  ${xData[`${points[0].point.index}`]['enrollment'].toLocaleString('en-IN')}` : ''}
+      <br> ${points.y !== null ? `<b>Completed:</b>  ${xData[`${points[0].point.index}`]['completion'].toLocaleString('en-IN')}` : ''}
+       
       
      `
+          }
+
         }
         return obj;
 
