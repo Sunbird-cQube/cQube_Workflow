@@ -132,8 +132,6 @@ export class AnomalyReportComponent implements OnInit {
     this.globalService.longitude = this.lng = this.commonService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("anomalyMap", [[this.lat, this.lng]]);
-    // document.getElementById("homeBtn").style.display = "block";
-    // document.getElementById("backBtn").style.display = "none";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.anomaly_type = "percentile_score"

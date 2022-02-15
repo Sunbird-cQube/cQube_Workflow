@@ -35,10 +35,7 @@ def read_data_pyspark(df_loc):
     return df
 
 def column_rename(exam_code, subject_lookup, exam_lookup):
-    # subject_lookup = pd.read_csv(subject_lookup_loc, sep="|")
     subject_lookup = json.loads(subject_lookup[["subject_id","subject"]].drop_duplicates().toPandas().set_index('subject_id')['subject'].to_json())
-    # subject_lookup = json.loads(subject_lookup[["subject_id","subject"]].drop_duplicates().toPandas().to_json())
-    # exam_lookup = pd.read_csv(exam_lookup_loc, sep="|")[['standard', 'subject_id', 'exam_code', 'exam_date']]
     exam_lookup = exam_lookup.toPandas()
     exam_lookup['ExamCode'] = exam_lookup['exam_code'].apply(lambda x: x.strip())
     exam_lookup.set_index('ExamCode', inplace=True)

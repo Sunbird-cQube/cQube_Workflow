@@ -23,10 +23,7 @@ spark = SparkSession.builder.appName("initial_anomaly_analysis").master("local[*
 
 
 def read_data_pyspark(df_loc):
-    # df = spark.read.csv(df_loc, sep = '|',header=True)
     df = spark.read.text(df_loc)
-    # df = spark.read.acro(df_loc, sep = '|',header=True)
-    # df = spark.read.format("avro").load(df_loc)
     return df
 
 def read_data_postgres(db_name, db_user, db_password, query):
@@ -36,36 +33,6 @@ def read_data_postgres(db_name, db_user, db_password, query):
                      table = query,
                      properties={"user": db_user, "password": db_password, "driver": db_driver})
     return df
-
-    
-# def fetch_files_required(folder):
-#     file_ls = glob.glob(os.path.join(folder,"*.csv"))
-#     print(file_ls)
-#     district_mst_ls = []  
-#     cluster_mst_ls = [] 
-#     school_mst_ls = [] 
-#     exam_result_ls = []
-#     block_mst_ls = [] 
-#     for file in file_ls:
-#         if 'district_mst' in file:
-#             district_mst_df = spark.read.csv(file, sep = '|',header=True)
-#             district_mst_ls.append(district_mst_df) 
-
-#         elif 'cluster_mst' in file:
-#             cluster_mst_df = spark.read.csv(file, sep = '|',header=True)
-#             cluster_mst_ls.append(cluster_mst_df)
-#         elif 'school_mst' in file:
-#             school_mst_df = spark.read.csv(file, sep = '|',header=True)
-#             school_mst_ls.append(school_mst_df)
-#         elif 'block_mst' in file:
-#             block_mst_df = spark.read.csv(file, sep = '|',header=True)
-#             block_mst_ls.append(block_mst_df) 
-#         elif 'exam_result_trans' in file:
-#             exam_result_df = spark.read.csv(file, sep = '|',header=True)
-#             exam_result_ls.append(exam_result_df)  
-        
-#     return exam_result_ls, district_mst_ls, cluster_mst_ls, school_mst_ls, block_mst_ls 
-            
 
 
 def upload_file_s3(resource_file, cred, object_name=None): 
