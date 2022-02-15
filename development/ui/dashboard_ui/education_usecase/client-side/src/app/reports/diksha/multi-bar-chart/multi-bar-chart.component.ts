@@ -160,7 +160,7 @@ export class MultiBarChartComponent implements OnInit {
           },
 
           bar: {
-            minPointLength: 10,
+            minPointLength: 3,
             dataLabels: {
               enabled: true,
               align: 'right',
@@ -408,7 +408,7 @@ export class MultiBarChartComponent implements OnInit {
             }
           },
           bar: {
-            minPointLength: 10,
+            minPointLength: 3,
             dataLabels: {
               enabled: true,
               align: 'right',
@@ -602,7 +602,7 @@ export class MultiBarChartComponent implements OnInit {
               groupPadding: 0.1,
             },
             bar: {
-              minPointLength: 10,
+              minPointLength: 3,
               dataLabels: {
                 enabled: true,
                 align: 'right',
@@ -835,7 +835,7 @@ export class MultiBarChartComponent implements OnInit {
               }
             },
             bar: {
-              minPointLength: 10,
+              minPointLength: 3,
               dataLabels: {
                 enabled: true,
                 align: 'right',
@@ -922,7 +922,7 @@ export class MultiBarChartComponent implements OnInit {
                   }
                 }
               },
-              color: this.perData.length > 0 ? '#9C19E0' : 'transparent',
+              color: this.perData.length > 0 ? '#D4AC2B' : 'transparent',
 
               name: this.perData.length > 0 ? 'Certificate' : '',
               data: this.perData.length > 0 ? this.perData : null
