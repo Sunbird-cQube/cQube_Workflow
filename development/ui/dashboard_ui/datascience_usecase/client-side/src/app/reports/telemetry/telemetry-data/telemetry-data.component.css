@@ -1,0 +1,15 @@
+.reportContainer1{
+    margin-top: 100px;;
+}
+
+@media screen and(min-wodth: 2140px) {
+    .reportContainer1{
+        margin-top: 140px !important;
+    }
+}
+
+@media screen and(min-wodth: 3820px) {
+    .reportContainer1{
+        margin-top: 180px !important;
+    }
+}

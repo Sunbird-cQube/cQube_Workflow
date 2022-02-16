@@ -1,0 +1,5 @@
+- name: Run datascience python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py datascience_transformer datascience_parameters 4667"
+
+- name: Connection of datascience to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage datascience_transformer"

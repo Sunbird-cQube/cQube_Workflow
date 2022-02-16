@@ -1,0 +1,10 @@
+{
+    "ConfigDetails": {
+        "subject_lookup_table": "subject_details",
+        "exam_lookup_table": "periodic_exam_mst",
+        "exam_result_table": "periodic_exam_result_trans",
+        "no_of_exam": 1, 
+        "school_hierarchy_table": "school_hierarchy_details",
+        "school_geo_master_table": "school_geo_master"
+    }
+}

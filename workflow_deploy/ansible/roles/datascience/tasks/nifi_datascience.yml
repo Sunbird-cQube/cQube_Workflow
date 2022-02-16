@@ -1,0 +1,11 @@
+- name: Run datascience python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py datascience_transformer datascience_parameters 4667"
+  tags: [ install, update ]
+
+- name: Connection of datascience to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage datascience_transformer"
+  tags: [ install, update ]
+
+- name: run python code to disable the processors
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py datascience_transformer {{ storage_type }}"
+  tags: [ install, update ]  

@@ -1,0 +1,237 @@
+.card {
+  margin-bottom: 5px;
+  border: none;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.card .card-header {
+  padding: 10px 40px;
+  height: 40px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  position: relative;
+}
+.card .card-header .card-header-left {
+  border-radius: 0 0 0 7px;
+  left: 15px;
+  top: 2px;
+  float: right;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+}
+.card .card-header .card-head-text {
+  right: 20px;
+  left: 10px;
+  top: 2px;
+  float: right;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  text-align: right;
+}
+.card .card-header .card-head-text p {
+  font-size: 14px;
+}
+
+.card .card-header .card-header-left .card-option li:first-child i {
+  -webkit-transition: 1s;
+  transition: 1s;
+  font-size: 28px;
+}
+
+.card .card-body {
+  padding: 10px 20px;
+  height: 65px;
+  background-color: rgba(0, 0, 0, 0);
+}
+.card .card-body h6 {
+  font-size: 15px; 
+  text-align: left;
+  line-height: 22px;
+  color: #fff;
+}
+.card .card-body p:last-child {
+  margin-bottom: 0;
+}
+.card .card-footer {
+  padding: 8px 15px;
+  height: 75px;
+  text-align: left;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.card .card-footer p {
+  font-size: 11px;
+  color: #fff;
+}
+
+.card-icon{
+  height: 30px;
+  width: 30px;
+}
+
+
+@media screen and (min-width : 2520px) {
+  .card {
+    margin-bottom: 8px !important;
+    border: none;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px !important;
+    border-radius: 20px !important;
+    cursor: pointer;
+  }
+  .card .card-header {
+    padding: 20px 40px !important; 
+    height: 80px !important;
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+    position: relative;
+  }
+  .card .card-header .card-header-left {
+    border-radius: 0 0 0 7px !important;
+    left: 10px !important;
+    top: 12px !important;
+    float: right;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+  }
+  .card .card-header .card-head-text {
+    right: 20px;
+    left: 15px;
+    top: 5px !important;
+    float: right;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    text-align: right;
+  }
+  .card .card-header .card-head-text p {
+    font-size: 30px !important;
+  }
+
+  .card .card-header .card-header-left .card-option li:first-child i {
+    -webkit-transition: 1s;
+    transition: 1s;
+    font-size: 50px !important;
+  }
+  
+  .card .card-body {
+    padding: 10px 20px;
+    height: 140px !important;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .card .card-body h6 {
+    font-size: 35px !important; 
+    text-align: left;
+    line-height: 30px !important;
+    color: #fff;
+  }
+
+  .card .card-footer {
+    padding: 8px 15px;
+    height: 120px !important;
+    text-align: left;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  .card .card-footer p {
+    font-size: 22px !important;
+    color: #fff;
+  }
+  
+  .card-icon{
+    height: 50px !important;
+    width: 50px !important;
+  }
+}
+
+@media screen and (min-width : 3820px) {
+  .card {
+    margin-bottom: 8px !important;
+    border: none;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px !important;
+    border-radius: 20px !important;
+    cursor: pointer;
+  }
+  .card .card-header {
+    padding: 20px 40px !important; 
+    height: 120px !important;
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+    position: relative;
+  }
+  .card .card-header .card-header-left {
+    border-radius: 0 0 0 7px !important;
+    left: 10px !important;
+    top: 15px !important;
+    float: right;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+  }
+  .card .card-header .card-head-text {
+    right: 20px;
+    left: 15px;
+    top: 10px !important;
+    float: right;
+    padding: 12px 0;
+    position: absolute;
+    z-index: 1;
+    text-align: right;
+  }
+  
+  .card .card-header .card-head-text p {
+    font-size: 45px !important;
+  }
+
+  .card .card-header .card-header-left .card-option li:first-child i {
+    -webkit-transition: 1s;
+    transition: 1s;
+    font-size: 80px !important;
+  }
+  
+  .card .card-body {
+    padding: 10px 20px;
+    height: 200px !important;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .card .card-body h6 {
+    font-size: 48px !important; 
+    text-align: left;
+    line-height: 50px !important;
+    color: #fff;
+  }
+
+  .card .card-footer {
+    padding: 8px 15px;
+    height: 180px !important;
+    text-align: left;
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+  }
+  .card .card-footer p {
+    font-size: 32px !important;
+    color: #fff;
+  }
+  
+  .card-icon{
+    height: 70px !important;
+    width: 70px !important;
+  }
+}
+
+
+.bg-header{
+  background: linear-gradient(180deg, #FC69AE 0%, #9463EF 100%);
+}
+.bg-footer{
+  background-color: #F869B1;
+}

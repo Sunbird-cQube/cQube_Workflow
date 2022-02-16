@@ -14,6 +14,7 @@
     - cqube_telemetry_parameters
     - udise_parameters
     - pat_parameters
+    - datascience_parameters
     - composite_parameters
     - progress_card_parameters
     - teacher_attendance_parameters

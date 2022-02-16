@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="row reportHeader">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-9 col-md-9 col-sm-12 ">
+                    <div >
+                        <p id="dist">
+                          Report on User Progress: <span (click)="homeClick()"
+                                style="cursor: pointer;text-decoration: underline;"
+                                class="selected-level">{{state}}</span></p>
+                    </div>
+                  
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-7" style="display: none;">
+                            <p id="errMsg" class="note">
+                            </p>
+                        </div>
+                        <div class="col sm-5">
+                            <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
+                                id="download1" (click)="downloadReport()">Download Report &nbsp; <i
+                                    class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="note">
+                        <strong> About the dashboard:</strong> The dashboard provides insights on user onboarding, completion and certification across various TPD courses for {{state}}.
+                    </p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5px;">
+                <div class="col-sm-12 d-flex">
+                    <select id="time_range" [(ngModel)]="timePeriod" name="timePeriod" (change)="chooseTimeRange()">
+                        <option [value]="timePeriod" disabled selected="selected">Choose Time Range
+                        </option>
+                        <option *ngFor="let time of timeDetails" [(ngValue)]="time.id">
+                            {{time.name}}
+                        </option>
+                    </select>
+                         
+                    <select id="choose_dist"  [(ngModel)]="selectedProgram" name="selectedProgram" (change)="onProgramSelect(selectedProgram)">
+                        <option [value]="selectedProgram" disabled selected="selected">Choose a program</option>
+                        <option *ngFor="let program of uniqePrograms" [(ngValue)]="program.program_id">
+                            {{program.program_name}}
+                        </option>
+                    </select>
+                  
+                <ng-select [items]="collectionNames" id="SearchDropDown" class="col-3" [hideSelected]="true"  placeholder = " Search Course"  notFoundText = "no courses found"
+                  bindLabel="collection_name" [(ngModel)] = "selectedCourse" bindValue="collection_id"   clearAllText="Clear"  (change)="getDataBasedOnCollections($event)" (clear) = "onClear()"
+                 >
+                  </ng-select>
+                 
+                     
+                    <select id="choose_dist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
+                        <option [value]="districtId" disabled selected="selected">Choose a District</option>
+                        <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
+                            {{dist.district_name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
+                        (change)="blockLinkClick(blockId)">
+                        <option [value]="blockId" disabled selected="selected">Choose a Block</option>
+                        <option *ngFor="let block of blocks" [(ngValue)]="block.block_id">
+                            {{block.block_name}}
+                        </option>
+                    </select>
+
+                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
+                        (change)="clusterLinkClick(clusterId)">
+                        <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
+                        <option *ngFor="let cluster of clusters" [(ngValue)]="cluster.cluster_id"
+                            [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
+                            {{cluster.cluster_name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row reportContainer" style="width: 100%" id="chart">
+        <div class="col-lg-1">
+
+        </div>
+        <div class="col-lg-10" id="r1" style="position: relative;">
+            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl"></span>
+            <span *ngIf = "level == 'district' && enrollChartData.length > 0" class="vl2"></span>
+            <app-multi-bar-chart *ngIf="enrollChartData.length > 0" [category]="category"  [data] = "expectedEnrolled" [enrolData] = "enrollChartData" [compData] = "compliChartData" [perData]= "pecentChartData" [xData]="completion"
+                [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="report" [level]="level" [type]="type" [courseSelected] = "courseSelected">
+            </app-multi-bar-chart>
+            <div *ngIf="enrollChartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
+                No Data Available 
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+    <div id="spinner">
+        <div class="loading">Loading&#8230;</div>
+    </div>

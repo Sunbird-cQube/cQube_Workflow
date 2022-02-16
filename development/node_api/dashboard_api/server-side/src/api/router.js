@@ -40,6 +40,30 @@ const patExceptBlockWise = require('./controller/completionReports/patException/
 const patExceptClusterWise = require('./controller/completionReports/patException/clusterWise');
 const patExceptSchoolWise = require('./controller/completionReports/patException/schoolWise');
 
+//Anomaly report
+const anomalyMapSchoolWise = require('./controller/DataScienceRoutes/anomalyRoutes/report_map/anomalySchoolWise');
+const anomalyMapDistWise = require('./controller/DataScienceRoutes/anomalyRoutes/report_map/anomalyDistWise');
+const anomalyMapBlockWise = require('./controller/DataScienceRoutes/anomalyRoutes/report_map/anomalyBlockWise');
+const anomalyMapClusterWise = require('./controller/DataScienceRoutes/anomalyRoutes/report_map/anomalyClusterWise');
+
+//Anomaly
+router.use('/anomalyMap', anomalyMapSchoolWise);
+router.use('/anomalyMap', anomalyMapDistWise);
+router.use('/anomalyMap', anomalyMapBlockWise);
+router.use('/anomalyMap', anomalyMapClusterWise);
+
+//Dropout report
+const dropoutMapSchoolWise = require('./controller/DataScienceRoutes/dropoutRoutes/report_map/dropoutSchoolWise');
+const dropoutMapDistWise = require('./controller/DataScienceRoutes/dropoutRoutes/report_map/dropoutDistWise');
+const dropoutMapBlockWise = require('./controller/DataScienceRoutes/dropoutRoutes/report_map/dropoutBlockWise');
+const dropoutMapClusterWise = require('./controller/DataScienceRoutes/dropoutRoutes/report_map/dropoutClusterWise');
+
+//Dropout
+router.use('/dropoutMap', dropoutMapSchoolWise);
+router.use('/dropoutMap', dropoutMapDistWise);
+router.use('/dropoutMap', dropoutMapBlockWise);
+router.use('/dropoutMap', dropoutMapClusterWise);
+
 const telemetryData = require('../api/controller/telemetry/telemetryData');
 
 // const crcData = require('./controller/users/crcData');
