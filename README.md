@@ -21,19 +21,18 @@ git pull
 
 - Based on the number of udise attributes required by the state, configure the udise_config.csv file by filling the required fields in the file udise_config.csv:
 - ```cd /development/datasource/udise/postgres/udise_config.csv```
-- 
 - To edit below mentioned UDISE details ```nano udise_config.csv```
 
 - Save and Close the file
 
 - For more information to configure the weights & columns for udise/infrastucture, please refer operational document.
 
-- Update the diksha parameters(api_url,token,encryption key,dataset name channel_id,org_id) in the file  diksha_parameters.txt configure the udise_config.csv file by filling the required fields in the file diksha_parameters.txt:
+- Update the diksha parameters(api_url,token,encryption key,dataset name channel_id,org_id,diksha_tpd_encryption) in the file by filling the required fields in the file diksha_parameters.txt:
 
 -  ```cd /development/datasource/diksha/nifi/diksha_parameters.txt```
 
 - If you are opting for education_usecase. usecase_name as education_usecase Copy the config.yml.template to config.yml 
-- 
+
 - `cp config.yml.template to config.yml`
 
 - Edit using `nano config.yml`
