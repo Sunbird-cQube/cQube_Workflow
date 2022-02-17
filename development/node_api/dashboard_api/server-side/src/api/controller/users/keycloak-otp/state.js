@@ -50,7 +50,7 @@ const getDetails = async () => {
                         let userList = res['data']
                         logger.info('---users list  received ---');
                         userList.forEach(data => {
-                            console.log()
+                            
                             if (data['totp'] === true) {
 
 

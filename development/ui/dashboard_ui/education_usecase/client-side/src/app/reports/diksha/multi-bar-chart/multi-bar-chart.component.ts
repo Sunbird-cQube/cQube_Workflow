@@ -60,7 +60,6 @@ export class MultiBarChartComponent implements OnInit {
           type: "bar",
           backgroundColor: 'transparent',
           inverted: true,
-
         },
 
         title: {
@@ -161,7 +160,7 @@ export class MultiBarChartComponent implements OnInit {
           },
 
           bar: {
-
+            minPointLength: 3,
             dataLabels: {
               enabled: true,
               align: 'right',
@@ -214,6 +213,7 @@ export class MultiBarChartComponent implements OnInit {
             dataLabels: {
               enableMouseTracking: false,
               enabled: true,
+              x: 90,
               style: {
                 marginLeft: '30px',
                 fontWeight: 800,
@@ -408,7 +408,7 @@ export class MultiBarChartComponent implements OnInit {
             }
           },
           bar: {
-
+            minPointLength: 3,
             dataLabels: {
               enabled: true,
               align: 'right',
@@ -602,6 +602,7 @@ export class MultiBarChartComponent implements OnInit {
               groupPadding: 0.1,
             },
             bar: {
+              minPointLength: 3,
               dataLabels: {
                 enabled: true,
                 align: 'right',
@@ -635,6 +636,7 @@ export class MultiBarChartComponent implements OnInit {
             {
               dataLabels: {
                 enabled: true,
+                x: 90,
                 style: {
                   fontWeight: 800,
 
@@ -814,7 +816,6 @@ export class MultiBarChartComponent implements OnInit {
             min: 0,
             max: Math.max.apply(Math, this.enrolData),
             opposite: true,
-
             gridLineColor: 'transparent',
             title: {
               text: this.xAxisLabel,
@@ -834,6 +835,7 @@ export class MultiBarChartComponent implements OnInit {
               }
             },
             bar: {
+              minPointLength: 3,
               dataLabels: {
                 enabled: true,
                 align: 'right',
@@ -920,7 +922,7 @@ export class MultiBarChartComponent implements OnInit {
                   }
                 }
               },
-              color: this.perData.length > 0 ? '#9C19E0' : 'transparent',
+              color: this.perData.length > 0 ? '#D4AC2B' : 'transparent',
 
               name: this.perData.length > 0 ? 'Certificate' : '',
               data: this.perData.length > 0 ? this.perData : null
