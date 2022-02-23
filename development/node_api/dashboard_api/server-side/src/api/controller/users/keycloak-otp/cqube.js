@@ -53,7 +53,7 @@ const getDetails = async () => {
                         logger.info('---userlist received ---');
                         userList.forEach(data => {
                             if (data['username'] !== username) {
-                                console.log('data', data)
+                                
                                 axios.get(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/role-mappings`, { headers: innerHeader }).then(res => {
                                     if (res.status === 200) {
                                         let userRole = res['data'];
@@ -71,7 +71,7 @@ const getDetails = async () => {
                                                             'CONFIGURE_TOTP'
                                                         ],
                                                     }
-                                                    console.log('data', data)
+                                                    
                                                     // updating user api call
                                                     axios.put(updateUser, actionsRequired, { headers: innerHeader }).then(async resp1 => {
 

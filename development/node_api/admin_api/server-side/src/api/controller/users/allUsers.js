@@ -29,7 +29,7 @@ router.post('/', auth.authController, async function (req, res) {
             res.status(201).json({ users: allUsers });
         }).catch(error => {
             logger.error(`Error ::${error}`);
-            res.status(409).json({ errMsg: error });
+            res.status(409).json({ errMsg: "Somthing went wrong" });
         });
     } catch (e) {
         logger.error(`Error :: ${e}`);

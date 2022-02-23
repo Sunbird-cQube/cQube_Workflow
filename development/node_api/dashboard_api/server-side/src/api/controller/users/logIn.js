@@ -217,7 +217,6 @@ router.post('/login', async (req, res, next) => {
 router.post('/adduser', async (req, res, next) => {
     const { email } = req.body
     logger.info('---new user added ---');
-    console.log('request', req.body)
     db.query('INSERT INTO keycloak_users (keycloak_username, status) VALUES ($1, $2)', [req.body.username, "false"], (error, results) => {
         if (error) {
             logger.info('---user create in DB error ---');
@@ -253,7 +252,6 @@ router.post('/getTotp', async (req, res, next) => {
 
 router.post('/logout', async (req, res, next) => {
     
-   console.log
     let headers = {
         "Content-Type": "application/x-www-form-urlencoded",
     }
