@@ -21,6 +21,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "group-array": "^1.0.0",
+    "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^1.0.2",
     "moment": "^2.26.0",
