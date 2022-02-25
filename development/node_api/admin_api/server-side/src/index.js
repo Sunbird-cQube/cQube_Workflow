@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const axios = require('axios');
 const env = require('dotenv');
+const helmet = require("helmet");
 env.config();
 
 global.userSessionDetails = {}
@@ -20,10 +21,13 @@ app.use(
 );
 app.use(compression());
 
+app.use(helmet());
 app.use(function (req, res, next) {
     res.setHeader("Content-Security-Policy", "frame-ancestors 'self';");
     next();
 });
+
+app.disable('x-powered-by');
 
 const router = require('./api/router');
 app.use('/api', router);
