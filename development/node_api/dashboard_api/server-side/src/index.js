@@ -20,7 +20,6 @@ app.use(
 );
 app.use(compression());
 
-// Set "X-XSS-Protection: 0"
 app.use(xXssProtection());
 
 app.use(helmet());
