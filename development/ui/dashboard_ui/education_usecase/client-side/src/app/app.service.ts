@@ -163,10 +163,16 @@ export class AppServiceComponent {
 
   //Download reports....
   download(fileName, reportData, reportName = "") {
+
     if (reportData.length <= 0) {
       alert("No data found to download");
     } else {
-      var keys = Object.keys(reportData[0]);
+      let keys
+      if (reportName === 'pieChart') {
+        keys = Object.keys(reportData[0]).sort();
+      } else {
+        keys = Object.keys(reportData[0]);
+      }
       var updatedKeys = [];
       keys.map((key) => {
         let actualKey = key;
@@ -278,26 +284,9 @@ export class AppServiceComponent {
 
       });
 
-      // const options = {
-      //   fieldSeparator: ",",
-      //   quoteStrings: '"',
-      //   decimalSeparator: ".",
-      //   showLabels: true,
-      //   showTitle: false,
-      //   title: "My Awesome CSV",
-      //   useTextFile: false,
-      //   useBom: true,
-      //   useKeysAsHeaders: true,
-      //   headers: updatedKeys,
-      //   filename: fileName,
-      // };
-      // const csvExporter = new ExportToCsv(options);
-      // csvExporter.generateCsv(reportData);
-
 
       const opts = { fields: updatedKeys, output: fileName };
       const csv = json2csv.parse(reportData, opts);
-      // this.domSanitizer.bypassSecurityTrustUrl('data:text/csv,' + encodeURIComponent(csv));
 
       let file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
       saveAs(file, `${fileName}.csv`);
@@ -838,7 +827,6 @@ export class AppServiceComponent {
     return this.http.get(`${this.baseUrl}/getDefault`);
   }
 
-  //
   setProgressCardValue(status) {
     this.callProgressCard.next(status);
   }
