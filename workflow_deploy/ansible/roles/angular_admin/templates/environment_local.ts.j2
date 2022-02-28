@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiEndpoint: "http://{{ local_ipv4_address }}:3001/api",
+  apiEndpoint: "http://{{ proxy_host }}/api",
   appUrl: "{{ protocol }}://{{ api_endpoint }}:4200",
   grafanaEndPoint: "http://{{ local_ipv4_address }}:9000",
   keycloakUrl: "{{ protocol }}://{{ api_endpoint }}:8080/auth",
