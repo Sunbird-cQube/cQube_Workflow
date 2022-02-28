@@ -1,8 +1,9 @@
 var axios = require('axios');
 var qs = require('qs');
-const dotenv = require('dotenv');
 const config = require('./config')
-dotenv.config();
+const { logger } = require('../../../lib/logger');
+
+
 
 
 
@@ -22,6 +23,7 @@ const getDetails = async () => {
         'grant_type': 'password'
     });
 
+
     let url = `${keycloakHost}/auth/realms/${realmName}/protocol/openid-connect/token`;
 
     let config = {
@@ -35,7 +37,7 @@ const getDetails = async () => {
 
     await axios(config)
         .then(function (response) {
-            
+            logger.info('---token received ---');
             if (JSON.stringify(response.data['access_token'])) {
                 let res = JSON.stringify(response.data)
                 let token = response.data['access_token']
@@ -48,72 +50,57 @@ const getDetails = async () => {
 
                     if (res.status === 200) {
                         let userList = res['data']
-
+                        logger.info('---userlist received ---');
                         userList.forEach(data => {
+                            if (data['username'] !== username) {
+                                
+                                axios.get(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/role-mappings`, { headers: innerHeader }).then(res => {
+                                    if (res.status === 200) {
+                                        let userRole = res['data'];
+                                        logger.info('---role mapping done ---');
+                                        userRole.realmMappings.forEach(roles => {
+                                            if (roles['name'] === 'admin') {
 
-
-                            axios.get(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/role-mappings`, { headers: innerHeader }).then(res => {
-                                if (res.status === 200) {
-                                    let userRole = res['data'];
-
-                                    userRole.realmMappings.forEach(roles => {
-                                        if (roles['name'] === 'admin') {
-
-                                            let role = roles
-                                            let roleId = roles['id']
-
-
-                                            let actionsUrl = `${keycloakHost}/auth/admin/realms/${realmName}/authentication/required-actions`;
-
-                                            axios.get(actionsUrl, { headers: innerHeader }).then(async actions => {
-                                                // take only CONFIGURE_TOTP to check for two factor auth enable for the application
-                                                
-                                                let requiredActions = actions.data.filter(data => {
-                                                    return data.alias == 'CONFIGURE_TOTP'
-
-                                                })
-
-                                                // api to update the user
-                                                var updateUser = `${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}`
-                                                var actionsRequired = {
-                                                    requiredActions: [
-                                                        'CONFIGURE_TOTP'
-                                                    ],
-                                                }
-
-                                                // check for required actions configured -- CONFIGURE_TOTP and update the user for two factor auth
-                                                
-
+                                                let role = roles
+                                                let roleId = roles['id']
+                                                if (data['totp'] !== true) {
+                                                    // api to update the user
+                                                    var updateUser = `${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}`
+                                                    var actionsRequired = {
+                                                        requiredActions: [
+                                                            'CONFIGURE_TOTP'
+                                                        ],
+                                                    }
+                                                    
                                                     // updating user api call
                                                     axios.put(updateUser, actionsRequired, { headers: innerHeader }).then(async resp1 => {
-                                                   
 
+                                                        logger.info('---updated admin with totp ---');
 
                                                     }).catch(error => {
-                                                        console.log(error)
+                                                        logger.info('---update admin totp  fail ---');
 
                                                     })
-                                                
-                                            }).catch(error => {
-                                                res.status(409).json({ errMsg: error.response });
-                                            })
-                                        }
-                                    })
-                                }
-                            }).catch(err => {
-                                console.log(err)
-                            })
+                                                }
 
+                                            }
+                                        })
+                                    }
+                                }).catch(err => {
+                                    logger.info('---role mapping  fail ---');
+                                })
+                            }
                         })
                     }
                 }).catch(err => {
-                    console.log(err)
+                    logger.info('---user list  received fail ---');
                 })
 
             }
         })
         .catch(function (error) {
-            console.log(error);
+
+            logger.info('---token received fail ---');
         });
 }
 

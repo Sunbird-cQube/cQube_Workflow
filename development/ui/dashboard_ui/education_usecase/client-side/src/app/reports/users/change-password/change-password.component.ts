@@ -18,6 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   public successMsg;
   public isDisabled;
   roleIds: any;
+  public otpToggle = environment.report_viewer_config_otp
   constructor(public service: AppServiceComponent, public router: Router, public keycloakService: KeycloakSecurityService) {
     service.logoutOnTokenExpire();
     this.changePasswdData['userName'] = localStorage.getItem('userName');

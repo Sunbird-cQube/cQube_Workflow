@@ -432,7 +432,7 @@ error_msg text;
 validation text;
 validation_res boolean;
 BEGIN
-validation:='select case when date_part(''month'',CURRENT_DATE)<'||month||' or date_part(''year'',CURRENT_DATE)<'||year||' then True ELSE FALSE END';
+validation:='select case when '||year||'>date_part(''year'',CURRENT_DATE) then True ELSE case when '||year||'=date_part(''year'',CURRENT_DATE) and '||month||'>date_part(''month'',CURRENT_DATE) then True else false END END';
 EXECUTE validation into validation_res;
 IF validation_res=True THEN
     return 'Data emitted is future data - it has the data for month '||month||' and year '||year||'';

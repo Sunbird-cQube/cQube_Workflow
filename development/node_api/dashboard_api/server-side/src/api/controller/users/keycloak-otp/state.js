@@ -2,9 +2,7 @@
 var axios = require('axios');
 const { logger } = require('../../../lib/logger');
 var qs = require('qs');
-const dotenv = require('dotenv');
 const config = require('./config')
-dotenv.config();
 
 
 
@@ -52,40 +50,41 @@ const getDetails = async () => {
                         let userList = res['data']
                         logger.info('---users list  received ---');
                         userList.forEach(data => {
-
+                            
                             if (data['totp'] === true) {
 
 
                                 axios.get(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/credentials`, { headers: { "Authorization": `Bearer ${token}` } }).then(res => {
                                     if (res.status === 200) {
                                         let userCredentials = res['data'];
-
+                                        logger.info('---credentials api success ---');
                                         userCredentials.forEach(Credentials => {
                                             if (Credentials['type'] === 'otp') {
 
                                                 axios.delete(`${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}/credentials/${Credentials['id']}`, { headers: { "Authorization": `Bearer ${token}` } }).then(res => {
-                                                    let response = resp1
+
                                                     logger.info('---credentials type totp removed ---');
                                                 }).catch(err => {
-                                                    console.log(err)
+                                                    logger.info('---credentials type totp removing failed ---');
                                                 })
                                             }
                                         })
                                     }
                                 }).catch(err => {
-                                    console.log(err)
+                                    logger.info('---credentials api failed ---');
                                 })
                             }
                             if (data['requiredActions'].length) {
 
                                 var updateUser = `${keycloakHost}/auth/admin/realms/${realmName}/users/${data['id']}`
+                                logger.info('---required actions success ---');
                                 var actionsRequired = {
                                     requiredActions: [],
                                 }
                                 axios.put(updateUser, actionsRequired, { headers: { "Authorization": `Bearer ${token}` } }).then(async resp1 => {
-
+                                    logger.info('---removing of required action fail ---');
                                 }).catch(error => {
-                                    console.log(error)
+
                                     logger.info('---user info fail ---');
                                 })
 
@@ -94,14 +93,13 @@ const getDetails = async () => {
                     }
                 }).catch(err => {
                     logger.info('---user list fail ---');
-                    console.log(err)
+
                 })
 
             }
         })
         .catch(function (error) {
-            // console.log(error);
-            console.log('erro')
+
             logger.info('---token received fail ---');
         });
 }

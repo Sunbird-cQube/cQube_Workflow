@@ -49,14 +49,6 @@
                   </div>
                 </mat-list-item>
 
-                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/common-dashboard']"
-                  class="single-line">
-                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
-                    <img class="cubeImg" src="assets/images/menu-icon.svg" alt="">
-                    <span id="common" class="groups">Other Diksha Metrics</span>
-                  </div>
-                </mat-list-item>
-
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/tpd-dashboard']" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/images/menu-icon.svg" alt="">
@@ -69,6 +61,14 @@
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                     <img class="cubeImg" src="assets/images/menu-icon.svg" alt="">
                     <span id="etb" class="groups">Energise Textbook Usage</span>
+                  </div>
+                </mat-list-item>
+
+                <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/common-dashboard']"
+                  class="single-line">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                    <img class="cubeImg" src="assets/images/menu-icon.svg" alt="">
+                    <span id="common" class="groups">Other Diksha Metrics</span>
                   </div>
                 </mat-list-item>
 

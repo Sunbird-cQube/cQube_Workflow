@@ -188,8 +188,8 @@ router.get('/roles', auth.authController, async (req, res) => {
             logger.info('---get roles api response sent ---');
             res.status(201).json({ roles: roles });
         }).catch(error => {
-
-            res.status(409).json({ errMsg: error.response.data.errorMessage });
+            logger.error(`Error :: ${e}`);
+            res.status(409).json({ errMsg: "Somthig went wrong" });
         })
     } catch (e) {
 

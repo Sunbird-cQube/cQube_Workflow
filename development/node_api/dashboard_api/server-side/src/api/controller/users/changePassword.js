@@ -4,37 +4,70 @@ const auth = require('../../middleware/check-auth');
 const axios = require('axios');
 const dotenv = require('dotenv');
 const db = require('../keycloakDB/db')
-
+const Querystring = require('querystring');
 dotenv.config();
 
 var host = process.env.KEYCLOAK_HOST;
 var realm = process.env.KEYCLOAK_REALM;
-var authType = process.env.AUTH_API
+var authType = process.env.AUTH_API;
+var client_id = process.env.KEYCLOAK_CLIENT
 
 router.post('/:id', auth.authController, async (req, res) => {
     try {
         logger.info('---change password api ---');
         var userId = req.params.id;
-
-        var usersUrl = `${host}/auth/admin/realms/${realm}/users/${userId}/reset-password`;
-        var headers = {
-            "Content-Type": "application/json",
-            "Authorization": req.headers.token
-        }
-
+        
         if (authType === 'cqube') {
-            let newPass = {
-                type: "password",
-                value: req.body.cnfpass,
-                temporary: false
-            };
+            let loginUrl = `${host}/auth/realms/${realm}/protocol/openid-connect/token`
+            let body
+            if (req.body.otp) {
+                body = Querystring['stringify']({
+                    "grant_type": "password",
+                    "client_id": client_id,
+                    "username": req.body.userName,
+                    "password": req.body.currentPasswd,
+                })
+            } else {
+                body = body = Querystring['stringify']({
+                    "grant_type": "password",
+                    "client_id": client_id,
+                    "username": req.body.userName,
+                    "password": req.body.currentPasswd,
+                })
+            }
 
-            axios.put(usersUrl, newPass, { headers: headers }).then(resp => {
-                logger.info('---change password api response sent---');
-                res.status(201).json({ msg: "Password changed" });
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+
+            
+            axios.post(loginUrl, body, config).then(resp => {
+                
+                let usersUrl = `${host}/auth/admin/realms/${realm}/users/${userId}/reset-password`;
+                let headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": req.headers.token
+                }
+                let newPass = {
+                    type: "password",
+                    value: req.body.cnfpass,
+                    temporary: false
+                };
+                axios.put(usersUrl, newPass, { headers: headers }).then(resp => {
+                    logger.info('---change password api response sent---');
+                    res.status(201).json({ msg: "Password changed" });
+                }).catch(error => {
+                    res.status(error.response.status).json({ errMsg: error.response.data.errorMessage });
+                })
             }).catch(error => {
-                res.status(error.response.status).json({ errMsg: error.response.data.errorMessage });
+                console.log(error)
+                res.status(404).json({ errMsg: error.response.data.errorMessage });
             })
+
+
         } else {
 
             let newPass = {

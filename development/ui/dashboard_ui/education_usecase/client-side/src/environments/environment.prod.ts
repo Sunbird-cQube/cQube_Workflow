@@ -11,5 +11,9 @@ export const environment = {
   useCase: "education_usecase",
   diksha_columns: false,
   theme: "theme1",
-  mapName: "googlemap"
+  mapName: "googlemap",
+  progressCardConfig: ['33', '33-60', '60-75', '75'],
+  report_viewer_config_otp: false,
+  auth_api: 'cqube',
+  keycloak_adm_user: 'admin'
 };
