@@ -2,7 +2,7 @@ export const environment = {
   production: false,
   apiEndpoint: "{{ protocol }}://{{ api_endpoint }}/api",
   appUrl: "{{ protocol }}://{{ api_endpoint }}", 
-  adminUrl: "http://{{ local_ipv4_address }}:4201",
+  adminUrl: "http://{{ proxy_host }}",
   keycloakUrl: "{{ protocol }}://{{ api_endpoint }}/auth",
   realm: "{{ realm_name }}",
   clientId: "{{ angular_app_client_id }}",
