@@ -32,7 +32,7 @@ export class MapService {
   //Initialisation of Map  
   initMap(map, maxBounds) {
     if (this.mapName == 'leafletmap') {
-      globalMap = L.map(map, { zoomControl: false, touchZoom: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
+      globalMap = L.map(map, { zoomSnap: 0.25, zoomControl: false, touchZoom: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {
           subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -259,6 +259,7 @@ export class MapService {
           coordinates: [
             this.jsonMapData[`${environment.stateName}`]['features'][0].geometry.coordinates[0]
           ]
+
         }
       }
     ]
@@ -268,8 +269,8 @@ export class MapService {
     const color = feature.getProperty("color");
     return {
       fillColor: color,
-      strokeWeight: 1,
-      strokeColor: "gray"
+      strokeWeight: 3,
+      strokeColor: "#6e6d6d"
     };
   }
 }
