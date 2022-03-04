@@ -61,5 +61,12 @@
         "lng": 84.0985,
         "zoomLevel": 7,
         "stateCode": "21"
+    },
+    "AS": {
+        "name": "Assam",
+        "lat": 26.2006043,
+        "lng": 92.9375739,
+        "zoomLevel": 7.4,
+        "stateCode": "24"
     }
 }
