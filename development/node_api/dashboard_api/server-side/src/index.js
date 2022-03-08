@@ -20,14 +20,8 @@ app.use(
 );
 app.use(compression());
 
-app.use(xXssProtection());
 
-app.use(function (req, res, next) {
-    res.setHeader("Content-Security-Policy", "frame-ancestors 'self';");
-    next();
-});
-
-
+app.disable('x-powered-by');
 
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {

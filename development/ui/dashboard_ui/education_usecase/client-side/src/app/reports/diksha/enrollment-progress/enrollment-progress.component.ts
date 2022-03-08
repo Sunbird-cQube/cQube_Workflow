@@ -128,12 +128,14 @@ export class EnrollmentProgressComponent implements OnInit {
   }
 
   public expectedEnrolled = [];
+  public changeInNetEnrollment = [];
   public netEnrolled = [];
   public category = [];
 
   createLineChart(data) {
     this.chartData = [];
     this.expectedEnrolled = [];
+    this.changeInNetEnrollment = [];
     this.netEnrolled = [];
     this.category = [];
     this.chartData = data;
@@ -142,6 +144,7 @@ export class EnrollmentProgressComponent implements OnInit {
         this.expectedEnrolled.push(data.expected_enrollment);
         this.netEnrolled.push(data.net_enrollment);
         this.category.push(data.date);
+        this.changeInNetEnrollment.push(data.change_in_net_enrollment)
       });
       this.getLineChart();
     } catch (error) { }
@@ -497,6 +500,8 @@ export class EnrollmentProgressComponent implements OnInit {
 
   getLineChart() {
     let tickIntervlMonth
+    let changeINEnroll: any = this.changeInNetEnrollment
+
     if (this.category.length < 30) {
       tickIntervlMonth = 2;
     } else if (this.category.length > 30 && this.category.length < 90) {
@@ -562,15 +567,17 @@ export class EnrollmentProgressComponent implements OnInit {
         enabled: false,
       },
       tooltip: {
-        formatter: function () {
-          return `
-               <b> Date:${this.x}</b></br>
-               <b> Expected Enrollment: ${this.points[0].y.toLocaleString(
-            "en-IN"
-          )}</b></br>
-               <b> Net Enrolled: ${this.points[1].y.toLocaleString("en-IN")}</b>
-          `;
+
+        style: {
+          fontSize: this.height > 1760 ? "32px" : this.height > 1160 && this.height < 1760 ? "22px" : this.height > 667 && this.height < 1160 ? "12px" : "10px",
+          opacity: 1,
+          backgroundColor: "white"
         },
+        formatter: function () {
+
+          return '<b>' + getPointCategoryName(this.points) + '</b>';
+        },
+
         shared: true,
       },
       legend: {
@@ -600,5 +607,20 @@ export class EnrollmentProgressComponent implements OnInit {
 
     };
     this.Highcharts.chart("container", this.chartOptions);
+
+    //Bar tooltips::::::::::::::::::::::
+    function getPointCategoryName(point) {
+
+      var obj = '';
+      obj = `
+               <b> &nbsp;Date:</b>${point[0].x}</br>
+               <b> Expected Enrollment: ${point[0].point.options.y.toLocaleString(
+        "en-IN"
+      )}</b></br>
+               <b> Net Enrolled: ${point[1].point.options.y.toLocaleString("en-IN")}</b><br>
+               <b> Change in Net Enrollment : ${changeINEnroll[`${point[0].point.index}`].toLocaleString('en-IN')}</b>
+          `
+      return obj
+    }
   }
 }
