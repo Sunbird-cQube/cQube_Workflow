@@ -69605,8 +69605,7 @@ or(${filename:startsWith('data_replay')})}</value>
 ${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
 :or(${filename:startsWith('diksha_course_enrolment')})
 :or(${filename:startsWith('diksha_etb_enrolment')})
-:or(${filename:startsWith('diksha_program_details')})})
-:not()}</value>
+:or(${filename:startsWith('diksha_program_details')}):not()})}</value>
                             </entry>
                             <entry>
 <key>infra_trans</key>
@@ -77702,5 +77701,5 @@ ${query_type:startsWith('tch_att_management_exception_school_by_month_year'):ifE
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>03/02/2022 10:46:56 IST</timestamp>
+    <timestamp>03/07/2022 13:35:49 IST</timestamp>
 </template>
