@@ -126,8 +126,6 @@ export class DropoutReportComponent implements OnInit {
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
     this.globalService.initMap("dropoutMap", [[this.lat, this.lng]]);
-    // document.getElementById("homeBtn").style.display = "block";
-    // document.getElementById("backBtn").style.display = "none";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(

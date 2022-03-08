@@ -1,8 +1,5 @@
 ---
 
-# - include_tasks: postgres_datascience.yml
-#   tags: [ install, update ]
-
 - include_tasks: nifi_datascience.yml
   tags: [ install, update ]
 

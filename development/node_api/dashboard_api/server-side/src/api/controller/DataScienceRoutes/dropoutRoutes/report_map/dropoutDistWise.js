@@ -11,8 +11,7 @@ router.post('/distWise', auth.authController, async(req, res) => {
         var category = req.body.category;
         let fileName;
         fileName = `data_science/dropout/dropout_district_map.json`
-        //var districtData = await s3File.readS3File(fileName);
-	    var districtData = await s3File.readFileConfig(fileName); //await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+	    var districtData = await s3File.readFileConfig(fileName);
         var mydata = districtData.data;
 
         logger.info('--- Dropout dist wise api response sent ---');
