@@ -13,7 +13,6 @@ router.post('/allClusterWise', auth.authController, async(req, res) => {
         let fileName;
 
         fileName = `data_science/anomaly/anomaly_cluster_map_${anomaly_type}.json`
-        // var clusterData = await s3File.readS3File(fileName);
         var clusterData = await s3File.readFileConfig(fileName);
         var mydata = clusterData.data;
         logger.info('---Anomaly cluster wise api response sent---');
@@ -33,7 +32,6 @@ router.post('/clusterWise/:distId/:blockId', auth.authController, async(req, res
         let fileName;
 
         fileName = `data_science/anomaly/anomaly_cluster_map_${anomaly_type}.json`
-        // var clusterData = await s3File.readS3File(fileName);
         var clusterData = await s3File.readFileConfig(fileName);
 
         let blockId = req.params.blockId;

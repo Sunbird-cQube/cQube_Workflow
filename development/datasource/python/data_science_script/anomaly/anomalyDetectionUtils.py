@@ -36,6 +36,13 @@ def read_data_postgres(db_name, db_user, db_password, query):
 
 
 def upload_file_s3(resource_file, cred, object_name=None): 
+    """Upload a file to an S3 bucket
+    
+    :param resource_file: File to upload
+    :param bucket: Bucket to upload to
+    :param object_name: S3 object name. If not specified then file_name is used
+    :return: True if file was uploaded, else False
+    """
     bucket = cred['s3_output_bucket']
     access_key = cred['s3_access_key']
     secret_key = cred['s3_secret_key']
