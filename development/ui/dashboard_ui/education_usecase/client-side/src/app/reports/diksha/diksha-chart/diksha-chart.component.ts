@@ -6,6 +6,7 @@ import { ExportToCsv } from 'export-to-csv';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import { AppServiceComponent } from 'src/app/app.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-diksha-chart',
@@ -32,6 +33,8 @@ export class DikshaChartComponent implements OnInit {
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
+
+  public waterMark = environment.water_mark
 
   public barChartColors: Color[] = [];
   public barChartColors1: Color[] = [];

@@ -197,7 +197,24 @@ leaflet-right {
 
 /*//////////////////////////////////////////////////////////////////*/
 
-
+/* Demo logo on maps */
+#demoLogoConatiner{
+    position: absolute;
+    width: 300px auto;
+    margin: auto;
+    text-align: center;
+   
+    z-index : 999;
+   
+    font-size: 2vw;
+   
+     top: 40vh;
+   
+    left: 20vh;
+    color:rgba(0, 0, 0, 0.5);
+    -ms-transform: rotate(20deg); /* IE 9 */
+  transform: rotate(-20deg);
+}
 
 
 
@@ -472,9 +489,7 @@ border-color:var(--theme-back-button-border-color);
     padding: 0px 8px 0px 10px;
     color: #1358c0;
     font-size: 12px;
-    /* right: 15px; */
-    /* top: 12%; */
-    /* position: absolute; */
+    
     cursor: pointer;
 }
 #backBtn:hover{
@@ -1195,15 +1210,14 @@ border-color:var(--theme-back-button-border-color);
 .main-panel {
     transition: width 0.25s ease, margin 0.25s ease;
     width: 100%;
-    /* min-height: calc(100vh - 97px); */
+    
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
 }
 .content-wrapper {
-    /* background-color: #ffebcc; */
-    /* padding: 1rem; */
+    
     width: 100%;
     -webkit-flex-grow: 1;
     flex-grow: 1;
@@ -1364,9 +1378,7 @@ border-color:var(--theme-back-button-border-color);
 body {
   background: var(--theme-bg-color);
 }
-/* .mat-drawer{
-    background:var(--theme-bg-yellow-color); 
-} */
+
 
 
 html,

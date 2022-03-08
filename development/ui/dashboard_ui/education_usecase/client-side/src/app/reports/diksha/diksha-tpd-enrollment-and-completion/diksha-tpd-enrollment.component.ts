@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { AppServiceComponent } from "../../../app.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatSelect } from "@angular/material/select";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-diksha-tpd-enrollment",
@@ -24,7 +25,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   public category: String[] = [];
   public chartData: Number[] = [];
-
+  public waterMark = environment.water_mark
   public completion: any;
   public xAxisLabel: String = ""
   public yAxisLabel: String;

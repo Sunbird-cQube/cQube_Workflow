@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-diksha-usage-by-text-book',
@@ -20,6 +21,7 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   public xAxisLabel: String = "Total Content Plays";
   public yAxisLabel: String = "District Names"
 
+  public waterMark = environment.water_mark
   public collection_type = 'textbook';
 
   public result: any = [];

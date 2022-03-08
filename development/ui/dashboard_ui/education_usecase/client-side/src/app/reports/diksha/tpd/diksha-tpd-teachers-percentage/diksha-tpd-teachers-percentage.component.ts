@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from 'src/app/services/diksha-report.service';
 import { MultiSelectComponent } from '../../../../common/multi-select/multi-select.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-diksha-tpd-teachers-percentage',
@@ -21,6 +22,8 @@ export class DikshaTPDTeachersPercentageComponent implements OnInit {
   height = window.screen.height;
   width = screen.width;
   innerWidth = screen.availWidth;
+
+  public waterMark = environment.water_mark
 
   blockHidden = true;
   clusterHidden = true;

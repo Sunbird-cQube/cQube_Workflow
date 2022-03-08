@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildre
 import { AppServiceComponent } from 'src/app/app.service';
 import { MultiSelectComponent } from 'src/app/common/multi-select/multi-select.component';
 import { PatReportService } from 'src/app/services/pat-report.service';
+import { environment } from 'src/environments/environment';
 import { LineChartComponent } from '../../../common/line-chart/line-chart.component';
 
 @Component({
@@ -17,6 +18,8 @@ export class SatTrendsChartComponent implements OnInit {
 
   allGrades = [];
   grade = "AllGrades";
+
+  public waterMark = environment.water_mark
 
   //For multi-select dropdown options::::::::::::::::::
   counts: any = [];

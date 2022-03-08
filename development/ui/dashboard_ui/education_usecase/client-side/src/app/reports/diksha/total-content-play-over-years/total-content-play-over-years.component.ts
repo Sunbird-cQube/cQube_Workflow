@@ -7,6 +7,7 @@ import HC_exportData from "highcharts/modules/export-data";
 import { AppServiceComponent } from "src/app/app.service";
 import { ContentUsagePieService } from "src/app/services/content-usage-pie.service";
 import { TotalContentPlayLineCahrtService } from "src/app/services/total-content-play-line-cahrt.service";
+import { environment } from "src/environments/environment";
 HC_exportData(Highcharts);
 // addMore(Highcharts)
 
@@ -18,7 +19,8 @@ HC_exportData(Highcharts);
 export class TotalContentPlayOverYearsComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions;
-
+  
+  public waterMark = environment.water_mark
   public state;
   public reportName = "overTheYears"
   constructor(

@@ -6,6 +6,7 @@ import * as L from 'leaflet';
 import * as R from 'leaflet-responsive-popup';
 import { AppServiceComponent } from '../../../app.service';
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-pat-exception',
@@ -18,6 +19,8 @@ export class PATExceptionComponent implements OnInit {
   public title: string = '';
   public titleName: string = '';
   public colors: any;
+
+  public waterMark = environment.water_mark
 
   // to assign the count of below values to show in the UI footer
   public studentCount: any;

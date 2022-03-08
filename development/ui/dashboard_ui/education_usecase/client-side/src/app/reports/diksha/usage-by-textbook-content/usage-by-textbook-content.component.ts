@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from 'src/app/app.service';
+import { environment } from 'src/environments/environment';
 declare const $;
 
 @Component({
@@ -19,6 +20,8 @@ export class UsageByTextbookContentComponent implements OnInit {
   public allCollections = [];
   public timeDetails: any = [];
   public districtsDetails: any = [];
+
+  public waterMark = environment.water_mark
   dataTable: any;
   dtOptions: any;
   tableData: any = [];

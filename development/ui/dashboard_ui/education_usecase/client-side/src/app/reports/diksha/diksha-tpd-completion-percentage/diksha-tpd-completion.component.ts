@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-diksha-tpd-completion',
@@ -24,6 +25,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   public yAxisLabel: String;
   public reportName = "completion_percentage";
   public report = "completion"
+  public waterMark = environment.water_mark
 
   districts = [];
   districtId;

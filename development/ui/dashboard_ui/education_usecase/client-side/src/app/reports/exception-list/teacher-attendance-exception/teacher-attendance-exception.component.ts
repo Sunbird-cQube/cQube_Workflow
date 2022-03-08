@@ -13,6 +13,7 @@ import * as R from "leaflet-responsive-popup";
 import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { AppServiceComponent } from "../../../app.service";
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
+import { environment } from "src/environments/environment";
 declare const $;
 
 @Component({
@@ -25,6 +26,8 @@ declare const $;
 export class TeacherAttendanceExceptionComponent implements OnInit {
   state;
   edate;
+
+  public waterMark = environment.water_mark
   public telemData = {};
   public disabled = false;
   public title: string = "";
