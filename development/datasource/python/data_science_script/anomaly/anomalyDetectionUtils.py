@@ -37,20 +37,18 @@ def read_data_postgres(db_name, db_user, db_password, query):
 
 def upload_file_s3(resource_file, cred, object_name=None): 
     """Upload a file to an S3 bucket
-
+    
     :param resource_file: File to upload
     :param bucket: Bucket to upload to
     :param object_name: S3 object name. If not specified then file_name is used
     :return: True if file was uploaded, else False
     """
-    # If S3 object_name was not specified, use file_name
     bucket = cred['s3_output_bucket']
     access_key = cred['s3_access_key']
     secret_key = cred['s3_secret_key']
     region = cred['aws_default_region']
     if object_name is None:
         object_name = 'data_science/anomaly/' + os.path.basename(resource_file)
-    # Upload the file
     s3_client = boto3.client('s3', 
         aws_access_key_id = access_key, 
         aws_secret_access_key = secret_key,
@@ -93,10 +91,8 @@ def calc_anomaly_status(exam_result_df, method, maximum_score, minimum_score):
         
     if method =="percentile_score":
         score_sum_data = [x.score_sum for x in gpby_df.select(col('score_sum').astype('float')).collect()]
-        # print(score_sum_data)
         q25, q75 = np.percentile(score_sum_data, 25), np.percentile(score_sum_data, 75)
         iqr = q75 - q25
-        # print('Percentiles: 25th=%.3f, 75th=%.3f, IQR=%.3f' % (q25, q75, iqr))
         cut_off = iqr * 1.5
         lower, upper = q25 - cut_off, q75 + cut_off
         flag_df = gpby_df.withColumn("anomaly_flag", F.when((gpby_df["score_sum"]<lower) | (gpby_df["score_sum"]>upper),1).otherwise(0))

@@ -216,7 +216,6 @@ export class AnomalyReportComponent implements OnInit {
   clickHome(){
     this.anomalyData = "anomaly_percentage";
     this.districtWise();
-    // this.schoolWise();
   }
   // to load all the districts for state data on the map
   districtWise() {
@@ -431,7 +430,6 @@ export class AnomalyReportComponent implements OnInit {
               this.changeDetection.detectChanges();
               this.globalService.onResize(this.level);
 
-              //schoolCount
               this.schoolCount = res["footer"];
               this.schoolCount = this.schoolCount
                 .toString()
@@ -1016,7 +1014,6 @@ export class AnomalyReportComponent implements OnInit {
           this.markers[i].details.latitude,
           this.markers[i].details.longitude,
           color,
-          // options.radius,
           options.strokeWeight,
           1,
           options.level

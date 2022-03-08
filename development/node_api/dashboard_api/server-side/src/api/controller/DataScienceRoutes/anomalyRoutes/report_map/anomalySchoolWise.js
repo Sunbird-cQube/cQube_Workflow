@@ -12,7 +12,7 @@ router.post('/allSchoolWise', auth.authController, async (req, res) => {
         var anomaly_type = req.body.anomaly_type;
         let fileName;
         fileName = `data_science/anomaly/anomaly_school_map_${anomaly_type}.json`
-        var schoolData = await s3File.readFileConfig(fileName); //await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        var schoolData = await s3File.readFileConfig(fileName);
         var mydata = schoolData.data;
         logger.info('---Anomaly school wise api response sent---');
         res.status(200).send({ data: mydata, footer: schoolData.allSchoolsFooter.totalSchools });
@@ -31,7 +31,7 @@ router.post('/schoolWise/:distId/:blockId/:clusterId', async (req, res) => {
         let fileName;
         fileName = `data_science/anomaly/anomaly_school_map_${anomaly_type}.json`
 
-        var schoolData = await s3File.readFileConfig(fileName); //await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        var schoolData = await s3File.readFileConfig(fileName);
 
         let clusterId = req.params.clusterId;
 

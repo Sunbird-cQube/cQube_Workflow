@@ -12,8 +12,7 @@ router.post('/allBlockWise', auth.authController, async(req, res) => {
         var anomaly_type = req.body.anomaly_type;
         let fileName;
         fileName = `data_science/anomaly/anomaly_block_map_${anomaly_type}.json`
-        // var blockData = await s3File.readS3File(fileName);
-        var blockData = await s3File.readFileConfig(fileName); //await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        var blockData = await s3File.readFileConfig(fileName);
         var mydata = blockData.data;
         logger.info('--- blocks anomaly api response sent---');
         res.status(200).send({ data: mydata, footer: blockData.allBlocksFooter.totalSchools });
@@ -32,8 +31,7 @@ router.post('/blockWise/:distId', auth.authController, async(req, res) => {
         var anomaly_type = req.body.anomaly_type;
         let fileName;
         fileName = `data_science/anomaly/anomaly_block_map_${anomaly_type}.json`
-        // var blockData = await s3File.readS3File(fileName);
-        var blockData = await s3File.readFileConfig(fileName); //await s3File.storageType == "s3" ? await s3File.readS3File(fileName) : await s3File.readLocalFile(fileName);;
+        var blockData = await s3File.readFileConfig(fileName);
 
         let distId = req.params.distId
 

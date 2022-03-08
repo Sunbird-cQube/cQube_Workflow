@@ -43259,8 +43259,7 @@ or(${filename:startsWith('data_replay')})}</value>
 ${filename:startsWith('diksha_program_course_details'):or(${filename:startsWith('diksha_course_details')})
 :or(${filename:startsWith('diksha_course_enrolment')})
 :or(${filename:startsWith('diksha_etb_enrolment')})
-:or(${filename:startsWith('diksha_program_details')})})
-:not()}</value>
+:or(${filename:startsWith('diksha_program_details')}):not()})}</value>
                             </entry>
                             <entry>
 <key>infra_trans</key>
