@@ -15,6 +15,7 @@ import * as R from "leaflet-responsive-popup";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { AppServiceComponent } from "src/app/app.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-tpd-total-content-plays",
@@ -29,6 +30,8 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   public lat: any;
   public lng: any;
 
+
+  public waterMark = environment.water_mark
   // leaflet layer dependencies
   public layerMarkers = new L.layerGroup();
   public markersList = new L.FeatureGroup();

@@ -13,6 +13,7 @@ import * as R from "leaflet-responsive-popup";
 import { KeycloakSecurityService } from "../../../keycloak-security.service";
 import { AppServiceComponent } from "../../../app.service";
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
+import { environment } from "src/environments/environment";
 
 declare const $;
 
@@ -29,6 +30,7 @@ export class StudengtAttendanceComponent implements OnInit {
   state;
   edate;
   public telemData = {};
+  public waterMark = environment.water_mark
 
   // to set the hierarchy names
   public title: string = "";

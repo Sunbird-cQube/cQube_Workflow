@@ -6,6 +6,7 @@ import { AppServiceComponent } from '../../../app.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { PatReportService } from '../../../services/pat-report.service';
+import { environment } from 'src/environments/environment';
 declare const $;
 
 @Component({
@@ -23,6 +24,8 @@ export class SatHeatChartComponent implements OnInit {
   height = window.screen.height;
   width = screen.width;
   innerWidth = screen.availWidth;
+
+  public waterMark = environment.water_mark
 
   // For filter implementation
   districtNames = [];

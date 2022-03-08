@@ -5,6 +5,7 @@ HC_exportData(Highcharts);
 import { AppServiceComponent } from "src/app/app.service";
 import { EnrollmentProgressLineChartService } from "src/app/services/enrollment-progress-line-chart.service";
 import { ContentUsagePieService } from "src/app/services/content-usage-pie.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-enrollment-progress",
@@ -15,6 +16,7 @@ export class EnrollmentProgressComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions;
 
+  public waterMark = environment.water_mark
   public state;
   public stateData;
   public chartData: any = [];

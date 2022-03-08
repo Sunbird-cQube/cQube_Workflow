@@ -9,6 +9,7 @@ import addMore from "highcharts/highcharts-more";
 import HC_exportData from 'highcharts/modules/export-data';
 import { MultiBarChartComponent } from '../multi-bar-chart/multi-bar-chart.component';
 import { MultiSelectComponent } from '../../../common/multi-select/multi-select.component';
+import { environment } from 'src/environments/environment';
 HC_exportData(Highcharts);
 addMore(Highcharts)
 
@@ -30,6 +31,8 @@ export class ContentUsagePieChartComponent implements OnInit {
   public reportData: any = [];
   public fileName;
   public type
+
+  public waterMark = environment.water_mark
   constructor(
     public service: ContentUsagePieService,
     public commonService: AppServiceComponent,

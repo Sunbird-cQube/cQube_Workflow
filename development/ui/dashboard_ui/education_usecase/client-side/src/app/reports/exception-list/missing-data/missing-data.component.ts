@@ -3,6 +3,7 @@ import { ExportToCsv } from 'export-to-csv';
 import { Router } from '@angular/router';
 import { ExceptionReportService } from '../../../services/exception-report.service';
 import { AppServiceComponent } from '../../../app.service';
+import { environment } from 'src/environments/environment';
 declare const $;
 
 @Component({
@@ -17,6 +18,8 @@ export class MissingDataComponent implements OnInit {
   managementName;
   management;
   category;
+
+  public waterMark = environment.water_mark
 
   constructor(private router: Router, private service: ExceptionReportService, public commonService: AppServiceComponent) { }
 

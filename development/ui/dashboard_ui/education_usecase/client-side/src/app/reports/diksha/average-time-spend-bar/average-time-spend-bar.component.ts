@@ -6,6 +6,7 @@ import HC_exportData from "highcharts/modules/export-data";
 import { AppServiceComponent } from "src/app/app.service";
 import { AverageTimeSpendBarService } from "src/app/services/average-time-spend-bar.service";
 import { ContentUsagePieService } from "src/app/services/content-usage-pie.service";
+import { environment } from "src/environments/environment";
 HC_exportData(Highcharts);
 
 @Component({
@@ -16,7 +17,7 @@ HC_exportData(Highcharts);
 export class AverageTimeSpendBarComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions;
-
+  public waterMark = environment.water_mark
   public state;
   public reportName = "averageTimeSpend";
   public tooltipData = [];
