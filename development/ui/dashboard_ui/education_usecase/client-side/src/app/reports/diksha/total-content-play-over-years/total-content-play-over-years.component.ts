@@ -19,7 +19,7 @@ HC_exportData(Highcharts);
 export class TotalContentPlayOverYearsComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions;
-  
+
   public waterMark = environment.water_mark
   public state;
   public reportName = "overTheYears"
@@ -28,7 +28,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     public commonService: AppServiceComponent,
     public service: TotalContentPlayLineCahrtService,
     public metaService: ContentUsagePieService
-  ) {}
+  ) { }
 
   width = window.innerWidth;
   height = window.innerHeight;
@@ -161,7 +161,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         });
       });
 
-      // this.reportData = this.chartData;
+
       this.createLineChart(this.chartData);
     } catch (error) {
       this.chartData = [];
@@ -183,52 +183,28 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.dataToDownload.push(data1);
   }
 
-  //download UI data::::::::::::
-
-  // downloadReport() {
-  //   this.dataToDownload = [];
-  //   this.reportData.forEach((element) => {
-  //     if(this.dist){
-  //       this.selectedDistricts.forEach(district => {
-  //        let distData = this.distData.data.filter((dist) => {
-  //           return dist.district_id == district
-  //         });
-  //         // let distData = this.distData[district];
-  //         let distName = distData[0].district_name;
-  //         let objectValue = distData.find(metric => metric.month === element.month);
-          
-  //         element[distName] = objectValue && objectValue.plays ? objectValue.plays : 0;
-  //       });
-  //     }
-     
-
-  //     // }
-  //     this.newDownload(element);
-  //   });
-  //   this.commonService.download(this.fileName, this.dataToDownload);
-  // }
+  
 
 
   downloadReport() {
     this.dataToDownload = [];
-     let selectedDistricts = []
-     
-    if(this.selectedDist){
-       selectedDistricts = this.distToDropDown.filter(districtData => {
-          return districtData.district_id === this.selectedDist
-        })
-    }else{
-       selectedDistricts = this.distToDropDown.slice()
+    let selectedDistricts = []
+
+    if (this.selectedDist) {
+      selectedDistricts = this.distToDropDown.filter(districtData => {
+        return districtData.district_id === this.selectedDist
+      })
+    } else {
+      selectedDistricts = this.distToDropDown.slice()
     }
-     let reportData = _.cloneDeep(this.reportData);
+    let reportData = _.cloneDeep(this.reportData);
     reportData.forEach((element) => {
-     selectedDistricts.forEach((district) => {
-       
-      //  let distData = this.distData[district.district_id]
+      selectedDistricts.forEach((district) => {
+
         let distData = this.distData.data.filter(districtData => {
           return districtData.district_id === district.district_id
         })
-            
+
         let objectValue = distData.find(
           (metric) => metric.month === element.month
         );
@@ -239,7 +215,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
           objectValue && objectValue.plays
             ? objectValue.plays
             : 0;
-       
+
       });
       this.newDownload(element);
     });
@@ -254,7 +230,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   }
 
   createLineChart(data) {
-    // var pointStart = Date.UTC(2020,5,1);
+    
     this.chartOptions = {
       chart: {
         type: "area",
@@ -269,7 +245,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       yAxis: {
         title: {
           text: "Total Content Play",
-          style:{
+          style: {
             color: 'black',
             fontWeight: 'bold',
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
@@ -280,55 +256,49 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
           fontWeight: 'bold',
           fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
         },
-        // formatter: function () {
-        //   return this.value.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-        // }
+        
         labels: {
-          style:{
+          style: {
             color: 'black',
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           },
           formatter: function () {
-              var label = this.axis.defaultLabelFormatter.call(this);
+            var label = this.axis.defaultLabelFormatter.call(this);
 
-              // Use thousands separator for four-digit numbers too
-              if (/^[0-9]{4}$/.test(label)) {
-                  return Highcharts.numberFormat(this.value, 0);
-              }
-              return label;
+            // Use thousands separator for four-digit numbers too
+            if (/^[0-9]{4}$/.test(label)) {
+              return Highcharts.numberFormat(this.value, 0);
+            }
+            return label;
           }
-      }
+        }
       },
 
       xAxis: {
         title: {
           text: "Months",
-          style:{
+          style: {
             color: 'black',
             fontWeight: 'bold',
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           }
-         
+
         },
-        margin :"5px",
-        // style: {
-        //   fontWeight: "900",
-        //   color: 'black',
-        //   fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "12px"
-        // },
-        labels:{
-          style:{
+        margin: "5px",
+      
+        labels: {
+          style: {
             fontWeight: "900",
             fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
           }
         },
         type: "datetime",
-        // categories: []
+        
         categories: this.catgory,
-       
+
       },
 
-      
+
       credits: {
         enabled: false,
       },
@@ -340,8 +310,8 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         },
         formatter: function () {
           if (this.point.category != 0) {
-            return '<span> <b>  Month:' +' '+ this.x +
-            '</b>'+ '<br>' +'<b> Total Content Play:' + ' '+ this.y.toLocaleString('en-IN')+ '</b></span>';
+            return '<span> <b>  Month:' + ' ' + this.x +
+              '</b>' + '<br>' + '<b> Total Content Play:' + ' ' + this.y.toLocaleString('en-IN') + '</b></span>';
           } else {
             return false;
           }
@@ -360,11 +330,10 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
             legendItemClick: function (e) {
               e.preventDefault();
             },
-           
+
           },
 
-          // pointStart      : pointStart,
-          // pointInterval   : 24 * 3600 * 1000*30
+        
         },
       },
 
