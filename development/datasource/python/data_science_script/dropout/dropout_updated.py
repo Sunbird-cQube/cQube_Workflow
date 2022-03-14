@@ -80,10 +80,10 @@ ls = []
 for grade in distinct_grade:
     try:
         dropout_percent_df = calc_attendance_status(reshape_df, grade, no_of_exam)
-        # logging.warning('Completed attendance status calculation for the grade: ' + grade )
+        logging.warning('Completed attendance status calculation for the grade: ' + str(grade) )
         ls.append(dropout_percent_df)
     except:
-        logging.warning('Failed attendance status calculation for the grade: ' + grade ) 
+        logging.warning('Failed attendance status calculation for the grade: ' + str(grade) ) 
 output_df = functools.reduce(DataFrame.union, ls) 
 output_df = output_df.join(meta_data, ['school_id'])
 
