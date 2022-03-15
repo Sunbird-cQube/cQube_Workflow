@@ -48,7 +48,7 @@
                         <id>da71a3b4-ce73-3f26-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <flowFileExpiration>1 day</flowFileExpiration>
                     <labelIndex>1</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
@@ -73,7 +73,7 @@
                         <id>2b57c0aa-6791-36eb-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <flowFileExpiration>1 day</flowFileExpiration>
                     <labelIndex>1</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
