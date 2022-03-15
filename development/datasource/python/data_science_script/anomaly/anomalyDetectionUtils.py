@@ -19,6 +19,7 @@ import glob
 spark = SparkSession.builder.appName("initial_anomaly_analysis").master("local[*]").config("spark.executor.memory", "10g")\
 .config("spark.driver.memory", "25g")\
 .config("spark.memory.offHeap.enabled",True).config("spark.memory.offHeap.size","16g")\
+.config("spark.jars", "../../../../nifi/nifi/jars/postgresql-42.2.10.jar")\
 .getOrCreate()
 
 

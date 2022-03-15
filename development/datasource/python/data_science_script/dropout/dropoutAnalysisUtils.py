@@ -19,6 +19,7 @@ import itertools
 spark = SparkSession.builder.appName("initial_dropout_analysis").master("local[*]").config("spark.executor.memory", "70g")\
 .config("spark.driver.memory", "50g")\
 .config("spark.memory.offHeap.enabled",True).config("spark.memory.offHeap.size","16g")\
+.config("spark.jars", "../../../../nifi/nifi/jars/postgresql-42.2.10.jar")\
 .getOrCreate()
 
 def read_data_postgres(db_name, db_user, db_password, query):
