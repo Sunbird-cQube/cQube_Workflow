@@ -137,6 +137,12 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   public distName;
 
   onDistSelected(data) {
+
+    document.getElementById("spinner").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("spinner").style.display = "none";
+    }, 1000);
+
     this.dist = true;
     this.stateLevel = false;
     this.chartData = [];
@@ -165,7 +171,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       this.createLineChart(this.chartData);
     } catch (error) {
       this.chartData = [];
-      this.commonService.loaderAndErr(this.chartData);
+      // this.commonService.loaderAndErr(this.chartData);
     }
   }
 

@@ -292,6 +292,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   public selectedProgram;
   public programBarData: any = [];
   onProgramSelect(progID) {
+
+
+    document.getElementById("spinner").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("spinner").style.display = "none";
+    }, 1000);
+
     this.emptyChart();
     this.districtId = undefined;
     this.districtHidden = false;
@@ -353,11 +360,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         this.getBarChartData();
       }, 100);
 
-      this.commonService.loaderAndErr(this.result);
+      // this.commonService.loaderAndErr(this.result);
     } catch (error) {
       this.result = [];
       console.log(error);
-      this.commonService.loaderAndErr(this.result);
+      // this.commonService.loaderAndErr(this.result);
     }
   }
 
