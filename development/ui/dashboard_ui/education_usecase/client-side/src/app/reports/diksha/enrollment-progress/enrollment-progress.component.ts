@@ -176,7 +176,6 @@ export class EnrollmentProgressComponent implements OnInit {
       this.getDistWise();
       this.getAllCollection();
     } catch (error) {
-      //  console.log(error)
     }
   }
 

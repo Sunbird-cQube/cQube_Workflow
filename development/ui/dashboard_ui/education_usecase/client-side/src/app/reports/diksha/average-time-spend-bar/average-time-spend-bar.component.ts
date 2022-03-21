@@ -165,7 +165,6 @@ export class AverageTimeSpendBarComponent implements OnInit {
         );
       });
     } catch (error) {
-      //  console.log(error)
     }
   }
 
