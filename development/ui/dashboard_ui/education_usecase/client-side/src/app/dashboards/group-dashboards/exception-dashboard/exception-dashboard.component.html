@@ -4,7 +4,7 @@
 
     <div class="report-cards">
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="SemExp" [routerLink]="!dataSource['sat'] ? ['/coming-soon'] :['/exception/sem-exception']"
                     (click)="fetchTelemetry($event,'SemExp')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
@@ -38,7 +38,7 @@
             </div>
 
 
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="patExcpt" [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/exception/pat-exception']"
                     (click)="fetchTelemetry($event,'patExcpt')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
@@ -105,7 +105,7 @@
 
         </div>
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="sarExcpt"
                     [routerLink]="!dataSource['attendance'] ? ['/coming-soon'] :['/exception/student-attendance-exception']"
                     (click)="fetchTelemetry($event,'sarExcpt')" class="text-decoration-none">
@@ -140,7 +140,7 @@
             </div>
 
 
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="tarExp"
                     [routerLink]="!dataSource['teacher_attendance'] ? ['/coming-soon'] :['/exception/teacher-attendance-exception']"
                     (click)="fetchTelemetry($event,'tarExp')" class="text-decoration-none">

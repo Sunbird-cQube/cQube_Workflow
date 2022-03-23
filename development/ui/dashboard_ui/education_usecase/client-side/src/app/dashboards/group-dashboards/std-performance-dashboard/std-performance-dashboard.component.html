@@ -4,7 +4,7 @@
 
     <div class="report-cards">
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="sat" [routerLink]="!dataSource['sat'] ? ['/coming-soon'] :['/student-performance/sat-report']"
                     (click)="fetchTelemetry($event,'sat')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
@@ -73,7 +73,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="pat1"
                     [routerLink]="!dataSource['pat'] ? ['/coming-soon'] :['/student-performance/pat-report']"
                     (click)="fetchTelemetry($event,'pat')" class="text-decoration-none">

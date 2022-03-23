@@ -5,13 +5,13 @@
                 <div class="col-sm-10 ">
                     <div *ngIf='skul'>
                         <p id="dist">
-                            Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
+                            Diksha Course Progress Report for: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;"
                                 class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
-                            Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
+                            Diksha Course Progress Report for: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="selectedDistrict(districtHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
@@ -19,7 +19,7 @@
                     </div>
                     <div *ngIf="blok">
                         <p id="cluster">
-                            Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
+                            Diksha Course Progress Report for: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="selectedDistrict(blockHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -31,7 +31,7 @@
 
                     <div *ngIf="clust">
                         <p id="school">
-                            Diksha TPD Course Progress Report for: <span (click)="resetToInitPage()"
+                            Diksha Course Progress Report for: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="selectedDistrict(clusterHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -62,8 +62,7 @@
                 <div class="col-sm-12">
                     <p class="report-subtitle">
                         <strong> About the dashboard:</strong> The dashboard provides information on the Course Progress
-                        for
-                        Teacher Professional Development courses at the district level.
+                        for courses at the district level.
                     </p>
                 </div>
             </div>
