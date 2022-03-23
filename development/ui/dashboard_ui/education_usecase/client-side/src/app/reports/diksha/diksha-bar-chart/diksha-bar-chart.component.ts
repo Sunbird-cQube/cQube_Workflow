@@ -7,6 +7,7 @@ import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-diksha-bar-chart',
@@ -17,6 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class DikshaBarChartComponent implements OnInit {
   chart: boolean = false;
   public colors = [];
+  public waterMark = environment.water_mark
   header = '';
   public category: String[] = [];
   public chartData: Number[] = [];
@@ -131,7 +133,7 @@ export class DikshaBarChartComponent implements OnInit {
     this.collectionName = '';
     this.footer = '';
     this.reportData = [];
-    
+
     this.service.listCollectionNames({ collection_type: this.collection_type, timePeriod: this.timePeriod == 'all' ? '' : this.timePeriod }).subscribe(async (res) => {
 
       this.collectionNames = [];

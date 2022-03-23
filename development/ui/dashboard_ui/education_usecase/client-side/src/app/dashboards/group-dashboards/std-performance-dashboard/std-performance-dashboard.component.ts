@@ -17,22 +17,21 @@ export class StdPerformanceDashboardComponent implements OnInit {
   //tooltip texts::::::::::::::
   toolTip = dashboardReportDescriptions;
   reportHeadings = dashboardReportHeadings;
-  dataSource:any;
+  dataSource: any;
 
   hiddenPass = false;
   edate: Date;
   telemetryData = [];
   timePeriod;
 
- 
+
   patViews;
   heatChartViews;
-  lotableViews;  
+  lotableViews;
   satViews;
   satHeatChartViews;
 
-
-
+  public hideReport: String = environment.mapName
 
   managementType;
   categoryType;
@@ -105,25 +104,25 @@ export class StdPerformanceDashboardComponent implements OnInit {
   }
 
   assignViews(views) {
-    
+
 
     var myStr = this.removeUnderscore(views[0].time_range);
     this.timePeriod = " (" + myStr + ")";
 
     views.forEach((element) => {
       let timeStr = this.removeUnderscore(element.time_range);
-     
+
       if (element.reportid == "pat") {
         this.patViews = element.number_of_views + " (" + timeStr + ")";
       }
-     
+
       if (element.reportid == "heatChart") {
         this.heatChartViews = element.number_of_views + " (" + timeStr + ")";
       }
       if (element.reportid == "lotable") {
         this.lotableViews = element.number_of_views + " (" + timeStr + ")";
       }
-      
+
       if (element.reportid == "sat") {
         this.satViews = element.number_of_views + " (" + timeStr + ")";
       }

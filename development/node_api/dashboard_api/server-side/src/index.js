@@ -4,8 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
 const env = require('dotenv');
-const xXssProtection = require("x-xss-protection");
-const helmet = require("helmet");
+
 
 env.config();
 

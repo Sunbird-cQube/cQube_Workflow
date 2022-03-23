@@ -12,6 +12,7 @@ import { UdiseReportService } from "../../../services/udise-report.service";
 import { Router } from "@angular/router";
 import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-udise-report",
@@ -25,7 +26,7 @@ export class UdiseReportComponent implements OnInit {
   public titleName: string = "";
   public colors: any;
   public setColor: any;
-
+  public waterMark = environment.water_mark
   // to assign the count of below values to show in the UI footer
   public studentCount: any;
   public schoolCount: any;

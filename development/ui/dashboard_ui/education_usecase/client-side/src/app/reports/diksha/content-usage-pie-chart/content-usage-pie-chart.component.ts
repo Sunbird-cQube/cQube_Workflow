@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-// import { MultiSelectComponent } from '../../../common/multi-select/multi-select.component';
 import * as Highcharts from 'highcharts';
 import { AppServiceComponent } from 'src/app/app.service';
 import { ContentUsagePieService } from 'src/app/services/content-usage-pie.service';
@@ -9,6 +8,7 @@ import addMore from "highcharts/highcharts-more";
 import HC_exportData from 'highcharts/modules/export-data';
 import { MultiBarChartComponent } from '../multi-bar-chart/multi-bar-chart.component';
 import { MultiSelectComponent } from '../../../common/multi-select/multi-select.component';
+import { environment } from 'src/environments/environment';
 HC_exportData(Highcharts);
 addMore(Highcharts)
 
@@ -30,6 +30,8 @@ export class ContentUsagePieChartComponent implements OnInit {
   public reportData: any = [];
   public fileName;
   public type
+
+  public waterMark = environment.water_mark
   constructor(
     public service: ContentUsagePieService,
     public commonService: AppServiceComponent,
@@ -47,19 +49,17 @@ export class ContentUsagePieChartComponent implements OnInit {
   public stateDropDown = [{ key: 'State Level Data', name: 'State Level Data' }, { key: 'State with Districts', name: 'State with Districts' }]
   selectedDrop = 'State Level Data'
 
-
-
   @ViewChild(MultiSelectComponent) multiSelect1: MultiSelectComponent;
-
 
   ngOnInit(): void {
     this.commonService.errMsg();
     this.changeDetection.detectChanges();
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById('spinner').style.display = "none"
+
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getStateData();
-
   }
 
   public skul = true;
@@ -70,7 +70,7 @@ export class ContentUsagePieChartComponent implements OnInit {
     this.stateData = [];
     this.type = "state"
     try {
-
+      document.getElementById('spinner').style.display = "block"
       this.service.dikshaPieState().subscribe(res => {
         this.pieData = res['data'].data;
         this.stateContentUsage = res['data'].footer.total_content_plays.toLocaleString('en-IN');
@@ -81,7 +81,10 @@ export class ContentUsagePieChartComponent implements OnInit {
 
         this.createPieChart(this.stateData);
         this.getDistMeta();
-        this.commonService.loaderAndErr(this.stateData);
+
+        setTimeout(() => {
+          document.getElementById('spinner').style.display = "none"
+        }, 300);
       })
     } catch (e) {
       this.stateData = [];
@@ -105,7 +108,6 @@ export class ContentUsagePieChartComponent implements OnInit {
 
 
   restructurePieChartData(pieData) {
-
     let data: any = []
     pieData.forEach(item => {
       data.push({
@@ -130,8 +132,8 @@ export class ContentUsagePieChartComponent implements OnInit {
       })
 
     } catch (error) {
-
-      console.log(error)
+      this.distData = [];
+      this.commonService.loaderAndErr(this.distData);
     }
   }
 
@@ -157,7 +159,9 @@ export class ContentUsagePieChartComponent implements OnInit {
 
       })
     } catch (error) {
-      //  console.log(error)
+      this.distMetaData = [];
+      this.commonService.loaderAndErr(this.distMetaData);
+
     }
 
   }
@@ -165,8 +169,14 @@ export class ContentUsagePieChartComponent implements OnInit {
   public distToggle = false
 
   onStateDropSelected(data) {
-    this.selectedDrop = data
+    this.selectedDrop = data;
+    document.getElementById('spinner').style.display = "block"
+
+    setTimeout(() => {
+      document.getElementById('spinner').style.display = "none"
+    }, 2000);
     try {
+
       if (this.selectedDrop === 'State with Districts') {
         this.distToggle = true
         this.districtSelectBox = true;
@@ -176,10 +186,12 @@ export class ContentUsagePieChartComponent implements OnInit {
       }
       this.getStateData();
       this.getDistData();
+
+
     } catch (error) {
       this.distData = [];
       this.commonService.loaderAndErr(this.distData);
-      // console.log(e);
+
     }
 
 
@@ -259,6 +271,7 @@ export class ContentUsagePieChartComponent implements OnInit {
   newPieData
 
   createDistPiechart() {
+
     let pieData: any = [];
     Object.keys(this.distData).forEach(keys => {
       pieData.push({
@@ -449,7 +462,5 @@ export class ContentUsagePieChartComponent implements OnInit {
     };
     this.Highcharts.chart("container", this.chartOptions);
   }
-
-
 
 }

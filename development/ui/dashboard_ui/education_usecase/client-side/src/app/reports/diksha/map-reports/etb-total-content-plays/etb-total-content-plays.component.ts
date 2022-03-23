@@ -15,6 +15,7 @@ import * as R from "leaflet-responsive-popup";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { AppServiceComponent } from "src/app/app.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-etb-total-content-plays",
@@ -33,6 +34,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   // variables
   public districtId: any = "";
+
+  public waterMark = environment.water_mark
 
   public myDistData: any;
 

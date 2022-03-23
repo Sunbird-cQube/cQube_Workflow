@@ -24,13 +24,15 @@ export class EtbDashboardComponent implements OnInit {
   telemetryData = [];
   timePeriod;
 
-  
+  public hideReport: String = environment.mapName
+
   dscViews;
   utViews;
   utcViews;
   etbGpsViews;
   etbCapitaViews;
   etbHeartBeatViews;
+  
   // diksha columns
   diksha_column =
     "diksha_columns" in environment ? environment["diksha_columns"] : true;

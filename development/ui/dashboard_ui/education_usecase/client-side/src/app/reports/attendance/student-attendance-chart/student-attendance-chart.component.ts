@@ -3,6 +3,7 @@ import { AppServiceComponent } from 'src/app/app.service';
 import { MultiSelectComponent } from '../../../common/multi-select/multi-select.component';
 import { LineChartComponent } from '../../../common/line-chart/line-chart.component';
 import { AttendanceReportService } from '../../../services/student.attendance-report.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-student-attendance-chart',
@@ -11,6 +12,8 @@ import { AttendanceReportService } from '../../../services/student.attendance-re
 })
 export class StudentAttendanceChartComponent implements OnInit {
   state;
+
+  public waterMark = environment.water_mark
   level = 'state';
   chartId1 = 'chartid1';
   chartId2 = 'chartid2';
