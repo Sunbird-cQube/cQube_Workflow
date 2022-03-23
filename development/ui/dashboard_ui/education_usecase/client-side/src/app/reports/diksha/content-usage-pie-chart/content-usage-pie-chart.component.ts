@@ -174,7 +174,7 @@ export class ContentUsagePieChartComponent implements OnInit {
 
     setTimeout(() => {
       document.getElementById('spinner').style.display = "none"
-    }, 200);
+    }, 2000);
     try {
 
       if (this.selectedDrop === 'State with Districts') {
