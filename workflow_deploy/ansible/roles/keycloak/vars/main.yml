@@ -20,6 +20,7 @@ cQube_realm_local_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_
 cQube_realm_defaultRoles_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_defaultRoles.json"
 cQube_realm_config_otp_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_config_otp.json"
 cQube_realm_update_password_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_realm_update_password.json"
+cQube_admin_client_proxy_host_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_admin_client_proxy_host.json"
 
 # Login Theme variables
 login_theme_name: cqube_themes
