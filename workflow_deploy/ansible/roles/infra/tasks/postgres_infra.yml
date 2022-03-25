@@ -25,5 +25,15 @@
   postgresql_query:
     db: "{{ db_name }}"
     path_to_script: /tmp/postgres/infra_queries.sql
-  when: infra
+  when: (infra) and (map_name != "none")
   tags: [ install, update ]
+
+- name: Run infra queries from SQL script
+  become: true
+  become_user: postgres
+  postgresql_query:
+    db: "{{ db_name }}"
+    path_to_script: /tmp/postgres/infra_queries_no_lat_lng.sql
+  when: (infra) and (map_name == "none")
+  tags: [ install, update ]
+  
