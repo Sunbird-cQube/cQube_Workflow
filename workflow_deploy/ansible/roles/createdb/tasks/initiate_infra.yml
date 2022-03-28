@@ -52,7 +52,7 @@
     - infra_queries.sql
     - infra.sql
     - infrastructure_master.csv
-	- infra_queries_no_lat_lng.sql  
+    - infra_queries_no_lat_lng.sql  
   tags: [ install, update ]
   when: infra 
 
