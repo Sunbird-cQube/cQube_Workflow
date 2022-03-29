@@ -11,6 +11,7 @@ import { CrcReportService } from "../../../services/crc-report.service";
 import { Router } from "@angular/router";
 import { Chart } from "chart.js";
 import { AppServiceComponent } from "../../../app.service";
+import { environment } from "src/environments/environment";
 declare const $;
 
 @Component({
@@ -29,6 +30,7 @@ export class CrcReportComponent implements OnInit {
 
   public title: string = "";
   public titleName: string = "";
+  public waterMark = environment.water_mark
 
   public districts: any;
   public blocks: any = [];

@@ -5,7 +5,7 @@
         <div class="col-lg-9 col-md-9 col-sm-12">
           <div>
             <p id="dist">
-              Report on GPS of Learning- TPD:
+              Report on GPS of Learning- Courses:
               <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline" class="selected-level">{{
                 state }}</span>
             </p>
@@ -29,7 +29,7 @@
         <div class="col-sm-12">
           <p class="note">
             <strong> About the dashboard:</strong> The dashboard provides details on the total content plays, total time
-            spent and average time spent for Teacher Professional Development (TPD) by location for
+            spent and average time spent for courses by location for
             {{ state }}.
           </p>
         </div>
@@ -110,7 +110,7 @@
         <span class="legends" style="text-align: center; font-size: 12px;">Total Time Spent: {{otherStateTotalTime}} Hrs
         </span><br>
         <span class="legends" style="text-align: center; font-size: 12px;">Avg Time Spent: {{otherStateAvgTime}}
-          Mins</span>
+        </span>
       </div>
     </div>
 
@@ -129,4 +129,10 @@
 </div>
 <div id="spinner">
   <div id="loader" class="loading">Loading&#8230;</div>
+</div>
+
+<div *ngIf="waterMark === 'true'" id='demoLogoConatiner'>
+  <span><span>Test Data, Not Representative</span>
+    <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
 </div>

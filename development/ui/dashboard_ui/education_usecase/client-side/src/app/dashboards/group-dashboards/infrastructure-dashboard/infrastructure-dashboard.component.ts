@@ -17,8 +17,8 @@ export class InfrastructureDashboardComponent implements OnInit {
   //tooltip texts::::::::::::::
   toolTip = dashboardReportDescriptions;
   reportHeadings = dashboardReportHeadings;
-  dataSource:any;
-
+  dataSource: any;
+  hideReport = environment.mapName
   hiddenPass = false;
   edate: Date;
   telemetryData = [];
@@ -99,7 +99,7 @@ export class InfrastructureDashboardComponent implements OnInit {
   }
 
   assignViews(views) {
-   
+
     var myStr = this.removeUnderscore(views[0].time_range);
     this.timePeriod = " (" + myStr + ")";
 

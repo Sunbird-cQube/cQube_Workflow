@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AppServiceComponent } from 'src/app/app.service';
 import { PerCapitaMapReport } from 'src/app/services/per-capita-map-report.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-etb-per-capita',
@@ -25,6 +26,8 @@ export class EtbPerCapitaComponent implements OnInit {
   // initial center position for the map
   public lat: any;
   public lng: any;
+
+  public waterMark = environment.water_mark
 
 
   // leaflet layer dependencies

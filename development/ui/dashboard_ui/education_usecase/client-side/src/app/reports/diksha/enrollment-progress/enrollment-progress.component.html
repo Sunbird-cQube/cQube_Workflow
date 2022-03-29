@@ -42,7 +42,7 @@
         <div class="col-sm-12">
           <p class="note">
             <strong> About the dashboard:</strong> The dashboards provides insights on the user onboarding progress
-            across various TPD courses for {{state}} over time
+            across various courses for {{state}} over time
 
           </p>
         </div>
@@ -104,4 +104,10 @@
 </div>
 <div id="spinner">
   <div class="loading">Loading&#8230;</div>
+</div>
+
+<div *ngIf="waterMark === 'true'" id='demoLogoConatiner'>
+  <span><span>Test Data, Not Representative</span>
+    <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
 </div>

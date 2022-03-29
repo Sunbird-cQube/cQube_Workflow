@@ -125,6 +125,7 @@
     </div>
   </div>
   <div class="row reportContainer">
+
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '90%' : '100%' }">
         <div #mapContainer id="infraMap" class="active" style="width: 100%" [ngStyle]="{
@@ -214,4 +215,10 @@
 </div>
 <div id="spinner">
   <div id="loader" class="loading">Loading&#8230;</div>
+</div>
+
+<div *ngIf="waterMark === 'true'" id='demoLogoConatiner'>
+  <span><span>Test Data, Not Representative</span>
+    <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
 </div>

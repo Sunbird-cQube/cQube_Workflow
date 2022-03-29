@@ -5,7 +5,7 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 const querystring = require('querystring');
 const qr = require('qrcode');
-const speakeasy = require("speakeasy");
+
 const common = require('./common');
 const { generateSecret, verify } = require('2fa-util');
 const db = require('../keycloakDB/db')

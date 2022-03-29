@@ -31,7 +31,7 @@
                   margin-top: 3%;
                 "></p>
             </div>
-            
+
             <span id="rawDownload" class="note"
               style="cursor: pointer; float: right; margin: 8px 20px 0px 0px; text-decoration: underline;"
               *ngIf="reportData.length > 0" (click)="downloadRawFile()"><strong>Download Raw
@@ -51,8 +51,7 @@
         <div class="col-sm-12">
           <p class="note">
             <strong> About the dashboard:</strong> The dashboard provides
-            information on the total content plays at the content level for
-            Teacher Professional Development courses at the district level.
+            information on the total content plays at the content level for courses at the district level.
           </p>
         </div>
       </div>
@@ -101,4 +100,10 @@
 </div>
 <div id="spinner">
   <div class="loading">Loading&#8230;</div>
+</div>
+
+<div *ngIf="waterMark === 'true'" id='demoLogoConatiner'>
+  <span><span>Test Data, Not Representative</span>
+    <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
 </div>

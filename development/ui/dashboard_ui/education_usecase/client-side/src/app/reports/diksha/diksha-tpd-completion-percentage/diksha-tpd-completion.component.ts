@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from '../../../services/diksha-report.service';
 import { Router } from '@angular/router';
 import { AppServiceComponent } from '../../../app.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-diksha-tpd-completion',
@@ -24,6 +25,7 @@ export class DikshaTpdCompletionComponent implements OnInit {
   public yAxisLabel: String;
   public reportName = "completion_percentage";
   public report = "completion"
+  public waterMark = environment.water_mark
 
   districts = [];
   districtId;
@@ -78,7 +80,6 @@ export class DikshaTpdCompletionComponent implements OnInit {
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
     this.getAllData();
   }
 
@@ -222,7 +223,6 @@ export class DikshaTpdCompletionComponent implements OnInit {
       }
       this.fileName = `${this.reportName}_${this.timePeriod}_${districtId}_${this.commonService.dateAndTime}`;
       this.blocks = this.reportData = res['downloadData'];
-      // this.footer = result['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       this.getBarChartData();
       this.commonService.loaderAndErr(this.result);
     }, err => {
@@ -260,7 +260,6 @@ export class DikshaTpdCompletionComponent implements OnInit {
       }
       this.fileName = `${this.reportName}_${this.timePeriod}_${blockId}_${this.commonService.dateAndTime}`;
       this.clusters = this.reportData = res['downloadData'];
-      // this.footer = result['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       this.getBarChartData();
       this.commonService.loaderAndErr(this.result);
     }, err => {
@@ -296,7 +295,6 @@ export class DikshaTpdCompletionComponent implements OnInit {
       }
       this.fileName = `${this.reportName}_${this.timePeriod}_${clusterId}_${this.commonService.dateAndTime}`;
       this.reportData = res['downloadData'];
-      // this.footer = result['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       this.getBarChartData();
       this.commonService.loaderAndErr(this.result);
     }, err => {
@@ -341,7 +339,6 @@ export class DikshaTpdCompletionComponent implements OnInit {
           clusterName: res['downloadData'][0].cluster_name
         }
       }
-      // this.footer = res['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
       this.getBarChartData();
       this.commonService.loaderAndErr(this.result);
     }, err => {

@@ -24,6 +24,8 @@ export class ExceptionDashboardComponent implements OnInit {
   telemetryData = [];
   timePeriod;
 
+  public hideReport: String = environment.mapName
+
 
   semExpViews;
   isdataViews;

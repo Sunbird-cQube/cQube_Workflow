@@ -4,6 +4,7 @@ import { SchoolInfraService } from '../../../services/school-infra.service';
 import { Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { AppServiceComponent } from 'src/app/app.service';
+import { environment } from 'src/environments/environment';
 declare const $;
 
 @Component({
@@ -21,6 +22,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   public xAxisFilter: any = [];
   public yAxisFilter: any = [];
   public downloadLevel = '';
+  public waterMark = environment.water_mark
 
   public districtsNames: any = [];
   public blockNames: any = [];

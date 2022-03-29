@@ -6,6 +6,7 @@ import * as L from 'leaflet';
 import * as R from 'leaflet-responsive-popup';
 import { AppServiceComponent } from '../../../app.service';
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class TelemetryDataComponent implements OnInit {
   public clusterMarkers: any = [];
   public schoolMarkers: any = [];
 
+  public waterMark = environment.water_mark
   // to show and hide the dropdowns based on the selection of buttons
   public stateLevel: any = 0; // 0 for buttons and 1 for dropdowns
 

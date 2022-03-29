@@ -31,30 +31,32 @@ export class MapService {
 
   //Initialisation of Map  
   initMap(map, maxBounds) {
-    if (this.mapName == 'leafletmap') {
-      globalMap = L.map(map, { zoomControl: false, touchZoom: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        {
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-          maxZoom: this.mapCenterLatlng.zoomLevel + 10,
-        }
-      ).addTo(globalMap);
-    } else {
-      globalMap = new MapmyIndia.Map(map, { hasTip: false, touchZoom: false, autoPan: false, offset: [15, 20], dragging: environment.stateName == 'UP' ? false : true }, {
-        zoomControl: false,
-        hybrid: false,
-      }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
+    if (environment.mapName !== 'none') {
+      if (this.mapName == 'leafletmap') {
+        globalMap = L.map(map, { zoomSnap: 0.25, zoomControl: false, touchZoom: false, maxBounds: maxBounds, dragging: environment.stateName == 'UP' ? false : true }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          {
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            maxZoom: this.mapCenterLatlng.zoomLevel + 10,
+          }
+        ).addTo(globalMap);
+      } else {
+        globalMap = new MapmyIndia.Map(map, { hasTip: false, touchZoom: false, autoPan: false, offset: [15, 20], dragging: environment.stateName == 'UP' ? false : true }, {
+          zoomControl: false,
+          hybrid: false,
+        }).setView([maxBounds[0][0], maxBounds[0][1]], this.mapCenterLatlng.zoomLevel);
+      }
+      var data = mapData.default;
+      function applyCountryBorder(map) {
+        L.geoJSON(data[`${environment.stateName}`]['features'], {
+          color: "#6e6d6d",
+          weight: 2,
+          fillOpacity: 0,
+          fontWeight: "bold"
+        }).addTo(map);
+      }
+      applyCountryBorder(globalMap);
     }
-    var data = mapData.default;
-    function applyCountryBorder(map) {
-      L.geoJSON(data[`${environment.stateName}`]['features'], {
-        color: "#6e6d6d",
-        weight: 2,
-        fillOpacity: 0,
-        fontWeight: "bold"
-      }).addTo(map);
-    }
-    applyCountryBorder(globalMap);
   }
 
   restrictZoom(globalMap) {
@@ -245,7 +247,7 @@ export class MapService {
 
   //goog
   jsonMapData: any = googleMapData.default;
-  public geoJson = {
+  public geoJson = environment.mapName === 'googlemap' ? {
     type: "FeatureCollection",
     features: [
       {
@@ -259,17 +261,20 @@ export class MapService {
           coordinates: [
             this.jsonMapData[`${environment.stateName}`]['features'][0].geometry.coordinates[0]
           ]
+
         }
       }
     ]
-  };
+  } : {};
+
+
 
   public visualizePeakFactor(feature) {
     const color = feature.getProperty("color");
     return {
       fillColor: color,
-      strokeWeight: 1,
-      strokeColor: "gray"
+      strokeWeight: 3,
+      strokeColor: "#6e6d6d"
     };
   }
 }

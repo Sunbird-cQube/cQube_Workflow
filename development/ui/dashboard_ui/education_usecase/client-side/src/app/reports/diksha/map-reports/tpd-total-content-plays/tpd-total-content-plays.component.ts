@@ -15,6 +15,7 @@ import * as R from "leaflet-responsive-popup";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { AppServiceComponent } from "src/app/app.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-tpd-total-content-plays",
@@ -29,6 +30,8 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   public lat: any;
   public lng: any;
 
+
+  public waterMark = environment.water_mark
   // leaflet layer dependencies
   public layerMarkers = new L.layerGroup();
   public markersList = new L.FeatureGroup();
@@ -112,6 +115,12 @@ export class TpdTotalContentPlaysComponent implements OnInit {
     (this.onRangeSelect = ""), (this.selectedType = "total_time_spent");
     this.infraData = "infrastructure_score";
     this.getDistData();
+  }
+
+  //split the time from ex:- 2.40 to 2 min 40 sec
+  timeSplit(a) {
+    let b = a.split(".");
+    return b[0] + " Mins " + b[1] + " Secs";
   }
   // to load all the districts for state data on the map
   getDistData() {
@@ -277,10 +286,8 @@ export class TpdTotalContentPlaysComponent implements OnInit {
               this.data.footer.total_content_plays.toLocaleString("en-IN");
             this.othersStatePercentage =
               "(" + this.data.footer.others_percentage + "%" + ")";
-            this.stateAvgTimeSpend =
-              this.data.footer.average_time_state.toLocaleString("en-IN") +
-              " " +
-              "Minutes";
+
+            this.stateAvgTimeSpend = this.timeSplit(this.data.footer.average_time_state);
             this.stateTotalContentPlay =
               this.data.footer.total_time_spent.toLocaleString("en-IN") +
               " " +
@@ -291,7 +298,8 @@ export class TpdTotalContentPlaysComponent implements OnInit {
                 this.otherStateContentPlays =
                   item.total_content_plays.toLocaleString("en-IN");
                 this.otherStateTotalTime = item.total_time_spent.toLocaleString("en-IN");
-                this.otherStateAvgTime = item.avg_time_spent;
+
+                this.otherStateAvgTime = this.timeSplit(item.avg_time_spent);
               }
             });
             // options to set for markers in the map
@@ -455,7 +463,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
 
     for (var key of Object.keys(orgObject)) {
       if (key === "avg_time_spent")
-        metrics[key] = orgObject[key].toLocaleString("en-IN") + " " + "Minutes";
+        metrics[key] = this.timeSplit(orgObject[key]);
     }
 
     yourData1 = this.globalService

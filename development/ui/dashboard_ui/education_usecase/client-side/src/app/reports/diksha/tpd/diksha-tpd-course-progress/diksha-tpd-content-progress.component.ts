@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DikshaReportService } from 'src/app/services/diksha-report.service';
 import { MultiSelectComponent } from '../../../../common/multi-select/multi-select.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-diksha-tpd-content-progress',
@@ -17,6 +18,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   name: string;
   level = '';
+
+  public waterMark = environment.water_mark
 
   height = screen.height;
   width = screen.width;

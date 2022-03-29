@@ -6,6 +6,7 @@ import { AppServiceComponent } from "../../../app.service";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { PatReportService } from "../../../services/pat-report.service";
+import { environment } from "src/environments/environment";
 declare const $;
 
 @Component({
@@ -17,6 +18,7 @@ export class HeatChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   name: string;
   level = "";
+  public waterMark = environment.water_mark
 
   blockHidden = true;
   clusterHidden = true;
@@ -122,8 +124,8 @@ export class HeatChartComponent implements OnInit {
           this.examDates = this.metaData[i].data["months"][`${this.month}`][
             "examDate"
           ];
-          this.grades = [{ grade: "all" },...this.grades.filter((item) => item !== { grade: "all" })];
-  
+          this.grades = [{ grade: "all" }, ...this.grades.filter((item) => item !== { grade: "all" })];
+
           this.examDates = [
             { exam_date: "all" },
             ...this.examDates.filter((item) => item !== { exam_date: "all" }),
@@ -165,7 +167,7 @@ export class HeatChartComponent implements OnInit {
       { grade: "all" },
       ...this.grades.filter((item) => item !== { grade: "all" }),
     ];
-  
+
   }
 
   ngOnInit(): void {

@@ -283,7 +283,6 @@ if __name__ == "__main__":
         'teacher_attendance_parameters': 'teacher_attendance_parameters.txt',
         'sat_parameters':'sat_parameters.txt',
         'cqube_telemetry_parameters': 'cqube_telemetry_parameters.txt',
-        'cQube_data_storage_parameters': 'cQube_data_storage_parameters.txt',
         'udise_parameters': 'udise_parameters.txt',
         'composite_parameters': 'composite_parameters.txt',
         'progress_card_parameters':'progress_card_parameters.txt',

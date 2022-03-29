@@ -106,7 +106,7 @@
         <span class="legends" style="text-align: center; font-size: 12px;">Total Time Spent: {{otherStateTotalTime}} Hrs
         </span><br>
         <span class="legends" style="text-align: center; font-size: 12px;">Avg Time Spent: {{otherStateAvgTime}}
-          Mins</span>
+        </span>
       </div>
     </div>
 
@@ -125,4 +125,10 @@
 </div>
 <div id="spinner">
   <div id="loader" class="loading">Loading&#8230;</div>
+</div>
+
+<div *ngIf="waterMark === 'true'" id='demoLogoConatiner'>
+  <span><span>Test Data, Not Representative</span>
+    <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
 </div>

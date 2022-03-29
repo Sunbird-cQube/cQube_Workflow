@@ -4,7 +4,7 @@
 
     <div class="report-cards">
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="imr"
                     [routerLink]="!dataSource['infra'] ? ['/coming-soon'] :['/infrastructure/school-infra-map']"
                     (click)="fetchTelemetry($event,'imr')" class="text-decoration-none">
@@ -70,7 +70,7 @@
             </div>
 
 
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="udise"
                     [routerLink]="!dataSource['udise'] ? ['/coming-soon'] :['/infrastructure/udise-report']"
                     (click)="fetchTelemetry($event,'udise')" class="text-decoration-none">
