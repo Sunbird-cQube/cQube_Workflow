@@ -46,6 +46,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
     this.getStateData();
+    // this.getDistrict()
   }
 
   public data;
@@ -58,7 +59,9 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.chartData = [];
     this.reportData = [];
     this.fileName = "Total_content_play_over_years";
-    
+    // this.districtHierarchy = {};
+    // this.blockHierarchy = {};
+    // this.clusterHierarchy = {};
   }
 
   clickHome() {
@@ -168,7 +171,6 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       this.createLineChart(this.chartData);
     } catch (error) {
       this.chartData = [];
-      // this.commonService.loaderAndErr(this.chartData);
     }
   }
 

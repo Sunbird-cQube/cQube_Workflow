@@ -592,6 +592,15 @@ export class StudengtAttendanceComponent implements OnInit {
     }
   }
 
+
+  // distlevel(id){
+
+  // this.levelWise = "District";
+  // this.myDistrict = id;
+  //  this.levelWiseFilter();
+  // }
+
+
   getYear() {
     this.months = [];
     this.month = undefined;

@@ -107,6 +107,10 @@ export class SigninComponent implements OnInit {
       this.wrongCredintional = false;
 
       let response = res
+      let userLevel = res['userLevel']
+      localStorage.setItem('userLevel', userLevel)
+      let userLocation = res['userLocation']
+      localStorage.setItem('userLocation', userLocation)
       this.userName = res['username']
       this.adminUserId = res['userId']
       this.userStatus = res['status']

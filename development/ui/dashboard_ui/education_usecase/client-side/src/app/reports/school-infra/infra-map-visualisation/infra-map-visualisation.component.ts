@@ -201,6 +201,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
+    // this.getView();
   }
 
   getDistricts(): void {
@@ -1240,6 +1241,54 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.onClusterSelect(this.clusterId);
     }
   }
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+  getView(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    console.log(id,level);
+
+    if(level==="cluster"){
+      this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.level= "blockPerDistrict";
+    this.districtId = id;
+     this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "clusterPerBlock";
+    this.blockId = id;
+     this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "schoolPerCluster";
+    this.clusterId = id;
+     this.levelWiseFilter();
+    }
+
 
   generateToolTip(marker, level, markerIcon, lat, lng) {
     this.popups(markerIcon, marker, level);

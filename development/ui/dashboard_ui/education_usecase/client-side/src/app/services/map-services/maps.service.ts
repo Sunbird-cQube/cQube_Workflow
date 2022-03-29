@@ -257,7 +257,7 @@ export class MapService {
         geometry: {
           type: "Polygon",
           coordinates: [
-            this.jsonMapData[`${environment.stateName}`]['features'][0].geometry.coordinates[0]
+            // this.jsonMapData[`${environment.stateName}`]['features'][0].geometry.coordinates[0]
           ]
 
         }

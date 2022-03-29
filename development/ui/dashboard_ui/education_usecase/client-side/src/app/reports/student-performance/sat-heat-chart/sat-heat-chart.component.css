@@ -8,6 +8,11 @@
     margin-top: 0 !important;
  }
 
+.satheatchart-level strong{
+    margin-top: 10px;
+    line-height: 1.8em
+  }
+  
  @media only screen and (min-width: 2560px) {
     .reportContainer1{
         margin-top: 130px !important;

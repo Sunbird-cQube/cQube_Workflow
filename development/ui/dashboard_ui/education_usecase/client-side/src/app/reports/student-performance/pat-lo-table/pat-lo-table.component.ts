@@ -598,6 +598,10 @@ export class PATLOTableComponent implements OnInit {
 
     this.commonService.errMsg();
 
+    var cluster = this.clusterNames.find((a) => a.cluster_id == clusterId);
+    this.cluster=cluster.cluster_id;
+    this.district=cluster.district_id;
+    this.block=cluster.block_id
     let a = {
       year: this.year,
       month: this.month,
@@ -616,7 +620,6 @@ export class PATLOTableComponent implements OnInit {
       (response) => {
         this.updatedTable = this.reportData = response["tableData"];
         this.onChangePage();
-        var cluster = this.clusterNames.find((a) => a.cluster_id == clusterId);
         this.clusterHierarchy = {
           districtName: cluster.district_name,
           distId: cluster.district_id,
@@ -663,6 +666,55 @@ export class PATLOTableComponent implements OnInit {
       this.selectedCluster(this.cluster);
     }
   }
+
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+  getView(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    console.log(id,level);
+
+    if(level==="cluster"){
+      this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.level= "block";
+    this.district= id;
+     this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "cluster";
+    this.block = id;
+     this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "school";
+    this.cluster= id;
+     this.levelWiseFilter();
+    }
+
 
   //error handling
   handleError() {
