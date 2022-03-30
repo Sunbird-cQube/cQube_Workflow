@@ -408,7 +408,7 @@ slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 #check_mem
 # Check the version before starting validation
-version_upgradable_from=3.3
+version_upgradable_from=3.4
 check_version
 
 # Iterate the array and retrieve values for mandatory fields from config file
