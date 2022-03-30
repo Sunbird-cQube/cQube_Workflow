@@ -504,4 +504,10 @@ b.InspectionId,b.Latitude,b.Longitude,b.InSchoolLocation,b.CreatedOn,b.cnt num_o
 (SELECT UserLocationMasterId,UserMasterId,SchoolId,InspectionId,Latitude,Longitude,InSchoolLocation,CreatedOn,row_number() over (partition by InspectionId order by CreatedOn) as rn from flowfile where InSchoolLocation=TRUE and InspectionId>0) sq Where rn =1""",
 "crc_loc_column_change_dup":"""select UserLocationMasterId as "crc_location_id",UserMasterId as "crc_id",SchoolId as "school_id",InspectionId as "inspection_id",Latitude as "latitude",Longitude as "longitude",InSchoolLocation as "in_school_location",CreatedOn as "created_on",num_of_times
 FROM flowfile""",
+"crc_loc_not_null_except_lat_long":"""select * from flowfile 
+where SchoolId IS NOT NULL
+AND InspectionId IS NOT NULL
+AND CreatedOn IS NOT NULL
+AND UserLocationMasterId IS NOT NULL
+AND UserMasterId IS NOT NULL"""
 }
