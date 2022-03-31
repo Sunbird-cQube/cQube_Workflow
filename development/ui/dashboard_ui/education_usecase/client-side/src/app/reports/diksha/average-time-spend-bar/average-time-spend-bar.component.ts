@@ -84,7 +84,8 @@ export class AverageTimeSpendBarComponent implements OnInit {
         this.getDistMeta();
         this.commonService.loaderAndErr(this.data);
       });
-    } catch (error) {
+    } 
+    catch (error) {
       this.data = [];
       this.emptyChart();
       this.commonService.loaderAndErr(this.data);
