@@ -312,7 +312,7 @@ fi
 }
 
 check_map_name(){
-if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" || $2 == "none"]]; then
+if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" || $2 == "none" ]]; then
     echo "Error - Please enter either mapmyindia or googlemap or leafletmap or none for $1"; fail=1
 fi
 }
