@@ -83,7 +83,10 @@ export class EnrollmentProgressComponent implements OnInit {
         this.createLineChart(this.stateData);
         this.getDistMeta();
         this.commonService.loaderAndErr(this.stateData);
-      });
+      }, (err)=>{
+        this.stateData = [];
+        this.commonService.loaderAndErr(this.stateData);
+        }); 
     } catch (error) {
       this.stateData = []
       console.log(error)
