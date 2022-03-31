@@ -206,6 +206,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
       this.emptyChart();
     }
   }
+  
 
   //to filter downloadable data
 

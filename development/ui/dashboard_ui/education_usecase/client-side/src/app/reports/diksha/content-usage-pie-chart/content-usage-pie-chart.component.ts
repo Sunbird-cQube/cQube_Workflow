@@ -85,7 +85,8 @@ export class ContentUsagePieChartComponent implements OnInit {
         setTimeout(() => {
           document.getElementById('spinner').style.display = "none"
         }, 300);
-      }, (err)=>{
+      }, 
+      (err)=>{
         this.stateData = [];
         this.commonService.loaderAndErr(this.stateData);
         });

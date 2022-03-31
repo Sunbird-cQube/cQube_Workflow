@@ -86,7 +86,7 @@ export class EnrollmentProgressComponent implements OnInit {
       }, (err)=>{
         this.stateData = [];
         this.commonService.loaderAndErr(this.stateData);
-        });
+        }); 
     } catch (error) {
       this.stateData = []
       console.log(error)

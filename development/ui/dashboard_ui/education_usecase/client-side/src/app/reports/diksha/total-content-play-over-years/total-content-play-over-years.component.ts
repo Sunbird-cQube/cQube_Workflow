@@ -90,7 +90,8 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
        this.commonService.loaderAndErr(this.chartData);
       }
       });
-    } catch (error) { 
+    }
+   catch (error) { 
       this.chartData = [];
       this.commonService.loaderAndErr(this.chartData);
     }
