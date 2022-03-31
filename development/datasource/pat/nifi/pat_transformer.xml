@@ -2906,31 +2906,6 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>6378cf57-8032-36d7-0000-000000000000</id>
-                    <parentGroupId>3c11730d-de74-3f95-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>3c11730d-de74-3f95-0000-000000000000</groupId>
-                        <id>8f28f84a-7400-3119-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>3c11730d-de74-3f95-0000-000000000000</groupId>
-                        <id>92e161e0-ec56-3dce-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
                     <id>6497b44e-ff7e-3b89-0000-000000000000</id>
                     <parentGroupId>3c11730d-de74-3f95-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -14585,7 +14560,7 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('/b
 <value>UPDATE files_ingestion
 SET
 status ='KO',
-storage_date = ${now():format("yyyy-MM-dd HH:mm:ss.SSS")}
+storage_date = '${now():format("yyyy-MM-dd HH:mm:ss.SSS")}'
 WHERE ff_uuid = '${files_uuid}'</value>
                             </entry>
                             <entry>
@@ -21483,112 +21458,6 @@ ${filename:startsWith('periodic_exam_subject_details'):ifElse(#{pat_periodic_exa
                     <type>org.apache.nifi.processors.standard.SplitRecord</type>
                 </processors>
                 <processors>
-                    <id>92e161e0-ec56-3dce-0000-000000000000</id>
-                    <parentGroupId>3c11730d-de74-3f95-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>5200.0</x>
-                        <y>288.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-standard-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>File Size</key>
-<value>
-    <name>File Size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Batch Size</key>
-<value>
-    <name>Batch Size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Data Format</key>
-<value>
-    <name>Data Format</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Unique FlowFiles</key>
-<value>
-    <name>Unique FlowFiles</name>
-</value>
-                            </entry>
-                            <entry>
-<key>generate-ff-custom-text</key>
-<value>
-    <name>generate-ff-custom-text</name>
-</value>
-                            </entry>
-                            <entry>
-<key>character-set</key>
-<value>
-    <name>character-set</name>
-</value>
-                            </entry>
-                            <entry>
-<key>mime-type</key>
-<value>
-    <name>mime-type</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>File Size</key>
-<value>0B</value>
-                            </entry>
-                            <entry>
-<key>Batch Size</key>
-<value>1</value>
-                            </entry>
-                            <entry>
-<key>Data Format</key>
-<value>Text</value>
-                            </entry>
-                            <entry>
-<key>Unique FlowFiles</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>generate-ff-custom-text</key>
-                            </entry>
-                            <entry>
-<key>character-set</key>
-<value>UTF-8</value>
-                            </entry>
-                            <entry>
-<key>mime-type</key>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>1day</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>GenerateFlowFile</name>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>success</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.standard.GenerateFlowFile</type>
-                </processors>
-                <processors>
                     <id>936080b9-520d-30a8-0000-000000000000</id>
                     <parentGroupId>3c11730d-de74-3f95-0000-000000000000</parentGroupId>
                     <position>
@@ -26426,7 +26295,7 @@ same id data validation of file:${filename}, same id records found </value>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>UpdateAttribute</name>
+                    <name>pat_add_map_name_value</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
@@ -31994,5 +31863,5 @@ ${query_type:startsWith('pat_exam_school_by_year_month')})})})}</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>03/30/2022 15:58:39 IST</timestamp>
+    <timestamp>03/31/2022 12:13:56 IST</timestamp>
 </template>
