@@ -165,6 +165,23 @@
   loop: '{{ clients_list.stdout }}'
   tags: [ install, update ]
 
+- name: Creating the template to update the nginx ip
+  template:
+    src: cQube_admin_client_proxy_host.json.j2
+    dest: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_admin_client_proxy_host.json"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+    mode: '0644'
+  tags: [ install, update ]
+
+- name: Updating nginx host 
+  shell: "{{ base_dir }}/cqube/keycloak/bin/kcadm.sh update clients/{{ item.id }} -r {{ realm_name }} -f {{ cQube_admin_client_proxy_host_json }} --no-config --server http://localhost:8080/auth --realm master --user {{ keycloak_adm_user }} --password {{ keycloak_adm_passwd }}"
+  args:
+    executable: /bin/bash
+  when: item.clientId == admin_app_client_id 
+  loop: '{{ clients_list.stdout }}'
+  tags: [ install, update ]  
+
 # End of 1.7 update
 
 - name: Adding the client roles to admin realm role

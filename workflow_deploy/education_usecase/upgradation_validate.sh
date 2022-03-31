@@ -312,8 +312,8 @@ fi
 }
 
 check_map_name(){
-if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" ]]; then
-    echo "Error - Please enter either mapmyindia or googlemap or leafletmap for $1"; fail=1
+if ! [[ $2 == "mapmyindia" || $2 == "googlemap" || $2 == "leafletmap" || $2 == "none" ]]; then
+    echo "Error - Please enter either mapmyindia or googlemap or leafletmap or none for $1"; fail=1
 fi
 }
 
@@ -408,7 +408,7 @@ slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 #check_mem
 # Check the version before starting validation
-version_upgradable_from=3.3
+version_upgradable_from=3.4
 check_version
 
 # Iterate the array and retrieve values for mandatory fields from config file

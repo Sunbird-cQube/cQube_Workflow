@@ -4,11 +4,6 @@
   shell: cp -R ../../development/datasource/python {{ base_dir }}/cqube/emission_app/
   tags: [ install, update ]
  
-- name: Copy cQube_data_storage_parameters.txt files
-  shell: cp -R ../../development/datasource/cQube_data_storage/nifi/cQube_data_storage_parameters.txt {{ base_dir }}/cqube/emission_app/python/
-  tags: [ install, update ]
-  
-
 - name: Copy static.txt files
   shell: cp -R ../../development/datasource/static/nifi/static_data_parameters.txt {{ base_dir }}/cqube/emission_app/python/
   tags: [ install, update ]
