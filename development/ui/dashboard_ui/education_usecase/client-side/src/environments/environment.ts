@@ -11,7 +11,7 @@ export const environment = {
   keycloakUrl: "http://localhost:8080/auth",
   realm: "cQube",
   clientId: "cQube_App",
-  stateName: "GJ",
+  stateName: "UP",
   useCase: "education_usecase",
   diksha_columns: false,
   theme: "theme2",

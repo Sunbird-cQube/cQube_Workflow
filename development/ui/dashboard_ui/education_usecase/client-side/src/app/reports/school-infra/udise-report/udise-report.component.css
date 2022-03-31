@@ -1,3 +1,17 @@
 .reportContainer{
     margin-top: 130px;
 }
+.udise-level strong{
+    margin-top: 10px;
+    line-height: 1.8em
+  }
+
+  .level-headerbuttons{
+    margin-top: 10px;
+}
+
+.label-header-button span{
+margin-right: 25px;
+cursor: pointer;
+
+}

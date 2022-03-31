@@ -13,7 +13,7 @@
                         <p id="block">
                             Student Attendance Exception Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span>
-                            <span id="dist" (click)="clickedMarker($event,distName)"
+                            <span id="dist" *ngIf="levelVal<2" (click)="clickedMarker($event,distName)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{hierName}}</span>
                         </p>
@@ -22,9 +22,9 @@
                         <p id="cluster">
                             Student Attendance Exception Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span id="dist" (click)="clickedMarker($event,distName)"
+                            </span><span id="dist" *ngIf="levelVal<2" (click)="clickedMarker($event,distName)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{titleName}}</span><span> | </span><span id="block"
+                                {{titleName}}</span><span> | </span><span id="block" *ngIf="levelVal<3"
                                 (click)="clickedMarker($event,blockName)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{hierName}}</span></p>
@@ -34,23 +34,27 @@
                         <p id="school">
                             Student Attendance Exception Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span>
-                            <span id="dist" (click)="clickedMarker($event,distName)"
+                            <span id="dist" *ngIf="levelVal<2" (click)="clickedMarker($event,distName)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{titleName}}</span><span> | </span><span id="block"
+                                {{titleName}}</span><span> | </span><span id="block" *ngIf="levelVal<3"
                                 (click)="clickedMarker($event,blockName)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{title}}</span><span> | </span><span class="selected-level">
+                                {{title}}</span><span> | </span><span *ngIf="levelVal<4" class="selected-level">
                                 {{hierName}}</span>
                         </p>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-3">
                             <p id="errMsg" class="note">
                             </p>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-9">
+                            <span class="selected-level" (click)="getView()">
+                                <strong>Level</strong>
+                              </span>
+
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
                                 id="download1" (click)="downloadReport($event)">Download Report &nbsp; <i
                                     class="fa fa-arrow-down" aria-hidden="true"></i>
@@ -110,7 +114,7 @@
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"
+                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [disabled]="selBlock"
                         (change)="distSelect($event,myDistrict)">
                         <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
@@ -120,7 +124,7 @@
                         </option>
                     </select>
 
-                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
+                    <select [hidden]="blockHidden && selBlock" id="choose_block" [(ngModel)]="myBlock" name="myBlock" [disabled]="selBlock"
                         (change)="blockSelect($event,myBlock)">
                         <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
@@ -129,7 +133,7 @@
                         </option>
                     </select>
 
-                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
+                    <select [hidden]="clusterHidden && selCluster" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled]="selCluster"
                         (change)="clusterSelect($event,myCluster)">
                         <option [value]="myCluster" disabled selected="selected">Choose a cluster
                         </option>

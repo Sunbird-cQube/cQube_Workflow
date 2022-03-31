@@ -348,6 +348,56 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.changeDetection.detectChanges();
   }
 
+  
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+  getView(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    console.log(id,level);
+
+    if(level==="cluster"){
+      this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.level= "blockPerDistrict";
+    this.myDistrict = id;
+     this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "clusterPerBlock";
+    this.myBlock = id;
+     this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "schoolPerCluster";
+    this.myCluster = id;
+     this.levelWiseFilter();
+    }
+
+
   getYear() {
     this.months = [];
     this.month = undefined;

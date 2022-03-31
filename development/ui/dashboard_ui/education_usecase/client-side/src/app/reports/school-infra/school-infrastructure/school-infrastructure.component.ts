@@ -77,6 +77,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
     this.levelWiseFilter();
+
     document.getElementById('spinner').style.display = 'block';
   }
 
@@ -474,6 +475,51 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myClusterData(JSON.parse(localStorage.getItem('clusterId')));
     }
   }
+
+  
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+  getView(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    console.log(id,level);
+
+    if(level==="cluster"){
+      this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.myDistData(id);
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+  this.myBlockData(id)
+}
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.myClusterData(id);
+    }
+
+
 
   createTable(dataSet, height) {
 

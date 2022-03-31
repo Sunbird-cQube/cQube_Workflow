@@ -4,6 +4,14 @@
     white-space: nowrap !important;
     border: 1px solid gray;
   }
+  .skul-level strong{
+
+    margin-right: 20px;
+  }
+  .skul-level{
+    float :left;
+    margin-top: 8px;
+  }
 
   
   @media screen and (min-width: 2500px){

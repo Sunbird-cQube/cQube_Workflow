@@ -181,6 +181,10 @@ router.post('/login', async (req, res, next) => {
                     logger.info('---user token from state success ---');
                     let token = resp.data.access_token;
                     userId = resp.data.payload.id
+
+                    let user_level = resp.data.payload.user_level;
+                    let user_location = resp.data.payload.user_location;
+
                     if (resp.status === 200) {
                         const decodingJWT = (token) => {
                             if (token !== null || token !== undefined) {
@@ -196,7 +200,7 @@ router.post('/login', async (req, res, next) => {
                         decodingJWT(token)
                     };
 
-                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId })
+                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId, userLevel: user_level, userLocation: user_location})
                 }).catch(error => {
 
                     res.status(409).json({ errMsg: 'please check user name and password' });
