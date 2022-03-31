@@ -32041,7 +32041,7 @@ ${query_type:startsWith('sat_exception_management_grade_district_last_30_days')}
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>UpdateAttribute</name>
+                    <name>sat_add_map_name_value</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
@@ -32057,5 +32057,5 @@ ${query_type:startsWith('sat_exception_management_grade_district_last_30_days')}
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>03/30/2022 15:58:53 IST</timestamp>
+    <timestamp>03/31/2022 12:12:39 IST</timestamp>
 </template>

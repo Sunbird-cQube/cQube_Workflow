@@ -1739,7 +1739,7 @@ and exam_id IS NOT NULL
 and question_title IS NOT NULL
 and question IS NOT NULL
 and question_marks IS NOT NULL""",
-"pat_periodic_exam_subject_details_table_name":"""subject_detail""",
+"pat_periodic_exam_subject_details_table_name":"""subject_details""",
 "pat_trans_qst_agg_none_validation":"""insert into periodic_exam_school_qst_result(school_id,exam_code,exam_date,grade,total_marks,obtained_marks,indicator,question_id
 ,academic_year,students_attended,subject,school_name,cluster_id,cluster_name,total_students,
 block_id,block_name,district_id,district_name,school_management_type,school_category,created_on,updated_on)
