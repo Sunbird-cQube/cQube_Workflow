@@ -694,6 +694,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllSchoolWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
+          if(res){
           this.markers = this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
@@ -773,7 +774,13 @@ export class InfraMapVisualisationComponent implements OnInit {
               this.commonService.loaderAndErr(this.data);
               this.changeDetection.markForCheck();
             }
-          }
+          }else{
+            this.schoolMarkers = [];
+            this.commonService.loaderAndErr(this.schoolMarkers);
+            }}else{
+              this.schoolMarkers = [];
+              this.commonService.loaderAndErr(this.schoolMarkers);
+              }
         },
         (err) => {
           this.schoolMarkers = [];
@@ -1240,7 +1247,6 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.onClusterSelect(this.clusterId);
     }
   }
-
   generateToolTip(marker, level, markerIcon, lat, lng) {
     this.popups(markerIcon, marker, level);
     var infraName = this.infraData;
