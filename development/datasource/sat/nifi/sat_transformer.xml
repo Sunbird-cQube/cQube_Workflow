@@ -368,6 +368,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>0c35393b-e6b8-3976-0000-000000000000</id>
+                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
+                        <id>8b9cc7e8-0676-3252-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
+                        <id>ffa14aa5-b2fb-3094-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>0d7da093-782d-3315-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -425,31 +450,6 @@
                     <source>
                         <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
                         <id>abec36f8-2102-3056-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
-                    <id>0e86b903-9c22-34d5-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>ac8bc984-7e92-371b-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>ffa14aa5-b2fb-3094-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -790,31 +790,6 @@
                     <source>
                         <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
                         <id>6be0738f-30cd-3df5-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
-                    <id>170579e1-cb3d-323a-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>ee08b1f4-c520-37cb-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>map</selectedRelationships>
-                    <source>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>ac8bc984-7e92-371b-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -3079,31 +3054,6 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>5d3e4c92-caa5-3b23-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>8b9cc7e8-0676-3252-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>unmatched</selectedRelationships>
-                    <source>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>ac8bc984-7e92-371b-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
                     <id>60bb63ea-3618-30e3-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -3502,31 +3452,6 @@
                     <source>
                         <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
                         <id>b9eb80b6-3e2d-38d6-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
-                    <id>6de06852-d47a-35b3-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>5cba5253-748d-363e-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>aa1c9d74-878d-31a6-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -5121,31 +5046,6 @@
                     <source>
                         <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
                         <id>c7c7a5dd-f54e-3c1a-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
-                    <id>adf44cfc-349c-3781-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>aa1c9d74-878d-31a6-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>success</selectedRelationships>
-                    <source>
-                        <groupId>f0ebeb79-de53-39fe-0000-000000000000</groupId>
-                        <id>ee08b1f4-c520-37cb-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -9949,11 +9849,11 @@
                     <id>869bbb4f-934e-3efa-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2816.0</x>
-                        <y>816.0</y>
+                        <x>2880.0</x>
+                        <y>776.0</y>
                     </position>
                     <versionedComponentId>aabf6d5b-dd51-3005-8c36-3143410b26ce</versionedComponentId>
-                    <height>1160.0</height>
+                    <height>872.0</height>
                     <label>trans to agg table
 </label>
                     <style>
@@ -9966,7 +9866,7 @@
                             <value>24px</value>
                         </entry>
                     </style>
-                    <width>768.0</width>
+                    <width>552.0</width>
                 </labels>
                 <labels>
                     <id>8b8f6d1b-d146-382e-0000-000000000000</id>
@@ -12551,7 +12451,7 @@ ${query_type:startsWith('sat_grade_school_last7')} )} )} )} )} )} )} )} )} )} )}
                     <id>1e565af7-57da-3029-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3040.0</x>
+                        <x>2992.0</x>
                         <y>832.0</y>
                     </position>
                     <bundle>
@@ -16546,8 +16446,8 @@ same id data validation of file:${filename} error while checking same id data</v
                     <id>5cba5253-748d-363e-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3568.0</x>
-                        <y>1352.0</y>
+                        <x>3616.0</x>
+                        <y>1496.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -19880,8 +19780,8 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_check_same_i
                     <id>804d1ef4-739f-347c-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2832.0</x>
-                        <y>1776.0</y>
+                        <x>2992.0</x>
+                        <y>1496.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -19953,7 +19853,7 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_check_same_i
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>#{sat_qst_to_agg}</value>
+<value>${map_name_valid_param:equals('none'):ifElse(#{sat_qst_to_agg_none_validation},#{sat_qst_to_agg})}</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -20927,8 +20827,8 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_semester_exa
                     <id>8b9cc7e8-0676-3252-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2808.0</x>
-                        <y>1448.0</y>
+                        <x>2992.0</x>
+                        <y>1256.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -21000,7 +20900,7 @@ ${filename:startsWith('semester_exam_subject_details'):ifElse(#{sat_semester_exa
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>#{sat_trans_qst_agg}</value>
+<value>${map_name_valid_param:equals('none'):ifElse(#{sat_trans_qst_agg_none_validation},#{sat_trans_qst_agg})}</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -22988,132 +22888,6 @@ ${query_type:startsWith('sat_management_subject_footer_school'):ifElse(#{sat_sub
                     <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
-                    <id>aa1c9d74-878d-31a6-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>3240.0</x>
-                        <y>1776.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-standard-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>JDBC Connection Pool</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.dbcp.DBCPService</identifiesControllerService>
-    <name>JDBC Connection Pool</name>
-</value>
-                            </entry>
-                            <entry>
-<key>putsql-sql-statement</key>
-<value>
-    <name>putsql-sql-statement</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Support Fragmented Transactions</key>
-<value>
-    <name>Support Fragmented Transactions</name>
-</value>
-                            </entry>
-                            <entry>
-<key>database-session-autocommit</key>
-<value>
-    <name>database-session-autocommit</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Transaction Timeout</key>
-<value>
-    <name>Transaction Timeout</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Batch Size</key>
-<value>
-    <name>Batch Size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Obtain Generated Keys</key>
-<value>
-    <name>Obtain Generated Keys</name>
-</value>
-                            </entry>
-                            <entry>
-<key>rollback-on-failure</key>
-<value>
-    <name>rollback-on-failure</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>JDBC Connection Pool</key>
-<value>08a1bdfd-c9a5-38a2-0000-000000000000</value>
-                            </entry>
-                            <entry>
-<key>putsql-sql-statement</key>
-<value>#{sat_qst_to_agg_none_validation}</value>
-                            </entry>
-                            <entry>
-<key>Support Fragmented Transactions</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>database-session-autocommit</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>Transaction Timeout</key>
-                            </entry>
-                            <entry>
-<key>Batch Size</key>
-<value>100</value>
-                            </entry>
-                            <entry>
-<key>Obtain Generated Keys</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>rollback-on-failure</key>
-<value>false</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>2000</runDurationMillis>
-                        <schedulingPeriod>5 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>sat_trans_to_agg_map_none_validation</name>
-                    <relationships>
-                        <autoTerminate>true</autoTerminate>
-                        <name>failure</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>true</autoTerminate>
-                        <name>retry</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>success</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.standard.PutSQL</type>
-                </processors>
-                <processors>
                     <id>aab4faab-875a-3e15-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
@@ -23696,68 +23470,6 @@ ${query_type:startsWith('sat_meta_last7')} )} )}</value>
                     </relationships>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
-                        <name>unmatched</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
-                </processors>
-                <processors>
-                    <id>ac8bc984-7e92-371b-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>3136.0</x>
-                        <y>1216.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-standard-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>Routing Strategy</key>
-<value>
-    <name>Routing Strategy</name>
-</value>
-                            </entry>
-                            <entry>
-<key>map</key>
-<value>
-    <name>map</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>Routing Strategy</key>
-<value>Route to Property name</value>
-                            </entry>
-                            <entry>
-<key>map</key>
-<value>${map_name_valid_param:equals('none')}</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>0 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>Route on attr check user map validation</name>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>map</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
                         <name>unmatched</name>
                     </relationships>
                     <state>STOPPED</state>
@@ -30613,132 +30325,6 @@ where ff_uuid= '${zip_identifier}'
                     <type>org.apache.nifi.processors.standard.PartitionRecord</type>
                 </processors>
                 <processors>
-                    <id>ee08b1f4-c520-37cb-0000-000000000000</id>
-                    <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
-                    <position>
-                        <x>3216.0</x>
-                        <y>1456.0</y>
-                    </position>
-                    <bundle>
-                        <artifact>nifi-standard-nar</artifact>
-                        <group>org.apache.nifi</group>
-                        <version>1.12.1</version>
-                    </bundle>
-                    <config>
-                        <bulletinLevel>WARN</bulletinLevel>
-                        <comments></comments>
-                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                        <descriptors>
-                            <entry>
-<key>JDBC Connection Pool</key>
-<value>
-    <identifiesControllerService>org.apache.nifi.dbcp.DBCPService</identifiesControllerService>
-    <name>JDBC Connection Pool</name>
-</value>
-                            </entry>
-                            <entry>
-<key>putsql-sql-statement</key>
-<value>
-    <name>putsql-sql-statement</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Support Fragmented Transactions</key>
-<value>
-    <name>Support Fragmented Transactions</name>
-</value>
-                            </entry>
-                            <entry>
-<key>database-session-autocommit</key>
-<value>
-    <name>database-session-autocommit</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Transaction Timeout</key>
-<value>
-    <name>Transaction Timeout</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Batch Size</key>
-<value>
-    <name>Batch Size</name>
-</value>
-                            </entry>
-                            <entry>
-<key>Obtain Generated Keys</key>
-<value>
-    <name>Obtain Generated Keys</name>
-</value>
-                            </entry>
-                            <entry>
-<key>rollback-on-failure</key>
-<value>
-    <name>rollback-on-failure</name>
-</value>
-                            </entry>
-                        </descriptors>
-                        <executionNode>ALL</executionNode>
-                        <lossTolerant>false</lossTolerant>
-                        <penaltyDuration>30 sec</penaltyDuration>
-                        <properties>
-                            <entry>
-<key>JDBC Connection Pool</key>
-<value>08a1bdfd-c9a5-38a2-0000-000000000000</value>
-                            </entry>
-                            <entry>
-<key>putsql-sql-statement</key>
-<value>#{sat_trans_qst_agg_none_validation}</value>
-                            </entry>
-                            <entry>
-<key>Support Fragmented Transactions</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>database-session-autocommit</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>Transaction Timeout</key>
-                            </entry>
-                            <entry>
-<key>Batch Size</key>
-<value>100</value>
-                            </entry>
-                            <entry>
-<key>Obtain Generated Keys</key>
-<value>false</value>
-                            </entry>
-                            <entry>
-<key>rollback-on-failure</key>
-<value>false</value>
-                            </entry>
-                        </properties>
-                        <runDurationMillis>2000</runDurationMillis>
-                        <schedulingPeriod>5 sec</schedulingPeriod>
-                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                        <yieldDuration>1 sec</yieldDuration>
-                    </config>
-                    <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>sat_trans_to_agg_exam_school_qst_result_none_validation</name>
-                    <relationships>
-                        <autoTerminate>true</autoTerminate>
-                        <name>failure</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>true</autoTerminate>
-                        <name>retry</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>success</name>
-                    </relationships>
-                    <state>STOPPED</state>
-                    <style/>
-                    <type>org.apache.nifi.processors.standard.PutSQL</type>
-                </processors>
-                <processors>
                     <id>ee12213f-a5d0-3b8c-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
@@ -32382,8 +31968,8 @@ ${query_type:startsWith('sat_exception_management_grade_district_last_30_days')}
                     <id>ffa14aa5-b2fb-3094-0000-000000000000</id>
                     <parentGroupId>f0ebeb79-de53-39fe-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2936.0</x>
-                        <y>1024.0</y>
+                        <x>2992.0</x>
+                        <y>1040.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-update-attribute-nar</artifact>
@@ -32455,7 +32041,7 @@ ${query_type:startsWith('sat_exception_management_grade_district_last_30_days')}
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>UpdateAttribute</name>
+                    <name>sat_add_map_name_value</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
@@ -32471,5 +32057,5 @@ ${query_type:startsWith('sat_exception_management_grade_district_last_30_days')}
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>03/28/2022 17:03:05 IST</timestamp>
+    <timestamp>03/31/2022 12:12:39 IST</timestamp>
 </template>
