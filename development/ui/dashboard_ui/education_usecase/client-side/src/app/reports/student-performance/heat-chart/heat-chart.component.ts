@@ -546,8 +546,6 @@ export class HeatChartComponent implements OnInit {
       var series = point.series,
         isY = dimension === "y",
         axis = series[isY ? "yAxis" : "xAxis"];
-      let splitVal = zLabel[point[isY ? "y" : "x"]].split("/");
-
       let totalSchools;
       let totalStudents;
       let studentAttended;

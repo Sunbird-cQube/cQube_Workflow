@@ -695,7 +695,10 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllSchoolWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
+          if(res){
           this.markers = this.data = res["data"];
+
+          console.log( "bbbhhgg :",this.data.length)
           this.gettingInfraFilters(this.data);
           let options = {
             radius: 1,
@@ -774,7 +777,13 @@ export class InfraMapVisualisationComponent implements OnInit {
               this.commonService.loaderAndErr(this.data);
               this.changeDetection.markForCheck();
             }
-          }
+          }else{
+            this.schoolMarkers = [];
+            this.commonService.loaderAndErr(this.schoolMarkers);
+            }}else{
+              this.schoolMarkers = [];
+              this.commonService.loaderAndErr(this.schoolMarkers);
+              }
         },
         (err) => {
           this.schoolMarkers = [];
@@ -1241,6 +1250,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.onClusterSelect(this.clusterId);
     }
   }
+  
   selCluster=false;
   selBlock=false;
   selDist=false;
