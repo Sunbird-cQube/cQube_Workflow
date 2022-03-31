@@ -72,9 +72,9 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.dist = false;
     try {
       this.service.getTotalCotentPlayLine().subscribe((res) => {
+        if(res){
         this.data = res["data"];
         this.reportData = res["downloadData"]["data"];
-        // let arr =[]
         this.data.data.forEach((element) => {
           this.chartData.push({
             name: element.month,
@@ -84,9 +84,11 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         });
         this.createLineChart(this.chartData);
         this.getDistMeta();
-        this.commonService.loaderAndErr(this.chartData);
+       this.commonService.loaderAndErr(this.chartData);
+      }
       });
-    } catch (error) {
+    }
+   catch (error) { 
       this.chartData = [];
       this.commonService.loaderAndErr(this.chartData);
     }
@@ -168,7 +170,6 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       this.createLineChart(this.chartData);
     } catch (error) {
       this.chartData = [];
-      // this.commonService.loaderAndErr(this.chartData);
     }
   }
 
