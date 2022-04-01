@@ -546,8 +546,6 @@ export class HeatChartComponent implements OnInit {
       var series = point.series,
         isY = dimension === "y",
         axis = series[isY ? "yAxis" : "xAxis"];
-      let splitVal = zLabel[point[isY ? "y" : "x"]].split("/");
-
       let totalSchools;
       let totalStudents;
       let studentAttended;
@@ -957,7 +955,7 @@ export class HeatChartComponent implements OnInit {
       this.selectedCluster(this.cluster);
     }
   }
-
+  
   // to download the csv report
   downloadReport() {
     var position = this.reportName.length;
