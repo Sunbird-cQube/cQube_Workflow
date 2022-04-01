@@ -20061,7 +20061,7 @@ or(${filename:startsWith('periodic_exam_qst_mst')})}</value>
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>${map_name_valid_param:equals('none'):ifElse(#{pat_qst_to_agg_none_validation},#{pat_qst_to_agg})}</value>
+<value>${map_name_valid_params:equals('none'):ifElse(#{pat_qst_to_agg_none_validation},#{pat_qst_to_agg})}</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -23625,7 +23625,7 @@ ${filename:startsWith('periodic_exam_subject_details'):ifElse(#{pat_filter_same_
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>${map_name_valid_param:equals('none'):ifElse(#{pat_trans_qst_agg_none_validation},#{pat_trans_qst_agg})}</value>
+<value>${map_name_valid_params:equals('none'):ifElse(#{pat_trans_qst_agg_none_validation},#{pat_trans_qst_agg})}</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -31863,5 +31863,5 @@ ${query_type:startsWith('pat_exam_school_by_year_month')})})})}</value>
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>03/31/2022 12:13:56 IST</timestamp>
+    <timestamp>04/01/2022 10:47:49 IST</timestamp>
 </template>
