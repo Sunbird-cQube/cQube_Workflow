@@ -59,14 +59,15 @@ fi
 check_static_datasource(){
 if ! [[ $2 == "udise" || $2 == "state" ]]; then
     echo "Error - Please enter either udise or state for $1"; fail=1
-    else
+else
     if [[ -e "$base_dir/cqube/.cqube_config" ]] ; then
-        static_dts=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_STATIC_DATASOURCE )
+        static_dts=$(grep CQUBE_STATIC_DATASOURCE $base_dir/cqube/.cqube_config )
         dts=$(cut -d "=" -f2 <<< "$static_dts")
         if [[ ! "$2" == "$dts" ]]; then
             echo "Error - Static_datasource should be same as previous installation static_datasource"; fail=1
-	fi
-    fi	
+        fi
+        sed -i '/datasource_status/c\datasource_status: matched' ../ansible/roles/createdb/vars/main.yml
+    fi
 fi
 }
 
