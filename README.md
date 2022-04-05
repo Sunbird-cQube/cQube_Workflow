@@ -7,7 +7,7 @@
 - Navigate to the directory where cQube_Workflow has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.4
+git checkout release-3.5
 git pull
 ```
 ### Configuration of infrastructure attributes and udise data indices, metrics:
@@ -28,7 +28,7 @@ git pull
 
 - For more information to configure the weights & columns for udise/infrastucture, please refer operational document.
 
-- Update the diksha parameters(api_url,token,encryption key,dataset name channel_id,org_id) in the file  diksha_parameters.txt configure the udise_config.csv file by filling the required fields in the file diksha_parameters.txt:
+- Update the diksha parameters(api_url,token,encryption key,dataset name channel_id,org_id) in the file  diksha_parameters.txt file by filling the required fields in the file diksha_parameters.txt:
 
 -  ```cd /development/datasource/diksha/nifi/diksha_parameters.txt```
 
@@ -160,7 +160,7 @@ python3 client.py
 - Navigate to the directory where cQube has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.4
+git checkout release-3.5
 git pull
 ```
 - If you are opting for education_usecase. usecase_name as education_usecase - Copy the config.yml.template to config.yml 
