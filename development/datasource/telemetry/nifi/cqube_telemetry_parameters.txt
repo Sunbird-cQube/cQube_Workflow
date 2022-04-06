@@ -54,7 +54,7 @@ group by pageid,level,locationid,locationname,lat,lng
 "telemetry_views_last_day_data":'''select reportId,count(reportId) as Number_of_views ,'last_day' as time_range
 from telemetry_views_data where date(click_time) = (select max(date(click_time)) from telemetry_views_data )
 group by reportId''',
-"telemetry_views_last_15_days_data":'''select reportId,count(reportId) as Number_of_views ,'last_7_days' as time_range
+"telemetry_views_last_7_days_data":'''select reportId,count(reportId) as Number_of_views ,'last_7_days' as time_range
 from telemetry_views_data where date(click_time) between (select max(date(click_time))-INTERVAL '7 DAY' from telemetry_views_data) and 
 (select max(created_on) from telemetry_views_data )
 group by reportId''',
