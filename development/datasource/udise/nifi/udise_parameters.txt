@@ -541,7 +541,7 @@ row_number() over (partition by udise_sch_code,ac_year,agency_name,sector_no,cer
 "udise_update_processed_record":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records)-max(count_of_null_rows))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records)-coalesce(max(count_of_null_rows),0))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "udise_filter_same_id_nsqf_enr_caste_qry":"""SELECT udise_sch_code,ac_year,sector_no,item_id,c9_b,c9_g,c10_b,c10_g,c11_b,c11_g,c12_b,c12_g from (SELECT udise_sch_code,ac_year,sector_no,item_id,c9_b,c9_g,c10_b,c10_g,c11_b,c11_g,c12_b,c12_g,count(*)

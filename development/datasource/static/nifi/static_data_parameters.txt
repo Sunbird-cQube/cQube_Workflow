@@ -4,7 +4,7 @@ state_cd as stateid,district_cd as districtid,block_cd_1 as blockid,cluster_cd a
 "static_process_rec_diksha_program_course_details":"""
 update log_summary as b
 set processed_records= a.processed_records from
-        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
          from log_summary
          group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
@@ -74,14 +74,14 @@ or course_start_date IS NULL""",
 "static_process_rec_diksha_etb_enrolment":"""
 update log_summary as b
 set processed_records= a.processed_records from
-        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
          from log_summary
          group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
 "static_process_rec_diksha_course_details":"""
 update log_summary as b
 set processed_records= a.processed_records from
-        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
          from log_summary
          group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
@@ -122,7 +122,7 @@ from flowfile)""",
 "static_process_rec_district":"""
 update log_summary as b
 set processed_records= a.processed_records from
-        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
          from log_summary
          group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
@@ -315,11 +315,12 @@ HAVING  COUNT(*) > 1""",
 "static_same_id_check_district_udise":"""select *,count(*) as num_of_times from (
 select DistrictId,District from (SELECT DistrictId,District,count(*)
 over (partition by DistrictId) as rn from FLOWFILE) sq Where rn >1) group by DistrictId,District""",
+"map_name":"""none""",
 "static_process_rec_cluster":"""
 update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_same_record_filter_diksha_program_course_details":"""select program_id,program_name,course_id from (SELECT program_id,program_name,course_id, row_number() over (partition by  program_id,program_name,course_id) as rn from flowfile)sq where rn=1""",
@@ -331,7 +332,7 @@ update log_summary as b
 set processed_records= a.processed_records
 from
     (select ff_uuid,
-            (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+            (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
      from log_summary
      group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
@@ -416,7 +417,7 @@ from flowfile)""",
 update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_update_query_cluster_geo":"""update school_geo_master as b
@@ -431,7 +432,7 @@ from school_geo_master where school_latitude>0 or school_longitude>0 group by cl
 "static_process_rec_diksha_course_enrolment":"""
 update log_summary as b
 set processed_records= a.processed_records from
-        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
          from log_summary
          group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
@@ -509,7 +510,7 @@ over (partition by BlockId) as rn from FLOWFILE) sq Where rn =1""",
 "static_process_rec_diksha_program_details":"""
 update log_summary as b
 set processed_records= a.processed_records from
-        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+        (select ff_uuid, (sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
          from log_summary
          group by ff_uuid) as a
 where a.ff_uuid=b.ff_uuid""",
@@ -536,7 +537,7 @@ from flowfile)""",
 "static_process_rec_school_management":"""
 update log_summary as b
 set processed_records= a.processed_records
-from ( select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records  from log_summary group by ff_uuid) as a where a.ff_uuid=b.ff_uuid""",
+from ( select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records  from log_summary group by ff_uuid) as a where a.ff_uuid=b.ff_uuid""",
 "static_school_management_not_null":"""SELECT * FROM flowfile
 WHERE school_management_type_id IS NOT NULL
 AND  school_management_type IS NOT NULL""",
@@ -654,7 +655,7 @@ or expected_etb_users IS NULL""",
 update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
 		from log_summary group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "static_data_type_diksha_course_details":"""Optional(StrNotNullOrEmpty()),Optional(ParseDate("yyyy-MM-dd")),Optional(ParseDate("yyyy-MM-dd"))""",
