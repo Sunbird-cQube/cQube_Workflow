@@ -496,7 +496,7 @@ Optional(StrNotNullOrEmpty()),Optional(parseInt()),Optional(StrNotNullOrEmpty())
 "pat_update_processed_record":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
 		from log_summary where filename like 'periodic%' group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "pat_check_same_id_record_periodic_exam_subject_details_qry":"""SELECT b.subject_id,b.subject,b.grade,count(*) num_of_times  from (select subject_id,grade from flowfile
