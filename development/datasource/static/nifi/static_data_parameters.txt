@@ -315,7 +315,6 @@ HAVING  COUNT(*) > 1""",
 "static_same_id_check_district_udise":"""select *,count(*) as num_of_times from (
 select DistrictId,District from (SELECT DistrictId,District,count(*)
 over (partition by DistrictId) as rn from FLOWFILE) sq Where rn >1) group by DistrictId,District""",
-"map_name":"""none""",
 "static_process_rec_cluster":"""
 update log_summary as b
 	set processed_records= a.processed_records
