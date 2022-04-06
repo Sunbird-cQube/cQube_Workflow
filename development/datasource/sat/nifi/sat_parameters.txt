@@ -1852,7 +1852,7 @@ or obtained_marks IS NULL""",
 "sat_update_processed_record":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
 		from log_summary where filename like 'semester_exam%' group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "sat_trans_qst_agg_none_validation":"""insert into semester_exam_school_qst_result(school_id,exam_code,exam_date,grade,total_marks,obtained_marks,indicator,question_id
