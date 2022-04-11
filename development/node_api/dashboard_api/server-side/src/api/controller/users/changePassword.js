@@ -26,9 +26,10 @@ router.post('/:id', auth.authController, async (req, res) => {
                     "client_id": client_id,
                     "username": req.body.userName,
                     "password": req.body.currentPasswd,
+                    "totp": req.body.otp
                 })
             } else {
-                body = body = Querystring['stringify']({
+                body = Querystring['stringify']({
                     "grant_type": "password",
                     "client_id": client_id,
                     "username": req.body.userName,
