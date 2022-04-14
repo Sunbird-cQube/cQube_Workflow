@@ -334,5 +334,8 @@
     },
     {
         "sat_management_school_by_semester_year": "select * from  semester_exam_school_mgmt_year_semester"
+    },
+    {
+        "sat_meta_all": "select json_object_agg(col,data) from ((select 'district' as col,json_agg(row_to_json(d))::jsonb as data from (select a.grade,json_agg(distinct subject)::text as subjects from (select pgd.grade,subject  from subject_details sd  join semester_grade_district_year_semester as pgd on concat('Grade ',sd.grade)=pgd.grade)as a group by a.grade)as d) union(select 'block' as col,json_agg(row_to_json(d))::jsonb as data from (select a.grade,json_agg(distinct subject)::text as subjects from (select pgd.grade,subject  from subject_details sd  join semester_grade_block_year_semester as pgd on concat('Grade ',sd.grade)=pgd.grade)as a group by a.grade)as d) union (select 'cluster' as col,json_agg(row_to_json(d))::jsonb as data from (select a.grade,json_agg(distinct subject)::text as subjects from (select pgd.grade,subject  from subject_details sd  join semester_grade_cluster_year_semester as pgd on concat('Grade ',sd.grade)=pgd.grade)as a group by a.grade)as d)union(select 'school' as col,json_agg(row_to_json(d))::jsonb as data from (select a.grade,json_agg(distinct subject)::text as subjects from (select pgd.grade,subject  from subject_details sd  join semester_grade_school_year_semester as pgd on concat('Grade ',sd.grade)=pgd.grade)as a group by a.grade)as d))as d"
     }
 ]
