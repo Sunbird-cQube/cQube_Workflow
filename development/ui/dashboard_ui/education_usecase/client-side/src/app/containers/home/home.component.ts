@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit {
   private _mobileQueryListener: () => void;
   showBackBtn: boolean = false;
 
+  public hideReport: String = environment.mapName
+
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
     private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService, public logInservice: LoginService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -75,7 +77,6 @@ export class HomeComponent implements OnInit {
     if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
       this.sidebar.toggle();
       setTimeout(() => {
-        //document.getElementById("sidenav-container").style.backgroundColor = "#F5F5F5";
         window.dispatchEvent(new Event('resize'));
       }, 1500);
     }
@@ -87,7 +88,7 @@ export class HomeComponent implements OnInit {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
         if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
-          // document.getElementById("sidenav-container").style.backgroundColor = "red";
+          
           this.sidebar.close();
         }
       }, 1000);

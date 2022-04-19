@@ -46,7 +46,6 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
     this.getStateData();
-    // this.getDistrict()
   }
 
   public data;
@@ -59,9 +58,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.chartData = [];
     this.reportData = [];
     this.fileName = "Total_content_play_over_years";
-    // this.districtHierarchy = {};
-    // this.blockHierarchy = {};
-    // this.clusterHierarchy = {};
+    
   }
 
   clickHome() {
@@ -75,9 +72,9 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.dist = false;
     try {
       this.service.getTotalCotentPlayLine().subscribe((res) => {
+        if(res){
         this.data = res["data"];
         this.reportData = res["downloadData"]["data"];
-        // let arr =[]
         this.data.data.forEach((element) => {
           this.chartData.push({
             name: element.month,
@@ -87,9 +84,16 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         });
         this.createLineChart(this.chartData);
         this.getDistMeta();
-        this.commonService.loaderAndErr(this.chartData);
-      });
-    } catch (error) {
+       this.commonService.loaderAndErr(this.chartData);
+      }
+      }, (err)=>{
+
+        this.data = [];
+        this.emptyChart();
+        this.commonService.loaderAndErr(this.data);
+        });
+    }
+   catch (error) { 
       this.chartData = [];
       this.commonService.loaderAndErr(this.chartData);
     }
@@ -137,6 +141,12 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   public distName;
 
   onDistSelected(data) {
+
+    document.getElementById("spinner").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("spinner").style.display = "none";
+    }, 1000);
+
     this.dist = true;
     this.stateLevel = false;
     this.chartData = [];
@@ -165,7 +175,6 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       this.createLineChart(this.chartData);
     } catch (error) {
       this.chartData = [];
-      this.commonService.loaderAndErr(this.chartData);
     }
   }
 

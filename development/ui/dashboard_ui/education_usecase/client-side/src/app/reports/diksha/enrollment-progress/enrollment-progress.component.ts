@@ -51,7 +51,12 @@ export class EnrollmentProgressComponent implements OnInit {
     document.getElementById("backBtn")
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
-    document.getElementById('spinner').style.display = "none"
+      if (this.level == "program") {
+        setTimeout(() => {
+          document.getElementById("spinner").style.display = "none";
+        }, 200);
+        this.getProgramData();
+      }
     this.getExpectedMeta();
     this.getStateData();
     this.getProgramData();
@@ -78,7 +83,10 @@ export class EnrollmentProgressComponent implements OnInit {
         this.createLineChart(this.stateData);
         this.getDistMeta();
         this.commonService.loaderAndErr(this.stateData);
-      });
+      }, (err)=>{
+        this.stateData = [];
+        this.commonService.loaderAndErr(this.stateData);
+        }); 
     } catch (error) {
       this.stateData = []
       console.log(error)
@@ -171,7 +179,6 @@ export class EnrollmentProgressComponent implements OnInit {
       this.getDistWise();
       this.getAllCollection();
     } catch (error) {
-      //  console.log(error)
     }
   }
 
@@ -337,6 +344,11 @@ export class EnrollmentProgressComponent implements OnInit {
   public selectedDistWiseCourse;
 
   onDistSelected(distId) {
+    document.getElementById("spinner").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("spinner").style.display = "none";
+    }, 1000);
+
     this.dist = true;
     this.skul = false;
     this.selectedDist = ""
@@ -347,6 +359,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.selectedDist = distId;
 
     this.distToDropDown.filter((district) => {
+     
       if (district.district_id === this.selectedDist) {
         this.districtName = district.district_name;
       }
@@ -366,9 +379,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
         this.createLineChart(this.selectedDistWiseCourse);
         this.reportData = this.selectedDistWiseCourse;
-        document.getElementById("spinner").style.display = "none";
       } else if (this.programSelected === true && this.courseSelected !== true) {
-        document.getElementById("spinner").style.display = "block";
         this.selectedCourse = "";
         this.selectedDistData = [];
         this.selectedDistData = this.allDistCollection.filter(program => {
@@ -376,7 +387,6 @@ export class EnrollmentProgressComponent implements OnInit {
         })
         this.reportData = this.selectedDistData;
         this.createLineChart(this.selectedDistData);
-        document.getElementById("spinner").style.display = "none";
       } else if (this.courseSelected === true && this.programSelected !== true) {
 
         this.selectedDistData = [];
@@ -393,7 +403,6 @@ export class EnrollmentProgressComponent implements OnInit {
 
         this.createLineChart(this.selectedDistWiseCourse);
         this.reportData = this.selectedDistWiseCourse;
-        document.getElementById("spinner").style.display = "none";
       } else {
 
         this.selectedCourse = "";
@@ -403,11 +412,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
 
         this.reportData = this.selectedDistData;
-        setTimeout(() => {
-          document.getElementById("spinner").style.display = "block";
-        }, 200);
-        this.createLineChart(this.selectedDistData);
-        document.getElementById("spinner").style.display = "none";
+        
       }
     } catch (error) { }
   }
@@ -417,6 +422,10 @@ export class EnrollmentProgressComponent implements OnInit {
   public programSelected = false;
 
   onProgramSelected(progId) {
+    document.getElementById("spinner").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("spinner").style.display = "none";
+    }, 1000);
     this.programSelected = true;
     this.courseSelected = false;
     this.selectedProgData = [];
@@ -437,7 +446,11 @@ export class EnrollmentProgressComponent implements OnInit {
   public selectedCourseData: any[];
   public courseSelected = false;
 
-  onCourseSelected(courseId) {
+  onCourseSelected(courseId) { 
+    document.getElementById("spinner").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("spinner").style.display = "none";
+    }, 1000);
     this.courseSelected = true;
     this.districtHidden = false;
     this.selectedDist = '';
@@ -473,7 +486,7 @@ export class EnrollmentProgressComponent implements OnInit {
       });
       this.createLineChart(this.selectedCourseData);
       this.reportData = this.selectedCourseData;
-    }
+    } 
 
   }
 

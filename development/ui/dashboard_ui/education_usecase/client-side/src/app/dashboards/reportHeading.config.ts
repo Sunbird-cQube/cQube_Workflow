@@ -23,9 +23,9 @@ export const dashboardReportHeadings = {
   // ----  Teacher Profesional Development reports ------
   UsagebyCourse: "Usage by Course",
   UsageByCourseContent: "Usage By Course Content",
-  TPDCourseProgress: "TPD Course Progress",
+  TPDCourseProgress: "Course Progress",
   UserProgress: "User Progress",
-  tpdGpsOfLearning: "GPS of learning- TPD",
+  tpdGpsOfLearning: "GPS of learning- Courses",
   ContentPreference: "Content Preference",
   UserEngagement: "User Engagement",
 

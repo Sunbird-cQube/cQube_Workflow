@@ -91,7 +91,7 @@
                 </span>
             </div>
 
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="etb-gps"
                     [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/etb-total-content-plays']"
                     (click)="fetchTelemetry($event,'etb-gps')" class="text-decoration-none">
@@ -103,9 +103,11 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p *ngIf="etbGpsViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                <p *ngIf="etbGpsViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
                                         :</strong>
-                                    {{etbGpsViews}}</p>
+                                    {{etbGpsViews}}
+                                </p>
                                 <ng-template #other_content>
                                     <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
                                 </ng-template>
@@ -121,9 +123,8 @@
                 </span>
             </div>
 
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <span id="etbCapita"
-                    [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/etb-per-capita']"
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
+                <span id="etbCapita" [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/etb-per-capita']"
                     (click)="fetchTelemetry($event,'etbCapita')" class="text-decoration-none">
                     <div class="card my-3 bg-header">
                         <div class="card-header border-0 bg-transparent">
@@ -133,9 +134,11 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p *ngIf="etbCapitaViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                <p *ngIf="etbCapitaViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
                                         :</strong>
-                                    {{etbCapitaViews}}</p>
+                                    {{etbCapitaViews}}
+                                </p>
                                 <ng-template #other_content>
                                     <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
                                 </ng-template>
@@ -163,9 +166,11 @@
                                 </ul>
                             </div>
                             <div class="card-head-text">
-                                <p *ngIf="etbHeartBeatViews;else other_content" class="text-white mb-0" id="views"><strong>Views
+                                <p *ngIf="etbHeartBeatViews;else other_content" class="text-white mb-0" id="views">
+                                    <strong>Views
                                         :</strong>
-                                    {{etbHeartBeatViews}}</p>
+                                    {{etbHeartBeatViews}}
+                                </p>
                                 <ng-template #other_content>
                                     <p class="text-white mb-0" id="errViews">views: 0 {{timePeriod}}</p>
                                 </ng-template>
@@ -181,4 +186,4 @@
                 </span>
             </div>
 
-</div>
+        </div>

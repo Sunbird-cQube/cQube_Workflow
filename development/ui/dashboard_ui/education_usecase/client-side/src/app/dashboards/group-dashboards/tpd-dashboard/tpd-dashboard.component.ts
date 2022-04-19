@@ -25,6 +25,8 @@ export class TpdDashboardComponent implements OnInit {
   telemetryData = [];
   timePeriod;
 
+  public hideReport: String = environment.mapName
+
   dccViews = "";
   dtrViews = "";
   tpdtpViews = "";

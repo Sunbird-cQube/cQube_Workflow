@@ -1,6 +1,5 @@
 <div class="main-panel" style="padding-top: 10px !important;">
-    <!-- <app-management-selector [reportGroup]="reportGroup">
-    </app-management-selector> -->
+
 
     <div class="report-cards">
         <div class="row">
@@ -11,7 +10,7 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-map-marker text-white" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-bar-chart text-white" aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -136,7 +135,7 @@
             </div>
 
 
-            <div class="col-sm-12 col-md-6 col-xl-4">
+            <div *ngIf="hideReport !== 'none'" class="col-sm-12 col-md-6 col-xl-4">
                 <span id="tpd-gps"
                     [routerLink]="!dataSource['diksha'] ? ['/coming-soon'] :['/diksha/tpd-total-content-plays']"
                     (click)="fetchTelemetry($event,'tpd-gps')" class="text-decoration-none">

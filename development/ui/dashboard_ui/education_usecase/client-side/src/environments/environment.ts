@@ -10,15 +10,15 @@ export const environment = {
   appUrl: "http://localhost:4200",
   keycloakUrl: "http://localhost:8080/auth",
   realm: "cQube",
-  clientId: "cQube_Application",
-  stateName: "GJ",
+  clientId: "cQube_App",
+  stateName: "UP",
   useCase: "education_usecase",
   diksha_columns: false,
   theme: "theme2",
   mapName: "leafletmap",
   progressCardConfig: ['33', '33-60', '60-75', '75'],
   report_viewer_config_otp: false,
-  auth_api: 'cqube',
+  auth_api: 'state',
   keycloak_adm_user: 'admin',
   water_mark: "false"
 };

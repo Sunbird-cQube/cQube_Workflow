@@ -49,8 +49,13 @@
                         <div class="col-sm-7" style="display: none;">
                             <p id="errMsg" class="note">
                             </p>
+
                         </div>
                         <div class="col sm-5">
+
+                            <span class="selected-level udise-level" (click)="getView()" >
+                                <strong>Access Location</strong>
+                              </span> 
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
                                 id="download1" (click)="downloadReport()">Download Report &nbsp; <i
                                     class="fa fa-arrow-down" aria-hidden="true"></i>
@@ -64,7 +69,7 @@
                 <div class="col-sm-12">
                     <p class="note">
                         <strong> About the dashboard:</strong> The dashboard provides insights on user progress
-                        completion and certification across various TPD courses for {{state}}.
+                        completion and certification across various courses for {{state}}.
                     </p>
                 </div>
             </div>
@@ -93,25 +98,25 @@
                     </ng-select>
 
 
-                    <select id="choose_dist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
-                        <option [value]="districtId" disabled selected="selected">Choose a District</option>
-                        <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
+                    <select id="choose_dist" [disabled]="selDist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
+                        <option [value]="" disabled selected="selected">Choose a District</option>
+                        <option *ngFor="let dist of districts" [value]="dist.district_id">
                             {{dist.district_name}}
                         </option>
                     </select>
 
-                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
+                    <select  id="choose_block"  [disabled]="selBlock" [(ngModel)]="blockId"
                         (change)="blockLinkClick(blockId)">
-                        <option [value]="blockId" disabled selected="selected">Choose a Block</option>
-                        <option *ngFor="let block of blocks" [(ngValue)]="block.block_id">
+                        <option [value]="" disabled selected="selected">Choose a Block</option>
+                        <option *ngFor="let block of blocks" [value]="block.block_id">
                             {{block.block_name}}
                         </option>
                     </select>
 
-                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
+                    <select  id="choose_cluster" [disabled]="selCluster"  [(ngModel)]="clusterId"
                         (change)="clusterLinkClick(clusterId)">
-                        <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
-                        <option *ngFor="let cluster of clusters" [(ngValue)]="cluster.cluster_id"
+                        <option [value]="" disabled selected="selected">Choose a Cluster</option>
+                        <option *ngFor="let cluster of clusters" [value]="cluster.cluster_id"
                             [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
                             {{cluster.cluster_name}}
                         </option>
@@ -146,5 +151,5 @@
     <div *ngIf="waterMark === 'true'" id='demoLogoConatiner'>
         <span><span>Test Data, Not Representative</span>
             <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
-    
+
     </div>

@@ -181,6 +181,7 @@ export class HeatChartComponent implements OnInit {
     this.category = JSON.parse(localStorage.getItem("category")).id;
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
+    this.getView1();
   }
 
   onChangePage() {
@@ -546,8 +547,6 @@ export class HeatChartComponent implements OnInit {
       var series = point.series,
         isY = dimension === "y",
         axis = series[isY ? "yAxis" : "xAxis"];
-      let splitVal = zLabel[point[isY ? "y" : "x"]].split("/");
-
       let totalSchools;
       let totalStudents;
       let studentAttended;
@@ -731,8 +730,8 @@ export class HeatChartComponent implements OnInit {
             (a) => a.district_id == districtId
           );
           this.districtHierarchy = {
-            districtName: dist.district_name,
-            distId: dist.district_id,
+            districtName: dist?.district_name,
+            distId: dist?.district_id,
           };
           this.skul = false;
           this.dist = true;
@@ -788,10 +787,10 @@ export class HeatChartComponent implements OnInit {
           var block = this.blockNames.find((a) => a.block_id == blockId);
 
           this.blockHierarchy = {
-            districtName: block.district_name,
-            distId: block.district_id,
-            blockName: block.block_name,
-            blockId: block.block_id,
+            districtName: block?.district_name,
+            distId: block?.district_id,
+            blockName: block?.block_name,
+            blockId: block?.block_id,
           };
 
           this.skul = false;
@@ -847,12 +846,12 @@ export class HeatChartComponent implements OnInit {
             (a) => a.cluster_id == clusterId
           );
           this.clusterHierarchy = {
-            districtName: cluster.district_name,
-            distId: cluster.district_id,
-            blockName: cluster.block_name,
-            blockId: cluster.block_id,
-            clusterId: cluster.cluster_id,
-            clusterName: cluster.cluster_name,
+            districtName: cluster?.district_name,
+            distId: cluster?.district_id,
+            blockName: cluster?.block_name,
+            blockId: cluster?.block_id,
+            clusterId: cluster?.cluster_id,
+            clusterName: cluster?.cluster_name,
           };
           this.skul = false;
           this.dist = false;
@@ -958,6 +957,103 @@ export class HeatChartComponent implements OnInit {
     }
   }
 
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  levelVal = 0;
+
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+    console.log(id, level, clusterid, blockid, districtid);
+
+    if (districtid) {
+      this.district = districtid;
+    }
+    if (blockid) {
+      this.block = blockid;
+    }
+    if (clusterid) {
+      this.cluster = clusterid;
+    }
+    if (level === "cluster") {
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "block") {
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 2;
+    } else if (level === "district") {
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
+      this.levelVal = 1;
+    }
+  }
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+    console.log(id, level, clusterid, blockid, districtid);
+    if (districtid) {
+      this.district = districtid;
+    }
+    if (blockid) {
+      this.block = blockid;
+    }
+    if (clusterid) {
+      this.cluster = clusterid;
+    }
+    console.log(id, level);
+
+    if (level === "cluster") {
+      this.clusterlevel(id);
+      this.levelVal = 3;
+    } else if (level === "block") {
+      this.blocklevel(id);
+      this.levelVal = 2;
+    } else if (level === "district") {
+      this.distlevel(id);
+      this.levelVal = 1;
+    }
+  }
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "block";
+    this.district = id;
+    this.levelWiseFilter();
+  }
+
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "cluster";
+    this.block = id;
+    this.levelWiseFilter();
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "school";
+    this.cluster = id;
+    this.levelWiseFilter();
+  }
   // to download the csv report
   downloadReport() {
     var position = this.reportName.length;
