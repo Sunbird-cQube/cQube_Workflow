@@ -86,7 +86,12 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
         this.getDistMeta();
        this.commonService.loaderAndErr(this.chartData);
       }
-      });
+      }, (err)=>{
+
+        this.data = [];
+        this.emptyChart();
+        this.commonService.loaderAndErr(this.data);
+        });
     }
    catch (error) { 
       this.chartData = [];

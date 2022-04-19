@@ -93,6 +93,7 @@ export class SemesterExceptionComponent implements OnInit {
   mapName;
   googleMapZoom = 7;
   geoJson = this.globalService.geoJson;
+  params: any;
 
   constructor(
     public http: HttpClient,
@@ -188,6 +189,99 @@ export class SemesterExceptionComponent implements OnInit {
     this.changeDetection.detectChanges();
   }
 
+
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+  getView(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    console.log(id,level);
+
+    if(level==="cluster"){
+      this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+  getView1(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    let clusterid= localStorage.getItem("clusterId");
+    let blockid= localStorage.getItem("blockId");
+    let districtid= localStorage.getItem("districtId");
+    let schoolid= localStorage.getItem("schoolId");
+    console.log(id,level,clusterid,blockid,districtid);
+
+if (districtid){
+  this.distlevel(this.params?.level)
+  this.districtId = districtid;
+ this.blocklevel(this.params?.level);
+}
+if(blockid){
+  this.blockId = blockid;
+ this.clusterlevel(districtid);
+}
+if(clusterid){
+
+ this.clusterId= clusterid;
+}
+    if(level==="cluster"){
+      
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=3;
+    }else if(level==="block"){
+
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=2;
+    }else if(level==="district"){
+
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.level= "blockPerDistrict";
+    this.districtId = id;
+     this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "clusterPerBlock";
+    this.blockId = id;
+     this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "schoolPerCluster";
+    this.clusterId = id;
+     this.levelWiseFilter();
+    }
+
+    
+    
   homeClick() {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.grade = 'all';

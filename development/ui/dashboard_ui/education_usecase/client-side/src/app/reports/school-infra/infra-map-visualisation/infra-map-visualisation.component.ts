@@ -190,7 +190,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           clusterId: data.id,
         };
 
-        this.districtId = data.blockHierarchy;
+        this.districtId = data.blockHierarchy.distId;
         this.blockId = data.blockId;
         this.clusterId = data.id;
         this.getDistricts();
@@ -201,6 +201,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
+     this.getView1();
   }
 
   getDistricts(): void {
@@ -228,11 +229,13 @@ export class InfraMapVisualisationComponent implements OnInit {
             ? -1
             : 0
       );
+      console.log(this.blockMarkers.length);
+      this.changeDetection.detectChanges();
       if (blockId) this.onBlockSelect(blockId);
     });
   }
 
-  getClusters(distId, blockId, clusterId): void {
+  getClusters(distId, blockId, clusterId?:any): void {
     this.service.infraMapClusterWise(distId, blockId, { management: this.management, category: this.category }).subscribe((res) => {
       this.markers = this.data = res["data"];
       this.clusterMarkers = this.data;
@@ -243,6 +246,10 @@ export class InfraMapVisualisationComponent implements OnInit {
             ? -1
             : 0
       );
+      console.log(this.clusterMarkers);
+
+    this.changeDetection.detectChanges();
+      if(clusterId)
       this.onClusterSelect(clusterId);
     });
   }
@@ -268,7 +275,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
-      this.districtId = undefined;
+      // this.districtId = null;
       this.commonService.errMsg();
       this.level = "District";
       this.googleMapZoom = 7;
@@ -804,7 +811,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
-    this.blockId = undefined;
+    this.blockId = null;
     this.reportData = [];
     this.level = "blockPerDistrict";
     this.googleMapZoom = 9;
@@ -894,7 +901,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
-    this.clusterId = undefined;
+    this.clusterId = null;
     this.reportData = [];
     this.level = "clusterPerBlock";
     this.googleMapZoom = 11;
@@ -908,7 +915,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
 
     this.myData = this.service
-      .infraMapClusterWise(this.districtHierarchy.distId, blockId, { management: this.management, category: this.category })
+      .infraMapClusterWise(this.districtId, blockId, { management: this.management, category: this.category })
       .subscribe(
         (res) => {
           this.markers = this.data = res["data"];
@@ -917,7 +924,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           this.clusterMarkers = this.data;
           var myBlocks = [];
           this.blockMarkers.forEach((element) => {
-            if (element.details.district_id === this.districtHierarchy.distId) {
+            if (element.details.district_id == this.districtId) {
               myBlocks.push(element);
             }
           });
@@ -1009,8 +1016,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       (result: any) => {
         this.myData = this.service
           .infraMapSchoolWise(
-            this.blockHierarchy.distId,
-            this.blockHierarchy.blockId,
+            this.districtId,
+            this.blockId,
             clusterId, { management: this.management, category: this.category }
           )
           .subscribe(
@@ -1023,7 +1030,7 @@ export class InfraMapVisualisationComponent implements OnInit {
               var myBlocks = [];
               markers.forEach((element) => {
                 if (
-                  element.details.district_id === this.blockHierarchy.distId
+                  element.details.district_id == this.districtId
                 ) {
                   myBlocks.push(element);
                 }
@@ -1037,14 +1044,16 @@ export class InfraMapVisualisationComponent implements OnInit {
                     : 0
               );
 
+              this.changeDetection.detectChanges();
               var myCluster = [];
               this.clusterMarkers.forEach((element) => {
-                if (element.details.block_id === this.blockHierarchy.blockId) {
+                if (element.details.block_id == this.blockId) {
                   myCluster.push(element);
                 }
               });
               this.clusterMarkers = myCluster;
 
+              this.changeDetection.detectChanges();
               // set hierarchy values
               this.clusterHierarchy = {
                 distId: this.data[0].details.district_id,
@@ -1247,6 +1256,122 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.onClusterSelect(this.clusterId);
     }
   }
+
+
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+
+  getView(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    let clusterid= localStorage.getItem("clusterId");
+    let blockid= localStorage.getItem("blockId");
+    let districtid= localStorage.getItem("districtId");
+    let schoolid= localStorage.getItem("schoolId");
+    console.log(id,level,clusterid,blockid,districtid);
+
+if (districtid){
+  this.districtId = districtid;
+}
+if(blockid){
+  this.blockId = blockid;
+}
+if(clusterid){
+  this.clusterId= clusterid;
+
+}
+    console.log(id,level);
+
+    if(level==="cluster"){
+     this.getDistricts()
+    this.getBlocks(districtid);
+ this.getClusters(districtid, blockid);
+ this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+     this.getDistricts()
+     this.getBlocks(districtid);
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+
+     this.getDistricts()
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+  getView1(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    let clusterid= localStorage.getItem("clusterId");
+    let blockid= localStorage.getItem("blockId");
+    let districtid= localStorage.getItem("districtId");
+    let schoolid= localStorage.getItem("schoolId");
+    console.log(id,level,clusterid,blockid,districtid);
+
+if (districtid){
+  this.getDistricts()
+  this.districtId = districtid;
+ this.getBlocks(districtid);
+}
+if(blockid){
+  this.blockId = blockid;
+ this.getClusters(districtid, blockid);
+}
+if(clusterid){
+  this.clusterId= clusterid;
+
+}
+    if(level==="cluster"){
+      
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=3;
+    }else if(level==="block"){
+
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=2;
+    }else if(level==="district"){
+
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.level= "blockPerDistrict";
+    this.districtId = id;
+     this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "clusterPerBlock";
+    this.blockId = id;
+     this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "schoolPerCluster";
+    this.clusterId = id;
+     this.levelWiseFilter();
+    }
+
   generateToolTip(marker, level, markerIcon, lat, lng) {
     this.popups(markerIcon, marker, level);
     var infraName = this.infraData;
@@ -1320,8 +1445,37 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   }
 
+
   popups(markerIcon, markers, level) {
+
+    let userLevel= localStorage.getItem("userLevel");
+    let chklevel=false;
+    switch (userLevel) {
+      case "cluster":
+        if (level=="Cluster" || level == "schoolPerCluster") {
+         chklevel=true;
+        }
+        break;
+        case "block":
+        if (level=="Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock")  {
+          chklevel=true;
+        }
+        break;
+        case "district":
+        if (level=="Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock" || level == "District" || level == "blockPerDistrict")  {
+          chklevel=true;
+        }
+        break;
+      default:
+        chklevel=true;
+        break;
+    }
+
+    // markerIcon.on("click", null);
+    if(chklevel){
     markerIcon.on("mouseover", function (e) {
+      //  alert(level+"==="+userLevel);
+      if(chklevel)
       this.openPopup();
     });
     markerIcon.on("mouseout", function (e) {
@@ -1330,10 +1484,13 @@ export class InfraMapVisualisationComponent implements OnInit {
 
     this.layerMarkers.addLayer(markerIcon);
     if (level === "schoolPerCluster" || level === "School") {
+      if(chklevel)
       markerIcon.on("click", this.onClickSchool, this);
     } else {
+      if(chklevel)
       markerIcon.on("click", this.onClick_Marker, this);
     }
+  }
     markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }
@@ -1568,7 +1725,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.data.map(a => {
         if (this.infraData == "infrastructure_score") {
           if (a.details[`${this.infraData}`] > this.valueRange.split("-")[0] - 1 && a.details[`${this.infraData}`] <= this.valueRange.split("-")[1]) {
-            markers.push(a);
+           console.log(a); markers.push(a);
           }
         } else {
           if (a.metrics[`${this.infraData}`] > this.valueRange.split("-")[0] - 1 && a.metrics[`${this.infraData}`] <= this.valueRange.split("-")[1]) {

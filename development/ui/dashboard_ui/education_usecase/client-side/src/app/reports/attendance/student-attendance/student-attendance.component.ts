@@ -256,6 +256,7 @@ export class StudengtAttendanceComponent implements OnInit {
     this.service.getRawMeta({ report: "sar" }).subscribe((res) => {
       this.academicYears = res;
     });
+    this.getView1();
   }
 
   //This function will be called on select year-month option show year month dropdown:::::
@@ -324,7 +325,7 @@ export class StudengtAttendanceComponent implements OnInit {
         );
         this.districtsNames = distNames;
 
-        if (this.params.level === "district") {
+        if (this.params?.level === "district") {
           this.distSelect({ type: "click" }, this.myDistrict);
         } else {
           this.getBlocks();
@@ -340,7 +341,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
   //This function is to get all blocks of selected district:::::::
   getBlocks(): void {
-    this.month_year["id"] = this.myDistrict;
+    //this.month_year["id"] = this.myDistrict;
     this.service
       .blockPerDist({
         ...this.month_year,
@@ -368,7 +369,7 @@ export class StudengtAttendanceComponent implements OnInit {
           for (var i = 0; i < this.markers.length; i++) {
             if (this.myBlock === this.markers[i]["block_id"]) {
               localStorage.setItem("block", this.markers[i].block_name);
-              localStorage.setItem("blockId", this.markers[i].block_id);
+              localStorage.setItem("blockid", this.markers[i].block_id);
             }
 
             this.blocksIds.push(this.markers[i]["block_id"]);
@@ -382,7 +383,7 @@ export class StudengtAttendanceComponent implements OnInit {
           );
           this.blocksNames = blokName;
 
-          if (this.params.level === "block") {
+          if (this.params?.level === "block") {
             this.blockSelect({ type: "click" }, this.myBlock);
           } else {
             this.getClusters();
@@ -423,7 +424,7 @@ export class StudengtAttendanceComponent implements OnInit {
           for (var i = 0; i < sorted.length; i++) {
             if (this.myCluster === sorted[i]["cluster_id"]) {
               localStorage.setItem("cluster", sorted[i].cluster_name);
-              localStorage.setItem("clusterId", sorted[i].cluster_id);
+              localStorage.setItem("clusterid", sorted[i].cluster_id);
             }
 
             this.clusterIds.push(sorted[i]["cluster_id"]);
@@ -591,6 +592,115 @@ export class StudengtAttendanceComponent implements OnInit {
       }
     }
   }
+
+
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+
+  getView(){
+    let id=JSON.parse(localStorage.getItem("userLocation"));
+    let level= localStorage.getItem("userLevel");
+    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
+    let blockid= JSON.parse(localStorage.getItem("blockId"));
+    let districtid= JSON.parse(localStorage.getItem("districtId"));
+    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
+    console.log(id,level,clusterid,blockid,districtid);
+
+if (districtid){
+  this.myDistrict = districtid;
+  this.myDistData(districtid);
+}
+if(blockid){
+  this.myBlock = blockid;
+  this.myDistData(districtid,blockid);
+}
+if(clusterid){
+  this.myCluster= clusterid;
+  this.myDistData(districtid,blockid,clusterid);
+
+}
+    console.log(id,level);
+
+    if(level==="cluster"){
+ this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+  getView1(){
+    let id=JSON.parse(localStorage.getItem("userLocation"));
+    let level= localStorage.getItem("userLevel");
+    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
+    let blockid= JSON.parse(localStorage.getItem("blockId"));
+    let districtid= JSON.parse(localStorage.getItem("districtId"));
+    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
+    console.log(id,level,clusterid,blockid,districtid);
+
+if (districtid){
+  this.myDistrict = districtid;
+}
+if(blockid){
+  this.myBlock = blockid;
+}
+if(clusterid){
+  this.myCluster= clusterid;
+
+}
+    if(level==="cluster"){
+      
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=3;
+    }else if(level==="block"){
+
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=2;
+    }else if(level==="district"){
+
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+  //  this.level= "blockPerDistrict";
+    this.myDistrict = id;
+  //   this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+   // this.level= "clusterPerBlock";
+    this.myBlock = id;
+  //   this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+   // this.level= "schoolPerCluster";
+    this.myCluster = id;
+   //  this.levelWiseFilter();
+    }
+
 
   getYear() {
     this.months = [];
@@ -1254,7 +1364,7 @@ export class StudengtAttendanceComponent implements OnInit {
         localStorage.setItem("distId", localStorage.getItem("distId"));
       }
       localStorage.setItem("block", label.block_name);
-      localStorage.setItem("blockId", label.block_id);
+      localStorage.setItem("blockid", label.block_id);
       this.myBlockData(label.block_id);
 
       if (event.latlng) {
@@ -1272,9 +1382,9 @@ export class StudengtAttendanceComponent implements OnInit {
       localStorage.setItem("dist", label.district_name);
       localStorage.setItem("distId", label.district_id);
       localStorage.setItem("block", label.block_name);
-      localStorage.setItem("blockId", label.block_id);
+      localStorage.setItem("blockid", label.block_id);
       localStorage.setItem("cluster", label.cluster_name);
-      localStorage.setItem("clusterId", label.cluster_id);
+      localStorage.setItem("clusterid", label.cluster_id);
 
       this.myClusterData(label.cluster_id);
       if (event.latlng) {
@@ -1350,7 +1460,7 @@ export class StudengtAttendanceComponent implements OnInit {
   blockData = [];
 
   //This function will be called when district-name will be selected::::::
-  myDistData(data) {
+  myDistData(data,bid?,cid?) {
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {
         alert("Please select month!");
@@ -1516,6 +1626,9 @@ export class StudengtAttendanceComponent implements OnInit {
               this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
+              if(bid){
+                this.myBlockData(bid,cid);
+              }
             },
             (err) => {
               this.dateRange = "";
@@ -1534,6 +1647,7 @@ export class StudengtAttendanceComponent implements OnInit {
     }
 
     globalMap.addLayer(this.layerMarkers);
+   
   }
 
   blockSelect(event, data) {
@@ -1554,7 +1668,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
   clusterData = [];
   //This function will be called when block-name will be selected
-  myBlockData(data) {
+  myBlockData(data,cid?) {
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {
         alert("Please select month!");
@@ -1607,7 +1721,7 @@ export class StudengtAttendanceComponent implements OnInit {
         }
         let obj = this.blocksNames.find((o) => o.id == data);
         localStorage.setItem("block", obj.name);
-        localStorage.setItem("blockId", data);
+        localStorage.setItem("blockid", data);
         this.titleName = localStorage.getItem("dist");
         this.distName = {
           district_id: Number(localStorage.getItem("distId")),
@@ -1749,6 +1863,9 @@ export class StudengtAttendanceComponent implements OnInit {
               this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
+              if(cid){
+                this.myClusterData(cid);
+              }
             },
             (err) => {
               this.dateRange = "";
@@ -1853,7 +1970,7 @@ export class StudengtAttendanceComponent implements OnInit {
         this.clusterNames.forEach((item) => {
           if (
             item.blockId &&
-            item.blockId === Number(localStorage.getItem("blockId"))
+            item.blockId === Number(localStorage.getItem("blockid"))
           ) {
             clustName.push(item);
           }
@@ -1872,7 +1989,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
         this.title = localStorage.getItem("block");
         this.titleName = localStorage.getItem("dist");
-        var blockId = Number(localStorage.getItem("blockId"));
+        var blockId = Number(localStorage.getItem("blockid"));
         this.distName = {
           district_id: Number(localStorage.getItem("distId")),
           district_name: this.titleName,
@@ -2019,7 +2136,33 @@ export class StudengtAttendanceComponent implements OnInit {
 
   }
 
-  popups(markerIcon, markers, onClick_Marker) {
+  popups(markerIcon, markers, onClick_Marker) {  
+    
+    let userLevel= localStorage.getItem("userLevel");
+  let chklevel=false;
+  switch (userLevel) {
+    case "cluster":
+      if (this.levelWise =="Cluster" || this.levelWise  == "schoolPerCluster") {
+       chklevel=true;
+      }
+      break;
+      case "block":
+      if (this.levelWise =="Cluster" || this.levelWise  == "schoolPerCluster" || this.levelWise  == "Block" || this.levelWise  == "clusterPerBlock")  {
+        chklevel=true;
+      }
+      break;
+      case "district":
+      if (this.levelWise =="Cluster" || this.levelWise  == "schoolPerCluster" || this.levelWise  == "Block" || this.levelWise  == "clusterPerBlock" || this.levelWise  == "District" || this.levelWise  == "blockPerDistrict")  {
+        chklevel=true;
+      }
+      break;
+    default:
+      chklevel=true;
+      break;
+  }
+
+  // markerIcon.on("click", null);
+  if(chklevel){
     markerIcon.on("mouseover", function (e) {
       this.openPopup();
     });
@@ -2031,6 +2174,7 @@ export class StudengtAttendanceComponent implements OnInit {
     } else {
       markerIcon.on("click", onClick_Marker, this);
     }
+  }
     markerIcon.myJsonData = markers;
   }
 
