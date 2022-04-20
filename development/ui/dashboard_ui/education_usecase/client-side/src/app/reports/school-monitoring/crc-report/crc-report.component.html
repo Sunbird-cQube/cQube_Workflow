@@ -45,6 +45,10 @@
           <div class="row">
             <div class="col-sm-4">
               <p id="errMsg" class="note"></p>
+
+              <span class="selected-level udise-level" (click)="getView()" >
+                <strong>Access Location</strong>
+              </span>
             </div>
             <div class="col-sm-8">
               <div *ngIf="skul; else ng_else" style="float: left" id="select">
@@ -124,31 +128,31 @@
               {{ months[i] }}
             </option>
           </select>
-          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" (change)="myDistData(myDistrict)">
-            <option [value]="myDistrict" disabled selected="selected">
+          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"  [disabled]="selDist" (change)="myDistData(myDistrict)">
+            <option [value]="" disabled selected="selected">
               Choose District
             </option>
-            <option *ngFor="let dist of crcDistrictsNames" [(ngValue)]="dist.districtId">
+            <option *ngFor="let dist of crcDistrictsNames" [value]="dist.districtId">
               {{ dist.districtName }}
             </option>
           </select>
 
-          <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
+          <select  id="choose_block" [(ngModel)]="myBlock" name="myBlock"  [disabled]="selBlock"
             (change)="myBlockData(myBlock)">
-            <option [value]="myBlock" disabled selected="selected">
+            <option [value]="" disabled selected="selected">
               Choose Block
             </option>
-            <option *ngFor="let block of crcBlocksNames" [(ngValue)]="block.blockId">
+            <option *ngFor="let block of crcBlocksNames" [value]="block.blockId">
               {{ block.blockName }}
             </option>
           </select>
 
-          <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
+          <select  id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled]="selCluster"
             (change)="myClusterData(myCluster)">
             <option [value]="myCluster" disabled selected="selected">
               Choose a Cluster
             </option>
-            <option *ngFor="let cluster of crcClusterNames" [(ngValue)]="cluster.clusterId" [ngStyle]="{
+            <option *ngFor="let cluster of crcClusterNames" [value]="cluster.clusterId" [ngStyle]="{
                 color:
                   cluster.clusterName !== 'NO NAME FOUND' ? 'white' : '#ff3333'
               }">

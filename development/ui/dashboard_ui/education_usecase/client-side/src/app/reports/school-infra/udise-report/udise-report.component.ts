@@ -202,6 +202,8 @@ export class UdiseReportComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
+
+    this.getView1();
   }
 
   getDistricts(): void {
@@ -216,15 +218,18 @@ export class UdiseReportComponent implements OnInit {
     this.service.udise_blocks_per_dist(distId, { management: this.management, category: this.category }).subscribe((res) => {
       this.markers = this.data = res["data"];
       this.blockMarkers = this.data;
+      this.changeDetection.detectChanges();
 
       if (blockId) this.onBlockSelect(blockId);
     });
   }
 
-  getClusters(distId, blockId, clusterId): void {
+  getClusters(distId, blockId, clusterId?:any): void {
     this.service.udise_cluster_per_block(distId, blockId, { management: this.management, category: this.category }).subscribe((res) => {
       this.markers = this.data = res["data"];
       this.clusterMarkers = this.data;
+      this.changeDetection.detectChanges();
+      if(clusterId)
       this.onClusterSelect(clusterId);
     });
   }
@@ -823,7 +828,7 @@ export class UdiseReportComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service
-      .udise_cluster_per_block(this.districtHierarchy.distId, blockId, { management: this.management, category: this.category })
+      .udise_cluster_per_block(this.districtId, blockId, { management: this.management, category: this.category })
       .subscribe(
         (res) => {
           this.markers = this.data = res["data"];
@@ -832,7 +837,7 @@ export class UdiseReportComponent implements OnInit {
           this.clusterMarkers = this.data;
           var myBlocks = [];
           this.blockMarkers.forEach((element) => {
-            if (element.details.district_id === this.districtHierarchy.distId) {
+            if (element.details.district_id == this.districtId) {
               myBlocks.push(element);
             }
           });
@@ -922,8 +927,8 @@ export class UdiseReportComponent implements OnInit {
       (result: any) => {
         this.myData = this.service
           .udise_school_per_cluster(
-            this.blockHierarchy.distId,
-            this.blockHierarchy.blockId,
+            this.districtId,
+            this.blockId,
             clusterId, { management: this.management, category: this.category }
           )
           .subscribe(
@@ -936,7 +941,7 @@ export class UdiseReportComponent implements OnInit {
               var myBlocks = [];
               markers.forEach((element) => {
                 if (
-                  element.details.district_id === this.blockHierarchy.distId
+                  element.details.district_id == this.districtId
                 ) {
                   myBlocks.push(element);
                 }
@@ -945,7 +950,7 @@ export class UdiseReportComponent implements OnInit {
 
               var myCluster = [];
               this.clusterMarkers.forEach((element) => {
-                if (element.details.block_id === this.blockHierarchy.blockId) {
+                if (element.details.block_id == this.blockId) {
                   myCluster.push(element);
                 }
               });
@@ -1279,6 +1284,122 @@ export class UdiseReportComponent implements OnInit {
     }
   }
 
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+
+  getView(){  
+  let id=localStorage.getItem("userLocation");
+  let level= localStorage.getItem("userLevel");
+  let clusterid= localStorage.getItem("clusterId");
+  let blockid= localStorage.getItem("blockId");
+  let districtid= localStorage.getItem("districtId");
+  let schoolid= localStorage.getItem("schoolId");
+  console.log(id,level,clusterid,blockid,districtid);
+
+if (districtid){
+this.districtId = districtid;
+}
+if(blockid){
+this.blockId = blockid;
+}
+if(clusterid){
+this.clusterId= clusterid;
+
+}
+    console.log(id,level);
+
+    if(level==="cluster"){
+      this.getDistricts()
+     this.getBlocks(districtid);
+  this.getClusters(districtid, blockid);
+      this.clusterlevel(id);
+      this.levelVal=3;
+    }else if(level==="block"){
+      this.getDistricts()
+      this.getBlocks(districtid);
+      this.blocklevel(id);
+      this.levelVal=2;
+    }else if(level==="district"){
+      this.getDistricts()
+      this.distlevel(id);
+      this.levelVal=1;
+    }
+  }
+
+  getView1(){
+    let id=localStorage.getItem("userLocation");
+    let level= localStorage.getItem("userLevel");
+    let clusterid= localStorage.getItem("clusterId");
+    let blockid= localStorage.getItem("blockId");
+    let districtid= localStorage.getItem("districtId");
+    let schoolid= localStorage.getItem("schoolId");
+    console.log(id,level,clusterid,blockid,districtid);
+
+if (districtid){
+  this.getDistricts()
+  this.districtId = districtid;
+ this.getBlocks(districtid);
+}
+if(blockid){
+  this.blockId = blockid;
+ this.getClusters(districtid, blockid);
+}
+if(clusterid){
+
+ this.clusterId= clusterid;
+}
+    if(level==="cluster"){
+      
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=3;
+    }else if(level==="block"){
+
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+      this.levelVal=2;
+    }else if(level==="district"){
+
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+      this.levelVal=1;
+    }
+  }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.level= "blockPerDistrict";
+    this.districtId = id;
+     this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "clusterPerBlock";
+    this.blockId = id;
+     this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "schoolPerCluster";
+    this.clusterId = id;
+     this.levelWiseFilter();
+    }
+
+
+
   //map tooltip automation
   public getInfoFrom(object, indiceName, colorText, level) {
     var popupFood = [];
@@ -1323,6 +1444,36 @@ export class UdiseReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
+    let userLevel= localStorage.getItem("userLevel");
+    let chklevel=false;
+    switch (userLevel) {
+      case "cluster":
+        if (level=="Cluster" || level == "schoolPerCluster") {
+         chklevel=true;
+        }
+        break;
+        case "block":
+        if (level=="Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock")  {
+          chklevel=true;
+        }
+        break;
+        case "district":
+        if (level=="Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock" || level == "District" || level == "blockPerDistrict")  {
+          chklevel=true;
+        }
+        break;
+      default:
+        chklevel=true;
+        break;
+    }
+
+    // markerIcon.on("click", null);
+    // markerIcon.addEventListener('click', (event) => {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   return false;
+    // });
+    if(chklevel){
     markerIcon.on("mouseover", function (e) {
       this.openPopup();
     });
@@ -1336,6 +1487,7 @@ export class UdiseReportComponent implements OnInit {
     } else {
       markerIcon.on("click", this.onClick_Marker, this);
     }
+  }
     markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }

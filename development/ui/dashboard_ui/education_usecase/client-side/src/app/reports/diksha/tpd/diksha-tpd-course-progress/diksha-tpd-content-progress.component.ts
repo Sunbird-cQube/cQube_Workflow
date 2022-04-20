@@ -100,6 +100,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.scousesTOShow = this.courses = res;
     });
     this.commonFunc()
+    this.getView1();
   }
   selectedCourses = [];
   shareCheckedList(item: any[]) {
@@ -464,7 +465,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.levelWiseFilter();
   }
 
-  selectedDistrict(districtId) {
+  selectedDistrict(districtId,bid?,cid?) {
     this.level = 'block';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_district_${districtId}_${this.commonService.dateAndTime}`;
     this.block = undefined;
@@ -494,6 +495,9 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.blok = false;
       this.clust = false;
       this.commonService.loaderAndErr(this.reportData);
+      if(bid){
+        this.selectedBlock(bid,cid)
+      }
     }, err => {
       this.scousesTOShow = [];
       this.items = [];
@@ -506,7 +510,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
   }
 
-  selectedBlock(blockId) {
+  selectedBlock(blockId,cid?) {
     this.level = 'cluster';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_block_${blockId}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
@@ -651,6 +655,122 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.selectedCluster(this.cluster);
     }
   }
+
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+  levelVal=0;
+  getView(){  
+    let id=JSON.parse(localStorage.getItem("userLocation"));
+    let level= localStorage.getItem("userLevel");
+    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
+    let blockid= JSON.parse(localStorage.getItem("blockId"));
+    let districtid= JSON.parse(localStorage.getItem("districtId"));
+    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
+    console.log(id,level,clusterid,blockid,districtid);
+    this.dist = false;
+    this.blok = false;
+    this.clust = false;
+    this.skul = true;
+    if (districtid){
+      this.district = districtid;
+      this.selectedDistrict(districtid);
+    }
+    if(blockid){
+      this.block = blockid;
+      this.selectedDistrict(districtid,blockid);
+    }
+    if(clusterid){  
+     this.cluster= clusterid;
+     this.selectedDistrict(districtid,blockid,clusterid);
+    }
+      console.log(id,level);
+  
+      if(level==="cluster"){
+        this.clusterlevel(id);
+        this.levelVal=3;
+      }else if(level==="block"){
+        this.blocklevel(id);
+        this.levelVal=2;
+      }else if(level==="district"){
+        this.distlevel(id);
+        this.levelVal=1;
+      }
+    }
+  
+    getView1(){
+      let id=JSON.parse(localStorage.getItem("userLocation"));
+      let level= localStorage.getItem("userLevel");
+      let clusterid= JSON.parse(localStorage.getItem("clusterId"));
+      let blockid= JSON.parse(localStorage.getItem("blockId"));
+      let districtid= JSON.parse(localStorage.getItem("districtId"));
+      let schoolid= JSON.parse(localStorage.getItem("schoolId"));
+      console.log(id,level,clusterid,blockid,districtid);
+      this.dist = false;
+      this.blok = false;
+      this.clust = false;
+      this.skul = true;
+      if (districtid){
+        this.district = districtid;
+      //  this.selectedDistrict(districtid);
+      }
+      if(blockid){
+        this.block = blockid;
+    //   this.selectedDistrict(districtid,blockid);
+      }
+      if(clusterid){  
+       this.cluster= clusterid;
+     //  this.selectedDistrict(districtid,blockid,clusterid);
+      }
+     // this.commonFunc();
+      if(level==="cluster"){
+        
+      this.selCluster=true;
+      this.selBlock=true;
+      this.selDist=true;
+
+        this.levelVal=3;
+      }else if(level==="block"){
+  
+      this.selCluster=false;
+      this.selBlock=true;
+      this.selDist=true;
+        this.levelVal=2;
+      }else if(level==="district"){
+  
+      this.selCluster=false;
+      this.selBlock=false;
+      this.selDist=true;
+        this.levelVal=1;
+      }
+    }
+
+  distlevel(id){
+    this.selCluster=false;
+    this.selBlock=false;
+    this.selDist=true;
+    this.level= "blockPerDistrict";
+    this.district = id;
+     this.levelWiseFilter();
+    }
+
+  blocklevel(id){
+    this.selCluster=false;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "clusterPerBlock";
+    this.block = id;
+     this.levelWiseFilter();
+    }
+
+  clusterlevel(id){
+    this.selCluster=true;
+    this.selBlock=true;
+    this.selDist=true;
+    this.level= "schoolPerCluster";
+    this.cluster = id;
+     this.levelWiseFilter();
+    }
 
   // to download the csv report
   downloadReport() {

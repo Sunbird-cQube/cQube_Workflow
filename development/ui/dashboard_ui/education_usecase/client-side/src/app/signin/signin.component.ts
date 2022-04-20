@@ -106,7 +106,25 @@ export class SigninComponent implements OnInit {
     this.service.login(this.loginForm.value).subscribe(res => {
       this.wrongCredintional = false;
 
+  console.log(res);
+
       let response = res
+      let userLevel = res['user_level']
+      localStorage.setItem('userLevel', userLevel)
+      let userLocation = res['user_location']
+      localStorage.setItem('userLocation', userLocation)
+
+      let clusterId = res['cluster_id']
+      localStorage.setItem('clusterId', clusterId)
+
+      let blockId = res['block_id']
+      localStorage.setItem('blockId', blockId)
+      let districtId = res['district_id']
+      localStorage.setItem('districtId', districtId)
+      let schoolId = res['school_id']
+      localStorage.setItem('schoolId', schoolId)
+
+      
       this.userName = res['username']
       this.adminUserId = res['userId']
       this.userStatus = res['status']

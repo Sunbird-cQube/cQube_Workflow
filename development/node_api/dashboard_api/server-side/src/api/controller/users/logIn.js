@@ -135,6 +135,8 @@ router.post('/login', async (req, res, next) => {
 
                 axios.post(url, details, { headers: headers }).then(resp => {
                     logger.info('---token from state api success ---');
+
+                    console.log('res',resp);
                     let token = resp.data.access_token
                     userId = resp.data.payload.id
                     if (resp.status === 200) {
@@ -165,7 +167,7 @@ router.post('/login', async (req, res, next) => {
         }
 
         ).catch(error => {
-            logger.error(`Error :: ${error}`)
+            // logger.error(`Error :: ${error}`)
             if (role === '' || role === undefined) {
                 let url = authURL;
 
@@ -179,8 +181,16 @@ router.post('/login', async (req, res, next) => {
 
                 axios.post(url, details, { headers: stateheaders }).then(resp => {
                     logger.info('---user token from state success ---');
+                    console.log('res', resp)
                     let token = resp.data.access_token;
                     userId = resp.data.payload.id
+                    let userLevel = resp.data.payload.user_level;
+                    let userLocation = resp.data.payload.user_location;
+                    let clusterID = resp.data.payload.cluster_id;
+                    let blockID = resp.data.payload.block_id;
+                    let districtID = resp.data.payload.district_id;
+                    let schoolID = resp.data.payload.school_id;
+
                     if (resp.status === 200) {
                         const decodingJWT = (token) => {
                             if (token !== null || token !== undefined) {
@@ -196,7 +206,7 @@ router.post('/login', async (req, res, next) => {
                         decodingJWT(token)
                     };
 
-                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId })
+                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, cluster_id: clusterID, block_id: blockID, district_id: districtID, school_id: schoolID})
                 }).catch(error => {
 
                     res.status(409).json({ errMsg: 'please check user name and password' });
