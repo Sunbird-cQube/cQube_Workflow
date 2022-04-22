@@ -670,4 +670,78 @@ program_name = diksha_program_details_null_col.count_null_program_name,
 count_of_null_rows = diksha_program_details_null_col.count_of_null_rows
 from diksha_program_details_null_col
 where diksha_program_details_null_col.ff_uuid = log_summary.ff_uuid""",
-}
+},
+"grade_details_count_null":"""(select
+SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_id,
+SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade,
+sum(case when school_id is null or grade is null then 1 else 0 end ) as count_of_null_rows
+from flowfile)""",
+"subject_details_count_null":"""(select
+SUM(CASE when subject_id IS NULL THEN 1 ELSE 0 END) AS count_null_subject_id,
+SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade,
+sum(case when subject_id is null or grade is null then 1 else 0 end ) as count_of_null_rows
+from flowfile)""",
+"check_same_record_grade_details_qry":"""SELECT school_id,grade,students_count,count(*)-1  num_of_times
+FROM flowfile
+GROUP BY school_id,grade,students_count
+HAVING  COUNT(*) > 1""",
+"check_same_record_subject_details_qry":"""SELECT subject_id,subject,grade,count(*)-1  num_of_times
+FROM flowfile
+GROUP BY subject_id,subject,grade
+HAVING  COUNT(*) > 1""",
+"static_select_columns_grade_details_qry":"""select school_id,grade,students_count from flowfile""",
+"static_select_columns_subject_details_qry":"""select subject_id,subject,grade from flowfile""",
+"static_check_same_id_grade_details_qry":"""SELECT b.school_id,b.grade,b.students_count,count(*) num_of_times  from (select school_id,grade from flowfile
+group by school_id,grade having count(1)>1) as a, flowfile  b
+where a.school_id=b.school_id and
+a.grade=b.grade
+group by b.school_id,b.grade,b.students_count""",
+"static_check_same_id_subject_details_qry":"""SELECT b.subject_id,b.subject,b.grade,count(*) num_of_times  from (select subject_id,grade from flowfile
+group by subject_id,grade having count(1)>1) as a, flowfile  b
+where a.subject_id=b.subject_id and
+a.grade=b.grade
+group by b.subject_id,b.grade,b.subject""",
+"static_update_null_grade_details_qry":"""update log_summary
+SET school_id = pat_null_col.count_null_school_id,
+grade = pat_null_col.count_null_grade,
+count_of_null_rows = pat_null_col.count_of_null_rows
+from pat_null_col
+where pat_null_col.ff_uuid = log_summary.ff_uuid""",
+"static_update_null_count_subject_details_qry":"""update log_summary
+SET subject_id = pat_null_col.count_null_subject_id,
+grade = pat_null_col.count_null_grade,
+count_of_null_rows = pat_null_col.count_of_null_rows
+from pat_null_col
+where pat_null_col.ff_uuid = log_summary.ff_uuid""",
+"static_filter_same_id_record_subject_details_qry":"""SELECT  subject_id,subject,grade from 
+(SELECT  subject_id,subject,grade,count(*) over (partition by subject_id,grade) as rn from FLOWFILE) sq Where rn =1
+""",
+"static_filter_same_id_record_grade_details_qry":"""SELECT  school_id,grade,students_count from 
+(SELECT  school_id,grade,students_count,count(*) over (partition by school_id,grade) as rn from FLOWFILE) sq Where rn =1
+""",
+"static_grade_details_datatype":"""Optional(parseLong()),Optional(parseInt()),Optional(parseInt())""",
+"static_subject_details_datatype":"""Optional(parseInt()),StrNotNullOrEmpty(),Optional(parseInt())""",
+"static_update_processed_record_grade":"""update log_summary as b
+	set processed_records= a.processed_records
+	from (
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
+		from log_summary where filename like 'grade%' group by ff_uuid) as a
+	where a.ff_uuid=b.ff_uuid""",
+"static_update_processed_record_subject":"""update log_summary as b
+	set processed_records= a.processed_records
+	from (
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
+		from log_summary where filename like 'subject%' group by ff_uuid) as a
+	where a.ff_uuid=b.ff_uuid""",
+"static_filter_same_record_grade_details_qry":"""select school_id,grade,students_count from (select  school_id,grade,students_count,row_number() over
+(partition by school_id,grade,students_count) as rn from flowfile) sq Where rn =1""",
+"static_filter_same_record_subject_details_qry":"""select subject_id,subject,grade from (select  subject_id,subject,grade,row_number() over
+(partition by subject_id,subject,grade) as rn from flowfile) sq Where rn =1""",
+"static_grade_details_table_name":"""school_grade_enrolment""",
+"static_subject_details_table_name":"""subject_details""",
+"static_grade_details_check_if_null":"""select * from flowfile
+where school_id is null or grade is null""",
+"static_subject_details_check_if_null":"""select * from flowfile
+where subject_id is null or grade is null""",
+"static_grade_details_not_null":"""select * from flowfile where school_id  is not null and grade  is not null""",
+"static_subject_details_not_null":"""select * from flowfile where subject_id is not null and grade is not null"""
