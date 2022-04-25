@@ -670,7 +670,6 @@ program_name = diksha_program_details_null_col.count_null_program_name,
 count_of_null_rows = diksha_program_details_null_col.count_of_null_rows
 from diksha_program_details_null_col
 where diksha_program_details_null_col.ff_uuid = log_summary.ff_uuid""",
-},
 "grade_details_count_null":"""(select
 SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_id,
 SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade,
@@ -714,11 +713,9 @@ count_of_null_rows = pat_null_col.count_of_null_rows
 from pat_null_col
 where pat_null_col.ff_uuid = log_summary.ff_uuid""",
 "static_filter_same_id_record_subject_details_qry":"""SELECT  subject_id,subject,grade from 
-(SELECT  subject_id,subject,grade,count(*) over (partition by subject_id,grade) as rn from FLOWFILE) sq Where rn =1
-""",
+(SELECT  subject_id,subject,grade,count(*) over (partition by subject_id,grade) as rn from FLOWFILE) sq Where rn =1""",
 "static_filter_same_id_record_grade_details_qry":"""SELECT  school_id,grade,students_count from 
-(SELECT  school_id,grade,students_count,count(*) over (partition by school_id,grade) as rn from FLOWFILE) sq Where rn =1
-""",
+(SELECT  school_id,grade,students_count,count(*) over (partition by school_id,grade) as rn from FLOWFILE) sq Where rn =1""",
 "static_grade_details_datatype":"""Optional(parseLong()),Optional(parseInt()),Optional(parseInt())""",
 "static_subject_details_datatype":"""Optional(parseInt()),StrNotNullOrEmpty(),Optional(parseInt())""",
 "static_update_processed_record_grade":"""update log_summary as b
@@ -745,3 +742,4 @@ where school_id is null or grade is null""",
 where subject_id is null or grade is null""",
 "static_grade_details_not_null":"""select * from flowfile where school_id  is not null and grade  is not null""",
 "static_subject_details_not_null":"""select * from flowfile where subject_id is not null and grade is not null"""
+}
