@@ -35,7 +35,7 @@ if [ -e /etc/ansible/ansible.cfg ]; then
 	sudo sed -i 's/^#log_path/log_path/g' /etc/ansible/ansible.cfg
 fi
 
-echo '127.0.0.0' >> /etc/ansible/hosts
+#echo '127.0.0.0' >> /etc/ansible/hosts
 
 if [ ! $? = 0 ]; then
 tput setaf 1; echo "Error there is a problem installing Ansible"; tput sgr0
@@ -46,7 +46,7 @@ base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 mode_of_installation=$(awk ''/^mode_of_installation:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
 if [[ $mode_of_installation == "localhost" ]]; then
-ansible-playbook ../ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook -i hosts ../ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
                                                          --extra-vars "@config.yml" \
 							                             --extra-vars "@memory_config.yml" \
                                                          --extra-vars "@.version" \
@@ -57,7 +57,7 @@ ansible-playbook ../ansible/install.yml --tags "install" --extra-vars "@$base_di
                                                          --extra-vars "usecase_name=education_usecase" \
                                                          --extra-vars "protocol=http"
 else
-ansible-playbook ../ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook -i hosts ../ansible/install.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
                                                          --extra-vars "@config.yml" \
 							                             --extra-vars "@memory_config.yml" \
                                                          --extra-vars "@.version" \
