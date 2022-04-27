@@ -493,121 +493,85 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }
   }
 
-  selCluster=false;
-  selBlock=false;
-  selDist=false;
-  levelVal=0;
-  getView(){  
-    let id=JSON.parse(localStorage.getItem("userLocation"));
-    let level= localStorage.getItem("userLevel");
-    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
-    let blockid= JSON.parse(localStorage.getItem("blockId"));
-    let districtid= JSON.parse(localStorage.getItem("districtId"));
-    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-    console.log(id,level,clusterid,blockid,districtid);
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  levelVal = 0;
+  getView() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+    let clusterid = JSON.parse(localStorage.getItem("clusterId"));
+    let blockid = JSON.parse(localStorage.getItem("blockId"));
+    let districtid = JSON.parse(localStorage.getItem("districtId"));
+    let schoolid = JSON.parse(localStorage.getItem("schoolId"));
     this.dist = false;
     this.blok = false;
     this.clust = false;
     this.skul = true;
-    if (districtid){
-      this.districtId = districtid;
-      this.onDistSelect(districtid);
-    }
-    if(blockid){
+
+
+    if (level === "cluster") {
+
       this.blockId = blockid;
-      this.onDistSelect(districtid,blockid);
-    }
-    if(clusterid){  
-     this.clusterId= clusterid;
-     this.onDistSelect(districtid,blockid,clusterid);
-    }
-      console.log(id,level);
-  
-      if(level==="cluster"){
-        this.clusterlevel(id);
-        this.levelVal=3;
-      }else if(level==="block"){
-        this.blocklevel(id);
-        this.levelVal=2;
-      }else if(level==="district"){
-        this.distlevel(id);
-        this.levelVal=1;
-      }
-    }
-  
-    getView1(){
-      let id=JSON.parse(localStorage.getItem("userLocation"));
-      let level= localStorage.getItem("userLevel");
-      let clusterid= JSON.parse(localStorage.getItem("clusterId"));
-      let blockid= JSON.parse(localStorage.getItem("blockId"));
-      let districtid= JSON.parse(localStorage.getItem("districtId"));
-      let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-      console.log(id,level,clusterid,blockid,districtid);
-      this.dist = false;
-      this.blok = false;
-      this.clust = false;
-      this.skul = true;
-      if (districtid){
-        this.districtId = districtid;
-      //  this.selectedDistrict(districtid);
-      }
-      if(blockid){
-        this.blockId = blockid;
-    //   this.selectedDistrict(districtid,blockid);
-      }
-      if(clusterid){  
-       this.clusterId= clusterid;
-     //  this.selectedDistrict(districtid,blockid,clusterid);
-      }
-     // this.commonFunc();
-      if(level==="cluster"){
-        
-      this.selCluster=true;
-      this.selBlock=true;
-      this.selDist=true;
+      this.districtId = districtid;
+      this.clusterId = clusterid;
+      this.clusterLinkClick(clusterid);
+      this.levelVal = 3;
 
-        this.levelVal=3;
-      }else if(level==="block"){
-  
-      this.selCluster=false;
-      this.selBlock=true;
-      this.selDist=true;
-        this.levelVal=2;
-      }else if(level==="district"){
-  
-      this.selCluster=false;
-      this.selBlock=false;
-      this.selDist=true;
-        this.levelVal=1;
-      }
-    }
+    } else if (level === "block") {
+      this.blockId = blockid;
+      this.districtId = districtid;
 
-  distlevel(id){
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-    this.level= "block";
+      this.blockLinkClick(blockid)
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.districtId = districtid;
+      this.distLinkClick(districtid)
+
+      this.levelVal = 1;
+    }
+  }
+  hideDist: boolean
+
+  getView1() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+   
+   
+    if (level === "District" || level === "cluster" || level === "block") {
+      this.hideDist = true
+
+    } else if (level === null) {
+      this.hideDist = false
+    }
+  }
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "block";
     this.districtId = id;
-   //  this.onTypeSelect();
-    }
+    this.onTypeSelect();
+  }
 
-  blocklevel(id){
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "cluster";
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "cluster";
     this.blockId = id;
-   // this.onTypeSelect();
-    }
+    this.onTypeSelect();
+  }
 
-  clusterlevel(id){
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "school";
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "school";
     this.clusterId = id;
-   // this.onTypeSelect();
-    }
+    this.onTypeSelect();
+  }
 
 
   public expEnrolChartData: any = [];
@@ -721,7 +685,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   }
 
-  onDistSelect(districtId,bid?,cid?) {
+  onDistSelect(districtId, bid?, cid?) {
     this.emptyChart();
     this.commonService.errMsg();
 
@@ -743,7 +707,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blocks = [];
     this.clusters = [];
 
-   // this.blockId = undefined;
+    // this.blockId = undefined;
     // this.clusterId = undefined;
     this.yAxisLabel = "Block Names";
     this.xAxisLabel = "Total Numbers"
@@ -781,8 +745,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         this.blocks = this.reportData = res["downloadData"];
         this.getBarChartData();
         this.commonService.loaderAndErr(this.result);
-        if(bid){
-          this.onBlockSelect(bid,cid);
+        if (bid) {
+          this.onBlockSelect(bid, cid);
         }
       },
       (err) => {
@@ -798,7 +762,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.onBlockSelect(blockId);
 
   }
-  onBlockSelect(blockId,cid?) {
+  onBlockSelect(blockId, cid?) {
     this.emptyChart();
     this.commonService.errMsg();
 
@@ -820,7 +784,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.clusters = [];
 
-  //  this.clusterId = undefined;
+    //  this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names";
 
 
@@ -867,7 +831,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           this.clusters = this.reportData = res["downloadData"];
           this.getBarChartData();
           this.commonService.loaderAndErr(this.result);
-          if(cid){
+          if (cid) {
             this.onClusterSelect(cid);
           }
         },

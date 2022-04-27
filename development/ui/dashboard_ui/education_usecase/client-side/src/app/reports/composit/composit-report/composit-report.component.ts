@@ -434,6 +434,40 @@ export class CompositReportComponent implements OnInit {
     });
   }
 
+  getView() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+    let clusterid = JSON.parse(localStorage.getItem("clusterId"));
+    let blockid = JSON.parse(localStorage.getItem("blockId"));
+    let districtid = JSON.parse(localStorage.getItem("districtId"));
+    let schoolid = JSON.parse(localStorage.getItem("schoolId"));
+
+
+
+    if (level === "cluster") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+      this.myClusterData(clusterid);
+
+    } else if (level === "block") {
+      // this.myDistData(districtid)
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+      this.blockWise()
+      this.myBlockData(blockid)
+
+
+    } else if (level === "District") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+      this.myDistData(districtid);
+
+    }
+  }
+
   // schoolWise() {
   //   if (this.chartData.length !== 0) {
   //     this.scatterChart.destroy();
@@ -570,12 +604,16 @@ export class CompositReportComponent implements OnInit {
   }
 
   levelWiseFilter() {
+
     if (this.skul) {
       if (this.downloadLevel == "dist") {
+
         this.districtWise();
       } else if (this.downloadLevel == "block") {
+
         this.blockWise();
       } else if (this.downloadLevel == "cluster") {
+
         this.clusterWise();
       }
       // else if (this.fileName == "School_level_report") {

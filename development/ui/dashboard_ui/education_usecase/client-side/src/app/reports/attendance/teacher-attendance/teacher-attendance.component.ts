@@ -265,7 +265,7 @@ export class TeacherAttendanceComponent implements OnInit {
     let blockid= JSON.parse(localStorage.getItem("blockId"));
     let districtid= JSON.parse(localStorage.getItem("districtId"));
     let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-    console.log(id,level,clusterid,blockid,districtid);
+    
 
 if (districtid){
   this.myDistrict = districtid;
@@ -280,7 +280,7 @@ if(clusterid){
   this.myDistData(districtid,blockid,clusterid);
 
 }
-    console.log(id,level);
+    
 
     if(level==="cluster"){
  this.clusterlevel(id);
@@ -300,7 +300,7 @@ if(clusterid){
     let blockid= JSON.parse(localStorage.getItem("blockId"));
     let districtid= JSON.parse(localStorage.getItem("districtId"));
     let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-    console.log(id,level,clusterid,blockid,districtid);
+    
 
 if (districtid){
   this.myDistrict = districtid;

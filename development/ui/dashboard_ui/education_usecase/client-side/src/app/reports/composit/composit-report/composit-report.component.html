@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-sm-8 ">
+        <div class="col-sm-6 ">
             <div *ngIf='skul'>
                 <p id="dist">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
@@ -10,7 +10,8 @@
                 <p id="block">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
                         style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;"
+                        class="selected-level">
                         {{hierName}}</span> </p>
             </div>
             <div *ngIf="blok">
@@ -32,6 +33,16 @@
                         style="cursor: pointer;text-decoration: underline;">
                         {{title}}</span><span> | </span><span class="selected-level">
                         {{hierName}}</span></p>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-12">
+            <div class="row">
+                <div class="col-sm-7">
+                    <button class="btn btn-primary" id="download1" (click)="getView()">
+                        Access Level
+                    </button>
+                </div>
             </div>
         </div>
         <div class="col-sm-4">

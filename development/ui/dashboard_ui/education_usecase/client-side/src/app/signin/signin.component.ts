@@ -101,12 +101,8 @@ export class SigninComponent implements OnInit {
       return;
     }
 
-
-
     this.service.login(this.loginForm.value).subscribe(res => {
       this.wrongCredintional = false;
-
-  console.log(res);
 
       let response = res
       let userLevel = res['user_level']

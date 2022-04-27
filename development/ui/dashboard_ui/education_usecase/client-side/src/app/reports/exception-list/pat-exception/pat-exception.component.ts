@@ -178,8 +178,7 @@ export class PATExceptionComponent implements OnInit {
   getView(){
     let id=localStorage.getItem("userLocation");
     let level= localStorage.getItem("userLevel");
-    console.log(id,level);
-
+   
     if(level==="cluster"){
       this.clusterlevel(id);
       this.levelVal=3;
