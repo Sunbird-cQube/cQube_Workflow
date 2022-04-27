@@ -827,3 +827,11 @@ alter table school_null_col add column if not exists count_of_null_rows int;
 alter table school_management_null_col add column if not exists count_of_null_rows int;
 alter table school_category_null_col add column if not exists count_of_null_rows int;
 
+/* duplicate tables */
+
+create table if not exists subject_details_dup(subject_id int,subject varchar(100),grade smallint,num_of_times int,
+ff_uuid varchar(255),created_on_file_process timestamp default current_timestamp);
+
+create table if not exists school_grade_enrolment_dup(school_id bigint,grade smallint,students_count int,num_of_times int,
+ff_uuid varchar(255),created_on_file_process timestamp default current_timestamp);
+
