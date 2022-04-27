@@ -9,15 +9,6 @@ updated_on  TIMESTAMP without time zone
 -- ,foreign key (school_id) references school_master(school_id)
 );
 
-/* SAT exception tables */
-
-create table IF NOT EXISTS subject_details(
-  subject_id int,
-  grade int,
-  subject varchar(100),
-  primary key(subject_id,grade)
-);
-
 
 /*school_student_subject_total_marks*/
 
@@ -147,12 +138,6 @@ num_of_times int,
 ff_uuid varchar(255),
 created_on_file_process  TIMESTAMP without time zone default current_timestamp
 );
-
-create table if not exists sat_subject_details_dup(subject_id int,subject varchar(100),grade smallint,num_of_times int,
-ff_uuid varchar(255),created_on_file_process timestamp default current_timestamp);
-
-create table if not exists sat_school_grade_enrolment_dup(school_id bigint,grade smallint,students_count int,num_of_times int,
-ff_uuid varchar(255),created_on_file_process timestamp default current_timestamp);
 
 /*SAT data tables*/
 
