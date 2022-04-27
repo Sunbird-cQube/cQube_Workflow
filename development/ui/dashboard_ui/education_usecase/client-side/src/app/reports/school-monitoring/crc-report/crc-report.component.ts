@@ -239,118 +239,101 @@ export class CrcReportComponent implements OnInit {
         this.onResize();
         this.levelWiseFilter()
       }
-      this.getView1();
+      // this.getView1();
     }, err => {
       this.commonService.loaderAndErr([]);
     });
   }
 
-  selCluster=false;
-  selBlock=false;
-  selDist=false;
-  levelVal=0;
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  levelVal = 0;
+  level
 
-  getView(){
-    let id=JSON.parse(localStorage.getItem("userLocation"));
-    let level= localStorage.getItem("userLevel");
-    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
-    let blockid= JSON.parse(localStorage.getItem("blockId"));
-    let districtid= JSON.parse(localStorage.getItem("districtId"));
-    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-    console.log(id,level,clusterid,blockid,districtid);
+  getView() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+    let clusterid = JSON.parse(localStorage.getItem("clusterId"));
+    let blockid = JSON.parse(localStorage.getItem("blockId"));
+    let districtid = JSON.parse(localStorage.getItem("districtId"));
+    let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
-if (districtid){
-  this.myDistrict = districtid;
-  this.myDistData(districtid);
-}
-if(blockid){
-  this.myBlock = blockid;
-  this.myDistData(districtid,blockid);
-}
-if(clusterid){
-  this.myCluster= clusterid;
-  this.myDistData(districtid,blockid,clusterid);
 
-}
-    console.log(id,level);
+    if (level === "cluster") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+      this.getClusters(districtid, blockid, clusterid)
 
-    if(level==="cluster"){
- this.clusterlevel(id);
-      this.levelVal=3;
-    }else if(level==="block"){
-      this.blocklevel(id);
-      this.levelVal=2;
-    }else if(level==="district"){
-      this.distlevel(id);
-      this.levelVal=1;
+      this.levelVal = 3;
+    } else if (level === "block") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+      this.getBlocks('block', districtid, blockid)
+
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+      this.myDistData(districtid);
+      this.levelVal = 1;
     }
   }
-  getView1(){
-    let id=JSON.parse(localStorage.getItem("userLocation"));
-    let level= localStorage.getItem("userLevel");
-    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
-    let blockid= JSON.parse(localStorage.getItem("blockId"));
-    let districtid= JSON.parse(localStorage.getItem("districtId"));
-    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-    console.log(id,level,clusterid,blockid,districtid);
+  getView1() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
 
-if (districtid){
-  this.myDistrict = districtid;
-}
-if(blockid){
-  this.myBlock = blockid;
-}
-if(clusterid){
-  this.myCluster= clusterid;
+    if (level === "cluster") {
 
-}
-    if(level==="cluster"){
-      
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=3;
-    }else if(level==="block"){
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "block") {
 
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=2;
-    }else if(level==="district"){
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 2;
+    } else if (level === "district") {
 
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-      this.levelVal=1;
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
+      this.levelVal = 1;
     }
   }
 
-  distlevel(id){
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-  //  this.level= "blockPerDistrict";
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "blockPerDistrict";
     this.myDistrict = id;
-  //   this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
-  blocklevel(id){
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-   // this.level= "clusterPerBlock";
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "clusterPerBlock";
     this.myBlock = id;
-  //   this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
 
-  clusterlevel(id){
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-   // this.level= "schoolPerCluster";
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "schoolPerCluster";
     this.myCluster = id;
-   //  this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
   getDistricts(level): void {
     this.service
@@ -390,6 +373,7 @@ if(clusterid){
   }
 
   getBlocks(level, distId, blockId?: any): void {
+ 
     this.service
       .crcBlockWiseData(distId, {
         ...{
@@ -399,6 +383,7 @@ if(clusterid){
       })
       .subscribe((result: any) => {
         this.crcBlocksNames = result;
+        
         this.reportData = this.crcBlocksNames = this.crcBlocksNames.visits;
         for (var i = 0; i < this.crcBlocksNames.length; i++) {
           if (blockId == this.crcBlocksNames[i].blockId) {
@@ -414,7 +399,7 @@ if(clusterid){
         this.crcBlocksNames.sort((a, b) =>
           a.blockName > b.blockName ? 1 : b.blockName > a.blockName ? -1 : 0
         );
-
+        
         if (level === "block") this.myBlockData(blockId, true);
       }, err => {
         this.commonService.loaderAndErr([]);
@@ -778,7 +763,8 @@ if(clusterid){
       );
   }
 
-  myDistData(data, fromParam = false,bid?,cid?) {
+  myDistData(data, fromParam = false, bid?, cid?) {
+    
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
@@ -811,6 +797,7 @@ if(clusterid){
 
     if (this.myData) {
       this.myData.unsubscribe();
+
     }
     this.myData = this.service
       .crcBlockWiseData(data, {
@@ -821,6 +808,7 @@ if(clusterid){
       })
       .subscribe(
         (result: any) => {
+          
           if (!fromParam) {
             if ($.fn.DataTable.isDataTable("#table")) {
               $("#table").DataTable().destroy();
@@ -828,6 +816,7 @@ if(clusterid){
             }
           }
           this.crcBlocksNames = result;
+
           let a = this.crcBlocksNames.schoolsVisitedCount;
           this.reportData = this.crcBlocksNames = this.crcBlocksNames.visits;
 
@@ -844,6 +833,7 @@ if(clusterid){
                 y: Number(this.crcBlocksNames[i][this.yAxis]),
               });
             }
+
             this.crcBlocksNames.sort((a, b) =>
               a.blockName > b.blockName ? 1 : b.blockName > a.blockName ? -1 : 0
             );
@@ -902,8 +892,8 @@ if(clusterid){
             this.changeDetection.markForCheck();
             this.commonService.loaderAndErr(this.chartData);
           }
-          if(bid){
-            this.myBlockData(bid,false,cid);
+          if (bid) {
+            this.myBlockData(bid, false, cid);
           }
         },
         (err) => {
@@ -915,13 +905,14 @@ if(clusterid){
           this.commonService.loaderAndErr(this.chartData);
         }
       );
+
     this.blocksNames.sort((a, b) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
 
   }
 
-  myBlockData(data: any, fromParam = false,cid?) {
+  myBlockData(data: any, fromParam = false, cid?) {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
@@ -946,13 +937,15 @@ if(clusterid){
     this.blok = true;
     this.clust = false;
     this.skul = false;
-
+    
     localStorage.setItem("blockid", data);
     this.titleName = localStorage.getItem("dist");
     this.distName = localStorage.getItem("distId");
     this.blockName = data;
+
     let obj = this.blocksNames.find((o) => o.id == data);
     localStorage.setItem("block", JSON.stringify(obj?.name));
+
     this.hierName = obj?.name;
 
     if (this.myData) {
@@ -967,13 +960,16 @@ if(clusterid){
       })
       .subscribe(
         (result: any) => {
+
           if (!fromParam) {
+            
             if ($.fn.DataTable.isDataTable("#table")) {
               $("#table").DataTable().destroy();
               $("#table").empty();
             }
             this.changeDetection.detectChanges();
           }
+          
 
           this.crcClusterNames = result;
           let a = this.crcClusterNames.schoolsVisitedCount;
@@ -1052,8 +1048,8 @@ if(clusterid){
 
           this.changeDetection.markForCheck();
           this.commonService.loaderAndErr(this.chartData);
-          if(cid){
-            this.myClusterData(cid,false);
+          if (cid) {
+            this.myClusterData(cid, false);
           }
         },
         (err) => {
@@ -1413,6 +1409,7 @@ if(clusterid){
   }
 
   levelWiseFilter() {
+   
     if (this.skul) {
       this.districtWise();
     }
@@ -1426,6 +1423,8 @@ if(clusterid){
       this.myClusterData(localStorage.getItem("clusterid"));
     }
   }
+
+
 
   redirectTo() {
     this.router.navigate(["home/dashboard"]);

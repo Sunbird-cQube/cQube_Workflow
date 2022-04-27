@@ -197,8 +197,7 @@ export class SemesterExceptionComponent implements OnInit {
   getView(){
     let id=localStorage.getItem("userLocation");
     let level= localStorage.getItem("userLevel");
-    console.log(id,level);
-
+  
     if(level==="cluster"){
       this.clusterlevel(id);
       this.levelVal=3;
@@ -217,7 +216,6 @@ export class SemesterExceptionComponent implements OnInit {
     let blockid= localStorage.getItem("blockId");
     let districtid= localStorage.getItem("districtId");
     let schoolid= localStorage.getItem("schoolId");
-    console.log(id,level,clusterid,blockid,districtid);
 
 if (districtid){
   this.distlevel(this.params?.level)

@@ -2,7 +2,7 @@
   <div class="row reportHeader2">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="row" (window:resize)="onResize()" id="reportHeader">
-        <div class="col-sm-7">
+        <div class="col-sm-6">
           <div *ngIf="skul">
             <p id="dist">
               CRC Report for:
@@ -41,14 +41,19 @@
             </p>
           </div>
         </div>
-        <div class="col-sm-5">
+        <div class="col-lg-2 col-md-3 col-sm-12">
+          <div class="row">
+            <div class="col-sm-7">
+              <button class="btn btn-primary" id="download1" (click)="getView()">
+                Access Level
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-4">
               <p id="errMsg" class="note"></p>
-
-              <span class="selected-level udise-level" (click)="getView()" >
-                <strong>Access Location</strong>
-              </span>
             </div>
             <div class="col-sm-8">
               <div *ngIf="skul; else ng_else" style="float: left" id="select">
@@ -128,31 +133,31 @@
               {{ months[i] }}
             </option>
           </select>
-          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"  [disabled]="selDist" (change)="myDistData(myDistrict)">
-            <option [value]="" disabled selected="selected">
+          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" (change)="myDistData(myDistrict)">
+            <option [value]="myDistrict" disabled selected="selected">
               Choose District
             </option>
-            <option *ngFor="let dist of crcDistrictsNames" [value]="dist.districtId">
+            <option *ngFor="let dist of crcDistrictsNames" [(ngValue)]="dist.districtId">
               {{ dist.districtName }}
             </option>
           </select>
 
-          <select  id="choose_block" [(ngModel)]="myBlock" name="myBlock"  [disabled]="selBlock"
+          <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
             (change)="myBlockData(myBlock)">
-            <option [value]="" disabled selected="selected">
+            <option [value]="myBlock" disabled selected="selected">
               Choose Block
             </option>
-            <option *ngFor="let block of crcBlocksNames" [value]="block.blockId">
+            <option *ngFor="let block of crcBlocksNames" [(ngValue)]="block.blockId">
               {{ block.blockName }}
             </option>
           </select>
 
-          <select  id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled]="selCluster"
+          <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
             (change)="myClusterData(myCluster)">
             <option [value]="myCluster" disabled selected="selected">
               Choose a Cluster
             </option>
-            <option *ngFor="let cluster of crcClusterNames" [value]="cluster.clusterId" [ngStyle]="{
+            <option *ngFor="let cluster of crcClusterNames" [(ngValue)]="cluster.clusterId" [ngStyle]="{
                 color:
                   cluster.clusterName !== 'NO NAME FOUND' ? 'white' : '#ff3333'
               }">

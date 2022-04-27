@@ -100,7 +100,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.scousesTOShow = this.courses = res;
     });
     this.commonFunc()
-    this.getView1();
+    // this.getView1();
   }
   selectedCourses = [];
   shareCheckedList(item: any[]) {
@@ -465,7 +465,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.levelWiseFilter();
   }
 
-  selectedDistrict(districtId,bid?,cid?) {
+  selectedDistrict(districtId, bid?, cid?) {
     this.level = 'block';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_district_${districtId}_${this.commonService.dateAndTime}`;
     this.block = undefined;
@@ -495,8 +495,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.blok = false;
       this.clust = false;
       this.commonService.loaderAndErr(this.reportData);
-      if(bid){
-        this.selectedBlock(bid,cid)
+      if (bid) {
+        this.selectedBlock(bid, cid)
       }
     }, err => {
       this.scousesTOShow = [];
@@ -510,7 +510,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
   }
 
-  selectedBlock(blockId,cid?) {
+  selectedBlock(blockId, cid?) {
     this.level = 'cluster';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_block_${blockId}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
@@ -530,7 +530,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
     this.service.tpdClusterWise(a).subscribe(response => {
       this.genericFunction(response);
-      var block = this.allBlocks.find(a => a.block_id == blockId);
+      let block = this.allBlocks.find(a => a.block_id == blockId);
 
       this.blockHierarchy = {
         districtName: block.district_name,
@@ -601,6 +601,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
   xlab = []; ylab = []; a = {}; yLabel = []; xLabel = []; xLabelId = []; zLabel = []; xLabel1 = []; yLabel1 = []; toolTipData: any;
   genericFunction(response) {
+
     this.xlab = [];
     this.ylab = [];
     this.yLabel = response['result']['yLabel']
@@ -616,6 +617,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     }
     if (response['blockDetails']) {
       let blocks = response['blockDetails'];
+
       this.allBlocks = this.blockNames = blocks.sort((a, b) => (a.block_name > b.block_name) ? 1 : ((b.block_name > a.block_name) ? -1 : 0));
     }
     if (response['clusterDetails']) {
@@ -656,121 +658,110 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     }
   }
 
-  selCluster=false;
-  selBlock=false;
-  selDist=false;
-  levelVal=0;
-  getView(){  
-    let id=JSON.parse(localStorage.getItem("userLocation"));
-    let level= localStorage.getItem("userLevel");
-    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
-    let blockid= JSON.parse(localStorage.getItem("blockId"));
-    let districtid= JSON.parse(localStorage.getItem("districtId"));
-    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-    console.log(id,level,clusterid,blockid,districtid);
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  levelVal = 0;
+  getView() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+    let clusterid = JSON.parse(localStorage.getItem("clusterId"));
+    let blockid = JSON.parse(localStorage.getItem("blockId"));
+    let districtid = JSON.parse(localStorage.getItem("districtId"));
+    let schoolid = JSON.parse(localStorage.getItem("schoolId"));
+
+
+    if (level === "cluster") {
+      this.selectedCluster(clusterid);
+      this.levelVal = 3;
+    } else if (level === "block") {
+      this.district = districtid
+      this.block = blockid
+      this.selectedDistrict(districtid);
+      this.selectedBlock(blockid, clusterid);
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.district = districtid
+      this.selectedDistrict(districtid);
+      this.levelVal = 1;
+    }
+  }
+
+  getView1() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+    let clusterid = JSON.parse(localStorage.getItem("clusterId"));
+    let blockid = JSON.parse(localStorage.getItem("blockId"));
+    let districtid = JSON.parse(localStorage.getItem("districtId"));
+    let schoolid = JSON.parse(localStorage.getItem("schoolId"));
+   
     this.dist = false;
     this.blok = false;
     this.clust = false;
     this.skul = true;
-    if (districtid){
+    if (districtid) {
       this.district = districtid;
-      this.selectedDistrict(districtid);
-    }
-    if(blockid){
-      this.block = blockid;
-      this.selectedDistrict(districtid,blockid);
-    }
-    if(clusterid){  
-     this.cluster= clusterid;
-     this.selectedDistrict(districtid,blockid,clusterid);
-    }
-      console.log(id,level);
-  
-      if(level==="cluster"){
-        this.clusterlevel(id);
-        this.levelVal=3;
-      }else if(level==="block"){
-        this.blocklevel(id);
-        this.levelVal=2;
-      }else if(level==="district"){
-        this.distlevel(id);
-        this.levelVal=1;
-      }
-    }
-  
-    getView1(){
-      let id=JSON.parse(localStorage.getItem("userLocation"));
-      let level= localStorage.getItem("userLevel");
-      let clusterid= JSON.parse(localStorage.getItem("clusterId"));
-      let blockid= JSON.parse(localStorage.getItem("blockId"));
-      let districtid= JSON.parse(localStorage.getItem("districtId"));
-      let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-      console.log(id,level,clusterid,blockid,districtid);
-      this.dist = false;
-      this.blok = false;
-      this.clust = false;
-      this.skul = true;
-      if (districtid){
-        this.district = districtid;
+
       //  this.selectedDistrict(districtid);
-      }
-      if(blockid){
-        this.block = blockid;
-    //   this.selectedDistrict(districtid,blockid);
-      }
-      if(clusterid){  
-       this.cluster= clusterid;
-     //  this.selectedDistrict(districtid,blockid,clusterid);
-      }
-     // this.commonFunc();
-      if(level==="cluster"){
-        
-      this.selCluster=true;
-      this.selBlock=true;
-      this.selDist=true;
-
-        this.levelVal=3;
-      }else if(level==="block"){
-  
-      this.selCluster=false;
-      this.selBlock=true;
-      this.selDist=true;
-        this.levelVal=2;
-      }else if(level==="district"){
-  
-      this.selCluster=false;
-      this.selBlock=false;
-      this.selDist=true;
-        this.levelVal=1;
-      }
     }
+    if (blockid) {
+      this.district = districtid
+      this.block = blockid;
+      //   this.selectedDistrict(districtid,blockid);
+    }
+    if (clusterid) {
+      this.cluster = clusterid;
+      //  this.selectedDistrict(districtid,blockid,clusterid);
+    }
+    // this.commonFunc();
+    if (level === "cluster") {
 
-  distlevel(id){
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-    this.level= "blockPerDistrict";
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+
+      this.levelVal = 3;
+    } else if (level === "block") {
+
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 2;
+    } else if (level === "district") {
+
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
+      this.levelVal = 1;
+    }
+  }
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "blockPerDistrict";
     this.district = id;
-     this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
-  blocklevel(id){
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "clusterPerBlock";
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "clusterPerBlock";
     this.block = id;
-     this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
-  clusterlevel(id){
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "schoolPerCluster";
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "schoolPerCluster";
     this.cluster = id;
-     this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
   // to download the csv report
   downloadReport() {
