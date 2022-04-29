@@ -57,6 +57,7 @@ export class StudengtAttendanceComponent implements OnInit {
   //to show or hide dropdowns
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
+  public distHidden: boolean = true;
 
   //to store selected level value
   public myDistrict: any;
@@ -256,9 +257,15 @@ export class StudengtAttendanceComponent implements OnInit {
     this.service.getRawMeta({ report: "sar" }).subscribe((res) => {
       this.academicYears = res;
     });
-    this.getView1();
+    //this.getView1();
+    this.toHideDropdowns();
   }
 
+  toHideDropdowns(){
+    this.blockHidden = true;
+    this.clusterHidden = true;
+    this.distHidden = true;
+  }
   //This function will be called on select year-month option show year month dropdown:::::
   showYearMonth() {
 
@@ -633,45 +640,47 @@ if(clusterid){
       this.levelVal=1;
     }
   }
-  getView1(){
-    let id=JSON.parse(localStorage.getItem("userLocation"));
-    let level= localStorage.getItem("userLevel");
-    let clusterid= JSON.parse(localStorage.getItem("clusterId"));
-    let blockid= JSON.parse(localStorage.getItem("blockId"));
-    let districtid= JSON.parse(localStorage.getItem("districtId"));
-    let schoolid= JSON.parse(localStorage.getItem("schoolId"));
-    
-
-if (districtid){
-  this.myDistrict = districtid;
-}
-if(blockid){
-  this.myBlock = blockid;
-}
-if(clusterid){
-  this.myCluster= clusterid;
-
-}
-    if(level==="cluster"){
-      
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=3;
-    }else if(level==="block"){
-
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=2;
-    }else if(level==="district"){
-
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-      this.levelVal=1;
-    }
+  
+getView1() {
+  let id = localStorage.getItem("userLocation");
+  let level = localStorage.getItem("userLevel");
+  let clusterid = localStorage.getItem("clusterId");
+  let blockid = localStorage.getItem("blockId");
+  let districtid = localStorage.getItem("districtId");
+  let schoolid = localStorage.getItem("schoolId");
+ 
+  if (districtid !== 'null'){
+    this.myDistrict = districtid;
+    this.distHidden = false;
   }
+  if(blockid !== 'null'){
+    this.myBlock = blockid;
+    this.blockHidden = false;
+  }
+  if(clusterid !== 'null'){
+    this.myCluster= clusterid;
+    this.clusterHidden = false;
+  }
+  if(districtid === 'null'){
+    this.distHidden = false;
+  }
+ 
+
+  if (level === "cluster") {
+    this.myDistData(districtid,blockid,clusterid);
+    this.clusterlevel(clusterid);
+    this.levelVal = 3;
+  } else if (level === "block") {
+    this.myDistData(districtid,blockid);
+    this.blocklevel(blockid)
+    this.levelVal = 2;
+  } else if (level === "district") {
+    this.myDistData(districtid);
+    this.distlevel(districtid)
+    this.levelVal = 1;
+  }
+}
+
 
   distlevel(id){
     this.selCluster=false;

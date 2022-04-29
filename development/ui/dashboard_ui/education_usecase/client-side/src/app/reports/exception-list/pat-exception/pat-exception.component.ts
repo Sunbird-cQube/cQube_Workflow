@@ -7,6 +7,7 @@ import * as R from 'leaflet-responsive-popup';
 import { AppServiceComponent } from '../../../app.service';
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pat-exception',
@@ -34,6 +35,7 @@ export class PATExceptionComponent implements OnInit {
   public clust: boolean = false;
 
   // to hide the blocks and cluster dropdowns
+  public distHidden: boolean = true;
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
 
@@ -75,6 +77,7 @@ export class PATExceptionComponent implements OnInit {
   // initial center position for the map
   public lat: any;
   public lng: any;
+  public mark: Observable<any>;
 
   timeRange = [{ key: 'overall', value: "Overall" }, { key: 'last_30_days', value: "Last 30 Days" }, { key: 'last_7_days', value: "Last 7 Days" }];
   period = 'overall';
@@ -131,6 +134,15 @@ export class PATExceptionComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.changeDetection.detectChanges();
     this.levelWiseFilter();
+    //this.getView1()
+    this.toHideDropdowns();
+
+  }
+
+  toHideDropdowns(){
+    this.blockHidden = true;
+    this.clusterHidden = true;
+    this.distHidden = true;
   }
 
   onPeriodSelect() {
@@ -191,13 +203,61 @@ export class PATExceptionComponent implements OnInit {
     }
   }
 
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+   
+    if (districtid !== 'null'){
+      this.districtId = districtid;
+      this.distHidden = false;
+    }
+    if(blockid !== 'null'){
+      this.blockId = blockid;
+      this.blockHidden = false;
+    }
+    if(clusterid !== 'null'){
+      this.clusterId= clusterid;
+      this.clusterHidden = false;
+    }
+    if(districtid === 'null'){
+      this.distHidden = false;
+    }
+   
+  
+    if (level === "cluster") {
+      this.blockHierarchy ={  
+        blockId: blockid,
+        distId: districtid
+      }
+      this.onClusterSelect(clusterid);
+      this.clusterlevel(clusterid);
+      this.levelVal = 3;
+    } else if (level === "block") {
+      this.districtHierarchy={
+        distId: districtid
+      }
+      this.onBlockSelect(blockid);
+      this.blocklevel(blockid)
+      this.levelVal = 2;
+    } else if (level === "district") {
+      this.onDistrictSelect(districtid);
+      
+      this.distlevel(districtid)
+      this.levelVal = 1;
+    }
+  }
+
   distlevel(id){
     this.selCluster=false;
     this.selBlock=false;
     this.selDist=true;
-    this.level= "blockPerDistrict";
+    //this.level= "blockPerDistrict";
     this.districtId = id;
-     this.levelWiseFilter();
+    //this.levelWiseFilter();
     }
 
   blocklevel(id){
@@ -206,7 +266,7 @@ export class PATExceptionComponent implements OnInit {
     this.selDist=true;
     this.level= "clusterPerBlock";
     this.blockId = id;
-     this.levelWiseFilter();
+    this.levelWiseFilter();
     }
 
   clusterlevel(id){
@@ -215,7 +275,7 @@ export class PATExceptionComponent implements OnInit {
     this.selDist=true;
     this.level= "schoolPerCluster";
     this.clusterId = id;
-     this.levelWiseFilter();
+    this.levelWiseFilter();
     }
     
 
@@ -293,7 +353,6 @@ export class PATExceptionComponent implements OnInit {
           this.genericFun(this.data, options, this.fileName);
           this.globalService.onResize(this.level);
           this.changeDetection.detectChanges();
-
           // sort the districtname alphabetically
           this.districtMarkers.sort((a, b) => (a.district_name > b.district_name) ? 1 : ((b.district_name > a.district_name) ? -1 : 0));
         }, err => {
@@ -306,7 +365,6 @@ export class PATExceptionComponent implements OnInit {
       });
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-
 
     } catch (e) {
       console.log(e);
@@ -634,14 +692,16 @@ export class PATExceptionComponent implements OnInit {
       this.genericFun(this.data, options, this.fileName);
       this.globalService.onResize(this.level);
       this.changeDetection.detectChanges();
-
       // sort the blockname alphabetically
       this.blockMarkers.sort((a, b) => (a.block_name > b.block_name) ? 1 : ((b.block_name > a.block_name) ? -1 : 0));
+      this.mark = this.blockMarkers;
+  
     }, err => {
       this.data = this.blockMarkers = [];
       this.commonService.loaderAndErr(this.data);
     });
     globalMap.addLayer(this.layerMarkers);
+
 
   }
 
@@ -664,6 +724,7 @@ export class PATExceptionComponent implements OnInit {
     if (this.myData) {
       this.myData.unsubscribe();
     }
+    
     this.myData = this.service.patExceptionClusterPerBlock(this.districtHierarchy.distId, blockId, { ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
       this.data = res;
       this.markers = this.clusterMarkers = this.data['data'];

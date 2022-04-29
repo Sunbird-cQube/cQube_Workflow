@@ -62,12 +62,11 @@
                                 (click)="downloadRaw()">Download
                                 Academic Year Data</a>
                             <p *ngIf="!academicYear" id="errMsg" class="note"></p>
+                            <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" (click)="getView1()">
+                                User Level Access
+                            </button>
                         </div>
                         <div class="col-sm-4">
-
-                            <span class="selected-level udise-level" (click)="getView()" >
-                                <strong>Access Location</strong>
-                              </span>
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
                                 id="download1" (click)="downloadReport($event)">Download Report &nbsp; <i
                                     class="fa fa-arrow-down" aria-hidden="true"></i>
@@ -130,7 +129,7 @@
                     </button>
 
                     <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [disabled]="selDist"
-                        (change)="myDistData(myDistrict)">
+                        (change)="myDistData(myDistrict)" *ngIf="!this.distHidden">
                         <option [value]="" disabled selected="selected" style="color: white;">Choose a
                             District
                         </option>
@@ -138,9 +137,9 @@
                             {{dist.name}}
                         </option>
                     </select>
-
+                        
                     <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [disabled]="selBlock"
-                        (change)="myBlockData(myBlock)">
+                        (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
                         <option [value]="" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
                         <option *ngFor="let block of blocksNames" [value]="block.id">
@@ -149,7 +148,7 @@
                     </select>
 
                     <select id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled]="selCluster"
-                        (change)="myClusterData(myCluster)">
+                        (change)="myClusterData(myCluster)" *ngIf="!this.clusterHidden">
                         <option [value]="" disabled selected="selected">Choose a cluster
                         </option>
                         <option *ngFor="let cluster of clusterNames" [value]="cluster.id"
