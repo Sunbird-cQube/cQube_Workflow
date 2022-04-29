@@ -57,6 +57,7 @@ export class TeacherAttendanceComponent implements OnInit {
   public schoolsNames: any = [];
 
   //to show or hide dropdowns
+  public distHidden: boolean = true;
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
 
@@ -236,7 +237,7 @@ export class TeacherAttendanceComponent implements OnInit {
         } catch (e) {
           this.commonService.loaderAndErr(this.markers);
         }
-        this.getView1();
+        //this.getView1();
       },
       (err) => {
         this.dateRange = "";
@@ -251,6 +252,13 @@ export class TeacherAttendanceComponent implements OnInit {
     this.service.getRawMeta({ report: "tar" }).subscribe((res) => {
       this.academicYears = res;
     });
+    this.toHideDropdowns();
+  }
+
+  toHideDropdowns(){
+    this.blockHidden = true;
+    this.clusterHidden = true;
+    this.distHidden = true;
   }
 
   selCluster=false;
@@ -302,36 +310,55 @@ if(clusterid){
     let schoolid= JSON.parse(localStorage.getItem("schoolId"));
     
 
-if (districtid){
-  this.myDistrict = districtid;
-}
-if(blockid){
-  this.myBlock = blockid;
-}
-if(clusterid){
-  this.myCluster= clusterid;
-
-}
-    if(level==="cluster"){
-      
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=3;
-    }else if(level==="block"){
-
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=2;
-    }else if(level==="district"){
-
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-      this.levelVal=1;
+    if (districtid !== null){
+      this.myDistrict = districtid;
+      this.distHidden = false;
+    }
+    if(blockid !== null){
+      this.myBlock = blockid;
+      this.blockHidden = false;
+    }
+    if(clusterid !== null){
+      this.myCluster= clusterid;
+      this.clusterHidden = false;
+    }
+    if(districtid === null){
+      this.distHidden = false;
+    }
+    if (level === "cluster") {
+      this.myDistData(districtid,blockid,clusterid);
+      this.clusterlevel(clusterid);
+      this.levelVal = 3;
+    } else if (level === "block") {
+      this.myDistData(districtid,blockid);
+      this.blocklevel(blockid)
+      this.levelVal = 2;
+    } else if (level === "district") {
+      this.myDistData(districtid);
+      this.distlevel(districtid)
+      this.levelVal = 1;
     }
   }
+  //   if(level==="cluster"){
+      
+  //   this.selCluster=true;
+  //   this.selBlock=true;
+  //   this.selDist=true;
+  //     this.levelVal=3;
+  //   }else if(level==="block"){
+
+  //   this.selCluster=false;
+  //   this.selBlock=true;
+  //   this.selDist=true;
+  //     this.levelVal=2;
+  //   }else if(level==="district"){
+
+  //   this.selCluster=false;
+  //   this.selBlock=false;
+  //   this.selDist=true;
+  //     this.levelVal=1;
+  //   }
+  // }
 
   distlevel(id){
     this.selCluster=false;

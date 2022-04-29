@@ -47,11 +47,13 @@
                       <div class="col-lg-2">
                         <p id="errMsg" class="note"></p>
                       </div>
-                      <div class="col-lg-10">
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" (click)="getView1()" onload="">
+                                User Level Access
+                            </button>
+                        </div>
+                      <div class="col-lg-4">
                         <div class="level-headerbuttons label-header-button">
-                        <span class="selected-level udise-level" (click)="getView()" >
-                          <strong>Access Location</strong>
-                        </span>
           
                         <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
                           (click)="downloadReport()">
@@ -115,23 +117,25 @@
                             {{sem.name}}
                         </option>
                     </select>
-                    <select id="choose_dist" [(ngModel)]="districtId" [disabled]="selDist" (change)="onDistrictSelect(districtId)">
+                    <select id="choose_dist" [(ngModel)]="districtId" [disabled]="selDist" (change)="onDistrictSelect(districtId)"
+                    *ngIf="!this.distHidden"
+                    >
                         <option [value]="" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
                             {{dist.district_name}}
                         </option>
                     </select>
 
-                    <select [hidden]="blockHidden && selBlock" id="choose_block" [(ngModel)]="blockId" [disabled]="selBlock" 
-                        (change)="onBlockSelect(blockId)">
+                    <select id="choose_block" [(ngModel)]="blockId" [disabled]="selBlock" 
+                        (change)="onBlockSelect(blockId)" *ngIf="!this.blockHidden">
                         <option [value]="" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockMarkers" [(ngValue)]="block.block_id">
                             {{block.block_name}}
                         </option>
                     </select>
 
-                    <select [hidden]="clusterHidden && selCluster" id="choose_cluster" [(ngModel)]="clusterId" [disabled]="selCluster"
-                        (change)="onClusterSelect(clusterId)">
+                    <select id="choose_cluster" [(ngModel)]="clusterId" [disabled]="selCluster"
+                        (change)="onClusterSelect(clusterId)" *ngIf="!this.clusterHidden">
                         <option [value]="" disabled selected="selected">Choose a Cluster</option>
                         <option *ngFor="let cluster of clusterMarkers" [(ngValue)]="cluster.cluster_id"
                             [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">

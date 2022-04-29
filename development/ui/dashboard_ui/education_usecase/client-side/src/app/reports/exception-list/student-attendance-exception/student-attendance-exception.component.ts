@@ -44,6 +44,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   public clusterNames: any = [];
   public schoolsNames: any = [];
   public id: any = "";
+  public distHidden: boolean = true;
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
   public myDistrict: any;
@@ -121,6 +122,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
+  typeof(value){
+    return typeof value;
+  }
 
   ngOnInit() {
     this.mapName = this.commonService.mapName
@@ -180,6 +184,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
           this.getMonthYear = {};
           this.levelWiseFilter();
         }
+        this.toHideDropdowns
       },
       (err) => {
         this.dateRange = "";
@@ -189,6 +194,58 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         this.commonService.loaderAndErr(this.markers);
       }
     );
+  }
+
+  toHideDropdowns(){
+    this.blockHidden = true;
+    this.clusterHidden = true;
+    this.distHidden = true;
+  }
+  selCluster=false;
+  selBlock=false;
+  selDist=false;
+
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+   
+    if (districtid !== 'null'){
+      this.myDistrict = Number(districtid);
+      this.distHidden = false;
+    }
+    if(blockid !== 'null'){
+      this.myBlock = Number(blockid);
+      this.blockHidden = false;
+    }
+    if(clusterid !== 'null'){
+      this.myCluster= Number(clusterid);
+      this.clusterHidden = false;
+    }
+    if(districtid === 'null'){
+      this.distHidden = false;
+    }
+
+  
+    if (level === "cluster") {
+      this.distSelect({type:"click"},this.myDistrict,this.myBlock,this.myCluster);
+      this.selCluster=true;
+      this.selBlock=true;
+      this.selDist=true;
+    } else if (level === "block") {
+      this.distSelect({type:"click"},this.myDistrict,this.myBlock);
+      this.selCluster=false;
+      this.selBlock=true;
+      this.selDist=true;
+    } else if (level === "district") {
+      this.selCluster=false;
+      this.selBlock=false;
+      this.selDist=true;
+      this.distSelect({type:"click"},this.myDistrict);
+    }
   }
 
   showYearMonth() {
@@ -938,7 +995,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       localStorage.setItem("blockId", label.block_id);
       localStorage.setItem("cluster", label.cluster_name);
       localStorage.setItem("clusterId", label.cluster_id);
-
+      
       this.myClusterData(label.cluster_id);
       if (event.latlng) {
         obj = {
@@ -993,7 +1050,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clickedMarker(event, marker);
   }
 
-  distSelect(event, data) {
+  distSelect(event, data, blockid?, clusterid?) {
     var distData: any = {};
     this.districtData.find((a) => {
       if (a.district_id == data) {
@@ -1006,11 +1063,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }
     });
     this.getTelemetryData(distData, event.type, "district");
-    this.myDistData(data);
+    this.myDistData(data, blockid, clusterid);
   }
 
   blockData = [];
-  myDistData(data) {
+  
+  myDistData(data, blockid?, clusterid?) {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.dist = false;
@@ -1156,6 +1214,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
+            if(blockid){
+              this.myBlockData(blockid,clusterid)
+            }
           },
           (err) => {
             this.dateRange = "";
@@ -1189,7 +1250,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   }
 
   clusterData = [];
-  myBlockData(data) {
+  myBlockData(data,clusterid?) {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
@@ -1221,10 +1282,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         this.fileName = `${this.reportName}_${this.level}s_of_block_${data}_${this.period}_${this.commonService.dateAndTime}`;
       }
       var blockNames = [];
+      
       this.blocksNames.forEach((item) => {
         if (
           item.distId &&
-          item.distId === Number(localStorage.getItem("distId"))
+          item.distId === localStorage.getItem("distId")
         ) {
           blockNames.push(item);
         }
@@ -1241,7 +1303,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         district_id: Number(localStorage.getItem("distId")),
         district_name: this.titleName,
       };
-      this.blockName = { block_id: data, block_name: obj.name };
+      this.blockName = { block_id: data, block_name: obj?.name };
       this.hierName = obj.name;
 
       this.globalId = this.myBlock = data;
@@ -1362,6 +1424,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
+            if(clusterid){
+              this.myClusterData(clusterid)
+            }
           },
           (err) => {
             this.dateRange = "";
@@ -1488,7 +1553,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.hierName = obj.name;
 
       this.globalId = this.myCluster = data;
-      // this.myBlock = this.myBlock;
+      //this.myBlock = this.myBlock;
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {
