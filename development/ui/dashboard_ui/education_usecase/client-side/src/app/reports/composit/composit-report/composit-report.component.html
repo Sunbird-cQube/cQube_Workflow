@@ -153,8 +153,8 @@
             </div><br>
             <div class="row">
                 <div class="col-sm-12">
-                    <span class="chooseLevel">Choose District</span>
-                    <select id="choose_district1" [(ngModel)]="myDistrict" name="myDistrict"
+                    <span class="chooseLevel" [hidden]="hideDist">Choose District</span>
+                    <select id="choose_district1" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideDist"
                         (change)="myDistData(myDistrict)">
                         <option [value]="myDistrict" disabled selected="selected">Choose a District
                         </option>

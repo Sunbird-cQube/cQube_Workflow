@@ -191,13 +191,13 @@ export class PATExceptionComponent implements OnInit {
     let id=localStorage.getItem("userLocation");
     let level= localStorage.getItem("userLevel");
    
-    if(level==="cluster"){
+    if(level==="Cluster"){
       this.clusterlevel(id);
       this.levelVal=3;
-    }else if(level==="block"){
+    }else if(level==="Block"){
       this.blocklevel(id);
       this.levelVal=2;
-    }else if(level==="district"){
+    }else if(level==="District"){
       this.distlevel(id);
       this.levelVal=1;
     }
@@ -228,7 +228,7 @@ export class PATExceptionComponent implements OnInit {
     }
    
   
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.blockHierarchy ={  
         blockId: blockid,
         distId: districtid
@@ -236,14 +236,14 @@ export class PATExceptionComponent implements OnInit {
       this.onClusterSelect(clusterid);
       this.clusterlevel(clusterid);
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.districtHierarchy={
         distId: districtid
       }
       this.onBlockSelect(blockid);
       this.blocklevel(blockid)
       this.levelVal = 2;
-    } else if (level === "district") {
+    } else if (level === "District") {
       this.onDistrictSelect(districtid);
       
       this.distlevel(districtid)

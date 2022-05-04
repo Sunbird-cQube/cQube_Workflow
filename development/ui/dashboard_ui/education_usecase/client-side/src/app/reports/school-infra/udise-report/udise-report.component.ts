@@ -1312,11 +1312,11 @@ export class UdiseReportComponent implements OnInit {
     }
    
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
 
       this.onClusterSelect(clusterid)
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.onBlockSelect(blockid)
       this.levelVal = 2;
@@ -1338,13 +1338,13 @@ export class UdiseReportComponent implements OnInit {
     let schoolid = localStorage.getItem("schoolId");
     
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
 
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.selCluster = false;
       this.selBlock = true;

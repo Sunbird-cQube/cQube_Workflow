@@ -424,9 +424,9 @@ export class SatReportComponent implements OnInit {
     }
 
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.onblockLinkClick(blockid)
     } else if (level === "District") {
       this.ondistLinkClick(districtid)
@@ -440,12 +440,12 @@ export class SatReportComponent implements OnInit {
 
 
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.selCluster = false;
       this.selBlock = true;

@@ -661,6 +661,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
+  disHidden = true
   levelVal = 0;
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
@@ -671,10 +672,13 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
+      this.district = districtid
+      this.block = blockid
+      this.selectedBlock(blockid, clusterid);
       this.selectedCluster(clusterid);
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.district = districtid
       this.block = blockid
       this.selectedDistrict(districtid);
@@ -684,6 +688,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.district = districtid
       this.selectedDistrict(districtid);
       this.levelVal = 1;
+    } else if (level === null) {
+      this.disHidden = false
     }
   }
 
@@ -694,7 +700,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     let blockid = JSON.parse(localStorage.getItem("blockId"));
     let districtid = JSON.parse(localStorage.getItem("districtId"));
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
-   
+
     this.dist = false;
     this.blok = false;
     this.clust = false;
@@ -714,20 +720,20 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       //  this.selectedDistrict(districtid,blockid,clusterid);
     }
     // this.commonFunc();
-    if (level === "cluster") {
+    if (level === "Cluster") {
 
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
 
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 2;
-    } else if (level === "district") {
+    } else if (level === "District") {
 
       this.selCluster = false;
       this.selBlock = false;

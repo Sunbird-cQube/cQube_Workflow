@@ -224,21 +224,22 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     }
   
   
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.distSelect({type:"click"},this.myDistrict,this.myBlock,this.myCluster);
       this.selCluster=true;
       this.selBlock=true;
       this.selDist=true;
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.distSelect({type:"click"},this.myDistrict,this.myBlock);
       this.selCluster=false;
       this.selBlock=true;
       this.selDist=true;
-    } else if (level === "district") {
+    } else if (level === "District") {
       this.selCluster=false;
       this.selBlock=false;
       this.selDist=true;
-      this.distSelect({type:"click"},this.myDistrict);
+      this.distSelect({ type: "click" }, districtid);
+      
     }
   }
 

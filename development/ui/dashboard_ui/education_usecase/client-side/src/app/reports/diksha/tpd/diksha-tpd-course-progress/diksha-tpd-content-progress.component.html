@@ -92,7 +92,7 @@
 
 
                     <select id="district" class="select-control" style="margin-right: 25px; margin-left: 20px;"
-                        [(ngModel)]="district" (change)="selectedDistrict(district)">
+                        [hidden]="disHidden" [(ngModel)]="district" (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">
                             {{district.district_name}}
