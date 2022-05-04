@@ -970,7 +970,7 @@ export class HeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    
+
 
     if (districtid) {
       this.district = districtid;
@@ -981,12 +981,12 @@ export class HeatChartComponent implements OnInit {
     if (clusterid) {
       this.cluster = clusterid;
     }
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
@@ -1004,7 +1004,7 @@ export class HeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    
+
     if (districtid) {
       this.district = districtid;
     }
@@ -1014,14 +1014,25 @@ export class HeatChartComponent implements OnInit {
     if (clusterid) {
       this.cluster = clusterid;
     }
-    
-    if (level === "cluster") {
+
+    if (level === "Cluster") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+      this.selectedBlock(blockid);
       this.selectedCluster(clusterid);
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+      this.selectedDistrict(districtid);
       this.selectedBlock(blockid);
       this.levelVal = 2;
     } else if (level === "District") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
       this.selectedDistrict(districtid);
       this.levelVal = 1;
     }

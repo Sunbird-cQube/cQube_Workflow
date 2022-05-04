@@ -82,6 +82,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.getView1()
   }
 
+
+
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -89,15 +91,18 @@ export class SchoolInfrastructureComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    if (level === "cluster") {
+    if (level === "Cluster") {
+      this.myDistrict = districtid
+      this.myBlock = blockid
+      this.myBlockData(blockid)
       this.myClusterData(clusterid)
 
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.myDistrict = districtid
       this.myBlock = blockid
       // this.myCluster = clusterid
       this.downloadLevel = 'block';
-      // this.myDistData(districtid)
+      this.myDistData(districtid)
       this.myBlockData(blockid)
 
     } else if (level === "District") {
@@ -310,7 +315,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.modes = [];
     this.reportData = [];
 
-    this.title = JSON.parse(localStorage.getItem('block'));
+    // this.title = JSON.parse(localStorage.getItem('block'));
+    this.title = localStorage.getItem('block');
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));

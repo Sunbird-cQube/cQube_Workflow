@@ -482,12 +482,12 @@ export class PATReportComponent implements OnInit {
     }
     
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.getBlocks(districtid, blockid);
       this.onclusterLinkClick(clusterid)
       
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.onblockLinkClick(blockid)
       
@@ -504,10 +504,10 @@ export class PATReportComponent implements OnInit {
     let level = localStorage.getItem("userLevel");
 
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
 
 
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
 
     } else if (level === "District") {

@@ -666,15 +666,15 @@ getView1() {
   }
  
 
-  if (level === "cluster") {
+  if (level === "Cluster") {
     this.myDistData(districtid,blockid,clusterid);
     this.clusterlevel(clusterid);
     this.levelVal = 3;
-  } else if (level === "block") {
+  } else if (level === "Block") {
     this.myDistData(districtid,blockid);
     this.blocklevel(blockid)
     this.levelVal = 2;
-  } else if (level === "district") {
+  } else if (level === "District") {
     this.myDistData(districtid);
     this.distlevel(districtid)
     this.levelVal = 1;

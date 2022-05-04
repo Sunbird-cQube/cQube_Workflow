@@ -1272,30 +1272,24 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.districtId = localStorage.getItem("districtId");
    
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
       
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = true;
-      // this.getDistricts();
-      // this.getBlocks(this.districtId);
+    
       this.onClusterSelect(this.clusterId)
       this.levelVal = 3;
-    } else if (level === "block") {
-      // this.getDistricts()
-      // this.getBlocks(districtid);
-      // this.blocklevel(id);
+    } else if (level === "Block") {
+     
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
-      // this.getDistricts();
-      // this.getBlocks(this.districtId, this.blockId);
+     
       this.onBlockSelect(this.blockId)
       this.levelVal = 2;
     } else if (level === "District") {
 
-      // this.getDistricts()
-      // this.distlevel(id);
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = true;
@@ -1303,7 +1297,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.districtHierarchy = {
         distId: this.districtId,
       };
-      // this.getDistricts();
+    
       this.onDistrictSelect(this.districtId)
     }
   }
@@ -1317,26 +1311,26 @@ export class InfraMapVisualisationComponent implements OnInit {
     
 
     if (districtid) {
-      // this.getDistricts()
+    
       this.districtId = districtid;
-      // this.getBlocks(districtid);
+     
     }
     if (blockid) {
       this.blockId = blockid;
-      // this.getClusters(districtid, blockid);
+    
     }
     if (clusterid) {
       this.clusterId = clusterid;
 
     }
-    if (level === "cluster") {
+    if (level === "Cluster") {
 
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
       // this.getClusters(districtid, blockid, clusterid);
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.selCluster = false;
       this.selBlock = true;

@@ -853,7 +853,7 @@ export class SatHeatChartComponent implements OnInit {
 
   selCluster = false;
   selBlock = false;
-  selDist = false;
+  selDist = true;
   levelVal = 0;
 
   getView1() {
@@ -863,35 +863,25 @@ export class SatHeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    
 
-    if (districtid) {
-      this.district = districtid;
-    }
-    if (blockid) {
-      this.block = blockid;
-    }
-    if (clusterid) {
 
-      this.cluster = clusterid;
-    }
-    if (level === "cluster") {
+    if (level === "Cluster") {
 
       this.selCluster = true;
-      this.selBlock = true;
-      this.selDist = true;
+      // this.selBlock = true;
+      // this.selDist = true;
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.selCluster = false;
-      this.selBlock = true;
-      this.selDist = true;
+      // this.selBlock = true;
+      // this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
 
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.levelVal = 1;
     }
   }
@@ -902,26 +892,37 @@ export class SatHeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    
-    if (districtid) {
+
+    // if (districtid) {
+    //   this.district = districtid;
+    // }
+    // if (blockid) {
+    //   this.block = blockid;
+    // }
+    // if (clusterid) {
+    //   this.cluster = clusterid;
+
+    // }
+
+
+    if (level === "Cluster") {
       this.district = districtid;
-    }
-    if (blockid) {
       this.block = blockid;
-    }
-    if (clusterid) {
       this.cluster = clusterid;
-
-    }
-    
-
-    if (level === "cluster") {
+      this.selectedBlock(blockid);
       this.selectedCluster(clusterid);
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+      this.selectedDistrict(districtid)
       this.selectedBlock(blockid);
       this.levelVal = 2;
     } else if (level === "District") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
       this.selectedDistrict(districtid)
       this.levelVal = 1;
     }

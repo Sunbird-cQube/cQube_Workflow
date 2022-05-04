@@ -136,7 +136,7 @@ export class SemesterExceptionComponent implements OnInit {
     this.changeDetection.detectChanges();
     this.toHideDropdowns()
   }
-  toHideDropdowns(){
+  toHideDropdowns() {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.distHidden = true;
@@ -147,7 +147,7 @@ export class SemesterExceptionComponent implements OnInit {
     this.getSemesters();
   }
 
-  typeof(value){
+  typeof(value) {
     return typeof value;
   }
 
@@ -201,103 +201,103 @@ export class SemesterExceptionComponent implements OnInit {
   }
 
 
-  selCluster=false;
-  selBlock=false;
-  selDist=false;
-  levelVal=0;
-  getView(){
-    let id=localStorage.getItem("userLocation");
-    let level= localStorage.getItem("userLevel");
-  
-    if(level==="cluster"){
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  levelVal = 0;
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+
+    if (level === "Cluster") {
       this.clusterlevel(id);
-      this.levelVal=3;
-    }else if(level==="block"){
+      this.levelVal = 3;
+    } else if (level === "Block") {
       this.blocklevel(id);
-      this.levelVal=2;
-    }else if(level==="district"){
+      this.levelVal = 2;
+    } else if (level === "District") {
       this.distlevel(id);
-      this.levelVal=1;
+      this.levelVal = 1;
     }
   }
 
-getView1() {
-  let id = localStorage.getItem("userLocation");
-  let level = localStorage.getItem("userLevel");
-  let clusterid = localStorage.getItem("clusterId");
-  let blockid = localStorage.getItem("blockId");
-  let districtid = localStorage.getItem("districtId");
-  let schoolid = localStorage.getItem("schoolId");
-  
-  if (districtid !== 'null'){
-    this.districtId = districtid;
-    this.distHidden = false;
-  }
-  if(blockid !== 'null'){
-    this.blockId = blockid.toString();
-    this.blockHidden = false;
-  }
-  if(clusterid !== 'null'){
-    this.clusterId = Number(clusterid);
-    this.clusterHidden = false;
-  }
-  if(districtid === 'null'){
-    this.distHidden = false;
-  }
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
 
-
-  if (level === "cluster") {
-    this.blockHierarchy ={  
-      blockId: blockid,
-      distId: districtid
+    if (districtid !== 'null') {
+      this.districtId = districtid;
+      this.distHidden = false;
     }
-    this.onClusterSelect(this.clusterId);
-    this.clusterlevel(this.clusterId);
-    this.levelVal = 3;
-  } else if (level === "block") {
-    this.districtHierarchy={
-      distId: districtid
+    if (blockid !== 'null') {
+      this.blockId = blockid.toString();
+      this.blockHidden = false;
     }
-    this.onBlockSelect(this.blockId);
-    this.blocklevel(this.blockId)
-    this.levelVal = 2;
-  } else if (level === "district") {
-    this.onDistrictSelect(this.districtId);
-    this.distlevel(this.districtId)
-    this.levelVal = 1;
+    if (clusterid !== 'null') {
+      this.clusterId = Number(clusterid);
+      this.clusterHidden = false;
+    }
+    if (districtid === 'null') {
+      this.distHidden = false;
+    }
+
+
+    if (level === "Cluster") {
+      this.blockHierarchy = {
+        blockId: blockid,
+        distId: districtid
+      }
+      this.onClusterSelect(this.clusterId);
+      this.clusterlevel(this.clusterId);
+      this.levelVal = 3;
+    } else if (level === "Block") {
+      this.districtHierarchy = {
+        distId: districtid
+      }
+      this.onBlockSelect(this.blockId);
+      this.blocklevel(this.blockId)
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.onDistrictSelect(this.districtId);
+      this.distlevel(this.districtId)
+      this.levelVal = 1;
+    }
   }
-}
 
 
-  distlevel(id){
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
     //this.level= "blockPerDistrict";
     this.districtId = id;
     //this.levelWiseFilter();
-    }
+  }
 
-  blocklevel(id){
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
     //this.level= "clusterPerBlock";
     this.blockId = id;
     //this.levelWiseFilter();
-    }
+  }
 
-  clusterlevel(id){
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
     //this.level= "schoolPerCluster";
     this.clusterId = id;
     //this.levelWiseFilter();
-    }
+  }
 
-    
-    
+
+
   homeClick() {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.grade = 'all';

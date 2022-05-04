@@ -260,25 +260,33 @@ export class CrcReportComponent implements OnInit {
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
-      this.getClusters(districtid, blockid, clusterid)
 
+      this.getDistricts('cluster');
+      this.getBlocks('cluster', districtid, blockid)
+      this.getClusters(districtid, blockid, clusterid)
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
+
+      this.getDistricts('block');
+
       this.getBlocks('block', districtid, blockid)
 
       this.levelVal = 2;
     } else if (level === "District") {
       this.myDistrict = districtid;
-      this.myBlock = blockid;
-      this.myCluster = clusterid;
-      this.myDistData(districtid);
+      // this.myBlock = blockid;
+      // this.myCluster = clusterid;
+
+
+      this.getDistricts('district')
+      // this.myDistData(districtid);
       this.levelVal = 1;
     }
   }
@@ -286,19 +294,19 @@ export class CrcReportComponent implements OnInit {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
 
-    if (level === "cluster") {
+    if (level === "Cluster") {
 
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
 
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 2;
-    } else if (level === "district") {
+    } else if (level === "District") {
 
       this.selCluster = false;
       this.selBlock = false;
@@ -373,7 +381,7 @@ export class CrcReportComponent implements OnInit {
   }
 
   getBlocks(level, distId, blockId?: any): void {
- 
+
     this.service
       .crcBlockWiseData(distId, {
         ...{
@@ -383,7 +391,7 @@ export class CrcReportComponent implements OnInit {
       })
       .subscribe((result: any) => {
         this.crcBlocksNames = result;
-        
+
         this.reportData = this.crcBlocksNames = this.crcBlocksNames.visits;
         for (var i = 0; i < this.crcBlocksNames.length; i++) {
           if (blockId == this.crcBlocksNames[i].blockId) {
@@ -399,7 +407,7 @@ export class CrcReportComponent implements OnInit {
         this.crcBlocksNames.sort((a, b) =>
           a.blockName > b.blockName ? 1 : b.blockName > a.blockName ? -1 : 0
         );
-        
+
         if (level === "block") this.myBlockData(blockId, true);
       }, err => {
         this.commonService.loaderAndErr([]);
@@ -598,6 +606,8 @@ export class CrcReportComponent implements OnInit {
               scrollCollapse: true,
               paging: false,
               searching: false,
+              retrieve: true,
+              bDestroy: true,
               autoWidth: false,
               fixedColumns: {
                 leftColumns: 1,
@@ -764,7 +774,7 @@ export class CrcReportComponent implements OnInit {
   }
 
   myDistData(data, fromParam = false, bid?, cid?) {
-    
+
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       return;
@@ -808,7 +818,7 @@ export class CrcReportComponent implements OnInit {
       })
       .subscribe(
         (result: any) => {
-          
+
           if (!fromParam) {
             if ($.fn.DataTable.isDataTable("#table")) {
               $("#table").DataTable().destroy();
@@ -861,6 +871,8 @@ export class CrcReportComponent implements OnInit {
               scrollCollapse: true,
               paging: false,
               searching: false,
+              retrieve: true,
+              bDestroy: true,
               fixedColumns: {
                 leftColumns: 1,
               },
@@ -937,7 +949,7 @@ export class CrcReportComponent implements OnInit {
     this.blok = true;
     this.clust = false;
     this.skul = false;
-    
+
     localStorage.setItem("blockid", data);
     this.titleName = localStorage.getItem("dist");
     this.distName = localStorage.getItem("distId");
@@ -962,14 +974,14 @@ export class CrcReportComponent implements OnInit {
         (result: any) => {
 
           if (!fromParam) {
-            
+
             if ($.fn.DataTable.isDataTable("#table")) {
               $("#table").DataTable().destroy();
               $("#table").empty();
             }
             this.changeDetection.detectChanges();
           }
-          
+
 
           this.crcClusterNames = result;
           let a = this.crcClusterNames.schoolsVisitedCount;
@@ -1018,6 +1030,8 @@ export class CrcReportComponent implements OnInit {
             scrollCollapse: true,
             paging: false,
             searching: false,
+            retrieve: true,
+            bDestroy: true,
             fixedColumns: {
               leftColumns: 1,
             },
@@ -1170,6 +1184,8 @@ export class CrcReportComponent implements OnInit {
             scrollCollapse: true,
             paging: false,
             searching: false,
+            retrieve: true,
+            bDestroy: true,
             fixedColumns: {
               leftColumns: 1,
             },
@@ -1409,7 +1425,7 @@ export class CrcReportComponent implements OnInit {
   }
 
   levelWiseFilter() {
-   
+
     if (this.skul) {
       this.districtWise();
     }

@@ -300,6 +300,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }, 1000);
 
     this.emptyChart();
+    
     this.districtId = undefined;
     this.districtHidden = false;
     this.selectedCourse = undefined;
@@ -496,6 +497,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
+  hideDist: boolean = true
   levelVal = 0;
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
@@ -510,35 +512,31 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.skul = true;
 
 
-    if (level === "cluster") {
-
+    if (level === "Cluster") {
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
       this.clusterLinkClick(clusterid);
       this.levelVal = 3;
-
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.blockId = blockid;
       this.districtId = districtid;
-
-      this.blockLinkClick(blockid)
+      this.blockLinkClick(blockid);
       this.levelVal = 2;
     } else if (level === "District") {
       this.districtId = districtid;
-      this.distLinkClick(districtid)
-
+      this.distLinkClick(districtid);
       this.levelVal = 1;
     }
   }
-  hideDist: boolean
+
 
   getView1() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
-   
-   
-    if (level === "District" || level === "cluster" || level === "block") {
+
+
+    if (level === "District" || level === "Cluster" || level === "Block") {
       this.hideDist = true
 
     } else if (level === null) {
@@ -859,6 +857,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.globalId = this.blockId;
     this.level = "school";
+
     this.skul = false;
     this.dist = false;
     this.blok = false;
@@ -936,6 +935,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Get data based on selected collection:::::::::::::::
   public collectionData;
   getDataBasedOnCollections($event) {
+    
     this.courseSelected = true;
     this.districtSelected = false;
     this.blockSelected = false;
