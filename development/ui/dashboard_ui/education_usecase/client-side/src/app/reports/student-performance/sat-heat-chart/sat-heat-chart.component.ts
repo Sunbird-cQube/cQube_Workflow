@@ -156,6 +156,10 @@ export class SatHeatChartComponent implements OnInit {
     this.grades = [{ grade: "all" }, ...this.grades.filter(item => item !== { grade: "all" })];
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -165,6 +169,14 @@ export class SatHeatChartComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
+    this.getView1();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
+
   }
 
   onChangePage() {
@@ -655,8 +667,8 @@ export class SatHeatChartComponent implements OnInit {
         this.genericFunction(response);
         var dist = this.districtNames.find(a => a.district_id == districtId);
         this.districtHierarchy = {
-          districtName: dist.district_name,
-          distId: dist.district_id
+          districtName: dist?.district_name,
+          distId: dist?.district_id
         }
         this.skul = false;
         this.dist = true;
@@ -709,10 +721,10 @@ export class SatHeatChartComponent implements OnInit {
         var block = this.blockNames.find(a => a.block_id == blockId);
 
         this.blockHierarchy = {
-          districtName: block.district_name,
-          distId: block.district_id,
-          blockName: block.block_name,
-          blockId: block.block_id
+          districtName: block?.district_name,
+          distId: block?.district_id,
+          blockName: block?.block_name,
+          blockId: block?.block_id
         }
 
         this.skul = false;
@@ -763,12 +775,12 @@ export class SatHeatChartComponent implements OnInit {
         this.genericFunction(response);
         var cluster = this.clusterNames.find(a => a.cluster_id == clusterId);
         this.clusterHierarchy = {
-          districtName: cluster.district_name,
-          distId: cluster.district_id,
-          blockName: cluster.block_name,
-          blockId: cluster.block_id,
-          clusterId: cluster.cluster_id,
-          clusterName: cluster.cluster_name
+          districtName: cluster?.district_name,
+          distId: cluster?.district_id,
+          blockName: cluster?.block_name,
+          blockId: cluster?.block_id,
+          clusterId: cluster?.cluster_id,
+          clusterName: cluster?.cluster_name
         }
         this.skul = false;
         this.dist = false;
@@ -848,6 +860,97 @@ export class SatHeatChartComponent implements OnInit {
     if (this.level == 'school') {
       this.selectedCluster(this.cluster);
     }
+  }
+
+  selCluster = false;
+  selBlock = false;
+  selDist = true;
+  levelVal = 0;
+
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+   
+
+    if (level === "Cluster") {
+
+      this.selCluster = true;
+      // this.selBlock = true;
+      // this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Block") {
+
+      this.selCluster = false;
+      // this.selBlock = true;
+      // this.selDist = true;
+      this.levelVal = 2;
+    } else if (level === "District") {
+
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = false;
+      this.levelVal = 1;
+    }
+  }
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+
+    
+
+
+    if (level === "Cluster") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+      this.selectedBlock(blockid);
+      this.selectedCluster(clusterid);
+      this.levelVal = 3;
+    } else if (level === "Block") {
+      this.district = districtid;
+      this.block = blockid;
+
+      this.selectedDistrict(districtid)
+      this.selectedBlock(blockid);
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.district = districtid;
+
+      this.selectedDistrict(districtid)
+      this.levelVal = 1;
+    }
+  }
+
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "block";
+    this.district = id;
+    this.levelWiseFilter();
+  }
+
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "cluster";
+    this.block = id;
+    this.levelWiseFilter();
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "school";
+    this.cluster = id;
+    this.levelWiseFilter();
   }
 
   // to download the csv report

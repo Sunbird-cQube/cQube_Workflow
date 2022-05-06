@@ -135,8 +135,12 @@ router.post('/login', async (req, res, next) => {
 
                 axios.post(url, details, { headers: headers }).then(resp => {
                     logger.info('---token from state api success ---');
+
+
                     let token = resp.data.access_token
                     userId = resp.data.payload.id
+                    let userLevel = resp.data.payload.user_level;
+                    let userLocation = resp.data.payload.user_location;
                     if (resp.status === 200) {
                         const decodingJWT = (token) => {
                             if (token !== null || token !== undefined) {
@@ -154,7 +158,7 @@ router.post('/login', async (req, res, next) => {
                     };
 
 
-                    res.send({ token: token, role: 'report_viewer' })
+                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
                 }).catch(error => {
 
                     res.status(409).json({ errMsg: error.response.data.errorMessage });
@@ -165,7 +169,7 @@ router.post('/login', async (req, res, next) => {
         }
 
         ).catch(error => {
-            logger.error(`Error :: ${error}`)
+            // logger.error(`Error :: ${error}`)
             if (role === '' || role === undefined) {
                 let url = authURL;
 
@@ -179,8 +183,13 @@ router.post('/login', async (req, res, next) => {
 
                 axios.post(url, details, { headers: stateheaders }).then(resp => {
                     logger.info('---user token from state success ---');
+
                     let token = resp.data.access_token;
                     userId = resp.data.payload.id
+                    let userLevel = resp.data.payload.user_level;
+                    let userLocation = resp.data.payload.user_location;
+
+
                     if (resp.status === 200) {
                         const decodingJWT = (token) => {
                             if (token !== null || token !== undefined) {
@@ -193,12 +202,60 @@ router.post('/login', async (req, res, next) => {
                             }
                             return null;
                         }
-                        decodingJWT(token)
+                        decodingJWT(token);
+
+                        if (userLevel === 'Cluster') {
+                            db.query('SELECT distinct block_id,district_id FROM school_hierarchy_details WHERE cluster_id=$1;', [userLocation], (error, results) => {
+                                if (error) {
+                                    logger.info('---user level from DB error ---');
+                                    throw error
+                                }
+                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: userLocation, blockId: results?.rows[0].block_id, districtId: results?.rows[0].district_id })
+
+                                //SELECT distinct block_id, district_id FROM school_hierarchy_details WHERE cluster_id = $1;
+                                // if (results.rows.length) {
+                                //     logger.info('---user status from DB success ---');
+                                //     res.send({ token: jwt, role: role, username: username, userId: userId, status: results.rows[0].status, res: response })
+
+                                // } else {
+                                //     logger.info('---user status not available in DB ---');
+                                //     res.send({ token: jwt, role: role, username: username, userId: userId, res: response })
+                                // }
+
+                            })
+                        } else if (userLevel === 'Block') {
+                            console.log('userLocation', userLocation);
+                            db.query('SELECT distinct district_id FROM school_hierarchy_details WHERE block_id=$1;', [userLocation], (error, results) => {
+                                if (error) {
+                                    logger.info('---user block level from DB error ---');
+                                    throw error
+                                }
+                                console.log('result2', results)
+                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: results?.rows[0].district_id })
+                                // if (results.rows.length) {
+                                //     logger.info('---user status from DB success ---');
+                                //     res.send({ token: jwt, role: role, username: username, userId: userId, status: results.rows[0].status, res: response })
+
+                                // } else {
+                                //     logger.info('---user status not available in DB ---');
+                                //     res.send({ token: jwt, role: role, username: username, userId: userId, res: response })
+                                // }
+
+                            })
+                        } else if (userLevel === 'District') {
+                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, districtId: userLocation })
+                        }
+
+
                     };
 
-                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId })
-                }).catch(error => {
 
+
+
+
+                    // res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
+                }).catch(error => {
+                    logger.error(`Error :: ${error}`)
                     res.status(409).json({ errMsg: 'please check user name and password' });
                 })
             }
@@ -251,7 +308,7 @@ router.post('/getTotp', async (req, res, next) => {
 })
 
 router.post('/logout', async (req, res, next) => {
-    
+
     let headers = {
         "Content-Type": "application/x-www-form-urlencoded",
     }

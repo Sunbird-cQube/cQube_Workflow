@@ -2,7 +2,7 @@
     <div class="row reportHeader">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
-                <div class="col-sm-10 ">
+                <div class="col-sm-8 ">
                     <div *ngIf='skul'>
                         <p id="dist">
                             Diksha Course Progress Report for: <span (click)="resetToInitPage()"
@@ -40,6 +40,15 @@
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <button class="btn btn-primary" id="download1" (click)="getView()">
+                                Access Level
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-2">
@@ -83,7 +92,7 @@
 
 
                     <select id="district" class="select-control" style="margin-right: 25px; margin-left: 20px;"
-                        [(ngModel)]="district" (change)="selectedDistrict(district)">
+                        [hidden]="disHidden" [(ngModel)]="district" (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">
                             {{district.district_name}}

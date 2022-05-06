@@ -2,7 +2,7 @@
     <div class="row reportHeader">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
-                <div class="col-sm-8 ">
+                <div class="col-sm-7 ">
                     <div *ngIf='skul'>
                         <p id="dist">
                             Periodic Assessment Test LO Report for: <span (click)="resetToInitPage()"
@@ -42,7 +42,17 @@
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-2 col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <button class="btn btn-primary" [hidden]=" hideAccessBtn" id="download1"
+                                (click)="getView()">
+                                Access Level
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
                     <div class="row">
                         <div class="col-sm-7">
                             <p id="errMsg" class="note"
@@ -114,7 +124,7 @@
                         </option>
                     </select>
 
-                    <select id="district" class="select-control" [(ngModel)]="district"
+                    <select id="district" class="select-control" [hidden]='hideDist' [(ngModel)]="district"
                         (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">

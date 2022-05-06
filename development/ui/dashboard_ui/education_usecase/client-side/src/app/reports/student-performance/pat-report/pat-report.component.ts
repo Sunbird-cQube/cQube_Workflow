@@ -130,6 +130,7 @@ export class PATReportComponent implements OnInit {
   category;
   managementName;
   public allMonths: any = ['June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May'];
+  params: any;
 
   constructor(
     public http: HttpClient,
@@ -165,6 +166,10 @@ export class PATReportComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
 
   ngOnInit() {
     this.mapName = this.commonService.mapName
@@ -180,7 +185,7 @@ export class PATReportComponent implements OnInit {
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
-
+    this.params = params;
     this.skul = true;
     this.period = "all";
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -263,7 +268,7 @@ export class PATReportComponent implements OnInit {
             clusterId: data.id,
           };
 
-          this.districtId = data.blockHierarchy;
+          this.districtId = data.blockHierarchy.distId;
           this.blockId = data.blockId;
           this.clusterId = data.id;
           this.getDistricts(params.level);
@@ -273,11 +278,18 @@ export class PATReportComponent implements OnInit {
       } else {
         this.changeDetection.detectChanges();
         this.levelWiseFilter();
+        // this.getView1();
       }
     }, err => {
       this.getMonthYear = [];
       this.commonService.loaderAndErr(this.getMonthYear);
     });
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   getDistricts(level): void {
@@ -341,7 +353,7 @@ export class PATReportComponent implements OnInit {
       );
   }
 
-  getClusters(distId, blockId, clusterId): void {
+  getClusters(distId, blockId, clusterId?: any): void {
     this.service
       .PATClustersPerBlockData(distId, blockId, {
         ...{ period: this.period, report: "pat" },
@@ -356,8 +368,8 @@ export class PATReportComponent implements OnInit {
           if (!this.clusterMarkers[0]["Subjects"]) {
             this.clusterFilter = this.clusterMarkers;
           }
-
-          this.onclusterLinkClick(clusterId);
+          if (clusterId)
+            this.onclusterLinkClick(clusterId);
         },
         (err) => {
           this.errorHandling();
@@ -453,6 +465,95 @@ export class PATReportComponent implements OnInit {
     }
   }
 
+
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  hideDist = true
+  levelVal = 0;
+
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+
+    if (districtid) {
+      this.districtId = districtid;
+    }
+    if (blockid) {
+      this.blockId = blockid;
+    }
+    if (clusterid) {
+      this.clusterId = clusterid;
+
+    }
+
+
+    if (level === "Cluster") {
+      this.getBlocks(districtid, blockid);
+      this.onclusterLinkClick(clusterid)
+
+      this.levelVal = 3;
+    } else if (level === "Block") {
+
+      this.onblockLinkClick(blockid)
+
+      this.blockHidden = true
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.ondistLinkClick(districtid)
+      this.levelVal = 1;
+    }
+  }
+
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+
+
+    if (level === "Cluster") {
+
+
+    } else if (level === "Block") {
+
+
+    } else if (level === "District") {
+
+
+    } else if (level === null) {
+      this.hideDist = false
+    }
+  }
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "blockPerDistrict";
+    this.districtId = id;
+    this.levelWiseFilter();
+  }
+
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "clusterPerBlock";
+    this.blockId = id;
+    this.levelWiseFilter();
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "schoolPerCluster";
+    this.clusterId = id;
+    this.levelWiseFilter();
+  }
+
   linkClick() {
 
     this.yearMonth = true;
@@ -480,7 +581,7 @@ export class PATReportComponent implements OnInit {
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
-      this.districtId = undefined;
+      // this.districtId = undefined;
 
       this.valueRange = undefined;
       this.selectedIndex = undefined;
@@ -626,8 +727,8 @@ export class PATReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      this.districtId = undefined;
-      this.blockId = undefined;
+      // this.districtId = undefined;
+      // this.blockId = undefined;
       this.level = "Block";
       this.globalMarker = 7;
       this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
@@ -832,9 +933,9 @@ export class PATReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      this.districtId = undefined;
-      this.blockId = undefined;
-      this.clusterId = undefined;
+      //  this.districtId = undefined;
+      // this.blockId = undefined;
+      //  this.clusterId = undefined;
       this.level = "Cluster";
       this.globalMarker = 7;
       this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
@@ -1038,9 +1139,9 @@ export class PATReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      this.districtId = undefined;
-      this.blockId = undefined;
-      this.clusterId = undefined;
+      // this.districtId = undefined;
+      // this.blockId = undefined;
+      // this.clusterId = undefined;
       this.level = "School";
       this.globalMarker = 7;
       this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
@@ -1229,7 +1330,7 @@ export class PATReportComponent implements OnInit {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.dist = false;
-      this.districtId = '';
+      //  this.districtId = '';
       $('#choose_dist').val('');
       return;
     }
@@ -1378,7 +1479,7 @@ export class PATReportComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service
-      .PATClustersPerBlockData(this.districtHierarchy.distId, blockId, {
+      .PATClustersPerBlockData(this.districtId, blockId, {
         ...{ period: this.period, report: "pat", grade: this.grade, subject: this.subject },
         ...this.month_year,
         ...{ management: this.management, category: this.category },
@@ -1396,7 +1497,7 @@ export class PATReportComponent implements OnInit {
             }
             var myBlocks = [];
             this.blockMarkers.forEach((element) => {
-              if (element.Details.district_id === this.districtHierarchy.distId) {
+              if (element.Details.district_id == this.districtId) {
                 myBlocks.push(element);
               }
             });
@@ -1516,8 +1617,8 @@ export class PATReportComponent implements OnInit {
         (result: any) => {
           this.myData = this.service
             .PATSchoolssPerClusterData(
-              this.blockHierarchy.distId,
-              this.blockHierarchy.blockId,
+              this.districtId,
+              this.blockId,
               clusterId,
               {
                 ...{ period: this.period, report: "pat", grade: this.grade, subject: this.subject },
@@ -1537,7 +1638,7 @@ export class PATReportComponent implements OnInit {
                   var myBlocks = [];
                   this.blockMarkers.forEach((element) => {
                     if (
-                      element.Details.district_id === this.blockHierarchy.distId
+                      element.Details.district_id == this.districtId
                     ) {
                       myBlocks.push(element);
                     }
@@ -1554,7 +1655,7 @@ export class PATReportComponent implements OnInit {
                   var myCluster = [];
                   this.clusterMarkers.forEach((element) => {
                     if (
-                      element.Details.block_id === this.blockHierarchy.blockId
+                      element.Details.block_id == this.blockId
                     ) {
                       myCluster.push(element);
                     }
@@ -2058,18 +2159,43 @@ export class PATReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    markerIcon.on("mouseover", function (e) {
-      this.openPopup();
-    });
-    markerIcon.on("mouseout", function (e) {
-      this.closePopup();
-    });
 
-    this.layerMarkers.addLayer(markerIcon);
-    if (level === "schoolPerCluster" || level === "School") {
-      markerIcon.on("click", this.onClickSchool, this);
-    } else {
-      markerIcon.on("click", this.onClick_Marker, this);
+    let userLevel = localStorage.getItem("userLevel");
+    let chklevel = false;
+    switch (userLevel) {
+      case "cluster":
+        if (level == "Cluster" || level == "schoolPerCluster") {
+          chklevel = true;
+        }
+        break;
+      case "block":
+        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock") {
+          chklevel = true;
+        }
+        break;
+      case "district":
+        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock" || level == "District" || level == "blockPerDistrict") {
+          chklevel = true;
+        }
+        break;
+      default:
+        chklevel = true;
+        break;
+    }
+    if (chklevel) {
+      markerIcon.on("mouseover", function (e) {
+        this.openPopup();
+      });
+      markerIcon.on("mouseout", function (e) {
+        this.closePopup();
+      });
+
+      this.layerMarkers.addLayer(markerIcon);
+      if (level === "schoolPerCluster" || level === "School") {
+        markerIcon.on("click", this.onClickSchool, this);
+      } else {
+        markerIcon.on("click", this.onClick_Marker, this);
+      }
     }
     markerIcon.myJsonData = markers;
   }
@@ -2091,25 +2217,28 @@ export class PATReportComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+
   }
 
   // clickMarker for Google map
@@ -2118,25 +2247,28 @@ export class PATReportComponent implements OnInit {
       return false;
     }
     let data = marker.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') { 
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+    
   }
   // google maps tooltip hover effect
   mouseOverOnmaker(infoWindow, $event: MouseEvent): void {

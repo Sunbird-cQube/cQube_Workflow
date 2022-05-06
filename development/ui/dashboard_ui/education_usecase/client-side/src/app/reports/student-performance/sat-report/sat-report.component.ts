@@ -118,6 +118,7 @@ export class SatReportComponent implements OnInit {
   category;
   managementName;
   studentAttended: any;
+  params: any;
 
   constructor(
     public http: HttpClient,
@@ -153,6 +154,10 @@ export class SatReportComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -166,7 +171,7 @@ export class SatReportComponent implements OnInit {
     document.getElementById("accessProgressCard").style.display = "block";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
-
+    this.params = params;
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
@@ -253,6 +258,12 @@ export class SatReportComponent implements OnInit {
         this.commonService.loaderAndErr([]);
       });
     }
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   onSelectYear() {
@@ -260,7 +271,10 @@ export class SatReportComponent implements OnInit {
     this.semesters = obj['semester'];
     if (this.semesters.length > 0) {
       this.semester = this.semesters[this.semesters.length - 1].id;
+
+
       this.levelWiseFilter();
+      this.changeDetection.detectChanges();
     }
   }
 
@@ -269,7 +283,8 @@ export class SatReportComponent implements OnInit {
     this.changeDetection.detectChanges();
   }
 
-  getDistricts(level): void {
+  getDistricts(level, distId?: any): void {
+
     this.service
       .PATDistWiseData({
         ...{
@@ -292,14 +307,16 @@ export class SatReportComponent implements OnInit {
         if (!this.districtMarkers[0]["Subjects"]) {
           this.distFilter = this.districtMarkers;
         }
-
-        if (level == "district") this.ondistLinkClick(this.districtId);
-        else this.getBlocks(level, this.districtId, this.blockId);
+        if (distId) this.ondistLinkClick(distId);
+        //  if (level == "district") this.ondistLinkClick(this.districtId);
+        //    else this.getBlocks(level, this.districtId, this.blockId);
       });
     // });
   }
 
   getBlocks(level, distId, blockId?: any): void {
+
+
     this.service
       .PATBlocksPerDistData(distId, {
         ...{
@@ -315,13 +332,14 @@ export class SatReportComponent implements OnInit {
         if (!this.blockMarkers[0]["Subjects"]) {
           this.blockFilter = this.blockMarkers;
         }
-
-        if (level == "block") this.onblockLinkClick(blockId);
-        else this.getClusters(this.districtId, this.blockId, this.clusterId);
+        if (blockId) this.onblockLinkClick(blockId);
+        //  if (level == "block") this.onblockLinkClick(blockId);
+        //  else this.getClusters(this.districtId, this.blockId, this.clusterId);
       });
   }
 
-  getClusters(distId, blockId, clusterId): void {
+  getClusters(distId, blockId, clusterId?: any): void {
+
     this.service
       .PATClustersPerBlockData(distId, blockId, {
         ...{
@@ -337,8 +355,8 @@ export class SatReportComponent implements OnInit {
         if (!this.clusterMarkers[0]["Subjects"]) {
           this.clusterFilter = this.clusterMarkers;
         }
-
-        this.onclusterLinkClick(clusterId);
+        if (clusterId)
+          this.onclusterLinkClick(clusterId);
       });
   }
 
@@ -389,6 +407,94 @@ export class SatReportComponent implements OnInit {
     sessionStorage.removeItem("report-level-info")
   }
 
+
+
+  selCluster = false;
+  selBlock = false;
+  selDist = true;
+  levelVal = 0;
+
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+
+    if (districtid) {
+      this.districtId = districtid;
+    }
+    if (blockid) {
+      this.blockId = blockid;
+    }
+    if (clusterid) {
+      this.clusterId = clusterid;
+
+    }
+
+
+    if (level === "Cluster") {
+      this.onclusterLinkClick(clusterid)
+    } else if (level === "Block") {
+      this.onblockLinkClick(blockid)
+    } else if (level === "District") {
+      this.ondistLinkClick(districtid)
+
+    }
+  }
+
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+
+
+
+    if (level === "Cluster") {
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Block") {
+
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.selDist = true;
+
+    }
+  }
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "blockPerDistrict";
+    this.districtId = id;
+    this.levelWiseFilter();
+  }
+
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "clusterPerBlock";
+    this.blockId = id;
+    this.levelWiseFilter();
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "schoolPerCluster";
+    this.clusterId = id;
+    this.levelWiseFilter();
+  }
+
+
   linkClick() {
     this.grade = undefined;
     this.subject = undefined;
@@ -416,7 +522,7 @@ export class SatReportComponent implements OnInit {
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
-      this.districtId = undefined;
+      //  this.districtId = undefined;
 
       this.reportData = [];
       this.level = "District";
@@ -553,8 +659,8 @@ export class SatReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      this.districtId = undefined;
-      this.blockId = undefined;
+      // this.districtId = undefined;
+      // this.blockId = undefined;
       this.level = "Block";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
@@ -754,9 +860,9 @@ export class SatReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      this.districtId = undefined;
-      this.blockId = undefined;
-      this.clusterId = undefined;
+      //  this.districtId = undefined;
+      // this.blockId = undefined;
+      // this.clusterId = undefined;
       this.level = "Cluster";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
@@ -955,9 +1061,9 @@ export class SatReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      this.districtId = undefined;
-      this.blockId = undefined;
-      this.clusterId = undefined;
+      // this.districtId = undefined;
+      // this.blockId = undefined;
+      // this.clusterId = undefined;
       this.level = "School";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
@@ -1284,7 +1390,7 @@ export class SatReportComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service
-      .PATClustersPerBlockData(this.districtHierarchy.distId, blockId, {
+      .PATClustersPerBlockData(this.districtId, blockId, {
         ...{
           report: "sat",
           year: this.year,
@@ -1304,7 +1410,7 @@ export class SatReportComponent implements OnInit {
           }
           var myBlocks = [];
           this.blockMarkers.forEach((element) => {
-            if (element.Details.district_id === this.districtHierarchy.distId) {
+            if (element.Details.district_id == this.districtId) {
               myBlocks.push(element);
             }
           });
@@ -1423,8 +1529,8 @@ export class SatReportComponent implements OnInit {
         (result: any) => {
           this.myData = this.service
             .PATSchoolssPerClusterData(
-              this.blockHierarchy.distId,
-              this.blockHierarchy.blockId,
+              this.districtId,
+              this.blockId,
               clusterId,
               {
                 ...{
@@ -1444,7 +1550,7 @@ export class SatReportComponent implements OnInit {
                 var myBlocks = [];
                 this.blockMarkers.forEach((element) => {
                   if (
-                    element.Details.district_id === this.blockHierarchy.distId
+                    element.Details.district_id == this.districtId
                   ) {
                     myBlocks.push(element);
                   }
@@ -1461,7 +1567,7 @@ export class SatReportComponent implements OnInit {
                 var myCluster = [];
                 this.clusterMarkers.forEach((element) => {
                   if (
-                    element.Details.block_id === this.blockHierarchy.blockId
+                    element.Details.block_id == this.blockId
                   ) {
                     myCluster.push(element);
                   }
@@ -1977,18 +2083,42 @@ export class SatReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    markerIcon.on("mouseover", function (e) {
-      this.openPopup();
-    });
-    markerIcon.on("mouseout", function (e) {
-      this.closePopup();
-    });
+    let userLevel = localStorage.getItem("userLevel");
+    let chklevel = false;
+    switch (userLevel) {
+      case "cluster":
+        if (level == "Cluster" || level == "schoolPerCluster") {
+          chklevel = true;
+        }
+        break;
+      case "block":
+        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock") {
+          chklevel = true;
+        }
+        break;
+      case "district":
+        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock" || level == "District" || level == "blockPerDistrict") {
+          chklevel = true;
+        }
+        break;
+      default:
+        chklevel = true;
+        break;
+    }
+    if (chklevel) {
+      markerIcon.on("mouseover", function (e) {
+        this.openPopup();
+      });
+      markerIcon.on("mouseout", function (e) {
+        this.closePopup();
+      });
 
-    this.layerMarkers.addLayer(markerIcon);
-    if (level === "schoolPerCluster" || level === "School") {
-      markerIcon.on("click", this.onClickSchool, this);
-    } else {
-      markerIcon.on("click", this.onClick_Marker, this);
+      this.layerMarkers.addLayer(markerIcon);
+      if (level === "schoolPerCluster" || level === "School") {
+        markerIcon.on("click", this.onClickSchool, this);
+      } else {
+        markerIcon.on("click", this.onClick_Marker, this);
+      }
     }
     markerIcon.myJsonData = markers;
   }
@@ -2010,25 +2140,29 @@ export class SatReportComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') { 
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+   
   }
 
   // clickMarker for Google map
@@ -2037,24 +2171,27 @@ export class SatReportComponent implements OnInit {
       return false;
     }
     var data = marker.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
-    }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
+
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
   }
 
@@ -2076,16 +2213,7 @@ export class SatReportComponent implements OnInit {
         details[key] = markers.Details[key];
       }
     });
-    // Object.keys(details).forEach((key) => {
-    //   if (key !== "students_count") {
-    //     data1[key] = details[key];
-    //   }
-    // });
-    // Object.keys(data1).forEach((key) => {
-    //   if (key !== "total_schools") {
-    //     data2[key] = data1[key];
-    //   }
-    // });
+    
     Object.keys(details).forEach((key) => {
       var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
       if (key !== "longitude") {

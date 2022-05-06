@@ -105,12 +105,24 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     public router: Router
   ) { }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
 
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     this.getAllData();
     this.getProgramData();
+    this.getView1();
+
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
 
   }
 
@@ -299,6 +311,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }, 1000);
 
     this.emptyChart();
+    
     this.districtId = undefined;
     this.districtHidden = false;
     this.selectedCourse = undefined;
@@ -477,7 +490,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   }
 
   //Showing data based on level selected:::::::
-  onTypeSelect(type) {
+  onTypeSelect() {
     if (this.level == "district") {
       this.getAllData();
     }
@@ -490,6 +503,83 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     if (this.level == "school") {
       this.onClusterSelect(this.clusterId);
     }
+  }
+
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  hideDist: boolean = this.hideIfAccessLevel === true ? true : false
+  levelVal = 0;
+  getView() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+    let clusterid = JSON.parse(localStorage.getItem("clusterId"));
+    let blockid = JSON.parse(localStorage.getItem("blockId"));
+    let districtid = JSON.parse(localStorage.getItem("districtId"));
+    let schoolid = JSON.parse(localStorage.getItem("schoolId"));
+    this.dist = false;
+    this.blok = false;
+    this.clust = false;
+    this.skul = true;
+
+
+    if (level === "Cluster") {
+      this.blockId = blockid;
+      this.districtId = districtid;
+      this.clusterId = clusterid;
+      this.clusterLinkClick(clusterid);
+      this.levelVal = 3;
+    } else if (level === "Block") {
+      this.blockId = blockid;
+      this.districtId = districtid;
+      this.blockLinkClick(blockid);
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.districtId = districtid;
+      this.distLinkClick(districtid);
+      this.levelVal = 1;
+    }
+  }
+
+
+  getView1() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+
+
+    if (level === "District" || level === "Cluster" || level === "Block") {
+      this.hideDist = true
+
+    } else if (level === null) {
+      this.hideDist = false
+    }
+  }
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "block";
+    this.districtId = id;
+    this.onTypeSelect();
+  }
+
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "cluster";
+    this.blockId = id;
+    this.onTypeSelect();
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "school";
+    this.clusterId = id;
+    this.onTypeSelect();
   }
 
 
@@ -604,7 +694,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
   }
 
-  onDistSelect(districtId) {
+  onDistSelect(districtId, bid?, cid?) {
     this.emptyChart();
     this.commonService.errMsg();
 
@@ -626,8 +716,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blocks = [];
     this.clusters = [];
 
-    this.blockId = undefined;
-    this.clusterId = undefined;
+    // this.blockId = undefined;
+    // this.clusterId = undefined;
     this.yAxisLabel = "Block Names";
     this.xAxisLabel = "Total Numbers"
     var requestBody: any = {
@@ -664,6 +754,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
         this.blocks = this.reportData = res["downloadData"];
         this.getBarChartData();
         this.commonService.loaderAndErr(this.result);
+        if (bid) {
+          this.onBlockSelect(bid, cid);
+        }
       },
       (err) => {
         this.result = [];
@@ -678,7 +771,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.onBlockSelect(blockId);
 
   }
-  onBlockSelect(blockId) {
+  onBlockSelect(blockId, cid?) {
     this.emptyChart();
     this.commonService.errMsg();
 
@@ -686,6 +779,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.enrollChartData = [];
     this.compliChartData = [];
     this.pecentChartData = [];
+
+    this.districtSelected = true;
+    this.blockSelected = true;
 
     this.globalId = blockId;
     this.blockHidden = false;
@@ -697,7 +793,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.clusters = [];
 
-    this.clusterId = undefined;
+    //  this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names";
 
 
@@ -744,6 +840,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           this.clusters = this.reportData = res["downloadData"];
           this.getBarChartData();
           this.commonService.loaderAndErr(this.result);
+          if (cid) {
+            this.onClusterSelect(cid);
+          }
         },
         (err) => {
           this.result = [];
@@ -769,6 +868,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.globalId = this.blockId;
     this.level = "school";
+
     this.skul = false;
     this.dist = false;
     this.blok = false;
@@ -846,6 +946,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Get data based on selected collection:::::::::::::::
   public collectionData;
   getDataBasedOnCollections($event) {
+    
     this.courseSelected = true;
     this.districtSelected = false;
     this.blockSelected = false;

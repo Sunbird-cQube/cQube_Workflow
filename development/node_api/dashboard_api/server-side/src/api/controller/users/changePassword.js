@@ -16,7 +16,7 @@ router.post('/:id', auth.authController, async (req, res) => {
     try {
         logger.info('---change password api ---');
         var userId = req.params.id;
-        
+
         if (authType === 'cqube') {
             let loginUrl = `${host}/auth/realms/${realm}/protocol/openid-connect/token`
             let body
@@ -44,9 +44,9 @@ router.post('/:id', auth.authController, async (req, res) => {
                 }
             }
 
-            
+
             axios.post(loginUrl, body, config).then(resp => {
-                
+
                 let usersUrl = `${host}/auth/admin/realms/${realm}/users/${userId}/reset-password`;
                 let headers = {
                     "Content-Type": "application/json",
@@ -70,7 +70,7 @@ router.post('/:id', auth.authController, async (req, res) => {
 
 
         } else {
-
+            let usersUrl = `${host}/auth/admin/realms/${realm}/users/${userId}/reset-password`;
             let newPass = {
                 type: "password",
                 value: req.body.cnfpass,

@@ -1,22 +1,53 @@
+#dist,
+#block:not(.select-control),
+#cluster:not(.select-control),
+#school:not(.select-control) {
+    color: var(--theme-report-heading-color);
+    font-size: 18px !important;
+    line-height: 1.2em;
+    margin-top: 5px;
+}
 
- #dist, #block:not(.select-control), #cluster:not(.select-control), #school:not(.select-control) {
-    color: var(--theme-report-heading-color);font-size: 18px !important; line-height: 1.2em; margin-top: 5px;
- }
-
- #year, #month, #grade, #subject, #examDate, #viewBy, #district, #block.select-control, #cluster.select-control {
-    margin-right: 10px; padding: 5px;color: white; border-radius: 4px; font-size: 11px; font-weight: bold; background: var(--theme-report-button-color);
+#year,
+#month,
+#grade,
+#subject,
+#examDate,
+#viewBy,
+#district,
+#block.select-control,
+#cluster.select-control {
+    margin-right: 10px;
+    padding: 5px;
+    color: white;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    background: var(--theme-report-button-color);
     margin-top: 0 !important;
- }
+}
 
- @media only screen and (min-width: 2560px) {
-    .reportContainer1{
+@media only screen and (min-width: 2560px) {
+    .reportContainer1 {
         margin-top: 170px !important;
     }
-    #dist, #block:not(.select-control), #cluster:not(.select-control), #school:not(.select-control) {
+
+    #dist,
+    #block:not(.select-control),
+    #cluster:not(.select-control),
+    #school:not(.select-control) {
         font-size: 2.5rem !important;
     }
 
-    #year, #month, #grade, #subject, #examDate, #viewBy, #district, #block.select-control, #cluster.select-control {
+    #year,
+    #month,
+    #grade,
+    #subject,
+    #examDate,
+    #viewBy,
+    #district,
+    #block.select-control,
+    #cluster.select-control {
         padding: 15px !important;
         font-size: 1.5rem !important;
         margin-top: 0 !important;
@@ -26,21 +57,27 @@
         margin: 5px 0px 0px 24px !important;
     }
 
-    #download, #home {
+    #download,
+    #home {
         font-size: 3rem !important;
     }
 
-    ::ng-deep .page-item .page-link, ::ng-deep .page-item .page-link.active {
+    ::ng-deep .page-item .page-link,
+    ::ng-deep .page-item .page-link.active {
         padding: 8px 16px !important;
         font-size: 2rem !important;
     }
- }
+}
 
- @media only screen and (min-width: 3840px) {
-    .reportContainer1{
+@media only screen and (min-width: 3840px) {
+    .reportContainer1 {
         margin-top: 220px !important;
     }
-    #dist, #block:not(.select-control), #cluster:not(.select-control), #school:not(.select-control) {
+
+    #dist,
+    #block:not(.select-control),
+    #cluster:not(.select-control),
+    #school:not(.select-control) {
         font-size: 3.3rem !important;
     }
 
@@ -48,22 +85,35 @@
         margin: 5px 0px 0px 24px !important;
     }
 
-    #download, #home {
+    #download,
+    #home {
         font-size: 3.5rem !important;
     }
 
-    #year, #month, #grade, #subject, #examDate, #viewBy, #district, #block.select-control, #cluster.select-control {
+    #year,
+    #month,
+    #grade,
+    #subject,
+    #examDate,
+    #viewBy,
+    #district,
+    #block.select-control,
+    #cluster.select-control {
         padding: 15px !important;
         font-size: 1.8rem !important;
         margin-top: 0 !important;
     }
 
-    ::ng-deep .page-item .page-link, ::ng-deep .page-item .page-link.active {
+    ::ng-deep .page-item .page-link,
+    ::ng-deep .page-item .page-link.active {
         padding: 8px 16px !important;
         font-size: 2.5rem !important;
     }
- }
-
- .reportContainer1{
-    margin-top: 85px;
 }
+
+.reportContainer1 {
+    margin-top: 85px;
+    max-width: 90%;
+    
+}
+

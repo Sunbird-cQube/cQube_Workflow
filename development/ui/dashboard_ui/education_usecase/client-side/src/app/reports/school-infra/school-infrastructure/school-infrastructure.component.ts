@@ -61,10 +61,16 @@ export class SchoolInfrastructureComponent implements OnInit {
   managementName;
   management;
   category;
+  distHidden = true
 
   constructor(public http: HttpClient, public service: SchoolInfraService, public router: Router, private changeDetection: ChangeDetectorRef, public commonService: AppServiceComponent,) {
     localStorage.removeItem('resData');
   }
+
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
 
   ngOnInit() {
     this.state = this.commonService.state;
@@ -78,8 +84,62 @@ export class SchoolInfrastructureComponent implements OnInit {
     );
     this.levelWiseFilter();
     document.getElementById('spinner').style.display = 'block';
+    this.getView1()
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
+
+
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+    if (level === "Cluster") {
+      this.myDistrict = districtid
+      this.myBlock = blockid
+      this.myBlockData(blockid)
+      this.myClusterData(clusterid)
+
+    } else if (level === "Block") {
+      this.myDistrict = districtid
+      this.myBlock = blockid
+      // this.myCluster = clusterid
+      this.downloadLevel = 'block';
+      this.myDistData(districtid)
+      this.myBlockData(blockid)
+
+    } else if (level === "District") {
+      this.distHidden = true
+      this.myDistrict = districtid
+      this.myBlock = blockid
+      this.myCluster = clusterid
+
+      this.myDistData(districtid)
+      // this.levelVal = 1;
+    } else if (level === null) {
+      this.distHidden = false
+    }
+  }
+
+  getView1() {
+
+    let level = localStorage.getItem("userLevel");
+
+    if (level === 'District') {
+      this.distHidden = true
+    } else if (level === null) {
+      this.distHidden = false
+    }
+
+  }
   height = window.innerHeight;
   public h;
   onResize() {
@@ -142,6 +202,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myDistData(data) {
+
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'block';
@@ -216,8 +277,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = data;
     let obj = this.blockNames.find(o => o.id == data);
-    localStorage.setItem('block', JSON.stringify(obj.name));
-    this.hierName = obj.name;
+    localStorage.setItem('block', JSON.stringify(obj?.name));
+    this.hierName = obj?.name;
 
     this.blockHidden = false;
     this.clusterHidden = false;
@@ -265,7 +326,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.modes = [];
     this.reportData = [];
 
-    this.title = JSON.parse(localStorage.getItem('block'));
+    // this.title = JSON.parse(localStorage.getItem('block'));
+    this.title = localStorage.getItem('block');
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));

@@ -2,7 +2,7 @@
     <div class="row reportHeader1">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row" (window:resize)="onResize()">
-                <div class="col-sm-8 ">
+                <div class="col-sm-6 ">
                     <div *ngIf='skul'>
                         <p id="dist">
                             Composite Report for: <span (click)="districtWise()"
@@ -40,6 +40,15 @@
                                 {{hierName}}</span></p>
                     </div>
                 </div>
+                <div class="col-lg-2 col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <button class="btn btn-primary" id="download1" (click)="getView()">
+                                Access Level
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-4">
                     <div class="row">
                         <div class="col-sm-3">
@@ -53,8 +62,8 @@
                                     (click)="downloadReportofState(downloadType)">Download Report &nbsp; <i
                                         class="fa fa-arrow-down" aria-hidden="true"></i>
                                 </button>
-                                <select *ngIf="xAxisFilter && xAxisFilter.length>0" class="dwnld" id="downloader"
-                                    [(ngModel)]="downloadType" name="downloadType">
+                                <select *ngIf="xAxisFilter && xAxisFilter.length>0 " [hidden]="hideIfAccessLevel"
+                                    class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
                                     <option [value]="downloadType" disabled selected="selected"> Choose Report
                                     </option>
                                     <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
@@ -132,7 +141,7 @@
         <div class="col-sm-6">
             <div class="row">
                 <div class="col-sm-12 ">
-                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"
+                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="distHidden"
                         (change)="myDistData(myDistrict)">
                         <option [value]="myDistrict" disabled selected="selected">Choose a District
                         </option>
