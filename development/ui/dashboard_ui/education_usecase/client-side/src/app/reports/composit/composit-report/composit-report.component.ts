@@ -79,6 +79,11 @@ export class CompositReportComponent implements OnInit {
     localStorage.removeItem('resData');
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
+
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
@@ -114,7 +119,12 @@ export class CompositReportComponent implements OnInit {
 
     document.getElementById('spinner').style.display = 'block';
 
-
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   public tableHead: any;
@@ -249,7 +259,9 @@ export class CompositReportComponent implements OnInit {
     this.titleName = localStorage.getItem('dist');
     this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = data;
+
     let obj = this.blockNames.find(o => o.id == data);
+
     localStorage.setItem('block', JSON.stringify(obj.name));
     this.hierName = obj.name;
 
@@ -308,8 +320,8 @@ export class CompositReportComponent implements OnInit {
     this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = blockId;
     this.clustName = data;
-    let obj = this.clusterNames.find(o => o.id == data);
-    this.hierName = obj.name;
+    let obj = this.clusterNames?.find(o => o.id == data);
+    this.hierName = obj?.name;
     localStorage.setItem('clusterId', data);
 
 
@@ -434,42 +446,77 @@ export class CompositReportComponent implements OnInit {
     });
   }
 
-  // schoolWise() {
-  //   if (this.chartData.length !== 0) {
-  //     this.scatterChart.destroy();
-  //   }
-  //   this.xAxisFilter = [];
-  //   this.yAxisFilter = [];
-  //   this.downloadLevel = 'school';
-  //   this.tableHead = "School Name";
-  //   this.fileName = "School_level_report";
+  hideDist = true
 
-  //   this.myDistrict = '';
+  getView() {
+    let id = JSON.parse(localStorage.getItem("userLocation"));
+    let level = localStorage.getItem("userLevel");
+    let clusterid = JSON.parse(localStorage.getItem("clusterId"));
+    let blockid = JSON.parse(localStorage.getItem("blockId"));
+    let districtid = JSON.parse(localStorage.getItem("districtId"));
+    let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
-  //   this.dist = false;
-  //   this.blok = false;
-  //   this.clust = false;
-  //   this.skul = true;
-  //   this.commonService.errMsg();
-  //   this.blockHidden = true;
-  //   this.clusterHidden = true;
-  //   this.reportData = [];
-  //   
-  //   if (this.myData) {
-  //     this.myData.unsubscribe();
-  //   }
-  //   this.myData = this.service.school_wise_data().subscribe(res => {
-  //     this.reportData = this.result = res;
-  //     //for chart =============================================
-  //     this.showChart(this.result, this.downloadLevel);
-  //     //====================================
-  //     this.commonService.loaderAndErr(this.result);
-  //     this.changeDetection.markForCheck();
-  //   }, err => {
-  //     this.chartData = [];
-  //     this.commonService.loaderAndErr(this.result);
-  //   });
-  // }
+
+
+    if (level === "Cluster") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+
+
+      this.service.cluster_per_block_data(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
+        this.result = res;
+
+        for (var i = 0; i < this.result.length; i++) {
+          this.clusterNames.push({ id: this.result[i].cluster.id, name: this.result[i].cluster.value });
+        }
+
+
+        this.myClusterData(clusterid);
+
+
+      }, err => {
+
+        $('#table').empty();
+
+      });
+
+
+    } else if (level === "Block") {
+
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+
+      this.service.block_per_dist_data(this.myDistrict, { management: this.management, category: this.category }).subscribe(res => {
+        let result = this.result = res;
+
+        for (var i = 0; i < this.result.length; i++) {
+          this.blockNames.push({ id: this.result[i].block.id, name: this.result[i].block.value });
+        }
+
+        this.myBlockData(blockid)
+
+
+      }, err => {
+
+        $('#table').empty();
+
+      });
+
+    } else if (level === "District") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
+      this.myDistData(districtid);
+
+    } else if (level === null) {
+      this.hideDist = false
+
+    }
+  }
+
+
 
 
   showChart(result, downloadType) {
@@ -570,12 +617,16 @@ export class CompositReportComponent implements OnInit {
   }
 
   levelWiseFilter() {
+
     if (this.skul) {
       if (this.downloadLevel == "dist") {
+
         this.districtWise();
       } else if (this.downloadLevel == "block") {
+
         this.blockWise();
       } else if (this.downloadLevel == "cluster") {
+
         this.clusterWise();
       }
       // else if (this.fileName == "School_level_report") {

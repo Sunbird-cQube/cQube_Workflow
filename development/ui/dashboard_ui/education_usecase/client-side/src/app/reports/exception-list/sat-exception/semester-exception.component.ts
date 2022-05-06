@@ -34,6 +34,7 @@ export class SemesterExceptionComponent implements OnInit {
   public clust: boolean = false;
 
   // to hide the blocks and cluster dropdowns
+  public distHidden: boolean = true;
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
 
@@ -93,6 +94,7 @@ export class SemesterExceptionComponent implements OnInit {
   mapName;
   googleMapZoom = 7;
   geoJson = this.globalService.geoJson;
+  params: any;
 
   constructor(
     public http: HttpClient,
@@ -110,6 +112,11 @@ export class SemesterExceptionComponent implements OnInit {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
+
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
 
   ngOnInit() {
     this.mapName = this.commonService.mapName;
@@ -132,11 +139,28 @@ export class SemesterExceptionComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.getSemesters();
     this.changeDetection.detectChanges();
+    this.toHideDropdowns();
+
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
+  }
+  toHideDropdowns() {
+    this.blockHidden = true;
+    this.clusterHidden = true;
+    this.distHidden = true;
   }
 
   onPeriodSelect() {
     this.levelWiseFilter();
     this.getSemesters();
+  }
+
+  typeof(value) {
+    return typeof value;
   }
 
   getSemesters() {
@@ -187,6 +211,104 @@ export class SemesterExceptionComponent implements OnInit {
     }
     this.changeDetection.detectChanges();
   }
+
+
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  levelVal = 0;
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+
+    if (level === "Cluster") {
+      this.clusterlevel(id);
+      this.levelVal = 3;
+    } else if (level === "Block") {
+      this.blocklevel(id);
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.distlevel(id);
+      this.levelVal = 1;
+    }
+  }
+
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+
+    if (districtid !== 'null') {
+      this.districtId = districtid;
+      this.distHidden = false;
+    }
+    if (blockid !== 'null') {
+      this.blockId = blockid.toString();
+      this.blockHidden = false;
+    }
+    if (clusterid !== 'null') {
+      this.clusterId = Number(clusterid);
+      this.clusterHidden = false;
+    }
+    if (districtid === 'null') {
+      this.distHidden = false;
+    }
+
+
+    if (level === "Cluster") {
+      this.blockHierarchy = {
+        blockId: blockid,
+        distId: districtid
+      }
+      this.onClusterSelect(this.clusterId);
+      this.clusterlevel(this.clusterId);
+      this.levelVal = 3;
+    } else if (level === "Block") {
+      this.districtHierarchy = {
+        distId: districtid
+      }
+      this.onBlockSelect(this.blockId);
+      this.blocklevel(this.blockId)
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.onDistrictSelect(this.districtId);
+      this.distlevel(this.districtId)
+      this.levelVal = 1;
+    }
+  }
+
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    //this.level= "blockPerDistrict";
+    this.districtId = id;
+    //this.levelWiseFilter();
+  }
+
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    //this.level= "clusterPerBlock";
+    this.blockId = id;
+    //this.levelWiseFilter();
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    //this.level= "schoolPerCluster";
+    this.clusterId = id;
+    //this.levelWiseFilter();
+  }
+
+
 
   homeClick() {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
@@ -607,6 +729,7 @@ export class SemesterExceptionComponent implements OnInit {
   // to load all the clusters for selected block for state data on the map
   onBlockSelect(blockId) {
     // to clear the existing data on the map layer
+  
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
@@ -625,6 +748,7 @@ export class SemesterExceptionComponent implements OnInit {
     }
     this.myData = this.service.patExceptionClusterPerBlock(this.districtHierarchy.distId, blockId, { ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'sat_exception', semester: this.semester }, ...{ management: this.management, category: this.category } }).subscribe(res => {
       this.data = res;
+
       this.markers = this.clusterMarkers = this.data['data'];
       this.allSubjects = [];
       if (this.grade != 'all') {

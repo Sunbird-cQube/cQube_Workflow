@@ -101,12 +101,41 @@ export class SigninComponent implements OnInit {
       return;
     }
 
-
-
     this.service.login(this.loginForm.value).subscribe(res => {
       this.wrongCredintional = false;
-
+      
       let response = res
+      let userLevel = res['user_level']
+      localStorage.setItem('userLevel', userLevel)
+      let userLocation = res['user_location']
+      localStorage.setItem('userLocation', userLocation)
+
+      let districtId,clusterId,schoolId, blockId;
+      if(userLevel === "District"){
+        districtId = res['districtId']
+        localStorage.setItem('districtId', districtId);
+      } else if (userLevel === "Block"){
+        districtId = res['districtId']
+        blockId = res['blockId']
+        localStorage.setItem('blockId', blockId)
+
+        localStorage.setItem('districtId', districtId);
+      } else if (userLevel === "Cluster") {
+           
+        districtId = res['districtId']
+        blockId = res['blockId']
+        clusterId = res['clusterId']
+        localStorage.setItem('blockId', blockId)
+
+        localStorage.setItem('districtId', districtId);
+        localStorage.setItem('clusterId', clusterId);
+      } else if (userLevel === null || userLevel === ''|| userLevel === 'State' ){
+
+      }
+     
+
+
+      
       this.userName = res['username']
       this.adminUserId = res['userId']
       this.userStatus = res['status']

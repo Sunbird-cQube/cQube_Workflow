@@ -2,7 +2,7 @@
   <div class="row reportHeader">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="row" (window:resize)="globalService.onResize(level); onResize()">
-        <div class="col-lg-9 col-md-9 col-sm-12">
+        <div class="col-lg-7 col-md-9 col-sm-12">
           <div *ngIf="skul">
             <p id="dist">
               Report on Infrastructure access by location for:
@@ -23,7 +23,7 @@
             <p id="cluster">
               Report on Infrastructure access by location for:
               <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
-              </span><span (click)="onDistrictSelect(blockHierarchy.distId)"
+              </span><span (click)="selDist ? onDistrictSelect(blockHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
                 (click)="onBlockSelect(blockHierarchy.blockId)" style="cursor: pointer; text-decoration: underline"
@@ -43,6 +43,16 @@
                 {{ clusterHierarchy.blockName }}</span><span> | </span><span class="selected-level">
                 {{ clusterHierarchy.clusterName }}</span>
             </p>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-12">
+          <div class="row">
+
+            <div class="col-sm-7">
+              <button class="btn btn-primary" [hidden]="hideAccessBtn" id="download1" (click)="getView()">
+                Access Level
+              </button>
+            </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
@@ -71,13 +81,13 @@
       </div>
       <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
-          <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn" (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" (click)="clusterWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" (click)="clusterWise()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn" (click)="schoolWise()">
             &nbsp;<strong>Schools</strong>
           </button>
 
@@ -90,7 +100,7 @@
             </option>
           </select>
 
-          <select id="choose_dist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
+          <select id="choose_dist" [hidden]="selDist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District
             </option>

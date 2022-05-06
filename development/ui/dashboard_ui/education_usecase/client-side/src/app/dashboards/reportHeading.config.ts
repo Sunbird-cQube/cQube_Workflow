@@ -6,7 +6,7 @@ export const dashboardReportHeadings = {
 
   // ----School Infrastructure reports -----
   InfrastructureAccessbyLocation: "Infrastructure Access by Location",
-  CompositeReport: "Composite Report",
+  CompositeReport: "Infrastructure Composite Report",
   UDISEReport: "UDISE Report",
 
   // ---- student Perfomance reports ----

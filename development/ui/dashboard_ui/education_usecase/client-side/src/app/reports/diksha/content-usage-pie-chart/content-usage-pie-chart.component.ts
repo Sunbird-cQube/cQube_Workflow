@@ -51,6 +51,10 @@ export class ContentUsagePieChartComponent implements OnInit {
 
   @ViewChild(MultiSelectComponent) multiSelect1: MultiSelectComponent;
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.commonService.errMsg();
     this.changeDetection.detectChanges();
@@ -60,6 +64,13 @@ export class ContentUsagePieChartComponent implements OnInit {
 
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getStateData();
+
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   public skul = true;
@@ -85,10 +96,10 @@ export class ContentUsagePieChartComponent implements OnInit {
         setTimeout(() => {
           document.getElementById('spinner').style.display = "none"
         }, 300);
-      }, 
-      (err)=>{
-        this.stateData = [];
-        this.commonService.loaderAndErr(this.stateData);
+      },
+        (err) => {
+          this.stateData = [];
+          this.commonService.loaderAndErr(this.stateData);
         });
     } catch (e) {
       this.stateData = [];

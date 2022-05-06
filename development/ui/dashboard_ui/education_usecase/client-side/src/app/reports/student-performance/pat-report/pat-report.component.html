@@ -2,7 +2,7 @@
   <div class="row reportHeader">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="row" (window:resize)="globalService.onResize(level); onResize()">
-        <div class="col-sm-8">
+        <div class="col-sm-6">
           <div *ngIf="skul">
             <p id="dist">
               Periodic Assessment Test Report for:
@@ -44,6 +44,15 @@
                 {{ clusterHierarchy.blockName }}</span><span> | </span><span class="selected-level">
                 {{ clusterHierarchy.clusterName }}</span>
             </p>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-12">
+          <div class="row">
+            <div class="col-sm-7">
+              <button class="btn btn-primary" id="download1" [hidden]="hideAccessBtn" (click)="getView()">
+                Access Level
+              </button>
+            </div>
           </div>
         </div>
         <div class="col-sm-4">
@@ -101,13 +110,13 @@
               {{ months[i] }}
             </option>
           </select>
-          <button class="btn btn-secondary" id="blockbtn" (click)="blockClick()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" (click)="blockClick()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" (click)="clusterClick()">
+          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterClick()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" (click)="schoolClick()">
+          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolClick()">
             &nbsp;<strong>Schools</strong>
           </button>
 
@@ -135,7 +144,7 @@
             </option>
           </select>
 
-          <select id="choose_dist" [(ngModel)]="districtId" (change)="ondistLinkClick(districtId)">
+          <select id="choose_dist" [(ngModel)]="districtId" [hidden]='hideDist' (change)="ondistLinkClick(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District
             </option>

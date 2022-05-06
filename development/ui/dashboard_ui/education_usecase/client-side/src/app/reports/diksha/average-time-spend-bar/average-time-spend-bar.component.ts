@@ -48,6 +48,10 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
+  
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
 
   ngOnInit(): void {
     this.changeDetection.detectChanges();
@@ -59,6 +63,12 @@ export class AverageTimeSpendBarComponent implements OnInit {
 
     this.getStateData();
     this.getDistdata();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   public data;

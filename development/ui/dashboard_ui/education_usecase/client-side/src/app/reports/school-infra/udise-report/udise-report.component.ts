@@ -131,6 +131,10 @@ export class UdiseReportComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -202,6 +206,14 @@ export class UdiseReportComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
+
+    this.getView1();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   getDistricts(): void {
@@ -216,16 +228,19 @@ export class UdiseReportComponent implements OnInit {
     this.service.udise_blocks_per_dist(distId, { management: this.management, category: this.category }).subscribe((res) => {
       this.markers = this.data = res["data"];
       this.blockMarkers = this.data;
+      this.changeDetection.detectChanges();
 
       if (blockId) this.onBlockSelect(blockId);
     });
   }
 
-  getClusters(distId, blockId, clusterId): void {
+  getClusters(distId, blockId, clusterId?: any): void {
     this.service.udise_cluster_per_block(distId, blockId, { management: this.management, category: this.category }).subscribe((res) => {
       this.markers = this.data = res["data"];
       this.clusterMarkers = this.data;
-      this.onClusterSelect(clusterId);
+      this.changeDetection.detectChanges();
+      if (clusterId)
+        this.onClusterSelect(clusterId);
     });
   }
 
@@ -823,7 +838,7 @@ export class UdiseReportComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service
-      .udise_cluster_per_block(this.districtHierarchy.distId, blockId, { management: this.management, category: this.category })
+      .udise_cluster_per_block(this.districtId, blockId, { management: this.management, category: this.category })
       .subscribe(
         (res) => {
           this.markers = this.data = res["data"];
@@ -832,7 +847,7 @@ export class UdiseReportComponent implements OnInit {
           this.clusterMarkers = this.data;
           var myBlocks = [];
           this.blockMarkers.forEach((element) => {
-            if (element.details.district_id === this.districtHierarchy.distId) {
+            if (element.details.district_id == this.districtId) {
               myBlocks.push(element);
             }
           });
@@ -922,8 +937,8 @@ export class UdiseReportComponent implements OnInit {
       (result: any) => {
         this.myData = this.service
           .udise_school_per_cluster(
-            this.blockHierarchy.distId,
-            this.blockHierarchy.blockId,
+            this.districtId,
+            this.blockId,
             clusterId, { management: this.management, category: this.category }
           )
           .subscribe(
@@ -936,7 +951,7 @@ export class UdiseReportComponent implements OnInit {
               var myBlocks = [];
               markers.forEach((element) => {
                 if (
-                  element.details.district_id === this.blockHierarchy.distId
+                  element.details.district_id == this.districtId
                 ) {
                   myBlocks.push(element);
                 }
@@ -945,7 +960,7 @@ export class UdiseReportComponent implements OnInit {
 
               var myCluster = [];
               this.clusterMarkers.forEach((element) => {
-                if (element.details.block_id === this.blockHierarchy.blockId) {
+                if (element.details.block_id == this.blockId) {
                   myCluster.push(element);
                 }
               });
@@ -1255,6 +1270,7 @@ export class UdiseReportComponent implements OnInit {
   }
 
   levelWiseFilter() {
+
     if (this.level == "District") {
       this.districtWise();
     }
@@ -1278,6 +1294,109 @@ export class UdiseReportComponent implements OnInit {
       this.onClusterSelect(this.clusterId);
     }
   }
+
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  distHidden = true
+  levelVal = 0;
+
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+
+
+    if (districtid) {
+      this.districtId = districtid;
+    }
+    if (blockid) {
+      this.blockId = blockid;
+    }
+    if (clusterid) {
+      this.clusterId = clusterid;
+
+    }
+
+
+    if (level === "Cluster") {
+
+      this.onClusterSelect(clusterid)
+      this.levelVal = 3;
+    } else if (level === "Block") {
+
+      this.onBlockSelect(blockid)
+      this.levelVal = 2;
+    } else if (level === "District") {
+      // this.distHidden = true
+      this.onDistrictSelect(districtid)
+      // this.levelVal = 1;
+    } else if (level === null) {
+      this.distHidden = false
+    }
+  }
+
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
+
+
+    if (level === "Cluster") {
+
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Block") {
+
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 2;
+    } else if (level === "District") {
+
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
+      this.levelVal = 1;
+    }
+  }
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "blockPerDistrict";
+    this.districtId = id;
+    this.levelWiseFilter();
+  }
+
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "clusterPerBlock";
+    this.blockId = id;
+    this.levelWiseFilter();
+  }
+
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "schoolPerCluster";
+    this.clusterId = id;
+    this.levelWiseFilter();
+  }
+
+
 
   //map tooltip automation
   public getInfoFrom(object, indiceName, colorText, level) {
@@ -1323,18 +1442,49 @@ export class UdiseReportComponent implements OnInit {
   }
 
   popups(markerIcon, markers, level) {
-    markerIcon.on("mouseover", function (e) {
-      this.openPopup();
-    });
-    markerIcon.on("mouseout", function (e) {
-      this.closePopup();
-    });
+    let userLevel = localStorage.getItem("userLevel");
+    let chklevel = false;
+    switch (userLevel) {
+      case "cluster":
+        if (level == "Cluster" || level == "schoolPerCluster") {
+          chklevel = true;
+        }
+        break;
+      case "block":
+        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock") {
+          chklevel = true;
+        }
+        break;
+      case "district":
+        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock" || level == "District" || level == "blockPerDistrict") {
+          chklevel = true;
+        }
+        break;
+      default:
+        chklevel = true;
+        break;
+    }
 
-    this.layerMarkers.addLayer(markerIcon);
-    if (level === "schoolPerCluster" || level === "School") {
-      markerIcon.on("click", this.onClickSchool, this);
-    } else {
-      markerIcon.on("click", this.onClick_Marker, this);
+    // markerIcon.on("click", null);
+    // markerIcon.addEventListener('click', (event) => {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   return false;
+    // });
+    if (chklevel) {
+      markerIcon.on("mouseover", function (e) {
+        this.openPopup();
+      });
+      markerIcon.on("mouseout", function (e) {
+        this.closePopup();
+      });
+
+      this.layerMarkers.addLayer(markerIcon);
+      if (level === "schoolPerCluster" || level === "School") {
+        markerIcon.on("click", this.onClickSchool, this);
+      } else {
+        markerIcon.on("click", this.onClick_Marker, this);
+      }
     }
     markerIcon.myJsonData = markers;
   }
@@ -1476,25 +1626,28 @@ export class UdiseReportComponent implements OnInit {
   onClick_Marker(event) {
     this.indiceFilter = [];
     var data = event.target.myJsonData.details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+   
   }
 
   // clickMarker for Google map
