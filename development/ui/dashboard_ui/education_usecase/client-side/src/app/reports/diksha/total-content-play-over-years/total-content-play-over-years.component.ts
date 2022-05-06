@@ -37,6 +37,10 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.commonService.errMsg();
     this.changeDetection.detectChanges();
@@ -46,6 +50,12 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
     this.getStateData();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   public data;
@@ -58,7 +68,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.chartData = [];
     this.reportData = [];
     this.fileName = "Total_content_play_over_years";
-    
+
   }
 
   clickHome() {
@@ -72,28 +82,28 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.dist = false;
     try {
       this.service.getTotalCotentPlayLine().subscribe((res) => {
-        if(res){
-        this.data = res["data"];
-        this.reportData = res["downloadData"]["data"];
-        this.data.data.forEach((element) => {
-          this.chartData.push({
-            name: element.month,
-            y: element.plays,
+        if (res) {
+          this.data = res["data"];
+          this.reportData = res["downloadData"]["data"];
+          this.data.data.forEach((element) => {
+            this.chartData.push({
+              name: element.month,
+              y: element.plays,
+            });
+            this.catgory.push(element.month);
           });
-          this.catgory.push(element.month);
-        });
-        this.createLineChart(this.chartData);
-        this.getDistMeta();
-       this.commonService.loaderAndErr(this.chartData);
-      }
-      }, (err)=>{
+          this.createLineChart(this.chartData);
+          this.getDistMeta();
+          this.commonService.loaderAndErr(this.chartData);
+        }
+      }, (err) => {
 
         this.data = [];
         this.emptyChart();
         this.commonService.loaderAndErr(this.data);
-        });
+      });
     }
-   catch (error) { 
+    catch (error) {
       this.chartData = [];
       this.commonService.loaderAndErr(this.chartData);
     }
@@ -192,7 +202,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     this.dataToDownload.push(data1);
   }
 
-  
+
 
 
   downloadReport() {
@@ -239,7 +249,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   }
 
   createLineChart(data) {
-    
+
     this.chartOptions = {
       chart: {
         type: "area",
@@ -265,7 +275,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
           fontWeight: 'bold',
           fontSize: this.height > 1760 ? "30px" : this.height > 1160 && this.height < 1760 ? "20px" : this.height > 667 && this.height < 1160 ? "12px" : "10px"
         },
-        
+
         labels: {
           style: {
             color: 'black',
@@ -294,7 +304,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
 
         },
         margin: "5px",
-      
+
         labels: {
           style: {
             fontWeight: "900",
@@ -302,7 +312,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
           }
         },
         type: "datetime",
-        
+
         categories: this.catgory,
 
       },
@@ -342,7 +352,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
 
           },
 
-        
+
         },
       },
 

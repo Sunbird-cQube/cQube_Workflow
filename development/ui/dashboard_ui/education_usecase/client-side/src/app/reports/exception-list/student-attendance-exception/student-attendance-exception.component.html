@@ -51,7 +51,8 @@
                             </p>
                         </div>
                         <div class="col-sm-5">
-                            <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" (click)="getView1()">
+                            <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh"
+                                [hidden]="hideAccessBtn" (click)="getView1()">
                                 User Level Access
                             </button>
                         </div>
@@ -105,13 +106,13 @@
                         </option>
                     </select>
 
-                    <button class="btn btn-secondary" id="blockbtn" name="block"
+                    <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel"
                         (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
-                    <button class="btn btn-secondary" id="clusterbtn"
+                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
                         (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
                     </button>
-                    <button class="btn btn-secondary" id="schoolbtn"
+                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
@@ -124,7 +125,7 @@
                             {{dist.name}}
                         </option>
                     </select>
-                    
+
                     <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
                         (change)="blockSelect($event,myBlock)" [disabled]="selBlock" *ngIf="!blockHidden">
                         <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
@@ -135,7 +136,7 @@
                     </select>
 
                     <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
-                        (change)="clusterSelect($event,myCluster)"[disabled]="selCluster" *ngIf="!clusterHidden">
+                        (change)="clusterSelect($event,myCluster)" [disabled]="selCluster" *ngIf="!clusterHidden">
                         <option [value]="myCluster" disabled selected="selected">Choose a cluster
                         </option>
                         <option *ngFor="let cluster of clusterNames" [(ngValue)]="cluster.id"

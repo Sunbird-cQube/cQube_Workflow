@@ -156,6 +156,10 @@ export class SatHeatChartComponent implements OnInit {
     this.grades = [{ grade: "all" }, ...this.grades.filter(item => item !== { grade: "all" })];
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -166,6 +170,13 @@ export class SatHeatChartComponent implements OnInit {
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.getView1();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
+
   }
 
   onChangePage() {
@@ -859,11 +870,7 @@ export class SatHeatChartComponent implements OnInit {
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
-    let clusterid = localStorage.getItem("clusterId");
-    let blockid = localStorage.getItem("blockId");
-    let districtid = localStorage.getItem("districtId");
-    let schoolid = localStorage.getItem("schoolId");
-
+   
 
     if (level === "Cluster") {
 
@@ -893,16 +900,7 @@ export class SatHeatChartComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
 
-    // if (districtid) {
-    //   this.district = districtid;
-    // }
-    // if (blockid) {
-    //   this.block = blockid;
-    // }
-    // if (clusterid) {
-    //   this.cluster = clusterid;
-
-    // }
+    
 
 
     if (level === "Cluster") {
@@ -915,14 +913,13 @@ export class SatHeatChartComponent implements OnInit {
     } else if (level === "Block") {
       this.district = districtid;
       this.block = blockid;
-      this.cluster = clusterid;
+
       this.selectedDistrict(districtid)
       this.selectedBlock(blockid);
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
-      this.block = blockid;
-      this.cluster = clusterid;
+
       this.selectedDistrict(districtid)
       this.levelVal = 1;
     }

@@ -112,6 +112,10 @@ export class PATExceptionComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.commonService.errMsg();
@@ -136,6 +140,14 @@ export class PATExceptionComponent implements OnInit {
     this.levelWiseFilter();
     //this.getView1()
     this.toHideDropdowns();
+
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
+
 
   }
 

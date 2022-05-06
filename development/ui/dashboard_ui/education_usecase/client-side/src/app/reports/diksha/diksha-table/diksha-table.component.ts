@@ -67,12 +67,22 @@ export class DikshaTableComponent implements OnInit {
     this.tableCreation(this.result);
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.collectionWise();
     this.onResize();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
 

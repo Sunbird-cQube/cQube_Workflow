@@ -166,6 +166,10 @@ export class PATReportComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
 
   ngOnInit() {
     this.mapName = this.commonService.mapName
@@ -280,6 +284,12 @@ export class PATReportComponent implements OnInit {
       this.getMonthYear = [];
       this.commonService.loaderAndErr(this.getMonthYear);
     });
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   getDistricts(level): void {
@@ -480,17 +490,17 @@ export class PATReportComponent implements OnInit {
       this.clusterId = clusterid;
 
     }
-    
+
 
     if (level === "Cluster") {
       this.getBlocks(districtid, blockid);
       this.onclusterLinkClick(clusterid)
-      
+
       this.levelVal = 3;
     } else if (level === "Block") {
 
       this.onblockLinkClick(blockid)
-      
+
       this.blockHidden = true
       this.levelVal = 2;
     } else if (level === "District") {
@@ -2207,25 +2217,28 @@ export class PATReportComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+
   }
 
   // clickMarker for Google map
@@ -2234,25 +2247,28 @@ export class PATReportComponent implements OnInit {
       return false;
     }
     let data = marker.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') { 
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+    
   }
   // google maps tooltip hover effect
   mouseOverOnmaker(infoWindow, $event: MouseEvent): void {

@@ -154,6 +154,10 @@ export class SatReportComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -254,6 +258,12 @@ export class SatReportComponent implements OnInit {
         this.commonService.loaderAndErr([]);
       });
     }
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   onSelectYear() {
@@ -262,7 +272,7 @@ export class SatReportComponent implements OnInit {
     if (this.semesters.length > 0) {
       this.semester = this.semesters[this.semesters.length - 1].id;
 
-      
+
       this.levelWiseFilter();
       this.changeDetection.detectChanges();
     }
@@ -274,7 +284,7 @@ export class SatReportComponent implements OnInit {
   }
 
   getDistricts(level, distId?: any): void {
-    
+
     this.service
       .PATDistWiseData({
         ...{
@@ -306,7 +316,7 @@ export class SatReportComponent implements OnInit {
 
   getBlocks(level, distId, blockId?: any): void {
 
-    
+
     this.service
       .PATBlocksPerDistData(distId, {
         ...{
@@ -2130,25 +2140,29 @@ export class SatReportComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') { 
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+   
   }
 
   // clickMarker for Google map
@@ -2157,24 +2171,27 @@ export class SatReportComponent implements OnInit {
       return false;
     }
     var data = marker.Details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
-    }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
+
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
   }
 
@@ -2196,16 +2213,7 @@ export class SatReportComponent implements OnInit {
         details[key] = markers.Details[key];
       }
     });
-    // Object.keys(details).forEach((key) => {
-    //   if (key !== "students_count") {
-    //     data1[key] = details[key];
-    //   }
-    // });
-    // Object.keys(data1).forEach((key) => {
-    //   if (key !== "total_schools") {
-    //     data2[key] = data1[key];
-    //   }
-    // });
+    
     Object.keys(details).forEach((key) => {
       var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
       if (key !== "longitude") {

@@ -49,7 +49,7 @@
         <div class="col-lg-2 col-md-3 col-sm-12">
           <div class="row">
             <div class="col-sm-7">
-              <button class="btn btn-primary" id="download1" (click)="getView()">
+              <button class="btn btn-primary" id="download1" [hidden]="hideAccessBtn" (click)="getView()">
                 Access Level
               </button>
             </div>
@@ -85,13 +85,13 @@
       </div>
       <div class="row">
         <div class="col-sm-12" style="margin-bottom: 10px">
-          <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" (click)="clusterWise()">
+          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterWise()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise()">
+          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolWise()">
             &nbsp;<strong>Schools</strong>
           </button>
           <select id="choose_infra" [(ngModel)]="indiceData" (change)="onIndiceSelect(indiceData)">
@@ -103,7 +103,7 @@
             </option>
           </select>
 
-          <select [hidden]="distHidden" id="choose_dist" [(ngModel)]="districtId" 
+          <select [hidden]="distHidden" id="choose_dist" [(ngModel)]="districtId"
             (change)="onDistrictSelect(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District

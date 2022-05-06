@@ -68,5 +68,12 @@
         "lng": 92.9375739,
         "zoomLevel": 7.4,
         "stateCode": "24"
+    },
+    "HP": {
+        "name": "Himachal Pradesh",
+        "lat": 32.099804,
+        "lng": 76.269104,
+        "zoomLevel": 7.8,
+        "stateCode": "02"
     }
 }

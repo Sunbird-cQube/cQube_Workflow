@@ -23,7 +23,7 @@
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span *ngIf="levelVal<2" (click)="onDistrictSelect(blockHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{blockHierarchy.districtName}}</span><span> | </span><span *ngIf="levelVal<3" 
+                                {{blockHierarchy.districtName}}</span><span> | </span><span *ngIf="levelVal<3"
                                 (click)="onBlockSelect(blockHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{blockHierarchy.blockName}}</span></p>
@@ -33,16 +33,17 @@
                         <p id="school">
                             Periodic Assessment Test Exception Report for: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span *ngIf="levelVal<2"  (click)="onDistrictSelect(clusterHierarchy.distId)"
+                            </span><span *ngIf="levelVal<2" (click)="onDistrictSelect(clusterHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.districtName}}</span><span> | </span><span *ngIf="levelVal<3" 
+                                {{clusterHierarchy.districtName}}</span><span> | </span><span *ngIf="levelVal<3"
                                 (click)="onBlockSelect(clusterHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span  *ngIf="levelVal<4" class="selected-level">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span *ngIf="levelVal<4"
+                                class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
-                
+
                 <div class="col-sm-4">
                     <div class="row">
                         <div class="col-sm-3">
@@ -50,7 +51,8 @@
                             </p>
                         </div>
                         <div class="col-sm-4">
-                            <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" (click)="getView1()" onload="">
+                            <button class="btn btn-primary" title="User Level Access" [hidden]="hideAccessBtn"
+                                style="margin-top:0.5vh" (click)="getView1()" onload="">
                                 User Level Access
                             </button>
                         </div>
@@ -101,18 +103,18 @@
                             {{allSubjects[i]}}
                         </option>
                     </select>
-                    <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                    <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel"
+                        (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
-                    <button class="btn btn-secondary" id="clusterbtn"
+                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
                         (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
                     </button>
-                    <button class="btn btn-secondary" id="schoolbtn"
+                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="districtId" [disabled]="selDist" (change)="onDistrictSelect(districtId)"
-                    *ngIf="!this.distHidden"
-                    >
+                    <select id="choose_dist" [(ngModel)]="districtId" [disabled]="selDist"
+                        (change)="onDistrictSelect(districtId)" *ngIf="!this.distHidden">
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
                             {{dist.district_name}}

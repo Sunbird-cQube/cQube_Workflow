@@ -79,6 +79,11 @@ export class CompositReportComponent implements OnInit {
     localStorage.removeItem('resData');
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
+
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
@@ -114,7 +119,12 @@ export class CompositReportComponent implements OnInit {
 
     document.getElementById('spinner').style.display = 'block';
 
-
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   public tableHead: any;

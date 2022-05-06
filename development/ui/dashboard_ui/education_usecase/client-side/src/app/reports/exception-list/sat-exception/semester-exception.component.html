@@ -38,32 +38,34 @@
                                 {{clusterHierarchy.districtName}}</span><span> | </span><span *ngIf="levelVal<3"
                                 (click)="onBlockSelect(clusterHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span *ngIf="levelVal<4" class="selected-level">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span *ngIf="levelVal<4"
+                                class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-3 col-sm-12">
                     <div class="row">
-                      <div class="col-lg-2">
-                        <p id="errMsg" class="note"></p>
-                      </div>
+                        <div class="col-lg-2">
+                            <p id="errMsg" class="note"></p>
+                        </div>
                         <div class="col-sm-6">
-                            <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" (click)="getView1()" onload="">
+                            <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh"
+                                [hidden]="hideAccessBtn" (click)="getView1()" onload="">
                                 User Level Access
                             </button>
                         </div>
-                      <div class="col-lg-4">
-                        <div class="level-headerbuttons label-header-button">
-          
-                        <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
-                          (click)="downloadReport()">
-                          Download Report &nbsp;
-                          <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                        </button>
+                        <div class="col-lg-4">
+                            <div class="level-headerbuttons label-header-button">
+
+                                <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report"
+                                    id="download1" (click)="downloadReport()">
+                                    Download Report &nbsp;
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
@@ -87,12 +89,13 @@
                         </option>
                     </select>
 
-                    <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                    <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel"
+                        (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
-                    <button class="btn btn-secondary" id="clusterbtn"
+                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
                         (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
                     </button>
-                    <button class="btn btn-secondary" id="schoolbtn"
+                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
                     <select id="grades" [(ngModel)]="grade" (change)="onGradeSelect(grade)">
@@ -117,16 +120,15 @@
                             {{sem.name}}
                         </option>
                     </select>
-                    <select id="choose_dist" [(ngModel)]="districtId" [disabled]="selDist" (change)="onDistrictSelect(districtId)"
-                    *ngIf="!this.distHidden"
-                    >
+                    <select id="choose_dist" [(ngModel)]="districtId" [disabled]="selDist"
+                        (change)="onDistrictSelect(districtId)" *ngIf="!this.distHidden">
                         <option [value]="" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
                             {{dist.district_name}}
                         </option>
                     </select>
 
-                    <select id="choose_block" [(ngModel)]="blockId" [disabled]="selBlock" 
+                    <select id="choose_block" [(ngModel)]="blockId" [disabled]="selBlock"
                         (change)="onBlockSelect(blockId)" *ngIf="!this.blockHidden">
                         <option [value]="" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockMarkers" [(ngValue)]="block.block_id">

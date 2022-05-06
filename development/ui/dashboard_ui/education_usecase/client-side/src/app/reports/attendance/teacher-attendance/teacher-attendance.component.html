@@ -63,7 +63,7 @@
               <a *ngIf="academicYear" href="javascript: void(0)" id="downloadRaw" (click)="downloadRaw()">Download
                 Academic Year Data</a>
               <p *ngIf="!academicYear" id="errMsg" class="note"></p>
-              <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" (click)="getView1()" onload="">
+              <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" [hidden] = "hideAccessBtn" (click)="getView1()" onload="">
                 User Level Access
               </button>
             </div>
@@ -119,13 +119,13 @@
                 {{ month.name }}
               </option>
             </select>
-            <button class="btn btn-secondary" id="blockbtn" name="block" (click)="blockWise($event)">
+            <button class="btn btn-secondary" id="blockbtn" name="block" [hidden] = "hideIfAccessLevel" (click)="blockWise($event)">
               &nbsp;<strong>Blocks</strong>
             </button>
-            <button class="btn btn-secondary" id="clusterbtn" (click)="clusterWise($event)">
+            <button class="btn btn-secondary" id="clusterbtn" [hidden] = "hideIfAccessLevel" (click)="clusterWise($event)">
               &nbsp;<strong>Clusters</strong>
             </button>
-            <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise($event)">
+            <button class="btn btn-secondary" id="schoolbtn" [hidden] = "hideIfAccessLevel" (click)="schoolWise($event)">
               &nbsp;<strong>Schools</strong>
             </button>
 

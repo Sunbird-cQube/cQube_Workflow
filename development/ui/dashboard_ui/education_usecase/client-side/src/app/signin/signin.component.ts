@@ -103,22 +103,37 @@ export class SigninComponent implements OnInit {
 
     this.service.login(this.loginForm.value).subscribe(res => {
       this.wrongCredintional = false;
-
+      
       let response = res
       let userLevel = res['user_level']
       localStorage.setItem('userLevel', userLevel)
       let userLocation = res['user_location']
       localStorage.setItem('userLocation', userLocation)
 
-      let clusterId = res['cluster_id']
-      localStorage.setItem('clusterId', clusterId)
+      let districtId,clusterId,schoolId, blockId;
+      if(userLevel === "District"){
+        districtId = res['districtId']
+        localStorage.setItem('districtId', districtId);
+      } else if (userLevel === "Block"){
+        districtId = res['districtId']
+        blockId = res['blockId']
+        localStorage.setItem('blockId', blockId)
 
-      let blockId = res['block_id']
-      localStorage.setItem('blockId', blockId)
-      let districtId = res['district_id']
-      localStorage.setItem('districtId', districtId)
-      let schoolId = res['school_id']
-      localStorage.setItem('schoolId', schoolId)
+        localStorage.setItem('districtId', districtId);
+      } else if (userLevel === "Cluster") {
+           
+        districtId = res['districtId']
+        blockId = res['blockId']
+        clusterId = res['clusterId']
+        localStorage.setItem('blockId', blockId)
+
+        localStorage.setItem('districtId', districtId);
+        localStorage.setItem('clusterId', clusterId);
+      } else if (userLevel === null || userLevel === ''|| userLevel === 'State' ){
+
+      }
+     
+
 
       
       this.userName = res['username']

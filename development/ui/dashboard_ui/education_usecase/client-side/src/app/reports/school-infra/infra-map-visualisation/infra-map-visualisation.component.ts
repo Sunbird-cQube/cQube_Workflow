@@ -131,6 +131,10 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -200,8 +204,14 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
-    this.getView1();
+    // this.getView1();
     localStorage.getItem("userLevel") === null ? this.selDist == false : this.selDist == true
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   getDistricts(): void {
@@ -229,7 +239,7 @@ export class InfraMapVisualisationComponent implements OnInit {
             ? -1
             : 0
       );
-      
+
       this.changeDetection.detectChanges();
       if (blockId) this.onBlockSelect(blockId);
     });
@@ -837,7 +847,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           distId: this.data[0].details.district_id,
           districtName: this.data[0].details.district_name,
         };
-        
+
         this.fileName = `${this.reportName}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
 
         // to show and hide the dropdowns
@@ -1000,7 +1010,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   // to load all the schools for selected cluster for state data on the map
   onClusterSelect(clusterId) {
-    
+
     this.infraFilter = [];
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -1017,7 +1027,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.myData = this.service.infraMapAllBlockWise({ management: this.management, category: this.category }).subscribe(
       (result: any) => {
-        
+
         this.myData = this.service
           .infraMapSchoolWise(
             this.districtId,
@@ -1026,7 +1036,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              
+
               this.markers = this.data = res["data"];
               this.gettingInfraFilters(this.data);
 
@@ -1259,87 +1269,74 @@ export class InfraMapVisualisationComponent implements OnInit {
   }
 
 
-  selCluster = false;
-  selBlock = false;
-  selDist;
+  selCluster = true;
+  selBlock = true;
+  selDist = true
   levelVal = 0;
+
+
 
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
     this.clusterId = localStorage.getItem("clusterId");
-    this.blockId = localStorage.getItem("blockId");
-    this.districtId = localStorage.getItem("districtId");
-   
+
+
+
 
     if (level === "Cluster") {
+      this.districtId = localStorage.getItem("districtId");
+      this.blockId = localStorage.getItem("blockId");
+      this.clusterId = localStorage.getItem('clusterId')
       
-      this.selCluster = false;
-      this.selBlock = false;
-      this.selDist = true;
-    
+      this.blockHierarchy = {
+        distId: this.districtId,
+        blockId: this.blockId,
+      };
       this.onClusterSelect(this.clusterId)
       this.levelVal = 3;
     } else if (level === "Block") {
+      this.districtId = localStorage.getItem("districtId");
+      this.blockId = localStorage.getItem("blockId");
      
-      this.selCluster = false;
-      this.selBlock = true;
-      this.selDist = true;
-     
+      this.districtHierarchy = {
+        distId: this.districtId,
+      };
+
       this.onBlockSelect(this.blockId)
       this.levelVal = 2;
     } else if (level === "District") {
+      this.districtId = localStorage.getItem("districtId");
 
-      this.selCluster = false;
-      this.selBlock = false;
-      this.selDist = true;
+      
       this.levelVal = 1;
       this.districtHierarchy = {
         distId: this.districtId,
       };
-    
+
       this.onDistrictSelect(this.districtId)
     }
   }
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
-    let clusterid = localStorage.getItem("clusterId");
-    let blockid = localStorage.getItem("blockId");
-    let districtid = localStorage.getItem("districtId");
-    let schoolid = localStorage.getItem("schoolId");
-    
 
-    if (districtid) {
-    
-      this.districtId = districtid;
-     
-    }
-    if (blockid) {
-      this.blockId = blockid;
-    
-    }
-    if (clusterid) {
-      this.clusterId = clusterid;
-
-    }
     if (level === "Cluster") {
 
-      this.selCluster = true;
-      this.selBlock = true;
-      this.selDist = true;
+      // this.selCluster = true;
+      // this.selBlock = true;
+      // this.selDist = true;
       this.levelVal = 3;
-      // this.getClusters(districtid, blockid, clusterid);
     } else if (level === "Block") {
 
-      this.selCluster = false;
+      this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
 
-      this.selCluster = false;
-      this.selBlock = false;
+      this.selCluster = true;
+      this.selBlock = true;
       this.selDist = true;
       this.levelVal = 1;
     }
@@ -1512,25 +1509,28 @@ export class InfraMapVisualisationComponent implements OnInit {
   onClick_Marker(event) {
     this.infraFilter = [];
     var data = event.target.myJsonData.details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+
   }
 
 
@@ -1541,6 +1541,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.infraFilter = [];
     var data = marker.details;
+
     if (data.district_id && !data.block_id && !data.cluster_id) {
       this.stateLevel = 1;
       this.onDistrictSelect(data.district_id);

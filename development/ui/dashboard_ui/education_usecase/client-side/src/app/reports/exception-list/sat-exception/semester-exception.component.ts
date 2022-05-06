@@ -113,6 +113,11 @@ export class SemesterExceptionComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -134,7 +139,14 @@ export class SemesterExceptionComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.getSemesters();
     this.changeDetection.detectChanges();
-    this.toHideDropdowns()
+    this.toHideDropdowns();
+
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
   toHideDropdowns() {
     this.blockHidden = true;
@@ -717,6 +729,7 @@ export class SemesterExceptionComponent implements OnInit {
   // to load all the clusters for selected block for state data on the map
   onBlockSelect(blockId) {
     // to clear the existing data on the map layer
+  
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
@@ -735,6 +748,7 @@ export class SemesterExceptionComponent implements OnInit {
     }
     this.myData = this.service.patExceptionClusterPerBlock(this.districtHierarchy.distId, blockId, { ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'sat_exception', semester: this.semester }, ...{ management: this.management, category: this.category } }).subscribe(res => {
       this.data = res;
+
       this.markers = this.clusterMarkers = this.data['data'];
       this.allSubjects = [];
       if (this.grade != 'all') {

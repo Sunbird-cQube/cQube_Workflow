@@ -182,6 +182,10 @@ export class CrcReportComponent implements OnInit {
     this.createChart(this.labels, this.chartData, this.tableHead, this.obj);
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "block";
@@ -243,6 +247,13 @@ export class CrcReportComponent implements OnInit {
     }, err => {
       this.commonService.loaderAndErr([]);
     });
+
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   selCluster = false;

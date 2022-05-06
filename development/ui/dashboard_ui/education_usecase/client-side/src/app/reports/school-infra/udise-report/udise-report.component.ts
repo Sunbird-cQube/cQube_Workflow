@@ -131,6 +131,10 @@ export class UdiseReportComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -204,6 +208,12 @@ export class UdiseReportComponent implements OnInit {
     }
 
     this.getView1();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   getDistricts(): void {
@@ -1260,7 +1270,7 @@ export class UdiseReportComponent implements OnInit {
   }
 
   levelWiseFilter() {
-    
+
     if (this.level == "District") {
       this.districtWise();
     }
@@ -1298,7 +1308,7 @@ export class UdiseReportComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    
+
 
     if (districtid) {
       this.districtId = districtid;
@@ -1310,7 +1320,7 @@ export class UdiseReportComponent implements OnInit {
       this.clusterId = clusterid;
 
     }
-   
+
 
     if (level === "Cluster") {
 
@@ -1336,7 +1346,7 @@ export class UdiseReportComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    
+
 
     if (level === "Cluster") {
 
@@ -1616,25 +1626,28 @@ export class UdiseReportComponent implements OnInit {
   onClick_Marker(event) {
     this.indiceFilter = [];
     var data = event.target.myJsonData.details;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id);
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id);
+      }
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id,
+        };
+        this.onBlockSelect(data.block_id);
+      }
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id,
+        };
+        this.onClusterSelect(data.cluster_id);
+      }
     }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id,
-      };
-      this.onBlockSelect(data.block_id);
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id,
-      };
-      this.onClusterSelect(data.cluster_id);
-    }
+   
   }
 
   // clickMarker for Google map
