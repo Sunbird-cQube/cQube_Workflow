@@ -204,31 +204,38 @@ router.post('/login', async (req, res, next) => {
                         }
                         decodingJWT(token);
 
-                        if (userLevel === 'Cluster') {
-                            db.query('SELECT distinct block_id,district_id FROM school_hierarchy_details WHERE cluster_id=$1;', [userLocation], (error, results) => {
-                                if (error) {
-                                    logger.info('---user level from DB error ---');
-                                    throw error
-                                }
-                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: userLocation, blockId: results?.rows[0].block_id, districtId: results?.rows[0].district_id })
-                            })
-                        } else if (userLevel === 'Block') {
-                            
-                            db.query('SELECT distinct district_id FROM school_hierarchy_details WHERE block_id=$1;', [userLocation], (error, results) => {
-                                if (error) {
-                                    logger.info('---user block level from DB error ---');
-                                    throw error
-                                }
-                             
-                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: results?.rows[0].district_id })
-
-                            })
-                        } else if (userLevel === 'District') {
-                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, districtId: userLocation })
-                        } else if (userLevel === '' || userLevel === null || userLevel === '') {
-                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
-                        }
                     };
+
+
+                    if (userLevel === 'Cluster') {
+                        db.query('SELECT distinct block_id,district_id FROM school_hierarchy_details WHERE cluster_id=$1;', [userLocation], (error, results) => {
+                            if (error) {
+                                logger.info('---user level from DB error ---');
+                                throw error
+                            }
+
+                            let blockId = results.rows[0]['block_id']
+                            let districtId = results.rows[0]['district_id']
+                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: userLocation, blockId: blockId, districtId: districtId })
+                        })
+                    } else if (userLevel === 'Block') {
+
+                        db.query('SELECT distinct district_id FROM school_hierarchy_details WHERE block_id=$1;', [userLocation], (error, results) => {
+                            if (error) {
+                                logger.info('---user block level from DB error ---');
+                                throw error
+                            }
+                            logger.info('---user block level from DB  success ---');
+
+                            let districtId = results.rows[0]['district_id']
+                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: districtId })
+
+                        })
+                    } else if (userLevel === 'District') {
+                        res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, districtId: userLocation })
+                    } else {
+                        res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
+                    }
 
                 }).catch(error => {
                     logger.error(`Error :: ${error}`)
