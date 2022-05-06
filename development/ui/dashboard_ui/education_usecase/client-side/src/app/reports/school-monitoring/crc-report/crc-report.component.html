@@ -44,7 +44,7 @@
         <div class="col-lg-2 col-md-3 col-sm-12">
           <div class="row">
             <div class="col-sm-7">
-              <button class="btn btn-primary" id="download1" (click)="getView()">
+              <button class="btn btn-primary" [hidden]="hideAccessBtn" id="download1" (click)="getView()">
                 Access Level
               </button>
             </div>
@@ -133,7 +133,8 @@
               {{ months[i] }}
             </option>
           </select>
-          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" (change)="myDistData(myDistrict)">
+          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideIfAccessLevel"
+            (change)="myDistData(myDistrict)">
             <option [value]="myDistrict" disabled selected="selected">
               Choose District
             </option>

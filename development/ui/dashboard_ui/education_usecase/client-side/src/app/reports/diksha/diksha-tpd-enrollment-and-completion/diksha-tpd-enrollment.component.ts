@@ -105,6 +105,10 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     public router: Router
   ) { }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
 
     this.state = this.commonService.state;
@@ -112,6 +116,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.getAllData();
     this.getProgramData();
     this.getView1();
+
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
 
   }
 
@@ -497,7 +508,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-  hideDist: boolean = true
+  hideDist: boolean = this.hideIfAccessLevel === true ? true : false
   levelVal = 0;
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));

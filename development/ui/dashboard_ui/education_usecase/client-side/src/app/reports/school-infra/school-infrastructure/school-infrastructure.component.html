@@ -62,8 +62,8 @@
                                     (click)="downloadReportofState(downloadType)">Download Report &nbsp; <i
                                         class="fa fa-arrow-down" aria-hidden="true"></i>
                                 </button>
-                                <select *ngIf="xAxisFilter && xAxisFilter.length>0" class="dwnld" id="downloader"
-                                    [(ngModel)]="downloadType" name="downloadType">
+                                <select *ngIf="xAxisFilter && xAxisFilter.length>0 " [hidden]="hideIfAccessLevel"
+                                    class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
                                     <option [value]="downloadType" disabled selected="selected"> Choose Report
                                     </option>
                                     <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">

@@ -50,7 +50,8 @@
       <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
 
-          <select id="choose_district" [(ngModel)]="selectedDist" (change)="onDistSelected(selectedDist)">
+          <select id="choose_district" [hidden]="hideIfAccessLevel" [(ngModel)]="selectedDist"
+            (change)="onDistSelected(selectedDist)">
             <option [value]="selectedDist" disabled selected="selected">
               Choose a District
             </option>

@@ -170,6 +170,10 @@ export class HeatChartComponent implements OnInit {
 
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.state = this.commonService.state;
     this.managementName = this.management = JSON.parse(
@@ -182,6 +186,12 @@ export class HeatChartComponent implements OnInit {
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getView1();
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
   }
 
   onChangePage() {
@@ -223,6 +233,7 @@ export class HeatChartComponent implements OnInit {
       tooltipData,
       this.grade
     );
+
   }
 
   resetToInitPage() {
@@ -442,6 +453,9 @@ export class HeatChartComponent implements OnInit {
       credits: {
         enabled: false,
       },
+      exporting: {
+        enabled: false
+      },
       legend: {
         enabled: false,
       },
@@ -463,6 +477,8 @@ export class HeatChartComponent implements OnInit {
           scrollbar: {
             enabled: scrollBarX,
           },
+          showLastLabel: false,
+          tickLength: 16,
         },
         {
           lineColor: "#FFFFFF",
@@ -478,6 +494,7 @@ export class HeatChartComponent implements OnInit {
               fontFamily: "Arial",
             },
           },
+
         },
       ],
       yAxis: {
@@ -508,6 +525,7 @@ export class HeatChartComponent implements OnInit {
         min: 0,
         minColor: "#ff3300",
         maxColor: "#99ff99",
+        // maxColor: Highcharts.getOptions().colors[0]
       },
       series: [
         {
@@ -544,6 +562,7 @@ export class HeatChartComponent implements OnInit {
     });
 
     function getPointCategoryName(point, dimension, viewBy, level, grades) {
+     
       var series = point.series,
         isY = dimension === "y",
         axis = series[isY ? "yAxis" : "xAxis"];

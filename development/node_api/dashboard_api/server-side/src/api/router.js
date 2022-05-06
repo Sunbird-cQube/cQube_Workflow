@@ -18,7 +18,7 @@ const totpVerify = require('./controller/users/logIn');
 const addUserToDB = require('./controller/users/logIn');
 const getSecret = require('./controller/users/logIn');
 const logout = require('./controller/users/logIn');
-
+const userLevel = require('./controller/users/userDetails')
 
 
 
@@ -187,6 +187,8 @@ router.use('/', totpVerify)
 router.use('/', addUserToDB)
 router.use('/', getSecret)
 router.use('/', logout)
+
+
 
 
 // Infra

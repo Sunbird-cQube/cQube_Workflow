@@ -49,7 +49,7 @@
         <div class="col-lg-2 col-md-3 col-sm-12">
           <div class="row">
             <div class="col-sm-7">
-              <button class="btn btn-primary" id="download1" (click)="getView()">
+              <button class="btn btn-primary" id="download1" [hidden]="hideAccessBtn" (click)="getView()">
                 Access Level
               </button>
             </div>
@@ -110,13 +110,13 @@
               {{ months[i] }}
             </option>
           </select>
-          <button class="btn btn-secondary" id="blockbtn" (click)="blockClick()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" (click)="blockClick()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" (click)="clusterClick()">
+          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterClick()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" (click)="schoolClick()">
+          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolClick()">
             &nbsp;<strong>Schools</strong>
           </button>
 

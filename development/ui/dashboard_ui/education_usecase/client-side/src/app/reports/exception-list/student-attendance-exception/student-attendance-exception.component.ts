@@ -122,9 +122,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
-  typeof(value){
+  typeof(value) {
     return typeof value;
   }
+
+
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName
@@ -194,16 +199,23 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         this.commonService.loaderAndErr(this.markers);
       }
     );
+    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      this.hideIfAccessLevel = true;
+    }
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.hideAccessBtn = true;
+    }
+
   }
 
-  toHideDropdowns(){
+  toHideDropdowns() {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.distHidden = true;
   }
-  selCluster=false;
-  selBlock=false;
-  selDist=false;
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
 
   getView1() {
     let id = localStorage.getItem("userLocation");
@@ -212,39 +224,39 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-   
-    if (districtid !== 'null'){
+
+    if (districtid !== 'null') {
       this.myDistrict = Number(districtid);
       this.distHidden = false;
     }
-    if(blockid !== 'null'){
+    if (blockid !== 'null') {
       this.myBlock = Number(blockid);
       this.blockHidden = false;
     }
-    if(clusterid !== 'null'){
-      this.myCluster= Number(clusterid);
+    if (clusterid !== 'null') {
+      this.myCluster = Number(clusterid);
       this.clusterHidden = false;
     }
-    if(districtid === 'null'){
+    if (districtid === 'null') {
       this.distHidden = false;
     }
 
-  
+
     if (level === "Cluster") {
-      this.distSelect({type:"click"},this.myDistrict,this.myBlock,this.myCluster);
-      this.selCluster=true;
-      this.selBlock=true;
-      this.selDist=true;
+      this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
     } else if (level === "Block") {
-      this.distSelect({type:"click"},this.myDistrict,this.myBlock);
-      this.selCluster=false;
-      this.selBlock=true;
-      this.selDist=true;
+      this.distSelect({ type: "click" }, this.myDistrict, this.myBlock);
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
     } else if (level === "District") {
-      this.selCluster=false;
-      this.selBlock=false;
-      this.selDist=true;
-      this.distSelect({type:"click"},this.myDistrict);
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
+      this.distSelect({ type: "click" }, this.myDistrict);
     }
   }
 
@@ -995,7 +1007,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       localStorage.setItem("blockId", label.block_id);
       localStorage.setItem("cluster", label.cluster_name);
       localStorage.setItem("clusterId", label.cluster_id);
-      
+
       this.myClusterData(label.cluster_id);
       if (event.latlng) {
         obj = {
@@ -1067,7 +1079,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   }
 
   blockData = [];
-  
+
   myDistData(data, blockid?, clusterid?) {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
@@ -1214,8 +1226,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
-            if(blockid){
-              this.myBlockData(blockid,clusterid)
+            if (blockid) {
+              this.myBlockData(blockid, clusterid)
             }
           },
           (err) => {
@@ -1250,7 +1262,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   }
 
   clusterData = [];
-  myBlockData(data,clusterid?) {
+  myBlockData(data, clusterid?) {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
@@ -1282,7 +1294,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         this.fileName = `${this.reportName}_${this.level}s_of_block_${data}_${this.period}_${this.commonService.dateAndTime}`;
       }
       var blockNames = [];
-      
+
       this.blocksNames.forEach((item) => {
         if (
           item.distId &&
@@ -1424,7 +1436,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
-            if(clusterid){
+            if (clusterid) {
               this.myClusterData(clusterid)
             }
           },
