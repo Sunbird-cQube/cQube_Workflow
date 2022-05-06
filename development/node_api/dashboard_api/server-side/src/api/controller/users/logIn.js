@@ -211,49 +211,25 @@ router.post('/login', async (req, res, next) => {
                                     throw error
                                 }
                                 res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: userLocation, blockId: results?.rows[0].block_id, districtId: results?.rows[0].district_id })
-
-                                //SELECT distinct block_id, district_id FROM school_hierarchy_details WHERE cluster_id = $1;
-                                // if (results.rows.length) {
-                                //     logger.info('---user status from DB success ---');
-                                //     res.send({ token: jwt, role: role, username: username, userId: userId, status: results.rows[0].status, res: response })
-
-                                // } else {
-                                //     logger.info('---user status not available in DB ---');
-                                //     res.send({ token: jwt, role: role, username: username, userId: userId, res: response })
-                                // }
-
                             })
                         } else if (userLevel === 'Block') {
-                            console.log('userLocation', userLocation);
+                            
                             db.query('SELECT distinct district_id FROM school_hierarchy_details WHERE block_id=$1;', [userLocation], (error, results) => {
                                 if (error) {
                                     logger.info('---user block level from DB error ---');
                                     throw error
                                 }
-                                console.log('result2', results)
+                             
                                 res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: results?.rows[0].district_id })
-                                // if (results.rows.length) {
-                                //     logger.info('---user status from DB success ---');
-                                //     res.send({ token: jwt, role: role, username: username, userId: userId, status: results.rows[0].status, res: response })
-
-                                // } else {
-                                //     logger.info('---user status not available in DB ---');
-                                //     res.send({ token: jwt, role: role, username: username, userId: userId, res: response })
-                                // }
 
                             })
                         } else if (userLevel === 'District') {
                             res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, districtId: userLocation })
+                        } else if (userLevel === '' || userLevel === null || userLevel === '') {
+                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
                         }
-
-
                     };
 
-
-
-
-
-                    // res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
                 }).catch(error => {
                     logger.error(`Error :: ${error}`)
                     res.status(409).json({ errMsg: 'please check user name and password' });
