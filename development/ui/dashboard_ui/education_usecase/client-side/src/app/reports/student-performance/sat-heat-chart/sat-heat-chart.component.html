@@ -45,7 +45,7 @@
                 <div class="col-lg-2 col-md-3 col-sm-12">
                     <div class="row">
                         <div class="col-sm-7">
-                            <button class="btn btn-primary" id="download1" [hidden] = "hideAccessBtn" (click)="getView()">
+                            <button class="btn btn-primary" id="download1" [hidden]="hideAccessBtn" (click)="getView()">
                                 Access Level
                             </button>
                         </div>
@@ -122,7 +122,7 @@
                         </option>
                     </select>
 
-                    <select id="district" class="select-control" [(ngModel)]="district" [hidden] = "selDist"
+                    <select id="district" class="select-control" [(ngModel)]="district" [hidden]="selDist"
                         (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">
@@ -131,7 +131,7 @@
                     </select>
 
 
-                    <select [hidden]="blockHidden" id="block" class="select-control" [(ngModel)]="block"
+                    <select [hidden]="blockHidden || blockhide" id="block" class="select-control" [(ngModel)]="block"
                         (change)="selectedBlock(block)">
                         <option [value]="block" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockNames, let i =index" [(ngValue)]="block.block_id">

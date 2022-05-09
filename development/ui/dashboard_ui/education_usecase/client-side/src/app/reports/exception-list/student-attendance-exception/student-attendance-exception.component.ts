@@ -243,11 +243,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
 
     if (level === "Cluster") {
+      this.myDistrict = Number(districtid);
+      this.myBlock = Number(blockid);
+      this.myCluster = Number(clusterid);
       this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Block") {
+      this.myDistrict = Number(districtid);
+      this.myBlock = Number(blockid);
       this.distSelect({ type: "click" }, this.myDistrict, this.myBlock);
       this.selCluster = false;
       this.selBlock = true;
@@ -256,7 +261,27 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = true;
-      this.distSelect({ type: "click" }, this.myDistrict);
+      this.myDistrict = Number(districtid);
+      this.service
+        .dist_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
+        .subscribe(
+          (res) => {
+            console.log('res', res)
+            let data = res['distData']
+            if (data.length > 0) {
+              for (var i = 0; i < data.length; i++) {
+                this.districtsIds.push(data[i]["district_id"]);
+                this.districtsNames.push({
+                  id: data[i]["district_id"],
+                  name: data[i]["district_name"],
+
+                })
+              }
+              this.distSelect({ type: "click" }, this.myDistrict);
+            }
+
+          })
+
     }
   }
 
@@ -1064,6 +1089,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
   distSelect(event, data, blockid?, clusterid?) {
     var distData: any = {};
+    console.log('distname', this.districtsNames)
     this.districtData.find((a) => {
       if (a.district_id == data) {
         distData = {
@@ -1074,6 +1100,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         };
       }
     });
+    console.log('event', event.type)
     this.getTelemetryData(distData, event.type, "district");
     this.myDistData(data, blockid, clusterid);
   }
@@ -1105,6 +1132,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = true;
     let obj = this.districtsNames.find((o) => o.id == data);
+   
     this.hierName = "";
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);

@@ -226,7 +226,7 @@ router.post('/login', async (req, res, next) => {
                                 throw error
                             }
                             logger.info('---user block level from DB  success ---');
-
+                            console.log('results', results)
                             let districtId = results.rows[0]['district_id']
                             res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: districtId })
 

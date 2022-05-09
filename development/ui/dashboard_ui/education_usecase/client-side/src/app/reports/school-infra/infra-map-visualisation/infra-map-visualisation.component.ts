@@ -206,10 +206,11 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     // this.getView1();
     localStorage.getItem("userLevel") === null ? this.selDist == false : this.selDist == true
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+    if (this.userAccessLevel !== "" || this.userAccessLevel !== undefined) {
       this.hideIfAccessLevel = true;
+     
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+    if (this.userAccessLevel === '' || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
       this.hideAccessBtn = true;
     }
   }
@@ -1288,7 +1289,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
       this.clusterId = localStorage.getItem('clusterId')
-      
+
       this.blockHierarchy = {
         distId: this.districtId,
         blockId: this.blockId,
@@ -1298,7 +1299,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     } else if (level === "Block") {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
-     
+
       this.districtHierarchy = {
         distId: this.districtId,
       };
@@ -1308,7 +1309,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     } else if (level === "District") {
       this.districtId = localStorage.getItem("districtId");
 
-      
+
       this.levelVal = 1;
       this.districtHierarchy = {
         distId: this.districtId,
