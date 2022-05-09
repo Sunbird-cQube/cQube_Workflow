@@ -85,7 +85,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.levelWiseFilter();
     document.getElementById('spinner').style.display = 'block';
     this.getView1()
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+    if (this.userAccessLevel !== '' || this.userAccessLevel !== undefined ) {
       this.hideIfAccessLevel = true;
     }
     if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
@@ -105,13 +105,45 @@ export class SchoolInfrastructureComponent implements OnInit {
     if (level === "Cluster") {
       this.myDistrict = districtid
       this.myBlock = blockid
-      this.myBlockData(blockid)
-      this.myClusterData(clusterid)
+      this.myCluster = clusterid
+      this.downloadLevel = 'cluster';
+      document.getElementById('spinner').style.display = 'block'
+      this.service.infraBlockWise(districtid, { management: this.management, category: this.category }).subscribe(res => {
+
+        let result = res
+        var result1 = Object.entries(result);
+        for (var i = 0; i < result1.length; i++) {
+          if (result[i]) {
+            this.blockNames.push({ id: result[i].block.id, name: result[i].block.value });
+          }
+
+        }
+        this.commonService.loaderAndErr(this.result);
+        this.service.infraClusterWise(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
+          let clusterResult = res;
+          let clusterResult1 = Object.entries(clusterResult);
+          for (var i = 0; i < clusterResult1.length; i++) {
+            if (clusterResult[i]) {
+              this.clusterNames.push({ id: clusterResult[i].cluster.id, name: clusterResult[i].cluster.value });
+            }
+
+          }
+          document.getElementById('spinner').style.display = 'none'
+         
+          this.myClusterData(clusterid)
+        })
+
+      
+
+
+      })
+     
+
 
     } else if (level === "Block") {
       this.myDistrict = districtid
       this.myBlock = blockid
-      // this.myCluster = clusterid
+      this.myCluster = clusterid
       this.downloadLevel = 'block';
       this.myDistData(districtid)
       this.myBlockData(blockid)
@@ -123,8 +155,8 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myCluster = clusterid
 
       this.myDistData(districtid)
-      // this.levelVal = 1;
-    } else if (level === null) {
+   
+    } else if (level === null || level === '') {
       this.distHidden = false
     }
   }
@@ -135,7 +167,7 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     if (level === 'District') {
       this.distHidden = true
-    } else if (level === null) {
+    } else if (level === null || level == "") {
       this.distHidden = false
     }
 

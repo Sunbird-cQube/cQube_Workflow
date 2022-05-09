@@ -870,7 +870,7 @@ export class SatHeatChartComponent implements OnInit {
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
-   
+
 
     if (level === "Cluster") {
 
@@ -888,10 +888,11 @@ export class SatHeatChartComponent implements OnInit {
 
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = false;
+      this.selDist = true;
       this.levelVal = 1;
     }
   }
+  blockhide = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -900,7 +901,7 @@ export class SatHeatChartComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
 
-    
+
 
 
     if (level === "Cluster") {
@@ -913,7 +914,7 @@ export class SatHeatChartComponent implements OnInit {
     } else if (level === "Block") {
       this.district = districtid;
       this.block = blockid;
-
+      this.blockhide = true
       this.selectedDistrict(districtid)
       this.selectedBlock(blockid);
       this.levelVal = 2;
