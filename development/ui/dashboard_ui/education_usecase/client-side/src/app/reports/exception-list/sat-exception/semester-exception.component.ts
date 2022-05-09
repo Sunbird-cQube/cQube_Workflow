@@ -254,28 +254,34 @@ export class SemesterExceptionComponent implements OnInit {
       this.clusterHidden = false;
     }
     if (districtid === 'null') {
+      this.districtId = districtid
       this.distHidden = false;
     }
 
 
     if (level === "Cluster") {
+      this.clusterId = Number(clusterid);
+      this.blockId = blockid.toString();
+      this.districtId = districtid;
       this.blockHierarchy = {
         blockId: blockid,
         distId: districtid
       }
-      this.onClusterSelect(this.clusterId);
-      this.clusterlevel(this.clusterId);
+
+      this.onClusterSelect(clusterid);
+      this.clusterlevel(clusterid);
       this.levelVal = 3;
     } else if (level === "Block") {
       this.districtHierarchy = {
         distId: districtid
       }
-      this.onBlockSelect(this.blockId);
-      this.blocklevel(this.blockId)
+      this.onBlockSelect(blockid);
+      this.blocklevel(blockid)
       this.levelVal = 2;
     } else if (level === "District") {
-      this.onDistrictSelect(this.districtId);
-      this.distlevel(this.districtId)
+
+      this.onDistrictSelect(districtid);
+      this.distlevel(districtid)
       this.levelVal = 1;
     }
   }
@@ -729,7 +735,7 @@ export class SemesterExceptionComponent implements OnInit {
   // to load all the clusters for selected block for state data on the map
   onBlockSelect(blockId) {
     // to clear the existing data on the map layer
-  
+
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();

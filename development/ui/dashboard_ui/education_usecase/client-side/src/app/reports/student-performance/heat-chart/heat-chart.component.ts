@@ -562,7 +562,7 @@ export class HeatChartComponent implements OnInit {
     });
 
     function getPointCategoryName(point, dimension, viewBy, level, grades) {
-     
+
       var series = point.series,
         isY = dimension === "y",
         axis = series[isY ? "yAxis" : "xAxis"];
@@ -1016,6 +1016,8 @@ export class HeatChartComponent implements OnInit {
       this.hideDist = false
     }
   }
+
+  hideblock = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -1045,6 +1047,7 @@ export class HeatChartComponent implements OnInit {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
+      this.hideblock = true
       this.selectedDistrict(districtid);
       this.selectedBlock(blockid);
       this.levelVal = 2;

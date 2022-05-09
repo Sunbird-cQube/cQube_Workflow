@@ -133,7 +133,7 @@
                     </select>
 
 
-                    <select [hidden]="blockHidden" id="block" class="select-control" [(ngModel)]="block"
+                    <select [hidden]="blockHidden || hideblock" id="block" class="select-control" [(ngModel)]="block"
                         (change)="selectedBlock(block)">
                         <option [value]="block" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockNames, let i =index" [(ngValue)]="block.block_id">
