@@ -208,12 +208,15 @@ export class UdiseReportComponent implements OnInit {
     }
 
     this.getView1();
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+    if (this.userAccessLevel !== "") {
       this.hideIfAccessLevel = true;
-    }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+      this.distHidden = true
+          }
+    if (this.userAccessLevel === "" || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
       this.hideAccessBtn = true;
+
     }
+
   }
 
   getDistricts(): void {
@@ -1298,7 +1301,7 @@ export class UdiseReportComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-  distHidden = true
+  distHidden = false
   levelVal = 0;
 
   getView() {
@@ -1331,10 +1334,10 @@ export class UdiseReportComponent implements OnInit {
       this.onBlockSelect(blockid)
       this.levelVal = 2;
     } else if (level === "District") {
-      // this.distHidden = true
+     
       this.onDistrictSelect(districtid)
-      // this.levelVal = 1;
-    } else if (level === null) {
+     
+    } else if (level === '' || level == undefined) {
       this.distHidden = false
     }
   }
@@ -1647,7 +1650,7 @@ export class UdiseReportComponent implements OnInit {
         this.onClusterSelect(data.cluster_id);
       }
     }
-   
+
   }
 
   // clickMarker for Google map
