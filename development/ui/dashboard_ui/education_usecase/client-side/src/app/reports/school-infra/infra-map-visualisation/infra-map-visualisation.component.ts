@@ -204,7 +204,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
-    // this.getView1();
+   
     localStorage.getItem("userLevel") === null ? this.selDist == false : this.selDist == true
     if (this.userAccessLevel !== "" || this.userAccessLevel !== undefined) {
       this.hideIfAccessLevel = true;
@@ -286,7 +286,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
-      // this.districtId = null;
+    
       this.commonService.errMsg();
       this.level = "District";
       this.googleMapZoom = 7;

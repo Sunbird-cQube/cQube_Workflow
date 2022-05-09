@@ -683,7 +683,7 @@ export class PATLOTableComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
-hideblock = false
+  hideblock = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -718,14 +718,13 @@ hideblock = false
       this.district = districtid;
       this.block = blockid;
       this.hideblock = true
-      // this.cluster = clusterid;
+
       this.selectedDistrict(districtid);
       this.selectedBlock(blockid);
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
-      // this.block = blockid;
-      // this.cluster = clusterid;
+
       this.selectedDistrict(districtid);
       this.levelVal = 1;
     } else if (level === null) {

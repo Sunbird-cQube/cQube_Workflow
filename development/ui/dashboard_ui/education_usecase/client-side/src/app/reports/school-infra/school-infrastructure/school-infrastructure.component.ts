@@ -112,8 +112,6 @@ export class SchoolInfrastructureComponent implements OnInit {
 
         let result = res
         var result1 = Object.entries(result);
-
-        // this.showChart(result, 'block')
         for (var i = 0; i < result1.length; i++) {
           if (result[i]) {
             this.blockNames.push({ id: result[i].block.id, name: result[i].block.value });
@@ -157,7 +155,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myCluster = clusterid
 
       this.myDistData(districtid)
-      // this.levelVal = 1;
+   
     } else if (level === null || level === '') {
       this.distHidden = false
     }

@@ -1334,9 +1334,9 @@ export class UdiseReportComponent implements OnInit {
       this.onBlockSelect(blockid)
       this.levelVal = 2;
     } else if (level === "District") {
-      // this.distHidden = true
+     
       this.onDistrictSelect(districtid)
-      // this.levelVal = 1;
+     
     } else if (level === '' || level == undefined) {
       this.distHidden = false
     }

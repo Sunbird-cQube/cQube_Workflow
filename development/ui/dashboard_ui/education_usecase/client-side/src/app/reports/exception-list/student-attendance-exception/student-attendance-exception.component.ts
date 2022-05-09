@@ -266,7 +266,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         .dist_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            console.log('res', res)
+         
             let data = res['distData']
             if (data.length > 0) {
               for (var i = 0; i < data.length; i++) {
@@ -1089,7 +1089,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
   distSelect(event, data, blockid?, clusterid?) {
     var distData: any = {};
-    console.log('distname', this.districtsNames)
+
     this.districtData.find((a) => {
       if (a.district_id == data) {
         distData = {
@@ -1100,7 +1100,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         };
       }
     });
-    console.log('event', event.type)
+   
     this.getTelemetryData(distData, event.type, "district");
     this.myDistData(data, blockid, clusterid);
   }
