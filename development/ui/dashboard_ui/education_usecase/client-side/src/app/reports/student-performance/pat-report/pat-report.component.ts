@@ -284,12 +284,16 @@ export class PATReportComponent implements OnInit {
       this.getMonthYear = [];
       this.commonService.loaderAndErr(this.getMonthYear);
     });
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
   }
 
   getDistricts(level): void {
@@ -469,7 +473,7 @@ export class PATReportComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-  hideDist = true
+  hideDist
   levelVal = 0;
 
   getView() {
@@ -492,20 +496,18 @@ export class PATReportComponent implements OnInit {
     }
 
 
+
+
     if (level === "Cluster") {
-      this.getBlocks(districtid, blockid);
       this.onclusterLinkClick(clusterid)
-
-      this.levelVal = 3;
-    } else if (level === "Block") {
-
-      this.onblockLinkClick(blockid)
-
       this.blockHidden = true
-      this.levelVal = 2;
+      this.clusterHidden = true
+    } else if (level === "Block") {
+      this.onblockLinkClick(blockid)
+      this.blockHidden = true
     } else if (level === "District") {
       this.ondistLinkClick(districtid)
-      this.levelVal = 1;
+
     }
   }
 
@@ -2247,7 +2249,7 @@ export class PATReportComponent implements OnInit {
       return false;
     }
     let data = marker.Details;
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') { 
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
@@ -2268,7 +2270,7 @@ export class PATReportComponent implements OnInit {
         this.onClusterSelect(data.cluster_id);
       }
     }
-    
+
   }
   // google maps tooltip hover effect
   mouseOverOnmaker(infoWindow, $event: MouseEvent): void {

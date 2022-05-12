@@ -101,6 +101,9 @@ export class TelemetryDataComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+
   ngOnInit() {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -117,6 +120,13 @@ export class TelemetryDataComponent implements OnInit {
     document.getElementById('home') ? document.getElementById('home').style.display = 'block' : "";
     this.timePeriod = 'overall';
     this.levelWiseFilter();
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== "" || this.userAccessLevel !== undefined) {
+        this.hideIfAccessLevel = true;
+      } }
+   
+  
   }
 
   getDaysInMonth = function (month, year) {

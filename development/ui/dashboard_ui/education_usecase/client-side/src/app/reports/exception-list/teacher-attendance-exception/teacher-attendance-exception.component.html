@@ -117,7 +117,7 @@
                     </button>
 
                     <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"
-                        (change)="distSelect($event,myDistrict)" [disabled]="selDist" *ngIf="!distHidden">
+                        (change)="distSelect($event,myDistrict)" [disabled]="selDist" >
                         <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
                         </option>

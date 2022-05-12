@@ -186,12 +186,16 @@ export class HeatChartComponent implements OnInit {
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getView1();
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
   }
 
   onChangePage() {
@@ -843,6 +847,8 @@ export class HeatChartComponent implements OnInit {
       this.commonService.errMsg();
       this.reportData = [];
 
+      this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
+
       let a = {
         report: "pat",
         year: this.year,
@@ -1004,6 +1010,7 @@ export class HeatChartComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
+
       this.levelVal = 3;
     } else if (level === "Block") {
       this.selCluster = false;
@@ -1018,6 +1025,7 @@ export class HeatChartComponent implements OnInit {
   }
 
   hideblock = false
+  hideCluster = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -1026,22 +1034,18 @@ export class HeatChartComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
 
-    if (districtid) {
-      this.district = districtid;
-    }
-    if (blockid) {
-      this.block = blockid;
-    }
-    if (clusterid) {
-      this.cluster = clusterid;
-    }
+
 
     if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
+
+
       this.selectedBlock(blockid);
       this.selectedCluster(clusterid);
+      this.blockHidden = true
+      this.clusterHidden = true
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;

@@ -332,7 +332,7 @@ export class PATLOTableComponent implements OnInit {
         columns.forEach((column, i2) => {
           if (i2 > 3 && column.value || i2 > 3 && String(column.value) == String(0)) {
             let title = `${level} Name: ${column.data}<br/> Date: ${columns[0].value} <br/> Grade: ${columns[1].value[columns[1].value.length - 1]} <br/> Subject: ${columns[2].value} <br/> ${toTitleCase(columns[3].data.replace('_', ' '))}: ${columns[3].value} <br/>Marks: ${column.mark}`;
-            body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+            body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="left" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
           }
           else {
             if (column.data == 'indicator') {
@@ -480,7 +480,7 @@ export class PATLOTableComponent implements OnInit {
     this.levelWiseFilter();
   }
 
-  selectedDistrict(districtId) {
+  selectedDistrict(districtId, blockId?) {
     if (!this.month && this.month === '') {
       alert("Please select month!");
       this.district = '';
@@ -529,6 +529,10 @@ export class PATLOTableComponent implements OnInit {
         this.dist = true;
         this.blok = false;
         this.clust = false;
+        // if(blockId){
+        //   this.selectedBlock(blockId)
+        // }
+       
       },
       (err) => {
         this.handleError();
@@ -713,14 +717,17 @@ export class PATLOTableComponent implements OnInit {
       this.cluster = clusterid;
       this.selectedBlock(blockid);
       this.selectedCluster(clusterid);
+      this.clusterHidden = true
+      this.blockHidden = true
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
       this.block = blockid;
       this.hideblock = true
 
-      this.selectedDistrict(districtid);
-      this.selectedBlock(blockid);
+      this.selectedDistrict(districtid, blockid);
+      
+      this.blockHidden = true
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;

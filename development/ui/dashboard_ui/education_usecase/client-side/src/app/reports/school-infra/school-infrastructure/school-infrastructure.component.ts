@@ -85,12 +85,16 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.levelWiseFilter();
     document.getElementById('spinner').style.display = 'block';
     this.getView1()
-    if (this.userAccessLevel !== '' || this.userAccessLevel !== undefined ) {
-      this.hideIfAccessLevel = true;
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== '' || this.userAccessLevel !== undefined) {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
   }
 
 
@@ -108,6 +112,10 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myCluster = clusterid
       this.downloadLevel = 'cluster';
       document.getElementById('spinner').style.display = 'block'
+      let obj = this.districtsNames.find(o => o.id == districtid);
+      this.hierName = obj.name;
+      localStorage.setItem('dist', obj.name);
+      localStorage.setItem('distId', districtid);
       this.service.infraBlockWise(districtid, { management: this.management, category: this.category }).subscribe(res => {
 
         let result = res
@@ -118,6 +126,9 @@ export class SchoolInfrastructureComponent implements OnInit {
           }
 
         }
+
+        let obj = this.blockNames.find(o => o.id == blockid);
+        localStorage.setItem('block', JSON.stringify(obj?.name));
         this.commonService.loaderAndErr(this.result);
         this.service.infraClusterWise(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
           let clusterResult = res;
@@ -129,24 +140,35 @@ export class SchoolInfrastructureComponent implements OnInit {
 
           }
           document.getElementById('spinner').style.display = 'none'
-         
+
           this.myClusterData(clusterid)
         })
-
-      
-
-
       })
-     
-
-
     } else if (level === "Block") {
       this.myDistrict = districtid
       this.myBlock = blockid
       this.myCluster = clusterid
       this.downloadLevel = 'block';
-      this.myDistData(districtid)
-      this.myBlockData(blockid)
+      document.getElementById('spinner').style.display = 'block'
+      this.service.infraBlockWise(districtid, { management: this.management, category: this.category }).subscribe(res => {
+
+        let result = res
+        var result1 = Object.entries(result);
+        for (var i = 0; i < result1.length; i++) {
+          if (result[i]) {
+            this.blockNames.push({ id: result[i].block.id, name: result[i].block.value });
+          }
+
+        }
+        let obj = this.blockNames.find(o => o.id == blockid);
+        localStorage.setItem('block', obj?.name);
+        this.commonService.loaderAndErr(this.result);
+        this.myBlockData(blockid)
+
+
+      })
+
+      this.blockHidden = true
 
     } else if (level === "District") {
       this.distHidden = true
@@ -155,7 +177,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myCluster = clusterid
 
       this.myDistData(districtid)
-   
+
     } else if (level === null || level === '') {
       this.distHidden = false
     }
@@ -257,7 +279,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     localStorage.setItem('dist', obj.name);
     localStorage.setItem('distId', data);
 
-    this.blockHidden = false;
+    this.blockHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'District' ? false : true) : false;
     this.clusterHidden = true;
 
 
@@ -312,8 +334,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     localStorage.setItem('block', JSON.stringify(obj?.name));
     this.hierName = obj?.name;
 
-    this.blockHidden = false;
-    this.clusterHidden = false;
+    this.blockHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'Block' ? true : true) : false;
+    this.clusterHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'Block' ? true : true) : false;
 
 
     if (this.myData) {
@@ -358,8 +380,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.modes = [];
     this.reportData = [];
 
-    // this.title = JSON.parse(localStorage.getItem('block'));
-    this.title = localStorage.getItem('block');
+    this.title = JSON.parse(localStorage.getItem('block'));
+    // this.title = localStorage.getItem('block');
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));
@@ -367,6 +389,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.blockName = blockId;
     this.clustName = data;
     let obj = this.clusterNames.find(o => o.id == data);
+    
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
 
