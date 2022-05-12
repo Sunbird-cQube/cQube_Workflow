@@ -122,11 +122,12 @@ export class TelemetryDataComponent implements OnInit {
     this.levelWiseFilter();
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" || this.userAccessLevel !== undefined) {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
-      } }
-   
-  
+      }
+    }
+
+
   }
 
   getDaysInMonth = function (month, year) {
