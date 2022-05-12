@@ -491,6 +491,7 @@ export class CompositReportComponent implements OnInit {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
+      console.log('dist', this.districtsNames)
       let obj = this.districtsNames.find(o => o.id == districtid);
       this.hierName = obj.name;
       localStorage.setItem('dist', obj.name);

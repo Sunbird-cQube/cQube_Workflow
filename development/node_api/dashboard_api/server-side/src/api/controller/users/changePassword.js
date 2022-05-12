@@ -94,7 +94,7 @@ router.post('/:id', auth.authController, async (req, res) => {
 
 
     } catch (e) {
-       sat
+
         res.status(500).json({ errMsg: "Internal error. Please try again!!" });
     }
 });
