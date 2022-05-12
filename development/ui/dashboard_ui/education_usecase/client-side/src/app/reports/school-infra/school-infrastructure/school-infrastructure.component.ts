@@ -334,8 +334,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     localStorage.setItem('block', JSON.stringify(obj?.name));
     this.hierName = obj?.name;
 
-    this.blockHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'Block' ? true : true) : false;
-    this.clusterHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'Block' ? true : true) : false;
+    this.blockHidden =  false;
+    this.clusterHidden = false;
 
 
     if (this.myData) {

@@ -171,11 +171,11 @@ export class SatHeatChartComponent implements OnInit {
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.getView1();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      if (this.userAccessLevel !== "" ||  undefined) {
         this.hideIfAccessLevel = true;
       }
 
