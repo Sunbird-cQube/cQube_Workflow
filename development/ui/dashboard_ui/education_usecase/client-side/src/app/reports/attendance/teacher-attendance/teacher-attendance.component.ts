@@ -258,11 +258,11 @@ export class TeacherAttendanceComponent implements OnInit {
     });
     this.toHideDropdowns();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" ) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' ) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== '' || null || undefined || "State") {
+      if (this.userAccessLevel !== '') {
         this.hideIfAccessLevel = true;
       }
     }

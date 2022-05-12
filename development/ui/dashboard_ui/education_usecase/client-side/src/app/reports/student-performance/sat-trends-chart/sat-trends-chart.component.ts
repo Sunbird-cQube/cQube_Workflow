@@ -71,6 +71,11 @@ export class SatTrendsChartComponent implements OnInit {
   @ViewChild('multiSelect3') multiSelect3: MultiSelectComponent;
   @ViewChild('multiSelect4') multiSelect4: MultiSelectComponent;
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
+
   ngOnInit(): void {
 
     document.getElementById('accessProgressCard').style.display = 'none';
@@ -107,6 +112,8 @@ export class SatTrendsChartComponent implements OnInit {
     }, err => {
     })
     this.changeDetection.detectChanges();
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? true : false;
   }
 
   onResize() {
