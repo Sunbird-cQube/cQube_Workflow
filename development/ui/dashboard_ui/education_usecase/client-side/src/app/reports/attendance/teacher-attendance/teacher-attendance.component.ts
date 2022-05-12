@@ -258,11 +258,13 @@ export class TeacherAttendanceComponent implements OnInit {
     });
     this.toHideDropdowns();
 
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
-    }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== '' || null || undefined || "State") {
+        this.hideIfAccessLevel = true;
+      }
     }
   }
 
@@ -339,10 +341,12 @@ export class TeacherAttendanceComponent implements OnInit {
     if (level === "Cluster") {
       this.myDistData(districtid, blockid, clusterid);
       this.clusterlevel(clusterid);
+      this.selCluster = true
       this.levelVal = 3;
     } else if (level === "Block") {
       this.myDistData(districtid, blockid);
-      this.blocklevel(blockid)
+      this.blocklevel(blockid);
+      this.selBlock = true
       this.levelVal = 2;
     } else if (level === "District") {
       this.myDistData(districtid);
@@ -350,26 +354,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.levelVal = 1;
     }
   }
-  //   if(level==="cluster"){
 
-  //   this.selCluster=true;
-  //   this.selBlock=true;
-  //   this.selDist=true;
-  //     this.levelVal=3;
-  //   }else if(level==="block"){
-
-  //   this.selCluster=false;
-  //   this.selBlock=true;
-  //   this.selDist=true;
-  //     this.levelVal=2;
-  //   }else if(level==="district"){
-
-  //   this.selCluster=false;
-  //   this.selBlock=false;
-  //   this.selDist=true;
-  //     this.levelVal=1;
-  //   }
-  // }
 
   distlevel(id) {
     this.selCluster = false;

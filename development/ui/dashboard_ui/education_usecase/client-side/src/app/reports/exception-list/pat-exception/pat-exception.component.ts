@@ -141,17 +141,22 @@ export class PATExceptionComponent implements OnInit {
     //this.getView1()
     this.toHideDropdowns();
 
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
+
 
 
   }
 
-  toHideDropdowns(){
+  toHideDropdowns() {
     this.blockHidden = true;
     this.clusterHidden = true;
     this.distHidden = true;
@@ -195,23 +200,23 @@ export class PATExceptionComponent implements OnInit {
   }
 
 
-  selCluster=false;
-  selBlock=false;
-  selDist=false;
-  levelVal=0;
-  getView(){
-    let id=localStorage.getItem("userLocation");
-    let level= localStorage.getItem("userLevel");
-   
-    if(level==="Cluster"){
+  selCluster = false;
+  selBlock = false;
+  selDist = false;
+  levelVal = 0;
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+
+    if (level === "Cluster") {
       this.clusterlevel(id);
-      this.levelVal=3;
-    }else if(level==="Block"){
+      this.levelVal = 3;
+    } else if (level === "Block") {
       this.blocklevel(id);
-      this.levelVal=2;
-    }else if(level==="District"){
+      this.levelVal = 2;
+    } else if (level === "District") {
       this.distlevel(id);
-      this.levelVal=1;
+      this.levelVal = 1;
     }
   }
 
@@ -222,74 +227,80 @@ export class PATExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-   
-    if (districtid !== 'null'){
+
+    if (districtid !== 'null') {
       this.districtId = districtid;
       this.distHidden = false;
     }
-    if(blockid !== 'null'){
+    if (blockid !== 'null') {
       this.blockId = blockid;
       this.blockHidden = false;
     }
-    if(clusterid !== 'null'){
-      this.clusterId= clusterid;
+    if (clusterid !== 'null') {
+      this.clusterId = clusterid;
       this.clusterHidden = false;
     }
-    if(districtid === 'null'){
+    if (districtid === 'null') {
       this.distHidden = false;
     }
-   
-  
+
+
     if (level === "Cluster") {
-      this.blockHierarchy ={  
+      this.blockHierarchy = {
         blockId: blockid,
         distId: districtid
       }
       this.onClusterSelect(clusterid);
-      this.clusterlevel(clusterid);
+      // this.clusterlevel(clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
-      this.districtHierarchy={
+      this.districtHierarchy = {
         distId: districtid
       }
       this.onBlockSelect(blockid);
-      this.blocklevel(blockid)
+
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
       this.onDistrictSelect(districtid);
-      
+
       this.distlevel(districtid)
       this.levelVal = 1;
     }
   }
 
-  distlevel(id){
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
     //this.level= "blockPerDistrict";
     this.districtId = id;
     //this.levelWiseFilter();
-    }
+  }
 
-  blocklevel(id){
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "clusterPerBlock";
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "clusterPerBlock";
     this.blockId = id;
     this.levelWiseFilter();
-    }
+  }
 
-  clusterlevel(id){
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "schoolPerCluster";
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "schoolPerCluster";
     this.clusterId = id;
     this.levelWiseFilter();
-    }
-    
+  }
+
 
   homeClick() {
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
@@ -707,7 +718,7 @@ export class PATExceptionComponent implements OnInit {
       // sort the blockname alphabetically
       this.blockMarkers.sort((a, b) => (a.block_name > b.block_name) ? 1 : ((b.block_name > a.block_name) ? -1 : 0));
       this.mark = this.blockMarkers;
-  
+
     }, err => {
       this.data = this.blockMarkers = [];
       this.commonService.loaderAndErr(this.data);
@@ -736,7 +747,7 @@ export class PATExceptionComponent implements OnInit {
     if (this.myData) {
       this.myData.unsubscribe();
     }
-    
+
     this.myData = this.service.patExceptionClusterPerBlock(this.districtHierarchy.distId, blockId, { ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
       this.data = res;
       this.markers = this.clusterMarkers = this.data['data'];
@@ -761,6 +772,7 @@ export class PATExceptionComponent implements OnInit {
         blockId: this.data['data'][0].block_id,
         blockName: this.data['data'][0].block_name
       }
+
       this.districtId = this.data['data'][0].district_id;
       this.blockId = blockId;
 

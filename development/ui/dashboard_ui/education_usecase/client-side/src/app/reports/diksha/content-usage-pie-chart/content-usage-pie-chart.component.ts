@@ -65,12 +65,7 @@ export class ContentUsagePieChartComponent implements OnInit {
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getStateData();
 
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
-    }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
   }
 
   public skul = true;

@@ -208,14 +208,16 @@ export class UdiseReportComponent implements OnInit {
     }
 
     this.getView1();
-    if (this.userAccessLevel !== "") {
-      this.hideIfAccessLevel = true;
-      this.distHidden = true
-          }
-    if (this.userAccessLevel === "" || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== "") {
+        this.hideIfAccessLevel = true;
+        this.distHidden = true
+      }
 
     }
+
 
   }
 
@@ -406,6 +408,14 @@ export class UdiseReportComponent implements OnInit {
       this.myData = this.service.udise_block_wise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           this.data = this.myBlockData = res["data"];
+          let districtBlock = this.myBlockData.filter(blk => {
+            if (blk.details.district_id === 902) {
+              return blk;
+            }
+
+
+          })
+
           this.gettingIndiceFilters(this.data);
 
           let options = {
@@ -1334,9 +1344,9 @@ export class UdiseReportComponent implements OnInit {
       this.onBlockSelect(blockid)
       this.levelVal = 2;
     } else if (level === "District") {
-     
+
       this.onDistrictSelect(districtid)
-     
+
     } else if (level === '' || level == undefined) {
       this.distHidden = false
     }

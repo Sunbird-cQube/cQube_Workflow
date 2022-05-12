@@ -13,7 +13,7 @@
                         <p id="block">
                             Periodic Assessment Test Exception Report for: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
-                            </span><span *ngIf="levelVal<2" (click)="onDistrictSelect(districtHierarchy.distId)"
+                            </span><span (click)="onDistrictSelect(districtHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{districtHierarchy.districtName}}</span> </p>
                     </div>
@@ -21,9 +21,9 @@
                         <p id="cluster">
                             Periodic Assessment Test Exception Report for: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span *ngIf="levelVal<2" (click)="onDistrictSelect(blockHierarchy.distId)"
+                            </span><span (click)="onDistrictSelect(blockHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{blockHierarchy.districtName}}</span><span> | </span><span *ngIf="levelVal<3"
+                                {{blockHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onBlockSelect(blockHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
                                 {{blockHierarchy.blockName}}</span></p>
@@ -33,13 +33,12 @@
                         <p id="school">
                             Periodic Assessment Test Exception Report for: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span *ngIf="levelVal<2" (click)="onDistrictSelect(clusterHierarchy.distId)"
+                            </span><span (click)="onDistrictSelect(clusterHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.districtName}}</span><span> | </span><span *ngIf="levelVal<3"
+                                {{clusterHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onBlockSelect(clusterHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span *ngIf="levelVal<4"
-                                class="selected-level">
+                                {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
@@ -113,15 +112,15 @@
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="districtId" [disabled]="selDist"
-                        (change)="onDistrictSelect(districtId)" *ngIf="!this.distHidden">
+                    <select id="choose_dist" [(ngModel)]="districtId" [hidden]="selDist"
+                        (change)="onDistrictSelect(districtId)" >
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
                             {{dist.district_name}}
                         </option>
                     </select>
 
-                    <select id="choose_block" [(ngModel)]="blockId" [disabled]="selBlock"
+                    <select id="choose_block" [(ngModel)]="blockId" [hidden]="selBlock"
                         (change)="onBlockSelect(blockId)" *ngIf="!this.blockHidden">
                         <option [value]="blockId" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockMarkers" [(ngValue)]="block.block_id">
@@ -129,7 +128,7 @@
                         </option>
                     </select>
 
-                    <select id="choose_cluster" [(ngModel)]="clusterId" [disabled]="selCluster"
+                    <select id="choose_cluster" [(ngModel)]="clusterId" [hidden]="selCluster"
                         (change)="onClusterSelect(clusterId)" *ngIf="!this.clusterHidden">
                         <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
                         <option *ngFor="let cluster of clusterMarkers" [(ngValue)]="cluster.cluster_id"

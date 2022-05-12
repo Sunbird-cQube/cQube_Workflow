@@ -21,6 +21,7 @@ import { environment } from "src/environments/environment";
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
+
 export class InfraMapVisualisationComponent implements OnInit {
 
   public title: string = "";
@@ -204,15 +205,21 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? false : true;
    
-    localStorage.getItem("userLevel") === null ? this.selDist == false : this.selDist == true
-    if (this.userAccessLevel !== "" || this.userAccessLevel !== undefined) {
-      this.hideIfAccessLevel = true;
-     
+    if (environment.auth_api !== 'cqube') {
+
+      if (this.userAccessLevel !== "") {
+        this.hideIfAccessLevel = true;
+
+      }
+      if (this.userAccessLevel === '' || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
+        this.hideAccessBtn = true;
+      }
     }
-    if (this.userAccessLevel === '' || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
+
   }
 
   getDistricts(): void {
@@ -269,7 +276,6 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.districtWise();
   }
 
-
   // google maps
   mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
     infoWindow.open();
@@ -286,7 +292,6 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
-    
       this.commonService.errMsg();
       this.level = "District";
       this.googleMapZoom = 7;
@@ -454,6 +459,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.myData = this.service.infraMapAllBlockWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           this.myBlockData = res["data"];
+
           this.markers = this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
@@ -852,7 +858,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.fileName = `${this.reportName}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
 
         // to show and hide the dropdowns
-        this.blockHidden = false;
+        this.blockHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'District' ? false : true) : false;
         this.clusterHidden = true;
 
         this.districtId = districtId;
@@ -953,8 +959,8 @@ export class InfraMapVisualisationComponent implements OnInit {
           this.fileName = `${this.reportName}_clusters_of_block_${blockId}_${this.commonService.dateAndTime}`;
 
           // to show and hide the dropdowns
-          this.blockHidden = false;
-          this.clusterHidden = false;
+          this.blockHidden = environment.auth_api !== 'cqube' ? (this.linkBlock === true ? true : false) : false;
+          this.clusterHidden = environment.auth_api !== 'cqube' ? (this.linkCluster === true ? true : false) : false;
 
           this.districtId = this.data[0].details.district_id;
           this.blockId = blockId;
@@ -1081,8 +1087,8 @@ export class InfraMapVisualisationComponent implements OnInit {
               };
               this.fileName = `${this.reportName}_schools_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
 
-              this.blockHidden = false;
-              this.clusterHidden = false;
+              this.blockHidden = environment.auth_api !== 'cqube' ? (this.linkBlock === true ? true : false) : false;
+              this.clusterHidden = environment.auth_api !== 'cqube' ? (this.linkCluster === true ? true : false) : false;
 
               this.districtHierarchy = {
                 distId: this.data[0].details.district_id,
@@ -1272,29 +1278,30 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   selCluster = true;
   selBlock = true;
-  selDist = true
+  selDist = false
   levelVal = 0;
 
+
+  linkCluster = false
+  linkBlock = false
 
 
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
-    this.clusterId = localStorage.getItem("clusterId");
-
-
-
 
     if (level === "Cluster") {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
       this.clusterId = localStorage.getItem('clusterId')
-
       this.blockHierarchy = {
         distId: this.districtId,
         blockId: this.blockId,
       };
-      this.onClusterSelect(this.clusterId)
+      this.onClusterSelect(this.clusterId);
+      this.clusterHidden = true
+      this.linkCluster = true
+      this.linkBlock = true
       this.levelVal = 3;
     } else if (level === "Block") {
       this.districtId = localStorage.getItem("districtId");
@@ -1305,17 +1312,22 @@ export class InfraMapVisualisationComponent implements OnInit {
       };
 
       this.onBlockSelect(this.blockId)
+      this.linkCluster = false
+      this.linkBlock = true
       this.levelVal = 2;
     } else if (level === "District") {
       this.districtId = localStorage.getItem("districtId");
-
 
       this.levelVal = 1;
       this.districtHierarchy = {
         distId: this.districtId,
       };
 
-      this.onDistrictSelect(this.districtId)
+      this.onDistrictSelect(this.districtId);
+
+
+    } else if (level === "") {
+      this.selDist = false
     }
   }
   getView1() {
@@ -1324,9 +1336,9 @@ export class InfraMapVisualisationComponent implements OnInit {
 
     if (level === "Cluster") {
 
-      // this.selCluster = true;
-      // this.selBlock = true;
-      // this.selDist = true;
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
 

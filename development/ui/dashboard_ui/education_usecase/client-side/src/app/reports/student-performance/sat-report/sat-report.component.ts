@@ -258,12 +258,16 @@ export class SatReportComponent implements OnInit {
         this.commonService.loaderAndErr([]);
       });
     }
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
   }
 
   onSelectYear() {
@@ -436,8 +440,11 @@ export class SatReportComponent implements OnInit {
 
     if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
+      this.blockHidden = true
+      this.clusterHidden = true
     } else if (level === "Block") {
       this.onblockLinkClick(blockid)
+      this.blockHidden = true
     } else if (level === "District") {
       this.ondistLinkClick(districtid)
 
@@ -2141,7 +2148,7 @@ export class SatReportComponent implements OnInit {
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
 
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') { 
+    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
@@ -2162,7 +2169,7 @@ export class SatReportComponent implements OnInit {
         this.onClusterSelect(data.cluster_id);
       }
     }
-   
+
   }
 
   // clickMarker for Google map
@@ -2213,7 +2220,7 @@ export class SatReportComponent implements OnInit {
         details[key] = markers.Details[key];
       }
     });
-    
+
     Object.keys(details).forEach((key) => {
       var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
       if (key !== "longitude") {
