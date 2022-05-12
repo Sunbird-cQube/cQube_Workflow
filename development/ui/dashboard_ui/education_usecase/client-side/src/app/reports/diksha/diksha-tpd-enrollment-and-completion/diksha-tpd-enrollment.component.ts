@@ -117,12 +117,16 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.getProgramData();
     this.getView1();
 
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
 
   }
 
@@ -311,7 +315,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     }, 1000);
 
     this.emptyChart();
-    
+
     this.districtId = undefined;
     this.districtHidden = false;
     this.selectedCourse = undefined;
@@ -946,7 +950,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   //Get data based on selected collection:::::::::::::::
   public collectionData;
   getDataBasedOnCollections($event) {
-    
+
     this.courseSelected = true;
     this.districtSelected = false;
     this.blockSelected = false;

@@ -673,16 +673,19 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
 
     if (level === "Cluster") {
-      this.district = districtid
-      this.block = blockid
+      this.district = districtid;
+      this.block = blockid;
       this.selectedBlock(blockid, clusterid);
       this.selectedCluster(clusterid);
+      this.clusterHidden = true;
+      this.blockHidden = true
       this.levelVal = 3;
     } else if (level === "Block") {
-      this.district = districtid
-      this.block = blockid
+      this.district = districtid;
+      this.block = blockid;
       this.selectedDistrict(districtid);
       this.selectedBlock(blockid, clusterid);
+      this.blockHidden = true;
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid

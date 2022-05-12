@@ -137,7 +137,7 @@
 
           <select id="choose_dist" [hidden]="selDist" [(ngModel)]="districtId" (change)="ondistLinkClick(districtId)">
             <option [value]="districtId" disabled selected="selected">
-              Choose a District {{selDist}}
+              Choose a District 
             </option>
             <option *ngFor="let dist of allDistricts" [(ngValue)]="dist.Details.district_id">
               {{ dist.Details.district_name }}
