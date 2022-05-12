@@ -264,13 +264,13 @@ export class StudengtAttendanceComponent implements OnInit {
     //this.getView1();
     this.toHideDropdowns();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State')) ? true : false;
-    this.distHidden = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined || 'State' || null) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? true : false;
+    this.distHidden = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== '' || undefined ) {
+      if (this.userAccessLevel !== '' || undefined) {
         this.hideIfAccessLevel = true;
-       
+
       }
 
     }

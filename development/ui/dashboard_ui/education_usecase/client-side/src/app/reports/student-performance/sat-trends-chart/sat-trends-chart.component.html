@@ -54,7 +54,7 @@
                         </select>
                     <!-- </div> -->
 
-                    <div>
+                    <div *ngIf = "hideAccessBtn">
                         <app-multi-select #multiSelect1 style="float: left;width: auto; margin-right: 10px;"
                             [list]="districtList" [text]="'District'"
                             [width1]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '200px':'130px'"

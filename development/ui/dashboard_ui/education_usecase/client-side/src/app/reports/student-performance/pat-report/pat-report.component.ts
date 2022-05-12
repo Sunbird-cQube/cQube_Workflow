@@ -284,12 +284,13 @@ export class PATReportComponent implements OnInit {
       this.getMonthYear = [];
       this.commonService.loaderAndErr(this.getMonthYear);
     });
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
+        
       }
 
     }

@@ -207,7 +207,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
     this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? false : true;
-   
+
     if (environment.auth_api !== 'cqube') {
 
       if (this.userAccessLevel !== "") {
@@ -959,8 +959,8 @@ export class InfraMapVisualisationComponent implements OnInit {
           this.fileName = `${this.reportName}_clusters_of_block_${blockId}_${this.commonService.dateAndTime}`;
 
           // to show and hide the dropdowns
-          this.blockHidden = environment.auth_api !== 'cqube' ? (this.linkBlock === true ? true : false) : false;
-          this.clusterHidden = environment.auth_api !== 'cqube' ? (this.linkCluster === true ? true : false) : false;
+          this.blockHidden = false;
+          this.clusterHidden = false;
 
           this.districtId = this.data[0].details.district_id;
           this.blockId = blockId;
@@ -1087,8 +1087,8 @@ export class InfraMapVisualisationComponent implements OnInit {
               };
               this.fileName = `${this.reportName}_schools_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
 
-              this.blockHidden = environment.auth_api !== 'cqube' ? (this.linkBlock === true ? true : false) : false;
-              this.clusterHidden = environment.auth_api !== 'cqube' ? (this.linkCluster === true ? true : false) : false;
+              this.blockHidden =  false;
+              this.clusterHidden =false;
 
               this.districtHierarchy = {
                 distId: this.data[0].details.district_id,

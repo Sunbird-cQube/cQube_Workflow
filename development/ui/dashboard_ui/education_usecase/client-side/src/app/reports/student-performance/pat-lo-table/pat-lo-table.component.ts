@@ -148,12 +148,18 @@ export class PATLOTableComponent implements OnInit {
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getView1();
 
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+
+      if (this.userAccessLevel !== "" || undefined) {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
+
 
   }
 
@@ -332,7 +338,7 @@ export class PATLOTableComponent implements OnInit {
         columns.forEach((column, i2) => {
           if (i2 > 3 && column.value || i2 > 3 && String(column.value) == String(0)) {
             let title = `${level} Name: ${column.data}<br/> Date: ${columns[0].value} <br/> Grade: ${columns[1].value[columns[1].value.length - 1]} <br/> Subject: ${columns[2].value} <br/> ${toTitleCase(columns[3].data.replace('_', ' '))}: ${columns[3].value} <br/>Marks: ${column.mark}`;
-            body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="left" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+            body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
           }
           else {
             if (column.data == 'indicator') {
@@ -529,10 +535,10 @@ export class PATLOTableComponent implements OnInit {
         this.dist = true;
         this.blok = false;
         this.clust = false;
-        // if(blockId){
+        // if (blockId) {
         //   this.selectedBlock(blockId)
         // }
-       
+
       },
       (err) => {
         this.handleError();
@@ -725,8 +731,8 @@ export class PATLOTableComponent implements OnInit {
       this.block = blockid;
       this.hideblock = true
 
-      this.selectedDistrict(districtid, blockid);
-      
+      // this.selectedDistrict(districtid, blockid);
+      this.selectedBlock(blockid);
       this.blockHidden = true
       this.levelVal = 2;
     } else if (level === "District") {

@@ -119,11 +119,11 @@ export class CompositReportComponent implements OnInit {
 
     document.getElementById('spinner').style.display = 'block';
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" ) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' ) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+      if (this.userAccessLevel !== "" || undefined ) {
         this.hideIfAccessLevel = true;
       }
 
@@ -491,6 +491,7 @@ export class CompositReportComponent implements OnInit {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
+      console.log('dist', this.districtsNames)
       let obj = this.districtsNames.find(o => o.id == districtid);
       this.hierName = obj.name;
       localStorage.setItem('dist', obj.name);
