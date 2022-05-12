@@ -63,8 +63,9 @@
               <a *ngIf="academicYear" href="javascript: void(0)" id="downloadRaw" (click)="downloadRaw()">Download
                 Academic Year Data</a>
               <p *ngIf="!academicYear" id="errMsg" class="note"></p>
-              <button class="btn btn-primary" title="User Level Access" style="margin-top:0.5vh" [hidden] = "hideAccessBtn" (click)="getView1()" onload="">
-                User Level Access
+              <button class="btn btn-primary" title="User Level Access" id="download1" [hidden]="hideAccessBtn"
+                (click)="getView1()" onload="">
+                Access Level
               </button>
             </div>
             <div class="col-sm-4">
@@ -119,19 +120,21 @@
                 {{ month.name }}
               </option>
             </select>
-            <button class="btn btn-secondary" id="blockbtn" name="block" [hidden] = "hideIfAccessLevel" (click)="blockWise($event)">
+            <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel"
+              (click)="blockWise($event)">
               &nbsp;<strong>Blocks</strong>
             </button>
-            <button class="btn btn-secondary" id="clusterbtn" [hidden] = "hideIfAccessLevel" (click)="clusterWise($event)">
+            <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
+              (click)="clusterWise($event)">
               &nbsp;<strong>Clusters</strong>
             </button>
-            <button class="btn btn-secondary" id="schoolbtn" [hidden] = "hideIfAccessLevel" (click)="schoolWise($event)">
+            <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolWise($event)">
               &nbsp;<strong>Schools</strong>
             </button>
 
-            <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [disabled]="selDist"
-              (change)="myDistData(myDistrict)" *ngIf="!this.distHidden">
-              <option [value]="" disabled selected="selected" style="color: white">
+            <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="selDist"
+              (change)="myDistData(myDistrict)">
+              <option [value]="myDistrict" disabled selected="selected" style="color: white">
                 Choose a District
               </option>
               <option *ngFor="let dist of districtsNames" [value]="dist.id">
@@ -139,9 +142,9 @@
               </option>
             </select>
 
-            <select  id="choose_block" [(ngModel)]="myBlock" name="myBlock"  [disabled]="selBlock"
+            <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [hidden]="selBlock"
               (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
-              <option [value]="" disabled selected="selected" style="color: white">
+              <option [value]="myBlock"  disabled selected="selected" style="color: white">
                 Choose a Block
               </option>
               <option *ngFor="let block of blocksNames" [value]="block.id">
@@ -149,9 +152,9 @@
               </option>
             </select>
 
-            <select  id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled]="selCluster"
+            <select id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [hidden]="selCluster"
               (change)="myClusterData(myCluster)" *ngIf="!this.clusterHidden">
-              <option [value]="" disabled selected="selected">
+              <option [value]="myCluster" disabled selected="selected">
                 Choose a cluster
               </option>
               <option *ngFor="let cluster of clusterNames" [value]="cluster.id" [ngStyle]="{
@@ -181,7 +184,7 @@
                 ? '74vh'
                 : '70vh'
           }"></div>
-      
+
       </div>
       <div *ngIf="mapName === 'googlemap'" style="float: left;"
         [ngStyle]="{'width' : selected == 'absolute' ? '90%' : '100%'}">

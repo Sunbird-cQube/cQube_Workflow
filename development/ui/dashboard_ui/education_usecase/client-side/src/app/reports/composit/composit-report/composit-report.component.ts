@@ -87,7 +87,7 @@ export class CompositReportComponent implements OnInit {
   ngOnInit() {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
-    //document.getElementById('backBtn') ?document.getElementById('backBtn').style.display = 'none' : "";
+
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
@@ -119,12 +119,17 @@ export class CompositReportComponent implements OnInit {
 
     document.getElementById('spinner').style.display = 'block';
 
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
+
   }
 
   public tableHead: any;
@@ -265,7 +270,7 @@ export class CompositReportComponent implements OnInit {
     localStorage.setItem('block', JSON.stringify(obj.name));
     this.hierName = obj.name;
 
-    this.blockHidden = false;
+    this.blockHidden = localStorage.getItem('userLevel') === "Block" ? true : false;
     this.clusterHidden = false;
 
 
@@ -313,7 +318,8 @@ export class CompositReportComponent implements OnInit {
     this.modes = [];
     this.reportData = [];
 
-    this.title = JSON.parse(localStorage.getItem('block'));
+    // this.title = JSON.parse(localStorage.getItem('block'));
+    this.title = localStorage.getItem('block');
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));
@@ -462,22 +468,20 @@ export class CompositReportComponent implements OnInit {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
+      let obj = this.districtsNames.find(o => o.id == districtid);
+      this.hierName = obj.name;
+      localStorage.setItem('dist', obj.name);
+      localStorage.setItem('distId', districtid);
 
-
+      document.getElementById("spinner").style.display = "block";
       this.service.cluster_per_block_data(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
         this.result = res;
 
         for (var i = 0; i < this.result.length; i++) {
           this.clusterNames.push({ id: this.result[i].cluster.id, name: this.result[i].cluster.value });
         }
-
-
         this.myClusterData(clusterid);
 
-
-      }, err => {
-
-        $('#table').empty();
 
       });
 
@@ -487,6 +491,10 @@ export class CompositReportComponent implements OnInit {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
+      let obj = this.districtsNames.find(o => o.id == districtid);
+      this.hierName = obj.name;
+      localStorage.setItem('dist', obj.name);
+      localStorage.setItem('distId', districtid);
 
       this.service.block_per_dist_data(this.myDistrict, { management: this.management, category: this.category }).subscribe(res => {
         let result = this.result = res;

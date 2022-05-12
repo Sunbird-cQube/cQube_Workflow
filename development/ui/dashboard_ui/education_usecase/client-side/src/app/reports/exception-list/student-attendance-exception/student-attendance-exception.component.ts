@@ -145,7 +145,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       [this.lat - 4.5, this.lng - 6],
       [this.lat + 3.5, this.lng + 6],
     ]);
-    this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
+    this.managementName = this.management = JSON.parse(localStorage.getItem('management'))?.id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
@@ -199,12 +199,17 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         this.commonService.loaderAndErr(this.markers);
       }
     );
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
 
   }
 
@@ -225,62 +230,51 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
 
-    if (districtid !== 'null') {
-      this.myDistrict = Number(districtid);
-      this.distHidden = false;
-    }
-    if (blockid !== 'null') {
-      this.myBlock = Number(blockid);
-      this.blockHidden = false;
-    }
-    if (clusterid !== 'null') {
-      this.myCluster = Number(clusterid);
-      this.clusterHidden = false;
-    }
-    if (districtid === 'null') {
-      this.distHidden = false;
-    }
+    // if (districtid !== 'null') {
+    //   this.myDistrict = Number(districtid);
+    //   this.distHidden = false;
+    // }
+    // if (blockid !== 'null') {
+    //   this.myBlock = Number(blockid);
+    //   this.blockHidden = false;
+    // }
+    // if (clusterid !== 'null') {
+    //   this.myCluster = Number(clusterid);
+    //   this.clusterHidden = false;
+    // }
+    // if (districtid === 'null') {
+    //   this.distHidden = false;
+    // }
 
 
     if (level === "Cluster") {
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);
-      this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
+      this.myDistData(districtid, blockid, clusterid)
+      // this.myBlockData(blockid, clusterid)
+      this.blockSelect({ type: "click" }, blockid);
+      this.clusterSelect({ type: "click" }, clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Block") {
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
-      this.distSelect({ type: "click" }, this.myDistrict, this.myBlock);
+      this.myDistData(districtid, blockid, clusterid)
+      this.blockSelect({ type: "click" }, blockid);
+      this.blockHidden = true
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "District") {
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
-      this.myDistrict = Number(districtid);
-      this.service
-        .dist_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
-        .subscribe(
-          (res) => {
-         
-            let data = res['distData']
-            if (data.length > 0) {
-              for (var i = 0; i < data.length; i++) {
-                this.districtsIds.push(data[i]["district_id"]);
-                this.districtsNames.push({
-                  id: data[i]["district_id"],
-                  name: data[i]["district_name"],
-
-                })
-              }
-              this.distSelect({ type: "click" }, this.myDistrict);
-            }
-
-          })
+      this.selDist = false;
+     
+      this.myDistrict = districtid;
+    
+      this.distSelect({ type: "click" }, districtid, blockid, clusterid);
 
     }
   }
@@ -1100,7 +1094,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         };
       }
     });
-   
+
     this.getTelemetryData(distData, event.type, "district");
     this.myDistData(data, blockid, clusterid);
   }
@@ -1132,7 +1126,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = true;
     let obj = this.districtsNames.find((o) => o.id == data);
-   
+
     this.hierName = "";
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
@@ -1143,9 +1137,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       } else {
         this.fileName = `${this.reportName}_${this.level}s_of_district_${data}_${this.period}_${this.commonService.dateAndTime}`;
       }
-      this.distName = { district_id: data, district_name: obj.name };
-      this.hierName = obj.name;
-      localStorage.setItem("dist", obj.name);
+      this.distName = { district_id: data, district_name: obj?.name };
+      this.hierName = obj?.name;
+      localStorage.setItem("dist", obj?.name);
       localStorage.setItem("distId", data);
 
       this.globalId = this.myDistrict = data;
@@ -1311,7 +1305,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = false;
     this.skul = false;
     this.clusterHidden = false;
-    this.blockHidden = false;
+    this.blockHidden = localStorage.getItem("userLevel") === "Block" ? true : false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -1521,8 +1515,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden = false;
-    this.blockHidden = false;
+    this.clusterHidden = localStorage.getItem('userLevel') === "Cluster" ? true : false;
+    this.blockHidden = localStorage.getItem('userLevel') === "Cluster" ? true : false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -1590,7 +1584,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         district_name: this.distName.name,
       };
       this.clustName = { cluster_id: data };
-      this.hierName = obj.name;
+      this.hierName = obj?.name;
 
       this.globalId = this.myCluster = data;
       //this.myBlock = this.myBlock;

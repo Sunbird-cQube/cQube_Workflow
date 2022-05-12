@@ -10,7 +10,7 @@ export const environment = {
   appUrl: "http://localhost:4200",
   keycloakUrl: "http://localhost:8080/auth",
   realm: "cQube",
-  clientId: "cQube_App",
+  clientId: "cQube_Application",
   stateName: "UP",
   useCase: "education_usecase",
   diksha_columns: false,

@@ -170,11 +170,15 @@ export class SatHeatChartComponent implements OnInit {
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.getView1();
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
-    }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
 
   }
@@ -755,7 +759,7 @@ export class SatHeatChartComponent implements OnInit {
 
       this.commonService.errMsg();
       this.reportData = [];
-
+      this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
       let a = {
         report: 'sat',
         year: this.year,
@@ -770,7 +774,7 @@ export class SatHeatChartComponent implements OnInit {
         management: this.management,
         category: this.category
       }
-
+      
       this.service.PATHeatMapClusterData(a).subscribe(response => {
         this.genericFunction(response);
         var cluster = this.clusterNames.find(a => a.cluster_id == clusterId);
@@ -902,21 +906,23 @@ export class SatHeatChartComponent implements OnInit {
     let schoolid = localStorage.getItem("schoolId");
 
 
-
-
     if (level === "Cluster") {
       this.district = districtid;
-      this.block = blockid;
+      this.block = blockid
       this.cluster = clusterid;
+     
       this.selectedBlock(blockid);
       this.selectedCluster(clusterid);
+      this.blockHidden = true
+      this.clusterHidden = true
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
       this.block = blockid;
-      this.blockhide = true
+
       this.selectedDistrict(districtid)
       this.selectedBlock(blockid);
+      this.blockHidden = true
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;

@@ -247,13 +247,17 @@ export class CrcReportComponent implements OnInit {
     }, err => {
       this.commonService.loaderAndErr([]);
     });
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === ('' || undefined || 'State' || null)) ? false : true;
 
-    if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
-      this.hideIfAccessLevel = true;
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== null || this.userAccessLevel !== undefined || this.userAccessLevel !== "State") {
+        this.hideIfAccessLevel = true;
+      }
+
     }
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === "State") {
-      this.hideAccessBtn = true;
-    }
+
+
   }
 
   selCluster = false;
@@ -279,6 +283,7 @@ export class CrcReportComponent implements OnInit {
       this.getDistricts('cluster');
       this.getBlocks('cluster', districtid, blockid)
       this.getClusters(districtid, blockid, clusterid)
+
       this.levelVal = 3;
     } else if (level === "Block") {
       this.myDistrict = districtid;
@@ -288,6 +293,7 @@ export class CrcReportComponent implements OnInit {
       this.getDistricts('block');
 
       this.getBlocks('block', districtid, blockid)
+      this.blockHidden = true
 
       this.levelVal = 2;
     } else if (level === "District") {
@@ -943,7 +949,9 @@ export class CrcReportComponent implements OnInit {
     this.modes = [];
     this.downloadType = "";
     this.clusterHidden = false;
-    this.blockHidden = false;
+
+    this.blockHidden = localStorage.getItem('userLevel') === 'Block' ? true : false;
+
     this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_clusters_of_block_${data}_${this.commonService.dateAndTime}`;
     this.myCluster = "";
     this.crcClusterNames = [];
@@ -1125,8 +1133,11 @@ export class CrcReportComponent implements OnInit {
     this.hierName = obj?.name;
     localStorage.setItem("clusterid", data);
 
-    this.clusterHidden = false;
-    this.blockHidden = false;
+    // this.clusterHidden = false;
+    // this.blockHidden = false;
+
+    this.clusterHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false;
+    this.blockHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false
 
     if (this.myData) {
       this.myData.unsubscribe();
