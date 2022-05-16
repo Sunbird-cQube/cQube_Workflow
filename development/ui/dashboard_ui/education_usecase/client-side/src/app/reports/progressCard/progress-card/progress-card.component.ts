@@ -152,7 +152,15 @@ export class progressCardComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('myInput')['disabled'] = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
+    
+     if(this.hideAccessBtn !== true){
+       document.getElementById('hideDistSearch').style.display = 'none'
+     }  
+
+     document.getElementById('myInput')['disabled'] = true;
+    
+    
     this.state = this.commonService.state;
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -180,7 +188,7 @@ export class progressCardComponent implements OnInit, AfterViewInit {
       this.stateData();
     }
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
+
   }
 
   onPeriodSelect() {

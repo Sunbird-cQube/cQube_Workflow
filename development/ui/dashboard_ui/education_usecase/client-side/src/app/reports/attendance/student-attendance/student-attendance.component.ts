@@ -638,7 +638,8 @@ export class StudengtAttendanceComponent implements OnInit {
     }
     if (blockid) {
       this.myBlock = blockid;
-      this.myDistData(districtid, blockid);
+      // this.myDistData(districtid, blockid);
+      this.myBlockData(blockid)
     }
     if (clusterid) {
       this.myCluster = clusterid;
@@ -647,7 +648,9 @@ export class StudengtAttendanceComponent implements OnInit {
     }
 
     if (level === "cluster") {
+      
       this.clusterlevel(id);
+      
       this.levelVal = 3;
     } else if (level === "block") {
       this.blocklevel(id);

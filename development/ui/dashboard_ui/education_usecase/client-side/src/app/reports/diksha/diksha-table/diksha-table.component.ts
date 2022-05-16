@@ -78,7 +78,7 @@ export class DikshaTableComponent implements OnInit {
     this.collectionWise();
     this.onResize();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
 
 
 

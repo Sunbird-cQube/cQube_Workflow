@@ -64,9 +64,8 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.getStateData();
     this.getDistdata();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
-
-
+    this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+ 
   }
 
   public data;

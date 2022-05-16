@@ -131,7 +131,7 @@
 
                     <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="selDist"
                         (change)="myDistData(myDistrict)" *ngIf="!this.distHidden">
-                        <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
+                        <option [value]="" disabled selected="selected" style="color: white;">Choose a
                             District
                         </option>
                         <option *ngFor="let dist of districtsNames" [value]="dist.id">
@@ -141,7 +141,7 @@
 
                     <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [hidden]="selBlock"
                         (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
-                        <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
+                        <option [value]="" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
                         <option *ngFor="let block of blocksNames" [value]="block.id">
                             {{block.name}}

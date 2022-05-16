@@ -284,13 +284,13 @@ export class PATReportComponent implements OnInit {
       this.getMonthYear = [];
       this.commonService.loaderAndErr(this.getMonthYear);
     });
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
-        
+
       }
 
     }
@@ -501,14 +501,23 @@ export class PATReportComponent implements OnInit {
 
     if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
-      this.blockHidden = true
-      this.clusterHidden = true
+      // this.blockHidden = true
+      // this.clusterHidden = true
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
     } else if (level === "Block") {
       this.onblockLinkClick(blockid)
-      this.blockHidden = true
+      // this.blockHidden = true
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
     } else if (level === "District") {
       this.ondistLinkClick(districtid)
-
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
+       this.clusterHidden = true
     }
   }
 
@@ -584,7 +593,7 @@ export class PATReportComponent implements OnInit {
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
-      // this.districtId = undefined;
+      this.districtId = undefined;
 
       this.valueRange = undefined;
       this.selectedIndex = undefined;

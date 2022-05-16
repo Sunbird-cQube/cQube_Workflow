@@ -50,7 +50,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
     this.getStateData();
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
   }
 
   public data;
