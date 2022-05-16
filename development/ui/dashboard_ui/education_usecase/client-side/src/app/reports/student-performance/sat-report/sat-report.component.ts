@@ -259,10 +259,10 @@ export class SatReportComponent implements OnInit {
       });
     }
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" ||  undefined ) {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
       }
 
@@ -312,8 +312,8 @@ export class SatReportComponent implements OnInit {
           this.distFilter = this.districtMarkers;
         }
         if (distId) this.ondistLinkClick(distId);
-        //  if (level == "district") this.ondistLinkClick(this.districtId);
-        //    else this.getBlocks(level, this.districtId, this.blockId);
+        if (level == "district") this.ondistLinkClick(this.districtId);
+        else this.getBlocks(level, this.districtId, this.blockId);
       });
     // });
   }
@@ -337,8 +337,8 @@ export class SatReportComponent implements OnInit {
           this.blockFilter = this.blockMarkers;
         }
         if (blockId) this.onblockLinkClick(blockId);
-        //  if (level == "block") this.onblockLinkClick(blockId);
-        //  else this.getClusters(this.districtId, this.blockId, this.clusterId);
+        if (level == "block") this.onblockLinkClick(blockId);
+        else this.getClusters(this.districtId, this.blockId, this.clusterId);
       });
   }
 
@@ -440,13 +440,23 @@ export class SatReportComponent implements OnInit {
 
     if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
-      this.blockHidden = true
-      this.clusterHidden = true
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      // this.blockHidden = true
+      // this.clusterHidden = true
     } else if (level === "Block") {
+
       this.onblockLinkClick(blockid)
-      this.blockHidden = true
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+      // this.blockHidden = true
     } else if (level === "District") {
       this.ondistLinkClick(districtid)
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
 
     }
   }
@@ -529,7 +539,7 @@ export class SatReportComponent implements OnInit {
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.layerMarkers.clearLayers();
-      //  this.districtId = undefined;
+      this.districtId = undefined;
 
       this.reportData = [];
       this.level = "District";

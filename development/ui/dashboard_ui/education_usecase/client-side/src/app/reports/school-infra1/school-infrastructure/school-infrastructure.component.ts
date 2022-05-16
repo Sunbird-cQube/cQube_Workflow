@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { AppServiceComponent } from 'src/app/app.service';
 import { environment } from 'src/environments/environment';
-import { of } from 'rxjs';
 declare const $;
 
 @Component({
@@ -86,19 +85,18 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.levelWiseFilter();
     document.getElementById('spinner').style.display = 'block';
     this.getView1()
+
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== '' || undefined) {
+      if (this.userAccessLevel !== '' || this.userAccessLevel !== undefined) {
         this.hideIfAccessLevel = true;
       }
 
     }
+
   }
 
-  selCluster = false;
-  selBlock = false;
-  selDist = false;
 
 
   getView() {
@@ -109,73 +107,76 @@ export class SchoolInfrastructureComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
     if (level === "Cluster") {
-
+      this.myDistrict = districtid
+      this.myBlock = blockid
+      this.myCluster = clusterid
       this.downloadLevel = 'cluster';
       document.getElementById('spinner').style.display = 'block'
-      this.myDistData(districtid, blockid, clusterid);
-      this.selCluster = true;
-      this.selBlock = true;
-      this.selDist = true;
-      this.myDistrict = Number(districtid)
-      this.myBlock = Number(blockid)
-      this.myCluster = Number(clusterid)
+      let obj = this.districtsNames.find(o => o.id == districtid);
+      this.hierName = obj.name;
+      localStorage.setItem('dist', obj.name);
+      localStorage.setItem('distId', districtid);
+      this.service.infraBlockWise(districtid, { management: this.management, category: this.category }).subscribe(res => {
 
-      // this.service.infraBlockWise(districtid, { management: this.management, category: this.category }).subscribe(res => {
+        let result = res
+        var result1 = Object.entries(result);
+        for (var i = 0; i < result1.length; i++) {
+          if (result[i]) {
+            this.blockNames.push({ id: result[i].block.id, name: result[i].block.value });
+          }
 
-      //   let result = res
-      //   var result1 = Object.entries(result);
-      //   for (var i = 0; i < result1.length; i++) {
-      //     if (result[i]) {
-      //       this.blockNames.push({ id: result[i].block.id, name: result[i].block.value });
-      //     }
+        }
 
-      //   }
-      //   this.commonService.loaderAndErr(this.result);
-      //   this.service.infraClusterWise(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
-      //     let clusterResult = res;
-      //     let clusterResult1 = Object.entries(clusterResult);
-      //     for (var i = 0; i < clusterResult1.length; i++) {
-      //       if (clusterResult[i]) {
-      //         this.clusterNames.push({ id: clusterResult[i].cluster.id, name: clusterResult[i].cluster.value });
-      //       }
+        let obj = this.blockNames.find(o => o.id == blockid);
+        localStorage.setItem('block', JSON.stringify(obj?.name));
+        this.commonService.loaderAndErr(this.result);
+        this.service.infraClusterWise(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
+          let clusterResult = res;
+          let clusterResult1 = Object.entries(clusterResult);
+          for (var i = 0; i < clusterResult1.length; i++) {
+            if (clusterResult[i]) {
+              this.clusterNames.push({ id: clusterResult[i].cluster.id, name: clusterResult[i].cluster.value });
+            }
 
-      //     }
-      //     document.getElementById('spinner').style.display = 'none'
+          }
+          document.getElementById('spinner').style.display = 'none'
 
-      //     this.myClusterData(clusterid)
-      //   })
-
-
-
-
-      // })
-
-
-
+          this.myClusterData(clusterid)
+        })
+      })
     } else if (level === "Block") {
-
+      this.myDistrict = districtid
+      this.myBlock = blockid
+      this.myCluster = clusterid
       this.downloadLevel = 'block';
-      this.myDistData(districtid, blockid)
-      this.selCluster = false;
-      this.selBlock = true;
-      this.selDist = true;
-      this.myDistrict = Number(districtid)
-      this.myBlock = Number(blockid)
-      this.myCluster = Number(clusterid)
-      // this.myBlockData(blockid)
+      document.getElementById('spinner').style.display = 'block'
+      this.service.infraBlockWise(districtid, { management: this.management, category: this.category }).subscribe(res => {
+
+        let result = res
+        var result1 = Object.entries(result);
+        for (var i = 0; i < result1.length; i++) {
+          if (result[i]) {
+            this.blockNames.push({ id: result[i].block.id, name: result[i].block.value });
+          }
+
+        }
+        let obj = this.blockNames.find(o => o.id == blockid);
+        localStorage.setItem('block', obj?.name);
+        this.commonService.loaderAndErr(this.result);
+        this.myBlockData(blockid)
+
+
+      })
+
+      this.blockHidden = true
 
     } else if (level === "District") {
-
-
+      this.distHidden = true
+      this.myDistrict = districtid
+      this.myBlock = blockid
+      this.myCluster = clusterid
 
       this.myDistData(districtid)
-      this.distHidden = true
-      this.myDistrict = Number(districtid)
-      this.myBlock = Number(blockid)
-      this.myCluster = Number(clusterid)
-      this.selCluster = false;
-      this.selBlock = false;
-      this.selDist = true;
 
     } else if (level === null || level === '') {
       this.distHidden = false
@@ -254,7 +255,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     });
   }
 
-  myDistData(data, blockid?, clusterid?) {
+  myDistData(data) {
 
     this.xAxisFilter = [];
     this.yAxisFilter = [];
@@ -278,7 +279,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     localStorage.setItem('dist', obj.name);
     localStorage.setItem('distId', data);
 
-    this.blockHidden = false;
+    this.blockHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'District' ? false : true) : false;
     this.clusterHidden = true;
 
 
@@ -300,13 +301,6 @@ export class SchoolInfrastructureComponent implements OnInit {
 
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
-      if (blockid && clusterid) {
-        this.myBlockData(blockid, clusterid)
-      }
-      else if (blockid) {
-        this.myBlockData(blockid)
-      }
-
     }, err => {
       this.result = [];
       this.createChart(["clg"], [], '', {});
@@ -315,7 +309,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     });
   }
 
-  myBlockData(data, clusterid?) {
+  myBlockData(data) {
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
@@ -338,7 +332,6 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.blockName = data;
     let obj = this.blockNames.find(o => o.id == data);
     localStorage.setItem('block', JSON.stringify(obj?.name));
-
     this.hierName = obj?.name;
 
     this.blockHidden = false;
@@ -364,10 +357,6 @@ export class SchoolInfrastructureComponent implements OnInit {
 
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
-      if (clusterid) {
-        this.myClusterData(clusterid)
-      }
-
     }, err => {
       this.result = [];
       this.createChart(["clg"], [], '', {});
@@ -392,7 +381,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.reportData = [];
 
     this.title = JSON.parse(localStorage.getItem('block'));
-    //this.title = localStorage.getItem('block');
+    // this.title = localStorage.getItem('block');
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));
@@ -400,6 +389,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.blockName = blockId;
     this.clustName = data;
     let obj = this.clusterNames.find(o => o.id == data);
+
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
 

@@ -133,6 +133,7 @@ export class MapService {
 
   //map tooltip automation
   public getInfoFrom(object, value, levelWise, reportType, infraName, colorText) {
+   
     var popupFood = [];
     var stringLine;
     var selected = '<span>';

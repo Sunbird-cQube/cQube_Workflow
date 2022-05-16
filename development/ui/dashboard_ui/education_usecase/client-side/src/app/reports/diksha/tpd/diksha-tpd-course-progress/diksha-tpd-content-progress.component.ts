@@ -92,6 +92,9 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   }
 
   scousesTOShow: any = [];
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
@@ -100,7 +103,18 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.scousesTOShow = this.courses = res;
     });
     this.commonFunc()
-    // this.getView1();
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
+    this.disHidden = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== "" || undefined) {
+        this.hideIfAccessLevel = true;
+      }
+
+    }
+
+
   }
   selectedCourses = [];
   shareCheckedList(item: any[]) {
@@ -711,18 +725,18 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     if (districtid) {
       this.district = districtid;
 
-      //  this.selectedDistrict(districtid);
+
     }
     if (blockid) {
       this.district = districtid
       this.block = blockid;
-      //   this.selectedDistrict(districtid,blockid);
+
     }
     if (clusterid) {
       this.cluster = clusterid;
-      //  this.selectedDistrict(districtid,blockid,clusterid);
+
     }
-    // this.commonFunc();
+
     if (level === "Cluster") {
 
       this.selCluster = true;
