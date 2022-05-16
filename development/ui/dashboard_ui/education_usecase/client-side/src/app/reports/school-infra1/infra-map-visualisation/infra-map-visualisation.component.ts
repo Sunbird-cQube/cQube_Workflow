@@ -21,6 +21,7 @@ import { environment } from "src/environments/environment";
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
+
 export class InfraMapVisualisationComponent implements OnInit {
 
   public title: string = "";
@@ -204,7 +205,6 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.levelWiseFilter();
     }
-
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? false : true;
 
@@ -216,6 +216,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
 
     }
+
+
   }
 
   getDistricts(): void {
@@ -272,7 +274,6 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.districtWise();
   }
 
-
   // google maps
   mouseOverOnmaker(infoWindow, $event: MouseEvent): void {
     infoWindow.open();
@@ -289,7 +290,6 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.layerMarkers.clearLayers();
       this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
-
       this.commonService.errMsg();
       this.level = "District";
       this.googleMapZoom = 7;
@@ -457,6 +457,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.myData = this.service.infraMapAllBlockWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           this.myBlockData = res["data"];
+
           this.markers = this.data = res["data"];
           this.gettingInfraFilters(this.data);
           let options = {
@@ -855,7 +856,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.fileName = `${this.reportName}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
 
         // to show and hide the dropdowns
-        this.blockHidden = false;
+        this.blockHidden = environment.auth_api !== 'cqube' ? (localStorage.getItem('userLevel') === 'District' ? false : true) : false;
         this.clusterHidden = true;
 
         this.districtId = districtId;
@@ -1273,63 +1274,59 @@ export class InfraMapVisualisationComponent implements OnInit {
   }
 
 
-  selCluster = false;
-  selBlock = false;
-  selDist = false;
+  selCluster = true;
+  selBlock = true;
+  selDist = false
   levelVal = 0;
 
+
+  linkCluster = false
+  linkBlock = false
 
 
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
-    this.clusterId = localStorage.getItem("clusterId");
-
 
     if (level === "Cluster") {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
       this.clusterId = localStorage.getItem('clusterId')
-
-      
-
-      this.clusterHierarchy = {
+      this.blockHierarchy = {
         distId: this.districtId,
         blockId: this.blockId,
-        clusterId: this.clusterId,
       };
-      this.onClusterSelect(this.clusterId)
-      this.selCluster = true;
-      this.selBlock = true;
-      this.selDist = true;
+      this.onClusterSelect(this.clusterId);
+      this.clusterHidden = true
+      this.linkCluster = true
+      this.linkBlock = true
       this.levelVal = 3;
     } else if (level === "Block") {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
-      
 
       this.blockHierarchy = {
         distId: this.districtId,
         blockId: this.blockId,
       };
+
       this.onBlockSelect(this.blockId)
-      this.selCluster = false;
-      this.selBlock = true;
-      this.selDist = true;
+      this.linkCluster = false
+      this.linkBlock = true
       this.levelVal = 2;
-      this.blockId = Number(this.blockId)
-      this.districtId = Number(this.districtId)
     } else if (level === "District") {
       this.districtId = localStorage.getItem("districtId");
+
       this.levelVal = 1;
       this.districtHierarchy = {
         distId: this.districtId,
       };
 
-      this.onDistrictSelect(this.districtId)
-      this.selCluster = false;
-      this.selBlock = false;
-      this.selDist = true;
+      this.onDistrictSelect(this.districtId);
+
+
+    } else if (level === "") {
+      this.selDist = false
     }
   }
   getView1() {

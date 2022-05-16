@@ -49,7 +49,7 @@
       <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12 d-flex">
 
-          <select id="choose_district" [hidden]="hideIfAccessLevel" [(ngModel)]="selectedDrop"
+          <select id="choose_district" [hidden]="!hideAccessBtn" [(ngModel)]="selectedDrop"
             (change)="onStateDropSelected(selectedDrop)">
             <option disabled selected="selected">
               Choose a District

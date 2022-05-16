@@ -1,0 +1,13 @@
+agm-map{
+    height: 500px;
+}
+
+.level-headerbuttons{
+    margin-top: 10px;
+}
+
+.label-header-button span{
+margin-right: 25px;
+cursor: pointer;
+
+}

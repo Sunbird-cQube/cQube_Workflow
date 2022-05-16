@@ -62,7 +62,7 @@
               {{ time.name }}
             </option>
           </select>
-          <select id="choose_dist" class="select-control" [hidden]="hideIfAccessLevel" [(ngModel)]="districtId"
+          <select id="choose_dist" class="select-control" [hidden]="!hideAccessBtn" [(ngModel)]="districtId"
             (change)="districtWise(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District

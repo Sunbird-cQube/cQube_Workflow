@@ -69,7 +69,7 @@
             </option>
           </select>
 
-          <select [hidden]="districtHidden" id="choose_district" [(ngModel)]="selectedDist"
+          <select [hidden]="!districtHidden" id="choose_district" [(ngModel)]="selectedDist"
             (change)="onDistSelected(selectedDist)">
             <option [value]="selectedDist" disabled selected="selected">
               Choose a District

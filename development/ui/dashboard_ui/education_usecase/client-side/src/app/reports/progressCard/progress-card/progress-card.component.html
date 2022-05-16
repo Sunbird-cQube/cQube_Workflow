@@ -156,10 +156,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div  class="row" style="padding-top: 8px !important;">
-                            <div class="col-lg-4 col-md-3 col-sm-12">
+                        <div class="row" style="padding-top: 8px !important;" id="hideDistSearch">
+                            <div class="col-lg-4 col-md-3 col-sm-12" >
                                 <label for="" class="form-label note">Choose Level</label>
-                                <select id="level" class="select-control full-width" [(ngModel)]="level" name="level"
+                                <select id="level"  class="select-control full-width" [(ngModel)]="level" name="level"
                                     (change)="selectedLevel()">
                                     <option [value]="level" disabled selected="selected">Choose Level
                                     </option>
@@ -168,20 +168,20 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="autocomplete" style="width:100%;">
+                            <div class="col-lg-6 col-md-6 col-sm-12" >
+                                <div class="autocomplete"  style="width:100%;" >
                                     <label id="warning" class="form-label note1"
                                         style="text-align: unset; line-height: 1.2em !important;"> Please enter
                                         at
                                         least 2
                                         characters/digits</label>
-                                    <p id="warning1" style="line-height: 0.7em; float: left; display: none;">&nbsp;</p>
-                                    <input #searchInput id="myInput" class="input-control full-width" type="search"
+                                    <p id="warning1"  style="line-height: 0.7em; float: left; display: none;">&nbsp;</p>
+                                    <input #searchInput  id="myInput" class="input-control full-width" type="search"
                                         class="clearable" autocomplete="off" name="districtName" [(ngModel)]="value"
                                         (input)="onChange()" [placeholder]="placeHolder">
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-3 col-sm-12">
+                            <div class="col-lg-2 col-md-3 col-sm-12" >
                                 <p style="line-height: 0.9em;">&nbsp;</p>
                                 <button type="submit" class="btn btn-secondary submit-btn" id="button"
                                     (click)="onSubmit()">Submit</button>
