@@ -66,9 +66,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.getStateData();
     this.getProgramData();
     this.getAllDistCollection();
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === ("" || undefined || 'State')) ? true : false;
-
-
+    this.districtHidden = this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
 
   }
 
@@ -119,7 +117,7 @@ export class EnrollmentProgressComponent implements OnInit {
   clickHome() {
     this.dist = false;
     this.skul = true;
-    this.districtHidden = true;
+    this.districtHidden = this.hideIfAccessLevel === true ? true : false;
     this.selectedDist = "";
     this.selectedCourse = "";
     this.courseSelected = false;
@@ -151,7 +149,7 @@ export class EnrollmentProgressComponent implements OnInit {
   public category = [];
 
   createLineChart(data) {
-    
+
     this.chartData = [];
     this.expectedEnrolled = [];
     this.changeInNetEnrollment = [];
@@ -634,7 +632,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
     //Bar tooltips::::::::::::::::::::::
     function getPointCategoryName(point) {
-     
+
       var obj = '';
       obj = `
                <b> &nbsp;Date:</b>${point[0].x}</br>

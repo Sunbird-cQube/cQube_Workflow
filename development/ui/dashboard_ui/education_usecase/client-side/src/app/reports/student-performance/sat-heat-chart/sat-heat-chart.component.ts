@@ -171,11 +171,11 @@ export class SatHeatChartComponent implements OnInit {
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.getView1();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" ||  undefined) {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
       }
 
@@ -392,13 +392,31 @@ export class SatHeatChartComponent implements OnInit {
     }
     this.chart = Highcharts.chart('container', {
       chart: {
-        type: 'heatmap'
+        type: 'heatmap',
+        scrollablePlotArea: {
+          minWidth: 700,
+          scrollPositionX: 1
+        }
       },
       credits: {
         enabled: false
       },
       legend: {
         enabled: false
+      },
+      plotOptions: {
+        series: {
+          dataLabels: {
+            // overflow: 'none',
+            crop: true,
+            enabled: true,
+            style: {
+              fontWeight: 'normal'
+            }
+          },
+          "turboThreshold": 0
+        }
+
       },
       xAxis: [{
         categories: [],
@@ -462,7 +480,7 @@ export class SatHeatChartComponent implements OnInit {
         maxColor: '#99ff99',
       },
       series: [{
-        turboThreshold: data.length + 100,
+        turboThreshold: 0,
         data: data,
         dataLabels: {
           enabled: true,
@@ -471,8 +489,8 @@ export class SatHeatChartComponent implements OnInit {
             textOutline: 'none',
             fontSize: dataLabels.fontSize
           },
-          overflow: false,
-          crop: true,
+           overflow: false,
+           crop: true,
         },
         type: 'heatmap'
       }],
@@ -483,6 +501,7 @@ export class SatHeatChartComponent implements OnInit {
         style: {
           fontSize: tooltipStyle.fontSize
         },
+
         formatter: function () {
           return '<b>' + getPointCategoryName(this.point, 'y', viewBy, level, grade) + '</b>';
         }
@@ -774,7 +793,7 @@ export class SatHeatChartComponent implements OnInit {
         management: this.management,
         category: this.category
       }
-      
+
       this.service.PATHeatMapClusterData(a).subscribe(response => {
         this.genericFunction(response);
         var cluster = this.clusterNames.find(a => a.cluster_id == clusterId);
@@ -910,11 +929,14 @@ export class SatHeatChartComponent implements OnInit {
       this.district = districtid;
       this.block = blockid
       this.cluster = clusterid;
-     
+
       this.selectedBlock(blockid);
       this.selectedCluster(clusterid);
       this.blockHidden = true
       this.clusterHidden = true
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
@@ -923,11 +945,19 @@ export class SatHeatChartComponent implements OnInit {
       this.selectedDistrict(districtid)
       this.selectedBlock(blockid);
       this.blockHidden = true
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
 
       this.selectedDistrict(districtid)
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+
       this.levelVal = 1;
     }
   }

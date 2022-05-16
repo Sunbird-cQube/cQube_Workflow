@@ -135,7 +135,7 @@
             </option>
           </select>
 
-          <select id="choose_dist" [hidden]="selDist" [(ngModel)]="districtId" (change)="ondistLinkClick(districtId)">
+          <select id="choose_dist" [hidden]="selDist" [disabled]="selDist" [(ngModel)]="districtId" (change)="ondistLinkClick(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District 
             </option>
@@ -144,7 +144,7 @@
             </option>
           </select>
 
-          <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId" (change)="onblockLinkClick(blockId)">
+          <select [hidden]="blockHidden" id="choose_block" [disabled]="selBlock" [(ngModel)]="blockId" (change)="onblockLinkClick(blockId)">
             <option [value]="blockId" disabled selected="selected">
               Choose a Block
             </option>
@@ -153,7 +153,7 @@
             </option>
           </select>
 
-          <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
+          <select [hidden]="clusterHidden" id="choose_cluster" [disabled]="selCluster" [(ngModel)]="clusterId"
             (change)="onclusterLinkClick(clusterId)">
             <option [value]="clusterId" disabled selected="selected">
               Choose a Cluster
