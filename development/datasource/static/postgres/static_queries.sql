@@ -154,8 +154,10 @@ LOOP
     execute 'delete from '||t_name||' where exam_id in (select distinct exam_id from semester_exam_mst where assessment_year= '''||p_academic_year||''' and semester= '||v_semester||')';
     ELSE IF t_name='semester_exam_result_staging_2' or t_name='semester_exam_school_qst_result' or t_name='semester_exam_result_temp' or t_name='semester_exam_school_result' or t_name='semester_exam_result_staging_1' or t_name='semester_exam_result_trans' THEN
     execute 'delete from '||t_name||' where exam_code in (select distinct exam_code from semester_exam_mst where assessment_year= '''||p_academic_year||''' and semester= '||v_semester||')';
-    ELSE
+    ELSE IF t_name='semester_exam_stud_grade_count' THEN execute 'delete from '||t_name||' where exam_code in (select distinct exam_code from semester_exam_mst where assessment_year= '''||p_academic_year||''' and semester= '||v_semester||')';
+	ELSE 
     execute 'delete from '||t_name||'  where  assessment_year= '''||p_academic_year||''' and semester= '||v_semester;
+	END IF;
     END IF;
     END IF;
   end loop;
