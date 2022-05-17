@@ -54,7 +54,7 @@ ansible-playbook -i hosts ../ansible/install.yml -e "my_hosts=$installation_host
                                                          --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
 														 --extra-vars "@$base_dir/cqube/conf/azure_container_config.yml" \
                                                          --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
-							                            # --extra-vars "@datasource_config.yml" \
+							                            --extra-vars "@datasource_config.yml" \
                                                          --extra-vars "usecase_name=education_usecase" \
                                                          --extra-vars "protocol=http"
 else
