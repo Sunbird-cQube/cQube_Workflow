@@ -208,13 +208,14 @@ export class UdiseReportComponent implements OnInit {
     }
 
     //this.getView1();
-    if (this.userAccessLevel !== "") {
-      this.hideIfAccessLevel = true;
-      this.distHidden = true
-          }
-    if (this.userAccessLevel === "" || this.userAccessLevel === undefined || this.userAccessLevel === "State" || this.userAccessLevel === 'null') {
-      this.hideAccessBtn = true;
-      this.distHidden = false;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== "") {
+        this.hideIfAccessLevel = true;
+        this.distHidden = true
+      }
+
     }
 
   }
@@ -1339,12 +1340,12 @@ export class UdiseReportComponent implements OnInit {
       this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
-     
+
       this.onDistrictSelect(districtid)
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = true;
-     
+
     } else if (level === '' || level == undefined) {
       this.distHidden = false
     }
@@ -1361,15 +1362,15 @@ export class UdiseReportComponent implements OnInit {
 
     if (level === "Cluster") {
 
-      
+
       this.levelVal = 3;
     } else if (level === "Block") {
 
-      
+
       this.levelVal = 2;
     } else if (level === "District") {
 
-      
+
       this.levelVal = 1;
     }
   }

@@ -47,7 +47,7 @@
                 <div class="col-lg-2 col-md-3 col-sm-12">
                     <div class="row">
                         <div class="col-sm-7">
-                            <button class="btn btn-primary" id="download1" [hidden] = 'hideAccessBtn' (click)="getView()">
+                            <button class="btn btn-primary" id="download1" [hidden]='hideAccessBtn' (click)="getView()">
                                 Access Level
                             </button>
                         </div>
@@ -102,7 +102,7 @@
                     </ng-select>
 
 
-                    <select id="choose_dist" [hidden]="hideDist" [(ngModel)]="districtId"
+                    <select id="choose_dist" [hidden]="hideDist" [(ngModel)]="districtId" [disabled]="selDist"
                         (change)="distLinkClick(districtId)">
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
@@ -110,7 +110,7 @@
                         </option>
                     </select>
 
-                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId"
+                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId" [disabled]="selBlock"
                         (change)="blockLinkClick(blockId)">
                         <option [value]="blockId" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blocks" [(ngValue)]="block.block_id">
@@ -118,7 +118,7 @@
                         </option>
                     </select>
 
-                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId"
+                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId" [disabled]="selCluster"
                         (change)="clusterLinkClick(clusterId)">
                         <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
                         <option *ngFor="let cluster of clusters" [(ngValue)]="cluster.cluster_id"
