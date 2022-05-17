@@ -169,7 +169,7 @@ export class SatHeatChartComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
-    this.getView1();
+     this.getView1();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -512,7 +512,7 @@ export class SatHeatChartComponent implements OnInit {
       var series = point.series,
         isY = dimension === 'y',
         axis = series[isY ? 'yAxis' : 'xAxis'];
-      let splitVal = zLabel[point[isY ? 'y' : 'x']].split('/')
+      // let splitVal = zLabel[point[isY ? 'y' : 'x']].split('/')
 
       let totalSchools;
       let totalStudents;
@@ -898,14 +898,14 @@ export class SatHeatChartComponent implements OnInit {
     if (level === "Cluster") {
 
       this.selCluster = true;
-      // this.selBlock = true;
-      // this.selDist = true;
+      this.selBlock = true;
+       this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
 
       this.selCluster = false;
-      // this.selBlock = true;
-      // this.selDist = true;
+       this.selBlock = true;
+       this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
 
@@ -934,9 +934,7 @@ export class SatHeatChartComponent implements OnInit {
       this.selectedCluster(clusterid);
       this.blockHidden = true
       this.clusterHidden = true
-      this.selCluster = true;
-      this.selBlock = true;
-      this.selDist = true;
+
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
@@ -945,18 +943,13 @@ export class SatHeatChartComponent implements OnInit {
       this.selectedDistrict(districtid)
       this.selectedBlock(blockid);
       this.blockHidden = true
-      this.selCluster = false;
-      this.selBlock = true;
-      this.selDist = true;
+ 
 
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
 
       this.selectedDistrict(districtid)
-      this.selCluster = true;
-      this.selBlock = true;
-      this.selDist = true;
 
       this.levelVal = 1;
     }

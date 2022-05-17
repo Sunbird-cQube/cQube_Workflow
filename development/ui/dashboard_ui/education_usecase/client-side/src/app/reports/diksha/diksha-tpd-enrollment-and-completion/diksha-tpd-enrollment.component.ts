@@ -532,15 +532,24 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.districtId = districtid;
       this.clusterId = clusterid;
       this.clusterLinkClick(clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
       this.blockId = blockid;
       this.districtId = districtid;
       this.blockLinkClick(blockid);
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
       this.districtId = districtid;
       this.distLinkClick(districtid);
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
       this.levelVal = 1;
     }
   }
@@ -720,8 +729,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blocks = [];
     this.clusters = [];
 
-    // this.blockId = undefined;
-    // this.clusterId = undefined;
+     this.blockId = undefined;
+     this.clusterId = undefined;
     this.yAxisLabel = "Block Names";
     this.xAxisLabel = "Total Numbers"
     var requestBody: any = {
@@ -797,7 +806,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.clusters = [];
 
-    //  this.clusterId = undefined;
+     this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names";
 
 

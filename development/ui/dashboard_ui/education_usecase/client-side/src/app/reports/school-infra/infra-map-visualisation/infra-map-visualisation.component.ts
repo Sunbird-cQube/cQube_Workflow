@@ -205,8 +205,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.levelWiseFilter();
     }
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
 

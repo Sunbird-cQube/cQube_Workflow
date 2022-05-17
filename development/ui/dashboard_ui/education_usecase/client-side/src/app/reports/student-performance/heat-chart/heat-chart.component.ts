@@ -1,7 +1,10 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts/highstock";
+// import * as Highcharts from 'highcharts';
 import HeatmapModule from "highcharts/modules/heatmap";
 HeatmapModule(Highcharts);
+
+
 import { AppServiceComponent } from "../../../app.service";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -187,11 +190,11 @@ export class HeatChartComponent implements OnInit {
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getView1();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" || undefined ) {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
       }
     }
@@ -199,6 +202,7 @@ export class HeatChartComponent implements OnInit {
   }
 
   onChangePage() {
+
     let yLabel = this.yLabel.slice(
       (this.currentPage - 1) * this.pageSize,
       (this.currentPage - 1) * this.pageSize + this.pageSize
@@ -286,6 +290,7 @@ export class HeatChartComponent implements OnInit {
   };
 
   resetFontSizesOfChart(): void {
+
     if (this.chart) {
       let xAxis, yAxis, dataLabels, tooltipStyle;
 
@@ -451,6 +456,7 @@ export class HeatChartComponent implements OnInit {
       xLabel[i] = xLabel[i].substr(0, 15);
     }
     this.chart = Highcharts.chart("container", {
+
       chart: {
         type: "heatmap",
       },
@@ -465,7 +471,10 @@ export class HeatChartComponent implements OnInit {
       },
       xAxis: [
         {
+          startOnTick: false,
+          endOnTick: false,
           categories: [],
+
           labels: {
             rotation: 270,
             style: {
@@ -477,7 +486,7 @@ export class HeatChartComponent implements OnInit {
           lineColor: "#FFFFFF",
           gridLineColor: "transparent",
           min: 0,
-          max: 30,
+          max: 50,
           scrollbar: {
             enabled: scrollBarX,
           },
@@ -502,6 +511,8 @@ export class HeatChartComponent implements OnInit {
         },
       ],
       yAxis: {
+        startOnTick: false,
+        endOnTick: false,
         categories: yAxisLabel,
         labels: {
           style: {
@@ -527,13 +538,14 @@ export class HeatChartComponent implements OnInit {
       },
       colorAxis: {
         min: 0,
+        max: 100,
         minColor: "#ff3300",
         maxColor: "#99ff99",
-        // maxColor: Highcharts.getOptions().colors[0]
+
       },
       series: [
         {
-          turboThreshold: data.length + 100,
+          turboThreshold: 0,
           data: data,
           dataLabels: {
             enabled: true,
@@ -564,6 +576,7 @@ export class HeatChartComponent implements OnInit {
         },
       },
     });
+
 
     function getPointCategoryName(point, dimension, viewBy, level, grades) {
 
@@ -919,6 +932,8 @@ export class HeatChartComponent implements OnInit {
     this.data = response["result"]["data"];
     this.zLabel = response["result"]["zLabel"];
     this.reportData = response["downloadData"];
+    
+
     if (response["districtDetails"]) {
       let districts = response["districtDetails"];
       this.districtNames = districts.sort((a, b) =>
