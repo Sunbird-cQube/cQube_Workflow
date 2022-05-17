@@ -121,7 +121,7 @@
                     </select>
 
                     <select id="district" class="select-control" [hidden]='hideDist' [(ngModel)]="district"
-                        (change)="selectedDistrict(district)">
+                        [disabled]="selDist" (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">
                             {{district.district_name}}
@@ -130,14 +130,14 @@
 
 
                     <select [hidden]="blockHidden || hideblock" id="block" class="select-control" [(ngModel)]="block"
-                        (change)="selectedBlock(block)">
+                        [disabled]="selBlock" (change)="selectedBlock(block)">
                         <option [value]="block" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockNames, let i =index" [(ngValue)]="block.block_id">
                             {{block.block_name}}
                         </option>
                     </select>
                     <select [hidden]="clusterHidden" id="cluster" class="select-control mr-0" [(ngModel)]="cluster"
-                        (change)="selectedCluster(cluster)">
+                        [disabled]="selCluster" (change)="selectedCluster(cluster)">
                         <option [value]="cluster" disabled selected="selected">Choose a Cluster</option>
                         <option *ngFor="let cluster of clusterNames, let i =index" [(ngValue)]="cluster.cluster_id">
                             {{cluster.cluster_name}}

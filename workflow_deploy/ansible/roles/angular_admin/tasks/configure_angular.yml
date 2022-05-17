@@ -20,8 +20,14 @@
   tags: [ install, update ]
 
 - name: copying server-side script
-  shell: "cp -R ../../development/ui/admin_ui/client-side/* {{base_dir}}/cqube/admin_dashboard/client_side"
-  tags: [ install, update ]
+  copy:
+    src: "../../development/ui/admin_ui/client-side/"
+    dest: "{{base_dir}}/cqube/admin_dashboard/client_side"
+  tags: [ install, update ]  
+
+  #- name: copying server-side script
+  #shell: "cp -R ../../development/ui/admin_ui/client-side/* {{base_dir}}/cqube/admin_dashboard/client_side"
+  #tags: [ install, update ]
 
 - name: Configure the environment.ts
   template:

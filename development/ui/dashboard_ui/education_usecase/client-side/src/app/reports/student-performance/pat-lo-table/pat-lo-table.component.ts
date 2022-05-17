@@ -146,7 +146,7 @@ export class PATLOTableComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    this.getView1();
+    // this.getView1();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -363,6 +363,7 @@ export class PATLOTableComponent implements OnInit {
       $(`#LOtable`).empty();
       $(`#LOtable`).append(headers);
       $(`#LOtable`).append(body);
+      
       var obj =
       {
         destroy: true,
@@ -380,18 +381,25 @@ export class PATLOTableComponent implements OnInit {
       }
 
       this.table = $(`#LOtable`).DataTable(obj);
-      $('[data-toggle="tooltip"]').tooltip().on('inserted.bs.tooltip', function () {
+      $('[data-toggle="tooltip"]').tooltip({
+      
+        placement: 'right',
+        
+        container: 'body'
+      }
+      ).on('inserted.bs.tooltip', function () {
         $("body div.tooltip-inner").css({
           "min-width": `${innerWidth < 2540 ? "200px" : '300px'}`,
           "max-width": `${innerWidth < 2540 ? "600px" : '900px'}`,
           "padding": `${innerWidth < 2540 ? '10px' : '15px'}`,
-          "text-align": "left",
+          "text-align": "auto",
           "border-radius": `${innerWidth < 2540 ? '20px' : '30px'}`,
           "background-color": "black",
           "color": "white",
           "font-family": "Arial",
           "font-size": `${innerWidth < 2540 ? '11px' : '26px'}`,
-          "border": "1px solid gray"
+          "border": "1px solid gray",
+          "z-index": 900
         });
       });
       $('[data-toggle="tooltip"]').click(function () {
@@ -535,9 +543,9 @@ export class PATLOTableComponent implements OnInit {
         this.dist = true;
         this.blok = false;
         this.clust = false;
-        // if (blockId) {
-        //   this.selectedBlock(blockId)
-        // }
+        if (blockId) {
+          this.selectedBlock(blockId)
+        }
 
       },
       (err) => {
@@ -590,6 +598,7 @@ export class PATLOTableComponent implements OnInit {
         );
         this.onChangePage();
         var block = this.blockNames.find((a) => a.block_id == blockId);
+        
         this.blockHierarchy = {
           districtName: block?.district_name,
           distId: block?.district_id,
@@ -721,24 +730,78 @@ export class PATLOTableComponent implements OnInit {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
-      this.selectedBlock(blockid);
-      this.selectedCluster(clusterid);
+      
+      let a = {
+        year: this.year,
+        month: this.month,
+        grade: this.grade == "all" ? "" : this.grade,
+        subject_name: this.subject == "all" ? "" : this.subject,
+        exam_date: this.examDate == "all" ? "" : this.examDate,
+        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
+        districtId: this.district,
+        blockId: blockid,
+        management: this.management,
+        category: this.category,
+      };
+
+      this.service.patLOTableClusterData(a).subscribe(
+        (response) => {
+          this.updatedTable = this.reportData = response["tableData"];
+          var clusterNames = response["clusterDetails"];
+          this.clusterNames = clusterNames.sort((a, b) =>
+            a.cluster_name > b.cluster_name
+              ? 1
+              : b.cluster_name > a.cluster_name
+                ? -1
+                : 0
+          );
+          this.selectedCluster(clusterid);
+        })
+    
       this.clusterHidden = true
       this.blockHidden = true
+      this.selCluster = true;
+     this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
       this.block = blockid;
       this.hideblock = true
 
-      // this.selectedDistrict(districtid, blockid);
-      this.selectedBlock(blockid);
+      let a = {
+        year: this.year,
+        month: this.month,
+        grade: this.grade == "all" ? "" : this.grade,
+        subject_name: this.subject == "all" ? "" : this.subject,
+        exam_date: this.examDate == "all" ? "" : this.examDate,
+        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
+        districtId: districtid,
+        management: this.management,
+        category: this.category,
+      };
+      this.service.patLOTableBlockData(a).subscribe(
+        (response) => {
+          this.updatedTable = this.reportData = response["tableData"];
+          var blockNames = response["blockDetails"];
+          this.blockNames = blockNames.sort((a, b) =>
+            a.block_name > b.block_name ? 1 : b.block_name > a.block_name ? -1 : 0
+          );
+          this.selectedBlock(blockid);
+        })
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+
       this.blockHidden = true
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
 
       this.selectedDistrict(districtid);
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 1;
     } else if (level === null) {
       this.hideDist = false

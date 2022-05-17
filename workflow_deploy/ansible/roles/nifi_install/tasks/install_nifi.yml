@@ -307,7 +307,7 @@
   tags: [ install, update ]
 
 - name: Restart NiFi
-  shell: "{{ base_dir }}/cqube/nifi/nifi/bin/nifi.sh restart"
+  shell: "nohup {{ base_dir }}/cqube/nifi/nifi/bin/nifi.sh restart"
   tags: [ install, update ]
 
 - pause:
