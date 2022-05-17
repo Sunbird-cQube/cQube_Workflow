@@ -18,10 +18,16 @@
     recurse: yes
     state: directory
   tags: [ install, update ]
-    
+
 - name: copying server-side script
-  shell: "cp -R ../../development/node_api/dashboard_api/server-side/* {{base_dir}}/cqube/dashboard/server_side"
-  tags: [ install, update ]
+  copy:
+    src: "../../development/node_api/dashboard_api/server-side/"
+    dest: "{{base_dir}}/cqube/dashboard/server_side"
+  tags: [ install, update ] 
+
+  #- name: copying server-side script
+  #shell: "cp -R ../../development/node_api/dashboard_api/server-side/* {{base_dir}}/cqube/dashboard/server_side"
+  #tags: [ install, update ]
 
 - name: NodeJS dependencies install
   npm:
