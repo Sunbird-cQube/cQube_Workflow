@@ -258,8 +258,8 @@ export class TeacherAttendanceComponent implements OnInit {
     });
     this.toHideDropdowns();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" ) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== '') {
@@ -711,6 +711,10 @@ export class TeacherAttendanceComponent implements OnInit {
   districtData = [];
 
   onClickHome() {
+    this.districtSelected = false;
+    this.selectedCluster = false;
+    this.blockSelected = false;
+    this.hideAllBlockBtn = false
     this.yearMonth = true;
     this.academicYear = undefined;
     this.period = "overall";
@@ -883,94 +887,390 @@ export class TeacherAttendanceComponent implements OnInit {
         })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["blockData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
 
-            var blockNames = [];
-            this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            if (this.districtSelected) {
+              let myBlockData = res["blockData"];
+              let marker = myBlockData.filter(a => {
+                if (a.district_id === Number(this.districtSlectedId)) {
 
-            this.markers = sorted;
-
-            //getting relative colors for all markers:::::::::::
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length !== 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.blocksIds.push(this.markers[i]["block_id"]);
-                blockNames.push({
-                  id: this.markers[i]["block_id"],
-                  name: this.markers[i]["block_name"],
-                  distId: this.markers[i]["dist"],
-                });
-
-                // google map circle icon
-
-                if (this.mapName == "googlemap") {
-                  let markerColor = this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    );
-
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 4, 1);
+                  return a
                 }
 
-                //initialize markers with its latitude and longitude
-                var markerIcon = this.globalService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.01,
-                  1,
-                  this.levelWise
-                );
+              })
 
-                this.layerMarkers.addLayer(markerIcon);
-
-                //Adding values to tooltip 
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
-              }
-              blockNames.sort((a, b) =>
-                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
               );
-              this.blocksNames = blockNames;
 
-              this.globalService.restrictZoom(globalMap);
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-              //Setting map bound for scroll::::::::::::
-              globalMap.setMaxBounds([
-                [this.lat - 4.5, this.lng - 6],
-                [this.lat + 3.5, this.lng + 6],
-              ]);
+              this.markers = sorted;
 
-              //adjusting marker size and other UI on screen resize:::::::::::
-              this.globalService.onResize(this.levelWise);
-              this.commonService.loaderAndErr(this.markers);
-              this.changeDetection.markForCheck();
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 4, 1);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.blockSelected) {
+              let blockData = res['blockData'];
+              let marker = blockData.filter(a => {
+                if (a.block_id === Number(this.blockSelectedId)) {
+
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 4, 1);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.selectedCluster) {
+              let cluster = res['blockData'];
+              let marker = cluster.filter(a => {
+                if (a.cluster_id === Number(this.selectedCLusterId)) {
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 4, 1);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else {
+              this.reportData = this.mylatlngData = res["blockData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 4, 1);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    1,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
             }
+
+
           },
           (err) => {
             this.dateRange = "";
@@ -1017,114 +1317,468 @@ export class TeacherAttendanceComponent implements OnInit {
         })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["clusterData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
 
-            var clustNames = [];
-            var blockNames = [];
-            this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            if (this.districtSelected) {
+              let myBlockData = res["clusterData"];
+              let marker = myBlockData.filter(a => {
+                if (a.district_id === Number(this.districtSlectedId)) {
 
-            this.markers = sorted;
-
-            //getting relative colors for all markers:::::::::::
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length !== 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.clusterIds.push(this.markers[i]["cluster_id"]);
-                this.blocksIds.push(this.markers[i]["block_id"]);
-                if (this.markers[i]["cluster_name"] !== null) {
-                  clustNames.push({
-                    id: this.markers[i]["cluster_id"],
-                    name: this.markers[i]["cluster_name"],
-                    blockId: this.markers[i]["block_id"],
-                  });
-                } else {
-                  clustNames.push({
-                    id: this.markers[i]["cluster_id"],
-                    name: "NO NAME FOUND",
-                    blockId: this.markers[i]["block_id"],
-                  });
-                }
-                blockNames.push({
-                  id: this.markers[i]["block_id"],
-                  name: this.markers[i]["block_name"],
-                  distId: this.markers[i]["district_id"],
-                });
-
-                // google map circle icon
-
-                if (this.mapName == "googlemap") {
-                  let markerColor = this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    );
-
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.3);
+                  return a
                 }
 
-                //initialize markers with its latitude and longitude
-                var markerIcon = this.globalService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0.01,
-                  0.5,
-                  this.levelWise
-                );
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
 
-                this.layerMarkers.addLayer(markerIcon);
+              var clustNames = [];
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-                //Adding values to tooltip 
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    0.5,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
               }
+            } else if (this.blockSelected) {
+              let blockData = res['clusterData'];
+              let marker = blockData.filter(a => {
+                if (a.block_id === Number(this.blockSelectedId)) {
+                  return a
+                }
 
-              clustNames.sort((a, b) =>
-                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
               );
-              this.clusterNames = clustNames;
-              blockNames.sort((a, b) =>
-                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+
+              var clustNames = [];
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    0.5,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.selectedCluster) {
+              let cluster = res['clusterData'];
+              let marker = cluster.filter(a => {
+                if (a.cluster_id === Number(this.selectedCLusterId)) {
+                  return a
+                }
+
+              })
+
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
               );
-              this.blocksNames = blockNames;
 
-              this.globalService.restrictZoom(globalMap);
+              var clustNames = [];
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-              //Setting map bound for scroll::::::::::::
-              globalMap.setMaxBounds([
-                [this.lat - 4.5, this.lng - 6],
-                [this.lat + 3.5, this.lng + 6],
-              ]);
+              this.markers = sorted;
 
-              //adjusting marker size and other UI on screen resize:::::::::::
-              this.globalService.onResize(this.levelWise);
-              this.commonService.loaderAndErr(this.markers);
-              this.changeDetection.markForCheck();
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    0.5,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else {
+              this.reportData = this.mylatlngData = res["clusterData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+
+              var clustNames = [];
+              var blockNames = [];
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0.01,
+                    0.5,
+                    this.levelWise
+                  );
+
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
             }
+
           },
           (err) => {
             this.dateRange = "";
@@ -1173,82 +1827,344 @@ export class TeacherAttendanceComponent implements OnInit {
         })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["schoolData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData.sort((a, b) =>
-              parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
-            );
 
-            this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
-            this.markers = sorted;
+            if (this.districtSelected) {
+              let myBlockData = res["schoolData"];
+              let marker = myBlockData.filter(a => {
+                if (a.district_id === Number(this.districtSlectedId)) {
 
-            //getting relative colors for all markers:::::::::::
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "attendance",
-              report: "reports",
-            });
-            if (this.markers.length !== 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                var color = this.commonService.color(
-                  this.markers[i],
-                  "attendance"
-                );
-                this.districtsIds.push(sorted[i]["district_id"]);
-
-                if (this.mapName == "googlemap") {
-                  let markerColor = this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    );
-
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 1, 0.3);
+                  return a
                 }
 
-                //initialize markers with its latitude and longitude
-                var markerIcon = this.globalService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.selected == "absolute"
-                    ? color
-                    : this.commonService.relativeColorGredient(
-                      sorted[i],
-                      { value: "attendance", report: "reports" },
-                      colors
-                    ),
-                  0,
-                  0.3,
-                  this.levelWise
-                );
-                this.layerMarkers.addLayer(markerIcon);
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
 
-                //Adding values to tooltip 
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.levelWise
-                );
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.districtsIds.push(sorted[i]["district_id"]);
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 1, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0,
+                    0.3,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
               }
+            } else if (this.blockSelected) {
+              let blockData = res['schoolData'];
+              let marker = blockData.filter(a => {
+                if (a.block_id === Number(this.blockSelectedId)) {
 
-              globalMap.doubleClickZoom.enable();
-              globalMap.scrollWheelZoom.enable();
+                  return a
+                }
 
-              //Setting map bound for scroll::::::::::::
-              globalMap.setMaxBounds([
-                [this.lat - 4.5, this.lng - 6],
-                [this.lat + 3.5, this.lng + 6],
-              ]);
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
 
-              //adjusting marker size and other UI on screen resize:::::::::::
-              this.globalService.onResize(this.levelWise);
-              this.commonService.loaderAndErr(this.markers);
-              this.changeDetection.markForCheck();
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.districtsIds.push(sorted[i]["district_id"]);
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 1, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0,
+                    0.3,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.selectedCluster) {
+              let cluster = res['schoolData']
+
+              let marker = cluster.filter(a => {
+                if (a.cluster_id === Number(this.selectedCLusterId)) {
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.districtsIds.push(sorted[i]["district_id"]);
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 1, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0,
+                    0.3,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else {
+              this.reportData = this.mylatlngData = res["schoolData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData.sort((a, b) =>
+                parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
+              );
+
+              this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.markers = sorted;
+
+              //getting relative colors for all markers:::::::::::
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "attendance",
+                report: "reports",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  var color = this.commonService.color(
+                    this.markers[i],
+                    "attendance"
+                  );
+                  this.districtsIds.push(sorted[i]["district_id"]);
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      );
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 1, 0.3);
+                  }
+
+                  //initialize markers with its latitude and longitude
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.selected == "absolute"
+                      ? color
+                      : this.commonService.relativeColorGredient(
+                        sorted[i],
+                        { value: "attendance", report: "reports" },
+                        colors
+                      ),
+                    0,
+                    0.3,
+                    this.levelWise
+                  );
+                  this.layerMarkers.addLayer(markerIcon);
+
+                  //Adding values to tooltip 
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.levelWise
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+
+                //Setting map bound for scroll::::::::::::
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+
+                //adjusting marker size and other UI on screen resize:::::::::::
+                this.globalService.onResize(this.levelWise);
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
             }
+
+
+
           },
           (err) => {
             this.dateRange = "";
@@ -1429,7 +2345,15 @@ export class TeacherAttendanceComponent implements OnInit {
   }
 
   blockData = [];
+
+  public districtSelected: boolean = false
+  public districtSlectedId
   myDistData(data, bid?, cid?) {
+    this.districtSelected = true
+    this.blockSelected = false
+    this.selectedCluster = false
+    this.districtSlectedId = data
+    this.hideAllBlockBtn = false
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.dist = false;
@@ -1634,7 +2558,14 @@ export class TeacherAttendanceComponent implements OnInit {
   }
 
   clusterData = [];
+  public blockSelected: boolean = false
+  public blockSelectedId
   myBlockData(data, cid?) {
+    this.districtSelected = false
+    this.selectedCluster = false
+    this.blockSelected = true
+    this.blockSelectedId = data
+    this.hideAllBlockBtn = false
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
@@ -1862,7 +2793,16 @@ export class TeacherAttendanceComponent implements OnInit {
     this.getTelemetryData(clustData, event.type, "cluster");
     this.myClusterData(data);
   }
+
+  public selectedCluster: boolean = false;
+  public selectedCLusterId
+  public hideAllBlockBtn: boolean = false
   myClusterData(data) {
+    this.hideAllBlockBtn = true
+    this.blockSelected = false
+    this.districtSelected = false
+    this.selectedCluster = true
+    this.selectedCLusterId = data
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.cluster = false;
