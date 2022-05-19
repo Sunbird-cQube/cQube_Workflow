@@ -85,7 +85,8 @@
       </div>
       <div class="row">
         <div class="col-sm-12" style="margin-bottom: 10px">
-          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" (click)="blockWise()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" [disabled]="hideAllBlockBtn"
+            (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
           <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterWise()">
@@ -113,7 +114,8 @@
             </option>
           </select>
 
-          <select [hidden]="blockHidden" id="choose_block" [disabled]="selBlock" [(ngModel)]="blockId" (change)="onBlockSelect(blockId)">
+          <select [hidden]="blockHidden" id="choose_block" [disabled]="selBlock" [(ngModel)]="blockId"
+            (change)="onBlockSelect(blockId)">
             <option [value]="blockId" disabled selected="selected">
               Choose a Block
             </option>

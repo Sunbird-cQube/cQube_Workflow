@@ -81,7 +81,7 @@
       </div>
       <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
-          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn" (click)="blockWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"  id="blockbtn" (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
           <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" (click)="clusterWise()">

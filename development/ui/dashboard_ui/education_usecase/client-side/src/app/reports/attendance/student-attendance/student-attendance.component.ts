@@ -928,6 +928,7 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
+
               this.mylatlngData = res["blockData"];
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
