@@ -269,6 +269,10 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   clickHome() {
     this.infraData = "infrastructure_score";
+    this.districtSelected = false;
+    this.selectedCluster = false;
+    this.blockSelected = false;
+    this.hideAllBlockBtn = false
     this.districtWise();
   }
 
@@ -308,6 +312,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       // to show and hide the dropdowns
       this.blockHidden = true;
       this.clusterHidden = true;
+      this.districtId = undefined
       // api call to get all the districts data
       if (this.myDistData != undefined) {
         this.data = this.myDistData["data"];
@@ -430,8 +435,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.commonService.errMsg();
       this.reportData = [];
-      this.districtId = undefined;
-      this.blockId = undefined;
+      // this.districtId = undefined;
+      // this.blockId = undefined;
       this.level = "Block";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_allBlocks_${this.commonService.dateAndTime}`;
@@ -447,7 +452,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.clust = false;
 
       // to show and hide the dropdowns
-      this.blockHidden = true;
+      this.blockHidden = this.blockSelected === true ? false : true;
       this.clusterHidden = true;
 
       // api call to get the all clusters data
@@ -456,85 +461,348 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllBlockWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
-          this.myBlockData = res["data"];
-          this.markers = this.data = res["data"];
-          this.gettingInfraFilters(this.data);
-          let options = {
-            radius: 4,
-            mapZoom: this.globalService.zoomLevel,
-            centerLat: this.lat,
-            centerLng: this.lng,
-            level: "Block",
-          };
-          this.dataOptions = options;
-          if (this.data.length > 0) {
-            let result = this.data;
-            this.blockMarkers = [];
+          if (this.districtSelected) {
+            this.myBlockData = res["data"];
+            let marker = this.myBlockData.filter(a => {
+              if (a.details.district_id === this.districtSlectedId) {
 
-            this.blockMarkers = result;
-            var colors = this.commonService.getRelativeColors(
-              this.blockMarkers,
-              this.infraData
-            );
-            if (this.blockMarkers.length !== 0) {
-              for (let i = 0; i < this.blockMarkers.length; i++) {
-                var color;
-                if (this.selected == "absolute") {
-                  color = this.commonService.colorGredient(
-                    this.blockMarkers[i],
-                    this.infraData
-                  );
-                } else {
-                  color = this.commonService.relativeColorGredient(
-                    this.blockMarkers[i],
-                    this.infraData,
-                    colors
-                  );
-                }
-
-                // google map circle icon
-
-                if (this.mapName == "googlemap") {
-                  let markerColor = color
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 1);
-                }
-
-                var markerIcon = this.globalService.initMarkers1(
-                  this.blockMarkers[i].details.latitude,
-                  this.blockMarkers[i].details.longitude,
-                  color,
-                  0.01,
-                  1,
-                  options.level
-                );
-
-                this.generateToolTip(
-                  this.blockMarkers[i],
-                  options.level,
-                  markerIcon,
-                  "latitude",
-                  "longitude"
-                );
-                this.getDownloadableData(this.blockMarkers[i], options.level);
+                return a
               }
-              this.globalService.restrictZoom(globalMap);
-              globalMap.setMaxBounds([
-                [options.centerLat - 4.5, options.centerLng - 6],
-                [options.centerLat + 3.5, options.centerLng + 6],
-              ]);
-              this.changeDetection.detectChanges();
-              this.globalService.onResize(this.level);
 
-              //schoolCount
-              this.schoolCount = res["footer"];
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            })
+            this.markers = this.data = marker;
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 4,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Block",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.blockMarkers = [];
 
-              this.commonService.loaderAndErr(this.data);
-              this.changeDetection.markForCheck();
+              this.blockMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.blockMarkers,
+                this.infraData
+              );
+              if (this.blockMarkers.length !== 0) {
+                for (let i = 0; i < this.blockMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.blockMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.blockMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.blockMarkers[i].details.latitude,
+                    this.blockMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    1,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.blockMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.blockMarkers[i], options.level);
+                }
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+
+                //schoolCount
+                this.schoolCount = res["footer"];
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.commonService.loaderAndErr(this.data);
+                this.changeDetection.markForCheck();
+              }
+            }
+          } else if (this.blockSelected) {
+            this.myBlockData = res["data"];
+            let marker = this.myBlockData.filter(a => {
+              if (a.details.block_id === this.blockSelectedId) {
+                
+                return a
+              }
+
+            })
+            this.markers = this.data = marker;
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 4,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Block",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.blockMarkers = [];
+
+              this.blockMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.blockMarkers,
+                this.infraData
+              );
+              if (this.blockMarkers.length !== 0) {
+                for (let i = 0; i < this.blockMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.blockMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.blockMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.blockMarkers[i].details.latitude,
+                    this.blockMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    1,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.blockMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.blockMarkers[i], options.level);
+                }
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+
+                //schoolCount
+                this.schoolCount = res["footer"];
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.commonService.loaderAndErr(this.data);
+                this.changeDetection.markForCheck();
+              }
+            }
+          } else if (this.selectedCluster) {
+            this.myBlockData = res["data"];
+            let marker = this.myBlockData.filter(a => {
+              if (a.details.block_id === this.blockSelectedId) {
+                return a
+              }
+
+            })
+            this.markers = this.data = marker;
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 4,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Block",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.blockMarkers = [];
+
+              this.blockMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.blockMarkers,
+                this.infraData
+              );
+              if (this.blockMarkers.length !== 0) {
+                for (let i = 0; i < this.blockMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.blockMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.blockMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.blockMarkers[i].details.latitude,
+                    this.blockMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    1,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.blockMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.blockMarkers[i], options.level);
+                }
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+
+                //schoolCount
+                this.schoolCount = res["footer"];
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.commonService.loaderAndErr(this.data);
+                this.changeDetection.markForCheck();
+              }
+            }
+          } else {
+            this.myBlockData = res["data"];
+            this.markers = this.data = res["data"];
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 4,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Block",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.blockMarkers = [];
+
+              this.blockMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.blockMarkers,
+                this.infraData
+              );
+              if (this.blockMarkers.length !== 0) {
+                for (let i = 0; i < this.blockMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.blockMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.blockMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.blockMarkers[i].details.latitude,
+                    this.blockMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    1,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.blockMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.blockMarkers[i], options.level);
+                }
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+
+                //schoolCount
+                this.schoolCount = res["footer"];
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.commonService.loaderAndErr(this.data);
+                this.changeDetection.markForCheck();
+              }
             }
           }
+
         },
         (err) => {
           this.data = [];
@@ -587,82 +855,340 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllClusterWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
-          this.markers = this.data = res["data"];
-          this.gettingInfraFilters(this.data);
-          let options = {
-            radius: 2,
-            mapZoom: this.globalService.zoomLevel,
-            centerLat: this.lat,
-            centerLng: this.lng,
-            level: "Cluster",
-          };
-          this.dataOptions = options;
-          if (this.data.length > 0) {
-            let result = this.data;
-            this.clusterMarkers = [];
-            this.clusterMarkers = result;
-            var colors = this.commonService.getRelativeColors(
-              this.clusterMarkers,
-              this.infraData
-            );
-            this.schoolCount = 0;
-            if (this.clusterMarkers.length !== 0) {
-              for (let i = 0; i < this.clusterMarkers.length; i++) {
-                var color;
-                if (this.selected == "absolute") {
-                  color = this.commonService.colorGredient(
-                    this.clusterMarkers[i],
-                    this.infraData
-                  );
-                } else {
-                  color = this.commonService.relativeColorGredient(
-                    this.clusterMarkers[i],
-                    this.infraData,
-                    colors
-                  );
-                }
-                // google map circle icon
-
-                if (this.mapName == "googlemap") {
-                  let markerColor = color
-
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.5);
-                }
-
-                var markerIcon = this.globalService.initMarkers1(
-                  this.clusterMarkers[i].details.latitude,
-                  this.clusterMarkers[i].details.longitude,
-                  color,
-                  0.01,
-                  0.5,
-                  options.level
-                );
-
-                this.generateToolTip(
-                  this.clusterMarkers[i],
-                  options.level,
-                  markerIcon,
-                  "latitude",
-                  "longitude"
-                );
-                this.getDownloadableData(this.clusterMarkers[i], options.level);
+          if (this.districtSelected) {
+            let cluster = res['data']
+            let marker = cluster.filter(a => {
+              if (a.details.district_id === this.districtSlectedId) {
+                return a
               }
 
-              //schoolCount
-              this.schoolCount = res["footer"]
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            })
+            this.markers = this.data = marker;
 
-              this.globalService.restrictZoom(globalMap);
-              globalMap.setMaxBounds([
-                [options.centerLat - 4.5, options.centerLng - 6],
-                [options.centerLat + 3.5, options.centerLng + 6],
-              ]);
-              this.changeDetection.detectChanges();
-              this.globalService.onResize(this.level);
-              this.commonService.loaderAndErr(this.data);
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 2,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Cluster",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.clusterMarkers = [];
+              this.clusterMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.clusterMarkers,
+                this.infraData
+              );
+              this.schoolCount = 0;
+              if (this.clusterMarkers.length !== 0) {
+                for (let i = 0; i < this.clusterMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.5);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.clusterMarkers[i].details.latitude,
+                    this.clusterMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    0.5,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.clusterMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.clusterMarkers[i], options.level);
+                }
+
+                //schoolCount
+                this.schoolCount = res["footer"]
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+                this.commonService.loaderAndErr(this.data);
+              }
+            }
+          } else if (this.blockSelected) {
+            let cluster = res['data']
+            let marker = cluster.filter(a => {
+              if (a.details.block_id === this.blockSelectedId) {
+                return a
+              }
+
+            })
+            this.markers = this.data = marker;
+
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 2,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Cluster",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.clusterMarkers = [];
+              this.clusterMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.clusterMarkers,
+                this.infraData
+              );
+              this.schoolCount = 0;
+              if (this.clusterMarkers.length !== 0) {
+                for (let i = 0; i < this.clusterMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.5);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.clusterMarkers[i].details.latitude,
+                    this.clusterMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    0.5,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.clusterMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.clusterMarkers[i], options.level);
+                }
+
+                //schoolCount
+                this.schoolCount = res["footer"]
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+                this.commonService.loaderAndErr(this.data);
+              }
+            }
+          } else if (this.selectedCluster) {
+            let cluster = res['data']
+            let marker = cluster.filter(a => {
+              if (a.details.cluster_id === this.selectedCLusterId) {
+                return a
+              }
+
+            })
+            this.markers = this.data = marker;
+
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 2,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Cluster",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.clusterMarkers = [];
+              this.clusterMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.clusterMarkers,
+                this.infraData
+              );
+              this.schoolCount = 0;
+              if (this.clusterMarkers.length !== 0) {
+                for (let i = 0; i < this.clusterMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.5);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.clusterMarkers[i].details.latitude,
+                    this.clusterMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    0.5,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.clusterMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.clusterMarkers[i], options.level);
+                }
+
+                //schoolCount
+                this.schoolCount = res["footer"]
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+                this.commonService.loaderAndErr(this.data);
+              }
+            }
+          } else {
+            this.markers = this.data = res["data"];
+            this.gettingInfraFilters(this.data);
+            let options = {
+              radius: 2,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "Cluster",
+            };
+            this.dataOptions = options;
+            if (this.data.length > 0) {
+              let result = this.data;
+              this.clusterMarkers = [];
+              this.clusterMarkers = result;
+              var colors = this.commonService.getRelativeColors(
+                this.clusterMarkers,
+                this.infraData
+              );
+              this.schoolCount = 0;
+              if (this.clusterMarkers.length !== 0) {
+                for (let i = 0; i < this.clusterMarkers.length; i++) {
+                  var color;
+                  if (this.selected == "absolute") {
+                    color = this.commonService.colorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData
+                    );
+                  } else {
+                    color = this.commonService.relativeColorGredient(
+                      this.clusterMarkers[i],
+                      this.infraData,
+                      colors
+                    );
+                  }
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = color
+
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.5);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.clusterMarkers[i].details.latitude,
+                    this.clusterMarkers[i].details.longitude,
+                    color,
+                    0.01,
+                    0.5,
+                    options.level
+                  );
+
+                  this.generateToolTip(
+                    this.clusterMarkers[i],
+                    options.level,
+                    markerIcon,
+                    "latitude",
+                    "longitude"
+                  );
+                  this.getDownloadableData(this.clusterMarkers[i], options.level);
+                }
+
+                //schoolCount
+                this.schoolCount = res["footer"]
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
+                ]);
+                this.changeDetection.detectChanges();
+                this.globalService.onResize(this.level);
+                this.commonService.loaderAndErr(this.data);
+              }
             }
           }
+
         },
         (err) => {
           this.clusterMarkers = [];
@@ -715,90 +1241,376 @@ export class InfraMapVisualisationComponent implements OnInit {
       }
       this.myData = this.service.infraMapAllSchoolWise({ management: this.management, category: this.category }).subscribe(
         (res) => {
+
           if (res) {
-            this.markers = this.data = res["data"];
-            this.gettingInfraFilters(this.data);
-            let options = {
-              radius: 1,
-              mapZoom: this.globalService.zoomLevel,
-              centerLat: this.lat,
-              centerLng: this.lng,
-              level: "School",
-            };
-            this.dataOptions = options;
-            this.schoolMarkers = [];
-            if (this.data.length > 0) {
-              let result = this.data;
-              this.schoolCount = 0;
-              this.schoolMarkers = result;
-              var colors = this.commonService.getRelativeColors(
-                this.schoolMarkers,
-                this.infraData
-              );
-              if (this.schoolMarkers.length !== 0) {
-                for (let i = 0; i < this.schoolMarkers.length; i++) {
-                  var color;
-                  if (this.selected == "absolute") {
-                    color = this.commonService.colorGredient(
-                      this.schoolMarkers[i],
-                      this.infraData
-                    );
-                  } else {
-                    color = this.commonService.relativeColorGredient(
-                      this.schoolMarkers[i],
-                      this.infraData,
-                      colors
-                    );
-                  }
 
-                  // google map circle icon
-
-                  if (this.mapName == "googlemap") {
-                    let markerColor = color
-
-                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.3);
-                  }
-
-                  var markerIcon = this.globalService.initMarkers1(
-                    this.schoolMarkers[i].details.latitude,
-                    this.schoolMarkers[i].details.longitude,
-                    color,
-                    0,
-                    0.3,
-                    options.level
-                  );
-
-                  this.generateToolTip(
-                    this.schoolMarkers[i],
-                    options.level,
-                    markerIcon,
-                    "latitude",
-                    "longitude"
-                  );
-                  this.getDownloadableData(this.schoolMarkers[i], options.level);
+            if (this.districtSelected) {
+              let data = res["data"];
+              let marker = data.filter(a => {
+                if (a.details.district_id === this.districtSlectedId) {
+                  return a
                 }
-                globalMap.doubleClickZoom.enable();
-                globalMap.scrollWheelZoom.enable();
-                globalMap.setMaxBounds([
-                  [options.centerLat - 4.5, options.centerLng - 6],
-                  [options.centerLat + 3.5, options.centerLng + 6],
-                ]);
-                this.changeDetection.detectChanges();
-                this.globalService.onResize(this.level);
+              })
 
-                //schoolCount
-                this.schoolCount = res["footer"];
-                this.schoolCount = this.schoolCount
-                  .toString()
-                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
-                this.commonService.loaderAndErr(this.data);
-                this.changeDetection.markForCheck();
-              }
-            } else {
+              this.markers = this.data = marker
+              this.gettingInfraFilters(this.data);
+              let options = {
+                radius: 1,
+                mapZoom: this.globalService.zoomLevel,
+                centerLat: this.lat,
+                centerLng: this.lng,
+                level: "School",
+              };
+              this.dataOptions = options;
               this.schoolMarkers = [];
-              this.commonService.loaderAndErr(this.schoolMarkers);
+              if (this.data.length > 0) {
+                let result = this.data;
+                this.schoolCount = 0;
+                this.schoolMarkers = result;
+                var colors = this.commonService.getRelativeColors(
+                  this.schoolMarkers,
+                  this.infraData
+                );
+                if (this.schoolMarkers.length !== 0) {
+                  for (let i = 0; i < this.schoolMarkers.length; i++) {
+                    var color;
+                    if (this.selected == "absolute") {
+                      color = this.commonService.colorGredient(
+                        this.schoolMarkers[i],
+                        this.infraData
+                      );
+                    } else {
+                      color = this.commonService.relativeColorGredient(
+                        this.schoolMarkers[i],
+                        this.infraData,
+                        colors
+                      );
+                    }
+
+                    // google map circle icon
+
+                    if (this.mapName == "googlemap") {
+                      let markerColor = color
+
+                      this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.3);
+                    }
+
+                    var markerIcon = this.globalService.initMarkers1(
+                      this.schoolMarkers[i].details.latitude,
+                      this.schoolMarkers[i].details.longitude,
+                      color,
+                      0,
+                      0.3,
+                      options.level
+                    );
+
+                    this.generateToolTip(
+                      this.schoolMarkers[i],
+                      options.level,
+                      markerIcon,
+                      "latitude",
+                      "longitude"
+                    );
+                    this.getDownloadableData(this.schoolMarkers[i], options.level);
+                  }
+                  globalMap.doubleClickZoom.enable();
+                  globalMap.scrollWheelZoom.enable();
+                  globalMap.setMaxBounds([
+                    [options.centerLat - 4.5, options.centerLng - 6],
+                    [options.centerLat + 3.5, options.centerLng + 6],
+                  ]);
+                  this.changeDetection.detectChanges();
+                  this.globalService.onResize(this.level);
+
+                  //schoolCount
+                  this.schoolCount = res["footer"];
+                  this.schoolCount = this.schoolCount
+                    .toString()
+                    .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                  this.commonService.loaderAndErr(this.data);
+                  this.changeDetection.markForCheck();
+                }
+              } else {
+                this.schoolMarkers = [];
+                this.commonService.loaderAndErr(this.schoolMarkers);
+              }
+            } else if (this.blockSelected) {
+              let data = res["data"];
+              let marker = data.filter(a => {
+                if (a.details.block_id === this.blockSelectedId) {
+                  return a
+                }
+              })
+
+              this.markers = this.data = marker
+              this.gettingInfraFilters(this.data);
+              let options = {
+                radius: 1,
+                mapZoom: this.globalService.zoomLevel,
+                centerLat: this.lat,
+                centerLng: this.lng,
+                level: "School",
+              };
+              this.dataOptions = options;
+              this.schoolMarkers = [];
+              if (this.data.length > 0) {
+                let result = this.data;
+                this.schoolCount = 0;
+                this.schoolMarkers = result;
+                var colors = this.commonService.getRelativeColors(
+                  this.schoolMarkers,
+                  this.infraData
+                );
+                if (this.schoolMarkers.length !== 0) {
+                  for (let i = 0; i < this.schoolMarkers.length; i++) {
+                    var color;
+                    if (this.selected == "absolute") {
+                      color = this.commonService.colorGredient(
+                        this.schoolMarkers[i],
+                        this.infraData
+                      );
+                    } else {
+                      color = this.commonService.relativeColorGredient(
+                        this.schoolMarkers[i],
+                        this.infraData,
+                        colors
+                      );
+                    }
+
+                    // google map circle icon
+
+                    if (this.mapName == "googlemap") {
+                      let markerColor = color
+
+                      this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.3);
+                    }
+
+                    var markerIcon = this.globalService.initMarkers1(
+                      this.schoolMarkers[i].details.latitude,
+                      this.schoolMarkers[i].details.longitude,
+                      color,
+                      0,
+                      0.3,
+                      options.level
+                    );
+
+                    this.generateToolTip(
+                      this.schoolMarkers[i],
+                      options.level,
+                      markerIcon,
+                      "latitude",
+                      "longitude"
+                    );
+                    this.getDownloadableData(this.schoolMarkers[i], options.level);
+                  }
+                  globalMap.doubleClickZoom.enable();
+                  globalMap.scrollWheelZoom.enable();
+                  globalMap.setMaxBounds([
+                    [options.centerLat - 4.5, options.centerLng - 6],
+                    [options.centerLat + 3.5, options.centerLng + 6],
+                  ]);
+                  this.changeDetection.detectChanges();
+                  this.globalService.onResize(this.level);
+
+                  //schoolCount
+                  this.schoolCount = res["footer"];
+                  this.schoolCount = this.schoolCount
+                    .toString()
+                    .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                  this.commonService.loaderAndErr(this.data);
+                  this.changeDetection.markForCheck();
+                }
+              } else {
+                this.schoolMarkers = [];
+                this.commonService.loaderAndErr(this.schoolMarkers);
+              }
+            } else if (this.selectedCluster) {
+              let data = res["data"];
+              
+              let marker = data.filter(a => {
+              
+                if (a.details.cluster_id === this.selectedCLusterId.toString()) {
+              
+                  return a
+                }
+              })
+              
+
+              if (marker.length) {
+                
+                this.markers = this.data = marker
+                this.gettingInfraFilters(this.data);
+                let options = {
+                  radius: 4,
+                  mapZoom: this.globalService.zoomLevel,
+                  centerLat: this.lat,
+                  centerLng: this.lng,
+                  level: "School",
+                };
+                this.dataOptions = options;
+                this.schoolMarkers = [];
+                if (this.data.length > 0) {
+                  let result = this.data;
+                  this.schoolCount = 0;
+                  this.schoolMarkers = result;
+                  var colors = this.commonService.getRelativeColors(
+                    this.schoolMarkers,
+                    this.infraData
+                  );
+                  if (this.schoolMarkers.length !== 0) {
+                    for (let i = 0; i < this.schoolMarkers.length; i++) {
+                      var color;
+                      if (this.selected == "absolute") {
+                        color = this.commonService.colorGredient(
+                          this.schoolMarkers[i],
+                          this.infraData
+                        );
+                      } else {
+                        color = this.commonService.relativeColorGredient(
+                          this.schoolMarkers[i],
+                          this.infraData,
+                          colors
+                        );
+                      }
+
+                      // google map circle icon
+
+                      if (this.mapName == "googlemap") {
+                        let markerColor = color
+
+                        this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.3);
+                      }
+
+                      var markerIcon = this.globalService.initMarkers1(
+                        this.schoolMarkers[i].details.latitude,
+                        this.schoolMarkers[i].details.longitude,
+                        color,
+                        0,
+                        0.3,
+                        options.level
+                      );
+
+                      this.generateToolTip(
+                        this.schoolMarkers[i],
+                        options.level,
+                        markerIcon,
+                        "latitude",
+                        "longitude"
+                      );
+                      this.getDownloadableData(this.schoolMarkers[i], options.level);
+                    }
+                    globalMap.doubleClickZoom.enable();
+                    globalMap.scrollWheelZoom.enable();
+                    globalMap.setMaxBounds([
+                      [options.centerLat - 4.5, options.centerLng - 6],
+                      [options.centerLat + 3.5, options.centerLng + 6],
+                    ]);
+                    this.changeDetection.detectChanges();
+                    this.globalService.onResize(this.level);
+
+                    //schoolCount
+                    this.schoolCount = res["footer"];
+                    this.schoolCount = this.schoolCount
+                      .toString()
+                      .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                    this.commonService.loaderAndErr(this.data);
+                    this.changeDetection.markForCheck();
+                  }
+                } else {
+                  this.schoolMarkers = [];
+                  this.commonService.loaderAndErr(this.schoolMarkers);
+                }
+              }
+
+            } else {
+              this.markers = this.data = res["data"];
+              this.gettingInfraFilters(this.data);
+              let options = {
+                radius: 1,
+                mapZoom: this.globalService.zoomLevel,
+                centerLat: this.lat,
+                centerLng: this.lng,
+                level: "School",
+              };
+              this.dataOptions = options;
+              this.schoolMarkers = [];
+              if (this.data.length > 0) {
+                let result = this.data;
+                this.schoolCount = 0;
+                this.schoolMarkers = result;
+                var colors = this.commonService.getRelativeColors(
+                  this.schoolMarkers,
+                  this.infraData
+                );
+                if (this.schoolMarkers.length !== 0) {
+                  for (let i = 0; i < this.schoolMarkers.length; i++) {
+                    var color;
+                    if (this.selected == "absolute") {
+                      color = this.commonService.colorGredient(
+                        this.schoolMarkers[i],
+                        this.infraData
+                      );
+                    } else {
+                      color = this.commonService.relativeColorGredient(
+                        this.schoolMarkers[i],
+                        this.infraData,
+                        colors
+                      );
+                    }
+
+                    // google map circle icon
+
+                    if (this.mapName == "googlemap") {
+                      let markerColor = color
+
+                      this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, options.radius, 0.3);
+                    }
+
+                    var markerIcon = this.globalService.initMarkers1(
+                      this.schoolMarkers[i].details.latitude,
+                      this.schoolMarkers[i].details.longitude,
+                      color,
+                      0,
+                      0.3,
+                      options.level
+                    );
+
+                    this.generateToolTip(
+                      this.schoolMarkers[i],
+                      options.level,
+                      markerIcon,
+                      "latitude",
+                      "longitude"
+                    );
+                    this.getDownloadableData(this.schoolMarkers[i], options.level);
+                  }
+                  globalMap.doubleClickZoom.enable();
+                  globalMap.scrollWheelZoom.enable();
+                  globalMap.setMaxBounds([
+                    [options.centerLat - 4.5, options.centerLng - 6],
+                    [options.centerLat + 3.5, options.centerLng + 6],
+                  ]);
+                  this.changeDetection.detectChanges();
+                  this.globalService.onResize(this.level);
+
+                  //schoolCount
+                  this.schoolCount = res["footer"];
+                  this.schoolCount = this.schoolCount
+                    .toString()
+                    .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+                  this.commonService.loaderAndErr(this.data);
+                  this.changeDetection.markForCheck();
+                }
+              } else {
+                this.schoolMarkers = [];
+                this.commonService.loaderAndErr(this.schoolMarkers);
+              }
             }
+
           } else {
             this.schoolMarkers = [];
             this.commonService.loaderAndErr(this.schoolMarkers);
@@ -819,9 +1631,16 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
   }
 
+  public districtSelected: boolean = false
+  public districtSlectedId
   // to load all the blocks for selected district for state data on the map
   onDistrictSelect(districtId) {
+    this.districtSelected = true
+    this.blockSelected = false
+    this.selectedCluster = false
+    this.hideAllBlockBtn = false
     this.infraFilter = [];
+    this.districtSlectedId = districtId
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
@@ -910,8 +1729,15 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   }
 
+  public blockSelected: boolean = false
+  public blockSelectedId
   // to load all the clusters for selected block for state data on the map
   onBlockSelect(blockId) {
+    this.districtSelected = false
+    this.selectedCluster = false
+    this.blockSelected = true
+    this.hideAllBlockBtn = false
+    this.blockSelectedId = blockId
     this.infraFilter = [];
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -1013,8 +1839,15 @@ export class InfraMapVisualisationComponent implements OnInit {
   }
 
   // to load all the schools for selected cluster for state data on the map
+  public selectedCluster: boolean = false;
+  public selectedCLusterId
+  public hideAllBlockBtn: boolean = false
   onClusterSelect(clusterId) {
-
+    this.hideAllBlockBtn = true
+    this.blockSelected = false
+    this.districtSelected = false
+    this.selectedCluster = true
+    this.selectedCLusterId = clusterId
     this.infraFilter = [];
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -1291,7 +2124,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.blockId = localStorage.getItem("blockId");
       this.clusterId = localStorage.getItem('clusterId')
 
-      
+
 
       this.clusterHierarchy = {
         distId: this.districtId,
@@ -1306,7 +2139,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     } else if (level === "Block") {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
-      
+
 
       this.blockHierarchy = {
         distId: this.districtId,
