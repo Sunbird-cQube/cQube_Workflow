@@ -121,7 +121,7 @@
               </option>
             </select>
             <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel"
-              (click)="blockWise($event)">
+              [disabled]="hideAllBlockBtn" (click)="blockWise($event)">
               &nbsp;<strong>Blocks</strong>
             </button>
             <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
@@ -144,7 +144,7 @@
 
             <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [hidden]="selBlock"
               (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
-              <option [value]="myBlock"  disabled selected="selected" style="color: white">
+              <option [value]="myBlock" disabled selected="selected" style="color: white">
                 Choose a Block
               </option>
               <option *ngFor="let block of blocksNames" [value]="block.id">

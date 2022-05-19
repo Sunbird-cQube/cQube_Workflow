@@ -119,7 +119,7 @@
                             {{month.name}}
                         </option>
                     </select>
-                    <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel"
+                    <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"
                         (click)="blockWise($event)">&nbsp;<strong>Blocks</strong>
                     </button>
                     <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
@@ -131,7 +131,7 @@
 
                     <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="selDist"
                         (change)="myDistData(myDistrict)" *ngIf="!this.distHidden">
-                        <option [value]="" disabled selected="selected" style="color: white;">Choose a
+                        <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
                         </option>
                         <option *ngFor="let dist of districtsNames" [value]="dist.id">
@@ -141,7 +141,7 @@
 
                     <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [hidden]="selBlock"
                         (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
-                        <option [value]="" disabled selected="selected" style="color: white;">Choose a Block
+                        <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
                         <option *ngFor="let block of blocksNames" [value]="block.id">
                             {{block.name}}
