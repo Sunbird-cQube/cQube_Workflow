@@ -88,7 +88,7 @@
                         </option>
                     </select>
 
-                    <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel"
+                    <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"
                         (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
                     <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
