@@ -363,7 +363,7 @@ export class PATLOTableComponent implements OnInit {
       $(`#LOtable`).empty();
       $(`#LOtable`).append(headers);
       $(`#LOtable`).append(body);
-      
+
       var obj =
       {
         destroy: true,
@@ -382,9 +382,9 @@ export class PATLOTableComponent implements OnInit {
 
       this.table = $(`#LOtable`).DataTable(obj);
       $('[data-toggle="tooltip"]').tooltip({
-      
+
         placement: 'right',
-        
+
         container: 'body'
       }
       ).on('inserted.bs.tooltip', function () {
@@ -598,7 +598,7 @@ export class PATLOTableComponent implements OnInit {
         );
         this.onChangePage();
         var block = this.blockNames.find((a) => a.block_id == blockId);
-        
+
         this.blockHierarchy = {
           districtName: block?.district_name,
           distId: block?.district_id,
@@ -730,7 +730,7 @@ export class PATLOTableComponent implements OnInit {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
-      
+
       let a = {
         year: this.year,
         month: this.month,
@@ -757,11 +757,11 @@ export class PATLOTableComponent implements OnInit {
           );
           this.selectedCluster(clusterid);
         })
-    
+
       this.clusterHidden = true
       this.blockHidden = true
       this.selCluster = true;
-     this.selBlock = true;
+      this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
@@ -800,7 +800,7 @@ export class PATLOTableComponent implements OnInit {
 
       this.selectedDistrict(districtid);
       this.selCluster = false;
-      this.selBlock = true;
+      this.selBlock = false;
       this.selDist = true;
       this.levelVal = 1;
     } else if (level === null) {
@@ -838,7 +838,7 @@ export class PATLOTableComponent implements OnInit {
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 2;
-    } else if (level === "district") {
+    } else if (level === "District") {
 
       this.selCluster = false;
       this.selBlock = false;

@@ -101,7 +101,7 @@
               {{ sem.name }}
             </option>
           </select>
-          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" (click)="blockClick()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel"  [disabled] = "hideAllBlockBtn" (click)="blockClick()">
             &nbsp;<strong>Blocks</strong>
           </button>
           <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterClick()">
