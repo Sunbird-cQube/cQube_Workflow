@@ -518,6 +518,10 @@ export class SatReportComponent implements OnInit {
     this.subjectHidden = true;
     this.level = "District";
     this.year = this.years[0]['academic_year'];
+    this.districtSelected = false;
+    this.selectedCluster = false;
+    this.blockSelected = false;
+    this.hideAllBlockBtn = false
     this.onSelectYear();
   }
 
@@ -676,8 +680,8 @@ export class SatReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      // this.districtId = undefined;
-      // this.blockId = undefined;
+      this.districtId = undefined;
+      this.blockId = undefined;
       this.level = "Block";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
@@ -729,114 +733,470 @@ export class SatReportComponent implements OnInit {
               })
               .subscribe(
                 (res) => {
-                  this.myBlockData = res["data"];
-                  this.markers = this.data = res["data"];
-                  if (this.grade) {
-                    this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
-                  }
-                  let options = {
-                    mapZoom: this.globalService.zoomLevel,
-                    centerLat: this.lat,
-                    centerLng: this.lng,
-                    level: "Block",
-                  };
-                  this.dataOptions = options;
-                  if (this.data.length > 0) {
-                    let result = this.data;
-                    this.blockMarkers = [];
-                    this.blockMarkers = result;
-                    if (!this.blockMarkers[0]["Subjects"]) {
-                      this.blockFilter = this.blockMarkers;
-                    }
 
-                    if (this.grade && this.subject) {
-                      var filtererSubData = this.blockMarkers.filter(item => {
-                        return item.Subjects[`${this.subject}`];
-                      })
-                      this.blockMarkers = filtererSubData;
-                    }
+                  if (this.districtSelected) {
 
-                    if (this.selected != "absolute") {
-                      this.colors = this.generateRelativeColors(this.blockMarkers);
-                    }
-                    if (this.blockMarkers.length) {
-                      for (let i = 0; i < this.blockMarkers.length; i++) {
-                        if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
-                          this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
-                          this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
-                          this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
-                        }
-                        if (this.grade && this.subject) {
-                          if (this.blockMarkers[i].Subjects[`${this.subject}`]) {
-                            this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_students'];
-                            this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects[`${this.subject}`]['students_attended'];
-                            this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_schools'];
-                          } else {
-                            let index = this.blockMarkers.indexOf(this.blockMarkers[i]);
-                            this.blockMarkers.splice(index, 1);
-                          }
-                        }
-                        if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
-                          this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
-                          this.allSubjects.map(sub => {
-                            if (this.blockMarkers[i].Subjects[`${sub}`])
-                              this.blockMarkers[i].Subjects[`${sub}`] = this.blockMarkers[i].Subjects[`${sub}`]['percentage']
-                          })
-                        } else if (!this.grade && !this.subject) {
-                          this.allGrades.map(grade => {
-                            var myGrade = grade.grade;
-                            if (this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`])
-                              this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-                          })
-                        }
-                        var color;
-                        if (!this.grade && !this.subject) {
-                          color = this.commonService.color(
-                            this.blockMarkers[i].Details,
-                            "Performance"
-                          );
-                        } else if (this.grade && !this.subject) {
-                          color = this.commonService.color(
-                            this.blockMarkers[i].Subjects,
-                            "Grade Performance"
-                          );
-                        } else if (this.grade && this.subject) {
-                          color = this.commonService.color(
-                            this.blockMarkers[i].Subjects,
-                            this.subject
-                          );
-                        }
+                    this.myBlockData = res["data"];
+                    let marker = this.myBlockData.filter(a => {
+                      if (a.Details.district_id === this.districtSlectedId) {
 
-                        var markerIcon = this.attachColorsToMarkers(this.blockMarkers[i], color, this.colors, 4, 0.01, 1, options.level);
-                        this.generateToolTip(
-                          this.blockMarkers[i],
-                          options.level,
-                          markerIcon,
-                          "latitude",
-                          "longitude"
-                        );
-                        this.getDownloadableData(
-                          this.blockMarkers[i],
-                          options.level
-                        );
+                        return a
                       }
 
-                      this.globalService.restrictZoom(globalMap);
-                      globalMap.setMaxBounds([
-                        [options.centerLat - 4.5, options.centerLng - 6],
-                        [options.centerLat + 3.5, options.centerLng + 6],
-                      ]);
-                      this.globalService.onResize(this.level);
+                    })
 
-                      this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.changeDetection.detectChanges();
-                      this.commonService.loaderAndErr(this.data);
-                    } else {
-                      this.errorHandling();
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Block",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.blockMarkers = [];
+                      this.blockMarkers = result;
+                      if (!this.blockMarkers[0]["Subjects"]) {
+                        this.blockFilter = this.blockMarkers;
+                      }
+
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.blockMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.blockMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.blockMarkers);
+                      }
+                      if (this.blockMarkers.length) {
+                        for (let i = 0; i < this.blockMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.blockMarkers[i].Subjects[`${this.subject}`]) {
+                              this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.blockMarkers.indexOf(this.blockMarkers[i]);
+                              this.blockMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.blockMarkers[i].Subjects[`${sub}`])
+                                this.blockMarkers[i].Subjects[`${sub}`] = this.blockMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.blockMarkers[i], color, this.colors, 4, 0.01, 1, options.level);
+                          this.generateToolTip(
+                            this.blockMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.blockMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else if (this.blockSelected) {
+
+                    this.myBlockData = res["data"];
+                    let marker = this.myBlockData.filter(a => {
+                      if (a.Details.block_id === this.blockSelectedId) {
+                      
+                        return a
+                      }
+
+                    })
+
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Block",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.blockMarkers = [];
+                      this.blockMarkers = result;
+                      if (!this.blockMarkers[0]["Subjects"]) {
+                        this.blockFilter = this.blockMarkers;
+                      }
+
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.blockMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.blockMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.blockMarkers);
+                      }
+                      if (this.blockMarkers.length) {
+                        for (let i = 0; i < this.blockMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.blockMarkers[i].Subjects[`${this.subject}`]) {
+                              this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.blockMarkers.indexOf(this.blockMarkers[i]);
+                              this.blockMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.blockMarkers[i].Subjects[`${sub}`])
+                                this.blockMarkers[i].Subjects[`${sub}`] = this.blockMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.blockMarkers[i], color, this.colors, 4, 0.01, 1, options.level);
+                          this.generateToolTip(
+                            this.blockMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.blockMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else if (this.selectedCluster) {
+
+                    this.myBlockData = res["data"];
+                    let marker = this.myBlockData.filter(a => {
+                      if (a.Details.cluster_id === this.selectedCLusterId) {
+                        return a
+                      }
+
+                    })
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Block",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.blockMarkers = [];
+                      this.blockMarkers = result;
+                      if (!this.blockMarkers[0]["Subjects"]) {
+                        this.blockFilter = this.blockMarkers;
+                      }
+
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.blockMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.blockMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.blockMarkers);
+                      }
+                      if (this.blockMarkers.length) {
+                        for (let i = 0; i < this.blockMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.blockMarkers[i].Subjects[`${this.subject}`]) {
+                              this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.blockMarkers.indexOf(this.blockMarkers[i]);
+                              this.blockMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.blockMarkers[i].Subjects[`${sub}`])
+                                this.blockMarkers[i].Subjects[`${sub}`] = this.blockMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.blockMarkers[i], color, this.colors, 4, 0.01, 1, options.level);
+                          this.generateToolTip(
+                            this.blockMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.blockMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else {
+                    this.myBlockData = res["data"];
+                    this.markers = this.data = res["data"];
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Block",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.blockMarkers = [];
+                      this.blockMarkers = result;
+                      if (!this.blockMarkers[0]["Subjects"]) {
+                        this.blockFilter = this.blockMarkers;
+                      }
+
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.blockMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.blockMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.blockMarkers);
+                      }
+                      if (this.blockMarkers.length) {
+                        for (let i = 0; i < this.blockMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.blockMarkers[i].Subjects[`${this.subject}`]) {
+                              this.blockMarkers[i].Details['total_students'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.blockMarkers[i].Details['students_attended'] = this.blockMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.blockMarkers[i].Details['total_schools'] = this.blockMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.blockMarkers.indexOf(this.blockMarkers[i]);
+                              this.blockMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.blockMarkers[i].Subjects['Grade Performance']) {
+                            this.blockMarkers[i].Subjects['Grade Performance'] = this.blockMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.blockMarkers[i].Subjects[`${sub}`])
+                                this.blockMarkers[i].Subjects[`${sub}`] = this.blockMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.blockMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.blockMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.blockMarkers[i], color, this.colors, 4, 0.01, 1, options.level);
+                          this.generateToolTip(
+                            this.blockMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.blockMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
                     }
                   }
+
                 },
                 (err) => {
                   this.errorHandling();
@@ -931,113 +1291,469 @@ export class SatReportComponent implements OnInit {
               })
               .subscribe(
                 (res) => {
-                  this.markers = this.data = res["data"];
-                  if (this.grade) {
-                    this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
-                  }
-                  let options = {
-                    mapZoom: this.globalService.zoomLevel,
-                    centerLat: this.lat,
-                    centerLng: this.lng,
-                    level: "Cluster",
-                  };
-                  this.dataOptions = options;
-                  if (this.data.length > 0) {
-                    let result = this.data;
-                    this.clusterMarkers = [];
-                    this.clusterMarkers = result;
-                    if (!this.clusterMarkers[0]["Subjects"]) {
-                      this.clusterFilter = this.clusterMarkers;
-                    }
-                    if (this.grade && this.subject) {
-                      var filtererSubData = this.clusterMarkers.filter(item => {
-                        return item.Subjects[`${this.subject}`];
-                      })
-                      this.clusterMarkers = filtererSubData;
-                    }
+                  if (this.districtSelected) {
 
-                    if (this.selected != "absolute") {
-                      this.colors = this.generateRelativeColors(this.clusterMarkers);
-                    }
-                    if (this.clusterMarkers.length) {
-                      for (let i = 0; i < this.clusterMarkers.length; i++) {
-                        if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
-                          this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
-                          this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
-                          this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
-                        }
-                        if (this.grade && this.subject) {
-                          if (this.clusterMarkers[i].Subjects[`${this.subject}`]) {
-                            this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_students'];
-                            this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['students_attended'];
-                            this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_schools'];
-                          } else {
-                            let index = this.clusterMarkers.indexOf(this.clusterMarkers[i]);
-                            this.clusterMarkers.splice(index, 1);
-                          }
-                        }
-                        if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
-                          this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
-                          this.allSubjects.map(sub => {
-                            if (this.clusterMarkers[i].Subjects[`${sub}`])
-                              this.clusterMarkers[i].Subjects[`${sub}`] = this.clusterMarkers[i].Subjects[`${sub}`]['percentage']
-                          })
-                        } else if (!this.grade && !this.subject) {
-                          this.allGrades.map(grade => {
-                            var myGrade = grade.grade;
-                            if (this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`])
-                              this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-                          })
-                        }
-                        var color;
-                        if (!this.grade && !this.subject) {
-                          color = this.commonService.color(
-                            this.clusterMarkers[i].Details,
-                            "Performance"
-                          );
-                        } else if (this.grade && !this.subject) {
-                          color = this.commonService.color(
-                            this.clusterMarkers[i].Subjects,
-                            "Grade Performance"
-                          );
-                        } else if (this.grade && this.subject) {
-                          color = this.commonService.color(
-                            this.clusterMarkers[i].Subjects,
-                            this.subject
-                          );
-                        }
+                    let myBlockData = res["data"];
+                    let marker = myBlockData.filter(a => {
+                      if (a.Details.district_id === this.districtSlectedId) {
 
-                        var markerIcon = this.attachColorsToMarkers(this.clusterMarkers[i], color, this.colors, 2, 0.01, 0.5, options.level);
-                        this.generateToolTip(
-                          this.clusterMarkers[i],
-                          options.level,
-                          markerIcon,
-                          "latitude",
-                          "longitude"
-                        );
-                        this.getDownloadableData(
-                          this.clusterMarkers[i],
-                          options.level
-                        );
+                        return a
                       }
 
-                      this.globalService.restrictZoom(globalMap);
-                      globalMap.setMaxBounds([
-                        [options.centerLat - 4.5, options.centerLng - 6],
-                        [options.centerLat + 3.5, options.centerLng + 6],
-                      ]);
-                      this.globalService.onResize(this.level);
+                    })
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Cluster",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.clusterMarkers = [];
+                      this.clusterMarkers = result;
+                      if (!this.clusterMarkers[0]["Subjects"]) {
+                        this.clusterFilter = this.clusterMarkers;
+                      }
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.clusterMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.clusterMarkers = filtererSubData;
+                      }
 
-                      //schoolCount
-                      this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.changeDetection.detectChanges();
-                      this.commonService.loaderAndErr(this.data);
-                    } else {
-                      this.errorHandling();
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.clusterMarkers);
+                      }
+                      if (this.clusterMarkers.length) {
+                        for (let i = 0; i < this.clusterMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.clusterMarkers[i].Subjects[`${this.subject}`]) {
+                              this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.clusterMarkers.indexOf(this.clusterMarkers[i]);
+                              this.clusterMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.clusterMarkers[i].Subjects[`${sub}`])
+                                this.clusterMarkers[i].Subjects[`${sub}`] = this.clusterMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.clusterMarkers[i], color, this.colors, 2, 0.01, 0.5, options.level);
+                          this.generateToolTip(
+                            this.clusterMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.clusterMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        //schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else if (this.blockSelected) {
+
+                    let myBlockData = res["data"];
+
+                    let marker = myBlockData.filter(a => {
+                      if (a.details.block_id === this.blockSelectedId) {
+                       
+                        return a
+                      }
+
+                    })
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Cluster",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.clusterMarkers = [];
+                      this.clusterMarkers = result;
+                      if (!this.clusterMarkers[0]["Subjects"]) {
+                        this.clusterFilter = this.clusterMarkers;
+                      }
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.clusterMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.clusterMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.clusterMarkers);
+                      }
+                      if (this.clusterMarkers.length) {
+                        for (let i = 0; i < this.clusterMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.clusterMarkers[i].Subjects[`${this.subject}`]) {
+                              this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.clusterMarkers.indexOf(this.clusterMarkers[i]);
+                              this.clusterMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.clusterMarkers[i].Subjects[`${sub}`])
+                                this.clusterMarkers[i].Subjects[`${sub}`] = this.clusterMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.clusterMarkers[i], color, this.colors, 2, 0.01, 0.5, options.level);
+                          this.generateToolTip(
+                            this.clusterMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.clusterMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        //schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else if (this.selectedCluster) {
+
+                    let cluster = res["data"];
+
+                    let marker = cluster.filter(a => {
+                      if (a.details.cluster_id === this.selectedCLusterId) {
+                        return a
+                      }
+
+                    })
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Cluster",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.clusterMarkers = [];
+                      this.clusterMarkers = result;
+                      if (!this.clusterMarkers[0]["Subjects"]) {
+                        this.clusterFilter = this.clusterMarkers;
+                      }
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.clusterMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.clusterMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.clusterMarkers);
+                      }
+                      if (this.clusterMarkers.length) {
+                        for (let i = 0; i < this.clusterMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.clusterMarkers[i].Subjects[`${this.subject}`]) {
+                              this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.clusterMarkers.indexOf(this.clusterMarkers[i]);
+                              this.clusterMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.clusterMarkers[i].Subjects[`${sub}`])
+                                this.clusterMarkers[i].Subjects[`${sub}`] = this.clusterMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.clusterMarkers[i], color, this.colors, 2, 0.01, 0.5, options.level);
+                          this.generateToolTip(
+                            this.clusterMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.clusterMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        //schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else {
+                    this.markers = this.data = res["data"];
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "Cluster",
+                    };
+                    this.dataOptions = options;
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.clusterMarkers = [];
+                      this.clusterMarkers = result;
+                      if (!this.clusterMarkers[0]["Subjects"]) {
+                        this.clusterFilter = this.clusterMarkers;
+                      }
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.clusterMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.clusterMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.clusterMarkers);
+                      }
+                      if (this.clusterMarkers.length) {
+                        for (let i = 0; i < this.clusterMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.clusterMarkers[i].Subjects[`${this.subject}`]) {
+                              this.clusterMarkers[i].Details['total_students'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.clusterMarkers[i].Details['students_attended'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.clusterMarkers[i].Details['total_schools'] = this.clusterMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.clusterMarkers.indexOf(this.clusterMarkers[i]);
+                              this.clusterMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.clusterMarkers[i].Subjects['Grade Performance']) {
+                            this.clusterMarkers[i].Subjects['Grade Performance'] = this.clusterMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.clusterMarkers[i].Subjects[`${sub}`])
+                                this.clusterMarkers[i].Subjects[`${sub}`] = this.clusterMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.clusterMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.clusterMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.clusterMarkers[i], color, this.colors, 2, 0.01, 0.5, options.level);
+                          this.generateToolTip(
+                            this.clusterMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.clusterMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        this.globalService.restrictZoom(globalMap);
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        //schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
                     }
                   }
+
+
                 },
                 (err) => {
                   this.errorHandling();
@@ -1132,111 +1848,459 @@ export class SatReportComponent implements OnInit {
               })
               .subscribe(
                 (res) => {
-                  this.markers = this.data = res["data"];
-                  if (this.grade) {
-                    this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
-                  }
-                  let options = {
-                    mapZoom: this.globalService.zoomLevel,
-                    centerLat: this.lat,
-                    centerLng: this.lng,
-                    level: "School",
-                  };
-                  this.dataOptions = options;
-                  this.schoolMarkers = [];
-                  if (this.data.length > 0) {
-                    let result = this.data;
-                    this.schoolMarkers = result;
-                    if (this.grade && this.subject) {
-                      var filtererSubData = this.schoolMarkers.filter(item => {
-                        return item.Subjects[`${this.subject}`];
-                      })
-                      this.schoolMarkers = filtererSubData;
-                    }
+                  if (this.districtSelected) {
 
-                    if (this.selected != "absolute") {
-                      this.colors = this.generateRelativeColors(this.schoolMarkers);
-                    }
-                    if (this.schoolMarkers.length) {
-                      for (let i = 0; i < this.schoolMarkers.length; i++) {
-                        if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
-                          this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
-                          this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
-                          this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
-                        }
-                        if (this.grade && this.subject) {
-                          if (this.schoolMarkers[i].Subjects[`${this.subject}`]) {
-                            this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_students'];
-                            this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['students_attended'];
-                            this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_schools'];
-                          } else {
-                            let index = this.schoolMarkers.indexOf(this.schoolMarkers[i]);
-                            this.schoolMarkers.splice(index, 1);
-                          }
-                        }
-                        if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
-                          this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
-                          this.allSubjects.map(sub => {
-                            if (this.schoolMarkers[i].Subjects[`${sub}`])
-                              this.schoolMarkers[i].Subjects[`${sub}`] = this.schoolMarkers[i].Subjects[`${sub}`]['percentage']
-                          })
-                        } else if (!this.grade && !this.subject) {
-                          this.allGrades.map(grade => {
-                            var myGrade = grade.grade;
-                            if (this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`])
-                              this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
-                          })
-                        }
-                        var color;
-                        if (!this.grade && !this.subject) {
-                          color = this.commonService.color(
-                            this.schoolMarkers[i].Details,
-                            "Performance"
-                          );
-                        } else if (this.grade && !this.subject) {
-                          color = this.commonService.color(
-                            this.schoolMarkers[i].Subjects,
-                            "Grade Performance"
-                          );
-                        } else if (this.grade && this.subject) {
-                          color = this.commonService.color(
-                            this.schoolMarkers[i].Subjects,
-                            this.subject
-                          );
-                        }
+                    let mySchoolData = res["data"];
+                    let marker = mySchoolData.filter(a => {
+                      if (a.Details.district_id === this.districtSlectedId) {
 
-                        var markerIcon = this.attachColorsToMarkers(this.schoolMarkers[i], color, this.colors, 1, 0, 0.3, options.level);
-                        this.generateToolTip(
-                          this.schoolMarkers[i],
-                          options.level,
-                          markerIcon,
-                          "latitude",
-                          "longitude"
-                        );
-                        this.getDownloadableData(
-                          this.schoolMarkers[i],
-                          options.level
-                        );
+                        return a
                       }
 
-                      globalMap.doubleClickZoom.enable();
-                      globalMap.scrollWheelZoom.enable();
-                      globalMap.setMaxBounds([
-                        [options.centerLat - 4.5, options.centerLng - 6],
-                        [options.centerLat + 3.5, options.centerLng + 6],
-                      ]);
-                      this.globalService.onResize(this.level);
+                    })
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "School",
+                    };
+                    this.dataOptions = options;
+                    this.schoolMarkers = [];
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.schoolMarkers = result;
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.schoolMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.schoolMarkers = filtererSubData;
+                      }
 
-                      ///schoolCount
-                      this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                      this.changeDetection.detectChanges();
-                      this.commonService.loaderAndErr(this.data);
-                    } else {
-                      this.errorHandling();
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.schoolMarkers);
+                      }
+                      if (this.schoolMarkers.length) {
+                        for (let i = 0; i < this.schoolMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.schoolMarkers[i].Subjects[`${this.subject}`]) {
+                              this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.schoolMarkers.indexOf(this.schoolMarkers[i]);
+                              this.schoolMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.schoolMarkers[i].Subjects[`${sub}`])
+                                this.schoolMarkers[i].Subjects[`${sub}`] = this.schoolMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.schoolMarkers[i], color, this.colors, 1, 0, 0.3, options.level);
+                          this.generateToolTip(
+                            this.schoolMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.schoolMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        globalMap.doubleClickZoom.enable();
+                        globalMap.scrollWheelZoom.enable();
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        ///schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else if (this.blockSelected) {
+
+                    let mySchoolData = res["data"];
+                    let marker = mySchoolData.filter(a => {
+                      if (a.Details.block_id === this.blockSelectedId) {
+                        
+                        return a
+                      }
+
+                    })
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "School",
+                    };
+                    this.dataOptions = options;
+                    this.schoolMarkers = [];
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.schoolMarkers = result;
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.schoolMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.schoolMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.schoolMarkers);
+                      }
+                      if (this.schoolMarkers.length) {
+                        for (let i = 0; i < this.schoolMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.schoolMarkers[i].Subjects[`${this.subject}`]) {
+                              this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.schoolMarkers.indexOf(this.schoolMarkers[i]);
+                              this.schoolMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.schoolMarkers[i].Subjects[`${sub}`])
+                                this.schoolMarkers[i].Subjects[`${sub}`] = this.schoolMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.schoolMarkers[i], color, this.colors, 1, 0, 0.3, options.level);
+                          this.generateToolTip(
+                            this.schoolMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.schoolMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        globalMap.doubleClickZoom.enable();
+                        globalMap.scrollWheelZoom.enable();
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        ///schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else if (this.selectedCluster) {
+
+                    let mySchoolData = res["data"];
+                    let marker = mySchoolData.filter(a => {
+                      if (a.Details.cluster_id === this.selectedCLusterId) {
+                        return a
+                      }
+
+                    })
+                    this.markers = this.data = marker;
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "School",
+                    };
+                    this.dataOptions = options;
+                    this.schoolMarkers = [];
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.schoolMarkers = result;
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.schoolMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.schoolMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.schoolMarkers);
+                      }
+                      if (this.schoolMarkers.length) {
+                        for (let i = 0; i < this.schoolMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.schoolMarkers[i].Subjects[`${this.subject}`]) {
+                              this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.schoolMarkers.indexOf(this.schoolMarkers[i]);
+                              this.schoolMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.schoolMarkers[i].Subjects[`${sub}`])
+                                this.schoolMarkers[i].Subjects[`${sub}`] = this.schoolMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.schoolMarkers[i], color, this.colors, 1, 0, 0.3, options.level);
+                          this.generateToolTip(
+                            this.schoolMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.schoolMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        globalMap.doubleClickZoom.enable();
+                        globalMap.scrollWheelZoom.enable();
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        ///schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
+                    }
+                  } else {
+                    this.markers = this.data = res["data"];
+                    if (this.grade) {
+                      this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
+                    }
+                    let options = {
+                      mapZoom: this.globalService.zoomLevel,
+                      centerLat: this.lat,
+                      centerLng: this.lng,
+                      level: "School",
+                    };
+                    this.dataOptions = options;
+                    this.schoolMarkers = [];
+                    if (this.data.length > 0) {
+                      let result = this.data;
+                      this.schoolMarkers = result;
+                      if (this.grade && this.subject) {
+                        var filtererSubData = this.schoolMarkers.filter(item => {
+                          return item.Subjects[`${this.subject}`];
+                        })
+                        this.schoolMarkers = filtererSubData;
+                      }
+
+                      if (this.selected != "absolute") {
+                        this.colors = this.generateRelativeColors(this.schoolMarkers);
+                      }
+                      if (this.schoolMarkers.length) {
+                        for (let i = 0; i < this.schoolMarkers.length; i++) {
+                          if (this.grade && !this.subject && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_students'];
+                            this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects['Grade Performance']['students_attended'];
+                            this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects['Grade Performance']['total_schools'];
+                          }
+                          if (this.grade && this.subject) {
+                            if (this.schoolMarkers[i].Subjects[`${this.subject}`]) {
+                              this.schoolMarkers[i].Details['total_students'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_students'];
+                              this.schoolMarkers[i].Details['students_attended'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['students_attended'];
+                              this.schoolMarkers[i].Details['total_schools'] = this.schoolMarkers[i].Subjects[`${this.subject}`]['total_schools'];
+                            } else {
+                              let index = this.schoolMarkers.indexOf(this.schoolMarkers[i]);
+                              this.schoolMarkers.splice(index, 1);
+                            }
+                          }
+                          if (this.grade && this.schoolMarkers[i].Subjects['Grade Performance']) {
+                            this.schoolMarkers[i].Subjects['Grade Performance'] = this.schoolMarkers[i].Subjects['Grade Performance']['percentage']
+                            this.allSubjects.map(sub => {
+                              if (this.schoolMarkers[i].Subjects[`${sub}`])
+                                this.schoolMarkers[i].Subjects[`${sub}`] = this.schoolMarkers[i].Subjects[`${sub}`]['percentage']
+                            })
+                          } else if (!this.grade && !this.subject) {
+                            this.allGrades.map(grade => {
+                              var myGrade = grade.grade;
+                              if (this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`])
+                                this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`] = this.schoolMarkers[i]['Grade Wise Performance'][`${myGrade}`]['percentage'];
+                            })
+                          }
+                          var color;
+                          if (!this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Details,
+                              "Performance"
+                            );
+                          } else if (this.grade && !this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              "Grade Performance"
+                            );
+                          } else if (this.grade && this.subject) {
+                            color = this.commonService.color(
+                              this.schoolMarkers[i].Subjects,
+                              this.subject
+                            );
+                          }
+
+                          var markerIcon = this.attachColorsToMarkers(this.schoolMarkers[i], color, this.colors, 1, 0, 0.3, options.level);
+                          this.generateToolTip(
+                            this.schoolMarkers[i],
+                            options.level,
+                            markerIcon,
+                            "latitude",
+                            "longitude"
+                          );
+                          this.getDownloadableData(
+                            this.schoolMarkers[i],
+                            options.level
+                          );
+                        }
+
+                        globalMap.doubleClickZoom.enable();
+                        globalMap.scrollWheelZoom.enable();
+                        globalMap.setMaxBounds([
+                          [options.centerLat - 4.5, options.centerLng - 6],
+                          [options.centerLat + 3.5, options.centerLng + 6],
+                        ]);
+                        this.globalService.onResize(this.level);
+
+                        ///schoolCount
+                        this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+                        this.changeDetection.detectChanges();
+                        this.commonService.loaderAndErr(this.data);
+                      } else {
+                        this.errorHandling();
+                      }
                     }
                   }
+
+
                 },
                 (err) => {
                   this.errorHandling();
@@ -1268,7 +2332,14 @@ export class SatReportComponent implements OnInit {
     }
   }
   // to load all the blocks for selected district for state data on the map
+  public districtSelected: boolean = false
+  public districtSlectedId
   onDistrictSelect(districtId) {
+    this.districtSelected = true
+    this.blockSelected = false
+    this.selectedCluster = false
+    this.districtSlectedId = districtId
+    this.hideAllBlockBtn = false
     this.commonService.errMsg();
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -1372,7 +2443,10 @@ export class SatReportComponent implements OnInit {
 
   }
 
+
   onblockLinkClick(blockId) {
+
+
     if (this.semester == "") {
       alert("Please select semester!");
       return;
@@ -1384,7 +2458,15 @@ export class SatReportComponent implements OnInit {
     }
   }
   // to load all the clusters for selected block for state data on the map
+
+  public blockSelected: boolean = false
+  public blockSelectedId
   onBlockSelect(blockId) {
+    this.districtSelected = false
+    this.selectedCluster = false
+    this.blockSelected = true
+    this.blockSelectedId = blockId
+    this.hideAllBlockBtn = false
     this.commonService.errMsg();
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -1514,7 +2596,16 @@ export class SatReportComponent implements OnInit {
     }
   }
   // to load all the schools for selected cluster for state data on the map
+  public selectedCluster: boolean = false;
+  public selectedCLusterId
+  public hideAllBlockBtn: boolean = false
   onClusterSelect(clusterId) {
+
+    this.hideAllBlockBtn = true
+    this.blockSelected = false
+    this.districtSelected = false
+    this.selectedCluster = true
+    this.selectedCLusterId = clusterId
     this.commonService.errMsg();
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
