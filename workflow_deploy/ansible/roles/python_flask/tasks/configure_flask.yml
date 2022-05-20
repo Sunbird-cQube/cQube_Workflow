@@ -1,59 +1,115 @@
 ---
 
 - name: Copying python files
-  shell: cp -R ../../development/datasource/python {{ base_dir }}/cqube/emission_app/
+  copy:
+    src: "../../development/datasource/python"
+    dest: "{{ base_dir }}/cqube/emission_app/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
  
 - name: Copy static.txt files
-  shell: cp -R ../../development/datasource/static/nifi/static_data_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/static/nifi/static_data_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy crc.txt files
-  shell: cp -R ../../development/datasource/crc/nifi/crc_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy: 
+    src: "../../development/datasource/crc/nifi/crc_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy attendance.txt files
-  shell: cp -R ../../development/datasource/attendance/nifi/student_attendance_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/attendance/nifi/student_attendance_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy infra.txt files
-  shell: cp -R ../../development/datasource/infra/nifi/infra_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/infra/nifi/infra_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy telemetry.txt files
-  shell: cp -R ../../development/datasource/telemetry/nifi/cqube_telemetry_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/telemetry/nifi/cqube_telemetry_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy udise.txt files
-  shell: cp -R ../../development/datasource/udise/nifi/udise_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy: 
+    src: "../../development/datasource/udise/nifi/udise_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
   
 - name: Copy pat.txt files
-  shell: cp -R ../../development/datasource/pat/nifi/pat_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/pat/nifi/pat_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy composite.txt files
-  shell: cp -R ../../development/datasource/composite/nifi/composite_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/composite/nifi/composite_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
   
 - name: Copy progress_card.txt files
-  shell: cp -R ../../development/datasource/progresscard/nifi/progress_card_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/progresscard/nifi/progress_card_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy teacher_attendance.txt files
-  shell: cp -R ../../development/datasource/teacher_attendance/nifi/teacher_attendance_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/teacher_attendance/nifi/teacher_attendance_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy data_replay.txt files
-  shell: cp -R ../../development/datasource/data_replay/nifi/data_replay_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/data_replay/nifi/data_replay_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
 
 - name: Copy sat.txt files
-  shell: cp -R ../../development/datasource/sat/nifi/sat_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy: 
+    src: "../../development/datasource/sat/nifi/sat_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
   
 - name: Copy diksha.txt files
-  shell: cp -R ../../development/datasource/diksha/nifi/diksha_parameters.txt {{ base_dir }}/cqube/emission_app/python/
+  copy:
+    src: "../../development/datasource/diksha/nifi/diksha_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
   tags: [ install, update ]
   
 - name: Delete env.py

@@ -1,7 +1,10 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts/highstock";
+// import * as Highcharts from 'highcharts';
 import HeatmapModule from "highcharts/modules/heatmap";
 HeatmapModule(Highcharts);
+
+
 import { AppServiceComponent } from "../../../app.service";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -170,6 +173,10 @@ export class HeatChartComponent implements OnInit {
 
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.state = this.commonService.state;
     this.managementName = this.management = JSON.parse(
@@ -182,9 +189,20 @@ export class HeatChartComponent implements OnInit {
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getView1();
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== "" || undefined) {
+        this.hideIfAccessLevel = true;
+      }
+    }
+
   }
 
   onChangePage() {
+
     let yLabel = this.yLabel.slice(
       (this.currentPage - 1) * this.pageSize,
       (this.currentPage - 1) * this.pageSize + this.pageSize
@@ -223,6 +241,7 @@ export class HeatChartComponent implements OnInit {
       tooltipData,
       this.grade
     );
+
   }
 
   resetToInitPage() {
@@ -271,6 +290,7 @@ export class HeatChartComponent implements OnInit {
   };
 
   resetFontSizesOfChart(): void {
+
     if (this.chart) {
       let xAxis, yAxis, dataLabels, tooltipStyle;
 
@@ -436,18 +456,25 @@ export class HeatChartComponent implements OnInit {
       xLabel[i] = xLabel[i].substr(0, 15);
     }
     this.chart = Highcharts.chart("container", {
+
       chart: {
         type: "heatmap",
       },
       credits: {
         enabled: false,
       },
+      exporting: {
+        enabled: false
+      },
       legend: {
         enabled: false,
       },
       xAxis: [
         {
+          startOnTick: false,
+          endOnTick: false,
           categories: [],
+
           labels: {
             rotation: 270,
             style: {
@@ -459,10 +486,12 @@ export class HeatChartComponent implements OnInit {
           lineColor: "#FFFFFF",
           gridLineColor: "transparent",
           min: 0,
-          max: 30,
+          max: 50,
           scrollbar: {
             enabled: scrollBarX,
           },
+          showLastLabel: false,
+          tickLength: 16,
         },
         {
           lineColor: "#FFFFFF",
@@ -478,9 +507,12 @@ export class HeatChartComponent implements OnInit {
               fontFamily: "Arial",
             },
           },
+
         },
       ],
       yAxis: {
+        startOnTick: false,
+        endOnTick: false,
         categories: yAxisLabel,
         labels: {
           style: {
@@ -506,12 +538,14 @@ export class HeatChartComponent implements OnInit {
       },
       colorAxis: {
         min: 0,
+        max: 100,
         minColor: "#ff3300",
         maxColor: "#99ff99",
+
       },
       series: [
         {
-          turboThreshold: data.length + 100,
+          turboThreshold: 0,
           data: data,
           dataLabels: {
             enabled: true,
@@ -543,7 +577,9 @@ export class HeatChartComponent implements OnInit {
       },
     });
 
+
     function getPointCategoryName(point, dimension, viewBy, level, grades) {
+
       var series = point.series,
         isY = dimension === "y",
         axis = series[isY ? "yAxis" : "xAxis"];
@@ -824,6 +860,8 @@ export class HeatChartComponent implements OnInit {
       this.commonService.errMsg();
       this.reportData = [];
 
+      this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
+
       let a = {
         report: "pat",
         year: this.year,
@@ -894,6 +932,8 @@ export class HeatChartComponent implements OnInit {
     this.data = response["result"]["data"];
     this.zLabel = response["result"]["zLabel"];
     this.reportData = response["downloadData"];
+    
+
     if (response["districtDetails"]) {
       let districts = response["districtDetails"];
       this.districtNames = districts.sort((a, b) =>
@@ -961,6 +1001,7 @@ export class HeatChartComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
+  hideDist = true
 
   getView1() {
     let id = localStorage.getItem("userLocation");
@@ -969,7 +1010,7 @@ export class HeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    console.log(id, level, clusterid, blockid, districtid);
+
 
     if (districtid) {
       this.district = districtid;
@@ -980,23 +1021,26 @@ export class HeatChartComponent implements OnInit {
     if (clusterid) {
       this.cluster = clusterid;
     }
-    if (level === "cluster") {
+    if (level === "Cluster") {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
+
       this.levelVal = 3;
-    } else if (level === "block") {
+    } else if (level === "Block") {
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 2;
-    } else if (level === "district") {
-      this.selCluster = false;
-      this.selBlock = false;
-      this.selDist = true;
-      this.levelVal = 1;
+    } else if (level === "District") {
+
+    } else if (level === null) {
+      this.hideDist = false
     }
   }
+
+  hideblock = false
+  hideCluster = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -1004,26 +1048,33 @@ export class HeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    console.log(id, level, clusterid, blockid, districtid);
-    if (districtid) {
-      this.district = districtid;
-    }
-    if (blockid) {
-      this.block = blockid;
-    }
-    if (clusterid) {
-      this.cluster = clusterid;
-    }
-    console.log(id, level);
 
-    if (level === "cluster") {
-      this.clusterlevel(id);
+
+
+    if (level === "Cluster") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+
+
+      this.selectedBlock(blockid);
+      this.selectedCluster(clusterid);
+      this.blockHidden = true
+      this.clusterHidden = true
       this.levelVal = 3;
-    } else if (level === "block") {
-      this.blocklevel(id);
+    } else if (level === "Block") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+      this.hideblock = true
+      this.selectedDistrict(districtid);
+      this.selectedBlock(blockid);
       this.levelVal = 2;
-    } else if (level === "district") {
-      this.distlevel(id);
+    } else if (level === "District") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+      this.selectedDistrict(districtid);
       this.levelVal = 1;
     }
   }

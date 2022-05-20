@@ -62,12 +62,12 @@
                                 (click)="downloadRaw()">Download
                                 Academic Year Data</a>
                             <p *ngIf="!academicYear" id="errMsg" class="note"></p>
+                            <button class="btn btn-primary" title="User Level Access" id="download1"
+                                [hidden]="hideAccessBtn" (click)="getView1()">
+                                Access Level
+                            </button>
                         </div>
                         <div class="col-sm-4">
-
-                            <span class="selected-level udise-level" (click)="getView()" >
-                                <strong>Access Location</strong>
-                              </span>
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
                                 id="download1" (click)="downloadReport($event)">Download Report &nbsp; <i
                                     class="fa fa-arrow-down" aria-hidden="true"></i>
@@ -119,19 +119,19 @@
                             {{month.name}}
                         </option>
                     </select>
-                    <button class="btn btn-secondary" id="blockbtn" name="block"
+                    <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"
                         (click)="blockWise($event)">&nbsp;<strong>Blocks</strong>
                     </button>
-                    <button class="btn btn-secondary" id="clusterbtn"
+                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
                         (click)="clusterWise($event)">&nbsp;<strong>Clusters</strong>
                     </button>
-                    <button class="btn btn-secondary" id="schoolbtn"
+                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"
                         (click)="schoolWise($event)">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [disabled]="selDist"
-                        (change)="myDistData(myDistrict)">
-                        <option [value]="" disabled selected="selected" style="color: white;">Choose a
+                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="selDist"
+                        (change)="myDistData(myDistrict)" *ngIf="!this.distHidden">
+                        <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
                         </option>
                         <option *ngFor="let dist of districtsNames" [value]="dist.id">
@@ -139,18 +139,18 @@
                         </option>
                     </select>
 
-                    <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [disabled]="selBlock"
-                        (change)="myBlockData(myBlock)">
-                        <option [value]="" disabled selected="selected" style="color: white;">Choose a Block
+                    <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [hidden]="selBlock"
+                        (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
+                        <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
                         <option *ngFor="let block of blocksNames" [value]="block.id">
                             {{block.name}}
                         </option>
                     </select>
 
-                    <select id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled]="selCluster"
-                        (change)="myClusterData(myCluster)">
-                        <option [value]="" disabled selected="selected">Choose a cluster
+                    <select id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [hidden]="selCluster"
+                        (change)="myClusterData(myCluster)" *ngIf="!this.clusterHidden">
+                        <option [value]="myCluster" disabled selected="selected">Choose a cluster
                         </option>
                         <option *ngFor="let cluster of clusterNames" [value]="cluster.id"
                             [ngStyle]="{'color': cluster.name !== 'NO NAME FOUND'? 'white' : '#ff3333'}">

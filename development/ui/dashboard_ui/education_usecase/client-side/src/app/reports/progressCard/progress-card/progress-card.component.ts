@@ -145,10 +145,22 @@ export class progressCardComponent implements OnInit, AfterViewInit {
 
   constructor(private cdr: ChangeDetectorRef, public commonService: AppServiceComponent, public service: progressCardService, private readonly _router: Router, private readonly _cd: ChangeDetectorRef) { }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     document.getElementById('accessProgressCard').style.display = 'none';
-    document.getElementById('myInput')['disabled'] = true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
+    
+     if(this.hideAccessBtn !== true){
+       document.getElementById('hideDistSearch').style.display = 'none'
+     }  
+
+     document.getElementById('myInput')['disabled'] = true;
+    
+    
     this.state = this.commonService.state;
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -175,6 +187,8 @@ export class progressCardComponent implements OnInit, AfterViewInit {
     } else {
       this.stateData();
     }
+
+
   }
 
   onPeriodSelect() {

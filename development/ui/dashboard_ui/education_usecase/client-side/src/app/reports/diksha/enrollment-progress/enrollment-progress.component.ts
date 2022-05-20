@@ -44,6 +44,11 @@ export class EnrollmentProgressComponent implements OnInit {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
+
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.changeDetection.detectChanges();
     this.state = this.commonService.state;
@@ -51,16 +56,17 @@ export class EnrollmentProgressComponent implements OnInit {
     document.getElementById("backBtn")
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
-      if (this.level == "program") {
-        setTimeout(() => {
-          document.getElementById("spinner").style.display = "none";
-        }, 200);
-        this.getProgramData();
-      }
+    if (this.level == "program") {
+      setTimeout(() => {
+        document.getElementById("spinner").style.display = "none";
+      }, 200);
+      this.getProgramData();
+    }
     this.getExpectedMeta();
     this.getStateData();
     this.getProgramData();
     this.getAllDistCollection();
+    this.districtHidden = this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
 
   }
 
@@ -83,10 +89,10 @@ export class EnrollmentProgressComponent implements OnInit {
         this.createLineChart(this.stateData);
         this.getDistMeta();
         this.commonService.loaderAndErr(this.stateData);
-      }, (err)=>{
+      }, (err) => {
         this.stateData = [];
         this.commonService.loaderAndErr(this.stateData);
-        }); 
+      });
     } catch (error) {
       this.stateData = []
       console.log(error)
@@ -111,7 +117,7 @@ export class EnrollmentProgressComponent implements OnInit {
   clickHome() {
     this.dist = false;
     this.skul = true;
-    this.districtHidden = true;
+    this.districtHidden = this.hideIfAccessLevel === true ? true : false;
     this.selectedDist = "";
     this.selectedCourse = "";
     this.courseSelected = false;
@@ -143,6 +149,7 @@ export class EnrollmentProgressComponent implements OnInit {
   public category = [];
 
   createLineChart(data) {
+
     this.chartData = [];
     this.expectedEnrolled = [];
     this.changeInNetEnrollment = [];
@@ -359,7 +366,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.selectedDist = distId;
 
     this.distToDropDown.filter((district) => {
-     
+
       if (district.district_id === this.selectedDist) {
         this.districtName = district.district_name;
       }
@@ -412,7 +419,7 @@ export class EnrollmentProgressComponent implements OnInit {
 
 
         this.reportData = this.selectedDistData;
-        
+
       }
     } catch (error) { }
   }
@@ -446,13 +453,13 @@ export class EnrollmentProgressComponent implements OnInit {
   public selectedCourseData: any[];
   public courseSelected = false;
 
-  onCourseSelected(courseId) { 
+  onCourseSelected(courseId) {
     document.getElementById("spinner").style.display = "block";
     setTimeout(() => {
       document.getElementById("spinner").style.display = "none";
     }, 1000);
     this.courseSelected = true;
-    this.districtHidden = false;
+    this.districtHidden = this.hideIfAccessLevel === true ? true : false;
     this.selectedDist = '';
     this.emptyChart();
     this.selectedCourseData = [];
@@ -486,7 +493,7 @@ export class EnrollmentProgressComponent implements OnInit {
       });
       this.createLineChart(this.selectedCourseData);
       this.reportData = this.selectedCourseData;
-    } 
+    }
 
   }
 

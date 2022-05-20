@@ -156,6 +156,10 @@ export class SatHeatChartComponent implements OnInit {
     this.grades = [{ grade: "all" }, ...this.grades.filter(item => item !== { grade: "all" })];
   }
 
+  public userAccessLevel = localStorage.getItem("userLevel");
+  public hideIfAccessLevel: boolean = false
+  public hideAccessBtn: boolean = false
+
   ngOnInit(): void {
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -165,7 +169,18 @@ export class SatHeatChartComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
-    this.getView1();
+     this.getView1();
+
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+
+    if (environment.auth_api !== 'cqube') {
+      if (this.userAccessLevel !== "" || undefined) {
+        this.hideIfAccessLevel = true;
+      }
+
+    }
+
   }
 
   onChangePage() {
@@ -377,13 +392,31 @@ export class SatHeatChartComponent implements OnInit {
     }
     this.chart = Highcharts.chart('container', {
       chart: {
-        type: 'heatmap'
+        type: 'heatmap',
+        scrollablePlotArea: {
+          minWidth: 700,
+          scrollPositionX: 1
+        }
       },
       credits: {
         enabled: false
       },
       legend: {
         enabled: false
+      },
+      plotOptions: {
+        series: {
+          dataLabels: {
+            // overflow: 'none',
+            crop: true,
+            enabled: true,
+            style: {
+              fontWeight: 'normal'
+            }
+          },
+          "turboThreshold": 0
+        }
+
       },
       xAxis: [{
         categories: [],
@@ -447,7 +480,7 @@ export class SatHeatChartComponent implements OnInit {
         maxColor: '#99ff99',
       },
       series: [{
-        turboThreshold: data.length + 100,
+        turboThreshold: 0,
         data: data,
         dataLabels: {
           enabled: true,
@@ -456,8 +489,8 @@ export class SatHeatChartComponent implements OnInit {
             textOutline: 'none',
             fontSize: dataLabels.fontSize
           },
-          overflow: false,
-          crop: true,
+           overflow: false,
+           crop: true,
         },
         type: 'heatmap'
       }],
@@ -468,6 +501,7 @@ export class SatHeatChartComponent implements OnInit {
         style: {
           fontSize: tooltipStyle.fontSize
         },
+
         formatter: function () {
           return '<b>' + getPointCategoryName(this.point, 'y', viewBy, level, grade) + '</b>';
         }
@@ -478,7 +512,7 @@ export class SatHeatChartComponent implements OnInit {
       var series = point.series,
         isY = dimension === 'y',
         axis = series[isY ? 'yAxis' : 'xAxis'];
-      let splitVal = zLabel[point[isY ? 'y' : 'x']].split('/')
+      // let splitVal = zLabel[point[isY ? 'y' : 'x']].split('/')
 
       let totalSchools;
       let totalStudents;
@@ -744,7 +778,7 @@ export class SatHeatChartComponent implements OnInit {
 
       this.commonService.errMsg();
       this.reportData = [];
-
+      this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
       let a = {
         report: 'sat',
         year: this.year,
@@ -851,109 +885,103 @@ export class SatHeatChartComponent implements OnInit {
     }
   }
 
-  selCluster=false;
-  selBlock=false;
-  selDist=false;
-  levelVal=0;
+  selCluster = false;
+  selBlock = false;
+  selDist = true;
+  levelVal = 0;
 
-  getView1(){
-    let id=localStorage.getItem("userLocation");
-    let level= localStorage.getItem("userLevel");
-    let clusterid= localStorage.getItem("clusterId");
-    let blockid= localStorage.getItem("blockId");
-    let districtid= localStorage.getItem("districtId");
-    let schoolid= localStorage.getItem("schoolId");
-    console.log(id,level,clusterid,blockid,districtid);
+  getView1() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
 
-if (districtid){
-  this.district = districtid;
-}
-if(blockid){
-  this.block = blockid;
-}
-if(clusterid){
 
- this.cluster= clusterid;
-}
-    if(level==="cluster"){
-      
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=3;
-    }else if(level==="block"){
+    if (level === "Cluster") {
 
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-      this.levelVal=2;
-    }else if(level==="district"){
+      this.selCluster = true;
+      this.selBlock = true;
+       this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Block") {
 
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-      this.levelVal=1;
+      this.selCluster = false;
+       this.selBlock = true;
+       this.selDist = true;
+      this.levelVal = 2;
+    } else if (level === "District") {
+
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
+      this.levelVal = 1;
     }
   }
-  getView(){  
-    let id=localStorage.getItem("userLocation");
-    let level= localStorage.getItem("userLevel");
-    let clusterid= localStorage.getItem("clusterId");
-    let blockid= localStorage.getItem("blockId");
-    let districtid= localStorage.getItem("districtId");
-    let schoolid= localStorage.getItem("schoolId");
-    console.log(id,level,clusterid,blockid,districtid);
-  if (districtid){
-  this.district = districtid;
-  }
-  if(blockid){
-  this.block = blockid;
-  }
-  if(clusterid){
-  this.cluster= clusterid;
-  
-  }
-      console.log(id,level);
-  
-      if(level==="cluster"){
-        this.clusterlevel(id);
-        this.levelVal=3;
-      }else if(level==="block"){
-        this.blocklevel(id);
-        this.levelVal=2;
-      }else if(level==="district"){
-        this.distlevel(id);
-        this.levelVal=1;
-      }
-    }
-  
+  blockhide = false
+  getView() {
+    let id = localStorage.getItem("userLocation");
+    let level = localStorage.getItem("userLevel");
+    let clusterid = localStorage.getItem("clusterId");
+    let blockid = localStorage.getItem("blockId");
+    let districtid = localStorage.getItem("districtId");
+    let schoolid = localStorage.getItem("schoolId");
 
-  distlevel(id){
-    this.selCluster=false;
-    this.selBlock=false;
-    this.selDist=true;
-    this.level= "block";
+
+    if (level === "Cluster") {
+      this.district = districtid;
+      this.block = blockid
+      this.cluster = clusterid;
+
+      this.selectedBlock(blockid);
+      this.selectedCluster(clusterid);
+      this.blockHidden = true
+      this.clusterHidden = true
+
+      this.levelVal = 3;
+    } else if (level === "Block") {
+      this.district = districtid;
+      this.block = blockid;
+
+      this.selectedDistrict(districtid)
+      this.selectedBlock(blockid);
+      this.blockHidden = true
+ 
+
+      this.levelVal = 2;
+    } else if (level === "District") {
+      this.district = districtid;
+
+      this.selectedDistrict(districtid)
+
+      this.levelVal = 1;
+    }
+  }
+
+
+  distlevel(id) {
+    this.selCluster = false;
+    this.selBlock = false;
+    this.selDist = true;
+    this.level = "block";
     this.district = id;
-     this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
-  blocklevel(id){
-    this.selCluster=false;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "cluster";
+  blocklevel(id) {
+    this.selCluster = false;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "cluster";
     this.block = id;
-     this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
-  clusterlevel(id){
-    this.selCluster=true;
-    this.selBlock=true;
-    this.selDist=true;
-    this.level= "school";
+  clusterlevel(id) {
+    this.selCluster = true;
+    this.selBlock = true;
+    this.selDist = true;
+    this.level = "school";
     this.cluster = id;
-     this.levelWiseFilter();
-    }
+    this.levelWiseFilter();
+  }
 
   // to download the csv report
   downloadReport() {

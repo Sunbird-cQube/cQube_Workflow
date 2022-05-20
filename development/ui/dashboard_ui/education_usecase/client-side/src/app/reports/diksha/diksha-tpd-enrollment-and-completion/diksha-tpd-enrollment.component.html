@@ -2,7 +2,7 @@
     <div class="row reportHeader">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
-                <div class="col-lg-9 col-md-9 col-sm-12 ">
+                <div class="col-lg-7 col-md-9 col-sm-12 ">
                     <div *ngIf='skul'>
                         <p id="dist">
                             Report on User Progress: <span (click)="homeClick()"
@@ -44,18 +44,22 @@
                     </div>
 
                 </div>
+                <div class="col-lg-2 col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <button class="btn btn-primary" id="download1" [hidden]='hideAccessBtn' (click)="getView()">
+                                Access Level
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="row">
                         <div class="col-sm-7" style="display: none;">
                             <p id="errMsg" class="note">
                             </p>
-
                         </div>
                         <div class="col sm-5">
-
-                            <span class="selected-level udise-level" (click)="getView()" >
-                                <strong>Access Location</strong>
-                              </span> 
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
                                 id="download1" (click)="downloadReport()">Download Report &nbsp; <i
                                     class="fa fa-arrow-down" aria-hidden="true"></i>
@@ -98,25 +102,26 @@
                     </ng-select>
 
 
-                    <select id="choose_dist" [disabled]="selDist" [(ngModel)]="districtId" (change)="distLinkClick(districtId)">
-                        <option [value]="" disabled selected="selected">Choose a District</option>
-                        <option *ngFor="let dist of districts" [value]="dist.district_id">
+                    <select id="choose_dist" [hidden]="hideDist" [(ngModel)]="districtId" [disabled]="selDist"
+                        (change)="distLinkClick(districtId)">
+                        <option [value]="districtId" disabled selected="selected">Choose a District</option>
+                        <option *ngFor="let dist of districts" [(ngValue)]="dist.district_id">
                             {{dist.district_name}}
                         </option>
                     </select>
 
-                    <select  id="choose_block"  [disabled]="selBlock" [(ngModel)]="blockId"
+                    <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="blockId" [disabled]="selBlock"
                         (change)="blockLinkClick(blockId)">
-                        <option [value]="" disabled selected="selected">Choose a Block</option>
-                        <option *ngFor="let block of blocks" [value]="block.block_id">
+                        <option [value]="blockId" disabled selected="selected">Choose a Block</option>
+                        <option *ngFor="let block of blocks" [(ngValue)]="block.block_id">
                             {{block.block_name}}
                         </option>
                     </select>
 
-                    <select  id="choose_cluster" [disabled]="selCluster"  [(ngModel)]="clusterId"
+                    <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="clusterId" [disabled]="selCluster"
                         (change)="clusterLinkClick(clusterId)">
-                        <option [value]="" disabled selected="selected">Choose a Cluster</option>
-                        <option *ngFor="let cluster of clusters" [value]="cluster.cluster_id"
+                        <option [value]="clusterId" disabled selected="selected">Choose a Cluster</option>
+                        <option *ngFor="let cluster of clusters" [(ngValue)]="cluster.cluster_id"
                             [ngStyle]="{'color': cluster.clusterName !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
                             {{cluster.cluster_name}}
                         </option>

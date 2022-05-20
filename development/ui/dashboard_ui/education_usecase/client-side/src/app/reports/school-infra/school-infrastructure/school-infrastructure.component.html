@@ -2,14 +2,14 @@
     <div class="row reportHeader1">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row" (window:resize)="onResize()">
-                <div class="col-sm-8 ">
-                    <div *ngIf='skul'>
+                <div class="col-sm-6 ">
+                    <div *ngIf="skul">
                         <p id="dist">
                             Composite Report for: <span (click)="districtWise()"
                                 style="cursor: pointer;text-decoration: underline;"
                                 class="selected-level">{{state}}</span></p>
                     </div>
-                    <div *ngIf='dist'>
+                    <div *ngIf="dist">
                         <p id="block">
                             Composite Report for: <span (click)="districtWise()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
@@ -39,28 +39,31 @@
                                 {{title}}</span><span> | </span><span class="selected-level">
                                 {{hierName}}</span></p>
                     </div>
-                    
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <button class="btn btn-primary" [hidden]="hideAccessBtn" id="download1" (click)="getView()">
+                                Access Level
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="row">
-                        <div class="col-sm-5">
+                        <div class="col-sm-3">
                             <p id="errMsg" class="note">
                             </p>
-                            <span class="selected-level" (click)="getView()">
-                                <strong>Access Location</strong>
-                              </span>
                         </div>
-                        <div class="col-sm-7">
-                          
+                        <div class="col-sm-9">
                             <div *ngIf="skul; else ng_else" style="float: left; " id="select">
-                                
                                 <button *ngIf="xAxisFilter && xAxisFilter.length>0" class="btn btn-primary"
                                     title="Download Report" id="download1"
                                     (click)="downloadReportofState(downloadType)">Download Report &nbsp; <i
                                         class="fa fa-arrow-down" aria-hidden="true"></i>
                                 </button>
-                                <select *ngIf="xAxisFilter && xAxisFilter.length>0" class="dwnld" id="downloader"
-                                    [(ngModel)]="downloadType" name="downloadType">
+                                <select *ngIf="xAxisFilter && xAxisFilter.length>0 " [hidden]="hideIfAccessLevel"
+                                    class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
                                     <option [value]="downloadType" disabled selected="selected"> Choose Report
                                     </option>
                                     <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">
@@ -136,33 +139,32 @@
             </div>
         </div>
         <div class="col-sm-6">
-            
             <div class="row">
                 <div class="col-sm-12 ">
-                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [disabled]="selDist"
-                        (change)="myDistData(myDistrict)">
-                        <option [value]="" disabled selected="selected">Choose a District
+                    <select id="choose_dist" [disabled]="selDist" [(ngModel)]="myDistrict" name="myDistrict"
+                        [hidden]="distHidden" (change)="myDistData(myDistrict)">
+                        <option [value]="myDistrict" disabled selected="selected">Choose a District
                         </option>
-                        <option *ngFor="let dist of SchoolInfrastructureDistrictsNames" [value]="dist.district.id">
+                        <option *ngFor="let dist of SchoolInfrastructureDistrictsNames" [(ngValue)]="dist.district.id">
                             {{dist.district.value}}
                         </option>
                     </select>
 
-                    <select  id="choose_block" [(ngModel)]="myBlock" name="myBlock" [disabled]="selBlock"
-                        (change)="myBlockData(myBlock)">
-                        <option [value]="" disabled selected="selected">Choose a Block
+                    <select [hidden]="blockHidden" [disabled]="selBlock" id="choose_block" [(ngModel)]="myBlock"
+                        name="myBlock" (change)="myBlockData(myBlock)">
+                        <option [value]="myBlock" disabled selected="selected">Choose a Block
                         </option>
-                        <option *ngFor="let block of SchoolInfrastructureBlocksNames" [value]="block.block.id">
+                        <option *ngFor="let block of SchoolInfrastructureBlocksNames" [(ngValue)]="block.block.id">
                             {{block.block.value}}
                         </option>
                     </select>
 
-                    <select id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled]="selCluster"
-                        (change)="myClusterData(myCluster)">
-                        <option [value]="" disabled selected="selected">Choose a Cluster
+                    <select [hidden]="clusterHidden" [disabled]="selCluster" id="choose_cluster" [(ngModel)]="myCluster"
+                        name="myCluster" (change)="myClusterData(myCluster)">
+                        <option [value]="myCluster" disabled selected="selected">Choose a Cluster
                         </option>
                         <option *ngFor="let cluster of SchoolInfrastructureClusterNames"
-                            [value]="cluster.cluster.id"
+                            [(ngValue)]="cluster.cluster.id"
                             [ngStyle]="{'color': cluster.cluster.value !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
                             {{cluster.cluster.value}}
                         </option>

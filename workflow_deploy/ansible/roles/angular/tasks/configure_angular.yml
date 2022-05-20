@@ -44,10 +44,13 @@
     owner: "{{ system_user_name }}"
     group: "{{ system_user_name }}"
     mode: "0644"
+  delegate_to: 127.0.0.1
   tags: [ install, update ]
 
 - name: copying client-side script
-  shell: "cp -R ../../development/ui/dashboard_ui/{{usecase_name}}/client-side/* {{base_dir}}/cqube/dashboard/client_side"
+  copy:
+    src: "../../development/ui/dashboard_ui/{{usecase_name}}/client-side/"
+    dest: "{{base_dir}}/cqube/dashboard/client_side"
   tags: [ install, update ]
 
 - name: Configure the environment.ts

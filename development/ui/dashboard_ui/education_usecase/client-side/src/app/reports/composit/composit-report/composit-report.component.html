@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row" (window:resize)="onResize()">
-        <div class="col-sm-8 ">
+        <div class="col-sm-6 ">
             <div *ngIf='skul'>
                 <p id="dist">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
@@ -10,7 +10,8 @@
                 <p id="block">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
                         style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;" class="selected-level">
+                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;"
+                        class="selected-level">
                         {{hierName}}</span> </p>
             </div>
             <div *ngIf="blok">
@@ -32,6 +33,16 @@
                         style="cursor: pointer;text-decoration: underline;">
                         {{title}}</span><span> | </span><span class="selected-level">
                         {{hierName}}</span></p>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-12">
+            <div class="row">
+                <div class="col-sm-7">
+                    <button class="btn btn-primary" id="download1" [hidden] = 'hideAccessBtn' (click)="getView()">
+                        Access Level
+                    </button>
+                </div>
             </div>
         </div>
         <div class="col-sm-4">
@@ -69,14 +80,14 @@
                 <div class="col-lg-3 col-md-6 col-sm-12" style="margin-top: 1vh;">
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
-                            <button class="btn btn-secondary botton" id="allBlock" name="block"
-                                (click)="blockWise()">&nbsp;<strong id="allBlock">Blocks</strong>
+                            <button class="btn btn-secondary botton" [hidden]="hideIfAccessLevel" id="allBlock"
+                                name="block" (click)="blockWise()">&nbsp;<strong id="allBlock">Blocks</strong>
                             </button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
-                            <button class="btn btn-secondary botton" id="allCluster"
+                            <button class="btn btn-secondary botton" id="allCluster" [hidden]="hideIfAccessLevel"
                                 (click)="clusterWise()">&nbsp;<strong id="allCluster">Clusters</strong>
                             </button>
                         </div>
@@ -142,8 +153,8 @@
             </div><br>
             <div class="row">
                 <div class="col-sm-12">
-                    <span class="chooseLevel">Choose District</span>
-                    <select id="choose_district1" [(ngModel)]="myDistrict" name="myDistrict"
+                    <span class="chooseLevel" [hidden]="hideDist">Choose District</span>
+                    <select id="choose_district1" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideDist"
                         (change)="myDistData(myDistrict)">
                         <option [value]="myDistrict" disabled selected="selected">Choose a District
                         </option>

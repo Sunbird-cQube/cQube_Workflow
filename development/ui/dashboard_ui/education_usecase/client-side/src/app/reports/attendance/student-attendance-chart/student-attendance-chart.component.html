@@ -40,8 +40,8 @@
 
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 ">
-                    <div>
-                        <app-multi-select #multiSelect1 style="float: left;width: auto; margin-right: 10px;"
+                    <div *ngIf="hideAccessBtn">
+                        <app-multi-select  #multiSelect1 style="float: left;width: auto; margin-right: 10px;"
                             [list]="districtList" [text]="'District'"
                             [width1]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '200px':'130px'"
                             [width2]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '220px':'130px'"

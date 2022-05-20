@@ -30,4 +30,4 @@ cQube_realm_timeout_json: "{{ base_dir }}/cqube/keycloak/kc_templates/cQube_real
 
 keycloak_config_otp: false
 
-session_timeout_in_seconds: 604800
+session_timeout_in_seconds: 2400

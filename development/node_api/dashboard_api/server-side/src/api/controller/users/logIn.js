@@ -136,9 +136,11 @@ router.post('/login', async (req, res, next) => {
                 axios.post(url, details, { headers: headers }).then(resp => {
                     logger.info('---token from state api success ---');
 
-                    console.log('res',resp);
+
                     let token = resp.data.access_token
                     userId = resp.data.payload.id
+                    let userLevel = resp.data.payload.user_level;
+                    let userLocation = resp.data.payload.user_location;
                     if (resp.status === 200) {
                         const decodingJWT = (token) => {
                             if (token !== null || token !== undefined) {
@@ -156,7 +158,7 @@ router.post('/login', async (req, res, next) => {
                     };
 
 
-                    res.send({ token: token, role: 'report_viewer' })
+                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
                 }).catch(error => {
 
                     res.status(409).json({ errMsg: error.response.data.errorMessage });
@@ -181,15 +183,12 @@ router.post('/login', async (req, res, next) => {
 
                 axios.post(url, details, { headers: stateheaders }).then(resp => {
                     logger.info('---user token from state success ---');
-                    console.log('res', resp)
+
                     let token = resp.data.access_token;
                     userId = resp.data.payload.id
                     let userLevel = resp.data.payload.user_level;
                     let userLocation = resp.data.payload.user_location;
-                    let clusterID = resp.data.payload.cluster_id;
-                    let blockID = resp.data.payload.block_id;
-                    let districtID = resp.data.payload.district_id;
-                    let schoolID = resp.data.payload.school_id;
+
 
                     if (resp.status === 200) {
                         const decodingJWT = (token) => {
@@ -203,12 +202,43 @@ router.post('/login', async (req, res, next) => {
                             }
                             return null;
                         }
-                        decodingJWT(token)
+                        decodingJWT(token);
+
                     };
 
-                    res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, cluster_id: clusterID, block_id: blockID, district_id: districtID, school_id: schoolID})
-                }).catch(error => {
 
+                    if (userLevel === 'Cluster') {
+                        db.query('SELECT distinct block_id,district_id FROM school_hierarchy_details WHERE cluster_id=$1;', [userLocation], (error, results) => {
+                            if (error) {
+                                logger.info('---user level from DB error ---');
+                                throw error
+                            }
+
+                            let blockId = results.rows[0]['block_id']
+                            let districtId = results.rows[0]['district_id']
+                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: userLocation, blockId: blockId, districtId: districtId })
+                        })
+                    } else if (userLevel === 'Block') {
+
+                        db.query('SELECT distinct district_id FROM school_hierarchy_details WHERE block_id=$1;', [userLocation], (error, results) => {
+                            if (error) {
+                                logger.info('---user block level from DB error ---');
+                                throw error
+                            }
+                            logger.info('---user block level from DB  success ---');
+                            
+                            let districtId = results.rows[0]['district_id']
+                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: districtId })
+
+                        })
+                    } else if (userLevel === 'District') {
+                        res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, districtId: userLocation })
+                    } else {
+                        res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
+                    }
+
+                }).catch(error => {
+                    logger.error(`Error :: ${error}`)
                     res.status(409).json({ errMsg: 'please check user name and password' });
                 })
             }
@@ -261,7 +291,7 @@ router.post('/getTotp', async (req, res, next) => {
 })
 
 router.post('/logout', async (req, res, next) => {
-    
+
     let headers = {
         "Content-Type": "application/x-www-form-urlencoded",
     }

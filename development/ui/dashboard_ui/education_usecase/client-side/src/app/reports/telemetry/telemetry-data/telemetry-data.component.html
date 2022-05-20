@@ -19,41 +19,7 @@
             <p id="school" *ngIf="clust">Telemetry Data for: School Level</p>
           </div>
 
-          <!-- <div *ngIf='dist'>
-                <p id="block"
-                >
-                    Semester exception report for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> | </span><span
-                        (click)="onDistrictSelect(districtHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{districtHierarchy.districtName}}</span> </p>
-            </div>
-            <div *ngIf="blok">
-                <p id="cluster"
-                >
-                    Semester exception report for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="onDistrictSelect(blockHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.districtName}}</span><span> | </span><span
-                        (click)="onBlockSelect(blockHierarchy.blockId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{blockHierarchy.blockName}}</span></p>
-            </div>
 
-            <div *ngIf="clust">
-                <p id="school"
-                >
-                    Semester exception report for: <span (click)="districtWise()"
-                        style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="onDistrictSelect(clusterHierarchy.distId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.districtName}}</span><span> | </span><span
-                        (click)="onBlockSelect(clusterHierarchy.blockId)"
-                        style="cursor: pointer;text-decoration: underline;">
-                        {{clusterHierarchy.blockName}}</span><span> | </span><span>
-                        {{clusterHierarchy.clusterName}}</span></p>
-            </div> -->
         </div>
         <div class="col-sm-4">
           <div class="row">
@@ -92,13 +58,13 @@
               {{ time.time }}
             </option>
           </select>
-          <button class="btn btn-secondary" id="blockbtn" (click)="blockWise()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" (click)="clusterWise()">
+          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterWise()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" (click)="schoolWise()">
+          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolWise()">
             &nbsp;<strong>Schools</strong>
           </button>
         </div>
