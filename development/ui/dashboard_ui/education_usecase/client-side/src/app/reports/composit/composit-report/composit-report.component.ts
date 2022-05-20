@@ -119,11 +119,11 @@ export class CompositReportComponent implements OnInit {
 
     document.getElementById('spinner').style.display = 'block';
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" ) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" || undefined ) {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
       }
 
@@ -139,6 +139,12 @@ export class CompositReportComponent implements OnInit {
   reportName = 'composite_report_across_metrics';
 
   districtWise() {
+    this.districtSelected = false;
+    this.selectedCluster = false;
+    this.blockSelected = false;
+    this.hideAllBlockBtn = false;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
     }
@@ -185,7 +191,16 @@ export class CompositReportComponent implements OnInit {
     });
   }
 
+  public districtSelected: boolean = false
+  public districtSlectedId
   myDistData(data) {
+    this.districtSelected = true
+    this.blockSelected = false
+    this.selectedCluster = false
+    this.districtSlectedId = data
+    this.hideAllBlockBtn = true
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
     }
@@ -239,7 +254,16 @@ export class CompositReportComponent implements OnInit {
     });
   }
 
+  public blockSelected: boolean = false
+  public blockSelectedId
   myBlockData(data) {
+    this.districtSelected = false
+    this.selectedCluster = false
+    this.blockSelected = true
+    this.blockSelectedId = data
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = false;
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
     }
@@ -299,7 +323,19 @@ export class CompositReportComponent implements OnInit {
     });
   }
 
+  public selectedCluster: boolean = false;
+  public selectedCLusterId
+  public hideAllBlockBtn: boolean = false
+  public hideAllCLusterBtn: boolean = false
+  public hideAllSchoolBtn: boolean = false
   myClusterData(data) {
+    this.hideAllBlockBtn = true
+    this.blockSelected = false
+    this.districtSelected = false
+    this.selectedCluster = true
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = true;
+    this.selectedCLusterId = data
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
     }
@@ -401,13 +437,50 @@ export class CompositReportComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service.block_wise_data({ management: this.management, category: this.category }).subscribe(res => {
-      this.reportData = this.result = res;
-      this.funToDownload(this.reportData);
-      //for chart =============================================
-      this.showChart(this.result, this.downloadLevel);
-      //====================================
-      this.commonService.loaderAndErr(this.result);
-      this.changeDetection.markForCheck();
+       this.reportData = this.result = res;
+
+
+      if (this.districtSelected) {
+        let marker = this.result.filter(a => {
+          if (a.district.id === this.districtSlectedId) {
+
+            return a
+          }
+
+        })
+        
+        this.funToDownload(this.reportData);
+        //for chart =============================================
+        this.showChart(marker, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      } else if (this.blockSelected) {
+
+        this.funToDownload(this.reportData);
+        //for chart =============================================
+        this.showChart(this.result, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      } else if (this.selectedCluster) {
+
+        this.funToDownload(this.reportData);
+        //for chart =============================================
+        this.showChart(this.result, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      } else {
+
+        this.funToDownload(this.reportData);
+        //for chart =============================================
+        this.showChart(this.result, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      }
+
     }, err => {
       this.chartData = [];
       this.commonService.loaderAndErr(this.result);
@@ -415,6 +488,7 @@ export class CompositReportComponent implements OnInit {
   }
 
   clusterWise() {
+
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
     }
@@ -440,12 +514,57 @@ export class CompositReportComponent implements OnInit {
     }
     this.myData = this.service.cluster_wise_data({ management: this.management, category: this.category }).subscribe(res => {
       this.reportData = this.result = res;
-      this.funToDownload(this.reportData);
-      //for chart =============================================
-      this.showChart(this.result, this.downloadLevel);
-      //====================================
-      this.commonService.loaderAndErr(this.result);
-      this.changeDetection.markForCheck();
+      if (this.districtSelected) {
+        let marker = this.result.filter(a => {
+          if (a.district.id === this.districtSlectedId) {
+
+            return a
+          }
+
+        })
+        this.funToDownload(marker);
+        //for chart =============================================
+        this.showChart(marker, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      } else if (this.blockSelected) {
+        let marker = this.result.filter(a => {
+          if (a.block.id === this.blockSelectedId) {
+            
+            return a
+          }
+
+        })
+        this.funToDownload(marker);
+        //for chart =============================================
+        this.showChart(marker, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      } else if (this.selectedCluster) {
+        let marker = this.result.filter(a => {
+          if (a.cluster.id === this.selectedCLusterId) {
+            return a
+          }
+
+        })
+        this.funToDownload(marker);
+        //for chart =============================================
+        this.showChart(marker, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      } else {
+        this.funToDownload(this.reportData);
+        //for chart =============================================
+        this.showChart(this.result, this.downloadLevel);
+        //====================================
+        this.commonService.loaderAndErr(this.result);
+        this.changeDetection.markForCheck();
+      }
+     
+     
     }, err => {
       this.chartData = [];
       this.commonService.loaderAndErr(this.result);

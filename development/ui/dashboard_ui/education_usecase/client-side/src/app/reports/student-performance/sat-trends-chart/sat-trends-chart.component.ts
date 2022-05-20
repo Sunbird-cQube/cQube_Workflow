@@ -113,7 +113,7 @@ export class SatTrendsChartComponent implements OnInit {
     })
     this.changeDetection.detectChanges();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? true : false;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
   }
 
   onResize() {
@@ -250,6 +250,7 @@ export class SatTrendsChartComponent implements OnInit {
       this.selectedYear = this.years[0];
       this.selectedYear1 = this.years[1];
     }
+    this.grade = "AllGrades";
     this.getStateData();
     this.getStateData1();
     this.selectedDistricts = [];
@@ -258,7 +259,7 @@ export class SatTrendsChartComponent implements OnInit {
     this.selectedSchool = [];
     this.currentColors = [];
     this.dataWithColors = [];
-    // this.grade = "";
+    
     var districtList = this.districtList.map(district => {
       district.status = false;
       return district;

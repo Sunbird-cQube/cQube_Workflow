@@ -124,11 +124,11 @@
               [disabled]="hideAllBlockBtn" (click)="blockWise($event)">
               &nbsp;<strong>Blocks</strong>
             </button>
-            <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
+            <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"  [disabled] = "hideAllCLusterBtn"
               (click)="clusterWise($event)">
               &nbsp;<strong>Clusters</strong>
             </button>
-            <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolWise($event)">
+            <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllSchoolBtn" (click)="schoolWise($event)">
               &nbsp;<strong>Schools</strong>
             </button>
 

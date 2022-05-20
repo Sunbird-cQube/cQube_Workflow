@@ -752,7 +752,9 @@ export class StudengtAttendanceComponent implements OnInit {
     this.districtSelected = false;
     this.selectedCluster = false;
     this.blockSelected = false;
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = false;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.yearMonth = true;
     this.academicYear = undefined;
     this.period = "overall";
@@ -942,7 +944,7 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
-                console.log('marker', marker)
+            
                 this.mylatlngData = marker;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
@@ -1033,7 +1035,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 let blockData = res["blockData"];
                 let marker = blockData.filter(a => {
                   if (a.block_id === Number(this.blockSelectedId)) {
-                    console.log('a', a)
+               
                     return a
                   }
 
@@ -1336,7 +1338,7 @@ export class StudengtAttendanceComponent implements OnInit {
         return;
       }
 
-      this.commonAtStateLevel();
+      // this.commonAtStateLevel();
       this.levelWise = "Cluster";
       this.googleMapZoom = 7;
       if (this.months.length > 0) {
@@ -1601,6 +1603,7 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
+            
                 this.mylatlngData = marker;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
@@ -1871,7 +1874,7 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-
+          
               if (this.districtSelected) {
 
                 let myBlockData = res["schoolData"];
@@ -2425,7 +2428,9 @@ export class StudengtAttendanceComponent implements OnInit {
     this.blockSelected = false
     this.selectedCluster = false
     this.districtSlectedId = data
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = false
+    this.hideAllSchoolBtn = false
 
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {
@@ -2641,7 +2646,10 @@ export class StudengtAttendanceComponent implements OnInit {
     this.selectedCluster = false
     this.blockSelected = true
     this.blockSelectedId = data
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+
+    this.hideAllSchoolBtn = false;
 
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {
@@ -2881,11 +2889,15 @@ export class StudengtAttendanceComponent implements OnInit {
   public selectedCluster: boolean = false;
   public selectedCLusterId
   public hideAllBlockBtn: boolean = false
+  public hideAllCLusterBtn: boolean = false
+  public hideAllSchoolBtn: boolean = false
   myClusterData(data) {
     this.hideAllBlockBtn = true
     this.blockSelected = false
     this.districtSelected = false
     this.selectedCluster = true
+    this.hideAllCLusterBtn = true
+    this.hideAllSchoolBtn = true
     this.selectedCLusterId = data
     try {
       if (this.period === "select_month" && !this.month || this.month === '') {

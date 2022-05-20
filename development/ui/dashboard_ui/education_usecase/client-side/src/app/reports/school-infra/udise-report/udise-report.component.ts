@@ -272,6 +272,8 @@ export class UdiseReportComponent implements OnInit {
     this.selectedCluster = false;
     this.blockSelected = false;
     this.hideAllBlockBtn = false;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn =false;
     this.districtWise();
   }
 
@@ -1481,7 +1483,9 @@ export class UdiseReportComponent implements OnInit {
     this.districtSelected = true
     this.blockSelected = false
     this.selectedCluster = false
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.districtSlectedId = districtId
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -1575,7 +1579,9 @@ export class UdiseReportComponent implements OnInit {
     this.districtSelected = false
     this.selectedCluster = false
     this.blockSelected = true
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = false;
     this.blockSelectedId = blockId
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -1676,9 +1682,13 @@ export class UdiseReportComponent implements OnInit {
   // to load all the schools for selected cluster for state data on the map
   public selectedCluster: boolean = false;
   public selectedCLusterId
-  public hideAllBlockBtn: boolean = false
+  public hideAllBlockBtn: boolean = false;
+  public hideAllCLusterBtn: boolean = false
+  public hideAllSchoolBtn: boolean = false
   onClusterSelect(clusterId) {
-    this.hideAllBlockBtn = true
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = true;
     this.blockSelected = false
     this.districtSelected = false
     this.selectedCluster = true

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit } from '@angular/core';
-import * as Highcharts from 'highcharts/highstock'
+// import * as Highcharts from 'highcharts/highstock'
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-line-chart',
