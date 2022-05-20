@@ -268,7 +268,7 @@ SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_id,
 SUM(CASE when studying_class IS NULL THEN 1 ELSE 0 END) AS count_null_studying_class,
 SUM(CASE when question_id IS NULL THEN 1 ELSE 0 END) AS count_null_question_id,
 SUM(CASE when obtained_marks IS NULL THEN 1 ELSE 0 END) AS count_null_obtained_marks,
-sum(case when id is null or exam_id is null or exam_code is null or student_uid is null or school_id is null or studying_class is null or question_id is null or obtained_marks is nulll  then 1 else 0 end ) as count_of_null_rows
+sum(case when id is null or exam_id is null or exam_code is null or student_uid is null or school_id is null or studying_class is null or question_id is null or obtained_marks is null  then 1 else 0 end ) as count_of_null_rows
 from periodic_exam_result_staging_1)""",
 "pat_qst_to_agg":"""insert into periodic_exam_school_result(school_id,exam_code,exam_date,grade,academic_year,subject,total_marks,obtained_marks
 ,school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,students_count,students_attended,
@@ -496,7 +496,7 @@ Optional(StrNotNullOrEmpty()),Optional(parseInt()),Optional(StrNotNullOrEmpty())
 "pat_update_processed_record":"""update log_summary as b
 	set processed_records= a.processed_records
 	from (
-		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-max(count_of_null_rows))as processed_records 
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
 		from log_summary where filename like 'periodic%' group by ff_uuid) as a
 	where a.ff_uuid=b.ff_uuid""",
 "pat_check_same_id_record_periodic_exam_subject_details_qry":"""SELECT b.subject_id,b.subject,b.grade,count(*) num_of_times  from (select subject_id,grade from flowfile
