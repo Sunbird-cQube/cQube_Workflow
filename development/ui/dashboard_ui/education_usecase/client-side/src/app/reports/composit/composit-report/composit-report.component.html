@@ -80,14 +80,14 @@
                 <div class="col-lg-3 col-md-6 col-sm-12" style="margin-top: 1vh;">
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
-                            <button class="btn btn-secondary botton" [hidden]="hideIfAccessLevel" id="allBlock"
+                            <button class="btn btn-secondary botton" [hidden]="hideIfAccessLevel" id="allBlock" [disabled] = "hideAllBlockBtn"
                                 name="block" (click)="blockWise()">&nbsp;<strong id="allBlock">Blocks</strong>
                             </button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
-                            <button class="btn btn-secondary botton" id="allCluster" [hidden]="hideIfAccessLevel"
+                            <button class="btn btn-secondary botton" id="allCluster" [hidden]="hideIfAccessLevel" [disabled] = "hideAllCLusterBtn"
                                 (click)="clusterWise()">&nbsp;<strong id="allCluster">Clusters</strong>
                             </button>
                         </div>

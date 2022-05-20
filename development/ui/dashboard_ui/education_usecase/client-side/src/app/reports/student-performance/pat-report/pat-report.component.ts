@@ -571,6 +571,8 @@ export class PATReportComponent implements OnInit {
     this.selectedCluster = false;
     this.blockSelected = false;
     this.hideAllBlockBtn = false
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.yearMonth = true;
     this.grade = undefined;
     this.subject = undefined;
@@ -2441,7 +2443,10 @@ export class PATReportComponent implements OnInit {
     this.blockSelected = false
     this.selectedCluster = false
     this.districtSlectedId = districtId
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = false;
+  
+    this.hideAllSchoolBtn = false
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.dist = false;
@@ -2571,7 +2576,9 @@ export class PATReportComponent implements OnInit {
     this.selectedCluster = false
     this.blockSelected = true
     this.blockSelectedId = blockId
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = false;
 
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
@@ -2710,9 +2717,13 @@ export class PATReportComponent implements OnInit {
   public selectedCluster: boolean = false;
   public selectedCLusterId
   public hideAllBlockBtn: boolean = false
+  public hideAllCLusterBtn: boolean = false
+  public hideAllSchoolBtn: boolean = false
   // to load all the schools for selected cluster for state data on the map
   onClusterSelect(clusterId) {
-    this.hideAllBlockBtn = true
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = true;
     this.blockSelected = false
     this.districtSelected = false
     this.selectedCluster = true

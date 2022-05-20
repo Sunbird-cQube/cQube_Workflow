@@ -107,12 +107,12 @@
                     </select>
 
                     <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel"
-                        (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                        [disabled]="hideAllBlockBtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
-                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
+                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllCLusterBtn"
                         (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
                     </button>
-                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"
+                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"  [disabled] = "hideAllSchoolBtn"
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
@@ -127,7 +127,7 @@
                     </select>
 
                     <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
-                        (change)="blockSelect($event,myBlock)"  *ngIf="!blockHidden">
+                        (change)="blockSelect($event,myBlock)" *ngIf="!blockHidden">
                         <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
                         <option *ngFor="let block of blocksNames" [(ngValue)]="block.id">
@@ -136,7 +136,7 @@
                     </select>
 
                     <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
-                        (change)="clusterSelect($event,myCluster)"  >
+                        (change)="clusterSelect($event,myCluster)">
                         <option [value]="myCluster" disabled selected="selected">Choose a cluster
                         </option>
                         <option *ngFor="let cluster of clusterNames" [(ngValue)]="cluster.id"

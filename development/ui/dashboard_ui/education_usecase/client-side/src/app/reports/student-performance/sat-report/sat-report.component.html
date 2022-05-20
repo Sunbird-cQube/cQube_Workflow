@@ -101,13 +101,13 @@
               {{ sem.name }}
             </option>
           </select>
-          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel"  [disabled] = "hideAllBlockBtn" (click)="blockClick()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel"  [disabled] = "hideAllBlockBtn" [disabled] = "hideAllCLusterBtn" (click)="blockClick()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterClick()">
+          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterClick()" [disabled] = "hideAllCLusterBtn" > 
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolClick()">
+          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolClick()" [disabled] = "hideAllSchoolBtn" >
             &nbsp;<strong>Schools</strong>
           </button>
 

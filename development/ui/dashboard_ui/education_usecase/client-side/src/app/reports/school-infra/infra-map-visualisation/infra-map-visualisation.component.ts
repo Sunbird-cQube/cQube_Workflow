@@ -272,7 +272,9 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.districtSelected = false;
     this.selectedCluster = false;
     this.blockSelected = false;
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = false;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.districtWise();
   }
 
@@ -552,7 +554,7 @@ export class InfraMapVisualisationComponent implements OnInit {
             this.myBlockData = res["data"];
             let marker = this.myBlockData.filter(a => {
               if (a.details.block_id === this.blockSelectedId) {
-                
+
                 return a
               }
 
@@ -846,8 +848,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.clust = false;
 
       // to show and hide the dropdowns
-      this.blockHidden = true;
-      this.clusterHidden = true;
+      // this.blockHidden = true;
+      // this.clusterHidden = true;
 
       // api call to get the all clusters data
       if (this.myData) {
@@ -1232,8 +1234,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.clust = false;
 
       // to show and hide the dropdowns
-      this.blockHidden = true;
-      this.clusterHidden = true;
+      // this.blockHidden = true;
+      // this.clusterHidden = true;
 
       // api call to get the all schools data
       if (this.myData) {
@@ -1428,18 +1430,18 @@ export class InfraMapVisualisationComponent implements OnInit {
               }
             } else if (this.selectedCluster) {
               let data = res["data"];
-              
+
               let marker = data.filter(a => {
-              
+
                 if (a.details.cluster_id === this.selectedCLusterId.toString()) {
-              
+
                   return a
                 }
               })
-              
+
 
               if (marker.length) {
-                
+
                 this.markers = this.data = marker
                 this.gettingInfraFilters(this.data);
                 let options = {
@@ -1638,7 +1640,9 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.districtSelected = true
     this.blockSelected = false
     this.selectedCluster = false
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.infraFilter = [];
     this.districtSlectedId = districtId
     // to clear the existing data on the map layer
@@ -1736,7 +1740,9 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.districtSelected = false
     this.selectedCluster = false
     this.blockSelected = true
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = false;
     this.blockSelectedId = blockId
     this.infraFilter = [];
     // to clear the existing data on the map layer
@@ -1841,9 +1847,13 @@ export class InfraMapVisualisationComponent implements OnInit {
   // to load all the schools for selected cluster for state data on the map
   public selectedCluster: boolean = false;
   public selectedCLusterId
-  public hideAllBlockBtn: boolean = false
+  public hideAllBlockBtn: boolean = false;
+  public hideAllCLusterBtn: boolean = false
+  public hideAllSchoolBtn: boolean = false
   onClusterSelect(clusterId) {
     this.hideAllBlockBtn = true
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = true;
     this.blockSelected = false
     this.districtSelected = false
     this.selectedCluster = true
