@@ -84,7 +84,7 @@
           <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"  id="blockbtn" (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" (click)="clusterWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" [disabled] = "hideAllCLusterBtn" [disabled] = "hideAllSchoolBtn" (click)="clusterWise()">
             &nbsp;<strong>Clusters</strong>
           </button>
           <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn" (click)="schoolWise()">

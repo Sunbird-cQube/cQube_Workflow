@@ -200,8 +200,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }
     );
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -271,9 +271,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
-     
+
       this.myDistrict = districtid;
-    
+
       this.distSelect({ type: "click" }, districtid, blockid, clusterid);
 
     }
@@ -455,6 +455,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   districtData = [];
 
   onClickHome() {
+    this.districtSelected = false;
+    this.selectedCluster = false;
+    this.blockSelected = false;
+    this.hideAllBlockBtn = false;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.yearMonth = true;
     this.period = "overall";
     this.level = "District";
@@ -600,7 +606,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       return;
     }
 
-    this.commonAtStateLevel();
+    // this.commonAtStateLevel();
     this.level = "Block";
     this.googleMapZoom = 7;
     if (this.months.length > 0) {
@@ -619,83 +625,345 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         .block_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["blockData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData;
 
-            var blockNames = [];
-            this.schoolsWithMissingData = res["missingSchoolsCount"];
+            if (this.districtSelected) {
+              let myBlockData = res["blockData"];
 
-            this.markers = sorted;
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "percentage_schools_with_missing_data",
-              report: "exception",
-            });
-            if (this.markers.length !== 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                this.blocksIds.push(this.markers[i]["block_id"]);
-                blockNames.push({
-                  id: this.markers[i]["block_id"],
-                  name: this.markers[i]["block_name"],
-                  distId: this.markers[i]["dist"],
-                });
+              let marker = myBlockData.filter(a => {
+                if (a.district_id === this.districtSlectedId) {
 
-                // google map circle icon
-
-                if (this.mapName == "googlemap") {
-                  let markerColor = this.commonService.relativeColorGredient(
-                    sorted[i],
-                    {
-                      value: "percentage_schools_with_missing_data",
-                      report: "exception",
-                    },
-                    colors
-                  )
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 3.5, 1);
+                  return a
                 }
-                var markerIcon = this.globalService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.commonService.relativeColorGredient(
-                    sorted[i],
-                    {
-                      value: "percentage_schools_with_missing_data",
-                      report: "exception",
-                    },
-                    colors
-                  ),
-                  0.01,
-                  1,
-                  this.level
-                );
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.layerMarkers,
-                  this.level
-                );
-              }
-              blockNames.sort((a, b) =>
-                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-              );
-              this.blocksNames = blockNames;
+              })
+              
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
 
-              this.globalService.restrictZoom(globalMap);
-              globalMap.setMaxBounds([
-                [this.lat - 4.5, this.lng - 6],
-                [this.lat + 3.5, this.lng + 6],
-              ]);
-              this.globalService.onResize(this.level);
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.schoolsWithMissingData = this.schoolsWithMissingData
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.commonService.loaderAndErr(this.markers);
-              this.changeDetection.markForCheck();
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 3.5, 1);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    1,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.blockSelected) {
+              let blockData = res['blockData']
+              let marker = blockData.filter(a => {
+                if (a.block_id === this.blockSelectedId) {
+
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 3.5, 1);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    1,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.selectedCluster) {
+              let cluster = res['blockData']
+              let marker = cluster.filter(a => {
+                if (a.cluster_id === this.selectedCLusterId) {
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = res["blockData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 3.5, 1);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    1,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else {
+              this.reportData = this.mylatlngData = res["blockData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["dist"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 3.5, 1);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    1,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
             }
+
           },
           (err) => {
             this.dateRange = "";
@@ -736,103 +1004,429 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         .cluster_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["clusterData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData;
+            if (this.districtSelected) {
 
-            var clustNames = [];
-            var blockNames = [];
-            this.schoolsWithMissingData = res["missingSchoolsCount"];
+              let myBlockData = res["data"];
+              let marker = myBlockData.filter(a => {
+                if (a.district_id === this.districtSlectedId) {
 
-            this.markers = sorted;
-            let colors = this.commonService.getRelativeColors(sorted, {
-              value: "percentage_schools_with_missing_data",
-              report: "exception",
-            });
-            if (this.markers.length !== 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                this.clusterIds.push(this.markers[i]["cluster_id"]);
-                this.blocksIds.push(this.markers[i]["block_id"]);
-                if (this.markers[i]["cluster_name"] !== null) {
-                  clustNames.push({
-                    id: this.markers[i]["cluster_id"],
-                    name: this.markers[i]["cluster_name"],
-                    blockId: this.markers[i]["block_id"],
-                  });
-                } else {
-                  clustNames.push({
-                    id: this.markers[i]["cluster_id"],
-                    name: "NO NAME FOUND",
-                    blockId: this.markers[i]["block_id"],
-                  });
+                  return a
                 }
-                blockNames.push({
-                  id: this.markers[i]["block_id"],
-                  name: this.markers[i]["block_name"],
-                  distId: this.markers[i]["district_id"],
-                });
 
-                // google map circle icon
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
 
-                if (this.mapName == "googlemap") {
-                  let markerColor = this.commonService.relativeColorGredient(
-                    sorted[i],
-                    {
-                      value: "percentage_schools_with_missing_data",
-                      report: "exception",
-                    },
-                    colors
-                  )
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.5);
+              var clustNames = [];
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.5);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    0.5,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
                 }
-                var markerIcon = this.globalService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  this.commonService.relativeColorGredient(
-                    sorted[i],
-                    {
-                      value: "percentage_schools_with_missing_data",
-                      report: "exception",
-                    },
-                    colors
-                  ),
-                  0.01,
-                  0.5,
-                  this.level
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.layerMarkers,
-                  this.level
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
               }
+            } else if (this.blockSelected) {
+              let blockData = res['clusterData']
 
-              clustNames.sort((a, b) =>
-                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-              );
-              this.clusterNames = clustNames;
-              blockNames.sort((a, b) =>
-                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-              );
-              this.blocksNames = blockNames;
+              let marker = blockData.filter(a => {
+                if (a.details.block_id === this.blockSelectedId) {
+           
+                  return a
+                }
 
-              this.globalService.restrictZoom(globalMap);
-              globalMap.setMaxBounds([
-                [this.lat - 4.5, this.lng - 6],
-                [this.lat + 3.5, this.lng + 6],
-              ]);
-              this.globalService.onResize(this.level);
-              this.schoolCount = this.schoolCount
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.schoolsWithMissingData = this.schoolsWithMissingData
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.commonService.loaderAndErr(this.markers);
-              this.changeDetection.markForCheck();
+              })
+
+
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              var clustNames = [];
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.5);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    0.5,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.selectedCluster) {
+              let cluster = res['clusterData'];
+
+              let marker = cluster.filter(a => {
+                if (a.details.cluster_id === this.selectedCLusterId) {
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              var clustNames = [];
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.5);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    0.5,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else {
+              this.reportData = this.mylatlngData = res["clusterData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              var clustNames = [];
+              var blockNames = [];
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              let colors = this.commonService.getRelativeColors(sorted, {
+                value: "percentage_schools_with_missing_data",
+                report: "exception",
+              });
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.clusterIds.push(this.markers[i]["cluster_id"]);
+                  this.blocksIds.push(this.markers[i]["block_id"]);
+                  if (this.markers[i]["cluster_name"] !== null) {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: this.markers[i]["cluster_name"],
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  } else {
+                    clustNames.push({
+                      id: this.markers[i]["cluster_id"],
+                      name: "NO NAME FOUND",
+                      blockId: this.markers[i]["block_id"],
+                    });
+                  }
+                  blockNames.push({
+                    id: this.markers[i]["block_id"],
+                    name: this.markers[i]["block_name"],
+                    distId: this.markers[i]["district_id"],
+                  });
+
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 2, 0.5);
+                  }
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      colors
+                    ),
+                    0.01,
+                    0.5,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+
+                clustNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.clusterNames = clustNames;
+                blockNames.sort((a, b) =>
+                  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                );
+                this.blocksNames = blockNames;
+
+                this.globalService.restrictZoom(globalMap);
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.schoolCount
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
             }
+
+
           },
           (err) => {
             this.dateRange = "";
@@ -874,63 +1468,263 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         .school_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["schoolData"];
-            this.dateRange = res["dateRange"];
-            var sorted = this.mylatlngData;
+            if (this.districtSelected) {
+              let myBlockData = res["schoolData"];
+              let marker = myBlockData.filter(a => {
+                if (a.district_id === this.districtSlectedId) {
 
-            this.schoolsWithMissingData = res["missingSchoolsCount"];
-
-            this.markers = sorted;
-            if (this.markers.length !== 0) {
-              for (let i = 0; i < this.markers.length; i++) {
-                this.districtsIds.push(sorted[i]["district_id"]);
-                // google map circle icon
-
-                if (this.mapName == "googlemap") {
-                  let markerColor = this.commonService.relativeColorGredient(
-                    sorted[i],
-                    {
-                      value: "percentage_schools_with_missing_data",
-                      report: "exception",
-                    },
-                    "red"
-                  )
-                  this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                  return a
                 }
 
-                var markerIcon = this.globalService.initMarkers1(
-                  this.markers[i].lat,
-                  this.markers[i].lng,
-                  "red",
-                  0,
-                  0.3,
-                  this.level
-                );
-                this.generateToolTip(
-                  markerIcon,
-                  this.markers[i],
-                  this.onClick_Marker,
-                  this.layerMarkers,
-                  this.level
-                );
-              }
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
 
-              globalMap.doubleClickZoom.enable();
-              globalMap.scrollWheelZoom.enable();
-              globalMap.setMaxBounds([
-                [this.lat - 4.5, this.lng - 6],
-                [this.lat + 3.5, this.lng + 6],
-              ]);
-              this.globalService.onResize(this.level);
-              this.schoolCount = this.markers.length
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.schoolsWithMissingData = this.schoolsWithMissingData
-                .toString()
-                .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.commonService.loaderAndErr(this.markers);
-              this.changeDetection.markForCheck();
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.districtsIds.push(sorted[i]["district_id"]);
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      "red"
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    "red",
+                    0,
+                    0.3,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.markers.length
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.blockSelected) {
+              let blockData = res['schoolData']
+              let marker = blockData.filter(a => {
+                if (a.block_id === this.blockSelectedId) {
+                  
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.districtsIds.push(sorted[i]["district_id"]);
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      "red"
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    "red",
+                    0,
+                    0.3,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.markers.length
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else if (this.selectedCluster) {
+              let cluster = res['schoolData']
+              let marker = cluster.filter(a => {
+                if (a.cluster_id === this.selectedCLusterId) {
+                  return a
+                }
+
+              })
+              this.reportData = this.mylatlngData = marker;
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.districtsIds.push(sorted[i]["district_id"]);
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      "red"
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    "red",
+                    0,
+                    0.3,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.markers.length
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
+            } else {
+              this.reportData = this.mylatlngData = res["schoolData"];
+              this.dateRange = res["dateRange"];
+              var sorted = this.mylatlngData;
+
+              this.schoolsWithMissingData = res["missingSchoolsCount"];
+
+              this.markers = sorted;
+              if (this.markers.length !== 0) {
+                for (let i = 0; i < this.markers.length; i++) {
+                  this.districtsIds.push(sorted[i]["district_id"]);
+                  // google map circle icon
+
+                  if (this.mapName == "googlemap") {
+                    let markerColor = this.commonService.relativeColorGredient(
+                      sorted[i],
+                      {
+                        value: "percentage_schools_with_missing_data",
+                        report: "exception",
+                      },
+                      "red"
+                    )
+                    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
+                  }
+
+                  var markerIcon = this.globalService.initMarkers1(
+                    this.markers[i].lat,
+                    this.markers[i].lng,
+                    "red",
+                    0,
+                    0.3,
+                    this.level
+                  );
+                  this.generateToolTip(
+                    markerIcon,
+                    this.markers[i],
+                    this.onClick_Marker,
+                    this.layerMarkers,
+                    this.level
+                  );
+                }
+
+                globalMap.doubleClickZoom.enable();
+                globalMap.scrollWheelZoom.enable();
+                globalMap.setMaxBounds([
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
+                ]);
+                this.globalService.onResize(this.level);
+                this.schoolCount = this.markers.length
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.schoolsWithMissingData = this.schoolsWithMissingData
+                  .toString()
+                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                this.commonService.loaderAndErr(this.markers);
+                this.changeDetection.markForCheck();
+              }
             }
+          
           },
           (err) => {
             this.dateRange = "";
@@ -1101,7 +1895,17 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
   blockData = [];
 
+  public districtSelected: boolean = false
+  public districtSlectedId
+
   myDistData(data, blockid?, clusterid?) {
+    this.districtSelected = true
+    this.blockSelected = false
+    this.selectedCluster = false
+    this.districtSlectedId = data
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.dist = false;
@@ -1284,7 +2088,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   }
 
   clusterData = [];
+  public blockSelected: boolean = false
+  public blockSelectedId
   myBlockData(data, clusterid?) {
+    this.districtSelected = false
+    this.selectedCluster = false
+    this.blockSelected = true
+    this.blockSelectedId = data
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = false;
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
@@ -1492,7 +2305,21 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.getTelemetryData(clustData, event.type, "cluster");
     this.myClusterData(data);
   }
+
+  public selectedCluster: boolean = false;
+  public selectedCLusterId
+  public hideAllBlockBtn: boolean = false
+  public hideAllCLusterBtn: boolean = false
+  public hideAllSchoolBtn: boolean = false
   myClusterData(data) {
+
+    this.hideAllBlockBtn = true
+    this.hideAllCLusterBtn = true
+    this.hideAllSchoolBtn = true
+    this.blockSelected = false
+    this.districtSelected = false
+    this.selectedCluster = true
+    this.selectedCLusterId = data
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.cluster = false;

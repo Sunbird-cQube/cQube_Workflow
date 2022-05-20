@@ -521,7 +521,9 @@ export class SatReportComponent implements OnInit {
     this.districtSelected = false;
     this.selectedCluster = false;
     this.blockSelected = false;
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = false;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.onSelectYear();
   }
 
@@ -1529,6 +1531,7 @@ export class SatReportComponent implements OnInit {
                   } else if (this.selectedCluster) {
 
                     let cluster = res["data"];
+                    
 
                     let marker = cluster.filter(a => {
                       if (a.details.cluster_id === this.selectedCLusterId) {
@@ -1537,6 +1540,7 @@ export class SatReportComponent implements OnInit {
 
                     })
                     this.markers = this.data = marker;
+                    
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
@@ -2081,13 +2085,15 @@ export class SatReportComponent implements OnInit {
                   } else if (this.selectedCluster) {
 
                     let mySchoolData = res["data"];
+                    
                     let marker = mySchoolData.filter(a => {
-                      if (a.Details.cluster_id === this.selectedCLusterId) {
+                      if (a.Details.cluster_id === this.selectedCLusterId.toString()) {
                         return a
                       }
 
                     })
                     this.markers = this.data = marker;
+                    
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
@@ -2339,7 +2345,9 @@ export class SatReportComponent implements OnInit {
     this.blockSelected = false
     this.selectedCluster = false
     this.districtSlectedId = districtId
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = false;
+    this.hideAllSchoolBtn = false;
     this.commonService.errMsg();
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -2466,7 +2474,9 @@ export class SatReportComponent implements OnInit {
     this.selectedCluster = false
     this.blockSelected = true
     this.blockSelectedId = blockId
-    this.hideAllBlockBtn = false
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = false;
     this.commonService.errMsg();
     // to clear the existing data on the map layer
     globalMap.removeLayer(this.markersList);
@@ -2598,10 +2608,14 @@ export class SatReportComponent implements OnInit {
   // to load all the schools for selected cluster for state data on the map
   public selectedCluster: boolean = false;
   public selectedCLusterId
-  public hideAllBlockBtn: boolean = false
+  public hideAllBlockBtn: boolean = false;
+  public hideAllCLusterBtn: boolean = false
+  public hideAllSchoolBtn: boolean = false;
   onClusterSelect(clusterId) {
 
-    this.hideAllBlockBtn = true
+    this.hideAllBlockBtn = true;
+    this.hideAllCLusterBtn = true;
+    this.hideAllSchoolBtn = true;
     this.blockSelected = false
     this.districtSelected = false
     this.selectedCluster = true

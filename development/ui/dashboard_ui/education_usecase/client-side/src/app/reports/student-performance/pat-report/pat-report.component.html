@@ -113,10 +113,10 @@
           <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" [disabled]="hideAllBlockBtn" (click)="blockClick()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" (click)="clusterClick()">
+          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllCLusterBtn" (click)="clusterClick()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" (click)="schoolClick()">
+          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"  [disabled] = "hideAllSchoolBtn" (click)="schoolClick()">
             &nbsp;<strong>Schools</strong>
           </button>
 

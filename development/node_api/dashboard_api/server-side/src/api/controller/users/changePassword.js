@@ -17,7 +17,7 @@ router.post('/:id', auth.authController, async (req, res) => {
         logger.info('---change password api ---');
         var userId = req.params.id;
 
-        // if (authType === 'cqube') {
+         if (authType === 'cqube') {
             let loginUrl = `${host}/auth/realms/${realm}/protocol/openid-connect/token`
             let body
             if (req.body.otp) {
@@ -69,27 +69,32 @@ router.post('/:id', auth.authController, async (req, res) => {
             })
 
 
-        // } else {
-        //     let usersUrl = `${host}/auth/admin/realms/${realm}/users/${userId}/reset-password`;
-        //     let newPass = {
-        //         type: "password",
-        //         value: req.body.cnfpass,
-        //         temporary: false
-        //     };
-        //     axios.put(usersUrl, newPass, { headers: headers }).then(resp => {
-        //         logger.info('---change password api response sent---');
-        //         db.query('UPDATE keycloak_users set status= $2 where keycloak_username=$1;', [req.body.username, 'false'], (error, results) => {
-        //             if (error) {
-        //                 throw error
-        //             }
-        //             res.status(201).json({ msg: "Password changed" });
+        } else {
+            let usersUrl = `${host}/auth/admin/realms/${realm}/users/${userId}/reset-password`;
+            let newPass = {
+                type: "password",
+                temporary: false,
+                value: req.body.cnfpass
+                
+            };
+             let headers = {
+                 "Content-Type": "application/json",
+                 "Authorization": req.headers.token
+             }
+            axios.put(usersUrl, newPass, { headers: headers }).then(resp => {
+                logger.info('---change password api response sent---');
+                db.query('UPDATE keycloak_users set status= $2 where keycloak_username=$1;', [req.body.username, 'false'], (error, results) => {
+                    if (error) {
+                        throw error
+                    }
+                    res.status(201).json({ msg: "Password changed" });
 
-        //         })
+                })
 
-        //     }).catch(error => {
-        //         res.status(error.response.status).json({ errMsg: error.response.data.errorMessage });
-        //     })
-        // }
+            }).catch(error => {
+                res.status(error.response.status).json({ errMsg: error.response.data.errorMessage });
+            })
+        }
 
 
 
