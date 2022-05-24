@@ -490,11 +490,14 @@ export class AppServiceComponent {
   colorGredientForDikshaMaps(data, filter, colors) {
 
     let keys = Object.keys(colors);
+
     let setColor = "";
     for (let i = 0; i < keys.length; i++) {
       if (data[filter] == null) setColor = "red";
       if (parseFloat(data[filter]) == parseFloat(keys[i])) {
+
         setColor = colors[keys[i]];
+
         break;
       }
     }

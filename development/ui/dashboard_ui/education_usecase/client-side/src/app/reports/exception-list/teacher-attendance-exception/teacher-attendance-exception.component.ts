@@ -2232,8 +2232,8 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                   },
                   colors
                 ),
-                0.01,
-                1,
+                0.7,
+                3,
                 this.level
               );
               this.generateToolTip(

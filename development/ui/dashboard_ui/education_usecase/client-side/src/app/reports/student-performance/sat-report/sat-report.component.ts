@@ -1239,9 +1239,9 @@ export class SatReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      //  this.districtId = undefined;
-      // this.blockId = undefined;
-      // this.clusterId = undefined;
+       this.districtId = undefined;
+      this.blockId = undefined;
+      this.clusterId = undefined;
       this.level = "Cluster";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
@@ -1294,7 +1294,9 @@ export class SatReportComponent implements OnInit {
               .subscribe(
                 (res) => {
                   if (this.districtSelected) {
-
+                    this.districtId = this.districtSelected;
+                    this.skul = false;
+                    this.dist = true;
                     let myBlockData = res["data"];
                     let marker = myBlockData.filter(a => {
                       if (a.Details.district_id === this.districtSlectedId) {
@@ -1304,6 +1306,10 @@ export class SatReportComponent implements OnInit {
 
                     })
                     this.markers = this.data = marker;
+                    this.districtHierarchy = {
+                      distId: marker[0].Details.district_id,
+                      districtName: marker[0].Details.district_name,
+                    };
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
@@ -1422,6 +1428,17 @@ export class SatReportComponent implements OnInit {
 
                     })
                     this.markers = this.data = marker;
+                    this.blockHierarchy = {
+                      distId: marker[0].Details.district_id,
+                      districtName: marker[0].Details.district_name,
+                      blockId: marker[0].Details.block_id,
+                      blockName: marker[0].Details.block_name,
+                    };
+                    this.skul = false;
+                    this.dist = false;
+                    this.blok = true;
+                    this.clust = false;
+
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
@@ -1798,9 +1815,9 @@ export class SatReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      // this.districtId = undefined;
-      // this.blockId = undefined;
-      // this.clusterId = undefined;
+      this.districtId = undefined;
+      this.blockId = undefined;
+      this.clusterId = undefined;
       this.level = "School";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_${this.year}_${this.semester}_${this.grade ? this.grade : "allGrades"
@@ -1853,7 +1870,10 @@ export class SatReportComponent implements OnInit {
               .subscribe(
                 (res) => {
                   if (this.districtSelected) {
-
+                    this.skul = false;
+                    this.dist = false;
+                    this.blok = true;
+                    this.districtId = this.districtSlectedId;
                     let mySchoolData = res["data"];
                     let marker = mySchoolData.filter(a => {
                       if (a.Details.district_id === this.districtSlectedId) {
@@ -1862,6 +1882,12 @@ export class SatReportComponent implements OnInit {
                       }
 
                     })
+                    // set hierarchy values
+                    this.districtHierarchy = {
+                      distId: marker[0].Details.district_id,
+                      districtName: marker[0].Details.district_name,
+                    };
+
                     this.markers = this.data = marker;
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
@@ -1968,15 +1994,29 @@ export class SatReportComponent implements OnInit {
                       }
                     }
                   } else if (this.blockSelected) {
+                    this.districtId = this.districtSlectedId;
+                    this.blockId = this.blockSelectedId;
+                    this.blockHidden = false;
+                    this.clusterHidden = false;
 
                     let mySchoolData = res["data"];
                     let marker = mySchoolData.filter(a => {
-                      if (a.Details.block_id === this.blockSelectedId) {
-                        
+                      if (a.Details.block_id === this.blockSelectedId) { 
                         return a
                       }
-
                     })
+                    
+                    this.blockHierarchy = {
+                      distId: marker[0].Details.district_id,
+                      districtName: marker[0].Details.district_name,
+                      blockId: marker[0].Details.block_id,
+                      blockName: marker[0].Details.block_name,
+                    };
+                    this.skul = false;
+                    this.dist = false;
+                    this.blok = true;
+                    this.clust = false;
+
                     this.markers = this.data = marker;
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;

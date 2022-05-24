@@ -273,7 +273,7 @@ export class UdiseReportComponent implements OnInit {
     this.blockSelected = false;
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
-    this.hideAllSchoolBtn =false;
+    this.hideAllSchoolBtn = false;
     this.districtWise();
   }
 
@@ -496,7 +496,7 @@ export class UdiseReportComponent implements OnInit {
             let blockData = res["data"];
             let marker = blockData.filter(a => {
               if (a.details.block_id === this.blockSelectedId) {
-                
+
                 return a
               }
 
@@ -773,23 +773,38 @@ export class UdiseReportComponent implements OnInit {
       this.myData = this.service.udise_cluster_wise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           if (this.districtSelected) {
+            this.districtId = this.districtSlectedId;
+            this.blockHidden = false;
+            this.clusterHidden = true;
+            this.skul = false;
+            this.dist = true;
             let blockData = res["data"];
-            let marker = this.myBlockData.filter(a => {
-              if (a.details.district_id === this.districtSlectedId) {
+            this.districtHierarchy = {
+              distId: this.districtSlectedId,
+              districtName: "",
+            };
+            let marker = blockData.filter(a => {
 
+              if (a.details.district_id === this.districtSlectedId) {
+                this.districtHierarchy.districtName = a.details.District_Name
                 return a
               }
 
             })
 
+           
+
+
             this.markers = this.data = marker;
             this.gettingIndiceFilters(this.data);
             let options = {
-              radius: 2,
+              radius: 1,
+
               mapZoom: this.globalService.zoomLevel,
               centerLat: this.lat,
               centerLng: this.lng,
               level: "Cluster",
+
             };
             this.dataOptions = options;
             if (this.data.length > 0) {
@@ -857,7 +872,7 @@ export class UdiseReportComponent implements OnInit {
             let blockData = res["data"];
             let marker = blockData.filter(a => {
               if (a.details.block_id === this.blockSelectedId) {
-              
+
                 return a
               }
 
@@ -1138,7 +1153,7 @@ export class UdiseReportComponent implements OnInit {
       }
       this.myData = this.service.udise_school_wise({ management: this.management, category: this.category }).subscribe(
         (res) => {
-         
+
           if (this.districtSelected) {
             let blockData = res["data"];
             let marker = blockData.filter(a => {
@@ -1223,10 +1238,20 @@ export class UdiseReportComponent implements OnInit {
               }
             }
           } else if (this.blockSelected) {
+
             let blockData = res["data"];
+            this.skul = false;
+            this.blok =  true;
+            this.blockHierarchy = {
+              distId: this.districtSelected,
+              districtName: "",
+              blockId: this.blockSelected,
+              blockName: this.data[0].details.Block_Name,
+            };
             let marker = blockData.filter(a => {
               if (a.details.block_id === this.blockSelectedId) {
-               
+                this.blockHierarchy.districtName = a.details.District_Name;
+                this.blockHierarchy.blockName = a.details.Block_Name
                 return a
               }
 
