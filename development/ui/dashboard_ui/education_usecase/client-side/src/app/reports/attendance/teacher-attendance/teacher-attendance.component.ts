@@ -1182,6 +1182,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.changeDetection.markForCheck();
               }
             } else {
+
               this.reportData = this.mylatlngData = res["blockData"];
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
@@ -1330,6 +1331,15 @@ export class TeacherAttendanceComponent implements OnInit {
 
               })
               this.reportData = this.mylatlngData = marker;
+
+              this.hierName = marker[0].district_name;
+              this.titleName = "";
+              this.clustName = "";
+
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.skul = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1446,6 +1456,14 @@ export class TeacherAttendanceComponent implements OnInit {
 
               })
               this.reportData = this.mylatlngData = marker;
+              this.hierName = marker[0].district_name;
+              this.titleName = marker[0].block_name;
+              this.clustName = "";
+
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.skul = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1563,6 +1581,15 @@ export class TeacherAttendanceComponent implements OnInit {
               })
 
               this.reportData = this.mylatlngData = marker;
+
+              this.hierName = marker[0].district_name;
+              this.titleName = marker[0].block_name;
+              this.clustName = marker[0].cluster_name;
+
+              this.dist = false;
+              this.blok = false;
+              this.clust = true;
+              this.skul = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1671,6 +1698,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.changeDetection.markForCheck();
               }
             } else {
+
               this.reportData = this.mylatlngData = res["clusterData"];
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
@@ -1841,6 +1869,16 @@ export class TeacherAttendanceComponent implements OnInit {
 
               })
               this.reportData = this.mylatlngData = marker;
+              this.myDistrict = this.districtSlectedId
+              this.distName = { district_id: this.districtSlectedId, district_name: marker[0].district_name };
+              this.hierName = marker[0].district_name;
+              this.titleName = "";
+              this.clustName = "";
+
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.skul = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1926,6 +1964,14 @@ export class TeacherAttendanceComponent implements OnInit {
 
               })
               this.reportData = this.mylatlngData = marker;
+              this.hierName = marker[0].district_name;
+              this.titleName = marker[0].block_name;
+              this.clustName = "";
+
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.skul = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -2002,6 +2048,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 this.changeDetection.markForCheck();
               }
             } else if (this.selectedCluster) {
+
               let cluster = res['schoolData']
 
               let marker = cluster.filter(a => {
@@ -2011,6 +2058,15 @@ export class TeacherAttendanceComponent implements OnInit {
 
               })
               this.reportData = this.mylatlngData = marker;
+
+              this.hierName = marker[0].district_name;
+              this.titleName = marker[0].block_name;
+              this.clustName = marker[0].cluster_name;
+
+              this.dist = false;
+              this.blok = false;
+              this.clust = true;
+              this.skul = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -3139,7 +3195,7 @@ export class TeacherAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-          uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
           event: event,
           level: level,
           locationid: data.id,
@@ -3152,7 +3208,7 @@ export class TeacherAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-          uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
           event: event,
           level: level,
           locationid: data.id,

@@ -148,7 +148,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
       this.selectedIndex = undefined;
       this.deSelect();
 
-      this.deSelect();
+  
 
       if (this.myDistData && this.myDistData["data"].length) {
         this.data = this.myDistData;
@@ -526,6 +526,7 @@ export class TpdTotalContentPlaysComponent implements OnInit {
   public len;
 
   filterRangeWiseData(value, index) {
+   
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();

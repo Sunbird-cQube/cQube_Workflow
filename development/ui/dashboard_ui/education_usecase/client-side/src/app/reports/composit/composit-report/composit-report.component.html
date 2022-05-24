@@ -154,7 +154,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <span class="chooseLevel" [hidden]="hideDist">Choose District</span>
-                    <select id="choose_district1" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideDist"
+                    <select id="choose_district1" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideDist" [disabled] = "selDist"
                         (change)="myDistData(myDistrict)">
                         <option [value]="myDistrict" disabled selected="selected">Choose a District
                         </option>
@@ -169,7 +169,7 @@
                 <div class="col-sm-12">
                     <span class="chooseLevel" [hidden]="blockHidden">Choose
                         Block</span>
-                    <select [hidden]="blockHidden" id="choose_blok" [(ngModel)]="myBlock" name="myBlock"
+                    <select [hidden]="blockHidden" id="choose_blok" [(ngModel)]="myBlock" name="myBlock" [disabled] = "selBlock"
                         (change)="myBlockData(myBlock)">
                         <option [value]="myBlock" disabled selected="selected">Choose a Block
                         </option>
@@ -183,7 +183,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <span class="chooseLevel" [hidden]="clusterHidden">Choose Cluster</span>
-                    <select [hidden]="clusterHidden" id="choose_clust" [(ngModel)]="myCluster" name="myCluster"
+                    <select [hidden]="clusterHidden" id="choose_clust" [(ngModel)]="myCluster" name="myCluster" [disabled] = "selCluster"
                         (change)="myClusterData(myCluster)">
                         <option [value]="myCluster" disabled selected="selected">Choose a Cluster
                         </option>

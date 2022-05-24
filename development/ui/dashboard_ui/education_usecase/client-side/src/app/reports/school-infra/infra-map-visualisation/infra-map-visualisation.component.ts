@@ -437,8 +437,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.commonService.errMsg();
       this.reportData = [];
-      // this.districtId = undefined;
-      // this.blockId = undefined;
+      //  this.districtId = undefined;
+      //  this.blockId = undefined;
       this.level = "Block";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_allBlocks_${this.commonService.dateAndTime}`;
@@ -865,17 +865,25 @@ export class InfraMapVisualisationComponent implements OnInit {
               }
 
             })
+            this.districtHierarchy = {
+              distId: marker[0].details.district_id,
+              districtName: marker[0].details.district_name,
+            };
+            this.skul = false;
+            this.dist = true;
+
             this.markers = this.data = marker;
 
             this.gettingInfraFilters(this.data);
             let options = {
-              radius: 2,
-              mapZoom: this.globalService.zoomLevel,
+              radius: 5,
+              mapZoom: this.globalService.zoomLevel + 5,
               centerLat: this.lat,
               centerLng: this.lng,
               level: "Cluster",
             };
-            this.dataOptions = options;
+            // this.genericFun(this.data, options, this.fileName);
+            // this.dataOptions = options;
             if (this.data.length > 0) {
               let result = this.data;
               this.clusterMarkers = [];
@@ -1247,6 +1255,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           if (res) {
 
             if (this.districtSelected) {
+              this.districtId = this.districtSlectedId;
               let data = res["data"];
               let marker = data.filter(a => {
                 if (a.details.district_id === this.districtSlectedId) {
@@ -1255,6 +1264,14 @@ export class InfraMapVisualisationComponent implements OnInit {
               })
 
               this.markers = this.data = marker
+
+              this.skul = false;
+              this.dist = true;
+
+              this.districtHierarchy = {
+                distId: marker[0].details.district_id,
+                districtName: marker[0].details.district_name,
+              };
               this.gettingInfraFilters(this.data);
               let options = {
                 radius: 1,
@@ -1263,7 +1280,7 @@ export class InfraMapVisualisationComponent implements OnInit {
                 centerLng: this.lng,
                 level: "School",
               };
-              this.dataOptions = options;
+              // this.dataOptions = options;
               this.schoolMarkers = [];
               if (this.data.length > 0) {
                 let result = this.data;
@@ -1338,18 +1355,30 @@ export class InfraMapVisualisationComponent implements OnInit {
                 this.commonService.loaderAndErr(this.schoolMarkers);
               }
             } else if (this.blockSelected) {
+              this.districtId = this.districtSelected;
+              this.blockId = this.blockSelectedId;
               let data = res["data"];
               let marker = data.filter(a => {
                 if (a.details.block_id === this.blockSelectedId) {
                   return a
                 }
               })
+              this.skul = false;
+              this.dist = false;
+              this.blok = true;
+
+              this.blockHierarchy = {
+                distId: marker[0].details.district_id,
+                districtName: marker[0].details.district_name,
+                blockId: marker[0].details.block_id,
+                blockName: marker[0].details.block_name,
+              };
 
               this.markers = this.data = marker
               this.gettingInfraFilters(this.data);
               let options = {
                 radius: 1,
-                mapZoom: this.globalService.zoomLevel,
+                 mapZoom: this.globalService.zoomLevel,
                 centerLat: this.lat,
                 centerLng: this.lng,
                 level: "School",
@@ -1635,6 +1664,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   public districtSelected: boolean = false
   public districtSlectedId
+  public selectedDistrictName
   // to load all the blocks for selected district for state data on the map
   onDistrictSelect(districtId) {
     this.districtSelected = true
@@ -1669,6 +1699,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         this.gettingInfraFilters(this.data);
 
         this.blockMarkers = this.data;
+
         // set hierarchy values
         this.districtHierarchy = {
           distId: this.data[0].details.district_id,

@@ -67,7 +67,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.getProgramData();
     this.getAllDistCollection();
     this.districtHidden = this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-
+    console.log('distHidden', this.districtHidden)
   }
 
   emptyChart() {
