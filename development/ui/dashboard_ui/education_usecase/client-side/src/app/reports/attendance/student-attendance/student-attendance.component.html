@@ -130,7 +130,7 @@
                     </button>
 
                     <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" 
-                        [hidden]="selDist" (change)="myDistData(myDistrict)" *ngIf="!this.distHidden">
+                        [disabled]="selDist" (change)="myDistData(myDistrict)" [hidden]="this.distHidden">
                         <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
 
@@ -139,10 +139,12 @@
                             {{dist.name}}
                         </option>
                     </select>
+                   
+
 
                     <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [hidden]="selBlock"
                         (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
-                        <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
+                        <option [value]="" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
                         <option *ngFor="let block of blocksNames" [value]="block.id">
                             {{block.name}}
@@ -151,7 +153,7 @@
 
                     <select id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [hidden]="selCluster"
                         (change)="myClusterData(myCluster)" *ngIf="!this.clusterHidden">
-                        <option [value]="myCluster" disabled selected="selected">Choose a cluster
+                        <option [value]="" disabled selected="selected">Choose a cluster
                         </option>
                         <option *ngFor="let cluster of clusterNames" [value]="cluster.id"
                             [ngStyle]="{'color': cluster.name !== 'NO NAME FOUND'? 'white' : '#ff3333'}">

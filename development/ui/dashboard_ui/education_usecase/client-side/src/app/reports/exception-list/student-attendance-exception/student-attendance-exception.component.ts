@@ -257,7 +257,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selCluster = false;
 
       this.selBlock = false;
-      this.selDist = false;
+      this.selDist = true;
 
       this.myDistrict = districtid;
 

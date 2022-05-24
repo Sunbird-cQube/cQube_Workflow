@@ -777,7 +777,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.commonAtStateLevel();
       this.levelWise = "District";
       this.googleMapZoom = 7;
-
+      this.myDistrict = undefined
       if (this.months.length > 0) {
         var month = this.months.find((a) => a.id === this.month);
         if (this.month_year.month) {

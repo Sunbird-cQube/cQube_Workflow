@@ -293,7 +293,7 @@ export class CompositReportComponent implements OnInit {
 
     let obj = this.blockNames.find(o => o.id == data);
     
-    localStorage.setItem('block', JSON.stringify(obj?.name));
+   obj.name !== undefined ? localStorage.setItem('block', JSON.stringify(obj?.name)) : localStorage.getItem('block');
     this.hierName = obj?.name;
 
     this.blockHidden = localStorage.getItem('userLevel') === "Block" ? true : false;

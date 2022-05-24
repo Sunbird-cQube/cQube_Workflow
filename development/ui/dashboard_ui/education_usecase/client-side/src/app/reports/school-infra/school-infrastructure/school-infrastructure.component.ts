@@ -316,6 +316,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myBlockData(data, clusterid?) {
+    )
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
@@ -334,7 +335,9 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     localStorage.setItem('blockId', data);
     this.titleName = localStorage.getItem('dist');
-    this.distName = JSON.parse(localStorage.getItem('distId'));
+     this.distName = JSON.parse(localStorage.getItem('distId'));
+    
+    
     this.blockName = data;
     let obj = this.blockNames.find(o => o.id == data);
     localStorage.setItem('block', JSON.stringify(obj?.name));
