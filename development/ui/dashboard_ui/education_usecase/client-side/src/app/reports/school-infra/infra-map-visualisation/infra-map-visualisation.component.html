@@ -39,7 +39,7 @@
               </span><span (click)="onDistrictSelect(clusterHierarchy.distId)"
                 style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.districtName }}</span><span> | </span><span
-                (click)="onBlockSelect(clusterHierarchy.blockId)" style="cursor: pointer; text-decoration: underline">
+                (click)="onBlockSelect(clusterHierarchy.blockId)" style="cursor: pointer; text-decoration: underline" >
                 {{ clusterHierarchy.blockName }}</span><span> | </span><span class="selected-level">
                 {{ clusterHierarchy.clusterName }}</span>
             </p>
@@ -84,10 +84,10 @@
           <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"  id="blockbtn" (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" [disabled] = "hideAllCLusterBtn" [disabled] = "hideAllSchoolBtn" (click)="clusterWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" [disabled] = "hideAllCLusterBtn"  (click)="clusterWise()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn" (click)="schoolWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn"  [disabled] = "hideAllSchoolBtn" (click)="schoolWise()">
             &nbsp;<strong>Schools</strong>
           </button>
 

@@ -148,10 +148,18 @@ export class EtbTotalContentPlaysComponent implements OnInit {
       this.selectedIndex = undefined;
       this.deSelect();
 
-      this.deSelect();
+   
 
       if (this.myDistData && this.myDistData["data"].length) {
-        this.data = this.myDistData;
+        
+        let data1={}
+         data1['data'] = this.myDistData.data.filter(marker => {
+          if (marker.district_name !== "Others"){
+            return marker
+          }
+        });
+        this.data = data1
+        
         let keys = Object.keys(this.data.data[0]);
 
         let obj = {};
@@ -345,7 +353,6 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
   onSelectType(data) {
     this.selectedType = data;
-
     this.reportName = `ETB_${this.selectedType}`
     this.getDistData();
   }
@@ -353,7 +360,11 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   genericFun(data, options, fileName) {
     try {
       this.reportData = [];
-      this.markers = data;
+      let data1 = data.filter(marker => {
+        return marker.district_name !== "Others"
+      } )
+      this.markers = data1;
+      
       var colors = this.commonService.getTpdMapRelativeColors(this.markers, {
         value: this.selectedType,
         report: "reports",
@@ -528,6 +539,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
   public len;
 
   filterRangeWiseData(value, index) {
+   
     this.prevRange = value;
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
@@ -537,6 +549,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     for (let i = 0; i < this.data.data.length; i++) {
       arr.push(this.data.data[i][`${this.selectedType}`]);
     }
+
     arr = arr.sort(function (a, b) {
       return parseFloat(a) - parseFloat(b);
     });
@@ -547,6 +560,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
 
       const min = Math.min(...arr);
       const max = Math.max(...arr);
+    
       const ranges = [];
       const getRangeArray = (min, max, n) => {
         const delta = (max - min) / n;
@@ -567,6 +581,7 @@ export class EtbTotalContentPlaysComponent implements OnInit {
       slabArr = arr;
     }
 
+
     if (value) {
       this.data.data.map((a) => {
         if (a.latitude) {
@@ -575,13 +590,15 @@ export class EtbTotalContentPlaysComponent implements OnInit {
             a[`${this.selectedType}`] >= Math.min(...slabArr)
           ) {
             markers.push(a);
+            
           }
         }
       });
     } else {
       markers = this.data;
     }
-
+    
+  
     this.genericFun(markers, this.dataOptions, this.fileName);
     this.commonService.errMsg();
 

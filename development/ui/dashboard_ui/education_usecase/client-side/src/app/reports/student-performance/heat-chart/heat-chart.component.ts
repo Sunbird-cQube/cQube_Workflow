@@ -459,6 +459,7 @@ export class HeatChartComponent implements OnInit {
 
       chart: {
         type: "heatmap",
+        
       },
       credits: {
         enabled: false,
@@ -486,12 +487,11 @@ export class HeatChartComponent implements OnInit {
           lineColor: "#FFFFFF",
           gridLineColor: "transparent",
           min: 0,
-          max: 50,
+          max: 30,
           scrollbar: {
             enabled: scrollBarX,
           },
-          showLastLabel: false,
-          tickLength: 16,
+
         },
         {
           lineColor: "#FFFFFF",
@@ -538,14 +538,14 @@ export class HeatChartComponent implements OnInit {
       },
       colorAxis: {
         min: 0,
-        max: 100,
+
         minColor: "#ff3300",
         maxColor: "#99ff99",
 
       },
       series: [
         {
-          turboThreshold: 0,
+          turboThreshold: data.length + 100,
           data: data,
           dataLabels: {
             enabled: true,
@@ -932,7 +932,7 @@ export class HeatChartComponent implements OnInit {
     this.data = response["result"]["data"];
     this.zLabel = response["result"]["zLabel"];
     this.reportData = response["downloadData"];
-    
+
 
     if (response["districtDetails"]) {
       let districts = response["districtDetails"];

@@ -251,7 +251,7 @@ export class SemesterExceptionComponent implements OnInit {
       this.distHidden = false;
     }
     if (blockid !== 'null') {
-      this.blockId = blockid.toString();
+      this.blockId = blockid?.toString();
       this.blockHidden = false;
     }
     if (clusterid !== 'null') {
@@ -266,7 +266,7 @@ export class SemesterExceptionComponent implements OnInit {
 
     if (level === "Cluster") {
       this.clusterId = Number(clusterid);
-      this.blockId = blockid.toString();
+      this.blockId = blockid?.toString();
       this.districtId = districtid;
       this.blockHierarchy = {
         blockId: blockid,
@@ -480,7 +480,7 @@ export class SemesterExceptionComponent implements OnInit {
 
               })
 
-              let markers = {data: marker}
+              let markers = { data: marker }
               this.blockMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -500,12 +500,12 @@ export class SemesterExceptionComponent implements OnInit {
               let result = this.data['data']
               let marker = result.filter(a => {
                 if (a.block_id === this.blockSelectedId) {
-                 
+
                   return a
                 }
 
               })
-              let markers = {data: marker}
+              let markers = { data: marker }
               this.blockMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -530,7 +530,7 @@ export class SemesterExceptionComponent implements OnInit {
                 }
 
               })
-              let markers = {data:marker}
+              let markers = { data: marker }
               this.blockMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -564,7 +564,7 @@ export class SemesterExceptionComponent implements OnInit {
               this.genericFun(this.data, options, this.fileName);
               this.globalService.onResize(this.level);
             }
-          
+
           }
         }, err => {
           this.data = this.districtMarkers = [];
@@ -644,7 +644,24 @@ export class SemesterExceptionComponent implements OnInit {
                 }
 
               })
-              let markers = {data: marker}
+              let markers = { data: marker }
+              // set hierarchy values
+              this.districtHierarchy = {
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name
+              }
+
+              this.districtId = this.districtSlectedId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              // to show and hide the dropdowns
+              this.blockHidden = false;
+              this.clusterHidden = true;
+
               this.clusterMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -661,19 +678,19 @@ export class SemesterExceptionComponent implements OnInit {
               this.genericFun(markers, options, this.fileName);
               // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.globalService.onResize(this.level);
-                  
+
             } else if (this.blockSelected) {
               let result = this.data['data'];
               result = result.sort((a, b) => (parseInt(a.percentage_schools_with_missing_data) < parseInt(b.percentage_schools_with_missing_data)) ? 1 : -1)
-             
+
               let marker = result.filter(a => {
                 if (a.block_id === this.blockSelectedId) {
-                
+
                   return a
                 }
 
               })
-              let markers = {data:marker}
+              let markers = { data: marker }
               this.clusterMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -699,7 +716,7 @@ export class SemesterExceptionComponent implements OnInit {
                 }
 
               })
-              let markers = {data:marker}
+              let markers = { data: marker }
               this.clusterMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -737,7 +754,7 @@ export class SemesterExceptionComponent implements OnInit {
               this.globalService.onResize(this.level);
             }
 
-           
+
           }
         }, err => {
           this.data = this.districtMarkers = [];
@@ -814,8 +831,23 @@ export class SemesterExceptionComponent implements OnInit {
                 }
 
               })
-              
-              let markers = {data:marker}
+
+              let markers = { data: marker }
+              this.districtHierarchy = {
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name
+              }
+
+              this.districtId = this.districtSlectedId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              // to show and hide the dropdowns
+              this.blockHidden = false;
+              this.clusterHidden = true;
               // generate color gradient
               this.markers = this.schoolMarkers = marker;
               this.allSubjects = [];
@@ -833,17 +865,35 @@ export class SemesterExceptionComponent implements OnInit {
             } else if (this.blockSelected) {
               let result = this.data['data']
               result = result.sort((a, b) => (parseInt(a.percentage_schools_with_missing_data) < parseInt(b.percentage_schools_with_missing_data)) ? 1 : -1)
-             
+
               let marker = result.filter(a => {
                 if (a.block_id === this.blockSelectedId) {
-                
+
                   return a
                 }
 
               })
-              let markers = {data: marker}
+              let markers = { data: marker }
               // generate color gradient
               this.markers = this.schoolMarkers = marker;
+              // set hierarchy values
+              this.blockHierarchy = {
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name,
+                blockId: marker[0].block_id,
+                blockName: marker[0].block_name
+              }
+              this.districtId = this.districtSlectedId;
+              this.blockId = this.blockSelectedId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+
+              this.blockHidden = false;
+              this.clusterHidden = false;
               this.allSubjects = [];
               if (this.grade != 'all') {
                 this.allSubjects = this.data['subjects'].filter(a => {
@@ -858,7 +908,7 @@ export class SemesterExceptionComponent implements OnInit {
               this.globalService.onResize(this.level);
             } else if (this.selectedCluster) {
               let result = this.data['data']
-              
+
               result = result.sort((a, b) => (parseInt(a.percentage_schools_with_missing_data) < parseInt(b.percentage_schools_with_missing_data)) ? 1 : -1)
               let marker = result.filter(a => {
                 if (a.cluster_id === this.selectedCLusterId.toString()) {
@@ -866,8 +916,8 @@ export class SemesterExceptionComponent implements OnInit {
                 }
 
               })
-              
-              let markers = {data:marker}
+
+              let markers = { data: marker }
               // generate color gradient
               this.markers = this.schoolMarkers = marker;
               this.allSubjects = [];
@@ -902,7 +952,7 @@ export class SemesterExceptionComponent implements OnInit {
             }
 
 
-    
+
           }
         }, err => {
           this.data = this.districtMarkers = [];
@@ -973,11 +1023,11 @@ export class SemesterExceptionComponent implements OnInit {
 
       // options to set for markers in the map
       let options = {
-        radius: 5,
+        radius: 2,
         fillOpacity: 1,
         strokeWeight: 0.01,
         weight: 1,
-        mapZoom: this.globalService.zoomLevel + 1,
+        mapZoom: this.globalService.zoomLevel + 5,
         centerLat: this.data['data'][0].block_latitude,
         centerLng: this.data['data'][0].block_longitude,
         level: 'blockPerDistrict'
@@ -1069,10 +1119,11 @@ export class SemesterExceptionComponent implements OnInit {
         fillOpacity: 1,
         strokeWeight: 0.01,
         weight: 1,
-        mapZoom: this.globalService.zoomLevel + 3,
+         mapZoom: this.globalService.zoomLevel + 3,
         centerLat: this.data['data'][0].cluster_latitude,
         centerLng: this.data['data'][0].cluster_longitude,
-        level: 'clusterPerBlock'
+         level: 'clusterPerBlock',
+        
       }
       this.globalService.latitude = this.lat = options.centerLat;
       this.globalService.longitude = this.lng = options.centerLng;

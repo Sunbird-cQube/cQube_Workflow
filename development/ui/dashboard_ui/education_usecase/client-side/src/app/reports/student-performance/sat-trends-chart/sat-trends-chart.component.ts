@@ -247,10 +247,11 @@ export class SatTrendsChartComponent implements OnInit {
   onHomeClick(defYear) {
     this.commonService.errMsg();
     if (!defYear) {
+      this.grade = "AllGrades"
       this.selectedYear = this.years[0];
       this.selectedYear1 = this.years[1];
     }
-    this.grade = "AllGrades";
+    
     this.getStateData();
     this.getStateData1();
     this.selectedDistricts = [];
