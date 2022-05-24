@@ -316,7 +316,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myBlockData(data, clusterid?) {
-    )
+    
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
