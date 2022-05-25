@@ -13509,7 +13509,7 @@ Mirror data validation of file:${filename} completed and deleted the mirror data
                     </entry>
                     <entry>
                         <key>Replacement Value</key>
-                        <value></value>
+                        <value>""</value>
                     </entry>
                     <entry>
                         <key>Character Set</key>
@@ -13517,7 +13517,7 @@ Mirror data validation of file:${filename} completed and deleted the mirror data
                     </entry>
                     <entry>
                         <key>Maximum Buffer Size</key>
-                        <value>1 MB</value>
+                        <value>250 MB</value>
                     </entry>
                     <entry>
                         <key>Replacement Strategy</key>
@@ -13538,7 +13538,7 @@ Mirror data validation of file:${filename} completed and deleted the mirror data
                 <yieldDuration>1 sec</yieldDuration>
             </config>
             <executionNodeRestricted>false</executionNodeRestricted>
-            <name>ReplaceText</name>
+            <name>udise_replace_ null_with_empty string</name>
             <relationships>
                 <autoTerminate>true</autoTerminate>
                 <name>failure</name>
@@ -15969,5 +15969,5 @@ file: ${filename} Error while extracting columns from file.</value>
             <type>org.apache.nifi.processors.standard.Notify</type>
         </processors>
     </snippet>
-    <timestamp>05/24/2022 21:29:03 IST</timestamp>
+    <timestamp>05/25/2022 12:50:48 IST</timestamp>
 </template>
