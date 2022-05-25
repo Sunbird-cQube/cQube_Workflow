@@ -223,7 +223,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   selDist = false;
 
   getView1() {
-    
+
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
     let clusterid = localStorage.getItem("clusterId");
@@ -231,7 +231,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
 
-    
+
 
     if (level === "Cluster") {
       this.myDistrict = Number(districtid);
@@ -993,7 +993,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
           (res) => {
             if (this.districtSelected) {
 
-              let myBlockData = res["data"];
+              let myBlockData = res["clusterData"];
               let marker = myBlockData.filter(a => {
                 if (a.district_id === this.districtSlectedId) {
 
@@ -1001,6 +1001,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+              this.hierName = marker.district_name
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
+              this.myDistrict = this.districtSlectedId
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -1464,6 +1472,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+
+              this.hierName = marker[0].district_name
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -1530,6 +1546,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+              this.hierName = marker[0].block_name
+              this.titleName = marker[0].district_name
+              this.myDistrict = this.districtSlectedId;
+              this.myBlock = this.blockSelectedId
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.skul = false;
+              this.clusterHidden = false;
+              this.blockHidden = false;
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -1997,7 +2023,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 )
                 this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
               }
-              
+
               var markerIcon = this.globalService.initMarkers1(
                 this.markers[i].lat,
                 this.markers[i].lng,
@@ -2014,8 +2040,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 1,
                 this.level
               );
-            
-            
+
+
               this.generateToolTip(
                 markerIcon,
                 this.markers[i],

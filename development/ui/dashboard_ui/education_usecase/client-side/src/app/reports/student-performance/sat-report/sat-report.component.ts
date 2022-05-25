@@ -1310,6 +1310,17 @@ export class SatReportComponent implements OnInit {
                       distId: marker[0].Details.district_id,
                       districtName: marker[0].Details.district_name,
                     };
+                    // to show and hide the dropdowns
+                    this.blockHidden = false;
+                    this.clusterHidden = true;
+
+                    this.districtId = this.districtSelected;
+
+                    // these are for showing the hierarchy names based on selection
+                    this.skul = false;
+                    this.dist = true;
+                    this.blok = false;
+                    this.clust = false;
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
@@ -1888,6 +1899,18 @@ export class SatReportComponent implements OnInit {
                       districtName: marker[0].Details.district_name,
                     };
 
+                    // to show and hide the dropdowns
+                    this.blockHidden = false;
+                    this.clusterHidden = true;
+
+                    this.districtId = this.districtSelected;
+
+                    // these are for showing the hierarchy names based on selection
+                    this.skul = false;
+                    this.dist = true;
+                    this.blok = false;
+                    this.clust = false;
+
                     this.markers = this.data = marker;
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
@@ -1996,9 +2019,7 @@ export class SatReportComponent implements OnInit {
                   } else if (this.blockSelected) {
                     this.districtId = this.districtSlectedId;
                     this.blockId = this.blockSelectedId;
-                    this.blockHidden = false;
-                    this.clusterHidden = false;
-
+                  
                     let mySchoolData = res["data"];
                     let marker = mySchoolData.filter(a => {
                       if (a.Details.block_id === this.blockSelectedId) { 
@@ -2012,11 +2033,16 @@ export class SatReportComponent implements OnInit {
                       blockId: marker[0].Details.block_id,
                       blockName: marker[0].Details.block_name,
                     };
+                    this.blockHidden = false;
+                    this.clusterHidden = false;
+
+                 
+
+                    // these are for showing the hierarchy names based on selection
                     this.skul = false;
                     this.dist = false;
                     this.blok = true;
                     this.clust = false;
-
                     this.markers = this.data = marker;
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;

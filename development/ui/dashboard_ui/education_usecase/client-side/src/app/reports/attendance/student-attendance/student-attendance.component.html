@@ -129,8 +129,8 @@
                         [disabled]="hideAllSchoolBtn" (click)="schoolWise($event)">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" 
-                        [disabled]="selDist" (change)="myDistData(myDistrict)" [hidden]="this.distHidden">
+                    <!-- <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [disabled]="selDist"
+                        (change)="myDistData(myDistrict)" >
                         <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
 
@@ -138,29 +138,39 @@
                         <option *ngFor="let dist of districtsNames" [value]="dist.id">
                             {{dist.name}}
                         </option>
+                    </select> -->
+
+                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="selDist"
+                        (change)="distSelect($event,myDistrict)" *ngIf="!distHidden">
+                        <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
+                            District
+                        </option>
+                        <option *ngFor="let dist of districtsNames" [(ngValue)]="dist.id">
+                            {{dist.name}}
+                        </option>
                     </select>
-                   
 
 
                     <select id="choose_block" [(ngModel)]="myBlock" name="myBlock" [hidden]="selBlock"
-                        (change)="myBlockData(myBlock)" *ngIf="!this.blockHidden">
-                        <option [value]="" disabled selected="selected" style="color: white;">Choose a Block
+                        (change)="blockSelect($event,myBlock)" *ngIf="!blockHidden">
+                        <option [value]="myBlock" disabled selected="selected" style="color: white;">Choose a Block
                         </option>
-                        <option *ngFor="let block of blocksNames" [value]="block.id">
+                        <option *ngFor="let block of blocksNames" [(ngValue)]="block.id">
                             {{block.name}}
                         </option>
                     </select>
 
-                    <select id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [hidden]="selCluster"
-                        (change)="myClusterData(myCluster)" *ngIf="!this.clusterHidden">
-                        <option [value]="" disabled selected="selected">Choose a cluster
+                    <select [hidden]="selCluster" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
+                        (change)="clusterSelect($event,myCluster)" *ngIf="!clusterHidden">
+                        <option [value]="myCluster" disabled selected="selected">Choose a cluster
                         </option>
-                        <option *ngFor="let cluster of clusterNames" [value]="cluster.id"
+                        <option *ngFor="let cluster of clusterNames" [(ngValue)]="cluster.id"
                             [ngStyle]="{'color': cluster.name !== 'NO NAME FOUND'? 'white' : '#ff3333'}">
                             {{cluster.name}}
                         </option>
                     </select>
 
+                   
 
                     <span class="note" id="trends" [routerLink]="['/attendance/student-attendance-chart']"
                         style="margin-right: 25px; cursor: pointer; float: right !important; font-weight: bold; text-decoration: underline; font-size: 13px; color: #3100cc">Click

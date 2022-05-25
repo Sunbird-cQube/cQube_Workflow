@@ -459,7 +459,10 @@ export class HeatChartComponent implements OnInit {
 
       chart: {
         type: "heatmap",
-        
+        scrollablePlotArea: {
+          minWidth: 700,
+          scrollPositionX: 1
+        }
       },
       credits: {
         enabled: false,
@@ -506,6 +509,14 @@ export class HeatChartComponent implements OnInit {
               fontSize: xAxis.fontSize,
               fontFamily: "Arial",
             },
+            formatter: function (this) {
+              let ret: any = this.value,
+                len = ret.length
+              if (len > 14) {
+                ret = ret.slice(0, 14) + '...';
+              }
+              return ret;
+            }
           },
 
         },
