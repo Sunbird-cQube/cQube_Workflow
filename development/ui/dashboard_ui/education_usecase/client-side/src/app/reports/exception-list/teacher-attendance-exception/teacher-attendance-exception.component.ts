@@ -990,6 +990,13 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+              this.hierName = marker[0].district_name
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -1458,7 +1465,16 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+              
 
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.skul = false;
+              this.clusterHidden = false;
+              this.blockHidden = false;
+              this.myBlock = this.blockSelectedId
+              this.myDistrict= this.districtSlectedId 
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;

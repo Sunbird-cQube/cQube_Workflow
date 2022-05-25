@@ -883,7 +883,7 @@ export class InfraMapVisualisationComponent implements OnInit {
               level: "Cluster",
             };
             // this.genericFun(this.data, options, this.fileName);
-            // this.dataOptions = options;
+             this.dataOptions = options;
             if (this.data.length > 0) {
               let result = this.data;
               this.clusterMarkers = [];

@@ -373,8 +373,17 @@ export class DikshaTPDContentProgressComponent implements OnInit {
             color: 'black',
             fontSize: xAxis.fontSize,
             fontFamily: 'Arial',
+          },
+          formatter: function (this) {
+            let ret: any = this.value,
+              len = ret.length
+            if (len > 14) {
+              ret = ret.slice(0, 14) + '...';
+            }
+            return ret;
           }
         },
+        
       }],
       yAxis: {
         categories: yLabel,

@@ -67,7 +67,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.getProgramData();
     this.getAllDistCollection();
     this.districtHidden = this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    console.log('distHidden', this.districtHidden)
+    
   }
 
   emptyChart() {
@@ -459,7 +459,7 @@ export class EnrollmentProgressComponent implements OnInit {
       document.getElementById("spinner").style.display = "none";
     }, 1000);
     this.courseSelected = true;
-    this.districtHidden = this.hideIfAccessLevel === true ? true : false;
+    this.districtHidden = this.hideIfAccessLevel === true ? false : true;
     this.selectedDist = '';
     this.emptyChart();
     this.selectedCourseData = [];

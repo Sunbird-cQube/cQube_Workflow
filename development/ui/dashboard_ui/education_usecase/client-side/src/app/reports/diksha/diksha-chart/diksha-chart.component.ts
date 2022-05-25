@@ -269,7 +269,7 @@ export class DikshaChartComponent implements OnInit {
 
       }, err => {
         this.loaderAndErr();
-        console.log(err);
+        (err);
       })
       this.service.dikshaDistData(this.districtId, 'Student', this.timePeriod).subscribe(result => {
         this.createChart(result['funRes'], "barChartData2");
