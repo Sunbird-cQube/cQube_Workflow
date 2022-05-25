@@ -6697,7 +6697,7 @@
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>static_data_input</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>INPUT_PORT</type>
         </inputPorts>
         <labels>
@@ -7028,7 +7028,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>store_school_mgt_s3_output_port</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7041,7 +7041,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>store_school_mgt_s3_output_port2</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7054,7 +7054,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>static_split_file_wait</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7067,7 +7067,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>store_s3_output_port</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7080,7 +7080,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>static_split_success</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7093,7 +7093,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>static_store_output_dir_output_port</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7106,7 +7106,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>static_data_emission_file</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7119,7 +7119,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>static_split_failure</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <outputPorts>
@@ -7132,7 +7132,7 @@ Loading</label>
             <comments></comments>
             <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
             <name>static_s3_school_management_output_port</name>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <type>OUTPUT_PORT</type>
         </outputPorts>
         <processors>
@@ -7199,7 +7199,7 @@ Loading</label>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -7267,7 +7267,7 @@ Loading</label>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -7513,7 +7513,7 @@ ${filename:startsWith('subject_details'):ifElse('pat_null_col','None')} )} )} )}
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
         </processors>
@@ -7705,7 +7705,7 @@ ${filename:startsWith('subject_details'):ifElse('pat_null_col','None')} )} )} )}
                 <autoTerminate>true</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExtractText</type>
         </processors>
@@ -7809,7 +7809,7 @@ ${filename:startsWith('subject_details'):ifElse('pat_null_col','None')} )} )} )}
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -7958,7 +7958,7 @@ ${filename:startsWith('subject_details'):ifElse('pat_null_col','None')} )} )} )}
                 <autoTerminate>false</autoTerminate>
                 <name>wait</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.Wait</type>
         </processors>
@@ -8062,7 +8062,7 @@ ${filename:startsWith('subject_details'):ifElse('pat_null_col','None')} )} )} )}
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -8178,7 +8178,7 @@ ${filename:startsWith('subject_details'):ifElse('pat_null_col','None')} )} )} )}
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogAttribute</type>
         </processors>
@@ -8245,7 +8245,7 @@ ${filename:startsWith('subject_details'):ifElse('input_record_count_subject_deta
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateCounter</type>
         </processors>
@@ -8314,7 +8314,7 @@ same id data validation of file:${filename}, same id records found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -8440,7 +8440,7 @@ same id data validation of file:${filename}, same id records found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -8542,7 +8542,7 @@ same id data validation of file:${filename}, same id records found </value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.Notify</type>
         </processors>
@@ -8646,7 +8646,7 @@ same id data validation of file:${filename}, same id records found </value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -8764,7 +8764,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>static_select_columns_final</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -8916,7 +8916,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -8978,7 +8978,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>with_records</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -9212,7 +9212,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
         </processors>
@@ -9281,7 +9281,7 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -9367,7 +9367,7 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -9429,7 +9429,7 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -9527,7 +9527,7 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>original</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -9641,7 +9641,7 @@ Mirror data validation of file:${filename}, Mirror data found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogAttribute</type>
         </processors>
@@ -9889,7 +9889,7 @@ ${filename:startsWith('subject_details'):ifElse('subject_details_dup','None')}
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
         </processors>
@@ -9958,7 +9958,7 @@ file: ${filename} is not valid</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -10226,7 +10226,7 @@ file: ${filename} is not valid</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -10320,7 +10320,7 @@ file: ${filename} is not valid</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -10382,7 +10382,7 @@ file: ${filename} is not valid</value>
                 <autoTerminate>false</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -10451,7 +10451,7 @@ same id data validation of file:${filename}, same id records found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -10509,7 +10509,7 @@ same id data validation of file:${filename}, same id records found </value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateCounter</type>
         </processors>
@@ -10607,7 +10607,7 @@ same id data validation of file:${filename}, same id records found </value>
                 <autoTerminate>false</autoTerminate>
                 <name>sch_mgt</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -10676,7 +10676,7 @@ file: ${filename} null values are found.</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -10760,7 +10760,7 @@ file: ${filename} null values are found.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -10829,7 +10829,7 @@ file: ${filename} columns did not match.</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -10891,7 +10891,7 @@ file: ${filename} columns did not match.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -10969,7 +10969,7 @@ file: ${filename} columns did not match.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PartitionRecord</type>
         </processors>
@@ -11031,7 +11031,7 @@ file: ${filename} columns did not match.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>with_records</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -11167,7 +11167,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_details_not_nul
                 <autoTerminate>true</autoTerminate>
                 <name>original</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -11293,7 +11293,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_details_not_nul
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -11419,7 +11419,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_details_not_nul
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -11540,7 +11540,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>valid</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ValidateCsv</type>
         </processors>
@@ -11642,7 +11642,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.Notify</type>
         </processors>
@@ -11756,7 +11756,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogAttribute</type>
         </processors>
@@ -11905,7 +11905,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>wait</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.Wait</type>
         </processors>
@@ -11991,7 +11991,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -12118,7 +12118,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -12244,7 +12244,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -12370,7 +12370,7 @@ ${static_datasource:toLower():equals('udise'):and(${filename:startsWith('school_
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -12439,7 +12439,7 @@ Mirror data validation of file:${filename} started</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -12591,7 +12591,7 @@ Mirror data validation of file:${filename} started</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -12729,7 +12729,7 @@ ${filename:startsWith('grade_details')})}</value>
                 <autoTerminate>true</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -12798,7 +12798,7 @@ file: ${filename} columns validation started.</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -12867,7 +12867,7 @@ Mirror data validation of file:${filename}.Error while selecting unique data</va
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -12953,7 +12953,7 @@ Mirror data validation of file:${filename}.Error while selecting unique data</va
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -13015,7 +13015,7 @@ Mirror data validation of file:${filename}.Error while selecting unique data</va
                 <autoTerminate>false</autoTerminate>
                 <name>with_records</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -13127,7 +13127,7 @@ Mirror data validation of file:${filename}.Error while selecting unique data</va
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.CountText</type>
         </processors>
@@ -13225,7 +13225,7 @@ Mirror data validation of file:${filename}.Error while selecting unique data</va
                 <autoTerminate>true</autoTerminate>
                 <name>original</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -13645,7 +13645,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -13743,7 +13743,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>false</autoTerminate>
                 <name>sum_of_dup</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -13857,7 +13857,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogAttribute</type>
         </processors>
@@ -13915,7 +13915,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateCounter</type>
         </processors>
@@ -14041,7 +14041,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -14193,7 +14193,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -14269,7 +14269,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>false</autoTerminate>
                 <name>yes_dup</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -14331,7 +14331,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_subject_log_summary_qry
                 <autoTerminate>false</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -14446,7 +14446,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>static_filter_same_id</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -14542,7 +14542,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -14721,7 +14721,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -14832,7 +14832,7 @@ ${filename:startsWith('subject_details'):ifElse(#{subject_details_count_null},'N
                 <autoTerminate>true</autoTerminate>
                 <name>original</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -14894,7 +14894,7 @@ ${filename:startsWith('subject_details'):ifElse(#{subject_details_count_null},'N
                 <autoTerminate>false</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -14956,7 +14956,7 @@ ${filename:startsWith('subject_details'):ifElse(#{subject_details_count_null},'N
                 <autoTerminate>false</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -15032,7 +15032,7 @@ ${filename:startsWith('subject_details'):ifElse(#{subject_details_count_null},'N
                 <autoTerminate>false</autoTerminate>
                 <name>yes_dup</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -15160,7 +15160,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -15277,7 +15277,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutFile</type>
         </processors>
@@ -15405,7 +15405,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -15474,7 +15474,7 @@ file: ${filename} has invalid data type: invalid record=${count.invalid.lines} ,
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -15568,7 +15568,7 @@ file: ${filename} has invalid data type: invalid record=${count.invalid.lines} ,
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -15720,7 +15720,7 @@ file: ${filename} has invalid data type: invalid record=${count.invalid.lines} ,
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -15789,7 +15789,7 @@ Mirror data validation of file:${filename} completed and deleted the mirror data
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -15906,7 +15906,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>select_columns</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -15968,7 +15968,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>with_records</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -16066,7 +16066,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>original</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -16162,7 +16162,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -16276,7 +16276,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogAttribute</type>
         </processors>
@@ -16370,7 +16370,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -16466,7 +16466,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -16535,7 +16535,7 @@ ${filename:startsWith('subject_details'):ifElse('processed_file_count_subject_de
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateCounter</type>
         </processors>
@@ -16673,7 +16673,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_update_null_count_subje
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -16790,7 +16790,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>static_same_record_check</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -16917,7 +16917,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -17033,7 +17033,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogAttribute</type>
         </processors>
@@ -17104,7 +17104,7 @@ ${filename:startsWith('subject_details'):ifElse('processed_record_count_subject_
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateCounter</type>
         </processors>
@@ -17216,7 +17216,7 @@ ${filename:startsWith('subject_details'):ifElse('processed_record_count_subject_
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ReplaceText</type>
         </processors>
@@ -17450,7 +17450,7 @@ ${filename:startsWith('subject_details'):ifElse('processed_record_count_subject_
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
         </processors>
@@ -17565,7 +17565,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>same_id_district_check</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -17654,7 +17654,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -17812,7 +17812,7 @@ on data.school_id=shd.school_id where data.ff_uuid='${files_uuid}';</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -17896,7 +17896,7 @@ on data.school_id=shd.school_id where data.ff_uuid='${files_uuid}';</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -18024,7 +18024,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -18086,7 +18086,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>true</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -18154,7 +18154,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -18256,7 +18256,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.Notify</type>
         </processors>
@@ -18318,7 +18318,7 @@ where ff_uuid= '${files_uuid}'</value>
                 <autoTerminate>true</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -18591,7 +18591,7 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('subject
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
         </processors>
@@ -18768,7 +18768,7 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('subject
                 <autoTerminate>true</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -18836,7 +18836,7 @@ ${static_datasource:toLower():equals('state'):and(${filename:startsWith('subject
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -18991,7 +18991,7 @@ group by a.ff_uuid,a.school_id,a.block_id,a.cluster_id,a.district_id) as data wh
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -19260,7 +19260,7 @@ group by a.ff_uuid,a.school_id,a.block_id,a.cluster_id,a.district_id) as data wh
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.aws.s3.ListS3</type>
         </processors>
@@ -19329,7 +19329,7 @@ same id data validation of file:${filename} started</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -19446,7 +19446,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>static_same_record_filter</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -19595,7 +19595,7 @@ ${static_datasource:toLower():equals('state'):or(${static_datasource:toLower():e
                 <autoTerminate>false</autoTerminate>
                 <name>wait</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.Wait</type>
         </processors>
@@ -19662,7 +19662,7 @@ ${filename:startsWith('subject_details'):ifElse('input_file_count_subject_detail
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateCounter</type>
         </processors>
@@ -19760,7 +19760,7 @@ ${filename:startsWith('subject_details'):ifElse('input_file_count_subject_detail
                 <autoTerminate>false</autoTerminate>
                 <name>same_id_student_att_db</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.QueryRecord</type>
         </processors>
@@ -19886,7 +19886,7 @@ ${filename:startsWith('subject_details'):ifElse('input_file_count_subject_detail
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -19972,7 +19972,7 @@ ${filename:startsWith('subject_details'):ifElse('input_file_count_subject_detail
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
         </processors>
@@ -20098,7 +20098,7 @@ ${filename:startsWith('subject_details'):ifElse('input_file_count_subject_detail
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -20167,7 +20167,7 @@ file: ${filename} null values are not found.</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogMessage</type>
         </processors>
@@ -20271,7 +20271,7 @@ file: ${filename} null values are not found.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.UpdateRecord</type>
         </processors>
@@ -20371,7 +20371,7 @@ file: ${filename} null values are not found.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.JoltTransformJSON</type>
         </processors>
@@ -20605,7 +20605,7 @@ file: ${filename} null values are not found.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutDatabaseRecord</type>
         </processors>
@@ -20667,7 +20667,7 @@ file: ${filename} null values are not found.</value>
                 <autoTerminate>false</autoTerminate>
                 <name>unmatched</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
         </processors>
@@ -20789,7 +20789,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_update_processed_record
                     </entry>
                 </properties>
                 <runDurationMillis>0</runDurationMillis>
-                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingPeriod>5 sec</schedulingPeriod>
                 <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                 <yieldDuration>1 sec</yieldDuration>
             </config>
@@ -20807,7 +20807,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_update_processed_record
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -20959,7 +20959,7 @@ ${filename:startsWith('subject_details'):ifElse(#{static_update_processed_record
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
         </processors>
@@ -21087,7 +21087,7 @@ where ff_uuid= '${zip_identifier}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -21213,7 +21213,7 @@ where ff_uuid= '${zip_identifier}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.PutSQL</type>
         </processors>
@@ -21338,7 +21338,7 @@ where ff_uuid= '${zip_identifier}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>output stream</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.ExecuteStreamCommand</type>
         </processors>
@@ -21450,7 +21450,7 @@ where ff_uuid= '${zip_identifier}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.CountText</type>
         </processors>
@@ -21565,7 +21565,7 @@ where ff_uuid= '${zip_identifier}'</value>
                 <autoTerminate>true</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.LogAttribute</type>
         </processors>
@@ -21665,10 +21665,10 @@ where ff_uuid= '${zip_identifier}'</value>
                 <autoTerminate>false</autoTerminate>
                 <name>success</name>
             </relationships>
-            <state>STOPPED</state>
+            <state>RUNNING</state>
             <style/>
             <type>org.apache.nifi.processors.standard.JoltTransformJSON</type>
         </processors>
     </snippet>
-    <timestamp>05/25/2022 10:39:20 IST</timestamp>
+    <timestamp>05/25/2022 19:07:18 IST</timestamp>
 </template>
