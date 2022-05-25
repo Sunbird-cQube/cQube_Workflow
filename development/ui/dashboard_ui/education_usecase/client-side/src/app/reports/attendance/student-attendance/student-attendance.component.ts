@@ -15,6 +15,7 @@ import { AppServiceComponent } from "../../../app.service";
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
 import { environment } from "src/environments/environment";
 
+
 declare const $;
 
 @Component({
@@ -365,7 +366,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
   //This function is to get all blocks of selected district:::::::
   getBlocks(): void {
-    //this.month_year["id"] = this.myDistrict;
+    this.month_year["id"] = this.myDistrict;
     this.service
       .blockPerDist({
         ...this.month_year,
@@ -497,6 +498,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
   //This function is to download all data which are shown on UI::::
   downloadReport(event) {
+
     if (this.globalId == this.myDistrict) {
       var distData: any = {};
       this.districtData.find((a) => {
@@ -944,7 +946,7 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
-            
+
                 this.mylatlngData = marker;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
@@ -1035,7 +1037,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 let blockData = res["blockData"];
                 let marker = blockData.filter(a => {
                   if (a.block_id === Number(this.blockSelectedId)) {
-               
+
                     return a
                   }
 
@@ -1338,7 +1340,7 @@ export class StudengtAttendanceComponent implements OnInit {
         return;
       }
 
-      // this.commonAtStateLevel();
+      this.commonAtStateLevel();
       this.levelWise = "Cluster";
       this.googleMapZoom = 7;
       if (this.months.length > 0) {
@@ -1372,6 +1374,14 @@ export class StudengtAttendanceComponent implements OnInit {
                 })
 
                 this.mylatlngData = marker;
+                this.hierName = marker[0].district_name;
+                this.titleName = "";
+                this.clustName = "";
+
+                this.dist = true;
+                this.blok = false;
+                this.clust = false;
+                this.skul = false;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
                   parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1489,6 +1499,14 @@ export class StudengtAttendanceComponent implements OnInit {
                 })
 
                 this.mylatlngData = marker;
+                this.hierName = marker[0].district_name;
+                this.titleName = marker[0].block_name;
+                this.clustName = "";
+
+                this.dist = false;
+                this.blok = true;
+                this.clust = false;
+                this.skul = false;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
                   parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1596,15 +1614,24 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.commonService.loaderAndErr(this.markers);
                 this.changeDetection.markForCheck();
               } else if (this.selectedCluster) {
+                this.commonAtStateLevel();
                 let cluster = res['clusterData']
                 let marker = cluster.filter(a => {
-                  if (a.details.cluster_id === Number(this.selectedCLusterId)) {
+                  if (a.cluster_id === Number(this.selectedCLusterId)) {
                     return a
                   }
 
                 })
-            
+
                 this.mylatlngData = marker;
+                this.hierName = marker[0].district_name;
+                this.titleName = marker[0].block_name;
+                this.clustName = marker[0].cluster_name;
+
+                this.dist = false;
+                this.blok = false;
+                this.clust = false;
+                this.skul = true;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
                   parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1851,7 +1878,7 @@ export class StudengtAttendanceComponent implements OnInit {
         return;
       }
 
-      this.commonAtStateLevel();
+      // this.commonAtStateLevel();
       this.levelWise = "School";
       this.googleMapZoom = 7;
       if (this.months.length > 0) {
@@ -1874,7 +1901,7 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-          
+
               if (this.districtSelected) {
 
                 let myBlockData = res["schoolData"];
@@ -1885,7 +1912,10 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
+
                 this.mylatlngData = marker;
+
+
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
                   parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -2149,6 +2179,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.commonService.loaderAndErr(this.markers);
                 this.changeDetection.markForCheck();
               } else {
+                this.commonAtStateLevel();
                 this.mylatlngData = res["schoolData"];
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
@@ -2454,13 +2485,15 @@ export class StudengtAttendanceComponent implements OnInit {
       this.studentCount = 0;
       this.schoolCount = 0;
       this.markerData = null;
-
+      
       this.dist = true;
       this.blok = false;
       this.clust = false;
       this.skul = false;
       this.blockHidden = false;
       this.clusterHidden = true;
+      this.globalId = this.myDistrict = data;
+      this.myDistrict = Number(data);
       let obj = this.districtsNames.find((o) => o.id == data);
       this.hierName = "";
       if (this.months.length > 0) {
@@ -2477,7 +2510,7 @@ export class StudengtAttendanceComponent implements OnInit {
         localStorage.setItem("dist", obj.name);
         localStorage.setItem("distId", data);
 
-        this.globalId = this.myDistrict = data;
+        // this.globalId = this.myDistrict = data;
         this.myBlock = null;
 
         this.month_year["id"] = data;
@@ -3232,13 +3265,14 @@ export class StudengtAttendanceComponent implements OnInit {
 
   // storing telemetry data into variable:::
   getTelemetryData(data, event, level) {
+    
     this.service.telemetryData = [];
     var obj = {};
     if (data.id != undefined) {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-          uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
           event: event,
           level: level,
           locationid: data.id,
@@ -3251,7 +3285,7 @@ export class StudengtAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-          uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
           event: event,
           level: level,
           locationid: data.id,

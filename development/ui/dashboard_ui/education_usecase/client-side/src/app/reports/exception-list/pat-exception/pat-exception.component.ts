@@ -637,7 +637,20 @@ export class PATExceptionComponent implements OnInit {
               })
 
               let markers = { data: marker }
+              this.districtHierarchy = {
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name
+              }
 
+              this.districtId = this.districtSlectedId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
               this.clusterMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -669,7 +682,23 @@ export class PATExceptionComponent implements OnInit {
               })
 
               let markers = { data: marker }
+              this.blockHierarchy = {
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name,
+                blockId: marker[0].block_id,
+                blockName: marker[0].block_name
+              }
 
+              this.districtId = this.districtSlectedId;
+              this.blockId = this.blockSelectedId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.blockHidden = false;
+              this.clusterHidden = false;
               this.clusterMarkers = [];
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
@@ -821,6 +850,20 @@ export class PATExceptionComponent implements OnInit {
               })
               let markers = { data: marker }
               this.markers = this.schoolMarkers = marker;
+              this.districtHierarchy = {
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name
+              }
+
+              this.districtId = this.districtSlectedId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
               this.allSubjects = [];
               if (this.grade != 'all') {
                 this.allSubjects = this.data['subjects'].filter(a => {
@@ -848,6 +891,23 @@ export class PATExceptionComponent implements OnInit {
               })
               let markers = { data: marker }
               this.markers = this.schoolMarkers = marker;
+              this.blockHierarchy = {
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name,
+                blockId: marker[0].block_id,
+                blockName: marker[0].block_name
+              }
+
+              this.districtId = this.districtSlectedId;
+              this.blockId = this.blockSelectedId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.blockHidden = false;
+              this.clusterHidden = false;
               this.allSubjects = [];
               if (this.grade != 'all') {
                 this.allSubjects = this.data['subjects'].filter(a => {

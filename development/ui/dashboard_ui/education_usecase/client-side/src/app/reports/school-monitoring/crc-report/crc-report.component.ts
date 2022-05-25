@@ -1343,7 +1343,7 @@ export class CrcReportComponent implements OnInit {
           callbacks: {
             label: function (tooltipItem, data) {
               var label = data.labels[tooltipItem.index];
-              var multistringText = [name + ": " + label];
+              var multistringText = [name + ":" + label];
               multistringText.push(obj.xAxis + ": " + tooltipItem.xLabel);
               multistringText.push(obj.yAxis + ": " + tooltipItem.yLabel);
               return multistringText;

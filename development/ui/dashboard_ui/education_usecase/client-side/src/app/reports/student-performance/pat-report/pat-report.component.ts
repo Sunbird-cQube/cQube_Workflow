@@ -744,8 +744,8 @@ export class PATReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      // this.districtId = undefined;
-      // this.blockId = undefined;
+      this.districtId = undefined;
+      this.blockId = undefined;
       this.level = "Block";
       this.globalMarker = 7;
       this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
@@ -801,6 +801,7 @@ export class PATReportComponent implements OnInit {
 
                       })
                       this.markers = this.data = marker;
+
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -917,12 +918,25 @@ export class PATReportComponent implements OnInit {
 
                       let marker = this.myBlockData.filter(a => {
                         if (a.Details.block_id === this.blockSelectedId) {
-                       
+
                           return a
                         }
 
                       })
                       this.markers = this.data = marker;
+                      // set hierarchy values
+                      this.blockHierarchy = {
+                        distId: marker[0].Details.district_id,
+                        districtName: marker[0].Details.district_name,
+                        blockId: marker[0].Details.block_id,
+                        blockName: marker[0].Details.block_name,
+                      };
+                      this.skul = false;
+                      this.dist = false;
+                      this.blok = true;
+                      this.clust = false;
+
+
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -1316,9 +1330,9 @@ export class PATReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      //  this.districtId = undefined;
-      // this.blockId = undefined;
-      //  this.clusterId = undefined;
+      this.districtId = undefined;
+      this.blockId = undefined;
+      this.clusterId = undefined;
       this.level = "Cluster";
       this.globalMarker = 7;
       this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
@@ -1374,7 +1388,14 @@ export class PATReportComponent implements OnInit {
 
                       })
                       this.markers = this.data = marker;
-
+                      this.districtHierarchy = {
+                        distId: marker[0].Details.district_id,
+                        districtName: marker[0].Details.district_name,
+                      };
+                      this.skul = false;
+                      this.dist = true;
+                      this.blok = false;
+                      this.clust = false
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -1489,12 +1510,31 @@ export class PATReportComponent implements OnInit {
                       let myBlockData = res['data']
                       let marker = myBlockData.filter(a => {
                         if (a.Details.block_id === this.blockSelectedId) {
-
                           return a
                         }
-
                       })
                       this.markers = this.data = marker;
+                      // set hierarchy values
+                      this.blockHierarchy = {
+                        distId: marker[0].Details.district_id,
+                        districtName: marker[0].Details.district_name,
+                        blockId: marker[0].Details.block_id,
+                        blockName: marker[0].Details.block_name,
+                      };
+
+                      // to show and hide the dropdowns
+                      this.blockHidden = false;
+                      this.clusterHidden = false;
+
+                      this.districtId = marker[0].Details.district_id;
+                      this.blockId = marker[0].Details.block_id;
+
+                      // these are for showing the hierarchy names based on selection
+                      this.skul = false;
+                      this.dist = false;
+                      this.blok = true;
+                      this.clust = false;
+
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -1886,9 +1926,9 @@ export class PATReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-      // this.districtId = undefined;
-      // this.blockId = undefined;
-      // this.clusterId = undefined;
+      this.districtId = undefined;
+      this.blockId = undefined;
+      this.clusterId = undefined;
       this.level = "School";
       this.globalMarker = 7;
       this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
@@ -1944,6 +1984,21 @@ export class PATReportComponent implements OnInit {
 
                       })
                       this.markers = this.data = marker;
+                      this.skul = false;
+                      this.dist = true;
+                      this.blok = false;
+                      this.clust = false;
+                      // set hierarchy values
+                      this.districtHierarchy = {
+                        distId: marker[0].Details.district_id,
+                        districtName: marker[0].Details.district_name,
+                      };
+
+                      // to show and hide the dropdowns
+                      this.blockHidden = false;
+                      this.clusterHidden = true;
+
+                      this.districtId = marker[0].Details.district_id
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -2058,12 +2113,34 @@ export class PATReportComponent implements OnInit {
                       let myBlockData = res['data']
                       let marker = myBlockData.filter(a => {
                         if (a.Details.block_id === this.blockSelectedId) {
-                      
+
                           return a
                         }
 
                       })
                       this.markers = this.data = marker;
+                      // set hierarchy values
+                      this.blockHierarchy = {
+                        distId: marker[0].Details.district_id,
+                        districtName: marker[0].Details.district_name,
+                        blockId: marker[0].Details.block_id,
+                        blockName: marker[0].Details.block_name,
+                      };
+
+                      // to show and hide the dropdowns
+                      this.blockHidden = false;
+                      this.clusterHidden = false;
+
+                      this.districtId = marker[0].Details.district_id;
+                      this.blockId = marker[0].Details.block_id,
+
+                        // these are for showing the hierarchy names based on selection
+                      this.skul = false;
+                      this.dist = false;
+                      this.blok = true;
+                      this.clust = false;
+
+
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -2445,7 +2522,7 @@ export class PATReportComponent implements OnInit {
     this.districtSlectedId = districtId
     this.hideAllBlockBtn = true;
     this.hideAllCLusterBtn = false;
-  
+
     this.hideAllSchoolBtn = false
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");

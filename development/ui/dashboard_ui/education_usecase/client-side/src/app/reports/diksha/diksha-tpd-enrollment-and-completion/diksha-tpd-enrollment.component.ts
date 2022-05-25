@@ -323,7 +323,10 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.courseSelected = false;
     this.districtSelected = false;
     this.blockSelected = false;
-
+    this.skul = true;
+    this.dist = false;
+    this.blok = false;
+    this.clust = false;
     this.programSeleted = true;
     this.blockHidden = true;
     this.clusterHidden = true;

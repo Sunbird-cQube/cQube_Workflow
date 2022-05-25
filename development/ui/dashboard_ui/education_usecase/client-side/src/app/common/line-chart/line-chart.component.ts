@@ -191,12 +191,12 @@ export class LineChartComponent implements OnInit, OnChanges {
       if (reportName == 'sat') {
         obj = `<b>Acedmic Year:</b> ${academicYear} 
         <br><b>Month:</b> ${point.category}
-        <br> ${`<b>${level} Name:</b> ${point.series.name}`}
+        <br>${`<b>${level} Name:</b> ${point.series.name}`}
         ${counts[point.series.index][point.index].grade != "AllGrades" ? `<br><b>Grade:</b> ${counts[point.series.index][point.index].grade}` : ''}
         <br>${counts[point.series.index][point.index].schoolCount ? `<b>School Count:</b> ${counts[point.series.index][point.index].schoolCount}` : ''}
         <br>${counts[point.series.index][point.index].studentCount ? `<b>Student Count:</b> ${counts[point.series.index][point.index].studentCount}` : ''}
         <br>${counts[point.series.index][point.index].studentAttended ? `<b>Student Attended:</b> ${counts[point.series.index][point.index].studentAttended}` : ''}
-        <br> ${point.y !== null ? `<b>Performance:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")} % ` : ''}`
+        <br>${point.y !== null ? `<b>Performance:</b> ${point.y.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")} % ` : ''}`
       }
       return obj;
     }
