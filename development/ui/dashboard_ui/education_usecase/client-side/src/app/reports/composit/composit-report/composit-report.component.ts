@@ -790,9 +790,7 @@ export class CompositReportComponent implements OnInit {
 
         this.clusterWise();
       }
-      // else if (this.fileName == "School_level_report") {
-      //   this.schoolWise();
-      // }
+   
 
     }
     if (this.dist) {

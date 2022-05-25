@@ -86,6 +86,7 @@ export class MapService {
 
 
   setMarkerRadius(level) {
+    console.log('marker', level)
     if (this.mapName != 'googlemap') {
       this.markersIcons.map(markerIcon => {
         if (level === "District") {

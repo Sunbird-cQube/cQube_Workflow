@@ -40,7 +40,6 @@ router.post('/teacherAttedndance', auth.authController, async (req, res) => {
 router.post('/sem', auth.authController, async (req, res) => {
     try {
         logger.info('---semester summary api ---');
-        // var fileName = 'log_summary/log_summary_sem.json';
         var fileName = 'log_summary/log_summary_sat.json';
         let summaryData = await s3File.readFileConfig(fileName);
         logger.info('--- semester summary api response sent---');

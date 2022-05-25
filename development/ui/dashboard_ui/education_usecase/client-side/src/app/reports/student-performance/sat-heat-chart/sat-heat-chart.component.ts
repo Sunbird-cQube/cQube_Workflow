@@ -407,7 +407,7 @@ export class SatHeatChartComponent implements OnInit {
       plotOptions: {
         series: {
           dataLabels: {
-            // overflow: 'none',
+           
             crop: true,
             enabled: true,
             style: {
@@ -468,7 +468,7 @@ export class SatHeatChartComponent implements OnInit {
             textOverflow: "ellipsis",
             fontFamily: 'Arial'
           },
-          // align: "right",
+           align: "right",
           formatter: function (this) {
 
             return this.value !== this.pos ? `${this.value}` : '';
@@ -521,7 +521,7 @@ export class SatHeatChartComponent implements OnInit {
       var series = point.series,
         isY = dimension === 'y',
         axis = series[isY ? 'yAxis' : 'xAxis'];
-      // let splitVal = zLabel[point[isY ? 'y' : 'x']].split('/')
+      
 
       let totalSchools;
       let totalStudents;

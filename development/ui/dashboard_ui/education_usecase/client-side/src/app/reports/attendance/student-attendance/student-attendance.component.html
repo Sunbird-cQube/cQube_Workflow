@@ -129,17 +129,6 @@
                         [disabled]="hideAllSchoolBtn" (click)="schoolWise($event)">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <!-- <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [disabled]="selDist"
-                        (change)="myDistData(myDistrict)" >
-                        <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
-                            District
-
-                        </option>
-                        <option *ngFor="let dist of districtsNames" [value]="dist.id">
-                            {{dist.name}}
-                        </option>
-                    </select> -->
-
                     <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="selDist"
                         (change)="distSelect($event,myDistrict)" *ngIf="!distHidden">
                         <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
