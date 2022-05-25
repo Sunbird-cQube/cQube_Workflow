@@ -1331,7 +1331,7 @@ export class TeacherAttendanceComponent implements OnInit {
 
               })
               this.reportData = this.mylatlngData = marker;
-
+              this.myDistrict = this.districtSelected
               this.hierName = marker[0].district_name;
               this.titleName = "";
               this.clustName = "";
@@ -1340,6 +1340,8 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blok = false;
               this.clust = false;
               this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1879,6 +1881,12 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blok = false;
               this.clust = false;
               this.skul = false;
+
+              this.myDistrict = this.districtSelected
+
+              this.blockHidden = false;
+              this.clusterHidden = true;
+
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1967,11 +1975,14 @@ export class TeacherAttendanceComponent implements OnInit {
               this.hierName = marker[0].district_name;
               this.titleName = marker[0].block_name;
               this.clustName = "";
-
+              this.myBlock = this.blockSelectedId
+              this.myDistrict = this.districtSlectedId
               this.dist = false;
               this.blok = true;
               this.clust = false;
               this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1

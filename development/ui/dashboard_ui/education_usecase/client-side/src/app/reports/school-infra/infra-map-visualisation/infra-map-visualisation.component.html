@@ -23,7 +23,7 @@
             <p id="cluster">
               Report on Infrastructure access by location for:
               <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
-              </span><span (click)="selDist ? onDistrictSelect(blockHierarchy.distId): ''"
+              </span><span (click)=" onDistrictSelect(blockHierarchy.distId)"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
                 (click)="onBlockSelect(blockHierarchy.blockId)" style="cursor: pointer; text-decoration: underline"

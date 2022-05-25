@@ -106,7 +106,11 @@ export class SigninComponent implements OnInit {
       
       let response = res
       let userLevel = res['user_level']
+      
       if (userLevel === null) {
+        userLevel = ""
+        localStorage.setItem('userLevel', userLevel)
+      } else if (userLevel === undefined) {
         userLevel = ""
         localStorage.setItem('userLevel', userLevel)
       }else{

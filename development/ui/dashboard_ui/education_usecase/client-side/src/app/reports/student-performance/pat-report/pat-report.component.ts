@@ -1392,10 +1392,13 @@ export class PATReportComponent implements OnInit {
                         distId: marker[0].Details.district_id,
                         districtName: marker[0].Details.district_name,
                       };
+                      this.districtId = this.districtSlectedId
                       this.skul = false;
                       this.dist = true;
                       this.blok = false;
-                      this.clust = false
+                      this.clust = false;
+                      this.blockHidden = false;
+                      this.clusterHidden = true;
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
