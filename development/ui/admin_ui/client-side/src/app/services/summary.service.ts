@@ -107,4 +107,12 @@ export class SummaryService {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/summary/dikshaEtbEnrolment`, {});
   }
+  getGradeDetailsSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/gradeDetails`, {});
+  }
+  getSubjectDetailsSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/subjectDetails`, {});
+  }
 }

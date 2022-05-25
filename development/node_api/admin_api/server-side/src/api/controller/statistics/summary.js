@@ -40,7 +40,7 @@ router.post('/teacherAttedndance', auth.authController, async (req, res) => {
 router.post('/sem', auth.authController, async (req, res) => {
     try {
         logger.info('---semester summary api ---');
-        var fileName = 'log_summary/log_summary_sem.json';
+        var fileName = 'log_summary/log_summary_sat.json';
         let summaryData = await s3File.readFileConfig(fileName);
         logger.info('--- semester summary api response sent---');
         if (summaryData == null || summaryData == '') {
@@ -333,6 +333,40 @@ router.post('/dikshaEtbEnrolment', auth.authController, async (req, res) => {
         var fileName = 'log_summary/static/diksha_enrolment/log_summary_diksha_etb_enrolment.json';
         let summaryData = await s3File.readFileConfig(fileName);
         logger.info('--- diksha etb enrollment summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+
+router.post('/gradeDetails', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha grade details summary api ---');
+        var fileName = 'log_summary/static/log_summary_grade_details.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha grade details summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+
+router.post('/subjectDetails', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha subject details summary api ---');
+        var fileName = 'log_summary/static/log_summary_subject_details.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha subject details summary api response sent---');
         if (summaryData == null || summaryData == '') {
             res.send([]);
         } else {
