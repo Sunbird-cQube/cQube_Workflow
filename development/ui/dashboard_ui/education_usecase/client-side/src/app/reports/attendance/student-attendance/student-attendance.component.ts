@@ -312,15 +312,13 @@ export class StudengtAttendanceComponent implements OnInit {
     if (level === "Cluster") {
       this.selCluster = true;
       this.selBlock = true;
-      this.myDistData(districtid, blockid, clusterid);
+       this.myDistData(districtid, blockid, clusterid);
+      
       this.clusterlevel(clusterid);
       this.levelVal = 3;
     } else if (level === "Block") {
       this.selBlock = true;
       this.myDistData(districtid, blockid);
-
-      //  this.blockSelect("change", blockid)
-
       this.blocklevel(blockid)
       this.levelVal = 2;
     } else if (level === "District") {
@@ -1089,7 +1087,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.hierName = marker[0].district_name;
                 this.titleName = "";
                 this.clustName = "";
-                //  this.myDistrict = this.districtSelectedId
+                  this.myDistrict = this.districtSlectedId
                 this.dist = true;
                 this.blok = false;
                 this.clust = false;
@@ -2344,14 +2342,14 @@ export class StudengtAttendanceComponent implements OnInit {
               );
               this.blocksNames = blokName;
 
-              this.globalService.restrictZoom(globalMap);
+              
 
               //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
                 [this.lat - 1.5, this.lng - 3],
                 [this.lat + 1.5, this.lng + 2],
               ]);
-
+              this.globalService.restrictZoom(globalMap);
               //adjusting marker size and other UI on screen resize:::::::::::
               this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
@@ -2685,7 +2683,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.levelWise = "schoolPerCluster";
       this.googleMapZoom = 13;
       globalMap.removeLayer(this.markersList);
-      this.layerMarkers.clearLayers();
+       this.layerMarkers.clearLayers();
       this.markers = [];
       this.reportData = [];
       this.commonService.errMsg();
@@ -2881,7 +2879,10 @@ export class StudengtAttendanceComponent implements OnInit {
               //adjusting marker size and other UI on screen resize:::::::::::
               this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
-              this.changeDetection.markForCheck();
+               this.changeDetection.markForCheck();
+              
+               
+              
             },
             (err) => {
               this.dateRange = "";

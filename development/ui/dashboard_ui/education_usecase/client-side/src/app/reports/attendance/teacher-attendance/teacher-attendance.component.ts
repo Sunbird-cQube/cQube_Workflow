@@ -2642,7 +2642,7 @@ export class TeacherAttendanceComponent implements OnInit {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
-      //   this.myBlock = '';
+        this.myBlock = '';
       $('#choose_block').val('');
       return;
     }
@@ -2899,8 +2899,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.markers = [];
     this.reportData = [];
     this.commonService.errMsg();
-    // this.teacherCount = 0;
-    // this.schoolCount = 0;
+   
     this.markerData = null;
 
     this.dist = false;
