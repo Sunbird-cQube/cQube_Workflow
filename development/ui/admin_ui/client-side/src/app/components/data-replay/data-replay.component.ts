@@ -258,7 +258,7 @@ export class DataReplayComponent implements OnInit {
         
       }
       
-      this.formObj['semester'] = obj;
+      this.formObj['academic_year'] = obj;
       
       this.semesters = [];
       let data = this.allSemData.find(a => a.academic_year == this.selected_academic_year);
@@ -275,9 +275,8 @@ export class DataReplayComponent implements OnInit {
     this.selectedSemesters = item;
     if (this.selectedSemesters.length > 0) {
       var arr = this.selectedSemesters
-       
-      
-      this.formObj['semester']['semesters'] = arr;
+        
+      this.formObj['semester'] = arr;
     } else {
       delete this.formObj['semester'];
     }

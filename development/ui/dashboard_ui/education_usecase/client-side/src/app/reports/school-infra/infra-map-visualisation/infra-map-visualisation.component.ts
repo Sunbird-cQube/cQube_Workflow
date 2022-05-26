@@ -871,6 +871,8 @@ export class InfraMapVisualisationComponent implements OnInit {
               distId: marker[0].details.district_id,
               districtName: marker[0].details.district_name,
             };
+            this.blockHidden = false;
+            this.clusterHidden = true;
             this.skul = false;
             this.dist = true;
             this.districtId = this.districtSlectedId
