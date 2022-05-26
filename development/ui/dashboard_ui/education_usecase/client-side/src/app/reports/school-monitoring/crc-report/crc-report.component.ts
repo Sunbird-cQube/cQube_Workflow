@@ -284,6 +284,10 @@ export class CrcReportComponent implements OnInit {
       this.getBlocks('cluster', districtid, blockid)
       this.getClusters(districtid, blockid, clusterid)
 
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+
       this.levelVal = 3;
     } else if (level === "Block") {
       this.myDistrict = districtid;
@@ -1133,11 +1137,11 @@ export class CrcReportComponent implements OnInit {
     this.hierName = obj?.name;
     localStorage.setItem("clusterid", data);
 
-    // this.clusterHidden = false;
-    // this.blockHidden = false;
+     this.clusterHidden = false;
+    this.blockHidden = this.hideAccessBtn ? false : true;
 
-    this.clusterHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false;
-    this.blockHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false
+    // this.clusterHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false;
+    // this.blockHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false
 
     if (this.myData) {
       this.myData.unsubscribe();

@@ -870,6 +870,7 @@ export class HeatChartComponent implements OnInit {
 
       this.commonService.errMsg();
       this.reportData = [];
+      this.blockHidden = this.hideAccessBtn ? false: true;
 
       this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
 
