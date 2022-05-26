@@ -2398,7 +2398,7 @@ export class StudengtAttendanceComponent implements OnInit {
     } else {
       this.getTelemetryData(blokData, event.type, "block");
     }
-    // this.getTelemetryData(blokData, "change", "block");  
+    
     this.myBlockData(data);
   }
 
@@ -2527,7 +2527,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.markers = [];
               this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              // sorted.pop();
+            
 
               this.reportData = this.markers = sorted;
 
@@ -2770,7 +2770,7 @@ export class StudengtAttendanceComponent implements OnInit {
         this.hierName = obj.name;
 
         this.globalId = this.myCluster = data;
-        // this.myBlock = this.myBlock;
+        
         this.myDistrict = Number(localStorage.getItem("distId"));
 
         if (this.myData) {
@@ -2963,7 +2963,7 @@ export class StudengtAttendanceComponent implements OnInit {
       }).setContent(yourData);
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
-      // this.googleTooltip.push(yourData)
+      
       markers['label'] = yourData;
 
     }
@@ -2982,7 +2982,7 @@ export class StudengtAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          
           event: event,
           level: level,
           locationid: data.id,
@@ -2995,7 +2995,7 @@ export class StudengtAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          
           event: event,
           level: level,
           locationid: data.id,

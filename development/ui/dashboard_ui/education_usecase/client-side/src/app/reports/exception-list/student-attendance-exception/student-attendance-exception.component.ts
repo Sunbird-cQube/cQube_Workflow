@@ -238,7 +238,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);
       this.myDistData(districtid, blockid, clusterid)
-      // this.myBlockData(blockid, clusterid)
+      
       this.blockSelect({ type: "click" }, blockid);
       this.clusterSelect({ type: "click" }, clusterid);
       this.selCluster = true;
