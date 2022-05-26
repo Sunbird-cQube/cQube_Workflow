@@ -22,7 +22,7 @@
                         <p id="cluster">
                             Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span id="dist" (click)="clickedMarker($event,distName)"
+                            </span><span id="dist" (click)="!selDist? clickedMarker($event,distName):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{titleName}}</span><span> | </span><span id="block"
                                 (click)="clickedMarker($event,blockName)"
@@ -34,10 +34,10 @@
                         <p id="school">
                             Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span>
-                            <span id="dist" (click)="clickedMarker($event,distName)"
+                            <span id="dist" (click)="!selDist? clickedMarker($event,distName):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{titleName}}</span><span> | </span><span id="block"
-                                (click)="clickedMarker($event,blockName)"
+                                (click)="!selCluster? clickedMarker($event,blockName):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{title}}</span><span> | </span><span class="selected-level">
                                 {{hierName}}</span>

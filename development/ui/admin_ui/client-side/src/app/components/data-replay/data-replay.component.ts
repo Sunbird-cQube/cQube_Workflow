@@ -255,7 +255,7 @@ export class DataReplayComponent implements OnInit {
         this.multiSelectsem.resetSelected();
       var obj = {
         academic_year: this.selected_academic_year,
-        semesters: []
+        
       }
       
       this.formObj['semester'] = obj;
@@ -274,11 +274,10 @@ export class DataReplayComponent implements OnInit {
   shareCheckedList3(item: any[]) {
     this.selectedSemesters = item;
     if (this.selectedSemesters.length > 0) {
-      var obj = {
-        semesters: this.selectedSemesters
-      }
+      var arr = this.selectedSemesters
+       
       
-      this.formObj['semester']['semesters'] = obj;
+      this.formObj['semester']['semesters'] = arr;
     } else {
       delete this.formObj['semester'];
     }

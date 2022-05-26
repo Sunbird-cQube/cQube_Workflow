@@ -18,7 +18,7 @@
                 <p id="cluster">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
                         style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
+                        (click)="!selDist? myDistData(distName):''" style="cursor: pointer;text-decoration: underline;">
                         {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
                         style="cursor: pointer;text-decoration: underline;" class="selected-level">
                         {{hierName}}</span></p>
@@ -28,8 +28,8 @@
                 <p id="school">
                     Composite Report Across Metrics for: <span (click)="districtWise()"
                         style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span><span
-                        (click)="myDistData(distName)" style="cursor: pointer;text-decoration: underline;">
-                        {{titleName}}</span><span> | </span><span (click)="myBlockData(blockName)"
+                        (click)="!selDist? myDistData(distName):''" style="cursor: pointer;text-decoration: underline;">
+                        {{titleName}}</span><span> | </span><span (click)="!selCluster? myBlockData(blockName):''"
                         style="cursor: pointer;text-decoration: underline;">
                         {{title}}</span><span> | </span><span class="selected-level">
                         {{hierName}}</span></p>

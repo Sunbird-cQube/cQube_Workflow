@@ -270,6 +270,9 @@ export class PATExceptionComponent implements OnInit {
       this.onDistrictSelect(districtid);
 
       this.distlevel(districtid)
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = true;
       this.levelVal = 1;
     }
   }
@@ -440,7 +443,7 @@ export class PATExceptionComponent implements OnInit {
         }
         this.myData = this.service.patExceptionBlock({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
           this.data = res
-          
+
           let options = {
             radius: 4,
             fillOpacity: 1,
