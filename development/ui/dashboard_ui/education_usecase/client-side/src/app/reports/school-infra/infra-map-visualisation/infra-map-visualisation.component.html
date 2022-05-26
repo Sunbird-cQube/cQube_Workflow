@@ -23,10 +23,10 @@
             <p id="cluster">
               Report on Infrastructure access by location for:
               <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
-              </span><span (click)=" onDistrictSelect(blockHierarchy.distId)"
+              </span><span (click)="!selDist ? onDistrictSelect(blockHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
-                (click)="onBlockSelect(blockHierarchy.blockId)" style="cursor: pointer; text-decoration: underline"
+                (click)=" !selCluster ? onBlockSelect(blockHierarchy.blockId): ''" style="cursor: pointer; text-decoration: underline"
                 class="selected-level">
                 {{ blockHierarchy.blockName }}</span>
             </p>
@@ -36,10 +36,10 @@
             <p id="school">
               Report on Infrastructure access by location for:
               <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
-              </span><span (click)="onDistrictSelect(clusterHierarchy.distId)"
+              </span><span (click)="!selDist ? onDistrictSelect(clusterHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.districtName }}</span><span> | </span><span
-                (click)="onBlockSelect(clusterHierarchy.blockId)" style="cursor: pointer; text-decoration: underline" >
+                (click)="!selCluster ? onBlockSelect(clusterHierarchy.blockId) : ''" style="cursor: pointer; text-decoration: underline" >
                 {{ clusterHierarchy.blockName }}</span><span> | </span><span class="selected-level">
                 {{ clusterHierarchy.clusterName }}</span>
             </p>

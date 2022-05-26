@@ -21,7 +21,7 @@
                         <p id="cluster">
                             Report on User Progress: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="distLinkClick(blockHierarchy.distId)"
+                            </span><span (click)="!selDist ? distLinkClick(blockHierarchy.distId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{blockHierarchy.districtName}}</span><span> | </span><span
                                 (click)="blockLinkClick(blockHierarchy.blockId)"
@@ -32,10 +32,10 @@
                         <p id="school">
                             Report on User Progress: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="distLinkClick(clusterHierarchy.distId)"
+                            </span><span (click)="!selDist? distLinkClick(clusterHierarchy.distId):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.districtName}}</span><span> | </span><span
-                                (click)="blockLinkClick(clusterHierarchy.blockId)"
+                                (click)="!selCluster? blockLinkClick(clusterHierarchy.blockId):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.blockName}}</span><span> | </span><span
                                 (click)="clusterLinkClick(clusterHierarchy.clusterId)"

@@ -66,7 +66,7 @@ export class EnrollmentProgressComponent implements OnInit {
     this.getStateData();
     this.getProgramData();
     this.getAllDistCollection();
-    this.districtHidden = this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+     this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
     
   }
 
@@ -117,7 +117,7 @@ export class EnrollmentProgressComponent implements OnInit {
   clickHome() {
     this.dist = false;
     this.skul = true;
-    this.districtHidden = this.hideIfAccessLevel === true ? true : false;
+    this.districtHidden = true;
     this.selectedDist = "";
     this.selectedCourse = "";
     this.courseSelected = false;
