@@ -317,8 +317,8 @@ export class StudengtAttendanceComponent implements OnInit {
       this.levelVal = 3;
     } else if (level === "Block") {
       this.selBlock = true;
-        this.myDistData(districtid, blockid);
-      
+      this.myDistData(districtid, blockid);
+
       //  this.blockSelect("change", blockid)
 
       this.blocklevel(blockid)
@@ -1083,12 +1083,13 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
+                this.levelWise = "blockPerDistrict";
 
                 this.mylatlngData = marker;
                 this.hierName = marker[0].district_name;
                 this.titleName = "";
                 this.clustName = "";
-
+                //  this.myDistrict = this.districtSelectedId
                 this.dist = true;
                 this.blok = false;
                 this.clust = false;
@@ -1165,7 +1166,7 @@ export class StudengtAttendanceComponent implements OnInit {
                           colors
                         ),
                       0.01,
-                      0.5,
+                      0.9,
                       this.levelWise
                     );
                     this.layerMarkers.addLayer(markerIcon);
@@ -2161,7 +2162,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
 
   distSelect(event, data) {
-   
+
     var distData: any = {};
     this.districtData.find((a) => {
       if (a.district_id == data) {
@@ -2356,9 +2357,9 @@ export class StudengtAttendanceComponent implements OnInit {
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
               if (bid) {
-                this.myBlockData( bid, cid);
+                this.myBlockData(bid, cid);
               }
-             
+
             },
             (err) => {
               this.dateRange = "";
@@ -2380,7 +2381,7 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   blockSelect(event, data) {
-    
+
     var blokData: any = {};
     this.blockData.find((a) => {
       if (a.block_id == data) {
@@ -2392,9 +2393,9 @@ export class StudengtAttendanceComponent implements OnInit {
         };
       }
     });
-    if(this.selBlock){
-      this.getTelemetryData(blokData, "change", "block");  
-    }else{
+    if (this.selBlock) {
+      this.getTelemetryData(blokData, "change", "block");
+    } else {
       this.getTelemetryData(blokData, event.type, "block");
     }
     // this.getTelemetryData(blokData, "change", "block");  
@@ -2406,7 +2407,7 @@ export class StudengtAttendanceComponent implements OnInit {
   public blockSelected: boolean = false
   public blockSelectedId
   myBlockData(data, cid?) {
-    
+
     this.districtSelected = false
     this.selectedCluster = false
     this.blockSelected = true
@@ -2442,7 +2443,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.skul = false;
       this.clusterHidden = false;
       this.blockHidden = false;
-     
+
       if (this.months.length > 0) {
         var month = this.months.find((a) => a.id === this.month);
         if (this.month_year.month) {
@@ -2453,7 +2454,7 @@ export class StudengtAttendanceComponent implements OnInit {
           this.fileName = `${this.reportName}_${this.levelWise}s_of_block_${data}_${this.period}_${this.commonService.dateAndTime}`;
         }
         var blockNames = [];
-    
+
         this.blocksNames.forEach((item) => {
           if (
             item.distId &&
@@ -2466,7 +2467,7 @@ export class StudengtAttendanceComponent implements OnInit {
         if (blockNames.length > 1) {
           this.blocksNames = blockNames;
         }
-        
+
         let obj = this.blocksNames.find((o) => o.id == data);
         localStorage.setItem("block", obj.name);
         localStorage.setItem("blockId", data);
@@ -2486,7 +2487,7 @@ export class StudengtAttendanceComponent implements OnInit {
           this.myData.unsubscribe();
         }
         this.month_year["id"] = data;
-        
+
         this.myData = this.service
           .clusterPerBlock({
             ...this.month_year,
@@ -2495,7 +2496,7 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-              
+
               this.mylatlngData = this.clusterData =
                 res["clusterDetails"];
               this.dateRange = res["dateRange"];
@@ -2649,18 +2650,18 @@ export class StudengtAttendanceComponent implements OnInit {
         };
       }
     });
-    if(this.selCluster){
+    if (this.selCluster) {
       this.getTelemetryData(clustData, "change", "cluster");
-    }else{
+    } else {
       this.getTelemetryData(clustData, event.type, "cluster");
     }
-    
+
     this.myClusterData(data);
   }
 
   //this function will be alled after selecting cluster name from cluster dropdown
-  
-  
+
+
   myClusterData(data) {
     this.hideAllBlockBtn = true
     this.blockSelected = false

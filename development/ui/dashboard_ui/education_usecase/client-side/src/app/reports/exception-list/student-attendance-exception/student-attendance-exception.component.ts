@@ -1926,7 +1926,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_dist').val('');
       return;
     }
-    this.level = "Block";
+    this.level = "blockPerDistrict";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];
@@ -2122,7 +2122,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_block').val('');
       return;
     }
-    this.level = "Cluster";
+    this.level =  "clusterPerBlock";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];
@@ -2345,7 +2345,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_cluster').val('');
       return;
     }
-    this.level = "School";
+    this.level = "schoolPerCluster";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];

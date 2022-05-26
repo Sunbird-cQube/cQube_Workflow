@@ -848,8 +848,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.clust = false;
 
       // to show and hide the dropdowns
-      // this.blockHidden = true;
-      // this.clusterHidden = true;
+      this.blockHidden = true;
+      this.clusterHidden = true;
 
       // api call to get the all clusters data
       if (this.myData) {
@@ -859,31 +859,33 @@ export class InfraMapVisualisationComponent implements OnInit {
         (res) => {
           if (this.districtSelected) {
             let cluster = res['data']
+
             let marker = cluster.filter(a => {
               if (a.details.district_id === this.districtSlectedId) {
                 return a
               }
 
             })
+
             this.districtHierarchy = {
               distId: marker[0].details.district_id,
               districtName: marker[0].details.district_name,
             };
             this.skul = false;
             this.dist = true;
-
+            this.districtId = this.districtSlectedId
             this.markers = this.data = marker;
-
+            this.level = "allCluster";
             this.gettingInfraFilters(this.data);
             let options = {
               radius: 5,
-              mapZoom: this.globalService.zoomLevel + 5,
-              centerLat: this.lat,
-              centerLng: this.lng,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: marker[0].details.latitude,
+              centerLng: marker[0].details.longitude,
               level: "Cluster",
             };
             // this.genericFun(this.data, options, this.fileName);
-             this.dataOptions = options;
+            this.dataOptions = options;
             if (this.data.length > 0) {
               let result = this.data;
               this.clusterMarkers = [];
@@ -920,8 +922,8 @@ export class InfraMapVisualisationComponent implements OnInit {
                     this.clusterMarkers[i].details.latitude,
                     this.clusterMarkers[i].details.longitude,
                     color,
-                    0.01,
-                    0.5,
+                    1,
+                    1,
                     options.level
                   );
 
@@ -942,8 +944,8 @@ export class InfraMapVisualisationComponent implements OnInit {
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
-                  [options.centerLat - 4.5, options.centerLng - 6],
-                  [options.centerLat + 3.5, options.centerLng + 6],
+                  [options.centerLat - 1.5, options.centerLng - 1],
+                  [options.centerLat + 1.5, options.centerLng + 1],
                 ]);
                 this.changeDetection.detectChanges();
                 this.globalService.onResize(this.level);
@@ -1242,8 +1244,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.clust = false;
 
       // to show and hide the dropdowns
-      // this.blockHidden = true;
-      // this.clusterHidden = true;
+      this.blockHidden = true;
+      this.clusterHidden = true;
 
       // api call to get the all schools data
       if (this.myData) {
@@ -1267,7 +1269,7 @@ export class InfraMapVisualisationComponent implements OnInit {
 
               this.skul = false;
               this.dist = true;
-
+              this.districtId = this.districtSlectedId
               this.districtHierarchy = {
                 distId: marker[0].details.district_id,
                 districtName: marker[0].details.district_name,
@@ -1366,7 +1368,8 @@ export class InfraMapVisualisationComponent implements OnInit {
               this.skul = false;
               this.dist = false;
               this.blok = true;
-
+              this.blockId = this.blockSelectedId
+              this.districtId = this.districtSlectedId
               this.blockHierarchy = {
                 distId: marker[0].details.district_id,
                 districtName: marker[0].details.district_name,
@@ -1378,7 +1381,7 @@ export class InfraMapVisualisationComponent implements OnInit {
               this.gettingInfraFilters(this.data);
               let options = {
                 radius: 1,
-                 mapZoom: this.globalService.zoomLevel,
+                mapZoom: this.globalService.zoomLevel,
                 centerLat: this.lat,
                 centerLng: this.lng,
                 level: "School",
