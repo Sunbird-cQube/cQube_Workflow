@@ -884,7 +884,7 @@ export class InfraMapVisualisationComponent implements OnInit {
               mapZoom: this.globalService.zoomLevel,
               centerLat: marker[0].details.latitude,
               centerLng: marker[0].details.longitude,
-              level: "Cluster",
+              level: "allCluster",
             };
             
             this.dataOptions = options;
@@ -1371,7 +1371,9 @@ export class InfraMapVisualisationComponent implements OnInit {
               this.dist = false;
               this.blok = true;
               this.blockId = this.blockSelectedId
-              this.districtId = this.districtSlectedId
+              this.districtId = this.districtSlectedId;
+              this.blockHidden = false;
+              this.clusterHidden = false;
               this.blockHierarchy = {
                 distId: marker[0].details.district_id,
                 districtName: marker[0].details.district_name,
@@ -2182,6 +2184,8 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
+      this.blockHidden = true;
+      this.clusterHidden = true;
     } else if (level === "Block") {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
@@ -2195,6 +2199,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
+      this.blockHidden= true
       this.levelVal = 2;
       this.blockId = Number(this.blockId)
       this.districtId = Number(this.districtId)

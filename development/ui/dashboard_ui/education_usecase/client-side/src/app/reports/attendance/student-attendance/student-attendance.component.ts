@@ -312,8 +312,9 @@ export class StudengtAttendanceComponent implements OnInit {
     if (level === "Cluster") {
       this.selCluster = true;
       this.selBlock = true;
-       this.myDistData(districtid, blockid, clusterid);
-      
+      this.myDistData(districtid, blockid, clusterid);
+      this.blockSelect({ type: "click" }, blockid);
+      this.clusterSelect({ type: "change" }, clusterid);
       this.clusterlevel(clusterid);
       this.levelVal = 3;
     } else if (level === "Block") {
@@ -334,27 +335,26 @@ export class StudengtAttendanceComponent implements OnInit {
     this.selCluster = false;
     this.selBlock = false;
     this.selDist = true;
-    //  this.level= "blockPerDistrict";
+
     this.myDistrict = id;
-    //   this.levelWiseFilter();
+
   }
 
   blocklevel(id) {
     this.selCluster = false;
     this.selBlock = true;
     this.selDist = true;
-    // this.level= "clusterPerBlock";
+
     this.myBlock = id;
-    //   this.levelWiseFilter();
+
   }
 
   clusterlevel(id) {
     this.selCluster = true;
     this.selBlock = true;
     this.selDist = true;
-    // this.level= "schoolPerCluster";
     this.myCluster = id;
-    //  this.levelWiseFilter();
+
   }
   //This function will be called on select year-month option show year month dropdown:::::
   showYearMonth() {
@@ -389,44 +389,6 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
 
-  // getView1() {
-  //   let id = localStorage.getItem("userLocation");
-  //   let level = localStorage.getItem("userLevel");
-  //   let clusterid = localStorage.getItem("clusterId");
-  //   let blockid = localStorage.getItem("blockId");
-  //   let districtid = localStorage.getItem("districtId");
-  //   let schoolid = localStorage.getItem("schoolId");
-
-  //   if (districtid !== 'null') {
-  //     this.myDistrict = districtid;
-  //     this.distHidden = false;
-  //   }
-  //   if (blockid !== 'null') {
-  //     this.myBlock = blockid;
-  //     this.blockHidden = false;
-  //   }
-  //   if (clusterid !== 'null') {
-  //     this.myCluster = clusterid;
-  //     this.clusterHidden = false;
-  //   }
-  //   if (districtid === 'null') {
-  //     this.distHidden = false;
-  //   }
-
-
-  //   if (level === "Cluster") {
-  //     this.myDistData(districtid, blockid, clusterid);
-  //     this.clusterlevel(clusterid);
-  //     this.levelVal = 3;
-  //   } else if (level === "Block") {
-  //     this.myDistData(districtid, blockid);
-  //     this.blocklevel(blockid)
-  //     this.levelVal = 2;
-  //   } else if (level === "District") {
-  //     this.myDistData(districtid);
-  //     this.distlevel(districtid)
-  //     this.levelVal = 1;
-  //   }
 
   //This function is get all district names, on load of page after coming from progress card:::::::
   getDistricts(): void {
@@ -694,7 +656,7 @@ export class StudengtAttendanceComponent implements OnInit {
     var month = this.getMonthYear[`${this.year}`].find(
       (a) => a.month === this.month
     );
-    // this.dateRange = `${month.data_from_date} to ${month.data_upto_date}`;
+    
     this.month_year = {
       month: this.month,
       year: this.year,
@@ -945,7 +907,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted
-              // if (!this.valueRange) {
+             
               //getting relative colors for all markers:::::::::::
               let colors = this.commonService.getRelativeColors(sorted, {
                 value: "attendance",
@@ -1081,13 +1043,20 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
-                this.levelWise = "blockPerDistrict";
 
+                this.levelWise = "allCluster";
+                let options = {
+                  radius: 5,
+                  mapZoom: this.globalService.zoomLevel,
+                  centerLat: marker[0].lat,
+                  centerLng: marker[0].lng,
+                  level: "allCluster",
+                };
                 this.mylatlngData = marker;
                 this.hierName = marker[0].district_name;
                 this.titleName = "";
                 this.clustName = "";
-                  this.myDistrict = this.districtSlectedId
+                this.myDistrict = this.districtSlectedId
                 this.dist = true;
                 this.blok = false;
                 this.clust = false;
@@ -1105,7 +1074,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+                
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1182,18 +1151,18 @@ export class StudengtAttendanceComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.clusterNames = clustNames;
+                
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.blocksNames = blockNames;
+                
 
                 this.globalService.restrictZoom(globalMap);
 
                 //Setting map bound for scroll::::::::::::
                 globalMap.setMaxBounds([
-                  [this.lat - 4.5, this.lng - 6],
-                  [this.lat + 3.5, this.lng + 6],
+                  [options.centerLat - 4.5, options.centerLng - 6],
+                  [options.centerLat + 3.5, options.centerLng + 6],
                 ]);
 
                 //adjusting marker size and other UI on screen resize:::::::::::
@@ -1230,7 +1199,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+               
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1355,7 +1324,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+               
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1463,7 +1432,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+                
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1591,7 +1560,7 @@ export class StudengtAttendanceComponent implements OnInit {
         return;
       }
 
-      // this.commonAtStateLevel();
+       this.commonAtStateLevel();
       this.levelWise = "School";
       this.googleMapZoom = 7;
       if (this.months.length > 0) {
@@ -1636,7 +1605,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.skul = false;
                 this.blockHidden = false;
                 this.clusterHidden = true;
-
+                this.myDistrict = this.districtSlectedId;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
                   parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1739,6 +1708,8 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.skul = false;
                 this.blockHidden = false;
                 this.clusterHidden = false;
+                this.myBlock = this.blockSelectedId;
+                this.myDistrict = this.districtSlectedId;
                 this.dateRange = res["dateRange"];
                 var sorted = this.mylatlngData.sort((a, b) =>
                   parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -2143,10 +2114,12 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   onClick_Marker(event) {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      var marker = event.target;
+      this.markerData = marker.myJsonData;
+      this.clickedMarker(event, marker.myJsonData);
+    }
 
-    var marker = event.target;
-    this.markerData = marker.myJsonData;
-    this.clickedMarker(event, marker.myJsonData);
   }
 
   // clickMarker for Google map
@@ -2154,8 +2127,10 @@ export class StudengtAttendanceComponent implements OnInit {
     if (this.levelWise == "schoolPerCluster") {
       return false;
     }
-    this.markerData = marker;
-    this.clickedMarker(event, marker);
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      this.markerData = marker;
+      this.clickedMarker(event, marker);
+    }
   }
 
 
@@ -2342,7 +2317,7 @@ export class StudengtAttendanceComponent implements OnInit {
               );
               this.blocksNames = blokName;
 
-              
+
 
               //Setting map bound for scroll::::::::::::
               globalMap.setMaxBounds([
@@ -2396,7 +2371,7 @@ export class StudengtAttendanceComponent implements OnInit {
     } else {
       this.getTelemetryData(blokData, event.type, "block");
     }
-    
+
     this.myBlockData(data);
   }
 
@@ -2525,7 +2500,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.markers = [];
               this.studentCount = res["studentCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            
+
 
               this.reportData = this.markers = sorted;
 
@@ -2614,7 +2589,8 @@ export class StudengtAttendanceComponent implements OnInit {
               this.changeDetection.markForCheck();
 
               if (cid) {
-                this.myClusterData(cid);
+                
+                this.clusterSelect({ type: 'change' }, cid)
               }
             },
             (err) => {
@@ -2683,7 +2659,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.levelWise = "schoolPerCluster";
       this.googleMapZoom = 13;
       globalMap.removeLayer(this.markersList);
-       this.layerMarkers.clearLayers();
+      this.layerMarkers.clearLayers();
       this.markers = [];
       this.reportData = [];
       this.commonService.errMsg();
@@ -2768,7 +2744,7 @@ export class StudengtAttendanceComponent implements OnInit {
         this.hierName = obj.name;
 
         this.globalId = this.myCluster = data;
-        
+
         this.myDistrict = Number(localStorage.getItem("distId"));
 
         if (this.myData) {
@@ -2879,10 +2855,10 @@ export class StudengtAttendanceComponent implements OnInit {
               //adjusting marker size and other UI on screen resize:::::::::::
               this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
-               this.changeDetection.markForCheck();
-              
-               
-              
+              this.changeDetection.markForCheck();
+
+
+
             },
             (err) => {
               this.dateRange = "";
@@ -2964,7 +2940,7 @@ export class StudengtAttendanceComponent implements OnInit {
       }).setContent(yourData);
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
-      
+
       markers['label'] = yourData;
 
     }
@@ -2983,7 +2959,7 @@ export class StudengtAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-          
+
           event: event,
           level: level,
           locationid: data.id,
@@ -2996,7 +2972,7 @@ export class StudengtAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-          
+
           event: event,
           level: level,
           locationid: data.id,
@@ -3171,20 +3147,6 @@ export class StudengtAttendanceComponent implements OnInit {
           this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
         this.studentCount += parseInt(markers[i]['number_of_students'].replace(',', ''));
-
-        // google map circle icon
-
-        // if(this.mapName == "googlemap"){
-        //   let markerColor =  this.selected == "absolute"
-        //    ? color
-        //    : this.commonService.relativeColorGredient(
-        //      markers[i],
-        //      { value: "attendance", report: "reports" },
-        //      colors
-        //    );
-
-        //    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
-        // }
 
         //initialize markers with its latitude and longitude
         var markerIcon = this.globalService.initMarkers1(
