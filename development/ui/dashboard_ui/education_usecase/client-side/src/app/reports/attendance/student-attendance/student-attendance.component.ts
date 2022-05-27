@@ -907,7 +907,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted
-              // if (!this.valueRange) {
+             
               //getting relative colors for all markers:::::::::::
               let colors = this.commonService.getRelativeColors(sorted, {
                 value: "attendance",
@@ -1074,7 +1074,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+                
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1151,11 +1151,11 @@ export class StudengtAttendanceComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                // this.clusterNames = clustNames;
+                
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                // this.blocksNames = blockNames;
+                
 
                 this.globalService.restrictZoom(globalMap);
 
@@ -1199,7 +1199,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+               
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1324,7 +1324,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+               
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1432,7 +1432,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                // if (!this.valueRange) {
+                
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1560,7 +1560,7 @@ export class StudengtAttendanceComponent implements OnInit {
         return;
       }
 
-      // this.commonAtStateLevel();
+       this.commonAtStateLevel();
       this.levelWise = "School";
       this.googleMapZoom = 7;
       if (this.months.length > 0) {
@@ -3147,20 +3147,6 @@ export class StudengtAttendanceComponent implements OnInit {
           this.schoolCount += parseInt(markers[i]['number_of_schools'].replace(',', ''));
         }
         this.studentCount += parseInt(markers[i]['number_of_students'].replace(',', ''));
-
-        // google map circle icon
-
-        // if(this.mapName == "googlemap"){
-        //   let markerColor =  this.selected == "absolute"
-        //    ? color
-        //    : this.commonService.relativeColorGredient(
-        //      markers[i],
-        //      { value: "attendance", report: "reports" },
-        //      colors
-        //    );
-
-        //    this.markers[i]['icon'] = this.globalService.initGoogleMapMarker(markerColor, 5, 1);
-        // }
 
         //initialize markers with its latitude and longitude
         var markerIcon = this.globalService.initMarkers1(
