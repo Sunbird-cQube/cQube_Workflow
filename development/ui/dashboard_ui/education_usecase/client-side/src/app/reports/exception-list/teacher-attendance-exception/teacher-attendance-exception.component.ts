@@ -426,7 +426,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       };
       this.months.push(obj);
     });
-    // this.element.disabled = false;
+   
   }
 
   public myData;
@@ -1465,7 +1465,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 }
 
               })
-              
+              this.hierName = marker[0].district_name
 
               this.dist = false;
               this.blok = true;
@@ -1544,6 +1544,17 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+
+              this.hierName = marker[0].block_name
+              this.titleName = marker[0].district_name
+              this.myDistrict = this.districtSlectedId;
+              this.myBlock = this.blockSelectedId
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.skul = false;
+              this.clusterHidden = false;
+              this.blockHidden = false;
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -2201,7 +2212,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
 
             this.markers = [];
             this.schoolsWithMissingData = res["missingSchoolsCount"];
-            // sorted.pop();
+            
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "percentage_schools_with_missing_data",
               report: "exception",
@@ -2423,7 +2434,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       this.hierName = obj.name;
 
       this.globalId = this.myCluster = data;
-      // this.myBlock = this.myBlock;
+    
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {

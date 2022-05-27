@@ -773,7 +773,7 @@ export class UdiseReportComponent implements OnInit {
       this.myData = this.service.udise_cluster_wise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           if (this.districtSelected) {
-            this.districtId = this.districtSlectedId;
+            
             this.blockHidden = false;
             this.clusterHidden = true;
             this.skul = false;
@@ -792,6 +792,8 @@ export class UdiseReportComponent implements OnInit {
 
             })
 
+            this.districtId = this.districtSlectedId;
+           
             this.markers = this.data = marker;
             
             this.gettingIndiceFilters(this.data);

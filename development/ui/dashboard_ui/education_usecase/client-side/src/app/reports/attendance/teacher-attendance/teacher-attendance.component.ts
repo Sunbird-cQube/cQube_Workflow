@@ -1342,6 +1342,8 @@ export class TeacherAttendanceComponent implements OnInit {
               this.skul = false;
               this.blockHidden = false;
               this.clusterHidden = true;
+              this.myDistrict = this.districtSlectedId;
+
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1882,7 +1884,7 @@ export class TeacherAttendanceComponent implements OnInit {
               this.clust = false;
               this.skul = false;
 
-              this.myDistrict = this.districtSelected
+              this.myDistrict = this.districtSlectedId
 
               this.blockHidden = false;
               this.clusterHidden = true;
@@ -2258,8 +2260,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.commonService.errMsg();
     this.reportData = [];
     this.markers = [];
-    // this.teacherCount = 0;
-    // this.schoolCount = 0;
+    
     this.blockHidden = true;
     this.clusterHidden = true;
     this.dist = false;
@@ -2444,8 +2445,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.markers = [];
     this.reportData = [];
     this.commonService.errMsg();
-    // this.teacherCount = 0;
-    // this.schoolCount = 0;
+    
     this.markerData = null;
 
     this.dist = true;
@@ -2745,7 +2745,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.markers = [];
             this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            // sorted.pop();
+            
             this.markers = sorted;
 
             //getting relative colors for all markers:::::::::::
@@ -2979,7 +2979,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.hierName = obj.name;
 
       this.globalId = this.myCluster = data;
-      // this.myBlock = this.myBlock;
+      
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {
@@ -3130,7 +3130,7 @@ export class TeacherAttendanceComponent implements OnInit {
         break;
     }
 
-    // markerIcon.on("click", null);
+    
     if (chklevel) {
       markerIcon.on("mouseover", function (e) {
         this.openPopup();
@@ -3192,7 +3192,7 @@ export class TeacherAttendanceComponent implements OnInit {
       }).setContent(yourData);
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
-      // this.googleTooltip.push(yourData)
+     
       markers['label'] = yourData;
 
     }
@@ -3205,7 +3205,7 @@ export class TeacherAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          
           event: event,
           level: level,
           locationid: data.id,
@@ -3218,7 +3218,7 @@ export class TeacherAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          
           event: event,
           level: level,
           locationid: data.id,
@@ -3240,36 +3240,14 @@ export class TeacherAttendanceComponent implements OnInit {
       this.service.telemetrySar(dateObj).subscribe(
         (res) => { },
         (err) => {
-          // this.dateRange = "";
-          // this.teacherCount = "";
-          // this.schoolCount = "";
+        
           this.changeDetection.detectChanges();
         }
       );
     }
   }
 
-  // goToprogressCard(): void {
-  //   let data: any = {};
-
-  //   if (this.levelWise === 'Block') {
-  //     data.level = 'district';
-  //     data.value = this.myDistrict;
-  //   } else if (this.levelWise === 'Cluster') {
-  //     data.level = 'block';
-  //     data.value = this.myBlock;
-  //   } else if (this.levelWise === 'school') {
-  //     data.level = 'cluster';
-  //     data.value = this.myCluster;
-  //   } else {
-  //     data.level = 'state';
-  //     data.value = null
-  //   }
-
-  //   sessionStorage.setItem('progress-card-info', JSON.stringify(data));
-  //   this._router.navigate(['/progressCard']);
-  // }
-
+  
   downloadRaw() {
     document.getElementById("spinner").style.display = "block";
     var selectedAcademicYear = this.academicYear;

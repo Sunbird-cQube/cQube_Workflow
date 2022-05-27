@@ -859,7 +859,7 @@ export class SatReportComponent implements OnInit {
                     this.myBlockData = res["data"];
                     let marker = this.myBlockData.filter(a => {
                       if (a.Details.block_id === this.blockSelectedId) {
-                      
+
                         return a
                       }
 
@@ -1239,7 +1239,7 @@ export class SatReportComponent implements OnInit {
 
       this.allGrades = [];
       this.reportData = [];
-       this.districtId = undefined;
+      this.districtId = undefined;
       this.blockId = undefined;
       this.clusterId = undefined;
       this.level = "Cluster";
@@ -1294,7 +1294,7 @@ export class SatReportComponent implements OnInit {
               .subscribe(
                 (res) => {
                   if (this.districtSelected) {
-                    this.districtId = this.districtSelected;
+
                     this.skul = false;
                     this.dist = true;
                     let myBlockData = res["data"];
@@ -1314,7 +1314,7 @@ export class SatReportComponent implements OnInit {
                     this.blockHidden = false;
                     this.clusterHidden = true;
 
-                    this.districtId = this.districtSelected;
+                    this.districtId = this.districtSlectedId;
 
                     // these are for showing the hierarchy names based on selection
                     this.skul = false;
@@ -1433,7 +1433,7 @@ export class SatReportComponent implements OnInit {
 
                     let marker = myBlockData.filter(a => {
                       if (a.details.block_id === this.blockSelectedId) {
-                       
+
                         return a
                       }
 
@@ -1559,7 +1559,7 @@ export class SatReportComponent implements OnInit {
                   } else if (this.selectedCluster) {
 
                     let cluster = res["data"];
-                    
+
 
                     let marker = cluster.filter(a => {
                       if (a.details.cluster_id === this.selectedCLusterId) {
@@ -1568,7 +1568,7 @@ export class SatReportComponent implements OnInit {
 
                     })
                     this.markers = this.data = marker;
-                    
+
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
@@ -2017,16 +2017,15 @@ export class SatReportComponent implements OnInit {
                       }
                     }
                   } else if (this.blockSelected) {
-                    this.districtId = this.districtSlectedId;
-                    this.blockId = this.blockSelectedId;
-                  
+
+                    
                     let mySchoolData = res["data"];
                     let marker = mySchoolData.filter(a => {
-                      if (a.Details.block_id === this.blockSelectedId) { 
+                      if (a.Details.block_id === this.blockSelectedId) {
                         return a
                       }
                     })
-                    
+
                     this.blockHierarchy = {
                       distId: marker[0].Details.district_id,
                       districtName: marker[0].Details.district_name,
@@ -2036,7 +2035,9 @@ export class SatReportComponent implements OnInit {
                     this.blockHidden = false;
                     this.clusterHidden = false;
 
-                 
+                    this.districtId = this.districtSlectedId;
+                    this.blockId = this.blockSelectedId;
+
 
                     // these are for showing the hierarchy names based on selection
                     this.skul = false;
@@ -2151,7 +2152,7 @@ export class SatReportComponent implements OnInit {
                   } else if (this.selectedCluster) {
 
                     let mySchoolData = res["data"];
-                    
+
                     let marker = mySchoolData.filter(a => {
                       if (a.Details.cluster_id === this.selectedCLusterId.toString()) {
                         return a
@@ -2159,7 +2160,7 @@ export class SatReportComponent implements OnInit {
 
                     })
                     this.markers = this.data = marker;
-                    
+
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
@@ -3045,25 +3046,9 @@ export class SatReportComponent implements OnInit {
           details[key] = markers.Details[key];
         }
       });
-      // if (this.period == 'all') {
-      //   Object.keys(details).forEach((key) => {
-      //     if (key !== "total_students") {
-      //       data1[key] = details[key];
-      //     }
-      //   });
-      //   Object.keys(data1).forEach((key) => {
-      //     if (key !== "total_schools") {
-      //       data2[key] = data1[key];
-      //     }
-      //   });
-      //   Object.keys(data2).forEach((key) => {
-      //     if (key !== "students_attended") {
-      //       data3[key] = data2[key];
-      //     }
-      //   });
-      // } else {
+      
       data3 = details;
-      // }
+      
       Object.keys(data3).forEach((key) => {
         if (key !== lng) {
           orgObject[key] = data3[key];
