@@ -656,7 +656,7 @@ export class StudengtAttendanceComponent implements OnInit {
     var month = this.getMonthYear[`${this.year}`].find(
       (a) => a.month === this.month
     );
-    // this.dateRange = `${month.data_from_date} to ${month.data_upto_date}`;
+    
     this.month_year = {
       month: this.month,
       year: this.year,
@@ -2589,7 +2589,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.changeDetection.markForCheck();
 
               if (cid) {
-                // this.myClusterData(cid);
+                
                 this.clusterSelect({ type: 'change' }, cid)
               }
             },
