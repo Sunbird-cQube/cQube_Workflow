@@ -22,12 +22,12 @@
           <div *ngIf="blok">
             <p id="cluster">
               Report on Infrastructure access by location for:
-              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}{{selDist}}</span><span> |
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
               </span><span (click)="!selDist ? onDistrictSelect(blockHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
-                (click)=" !selCluster ? onBlockSelect(blockHierarchy.blockId): ''" style="cursor: pointer; text-decoration: underline"
-                class="selected-level">
+                (click)=" !selCluster ? onBlockSelect(blockHierarchy.blockId): ''"
+                style="cursor: pointer; text-decoration: underline" class="selected-level">
                 {{ blockHierarchy.blockName }}</span>
             </p>
           </div>
@@ -39,7 +39,8 @@
               </span><span (click)="!selDist ? onDistrictSelect(clusterHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.districtName }}</span><span> | </span><span
-                (click)="!selCluster ? onBlockSelect(clusterHierarchy.blockId) : ''" style="cursor: pointer; text-decoration: underline" >
+                (click)="!selCluster ? onBlockSelect(clusterHierarchy.blockId) : ''"
+                style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.blockName }}</span><span> | </span><span class="selected-level">
                 {{ clusterHierarchy.clusterName }}</span>
             </p>
@@ -81,13 +82,16 @@
       </div>
       <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
-          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"  id="blockbtn" (click)="blockWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" [disabled]="hideAllBlockBtn" id="blockbtn"
+            (click)="blockWise()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" [disabled] = "hideAllCLusterBtn"  (click)="clusterWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn" [disabled]="hideAllCLusterBtn"
+            (click)="clusterWise()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn"  [disabled] = "hideAllSchoolBtn" (click)="schoolWise()">
+          <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn" [disabled]="hideAllSchoolBtn"
+            (click)="schoolWise()">
             &nbsp;<strong>Schools</strong>
           </button>
 
@@ -100,7 +104,8 @@
             </option>
           </select>
 
-          <select id="choose_dist" [hidden]="hideDist" [disabled] = "selDist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
+          <select id="choose_dist" [hidden]="hideDist" [disabled]="selDist" [(ngModel)]="districtId"
+            (change)="onDistrictSelect(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District
             </option>
@@ -109,7 +114,8 @@
             </option>
           </select>
 
-          <select [hidden]="blockHidden" id="choose_block" [disabled]="selBlock" [(ngModel)]="blockId" (change)="onBlockSelect(blockId)">
+          <select [hidden]="blockHidden" id="choose_block" [disabled]="selBlock" [(ngModel)]="blockId"
+            (change)="onBlockSelect(blockId)">
             <option [value]="blockId" disabled selected="selected">
               Choose a Block
             </option>
