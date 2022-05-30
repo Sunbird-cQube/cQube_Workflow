@@ -42,6 +42,7 @@ export class InfraMapVisualisationComponent implements OnInit {
   // to hide the blocks and cluster dropdowns
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
+  public hideDist: boolean = false;
 
   // to set the hierarchy names
   public districtHierarchy: any = "";
@@ -206,7 +207,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
 
@@ -886,7 +887,7 @@ export class InfraMapVisualisationComponent implements OnInit {
               centerLng: marker[0].details.longitude,
               level: "allCluster",
             };
-            
+
             this.dataOptions = options;
             if (this.data.length > 0) {
               let result = this.data;
@@ -1271,11 +1272,15 @@ export class InfraMapVisualisationComponent implements OnInit {
 
               this.skul = false;
               this.dist = true;
-              this.districtId = this.districtSlectedId
+              this.districtId = this.districtSlectedId;
               this.districtHierarchy = {
                 distId: marker[0].details.district_id,
                 districtName: marker[0].details.district_name,
               };
+
+              // to show and hide the dropdowns
+              this.blockHidden = false;
+              this.clusterHidden = false;
               this.gettingInfraFilters(this.data);
               let options = {
                 radius: 1,
@@ -1359,8 +1364,7 @@ export class InfraMapVisualisationComponent implements OnInit {
                 this.commonService.loaderAndErr(this.schoolMarkers);
               }
             } else if (this.blockSelected) {
-              this.districtId = this.districtSelected;
-              this.blockId = this.blockSelectedId;
+
               let data = res["data"];
               let marker = data.filter(a => {
                 if (a.details.block_id === this.blockSelectedId) {
@@ -1370,7 +1374,7 @@ export class InfraMapVisualisationComponent implements OnInit {
               this.skul = false;
               this.dist = false;
               this.blok = true;
-              this.blockId = this.blockSelectedId
+              this.blockId = this.blockSelectedId;
               this.districtId = this.districtSlectedId;
               this.blockHidden = false;
               this.clusterHidden = false;
@@ -2199,7 +2203,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
-      this.blockHidden= true
+      this.blockHidden = true
       this.levelVal = 2;
       this.blockId = Number(this.blockId)
       this.districtId = Number(this.districtId)
@@ -2209,13 +2213,13 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.districtHierarchy = {
         distId: this.districtId,
       };
-
       this.onDistrictSelect(this.districtId)
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
     }
   }
+
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");

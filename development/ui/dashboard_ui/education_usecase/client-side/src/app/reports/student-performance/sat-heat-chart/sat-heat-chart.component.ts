@@ -159,6 +159,7 @@ export class SatHeatChartComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit(): void {
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -172,7 +173,7 @@ export class SatHeatChartComponent implements OnInit {
     this.getView1();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -920,7 +921,7 @@ export class SatHeatChartComponent implements OnInit {
 
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.levelVal = 1;
     }
   }

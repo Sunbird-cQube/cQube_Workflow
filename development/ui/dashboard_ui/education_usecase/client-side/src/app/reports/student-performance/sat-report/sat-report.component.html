@@ -135,7 +135,7 @@
             </option>
           </select>
 
-          <select id="choose_dist" [hidden]="selDist" [disabled]="selDist" [(ngModel)]="districtId" (change)="ondistLinkClick(districtId)">
+          <select id="choose_dist" [hidden]="distHide" [disabled]="selDist" [(ngModel)]="districtId" (change)="ondistLinkClick(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District 
             </option>

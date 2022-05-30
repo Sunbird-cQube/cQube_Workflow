@@ -167,6 +167,7 @@ export class TeacherAttendanceComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName;
@@ -259,7 +260,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.toHideDropdowns();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== '') {
@@ -359,7 +360,7 @@ export class TeacherAttendanceComponent implements OnInit {
   distlevel(id) {
     this.selCluster = false;
     this.selBlock = false;
-    this.selDist = true;
+    this.selDist = false;
     //  this.level= "blockPerDistrict";
     this.myDistrict = id;
     //   this.levelWiseFilter();
@@ -1436,7 +1437,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.blocksNames = blockNames;
+                // this.blocksNames = blockNames;
 
                 this.globalService.restrictZoom(globalMap);
 

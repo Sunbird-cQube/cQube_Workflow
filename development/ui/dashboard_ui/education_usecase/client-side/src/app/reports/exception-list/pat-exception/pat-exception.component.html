@@ -112,7 +112,7 @@
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="districtId" [hidden]="selDist"
+                    <select id="choose_dist" [(ngModel)]="districtId" [hidden]="hideDist"
                         (change)="onDistrictSelect(districtId)" >
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">

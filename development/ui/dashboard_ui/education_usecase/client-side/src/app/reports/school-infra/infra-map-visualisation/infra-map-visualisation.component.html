@@ -22,7 +22,7 @@
           <div *ngIf="blok">
             <p id="cluster">
               Report on Infrastructure access by location for:
-              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}{{selDist}}</span><span> |
               </span><span (click)="!selDist ? onDistrictSelect(blockHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
@@ -100,7 +100,7 @@
             </option>
           </select>
 
-          <select id="choose_dist" [hidden]="selDist" [disabled]="selDist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
+          <select id="choose_dist" [hidden]="hideDist" [disabled] = "selDist" [(ngModel)]="districtId" (change)="onDistrictSelect(districtId)">
             <option [value]="districtId" disabled selected="selected">
               Choose a District
             </option>

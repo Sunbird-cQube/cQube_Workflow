@@ -122,7 +122,7 @@
                         </option>
                     </select>
 
-                    <select id="district" class="select-control" [(ngModel)]="district" [hidden]="selDist" [disabled]="selDist"
+                    <select id="district" class="select-control" [(ngModel)]="district" [hidden]="hideDist" [disabled]="selDist"
                         (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">

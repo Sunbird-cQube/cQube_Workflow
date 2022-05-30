@@ -130,6 +130,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName
@@ -201,7 +202,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     );
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -237,13 +238,15 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);
-      this.myDistData(districtid, blockid, clusterid)
-      
-     this.blockSelect({ type: "click" }, blockid);
-      this.clusterSelect({ type: "click" }, clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
+      this.myDistData(districtid, blockid, clusterid)
+
+      this.blockSelect({ type: "click" }, blockid);
+      this.clusterSelect({ type: "click" }, clusterid);
+      this.blockHidden = true
+      this.selCluster = true;
     } else if (level === "Block") {
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
@@ -257,7 +260,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selCluster = false;
 
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
 
       this.myDistrict = districtid;
 
@@ -593,7 +596,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       return;
     }
 
-     this.commonAtStateLevel();
+    this.commonAtStateLevel();
     this.level = "Block";
     this.googleMapZoom = 7;
     if (this.months.length > 0) {
@@ -1466,12 +1469,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       if (this.myData) {
         this.myData.unsubscribe();
       }
-      
+
       this.myData = this.service
         .school_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            
+
             if (this.districtSelected) {
               let myBlockData = res["schoolData"];
               let marker = myBlockData.filter(a => {
@@ -2132,7 +2135,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_block').val('');
       return;
     }
-    this.level =  "clusterPerBlock";
+    this.level = "clusterPerBlock";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];
@@ -2268,8 +2271,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 ),
                 0.01,
                 1,
-                
-                 this.level
+
+                this.level
               );
               this.generateToolTip(
                 markerIcon,
@@ -2370,7 +2373,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden =  false;
+    this.clusterHidden = false;
     this.blockHidden = !this.hideAccessBtn ? true : false
 
     if (this.months.length > 0) {
@@ -2443,7 +2446,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.hierName = obj?.name;
 
       this.globalId = this.myCluster = data;
-      
+
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {
@@ -2620,7 +2623,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }).setContent(yourData);
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
-      
+
       markers['label'] = yourData;
 
     }

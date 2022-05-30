@@ -115,6 +115,7 @@ export class PATExceptionComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName;
@@ -142,7 +143,7 @@ export class PATExceptionComponent implements OnInit {
     this.toHideDropdowns();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -272,7 +273,7 @@ export class PATExceptionComponent implements OnInit {
       this.distlevel(districtid)
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.levelVal = 1;
     }
   }
@@ -280,7 +281,7 @@ export class PATExceptionComponent implements OnInit {
   distlevel(id) {
     this.selCluster = false;
     this.selBlock = false;
-    this.selDist = true;
+    this.selDist = false;
     //this.level= "blockPerDistrict";
     this.districtId = id;
     //this.levelWiseFilter();
@@ -598,7 +599,7 @@ export class PATExceptionComponent implements OnInit {
       this.dist = false;
       this.blok = false;
       this.clust = false;
-
+    
       // to show and hide the dropdowns
       this.blockHidden = true;
       this.clusterHidden = true;
