@@ -103,8 +103,14 @@ export class SigninComponent implements OnInit {
 
     this.service.login(this.loginForm.value).subscribe(res => {
       this.wrongCredintional = false;
-      
+    
       let response = res
+      if (res['status'] === "401"){
+        this.wrongCredintional = true
+
+        this.errorMsg = res['err'];
+        return
+      }
       let userLevel = res['user_level']
       
       if (userLevel === null) {

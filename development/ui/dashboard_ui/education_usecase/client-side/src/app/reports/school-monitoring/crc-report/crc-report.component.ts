@@ -299,15 +299,20 @@ export class CrcReportComponent implements OnInit {
       this.getBlocks('block', districtid, blockid)
       this.blockHidden = true
 
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+
       this.levelVal = 2;
     } else if (level === "District") {
       this.myDistrict = districtid;
-      // this.myBlock = blockid;
-      // this.myCluster = clusterid;
-
+  
 
       this.getDistricts('district')
-      // this.myDistData(districtid);
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = false;
+
       this.levelVal = 1;
     }
   }

@@ -666,7 +666,7 @@ export class CompositReportComponent implements OnInit {
       this.myDistData(districtid);
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
 
 
     } else if (level === null) {

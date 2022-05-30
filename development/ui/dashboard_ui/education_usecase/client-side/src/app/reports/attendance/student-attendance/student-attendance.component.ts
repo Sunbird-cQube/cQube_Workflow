@@ -334,7 +334,7 @@ export class StudengtAttendanceComponent implements OnInit {
   distlevel(id) {
     this.selCluster = false;
     this.selBlock = false;
-    this.selDist = true;
+    this.selDist = false;
 
     this.myDistrict = id;
 
@@ -656,7 +656,7 @@ export class StudengtAttendanceComponent implements OnInit {
     var month = this.getMonthYear[`${this.year}`].find(
       (a) => a.month === this.month
     );
-    
+
     this.month_year = {
       month: this.month,
       year: this.year,
@@ -907,7 +907,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
               this.reportData = this.markers = sorted
-             
+
               //getting relative colors for all markers:::::::::::
               let colors = this.commonService.getRelativeColors(sorted, {
                 value: "attendance",
@@ -1044,7 +1044,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
                 })
 
-                this.levelWise = "allCluster";
+                this.levelWise = "blockPerDistrict";
                 let options = {
                   radius: 5,
                   mapZoom: this.globalService.zoomLevel,
@@ -1074,7 +1074,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                
+
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1151,18 +1151,19 @@ export class StudengtAttendanceComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                
+
 
                 this.globalService.restrictZoom(globalMap);
 
                 //Setting map bound for scroll::::::::::::
+               
                 globalMap.setMaxBounds([
-                  [options.centerLat - 4.5, options.centerLng - 6],
-                  [options.centerLat + 3.5, options.centerLng + 6],
+                  [this.lat - 4.5, this.lng - 6],
+                  [this.lat + 3.5, this.lng + 6],
                 ]);
 
                 //adjusting marker size and other UI on screen resize:::::::::::
@@ -1199,7 +1200,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-               
+
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1324,7 +1325,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-               
+
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1432,7 +1433,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.reportData = this.markers = sorted;
-                
+
                 //getting relative colors for all markers:::::::::::
                 let colors = this.commonService.getRelativeColors(sorted, {
                   value: "attendance",
@@ -1560,7 +1561,7 @@ export class StudengtAttendanceComponent implements OnInit {
         return;
       }
 
-       this.commonAtStateLevel();
+      this.commonAtStateLevel();
       this.levelWise = "School";
       this.googleMapZoom = 7;
       if (this.months.length > 0) {
@@ -1593,8 +1594,7 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
-
-                this.mylatlngData = marker;
+                                this.mylatlngData = marker;
                 this.hierName = marker[0].district_name;
                 this.titleName = "";
                 this.clustName = "";
@@ -2589,7 +2589,7 @@ export class StudengtAttendanceComponent implements OnInit {
               this.changeDetection.markForCheck();
 
               if (cid) {
-                
+
                 this.clusterSelect({ type: 'change' }, cid)
               }
             },

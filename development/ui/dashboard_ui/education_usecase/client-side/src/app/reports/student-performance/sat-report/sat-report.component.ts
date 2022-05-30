@@ -45,6 +45,7 @@ export class SatReportComponent implements OnInit {
   public blockHidden: boolean = true;
   public clusterHidden: boolean = true;
   subjectHidden: boolean = true;
+  public distHide: boolean = false
 
   // to set the hierarchy names
   public districtHierarchy: any = "";
@@ -259,7 +260,7 @@ export class SatReportComponent implements OnInit {
       });
     }
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.distHide = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -443,20 +444,19 @@ export class SatReportComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      // this.blockHidden = true
-      // this.clusterHidden = true
+      
     } else if (level === "Block") {
 
       this.onblockLinkClick(blockid)
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
-      // this.blockHidden = true
+      
     } else if (level === "District") {
       this.ondistLinkClick(districtid)
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
 
     }
   }
@@ -1903,7 +1903,7 @@ export class SatReportComponent implements OnInit {
                     this.blockHidden = false;
                     this.clusterHidden = true;
 
-                    this.districtId = this.districtSelected;
+                    this.districtId = this.districtSlectedId;
 
                     // these are for showing the hierarchy names based on selection
                     this.skul = false;

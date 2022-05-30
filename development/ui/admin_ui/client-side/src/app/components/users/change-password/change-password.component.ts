@@ -17,7 +17,9 @@ export class ChangePasswordComponent implements OnInit {
   public successMsg;
   public isDisabled;
   otpConfig = environment.report_viewer_config_otp;
- public otpToggle = environment.auth_api
+  public userName = localStorage.getItem('userName')
+  public otpToggle = environment.auth_api === 'cqube' && this.userName !== 'admin' ? true : false
+
   roleIds: any = [];
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
@@ -27,9 +29,11 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
+    
   }
 
   onSubmit(formData: NgForm) {
+
     document.getElementById('spinner').style.display = 'block';
     this.isDisabled = false;
     if (this.changePasswdData.userName === localStorage.getItem('userName')) {
