@@ -501,14 +501,13 @@ export class PATReportComponent implements OnInit {
 
     if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
-      // this.blockHidden = true
-      // this.clusterHidden = true
+    
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Block") {
       this.onblockLinkClick(blockid)
-      // this.blockHidden = true
+    
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
@@ -516,7 +515,7 @@ export class PATReportComponent implements OnInit {
       this.ondistLinkClick(districtid)
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.clusterHidden = true
     }
   }

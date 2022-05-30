@@ -722,7 +722,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.levelVal = 1;
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
     } else if (level === null) {
       this.disHidden = false
     }

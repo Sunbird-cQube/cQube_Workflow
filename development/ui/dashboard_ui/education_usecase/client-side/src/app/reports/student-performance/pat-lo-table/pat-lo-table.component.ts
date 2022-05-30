@@ -803,7 +803,7 @@ export class PATLOTableComponent implements OnInit {
       this.selectedDistrict(districtid);
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.levelVal = 1;
     } else if (level === null) {
       this.hideDist = false
