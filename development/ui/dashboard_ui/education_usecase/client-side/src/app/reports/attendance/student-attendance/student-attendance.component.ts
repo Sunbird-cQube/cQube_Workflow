@@ -1698,8 +1698,9 @@ export class StudengtAttendanceComponent implements OnInit {
                 })
 
                 this.mylatlngData = marker;
-                this.hierName = marker[0].district_name;
-                this.titleName = marker[0].block_name;
+                
+                this.hierName = marker[0].block_name;
+                this.titleName = marker[0].district_name;
                 this.clustName = "";
 
                 this.dist = false;

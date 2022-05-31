@@ -416,7 +416,7 @@ export class SatReportComponent implements OnInit {
 
   selCluster = false;
   selBlock = false;
-  selDist = true;
+  selDist = false;
   levelVal = 0;
 
   getView() {
@@ -444,14 +444,14 @@ export class SatReportComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      
+
     } else if (level === "Block") {
 
       this.onblockLinkClick(blockid)
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
-      
+
     } else if (level === "District") {
       this.ondistLinkClick(districtid)
       this.selCluster = false;
@@ -2018,7 +2018,7 @@ export class SatReportComponent implements OnInit {
                     }
                   } else if (this.blockSelected) {
 
-                    
+
                     let mySchoolData = res["data"];
                     let marker = mySchoolData.filter(a => {
                       if (a.Details.block_id === this.blockSelectedId) {
@@ -3046,9 +3046,9 @@ export class SatReportComponent implements OnInit {
           details[key] = markers.Details[key];
         }
       });
-      
+
       data3 = details;
-      
+
       Object.keys(data3).forEach((key) => {
         if (key !== lng) {
           orgObject[key] = data3[key];
