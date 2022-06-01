@@ -46,7 +46,7 @@ export class CrcDashboardComponent implements OnInit {
       this.hiddenPass = true;
     }
     this.dataSource = this.sourceService.dataSources;    //calling function to show telemetry views..................
-
+      
     this.callOnInterval();
     setInterval(() => {
       this.callOnInterval();

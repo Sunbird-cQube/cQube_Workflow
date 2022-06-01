@@ -248,17 +248,17 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.blockHidden = true
       this.selCluster = true;
     } else if (level === "Block") {
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myDistData(districtid, blockid, clusterid)
       this.blockSelect({ type: "click" }, blockid);
       this.blockHidden = true
-      this.selCluster = false;
-      this.selBlock = true;
-      this.selDist = true;
+      
     } else if (level === "District") {
       this.selCluster = false;
-
       this.selBlock = false;
       this.selDist = false;
 
@@ -2148,7 +2148,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = false;
     this.skul = false;
     this.clusterHidden = false;
-    this.blockHidden = localStorage.getItem("userLevel") === "Block" ? true : false;
+    this.blockHidden = this.hideIfAccessLevel ? true : false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
