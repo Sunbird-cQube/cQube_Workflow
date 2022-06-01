@@ -897,7 +897,7 @@ export class SatHeatChartComponent implements OnInit {
 
   selCluster = false;
   selBlock = false;
-  selDist = true;
+  selDist = false;
   levelVal = 0;
 
   getView1() {
@@ -969,7 +969,7 @@ export class SatHeatChartComponent implements OnInit {
   distlevel(id) {
     this.selCluster = false;
     this.selBlock = false;
-    this.selDist = true;
+    this.selDist = false;
     this.level = "block";
     this.district = id;
     this.levelWiseFilter();
