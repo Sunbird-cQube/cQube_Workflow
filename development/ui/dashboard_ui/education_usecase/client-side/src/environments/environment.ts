@@ -18,7 +18,7 @@ export const environment = {
   mapName: "leafletmap",
   progressCardConfig: ['33', '33-60', '60-75', '75'],
   report_viewer_config_otp: true,
-  auth_api: 'cqube',
+  auth_api: 'state',
   keycloak_adm_user: 'admin',
   water_mark: "false"
 };
