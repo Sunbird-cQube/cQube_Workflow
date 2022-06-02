@@ -23,8 +23,8 @@
             <p id="cluster">
               CRC Report for:
               <span (click)="onClockHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span>
-                | </span><span (click)="myDistData(distName)" style="cursor: pointer; text-decoration: underline">
-                {{ titleName }}</span><span> | </span><span (click)="myBlockData(blockName)"
+                | </span><span (click)="!selDist? myDistData(distName):''" style="cursor: pointer; text-decoration: underline">
+                {{ titleName }}</span><span> | </span><span (click)="!selCluster? myBlockData(blockName):''"
                 style="cursor: pointer; text-decoration: underline" class="selected-level">
                 {{ hierName }}</span>
             </p>
@@ -34,8 +34,8 @@
             <p id="school">
               CRC Report for:
               <span (click)="onClockHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span>
-                | </span><span (click)="myDistData(distName)" style="cursor: pointer; text-decoration: underline">
-                {{ titleName }}</span><span> | </span><span (click)="myBlockData(blockName)"
+                | </span><span (click)="!selDist? myDistData(distName):''" style="cursor: pointer; text-decoration: underline">
+                {{ titleName }}</span><span> | </span><span (click)="!selCluster? myBlockData(blockName):''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ title }}</span><span> | </span><span class="selected-level"> {{ hierName }}</span>
             </p>
@@ -133,7 +133,7 @@
               {{ months[i] }}
             </option>
           </select>
-          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideIfAccessLevel"
+          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideIfAccessLevel" [disabled] = "selDist"
             (change)="myDistData(myDistrict)">
             <option [value]="myDistrict" disabled selected="selected">
               Choose District
@@ -143,7 +143,7 @@
             </option>
           </select>
 
-          <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock"
+          <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock" [disabled] = "selBlock"
             (change)="myBlockData(myBlock)">
             <option [value]="myBlock" disabled selected="selected">
               Choose Block
@@ -153,7 +153,7 @@
             </option>
           </select>
 
-          <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
+          <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled] = "selCluster"
             (change)="myClusterData(myCluster)">
             <option [value]="myCluster" disabled selected="selected">
               Choose a Cluster

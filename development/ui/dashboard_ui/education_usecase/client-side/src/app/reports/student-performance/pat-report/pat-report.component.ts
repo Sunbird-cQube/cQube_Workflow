@@ -501,14 +501,13 @@ export class PATReportComponent implements OnInit {
 
     if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
-      // this.blockHidden = true
-      // this.clusterHidden = true
+    
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Block") {
       this.onblockLinkClick(blockid)
-      // this.blockHidden = true
+    
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
@@ -516,7 +515,7 @@ export class PATReportComponent implements OnInit {
       this.ondistLinkClick(districtid)
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.clusterHidden = true
     }
   }
@@ -1392,10 +1391,13 @@ export class PATReportComponent implements OnInit {
                         distId: marker[0].Details.district_id,
                         districtName: marker[0].Details.district_name,
                       };
+                      this.districtId = this.districtSlectedId
                       this.skul = false;
                       this.dist = true;
                       this.blok = false;
-                      this.clust = false
+                      this.clust = false;
+                      this.blockHidden = false;
+                      this.clusterHidden = true;
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -1998,7 +2000,7 @@ export class PATReportComponent implements OnInit {
                       this.blockHidden = false;
                       this.clusterHidden = true;
 
-                      this.districtId = marker[0].Details.district_id
+                      this.districtId = this.districtSlectedId
                       if (this.grade) {
                         this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                       }
@@ -2656,6 +2658,7 @@ export class PATReportComponent implements OnInit {
     this.hideAllBlockBtn = true;
     this.hideAllCLusterBtn = true;
     this.hideAllSchoolBtn = false;
+    this.blockHierarchy = {}
 
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");

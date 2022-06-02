@@ -104,8 +104,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     });
     this.commonFunc()
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
-    this.disHidden = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.disHidden = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -373,8 +373,17 @@ export class DikshaTPDContentProgressComponent implements OnInit {
             color: 'black',
             fontSize: xAxis.fontSize,
             fontFamily: 'Arial',
+          },
+          formatter: function (this) {
+            let ret: any = this.value,
+              len = ret.length
+            if (len > 14) {
+              ret = ret.slice(0, 14) + '...';
+            }
+            return ret;
           }
         },
+
       }],
       yAxis: {
         categories: yLabel,
@@ -693,6 +702,9 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.selectedCluster(clusterid);
       this.clusterHidden = true;
       this.blockHidden = true
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
@@ -700,11 +712,17 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.selectedDistrict(districtid);
       this.selectedBlock(blockid, clusterid);
       this.blockHidden = true;
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid
       this.selectedDistrict(districtid);
       this.levelVal = 1;
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = false;
     } else if (level === null) {
       this.disHidden = false
     }

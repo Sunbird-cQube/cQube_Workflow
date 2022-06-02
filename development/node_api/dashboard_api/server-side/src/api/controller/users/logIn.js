@@ -169,7 +169,7 @@ router.post('/login', async (req, res, next) => {
         }
 
         ).catch(error => {
-            // logger.error(`Error :: ${error}`)
+            
             if (role === '' || role === undefined) {
                 let url = authURL;
 
@@ -211,28 +211,61 @@ router.post('/login', async (req, res, next) => {
                         db.query('SELECT distinct block_id,district_id FROM school_hierarchy_details WHERE cluster_id=$1;', [userLocation], (error, results) => {
                             if (error) {
                                 logger.info('---user level from DB error ---');
+                                res.send({ status: "401", err: "Invalid Cluster user, Please Contact Respective Team" })
                                 throw error
                             }
+                            if (results['rowCount']) {
+                                let blockId = results.rows[0]['block_id']
+                                let districtId = results.rows[0]['district_id']
+                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: userLocation, blockId: blockId, districtId: districtId })
+                            } else {
+                                res.send({ status: "401", err: "Invalid Cluster user, Please Contact Respective Team" })
+                            }
 
-                            let blockId = results.rows[0]['block_id']
-                            let districtId = results.rows[0]['district_id']
-                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: userLocation, blockId: blockId, districtId: districtId })
                         })
                     } else if (userLevel === 'Block') {
 
                         db.query('SELECT distinct district_id FROM school_hierarchy_details WHERE block_id=$1;', [userLocation], (error, results) => {
                             if (error) {
                                 logger.info('---user block level from DB error ---');
+                                res.send({ status: "401", err: "Invalid Block user, Please Contact Respective Team" })
                                 throw error
+
                             }
                             logger.info('---user block level from DB  success ---');
-                            
-                            let districtId = results.rows[0]['district_id']
-                            res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: districtId })
+
+                            if (results['rowCount']) {
+                                let districtId = results.rows[0]['district_id']
+                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, blockId: userLocation, districtId: districtId })
+                            } else {
+                                res.send({ status: "401", err: "Invalid Block user, Please Contact Respective Team" })
+                            }
 
                         })
                     } else if (userLevel === 'District') {
-                        res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, districtId: userLocation })
+                        if (userLocation === "") {
+                            logger.info('---user block level from DB error ---');
+                            res.send({ status: "401", err: "Invalid District user, Please Contact Respective Team" })
+                            return
+                        }
+                        db.query('SELECT distinct district_id FROM school_hierarchy_details WHERE district_id=$1;', [userLocation], (error, results) => {
+                            if (error) {
+                                logger.info('---user District level from DB error ---');
+                                res.send({ status: "401", err: "Invalid District user, Please Contact Respective Team" })
+                                throw error
+
+                            }
+                          
+                            if (results['rowCount']) {
+
+                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, districtId: userLocation })
+                            } else {
+                                res.send({ status: "401", err: "Invalid District user, Please Contact Respective Team" })
+                            }
+
+                        })
+                        
+
                     } else {
                         res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
                     }

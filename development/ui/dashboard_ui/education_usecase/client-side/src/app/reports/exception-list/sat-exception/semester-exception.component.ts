@@ -116,7 +116,7 @@ export class SemesterExceptionComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
-
+  public hideDist: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName;
@@ -142,7 +142,7 @@ export class SemesterExceptionComponent implements OnInit {
     this.toHideDropdowns();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -295,7 +295,7 @@ export class SemesterExceptionComponent implements OnInit {
   distlevel(id) {
     this.selCluster = false;
     this.selBlock = false;
-    this.selDist = true;
+    this.selDist = false;
     //this.level= "blockPerDistrict";
     this.districtId = id;
     //this.levelWiseFilter();
@@ -1119,11 +1119,11 @@ export class SemesterExceptionComponent implements OnInit {
         fillOpacity: 1,
         strokeWeight: 0.01,
         weight: 1,
-         mapZoom: this.globalService.zoomLevel + 3,
+        mapZoom: this.globalService.zoomLevel + 3,
         centerLat: this.data['data'][0].cluster_latitude,
         centerLng: this.data['data'][0].cluster_longitude,
-         level: 'clusterPerBlock',
-        
+        level: 'clusterPerBlock',
+
       }
       this.globalService.latitude = this.lat = options.centerLat;
       this.globalService.longitude = this.lng = options.centerLng;

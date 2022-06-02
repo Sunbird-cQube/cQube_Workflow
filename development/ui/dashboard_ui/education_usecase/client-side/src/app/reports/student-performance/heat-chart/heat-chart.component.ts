@@ -472,8 +472,8 @@ export class HeatChartComponent implements OnInit {
       },
       xAxis: [
         {
-          startOnTick: false,
-          endOnTick: false,
+          // startOnTick: false,
+          // endOnTick: false,
           categories: [],
 
           labels: {
@@ -506,6 +506,14 @@ export class HeatChartComponent implements OnInit {
               fontSize: xAxis.fontSize,
               fontFamily: "Arial",
             },
+            formatter: function (this) {
+              let ret: any = this.value,
+                len = ret.length
+              if (len > 14) {
+                ret = ret.slice(0, 14) + '...';
+              }
+              return ret;
+            }
           },
 
         },
@@ -859,6 +867,8 @@ export class HeatChartComponent implements OnInit {
 
       this.commonService.errMsg();
       this.reportData = [];
+      this.blockHidden = this.hideDist ? false: true;
+     
 
       this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
 
@@ -1033,7 +1043,9 @@ export class HeatChartComponent implements OnInit {
       this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
-
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = false;
     } else if (level === null) {
       this.hideDist = false
     }

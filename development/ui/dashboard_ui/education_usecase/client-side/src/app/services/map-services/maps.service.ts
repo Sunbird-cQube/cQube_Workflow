@@ -86,6 +86,7 @@ export class MapService {
 
 
   setMarkerRadius(level) {
+
     if (this.mapName != 'googlemap') {
       this.markersIcons.map(markerIcon => {
         if (level === "District") {
@@ -102,6 +103,9 @@ export class MapService {
         }
         if (level === "blockPerDistrict" || level === "clusterPerBlock" || level === "schoolPerCluster") {
           markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 5));
+        }
+        if (level === "allCluster") {
+          markerIcon.setRadius(this.getMarkerRadius(14, 11, 6, 3));
         }
       })
     }
@@ -126,6 +130,9 @@ export class MapService {
     if (level === "schoolPerCluster") {
       zoomLevel = this.zoomLevel + 5;
     }
+    if (level === "allCluster") {
+      zoomLevel = this.zoomLevel + 2.3;
+    }
     globalMap.options.minZoom = zoomLevel;
     if (this.latitude !== null && this.longitude !== null)
       globalMap.setView(new L.LatLng(this.latitude, this.longitude), zoomLevel);
@@ -133,7 +140,7 @@ export class MapService {
 
   //map tooltip automation
   public getInfoFrom(object, value, levelWise, reportType, infraName, colorText) {
-   
+
     var popupFood = [];
     var stringLine;
     var selected = '<span>';

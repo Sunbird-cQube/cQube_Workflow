@@ -272,11 +272,13 @@ export class PATLOTableComponent implements OnInit {
       var headers = "<thead><tr>";
       var body = "<tbody>";
       my_columns.forEach((column, i) => {
+        
         var col = column.data.replace(/_/g, " ").replace(/\w\S*/g, (txt) => {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase() ;
         });
+     
         if (i > 3) {
-          headers += `<th class="rank"><div style="transform: rotate(270deg);">${col.substring(0, 10)}</div></th>`;
+          headers += `<th class="rank"><div style="transform: rotate(270deg);">${col.slice(0, 10)}</div></th>`;
         } else {
           if (col == 'Indicator') {
             headers += `<th class="indicator">${col}</th>`;
@@ -801,7 +803,7 @@ export class PATLOTableComponent implements OnInit {
       this.selectedDistrict(districtid);
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.levelVal = 1;
     } else if (level === null) {
       this.hideDist = false

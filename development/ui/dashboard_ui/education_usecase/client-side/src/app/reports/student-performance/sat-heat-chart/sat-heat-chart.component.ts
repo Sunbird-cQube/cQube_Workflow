@@ -159,6 +159,7 @@ export class SatHeatChartComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit(): void {
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
@@ -169,10 +170,10 @@ export class SatHeatChartComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
-     this.getView1();
+    this.getView1();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -407,7 +408,7 @@ export class SatHeatChartComponent implements OnInit {
       plotOptions: {
         series: {
           dataLabels: {
-            // overflow: 'none',
+           
             crop: true,
             enabled: true,
             style: {
@@ -447,6 +448,14 @@ export class SatHeatChartComponent implements OnInit {
             color: 'black',
             fontSize: xAxis.fontSize,
             fontFamily: 'Arial',
+          },
+          formatter: function (this) {
+            let ret: any = this.value,
+              len = ret.length
+            if (len > 14) {
+              ret = ret.slice(0, 14) + '...';
+            }
+            return ret;
           }
         },
       }],
@@ -460,8 +469,9 @@ export class SatHeatChartComponent implements OnInit {
             textOverflow: "ellipsis",
             fontFamily: 'Arial'
           },
-          align: "right",
+           align: "right",
           formatter: function (this) {
+
             return this.value !== this.pos ? `${this.value}` : '';
           }
         },
@@ -489,8 +499,8 @@ export class SatHeatChartComponent implements OnInit {
             textOutline: 'none',
             fontSize: dataLabels.fontSize
           },
-           overflow: false,
-           crop: true,
+          overflow: false,
+          crop: true,
         },
         type: 'heatmap'
       }],
@@ -512,7 +522,7 @@ export class SatHeatChartComponent implements OnInit {
       var series = point.series,
         isY = dimension === 'y',
         axis = series[isY ? 'yAxis' : 'xAxis'];
-      // let splitVal = zLabel[point[isY ? 'y' : 'x']].split('/')
+      
 
       let totalSchools;
       let totalStudents;
@@ -887,7 +897,7 @@ export class SatHeatChartComponent implements OnInit {
 
   selCluster = false;
   selBlock = false;
-  selDist = true;
+  selDist = false;
   levelVal = 0;
 
   getView1() {
@@ -899,19 +909,19 @@ export class SatHeatChartComponent implements OnInit {
 
       this.selCluster = true;
       this.selBlock = true;
-       this.selDist = true;
+      this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
 
       this.selCluster = false;
-       this.selBlock = true;
-       this.selDist = true;
+      this.selBlock = true;
+      this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
 
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.levelVal = 1;
     }
   }
@@ -943,7 +953,7 @@ export class SatHeatChartComponent implements OnInit {
       this.selectedDistrict(districtid)
       this.selectedBlock(blockid);
       this.blockHidden = true
- 
+
 
       this.levelVal = 2;
     } else if (level === "District") {
@@ -959,7 +969,7 @@ export class SatHeatChartComponent implements OnInit {
   distlevel(id) {
     this.selCluster = false;
     this.selBlock = false;
-    this.selDist = true;
+    this.selDist = false;
     this.level = "block";
     this.district = id;
     this.levelWiseFilter();

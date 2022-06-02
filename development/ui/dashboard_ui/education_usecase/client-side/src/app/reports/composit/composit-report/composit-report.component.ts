@@ -292,8 +292,8 @@ export class CompositReportComponent implements OnInit {
     this.blockName = data;
 
     let obj = this.blockNames.find(o => o.id == data);
-    
-    localStorage.setItem('block', JSON.stringify(obj?.name));
+
+    obj !== undefined || "" ? localStorage.setItem('block', JSON.stringify(obj?.name)) : localStorage.getItem('block');
     this.hierName = obj?.name;
 
     this.blockHidden = localStorage.getItem('userLevel') === "Block" ? true : false;
@@ -356,7 +356,7 @@ export class CompositReportComponent implements OnInit {
     this.modes = [];
     this.reportData = [];
 
-     this.title = JSON.parse(localStorage.getItem('block'));
+    this.title = JSON.parse(localStorage.getItem('block'));
     //  this.title = localStorage.getItem('block');
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
@@ -613,7 +613,7 @@ export class CompositReportComponent implements OnInit {
       document.getElementById("spinner").style.display = "block";
       this.service.cluster_per_block_data(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
         this.result = res;
-        
+
         localStorage.setItem('block', JSON.stringify(this.result[0].block.value));
         this.titleName = this.result[0].block.block_name
         for (var i = 0; i < this.result.length; i++) {
@@ -666,7 +666,7 @@ export class CompositReportComponent implements OnInit {
       this.myDistData(districtid);
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
 
 
     } else if (level === null) {
@@ -756,6 +756,8 @@ export class CompositReportComponent implements OnInit {
       }
       this.labels = labels;
       this.obj = obj;
+
+
       this.createChart(labels, this.chartData, this.tableHead, obj);
     } else {
       if (downloadType == "dist") {
@@ -788,9 +790,7 @@ export class CompositReportComponent implements OnInit {
 
         this.clusterWise();
       }
-      // else if (this.fileName == "School_level_report") {
-      //   this.schoolWise();
-      // }
+   
 
     }
     if (this.dist) {
@@ -807,6 +807,7 @@ export class CompositReportComponent implements OnInit {
   labels: any;
   obj: any;
   createChart(labels, chartData, name, obj) {
+
     var ctx = $('#myChart');
     ctx.attr('height', this.height > 1760 ? '58vh' : this.height > 1160 && this.height < 1760 ? '54vh' : this.height > 667 && this.height < 1160 ? '50vh' : '46vh');
     this.scatterChart = new Chart('myChart', {

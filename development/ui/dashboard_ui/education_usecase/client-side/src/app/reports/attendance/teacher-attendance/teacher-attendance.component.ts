@@ -167,6 +167,7 @@ export class TeacherAttendanceComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName;
@@ -259,7 +260,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.toHideDropdowns();
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== '') {
@@ -359,7 +360,7 @@ export class TeacherAttendanceComponent implements OnInit {
   distlevel(id) {
     this.selCluster = false;
     this.selBlock = false;
-    this.selDist = true;
+    this.selDist = false;
     //  this.level= "blockPerDistrict";
     this.myDistrict = id;
     //   this.levelWiseFilter();
@@ -1331,7 +1332,7 @@ export class TeacherAttendanceComponent implements OnInit {
 
               })
               this.reportData = this.mylatlngData = marker;
-
+              this.myDistrict = this.districtSelected
               this.hierName = marker[0].district_name;
               this.titleName = "";
               this.clustName = "";
@@ -1340,6 +1341,10 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blok = false;
               this.clust = false;
               this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
+              this.myDistrict = this.districtSlectedId;
+
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1432,7 +1437,7 @@ export class TeacherAttendanceComponent implements OnInit {
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.blocksNames = blockNames;
+                // this.blocksNames = blockNames;
 
                 this.globalService.restrictZoom(globalMap);
 
@@ -1879,6 +1884,12 @@ export class TeacherAttendanceComponent implements OnInit {
               this.blok = false;
               this.clust = false;
               this.skul = false;
+
+              this.myDistrict = this.districtSlectedId
+
+              this.blockHidden = false;
+              this.clusterHidden = true;
+
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -1967,11 +1978,14 @@ export class TeacherAttendanceComponent implements OnInit {
               this.hierName = marker[0].district_name;
               this.titleName = marker[0].block_name;
               this.clustName = "";
-
+              this.myBlock = this.blockSelectedId
+              this.myDistrict = this.districtSlectedId
               this.dist = false;
               this.blok = true;
               this.clust = false;
               this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = false;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData.sort((a, b) =>
                 parseInt(a.attendance) > parseInt(b.attendance) ? 1 : -1
@@ -2247,8 +2261,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.commonService.errMsg();
     this.reportData = [];
     this.markers = [];
-    // this.teacherCount = 0;
-    // this.schoolCount = 0;
+    
     this.blockHidden = true;
     this.clusterHidden = true;
     this.dist = false;
@@ -2433,8 +2446,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.markers = [];
     this.reportData = [];
     this.commonService.errMsg();
-    // this.teacherCount = 0;
-    // this.schoolCount = 0;
+    
     this.markerData = null;
 
     this.dist = true;
@@ -2631,7 +2643,7 @@ export class TeacherAttendanceComponent implements OnInit {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
-      //   this.myBlock = '';
+        this.myBlock = '';
       $('#choose_block').val('');
       return;
     }
@@ -2734,7 +2746,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.markers = [];
             this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            // sorted.pop();
+            
             this.markers = sorted;
 
             //getting relative colors for all markers:::::::::::
@@ -2888,8 +2900,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.markers = [];
     this.reportData = [];
     this.commonService.errMsg();
-    // this.teacherCount = 0;
-    // this.schoolCount = 0;
+   
     this.markerData = null;
 
     this.dist = false;
@@ -2969,7 +2980,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.hierName = obj.name;
 
       this.globalId = this.myCluster = data;
-      // this.myBlock = this.myBlock;
+      
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {
@@ -3120,7 +3131,7 @@ export class TeacherAttendanceComponent implements OnInit {
         break;
     }
 
-    // markerIcon.on("click", null);
+    
     if (chklevel) {
       markerIcon.on("mouseover", function (e) {
         this.openPopup();
@@ -3182,7 +3193,7 @@ export class TeacherAttendanceComponent implements OnInit {
       }).setContent(yourData);
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
-      // this.googleTooltip.push(yourData)
+     
       markers['label'] = yourData;
 
     }
@@ -3195,7 +3206,7 @@ export class TeacherAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          
           event: event,
           level: level,
           locationid: data.id,
@@ -3208,7 +3219,7 @@ export class TeacherAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-          // uid: this.keyCloakSevice.kc.tokenParsed.sub,
+          
           event: event,
           level: level,
           locationid: data.id,
@@ -3230,36 +3241,14 @@ export class TeacherAttendanceComponent implements OnInit {
       this.service.telemetrySar(dateObj).subscribe(
         (res) => { },
         (err) => {
-          // this.dateRange = "";
-          // this.teacherCount = "";
-          // this.schoolCount = "";
+        
           this.changeDetection.detectChanges();
         }
       );
     }
   }
 
-  // goToprogressCard(): void {
-  //   let data: any = {};
-
-  //   if (this.levelWise === 'Block') {
-  //     data.level = 'district';
-  //     data.value = this.myDistrict;
-  //   } else if (this.levelWise === 'Cluster') {
-  //     data.level = 'block';
-  //     data.value = this.myBlock;
-  //   } else if (this.levelWise === 'school') {
-  //     data.level = 'cluster';
-  //     data.value = this.myCluster;
-  //   } else {
-  //     data.level = 'state';
-  //     data.value = null
-  //   }
-
-  //   sessionStorage.setItem('progress-card-info', JSON.stringify(data));
-  //   this._router.navigate(['/progressCard']);
-  // }
-
+  
   downloadRaw() {
     document.getElementById("spinner").style.display = "block";
     var selectedAcademicYear = this.academicYear;

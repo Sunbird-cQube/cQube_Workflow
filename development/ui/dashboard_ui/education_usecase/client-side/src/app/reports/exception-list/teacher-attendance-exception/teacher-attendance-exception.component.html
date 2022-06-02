@@ -22,7 +22,7 @@
                         <p id="cluster">
                             Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span id="dist" (click)="clickedMarker($event,distName)"
+                            </span><span id="dist" (click)="!selDist? clickedMarker($event,distName):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{titleName}}</span><span> | </span><span id="block"
                                 (click)="clickedMarker($event,blockName)"
@@ -34,10 +34,10 @@
                         <p id="school">
                             Teacher Attendance Exception Report for: <span id="state" (click)="onClickHome()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> | </span>
-                            <span id="dist" (click)="clickedMarker($event,distName)"
+                            <span id="dist" (click)="!selDist? clickedMarker($event,distName):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{titleName}}</span><span> | </span><span id="block"
-                                (click)="clickedMarker($event,blockName)"
+                                (click)="!selCluster? clickedMarker($event,blockName):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{title}}</span><span> | </span><span class="selected-level">
                                 {{hierName}}</span>
@@ -107,17 +107,17 @@
                     </select>
 
                     <button class="btn btn-secondary" id="blockbtn" name="block" [hidden]="hideIfAccessLevel"
-                        (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                        [disabled]="hideAllBlockBtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
                     <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
-                        (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
+                        [disabled]="hideAllCLusterBtn" (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
                     </button>
                     <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"
-                        (click)="schoolWise()">&nbsp;<strong>Schools</strong>
+                        [disabled]="hideAllSchoolBtn" (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
                     <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict"
-                        (change)="distSelect($event,myDistrict)" [disabled]="selDist" >
+                        (change)="distSelect($event,myDistrict)" [hidden]="hideDist" [disabled]="selDist">
                         <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
                         </option>

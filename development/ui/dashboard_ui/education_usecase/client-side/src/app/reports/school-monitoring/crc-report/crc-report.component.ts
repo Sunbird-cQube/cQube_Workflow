@@ -243,15 +243,15 @@ export class CrcReportComponent implements OnInit {
         this.onResize();
         this.levelWiseFilter()
       }
-      // this.getView1();
+      
     }, err => {
       this.commonService.loaderAndErr([]);
     });
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" ) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
+    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" || undefined ) {
+      if (this.userAccessLevel !== "") {
         this.hideIfAccessLevel = true;
       }
 
@@ -284,6 +284,10 @@ export class CrcReportComponent implements OnInit {
       this.getBlocks('cluster', districtid, blockid)
       this.getClusters(districtid, blockid, clusterid)
 
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+
       this.levelVal = 3;
     } else if (level === "Block") {
       this.myDistrict = districtid;
@@ -295,15 +299,20 @@ export class CrcReportComponent implements OnInit {
       this.getBlocks('block', districtid, blockid)
       this.blockHidden = true
 
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+
       this.levelVal = 2;
     } else if (level === "District") {
       this.myDistrict = districtid;
-      // this.myBlock = blockid;
-      // this.myCluster = clusterid;
 
 
       this.getDistricts('district')
-      // this.myDistData(districtid);
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = false;
+
       this.levelVal = 1;
     }
   }
@@ -1133,11 +1142,11 @@ export class CrcReportComponent implements OnInit {
     this.hierName = obj?.name;
     localStorage.setItem("clusterid", data);
 
-    // this.clusterHidden = false;
-    // this.blockHidden = false;
+    this.clusterHidden = false;
+    this.blockHidden = this.hideIfAccessLevel ? false : true;
 
-    this.clusterHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false;
-    this.blockHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false
+    // this.clusterHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false;
+    // this.blockHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false
 
     if (this.myData) {
       this.myData.unsubscribe();

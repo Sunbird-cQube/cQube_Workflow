@@ -23,7 +23,7 @@
             <p id="cluster">
               Periodic Assessment Test Report for:
               <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
-              </span><span (click)="ondistLinkClick(blockHierarchy.distId)"
+              </span><span (click)=" !selDist ? ondistLinkClick(blockHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
                 (click)="onblockLinkClick(blockHierarchy.blockId)" style="cursor: pointer; text-decoration: underline"
@@ -36,10 +36,10 @@
             <p id="school">
               Periodic Assessment Test Report for:
               <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
-              </span><span (click)="ondistLinkClick(clusterHierarchy.distId)"
+              </span><span (click)=" !selDist ? ondistLinkClick(clusterHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.districtName }}</span><span> | </span><span
-                (click)="onblockLinkClick(clusterHierarchy.blockId)"
+                (click)="!selCluster ? onblockLinkClick(clusterHierarchy.blockId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.blockName }}</span><span> | </span><span class="selected-level">
                 {{ clusterHierarchy.clusterName }}</span>

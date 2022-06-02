@@ -21,7 +21,7 @@
                         <p id="cluster">
                             Semester Assessment Test Report for: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="selectedDistrict(blockHierarchy.distId)"
+                            </span><span (click)=" !selDist ? selectedDistrict(blockHierarchy.distId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{blockHierarchy.districtName}}</span><span> | </span><span
                                 (click)="selectedBlock(blockHierarchy.blockId)"
@@ -33,10 +33,10 @@
                         <p id="school">
                             Semester Assessment Test Report for: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="selectedDistrict(clusterHierarchy.distId)"
+                            </span><span (click)="!selDist ? selectedDistrict(clusterHierarchy.distId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.districtName}}</span><span> | </span><span
-                                (click)="selectedBlock(clusterHierarchy.blockId)"
+                                (click)="!selCluster ? selectedBlock(clusterHierarchy.blockId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
@@ -122,7 +122,7 @@
                         </option>
                     </select>
 
-                    <select id="district" class="select-control" [(ngModel)]="district" [hidden]="selDist" [disabled]="selDist"
+                    <select id="district" class="select-control" [(ngModel)]="district" [hidden]="hideDist" [disabled]="selDist"
                         (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">

@@ -21,7 +21,7 @@
                         <p id="cluster">
                             Periodic Assessment Test Exception Report for: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="onDistrictSelect(blockHierarchy.distId)"
+                            </span><span (click)="!selDist? onDistrictSelect(blockHierarchy.distId):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{blockHierarchy.districtName}}</span><span> | </span><span
                                 (click)="onBlockSelect(blockHierarchy.blockId)"
@@ -33,10 +33,10 @@
                         <p id="school">
                             Periodic Assessment Test Exception Report for: <span (click)="homeClick()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
-                            </span><span (click)="onDistrictSelect(clusterHierarchy.distId)"
+                            </span><span (click)="!selDist? onDistrictSelect(clusterHierarchy.distId):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.districtName}}</span><span> | </span><span
-                                (click)="onBlockSelect(clusterHierarchy.blockId)"
+                                (click)="!selCluster? onBlockSelect(clusterHierarchy.blockId):''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
                                 {{clusterHierarchy.clusterName}}</span></p>
@@ -112,7 +112,7 @@
                         (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="districtId" [hidden]="selDist"
+                    <select id="choose_dist" [(ngModel)]="districtId" [hidden]="hideDist"
                         (change)="onDistrictSelect(districtId)" >
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">

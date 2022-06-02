@@ -25,8 +25,7 @@ export class DataReplayComponent implements OnInit {
 
   selectedStdYear;
   selectedTchrYear;
-  // fromDate;
-  // toDate;
+ 
   summaryFromDate;
   summaryToDate;
 
@@ -36,7 +35,6 @@ export class DataReplayComponent implements OnInit {
   selectedBatchIds;
   options = [
     { id: '', value: "Select" },
-    //{ id: 'No', value: 'No' }, 
     { id: 'delete all data', value: 'Delete all data' }];
 
   //error messages
@@ -159,10 +157,12 @@ export class DataReplayComponent implements OnInit {
     }
     this.daysArr.splice(0, 1);
     this.daysArr.push(this.daysArr[this.daysArr.length - 1] + noOfDaysInCurrYear % 30);
+
   }
 
   onSelectDataSource(data) {
     this.formObj = {};
+
     this.dataSourceName = data;
     if (data != 'Select Data Source') {
     } else {
@@ -183,7 +183,9 @@ export class DataReplayComponent implements OnInit {
     });
   }
 
+
   onSelectStdYear(value) {
+
     this.stdMonthErr = '';
     this.selectedStdYear = value;
     if (this.selectedStdYear != 'Select Year') {
@@ -198,9 +200,11 @@ export class DataReplayComponent implements OnInit {
         year: this.selectedStdYear,
         months: []
       }
+
       this.formObj['student_attendance'] = obj;
       this.shareCheckedList1([]);
     } else {
+
       this.months1 = [];
     }
   }
@@ -251,25 +255,28 @@ export class DataReplayComponent implements OnInit {
         academic_year: this.selected_academic_year,
         semesters: []
       }
+
       this.formObj['semester'] = obj;
+
       this.semesters = [];
       let data = this.allSemData.find(a => a.academic_year == this.selected_academic_year);
       data['semester'].forEach(element => {
         this.semesters.push({ id: element, name: "Semester " + element });
       });
+
       this.semesters = this.semesters.map(sem => {
         sem.status = false;
         return sem;
       });
+
     }
   }
   shareCheckedList3(item: any[]) {
     this.selectedSemesters = item;
     if (this.selectedSemesters.length > 0) {
-      var obj = {
-        semesters: this.selectedSemesters
-      }
-      this.formObj['semester'] = obj;
+      var arr = this.selectedSemesters
+
+      this.formObj['semester']['semesters'] = arr;
     } else {
       delete this.formObj['semester'];
     }
@@ -386,6 +393,7 @@ export class DataReplayComponent implements OnInit {
   }
 
   onSubmit() {
+
     document.getElementById('spinner').style.display = 'block';
     if (Object.keys(this.formObj).length > 0) {
       if (this.summaryFromDate && !this.summaryToDate) {

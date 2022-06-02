@@ -773,7 +773,7 @@ export class UdiseReportComponent implements OnInit {
       this.myData = this.service.udise_cluster_wise({ management: this.management, category: this.category }).subscribe(
         (res) => {
           if (this.districtSelected) {
-            this.districtId = this.districtSlectedId;
+
             this.blockHidden = false;
             this.clusterHidden = true;
             this.skul = false;
@@ -792,10 +792,10 @@ export class UdiseReportComponent implements OnInit {
 
             })
 
-           
-
+            this.districtId = this.districtSlectedId;
 
             this.markers = this.data = marker;
+
             this.gettingIndiceFilters(this.data);
             let options = {
               radius: 1,
@@ -878,6 +878,7 @@ export class UdiseReportComponent implements OnInit {
 
             })
             this.markers = this.data = marker;
+
             this.gettingIndiceFilters(this.data);
             let options = {
               radius: 2,
@@ -1164,9 +1165,23 @@ export class UdiseReportComponent implements OnInit {
 
             })
 
-
-
             this.markers = this.data = marker;
+            this.districtHierarchy = {
+              distId: marker[0].details.district_id,
+              districtName: marker[0].details.District_Name,
+            };
+
+            this.districtId = this.districtSelected;
+
+            // to show and hide the dropdowns
+            this.blockHidden = false;
+            this.clusterHidden = true;
+
+            // these are for showing the hierarchy names based on selection
+            this.skul = false;
+            this.dist = true;
+            this.blok = false;
+            this.clust = false;
             this.gettingIndiceFilters(this.data);
             let options = {
               radius: 1,
@@ -1241,13 +1256,8 @@ export class UdiseReportComponent implements OnInit {
 
             let blockData = res["data"];
             this.skul = false;
-            this.blok =  true;
-            this.blockHierarchy = {
-              distId: this.districtSelected,
-              districtName: "",
-              blockId: this.blockSelected,
-              blockName: this.data[0].details.Block_Name,
-            };
+            this.blok = true;
+
             let marker = blockData.filter(a => {
               if (a.details.block_id === this.blockSelectedId) {
                 this.blockHierarchy.districtName = a.details.District_Name;
@@ -1260,6 +1270,20 @@ export class UdiseReportComponent implements OnInit {
 
 
             this.markers = this.data = marker;
+            // set hierarchy values
+            this.blockHierarchy = {
+              distId: this.data[0].details.district_id,
+              districtName: this.data[0].details.District_Name,
+              blockId: this.data[0].details.block_id,
+              blockName: this.data[0].details.Block_Name,
+            };
+
+            // to show and hide the dropdowns
+            this.blockHidden = false;
+            this.clusterHidden = false;
+
+            this.districtId = marker[0].details.district_id;
+            this.blockId = this.blockSelectedId;
             this.gettingIndiceFilters(this.data);
             let options = {
               radius: 1,
@@ -2143,7 +2167,7 @@ export class UdiseReportComponent implements OnInit {
       this.onDistrictSelect(districtid)
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
 
     } else if (level === '' || level == undefined) {
       this.distHidden = false

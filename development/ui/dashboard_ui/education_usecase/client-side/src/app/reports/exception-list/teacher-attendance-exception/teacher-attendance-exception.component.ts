@@ -128,6 +128,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName
@@ -194,7 +195,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     );
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -252,7 +253,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     } else if (level === "District") {
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.distSelect({ type: "click" }, districtid);
 
     }
@@ -426,7 +427,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       };
       this.months.push(obj);
     });
-    // this.element.disabled = false;
+
   }
 
   public myData;
@@ -990,14 +991,22 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+              this.hierName = marker[0].district_name
+              this.dist = true;
+              this.blok = false;
+              this.clust = false;
+              this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
+              this.myDistrict = this.districtSlectedId
 
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-              // this.schoolCount = res['schoolCount']
+              
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1068,11 +1077,11 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.clusterNames = clustNames;
+           
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.blocksNames = blockNames;
+              
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1105,7 +1114,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-              // this.schoolCount = res['schoolCount']
+            
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1213,7 +1222,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-              // this.schoolCount = res['schoolCount']
+            
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1313,7 +1322,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-              // this.schoolCount = res['schoolCount']
+             
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1458,7 +1467,16 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+              this.hierName = marker[0].district_name
 
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.skul = false;
+              this.clusterHidden = false;
+              this.blockHidden = false;
+              this.myBlock = this.blockSelectedId
+              this.myDistrict = this.districtSlectedId
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -1528,6 +1546,17 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 }
 
               })
+
+              this.hierName = marker[0].block_name
+              this.titleName = marker[0].district_name
+              this.myDistrict = this.districtSlectedId;
+              this.myBlock = this.blockSelectedId
+              this.dist = false;
+              this.blok = true;
+              this.clust = false;
+              this.skul = false;
+              this.clusterHidden = false;
+              this.blockHidden = false;
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -1932,8 +1961,8 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       } else {
         this.fileName = `${this.reportName}_${this.level}s_of_district_${data}_${this.period}_${this.commonService.dateAndTime}`;
       }
-      this.distName = { district_id: data, district_name: obj.name };
-      this.hierName = obj.name;
+      this.distName = { district_id: data, district_name: obj?.name };
+      this.hierName = obj?.name;
       localStorage.setItem("dist", obj.name);
       localStorage.setItem("distId", data);
 
@@ -2185,7 +2214,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
 
             this.markers = [];
             this.schoolsWithMissingData = res["missingSchoolsCount"];
-            // sorted.pop();
+
             let colors = this.commonService.getRelativeColors(sorted, {
               value: "percentage_schools_with_missing_data",
               report: "exception",
@@ -2407,7 +2436,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       this.hierName = obj.name;
 
       this.globalId = this.myCluster = data;
-      // this.myBlock = this.myBlock;
+
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {

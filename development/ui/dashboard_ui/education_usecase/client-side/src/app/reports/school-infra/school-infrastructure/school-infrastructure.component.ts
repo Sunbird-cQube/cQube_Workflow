@@ -120,35 +120,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
 
-      // this.service.infraBlockWise(districtid, { management: this.management, category: this.category }).subscribe(res => {
-
-      //   let result = res
-      //   var result1 = Object.entries(result);
-      //   for (var i = 0; i < result1.length; i++) {
-      //     if (result[i]) {
-      //       this.blockNames.push({ id: result[i].block.id, name: result[i].block.value });
-      //     }
-
-      //   }
-      //   this.commonService.loaderAndErr(this.result);
-      //   this.service.infraClusterWise(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
-      //     let clusterResult = res;
-      //     let clusterResult1 = Object.entries(clusterResult);
-      //     for (var i = 0; i < clusterResult1.length; i++) {
-      //       if (clusterResult[i]) {
-      //         this.clusterNames.push({ id: clusterResult[i].cluster.id, name: clusterResult[i].cluster.value });
-      //       }
-
-      //     }
-      //     document.getElementById('spinner').style.display = 'none'
-
-      //     this.myClusterData(clusterid)
-      //   })
-
-
-
-
-      // })
+    
 
 
 
@@ -162,7 +134,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myDistrict = Number(districtid)
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
-      // this.myBlockData(blockid)
+      
 
     } else if (level === "District") {
 
@@ -171,11 +143,10 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myDistData(districtid)
       this.distHidden = true
       this.myDistrict = Number(districtid)
-      this.myBlock = Number(blockid)
-      this.myCluster = Number(clusterid)
+    
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
 
     } else if (level === null || level === '') {
       this.distHidden = false
@@ -316,6 +287,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myBlockData(data, clusterid?) {
+    
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
@@ -334,7 +306,9 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     localStorage.setItem('blockId', data);
     this.titleName = localStorage.getItem('dist');
-    this.distName = JSON.parse(localStorage.getItem('distId'));
+     this.distName = JSON.parse(localStorage.getItem('distId'));
+    
+    
     this.blockName = data;
     let obj = this.blockNames.find(o => o.id == data);
     localStorage.setItem('block', JSON.stringify(obj?.name));
