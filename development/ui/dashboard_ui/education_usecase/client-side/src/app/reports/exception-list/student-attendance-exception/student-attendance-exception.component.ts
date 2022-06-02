@@ -130,6 +130,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  public hideDist: boolean = false
 
   ngOnInit() {
     this.mapName = this.commonService.mapName
@@ -201,7 +202,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     );
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.selDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -237,27 +238,29 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);
-      this.myDistData(districtid, blockid, clusterid)
-      
-      this.blockSelect({ type: "click" }, blockid);
-      this.clusterSelect({ type: "click" }, clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
+      this.myDistData(districtid, blockid, clusterid)
+
+      this.blockSelect({ type: "click" }, blockid);
+      this.clusterSelect({ type: "click" }, clusterid);
+      this.blockHidden = true
+      this.selCluster = true;
     } else if (level === "Block") {
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myDistData(districtid, blockid, clusterid)
       this.blockSelect({ type: "click" }, blockid);
       this.blockHidden = true
-      this.selCluster = false;
-      this.selBlock = true;
-      this.selDist = true;
+      
     } else if (level === "District") {
       this.selCluster = false;
-
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
 
       this.myDistrict = districtid;
 
@@ -389,7 +392,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     var month = this.getMonthYear[`${this.year}`].find(
       (a) => a.month === this.month
     );
-    // this.dateRange = `${month.data_from_date} to ${month.data_upto_date}`;
+    ;
     this.month_year = {
       month: this.month,
       year: this.year,
@@ -435,7 +438,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       };
       this.months.push(obj);
     });
-    // this.element.disabled = false;
+
   }
 
   public myData;
@@ -593,7 +596,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       return;
     }
 
-    // this.commonAtStateLevel();
+    this.commonAtStateLevel();
     this.level = "Block";
     this.googleMapZoom = 7;
     if (this.months.length > 0) {
@@ -1001,7 +1004,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 }
 
               })
-              this.hierName = marker.district_name
+              this.hierName = marker[0].district_name
               this.dist = true;
               this.blok = false;
               this.clust = false;
@@ -1085,7 +1088,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.clusterNames = clustNames;
+               
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
@@ -1116,7 +1119,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 }
 
               })
-
+              this.hierName = marker[0].district_name
+              this.dist = false;
+              this.blok = false;
+              this.clust = false;
+              this.skul = false;
+              this.blockHidden = false;
+              this.clusterHidden = true;
+              this.myDistrict = this.districtSlectedId
 
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
@@ -1194,11 +1204,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.clusterNames = clustNames;
+              
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-                this.blocksNames = blockNames;
+              
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1459,10 +1469,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       if (this.myData) {
         this.myData.unsubscribe();
       }
+
       this.myData = this.service
         .school_wise_data({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
+
             if (this.districtSelected) {
               let myBlockData = res["schoolData"];
               let marker = myBlockData.filter(a => {
@@ -1480,6 +1492,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               this.skul = false;
               this.blockHidden = false;
               this.clusterHidden = true;
+              this.myDistrict = this.districtSlectedId
               this.reportData = this.mylatlngData = marker;
               this.dateRange = res["dateRange"];
               var sorted = this.mylatlngData;
@@ -2122,7 +2135,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       $('#choose_block').val('');
       return;
     }
-    this.level =  "clusterPerBlock";
+    this.level = "clusterPerBlock";
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.markers = [];
@@ -2135,7 +2148,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = false;
     this.skul = false;
     this.clusterHidden = false;
-    this.blockHidden = localStorage.getItem("userLevel") === "Block" ? true : false;
+    this.blockHidden = this.hideIfAccessLevel ? true : false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -2258,8 +2271,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 ),
                 0.01,
                 1,
-                "District"
-                // this.level
+
+                this.level
               );
               this.generateToolTip(
                 markerIcon,
@@ -2360,8 +2373,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden = localStorage.getItem('userLevel') === "Cluster" ? true : false;
-    this.blockHidden = localStorage.getItem('userLevel') === "Cluster" ? true : false;
+    this.clusterHidden = false;
+    this.blockHidden = !this.hideAccessBtn ? true : false
+
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -2432,7 +2446,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.hierName = obj?.name;
 
       this.globalId = this.myCluster = data;
-      //this.myBlock = this.myBlock;
+
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {
@@ -2609,7 +2623,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }).setContent(yourData);
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
-      // this.googleTooltip.push(yourData)
+
       markers['label'] = yourData;
 
     }

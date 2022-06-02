@@ -459,10 +459,7 @@ export class HeatChartComponent implements OnInit {
 
       chart: {
         type: "heatmap",
-        scrollablePlotArea: {
-          minWidth: 700,
-          scrollPositionX: 1
-        }
+        
       },
       credits: {
         enabled: false,
@@ -475,8 +472,8 @@ export class HeatChartComponent implements OnInit {
       },
       xAxis: [
         {
-          startOnTick: false,
-          endOnTick: false,
+          // startOnTick: false,
+          // endOnTick: false,
           categories: [],
 
           labels: {
@@ -870,7 +867,8 @@ export class HeatChartComponent implements OnInit {
 
       this.commonService.errMsg();
       this.reportData = [];
-      this.blockHidden = this.hideAccessBtn ? false: true;
+      this.blockHidden = this.hideDist ? false: true;
+     
 
       this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
 
@@ -1045,7 +1043,9 @@ export class HeatChartComponent implements OnInit {
       this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
-
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = false;
     } else if (level === null) {
       this.hideDist = false
     }

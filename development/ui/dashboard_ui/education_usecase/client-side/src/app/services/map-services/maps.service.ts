@@ -86,7 +86,7 @@ export class MapService {
 
 
   setMarkerRadius(level) {
-    
+
     if (this.mapName != 'googlemap') {
       this.markersIcons.map(markerIcon => {
         if (level === "District") {
@@ -105,7 +105,7 @@ export class MapService {
           markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 5));
         }
         if (level === "allCluster") {
-          markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 5));
+          markerIcon.setRadius(this.getMarkerRadius(14, 11, 6, 3));
         }
       })
     }
@@ -131,7 +131,7 @@ export class MapService {
       zoomLevel = this.zoomLevel + 5;
     }
     if (level === "allCluster") {
-      zoomLevel = this.zoomLevel + 2.8;
+      zoomLevel = this.zoomLevel + 2.3;
     }
     globalMap.options.minZoom = zoomLevel;
     if (this.latitude !== null && this.longitude !== null)

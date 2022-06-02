@@ -552,7 +552,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.distLinkClick(districtid);
       this.selCluster = false;
       this.selBlock = false;
-      this.selDist = true;
+      this.selDist = false;
       this.levelVal = 1;
     }
   }

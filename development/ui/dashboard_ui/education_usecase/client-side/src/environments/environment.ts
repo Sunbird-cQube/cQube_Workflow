@@ -17,7 +17,7 @@ export const environment = {
   theme: "theme2",
   mapName: "leafletmap",
   progressCardConfig: ['33', '33-60', '60-75', '75'],
-  report_viewer_config_otp: false,
+  report_viewer_config_otp: true,
   auth_api: 'state',
   keycloak_adm_user: 'admin',
   water_mark: "false"
