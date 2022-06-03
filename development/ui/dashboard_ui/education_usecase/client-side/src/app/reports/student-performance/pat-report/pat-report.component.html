@@ -13,8 +13,8 @@
           <div *ngIf="dist">
             <p id="block">
               Periodic Assessment Test Report for:
-              <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
-              <span> | </span><span (click)="ondistLinkClick(districtHierarchy.distId)"
+              <span (click)="hideAccessBtn ? linkClick():''" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
+              <span> | </span><span (click)="hideDist ? ondistLinkClick(districtHierarchy.distId):''"
                 style="cursor: pointer; text-decoration: underline" class="selected-level">
                 {{ districtHierarchy.districtName }}</span>
             </p>
@@ -22,7 +22,7 @@
           <div *ngIf="blok">
             <p id="cluster">
               Periodic Assessment Test Report for:
-              <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
+              <span (click)="hideAccessBtn ? linkClick(): ''" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
               </span><span (click)=" !selDist ? ondistLinkClick(blockHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
@@ -35,7 +35,7 @@
           <div *ngIf="clust">
             <p id="school">
               Periodic Assessment Test Report for:
-              <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
+              <span (click)="hideAccessBtn ? linkClick(): ''" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
               </span><span (click)=" !selDist ? ondistLinkClick(clusterHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.districtName }}</span><span> | </span><span

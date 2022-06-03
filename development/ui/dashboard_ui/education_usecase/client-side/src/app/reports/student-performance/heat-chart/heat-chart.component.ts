@@ -106,6 +106,7 @@ export class HeatChartComponent implements OnInit {
     public router: Router
   ) {
     this.screenWidth = window.innerWidth;
+
     service.PATHeatMapMetaData({ report: "pat" }).subscribe(
       (res) => {
         try {
@@ -135,7 +136,14 @@ export class HeatChartComponent implements OnInit {
           ];
 
           this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-          this.commonFunc();
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+
+            this.commonFunc();
+          } else {
+            this.getView()
+
+          }
+
         } catch (e) {
           this.metaData = [];
           this.commonService.loaderAndErr(this.metaData);
@@ -189,6 +197,7 @@ export class HeatChartComponent implements OnInit {
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
     this.getView1();
+
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -459,7 +468,7 @@ export class HeatChartComponent implements OnInit {
 
       chart: {
         type: "heatmap",
-        
+
       },
       credits: {
         enabled: false,
@@ -472,8 +481,6 @@ export class HeatChartComponent implements OnInit {
       },
       xAxis: [
         {
-          // startOnTick: false,
-          // endOnTick: false,
           categories: [],
 
           labels: {
@@ -736,7 +743,7 @@ export class HeatChartComponent implements OnInit {
     }
   }
 
-  selectedDistrict(districtId) {
+  selectedDistrict(districtId, bid?, cid?) {
     if (!this.month && this.month === "") {
       alert("Please select month!");
       this.dist = false;
@@ -782,6 +789,10 @@ export class HeatChartComponent implements OnInit {
           this.blok = false;
           this.clust = false;
           this.commonService.loaderAndErr(this.reportData);
+          if (bid) {
+            this.selectedBlock(bid, cid)
+          }
+
         },
         (err) => {
           this.reportData = [];
@@ -794,7 +805,7 @@ export class HeatChartComponent implements OnInit {
     }
   }
 
-  selectedBlock(blockId) {
+  selectedBlock(blockId, cid?) {
     if (!this.month && this.month === "") {
       alert("Please select month!");
       this.blok = false;
@@ -842,6 +853,9 @@ export class HeatChartComponent implements OnInit {
           this.blok = true;
           this.clust = false;
           this.commonService.loaderAndErr(this.reportData);
+          if (cid) {
+            this.selectedCluster(cid)
+          }
         },
         (err) => {
           this.reportData = [];
@@ -867,8 +881,9 @@ export class HeatChartComponent implements OnInit {
 
       this.commonService.errMsg();
       this.reportData = [];
-      this.blockHidden = this.hideDist ? false: true;
-     
+
+      this.blockHidden = this.hideDist ? true : false;
+
 
       this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
 
@@ -1067,10 +1082,8 @@ export class HeatChartComponent implements OnInit {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
+      this.selectedDistrict(districtid, blockid, clusterid);
 
-
-      this.selectedBlock(blockid);
-      this.selectedCluster(clusterid);
       this.blockHidden = true
       this.clusterHidden = true
       this.levelVal = 3;
@@ -1079,14 +1092,39 @@ export class HeatChartComponent implements OnInit {
       this.block = blockid;
       this.cluster = clusterid;
       this.hideblock = true
-      this.selectedDistrict(districtid);
-      this.selectedBlock(blockid);
+      this.selectedDistrict(districtid, blockid);
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
-      this.block = blockid;
-      this.cluster = clusterid;
-      this.selectedDistrict(districtid);
+
+      let a = {
+        report: "pat",
+        year: this.year,
+        month: this.month,
+        grade: this.grade == "all" ? "" : this.grade,
+        subject_name: this.subject == "all" ? "" : this.subject,
+        exam_date: this.examDate == "all" ? "" : this.examDate,
+        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
+        management: this.management,
+        category: this.category,
+      };
+      this.service.PATHeatMapAllData(a).subscribe(
+        (response) => {
+          if (response["districtDetails"]) {
+            let districts = response["districtDetails"];
+            this.districtNames = districts.sort((a, b) =>
+              a.district_name > b.district_name
+                ? 1
+                : b.district_name > a.district_name
+                  ? -1
+                  : 0
+            );
+          }
+          this.selectedDistrict(districtid);
+          
+
+        }
+      );
       this.levelVal = 1;
     }
   }

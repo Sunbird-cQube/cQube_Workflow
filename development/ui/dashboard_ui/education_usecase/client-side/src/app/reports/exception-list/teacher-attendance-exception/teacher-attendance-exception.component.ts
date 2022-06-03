@@ -381,7 +381,6 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     var month = this.getMonthYear[`${this.year}`].find(
       (a) => a.month === this.month
     );
-    // this.dateRange = `${month.data_from_date} to ${month.data_upto_date}`;
     this.month_year = {
       month: this.month,
       year: this.year,
@@ -1006,7 +1005,6 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-              
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1077,11 +1075,11 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-           
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-              
+
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1114,7 +1112,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-            
+
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1222,7 +1220,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-            
+
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1322,7 +1320,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               var clustNames = [];
               var blockNames = [];
               this.schoolsWithMissingData = res["missingSchoolsCount"];
-             
+
 
               this.markers = sorted;
               let colors = this.commonService.getRelativeColors(sorted, {
@@ -1963,7 +1961,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       }
       this.distName = { district_id: data, district_name: obj?.name };
       this.hierName = obj?.name;
-      localStorage.setItem("dist", obj.name);
+      localStorage.setItem("dist", obj?.name);
       localStorage.setItem("distId", data);
 
       this.globalId = this.myDistrict = data;
@@ -2165,15 +2163,15 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
         this.blocksNames = blockNames;
       }
       let obj = this.blocksNames.find((o) => o.id == data);
-      localStorage.setItem("block", obj.name);
+      localStorage.setItem("block", obj?.name);
       localStorage.setItem("blockId", data);
       this.titleName = localStorage.getItem("dist");
       this.distName = {
         district_id: Number(localStorage.getItem("distId")),
         district_name: this.titleName,
       };
-      this.blockName = { block_id: data, block_name: obj.name };
-      this.hierName = obj.name;
+      this.blockName = { block_id: data, block_name: obj?.name };
+      this.hierName = obj?.name;
 
       this.globalId = this.myBlock = data;
       this.myDistrict = Number(localStorage.getItem("distId"));

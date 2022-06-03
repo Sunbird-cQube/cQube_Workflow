@@ -193,97 +193,102 @@ export class PATReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.service.getMonthYear().subscribe((res) => {
-      this.getMonthYear = res;
-      this.getMonthYear.map((item) => {
-        this.years.push(item["academic_year"]);
-      });
-      this.year = this.years[this.years.length - 1];
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ""){
+      this.service.getMonthYear().subscribe((res) => {
+        this.getMonthYear = res;
+        this.getMonthYear.map((item) => {
+          this.years.push(item["academic_year"]);
+        });
+        this.year = this.years[this.years.length - 1];
 
-      this.months = [];
-      var months = [];
-      this.getMonthYear.map((item) => {
-        if (item["academic_year"] == this.year) {
-          months = item["month"];
+        this.months = [];
+        var months = [];
+        this.getMonthYear.map((item) => {
+          if (item["academic_year"] == this.year) {
+            months = item["month"];
+          }
+        });
+        months.map(a => {
+          this.months.push(a.trim());
+        });
+        this.months.sort((a, b) => {
+          return this.allMonths.indexOf(a) - this.allMonths.indexOf(b);
+        });
+        this.month = this.months[this.months.length - 1];
+        if (this.month) {
+          this.month_year = {
+            month: null,
+            year: null,
+          };
         }
-      });
-      months.map(a => {
-        this.months.push(a.trim());
-      });
-      this.months.sort((a, b) => {
-        return this.allMonths.indexOf(a) - this.allMonths.indexOf(b);
-      });
-      this.month = this.months[this.months.length - 1];
-      if (this.month) {
-        this.month_year = {
-          month: null,
-          year: null,
-        };
-      }
 
-      if (params) {
-        this.changeDetection.detectChanges();
-        if (params.timePeriod == "overall") {
-          params.timePeriod = "all";
+        if (params) {
+          this.changeDetection.detectChanges();
+          if (params.timePeriod == "overall") {
+            params.timePeriod = "all";
+          }
+          this.period = params.timePeriod;
         }
-        this.period = params.timePeriod;
-      }
 
-      if (params && params.level) {
-        let data = params.data;
-        if (params.level === "district") {
-          this.districtHierarchy = {
-            distId: data.id,
-          };
+        if (params && params.level) {
+          let data = params.data;
+          if (params.level === "district") {
+            this.districtHierarchy = {
+              distId: data.id,
+            };
 
-          this.districtId = data.id;
-          this.getDistricts(params.level);
-        } else if (params.level === "block") {
-          this.districtHierarchy = {
-            distId: data.districtId,
-          };
+            this.districtId = data.id;
+            this.getDistricts(params.level);
+          } else if (params.level === "block") {
+            this.districtHierarchy = {
+              distId: data.districtId,
+            };
 
-          this.blockHierarchy = {
-            distId: data.districtId,
-            blockId: data.id,
-          };
+            this.blockHierarchy = {
+              distId: data.districtId,
+              blockId: data.id,
+            };
 
-          this.districtId = data.districtId;
-          this.blockId = data.id;
-          this.getDistricts(params.level);
-          this.getBlocks(data.districtId, data.id);
-        } else if (params.level === "cluster") {
-          this.districtHierarchy = {
-            distId: data.districtId,
-          };
+            this.districtId = data.districtId;
+            this.blockId = data.id;
+            this.getDistricts(params.level);
+            this.getBlocks(data.districtId, data.id);
+          } else if (params.level === "cluster") {
+            this.districtHierarchy = {
+              distId: data.districtId,
+            };
 
-          this.blockHierarchy = {
-            distId: data.districtId,
-            blockId: data.blockId,
-          };
+            this.blockHierarchy = {
+              distId: data.districtId,
+              blockId: data.blockId,
+            };
 
-          this.clusterHierarchy = {
-            distId: data.districtId,
-            blockId: data.blockId,
-            clusterId: data.id,
-          };
+            this.clusterHierarchy = {
+              distId: data.districtId,
+              blockId: data.blockId,
+              clusterId: data.id,
+            };
 
-          this.districtId = data.blockHierarchy.distId;
-          this.blockId = data.blockId;
-          this.clusterId = data.id;
-          this.getDistricts(params.level);
-          this.getBlocks(data.districtId);
-          this.getClusters(data.districtId, data.blockId, data.id);
+            this.districtId = data.blockHierarchy.distId;
+            this.blockId = data.blockId;
+            this.clusterId = data.id;
+            this.getDistricts(params.level);
+            this.getBlocks(data.districtId);
+            this.getClusters(data.districtId, data.blockId, data.id);
+          }
+        } else {
+          this.changeDetection.detectChanges();
+          this.levelWiseFilter();
+         
         }
-      } else {
-        this.changeDetection.detectChanges();
-        this.levelWiseFilter();
-        // this.getView1();
-      }
-    }, err => {
-      this.getMonthYear = [];
-      this.commonService.loaderAndErr(this.getMonthYear);
-    });
+      }, err => {
+        this.getMonthYear = [];
+        this.commonService.loaderAndErr(this.getMonthYear);
+      });
+    }else{
+       this.getView();
+    }
+   
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
@@ -436,7 +441,7 @@ export class PATReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    // this.subject = "";
+    
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
@@ -655,7 +660,7 @@ export class PATReportComponent implements OnInit {
                     if (this.grade) {
                       this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                     }
-                    // this.allGrades
+                    
                     // to show only in dropdowns
                     this.districtMarkers = this.allDistricts = this.data;
                     if (this.districtMarkers.length > 0 && !this.districtMarkers[0]["Subjects"]) {
@@ -2529,7 +2534,7 @@ export class PATReportComponent implements OnInit {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.dist = false;
-      //  this.districtId = '';
+      
       $('#choose_dist').val('');
       return;
     }
@@ -3520,16 +3525,6 @@ export class PATReportComponent implements OnInit {
         details[key] = markers.Details[key];
       }
     });
-    // Object.keys(details).forEach((key) => {
-    //   if (key !== "students_count") {
-    //     data1[key] = details[key];
-    //   }
-    // });
-    // Object.keys(data1).forEach((key) => {
-    //   if (key !== "total_schools") {
-    //     data2[key] = data1[key];
-    //   }
-    // });
     Object.keys(details).forEach((key) => {
       var str = key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
       if (key !== "longitude") {
