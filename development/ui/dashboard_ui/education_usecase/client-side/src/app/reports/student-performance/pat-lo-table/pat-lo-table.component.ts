@@ -117,8 +117,14 @@ export class PATLOTableComponent implements OnInit {
           ];
 
           this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+          
+            this.commonFunc();
+          } else {
 
-          this.commonFunc();
+            this.getView()
+          }
+          
         } catch (e) {
           this.metaData = [];
           this.commonService.loaderAndErr(this.metaData);
@@ -146,7 +152,7 @@ export class PATLOTableComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    // this.getView1();
+    
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -272,11 +278,11 @@ export class PATLOTableComponent implements OnInit {
       var headers = "<thead><tr>";
       var body = "<tbody>";
       my_columns.forEach((column, i) => {
-        
+
         var col = column.data.replace(/_/g, " ").replace(/\w\S*/g, (txt) => {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase() ;
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
-     
+
         if (i > 3) {
           headers += `<th class="rank"><div style="transform: rotate(270deg);">${col.slice(0, 10)}</div></th>`;
         } else {
@@ -799,8 +805,38 @@ export class PATLOTableComponent implements OnInit {
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
+      let a = {
+        year: this.year,
+        month: this.month,
+        grade: this.grade == "all" ? "" : this.grade,
+        subject_name: this.subject == "all" ? "" : this.subject,
+        exam_date: this.examDate == "all" ? "" : this.examDate,
+        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
+        management: this.management,
+        category: this.category,
+      };
+      this.month = a.month;
+      if (this.myData) {
+        this.myData.unsubscribe();
+      }
+      this.myData = this.service.patLOTableDistData(a).subscribe(
+        (response) => {
+          this.resetTable();
+          this.updatedTable = this.reportData = response["tableData"];
+          var districtNames = response["districtDetails"];
+          this.districtNames = districtNames.sort((a, b) =>
+            a.district_name > b.district_name
+              ? 1
+              : b.district_name > a.district_name
+                ? -1
+                : 0
+          );
+          this.selectedDistrict(districtid);
+          
+        },
 
-      this.selectedDistrict(districtid);
+      );
+
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
