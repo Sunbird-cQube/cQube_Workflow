@@ -438,8 +438,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
       this.commonService.errMsg();
       this.reportData = [];
-      //  this.districtId = undefined;
-      //  this.blockId = undefined;
+      
       this.level = "Block";
       this.googleMapZoom = 7;
       this.fileName = `${this.reportName}_allBlocks_${this.commonService.dateAndTime}`;
@@ -2348,34 +2347,8 @@ export class InfraMapVisualisationComponent implements OnInit {
 
   popups(markerIcon, markers, level) {
 
-    let userLevel = localStorage.getItem("userLevel");
-    let chklevel = false;
-    switch (userLevel) {
-      case "cluster":
-        if (level == "Cluster" || level == "schoolPerCluster") {
-          chklevel = true;
-        }
-        break;
-      case "block":
-        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock") {
-          chklevel = true;
-        }
-        break;
-      case "district":
-        if (level == "Cluster" || level == "schoolPerCluster" || level == "Block" || level == "clusterPerBlock" || level == "District" || level == "blockPerDistrict") {
-          chklevel = true;
-        }
-        break;
-      default:
-        chklevel = true;
-        break;
-    }
 
-    // markerIcon.on("click", null);
-    if (chklevel) {
       markerIcon.on("mouseover", function (e) {
-        //  alert(level+"==="+userLevel);
-        if (chklevel)
           this.openPopup();
       });
       markerIcon.on("mouseout", function (e) {
@@ -2384,13 +2357,13 @@ export class InfraMapVisualisationComponent implements OnInit {
 
       this.layerMarkers.addLayer(markerIcon);
       if (level === "schoolPerCluster" || level === "School") {
-        if (chklevel)
+       
           markerIcon.on("click", this.onClickSchool, this);
       } else {
-        if (chklevel)
+        
           markerIcon.on("click", this.onClick_Marker, this);
       }
-    }
+    
     markerIcon.myJsonData = markers;
   }
   onClickSchool(event) { }
