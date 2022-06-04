@@ -199,8 +199,8 @@ export class HeatChartComponent implements OnInit {
     this.getView1();
 
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? false : true;
 
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== "" || undefined) {
@@ -692,29 +692,35 @@ export class HeatChartComponent implements OnInit {
         this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
         this.gradeSelected = true;
       } else {
+
+        if (this.hideDist) {
+          this.getView()
+          return
+        } else {
         this.resetOnAllGrades();
+        }
       }
-      this.levelWiseFilter();
+        this.levelWiseFilter();
     }
   }
 
   resetOnAllGrades() {
-    this.level = "district";
-    this.skul = true;
-    this.dist = false;
-    this.blok = false;
-    this.clust = false;
-    this.grade = "all";
-    this.examDate = "all";
-    this.subject = "all";
-    this.viewBy = "indicator";
-    this.gradeSelected = false;
-    this.district = undefined;
-    this.block = undefined;
-    this.cluster = undefined;
-    this.blockHidden = true;
-    this.clusterHidden = true;
-  }
+      this.level = "district";
+      this.skul = true;
+      this.dist = false;
+      this.blok = false;
+      this.clust = false;
+      this.grade = "all";
+      this.examDate = "all";
+      this.subject = "all";
+      this.viewBy = "indicator";
+      this.gradeSelected = false;
+      this.district = undefined;
+      this.block = undefined;
+      this.cluster = undefined;
+      this.blockHidden = true
+      this.clusterHidden = true;
+    }
 
   selectedSubject() {
     if (!this.month && this.month === "") {
@@ -816,7 +822,7 @@ export class HeatChartComponent implements OnInit {
       this.level = "cluster";
       this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
       this.cluster = undefined;
-      this.blockHidden = false;
+      this.blockHidden = this.hideDist ? true : false;
       this.clusterHidden = false;
 
       this.commonService.errMsg();
@@ -883,7 +889,8 @@ export class HeatChartComponent implements OnInit {
       this.reportData = [];
 
       this.blockHidden = this.hideDist ? true : false;
-
+      this.clusterHidden = this.hideDist ? true : false;
+      
 
       this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
 
@@ -1076,23 +1083,26 @@ export class HeatChartComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
 
-
-
+    this.grade = "all";
+    this.examDate = "all";
+    this.subject = "all";
+    this.viewBy = "indicator";
+    this.gradeSelected = false;
     if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
       this.selectedDistrict(districtid, blockid, clusterid);
 
-      this.blockHidden = true
-      this.clusterHidden = true
+    
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
-      this.block = blockid;
+
       this.cluster = clusterid;
       this.hideblock = true
       this.selectedDistrict(districtid, blockid);
+      this.block = blockid;
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
@@ -1121,7 +1131,7 @@ export class HeatChartComponent implements OnInit {
             );
           }
           this.selectedDistrict(districtid);
-          
+
 
         }
       );
