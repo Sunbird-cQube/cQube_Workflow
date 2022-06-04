@@ -120,10 +120,6 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
 
-    
-
-
-
     } else if (level === "Block") {
 
       this.downloadLevel = 'block';
@@ -134,8 +130,6 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myDistrict = Number(districtid)
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
-      
-
     } else if (level === "District") {
 
 
@@ -143,7 +137,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myDistData(districtid)
       this.distHidden = true
       this.myDistrict = Number(districtid)
-    
+
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
@@ -287,7 +281,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myBlockData(data, clusterid?) {
-    
+
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
@@ -306,9 +300,7 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     localStorage.setItem('blockId', data);
     this.titleName = localStorage.getItem('dist');
-     this.distName = JSON.parse(localStorage.getItem('distId'));
-    
-    
+    this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = data;
     let obj = this.blockNames.find(o => o.id == data);
     localStorage.setItem('block', JSON.stringify(obj?.name));
@@ -581,7 +573,9 @@ export class SchoolInfrastructureComponent implements OnInit {
     if ($.fn.DataTable.isDataTable('#table')) {
       $('#table').DataTable().destroy();
       $('#table').empty();
+      
     }
+    
     var my_columns = [];
     $.each(dataSet[0], function (key, value) {
       var my_item = {};
@@ -654,7 +648,7 @@ export class SchoolInfrastructureComponent implements OnInit {
         destroy: true, bLengthChange: false, bInfo: false,
         bPaginate: false, scrollY: '38vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
-        responsive: true,
+        responsive: true
       });
     });
   }
