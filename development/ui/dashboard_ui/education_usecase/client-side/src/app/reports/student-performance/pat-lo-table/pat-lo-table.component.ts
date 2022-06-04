@@ -229,9 +229,10 @@ export class PATLOTableComponent implements OnInit {
     this.year = this.years[this.years.length - 1];
     this.gradeSelected = false;
     if(this.hideAccessBtn){
+      
       this.commonFunc();
     }else{
-        this.getView()
+      this.getView()
     }
       
   }
@@ -472,7 +473,13 @@ export class PATLOTableComponent implements OnInit {
         this.grade = "all";
         this.resetToInitPage();
       }
+      if(this.hideAccessBtn){
         this.levelWiseFilter();
+       
+      }else{
+        this.getView() 
+      }
+        
     }
   }
 
@@ -579,7 +586,7 @@ export class PATLOTableComponent implements OnInit {
     this.level = "cluster";
     this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
-    this.blockHidden = this.hideDist ? true: false;
+    this.blockHidden = this.selBlock ? true: false;
     this.clusterHidden = false;
 
     this.commonService.errMsg();
@@ -676,6 +683,9 @@ export class PATLOTableComponent implements OnInit {
         this.dist = false;
         this.blok = false;
         this.clust = true;
+
+        this.blockHidden = this.selBlock ? true : false;
+        this.clusterHidden = this.selCluster ? true :false;
       },
       (err) => {
         this.handleError();
@@ -737,10 +747,7 @@ export class PATLOTableComponent implements OnInit {
       this.cluster = clusterid;
 
     }
-    this.grade = "all"
-    this.subject ="all"
-    
-    this.gradeSelected = false;
+
   
     if (level === "Cluster") {
       this.district = districtid;
