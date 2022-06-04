@@ -193,101 +193,101 @@ export class PATReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-     if (environment.auth_api === 'cqube' || this.userAccessLevel === ""){
-    this.service.getMonthYear().subscribe((res) => {
-      this.getMonthYear = res;
-      this.getMonthYear.map((item) => {
-        this.years.push(item["academic_year"]);
-      });
-      this.year = this.years[this.years.length - 1];
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.service.getMonthYear().subscribe((res) => {
+        this.getMonthYear = res;
+        this.getMonthYear.map((item) => {
+          this.years.push(item["academic_year"]);
+        });
+        this.year = this.years[this.years.length - 1];
 
-      this.months = [];
-      var months = [];
-      this.getMonthYear.map((item) => {
-        if (item["academic_year"] == this.year) {
-          months = item["month"];
+        this.months = [];
+        var months = [];
+        this.getMonthYear.map((item) => {
+          if (item["academic_year"] == this.year) {
+            months = item["month"];
+          }
+        });
+        months.map(a => {
+          this.months.push(a.trim());
+        });
+        this.months.sort((a, b) => {
+          return this.allMonths.indexOf(a) - this.allMonths.indexOf(b);
+        });
+        this.month = this.months[this.months.length - 1];
+        if (this.month) {
+          this.month_year = {
+            month: null,
+            year: null,
+          };
         }
-      });
-      months.map(a => {
-        this.months.push(a.trim());
-      });
-      this.months.sort((a, b) => {
-        return this.allMonths.indexOf(a) - this.allMonths.indexOf(b);
-      });
-      this.month = this.months[this.months.length - 1];
-      if (this.month) {
-        this.month_year = {
-          month: null,
-          year: null,
-        };
-      }
 
-      if (params) {
-        this.changeDetection.detectChanges();
-        if (params.timePeriod == "overall") {
-          params.timePeriod = "all";
+        if (params) {
+          this.changeDetection.detectChanges();
+          if (params.timePeriod == "overall") {
+            params.timePeriod = "all";
+          }
+          this.period = params.timePeriod;
         }
-        this.period = params.timePeriod;
-      }
 
-      if (params && params.level) {
-        let data = params.data;
-        if (params.level === "district") {
-          this.districtHierarchy = {
-            distId: data.id,
-          };
+        if (params && params.level) {
+          let data = params.data;
+          if (params.level === "district") {
+            this.districtHierarchy = {
+              distId: data.id,
+            };
 
-          this.districtId = data.id;
-          this.getDistricts(params.level);
-        } else if (params.level === "block") {
-          this.districtHierarchy = {
-            distId: data.districtId,
-          };
+            this.districtId = data.id;
+            this.getDistricts(params.level);
+          } else if (params.level === "block") {
+            this.districtHierarchy = {
+              distId: data.districtId,
+            };
 
-          this.blockHierarchy = {
-            distId: data.districtId,
-            blockId: data.id,
-          };
+            this.blockHierarchy = {
+              distId: data.districtId,
+              blockId: data.id,
+            };
 
-          this.districtId = data.districtId;
-          this.blockId = data.id;
-          this.getDistricts(params.level);
-          this.getBlocks(data.districtId, data.id);
-        } else if (params.level === "cluster") {
-          this.districtHierarchy = {
-            distId: data.districtId,
-          };
+            this.districtId = data.districtId;
+            this.blockId = data.id;
+            this.getDistricts(params.level);
+            this.getBlocks(data.districtId, data.id);
+          } else if (params.level === "cluster") {
+            this.districtHierarchy = {
+              distId: data.districtId,
+            };
 
-          this.blockHierarchy = {
-            distId: data.districtId,
-            blockId: data.blockId,
-          };
+            this.blockHierarchy = {
+              distId: data.districtId,
+              blockId: data.blockId,
+            };
 
-          this.clusterHierarchy = {
-            distId: data.districtId,
-            blockId: data.blockId,
-            clusterId: data.id,
-          };
+            this.clusterHierarchy = {
+              distId: data.districtId,
+              blockId: data.blockId,
+              clusterId: data.id,
+            };
 
-          this.districtId = data.blockHierarchy.distId;
-          this.blockId = data.blockId;
-          this.clusterId = data.id;
-          this.getDistricts(params.level);
-          this.getBlocks(data.districtId);
-          this.getClusters(data.districtId, data.blockId, data.id);
-        }
-      } else {
-        this.changeDetection.detectChanges();
-        
+            this.districtId = data.blockHierarchy.distId;
+            this.blockId = data.blockId;
+            this.clusterId = data.id;
+            this.getDistricts(params.level);
+            this.getBlocks(data.districtId);
+            this.getClusters(data.districtId, data.blockId, data.id);
+          }
+        } else {
+          this.changeDetection.detectChanges();
+
           this.levelWiseFilter();
-      }
-    }, err => {
-      this.getMonthYear = [];
-      this.commonService.loaderAndErr(this.getMonthYear);
-    });
-     }else{
-       this.getView();
-     }
+        }
+      }, err => {
+        this.getMonthYear = [];
+        this.commonService.loaderAndErr(this.getMonthYear);
+      });
+    } else {
+      this.getView();
+    }
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -483,16 +483,14 @@ export class PATReportComponent implements OnInit {
   levelVal = 0;
 
   getView() {
-    
+
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
     let clusterid = localStorage.getItem("clusterId");
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    this.grade = ""
-    this.subject = ""
-    this.subjectHidden = true
+    
     if (districtid) {
       this.districtId = districtid;
     }
@@ -606,7 +604,13 @@ export class PATReportComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
       }`;
-    this.levelWiseFilter();
+      if(this.hideDist){
+        this.getView();
+        
+      }else{
+        this.levelWiseFilter();
+      }
+    
     this.changeDetection.detectChanges();
   }
 
@@ -2749,7 +2753,7 @@ export class PATReportComponent implements OnInit {
             };
 
             // to show and hide the dropdowns
-            this.blockHidden = this.hideDist? true : false;
+            this.blockHidden =this.selBlock ? true : false;
             this.clusterHidden = false;
 
             this.districtId = this.data[0].Details.district_id;
@@ -2923,8 +2927,8 @@ export class PATReportComponent implements OnInit {
                     clusterName: this.data[0].Details.cluster_name,
                   };
 
-                  this.blockHidden = this.hideDist? true: false;
-                  this.clusterHidden = this.hideDist ? true: false;
+                  this.blockHidden = this.selBlock ? true : false;
+                  this.clusterHidden = this.selCluster ? true : false;
 
                   this.districtHierarchy = {
                     distId: this.data[0].Details.district_id,
