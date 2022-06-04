@@ -118,13 +118,13 @@ export class PATLOTableComponent implements OnInit {
 
           this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
           if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
-          
+
             this.commonFunc();
           } else {
 
             this.getView()
           }
-          
+
         } catch (e) {
           this.metaData = [];
           this.commonService.loaderAndErr(this.metaData);
@@ -152,7 +152,7 @@ export class PATLOTableComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    
+
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -228,8 +228,12 @@ export class PATLOTableComponent implements OnInit {
     this.clusterHidden = true;
     this.year = this.years[this.years.length - 1];
     this.gradeSelected = false;
-    this.commonFunc();
-
+    if(this.hideAccessBtn){
+      this.commonFunc();
+    }else{
+        this.getView()
+    }
+      
   }
 
   commonFunc = () => {
@@ -282,9 +286,12 @@ export class PATLOTableComponent implements OnInit {
         var col = column.data.replace(/_/g, " ").replace(/\w\S*/g, (txt) => {
           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
-
+        
+        if (col.length > 10) {
+          col = col.slice(0, 10) + "..."
+        }
         if (i > 3) {
-          headers += `<th class="rank"><div style="transform: rotate(270deg);">${col.slice(0, 10)}</div></th>`;
+          headers += `<th class="rank text-wrap"><div style="transform: rotate(270deg);">${col}</div></th>`;
         } else {
           if (col == 'Indicator') {
             headers += `<th class="indicator">${col}</th>`;
@@ -465,11 +472,8 @@ export class PATLOTableComponent implements OnInit {
         this.grade = "all";
         this.resetToInitPage();
       }
-      this.levelWiseFilter();
+        this.levelWiseFilter();
     }
-
-    this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    this.levelWiseFilter();
   }
 
   selectedSubject() {
@@ -575,7 +579,7 @@ export class PATLOTableComponent implements OnInit {
     this.level = "cluster";
     this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
-    this.blockHidden = false;
+    this.blockHidden = this.hideDist ? true: false;
     this.clusterHidden = false;
 
     this.commonService.errMsg();
@@ -605,6 +609,7 @@ export class PATLOTableComponent implements OnInit {
               : 0
         );
         this.onChangePage();
+        
         var block = this.blockNames.find((a) => a.block_id == blockId);
 
         this.blockHierarchy = {
@@ -732,8 +737,11 @@ export class PATLOTableComponent implements OnInit {
       this.cluster = clusterid;
 
     }
-
-
+    this.grade = "all"
+    this.subject ="all"
+    
+    this.gradeSelected = false;
+  
     if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid;
@@ -832,7 +840,7 @@ export class PATLOTableComponent implements OnInit {
                 : 0
           );
           this.selectedDistrict(districtid);
-          
+
         },
 
       );
