@@ -11,7 +11,7 @@
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
-                            Periodic Assessment Test LO Report for: <span (click)="hideAccessBtn ? resetToInitPage():''"
+                            Periodic Assessment Test LO Report for: <span (click)=" resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="selectedDistrict(districtHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
@@ -19,7 +19,7 @@
                     </div>
                     <div *ngIf="blok">
                         <p id="cluster">
-                            Periodic Assessment Test LO Report for: <span (click)="hideAccessBtn ? resetToInitPage():''"
+                            Periodic Assessment Test LO Report for: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(blockHierarchy.distId):''"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -31,7 +31,7 @@
 
                     <div *ngIf="clust">
                         <p id="school">
-                            Periodic Assessment Test LO Report for: <span (click)="hideAccessBtn ? resetToInitPage():''"
+                            Periodic Assessment Test LO Report for: <span (click)=" resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(clusterHierarchy.distId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -42,15 +42,7 @@
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <button class="btn btn-primary" id="download1" [hidden]="hideAccessBtn" (click)="getView()">
-                                Access Level
-                            </button>
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="col-sm-3">
                     <div class="row">
                         <div class="col-sm-5">
