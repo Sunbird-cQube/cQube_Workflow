@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts/highstock";
-// import * as Highcharts from 'highcharts';
 import HeatmapModule from "highcharts/modules/heatmap";
 HeatmapModule(Highcharts);
 
@@ -675,7 +674,7 @@ export class HeatChartComponent implements OnInit {
     this.examDate = "all";
     this.subject = "all";
     this.fetchFilters(this.metaData);
-    if(this.selDist){
+    if(this.hideDist){
       this.getView()
     }else{
       this.levelWiseFilter();
@@ -689,7 +688,7 @@ export class HeatChartComponent implements OnInit {
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
-    if (this.selDist) {
+    if (this.hideDist) {
       this.getView()
     } else {
       this.levelWiseFilter();

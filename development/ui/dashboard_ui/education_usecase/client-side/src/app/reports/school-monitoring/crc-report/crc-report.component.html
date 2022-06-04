@@ -62,7 +62,7 @@
                   Download Report &nbsp;
                   <i class="fa fa-arrow-down" aria-hidden="true"></i>
                 </button>
-                <select *ngIf="reportData.length > 0" [hidden]="hideIfAccessLevel" class="dwnld" id="downloader"
+                <select *ngIf="reportData.length > 0"  class="dwnld" id="downloader"
                   [(ngModel)]="downloadType" name="downloadType">
                   <option [value]="downloadType" disabled selected="selected">
                     Choose Report

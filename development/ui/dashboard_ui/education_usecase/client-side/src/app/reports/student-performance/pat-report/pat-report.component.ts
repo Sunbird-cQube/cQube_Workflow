@@ -397,7 +397,12 @@ export class PATReportComponent implements OnInit {
       month: this.month.trim(),
       year: this.year,
     };
-    this.levelWiseFilter();
+    if(this.hideDist){
+      this.getView()
+    }else{
+      this.levelWiseFilter();
+    }
+    
   }
 
   getMonth(event) {
@@ -406,7 +411,11 @@ export class PATReportComponent implements OnInit {
       year: this.year,
     };
     this.grade = undefined;
-    this.levelWiseFilter();
+    if (this.hideDist) {
+      this.getView()
+    } else {
+      this.levelWiseFilter();
+    }
   }
 
   getYear() {
