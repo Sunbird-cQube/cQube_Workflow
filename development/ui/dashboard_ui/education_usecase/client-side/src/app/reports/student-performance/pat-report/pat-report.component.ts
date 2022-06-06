@@ -193,7 +193,7 @@ export class PATReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+   
       this.service.getMonthYear().subscribe((res) => {
         this.getMonthYear = res;
         this.getMonthYear.map((item) => {
@@ -229,7 +229,7 @@ export class PATReportComponent implements OnInit {
           }
           this.period = params.timePeriod;
         }
-
+        if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
         if (params && params.level) {
           let data = params.data;
           if (params.level === "district") {
@@ -280,14 +280,14 @@ export class PATReportComponent implements OnInit {
           this.changeDetection.detectChanges();
 
           this.levelWiseFilter();
-        }
+          } }else {
+      this.getView();
+     }
       }, err => {
         this.getMonthYear = [];
         this.commonService.loaderAndErr(this.getMonthYear);
       });
-    } else {
-      this.getView();
-    }
+    
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
