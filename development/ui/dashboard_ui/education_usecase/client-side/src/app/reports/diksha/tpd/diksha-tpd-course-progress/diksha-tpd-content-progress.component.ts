@@ -695,7 +695,18 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.district = districtid;
+      this.block = blockid;
+      this.selectedBlock(blockid, clusterid);
+      this.selectedCluster(clusterid);
+      this.clusterHidden = true;
+      this.blockHidden = true
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid;
       this.selectedBlock(blockid, clusterid);

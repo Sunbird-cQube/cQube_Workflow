@@ -214,7 +214,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-
+  schoolLevel = false
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -222,7 +222,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid !== 'null') {
       this.myDistrict = Number(districtid);
       this.distHidden = false;
@@ -240,7 +240,12 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+    } else if (level === "Cluster") {
       this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
       this.selCluster = true;
       this.selBlock = true;
@@ -2450,7 +2455,17 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
         .schoolsPerCluster({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["schoolsDetails"];
+
+            if (this.schoolLevel) {
+              let schoolData = res['schoolsDetails'];
+
+              let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+
+              this.reportData = this.mylatlngData = data;
+            } else {
+              this.reportData = this.mylatlngData = res["schoolsDetails"];
+            }
+           
             this.dateRange = res["dateRange"];
             var uniqueData = this.mylatlngData.reduce(function (
               previous,
