@@ -205,6 +205,7 @@ export class PATExceptionComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
+  schoolLevel = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -221,6 +222,7 @@ export class PATExceptionComponent implements OnInit {
     }
   }
 
+
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -228,7 +230,7 @@ export class PATExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid !== 'null') {
       this.districtId = districtid;
       this.distHidden = false;
@@ -246,13 +248,22 @@ export class PATExceptionComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
       this.blockHierarchy = {
         blockId: blockid,
         distId: districtid
       }
       this.onClusterSelect(clusterid);
-      // this.clusterlevel(clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
+      this.blockHierarchy = {
+        blockId: blockid,
+        distId: districtid
+      }
+      this.onClusterSelect(clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -1177,6 +1188,7 @@ export class PATExceptionComponent implements OnInit {
   public hideAllCLusterBtn: boolean = false
   public hideAllSchoolBtn: boolean = false
   onClusterSelect(clusterId) {
+    
     this.hideAllBlockBtn = true;
     this.hideAllCLusterBtn = true;
     this.hideAllSchoolBtn = true;
@@ -1194,15 +1206,24 @@ export class PATExceptionComponent implements OnInit {
     this.blockHidden = false;
     this.clusterHidden = false;
     this.reportData = [];
-
+   
     // api call to get the schoolwise data for selected district, block, cluster
     if (this.myData) {
       this.myData.unsubscribe();
     }
     this.myData = this.service.patExceptionBlock({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(result => {
       this.myData = this.service.patExceptionSchoolPerClustter(this.blockHierarchy.distId, this.blockHierarchy.blockId, clusterId, { ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'pat_exception' }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-        this.data = res;
-        this.markers = this.schoolMarkers = this.data['data'];
+        if (this.schoolLevel) {
+          let schoolData = res['data']
+          let data = {}
+          data['data'] = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+          this.data = data;
+          this.markers = this.schoolMarkers = data
+        } else {
+          this.data = res;
+          this.markers = this.schoolMarkers = this.data['data'];
+        }
+        
         this.allSubjects = [];
         if (this.grade != 'all') {
           this.allSubjects = this.data['subjects'].filter(a => {

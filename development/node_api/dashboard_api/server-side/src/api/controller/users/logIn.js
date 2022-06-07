@@ -252,7 +252,7 @@ router.post('/login', async (req, res, next) => {
 
                             }
                             logger.info('---user school level from DB  success ---');
-
+                            console.log('res', results)
                             if (results['rowCount']) {
                                 let clusterId = results.rows[0]['cluster_id'] 
                                 let blockId = results.rows[0]['block_id']

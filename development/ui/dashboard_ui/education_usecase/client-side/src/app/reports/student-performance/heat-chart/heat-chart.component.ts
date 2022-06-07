@@ -988,6 +988,7 @@ export class HeatChartComponent implements OnInit {
   yLabel1 = [];
   toolTipData: any;
   genericFunction(response) {
+   
     this.reportData = [];
     this.xlab = [];
     this.ylab = [];
@@ -1133,8 +1134,6 @@ export class HeatChartComponent implements OnInit {
       this.block = blockid;
       this.cluster = clusterid;
       this.selectedDistrict(districtid, blockid, clusterid);
-
-
       this.levelVal = 3;
     } else  if (level === "Cluster") {
       this.district = districtid;

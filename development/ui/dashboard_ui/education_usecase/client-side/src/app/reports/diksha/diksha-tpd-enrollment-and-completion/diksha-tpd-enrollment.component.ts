@@ -117,11 +117,11 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.getProgramData();
     this.getView1();
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" || undefined ) {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
       }
 
@@ -517,6 +517,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   selDist = false;
   hideDist: boolean = this.hideIfAccessLevel === true ? true : false
   levelVal = 0;
+
+  schoolLevel = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -528,9 +530,18 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blok = false;
     this.clust = false;
     this.skul = true;
+    this.schoolLevel = level === "School" ? true : false
 
-
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.blockId = blockid;
+      this.districtId = districtid;
+      this.clusterId = clusterid;
+      this.clusterLinkClick(clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
@@ -617,17 +628,17 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     let compliChartData = [];
     let pecentChartData = [];
 
-    if (this.result.labels.length <= 25) {
+    if (this.result.labels?.length <= 25) {
       for (let i = 0; i <= 25; i++) {
         this.category.push(this.result.labels[i] ? this.result.labels[i] : " ");
       }
     } else {
-      this.result.labels.forEach((item) => {
+      this.result.labels?.forEach((item) => {
         this.category = this.result.labels;
       });
 
     }
-    this.result.data.forEach((element, i) => {
+    this.result.data?.forEach((element, i) => {
 
       if (
         (this.level === "district") &&
@@ -732,8 +743,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blocks = [];
     this.clusters = [];
 
-     this.blockId = undefined;
-     this.clusterId = undefined;
+    this.blockId = undefined;
+    this.clusterId = undefined;
     this.yAxisLabel = "Block Names";
     this.xAxisLabel = "Total Numbers"
     var requestBody: any = {
@@ -809,7 +820,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.clusters = [];
 
-     this.clusterId = undefined;
+    this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names";
 
 
@@ -926,7 +937,27 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .tpdSchoolEnrollCompAll(requestBody)
       .subscribe(
         async (res) => {
-          this.result = res["chartData"];
+          let chartData = { }
+
+          if (this.schoolLevel) {
+            let schoolData = res['downloadData']
+        
+            schoolData.filter(data => {
+              if (data.school_id === Number(localStorage.getItem('schoolId'))) {
+                chartData['labels'] = [data.school_name]
+                chartData['data'] = [{
+                  enrollment: data.total_enrolled,
+                  completion: data.total_completed,
+                  certificate_value: data.certificate_count,
+                }];
+              }
+            })
+          
+            this.result = chartData;
+          } else {
+            this.result = res["chartData"];
+          }
+     
           if (res["downloadData"].length !== 0) {
             this.clusterHierarchy = {
               distId: res["downloadData"][0].district_id,
