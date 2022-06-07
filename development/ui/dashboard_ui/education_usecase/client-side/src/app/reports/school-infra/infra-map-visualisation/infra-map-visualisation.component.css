@@ -11,3 +11,40 @@ margin-right: 25px;
 cursor: pointer;
 
 }
+.tooltip1{
+  font-size: 12px !important;
+    z-index: 3000 !important;
+}
+.leaflet-tooltip-pane{
+    z-index: 3000 !important;
+}
+.leaflet-popup-pane{
+    z-index: 3000 !important;
+}
+
+@media screen and (min-width: 1920px) {
+   
+
+    .tooltip1 {
+        font-size: 12px !important;
+        
+    }
+}
+
+@media screen and (min-width: 2560px) {
+
+
+    .tooltip1 {
+        font-size: 22px !important;
+        
+    }
+}
+
+@media screen and (min-width: 3820px) {
+
+
+    .tooltip1 {
+        font-size: 32px !important;
+        
+    }
+}

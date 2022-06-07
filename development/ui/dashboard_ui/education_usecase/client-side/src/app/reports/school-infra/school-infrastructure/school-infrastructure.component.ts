@@ -99,7 +99,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-
+  schoolLevel = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
@@ -108,7 +108,20 @@ export class SchoolInfrastructureComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    if (level === "Cluster") {
+    this.schoolLevel = level === "School" ? true : false
+    if (level === "School") {
+
+      this.downloadLevel = 'cluster';
+      document.getElementById('spinner').style.display = 'block'
+      this.myDistData(districtid, blockid, clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.myDistrict = Number(districtid)
+      this.myBlock = Number(blockid)
+      this.myCluster = Number(clusterid)
+
+    } else if (level === "Cluster") {
 
       this.downloadLevel = 'cluster';
       document.getElementById('spinner').style.display = 'block'
@@ -358,7 +371,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.reportData = [];
 
     this.title = JSON.parse(localStorage.getItem('block'));
-    //this.title = localStorage.getItem('block');
+    
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));
@@ -374,7 +387,14 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service.infraSchoolWise(distId, blockId, data, { management: this.management, category: this.category }).subscribe(res => {
-      this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+      if (this.schoolLevel) {
+       
+        this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+      } else {
+        this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+      }
+     
+      
       // for download========
       this.funToDownload(this.reportData);
       //for chart =============================================
@@ -546,7 +566,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     }
     this.labels = labels;
     this.obj = obj;
-
+    
     this.createChart(labels, this.chartData, this.tableHead, obj);
   }
 

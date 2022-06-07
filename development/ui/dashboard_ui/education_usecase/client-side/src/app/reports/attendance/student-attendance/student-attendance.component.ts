@@ -283,6 +283,7 @@ export class StudengtAttendanceComponent implements OnInit {
     }
   }
 
+  schoolLevel = false
 
   getView1() {
     let id = localStorage.getItem("userLocation");
@@ -291,7 +292,7 @@ export class StudengtAttendanceComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid !== 'null') {
       this.myDistrict = districtid;
       this.distHidden = false;
@@ -309,7 +310,15 @@ export class StudengtAttendanceComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.selCluster = true;
+      this.selBlock = true;
+      this.myDistData(districtid, blockid, clusterid);
+      this.blockSelect({ type: "click" }, blockid);
+      this.clusterSelect({ type: "change" }, clusterid);
+      this.clusterlevel(clusterid);
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.selCluster = true;
       this.selBlock = true;
       this.myDistData(districtid, blockid, clusterid);
@@ -1160,7 +1169,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.globalService.restrictZoom(globalMap);
 
                 //Setting map bound for scroll::::::::::::
-               
+
                 globalMap.setMaxBounds([
                   [this.lat - 4.5, this.lng - 6],
                   [this.lat + 3.5, this.lng + 6],
@@ -1594,7 +1603,7 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
-                                this.mylatlngData = marker;
+                this.mylatlngData = marker;
                 this.hierName = marker[0].district_name;
                 this.titleName = "";
                 this.clustName = "";
@@ -1698,7 +1707,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 })
 
                 this.mylatlngData = marker;
-                
+
                 this.hierName = marker[0].block_name;
                 this.titleName = marker[0].district_name;
                 this.clustName = "";
@@ -2762,7 +2771,17 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-              this.mylatlngData = res["schoolsDetails"];
+              if (this.schoolLevel) {
+
+                let schoolData = res['schoolsDetails']
+
+                let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+
+                this.mylatlngData = data;
+              } else {
+                this.mylatlngData = res["schoolsDetails"];
+              }
+
               this.dateRange = res["dateRange"];
               var uniqueData = this.mylatlngData.reduce(function (
                 previous,

@@ -393,7 +393,7 @@ export class PATLOTableComponent implements OnInit {
       }
       if (dataSet.length > 0) {
         obj['order'] = [[0, "asc"]];
-        obj['columnDefs'] = [{ targets: 0, type: "date-dd-mm-yyyy" }];
+        obj['columnDefs'] = [{ targets: 0, type: "date-dd-mm-yyyy" },{ className: "dt-head-center" }];
       }
 
       this.table = $(`#LOtable`).DataTable(obj);

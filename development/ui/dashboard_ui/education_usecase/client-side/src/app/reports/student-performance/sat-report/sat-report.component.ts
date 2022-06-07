@@ -418,6 +418,7 @@ export class SatReportComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
+  schoolLevel = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
@@ -426,7 +427,7 @@ export class SatReportComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid) {
       this.districtId = districtid;
     }
@@ -439,7 +440,13 @@ export class SatReportComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.onclusterLinkClick(clusterid)
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+
+    } if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
       this.selCluster = true;
       this.selBlock = true;
@@ -2730,7 +2737,15 @@ export class SatReportComponent implements OnInit {
             )
             .subscribe(
               (res) => {
-                this.markers = this.data = res["data"];
+                if (this.schoolLevel) {
+                  let schoolData = res['data']
+                  let data = schoolData.filter(data => data.Details.school_id === Number(localStorage.getItem('schoolId')))
+
+                  this.markers = this.data = data
+                } else {
+                  this.markers = this.data = res["data"];
+                }
+              
                 if (this.grade) {
                   this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                 }
@@ -3236,19 +3251,16 @@ export class SatReportComponent implements OnInit {
         "<br>" +
         yourData;
       if (this.mapName != 'googlemap') {
-        const popup = R.responsivePopup({
+     
+        markerIcon.addTo(globalMap).bindTooltip(toolTip, {
+          direction: 'auto',
+          permanent: false,
           hasTip: false,
+          className: 'tooltip1',
           autoPan: false,
-          offset: [15, 20],
-        }).setContent(
-          "<b><u>Details</u></b>" +
-          "<br>" +
-          yourData1 +
-          "<br><br><b><u>Semester Exam Score (%)</u></b>" +
-          "<br>" +
-          yourData
-        );
-        markerIcon.addTo(globalMap).bindPopup(popup);
+          offset: [15, 10],
+          opacity: 1,
+        })
       } else {
         markers['label'] = toolTip;
       }
@@ -3314,7 +3326,7 @@ export class SatReportComponent implements OnInit {
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
 
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
@@ -3345,7 +3357,7 @@ export class SatReportComponent implements OnInit {
     }
     var data = marker.Details;
 
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);

@@ -256,7 +256,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.myDistData(districtid, blockid, clusterid)
       this.blockSelect({ type: "click" }, blockid);
       this.blockHidden = true
-      
+
     } else if (level === "District") {
       this.selCluster = false;
       this.selBlock = false;
@@ -264,7 +264,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
       this.myDistrict = districtid;
 
-      this.distSelect({ type: "click" }, districtid, blockid, clusterid);
+      this.distSelect({ type: "click" }, districtid);
 
     }
   }
@@ -1088,7 +1088,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-               
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
@@ -1204,11 +1204,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-              
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-              
+
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1889,7 +1889,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   onClick_Marker(event) {
     var marker = event.target;
     this.markerData = marker.myJsonData;
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ''){
     this.clickedMarker(event, marker.myJsonData);
+    }
   }
 
   // clickMarker for Google map
@@ -1898,7 +1900,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       return false;
     }
     this.markerData = marker;
+    if(environment.auth_api === 'cqube' || this.userAccessLevel === ''){
     this.clickedMarker(event, marker);
+    }
   }
 
   distSelect(event, data, blockid?, clusterid?) {
