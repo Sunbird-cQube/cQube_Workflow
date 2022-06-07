@@ -222,11 +222,15 @@ export class SemesterExceptionComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
+  schoolLevel = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.clusterlevel(id);
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.clusterlevel(id);
       this.levelVal = 3;
     } else if (level === "Block") {
@@ -245,7 +249,7 @@ export class SemesterExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid !== 'null') {
       this.districtId = districtid;
       this.distHidden = false;
@@ -264,7 +268,19 @@ export class SemesterExceptionComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.clusterId = Number(clusterid);
+      this.blockId = blockid?.toString();
+      this.districtId = districtid;
+      this.blockHierarchy = {
+        blockId: blockid,
+        distId: districtid
+      }
+
+      this.onClusterSelect(clusterid);
+      this.clusterlevel(clusterid);
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.clusterId = Number(clusterid);
       this.blockId = blockid?.toString();
       this.districtId = districtid;
@@ -296,27 +312,26 @@ export class SemesterExceptionComponent implements OnInit {
     this.selCluster = false;
     this.selBlock = false;
     this.selDist = false;
-    //this.level= "blockPerDistrict";
     this.districtId = id;
-    //this.levelWiseFilter();
+    
   }
 
   blocklevel(id) {
     this.selCluster = false;
     this.selBlock = true;
     this.selDist = true;
-    //this.level= "clusterPerBlock";
+    
     this.blockId = id;
-    //this.levelWiseFilter();
+    
   }
 
   clusterlevel(id) {
     this.selCluster = true;
     this.selBlock = true;
     this.selDist = true;
-    //this.level= "schoolPerCluster";
+    
     this.clusterId = id;
-    //this.levelWiseFilter();
+    
   }
 
 
@@ -1150,6 +1165,7 @@ export class SemesterExceptionComponent implements OnInit {
   public hideAllCLusterBtn: boolean = false
   public hideAllSchoolBtn: boolean = false
   onClusterSelect(clusterId) {
+    
     this.hideAllBlockBtn = true
     this.blockSelected = false
     this.districtSelected = false
@@ -1174,8 +1190,18 @@ export class SemesterExceptionComponent implements OnInit {
     }
     this.myData = this.service.patExceptionBlock({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'sat_exception', semester: this.semester }, ...{ management: this.management, category: this.category } }).subscribe(result => {
       this.myData = this.service.patExceptionSchoolPerClustter(this.blockHierarchy.distId, this.blockHierarchy.blockId, clusterId, { ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'sat_exception', semester: this.semester }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-        this.data = res;
-        this.markers = this.schoolMarkers = this.data['data'];
+       
+        if (this.schoolLevel) {
+          let schoolData = res['data']
+          let data = {}
+          data['data'] = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+          this.data = data;
+          this.markers = this.schoolMarkers = data
+        } else {
+          this.data = res;
+          this.markers = this.schoolMarkers = this.data['data'];
+        }
+       
         this.allSubjects = [];
         if (this.grade != 'all') {
           this.allSubjects = this.data['subjects'].filter(a => {
