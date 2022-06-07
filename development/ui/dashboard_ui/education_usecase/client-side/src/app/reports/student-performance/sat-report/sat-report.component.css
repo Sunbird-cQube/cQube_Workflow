@@ -1,3 +1,31 @@
-.reportContainer{
+.reportContainer {
     margin-top: 130px;
+}
+
+@media screen and (min-width: 1920px) {
+
+
+    .tooltip1 {
+        font-size: 12px !important;
+      
+    }
+}
+
+@media screen and (min-width: 2560px) {
+
+
+    .tooltip1 {
+        font-size: 24px !important;
+     
+    }
+}
+
+@media screen and (min-width: 3820px) {
+
+
+    .tooltip1 {
+        font-size: 45px !important;
+        padding: 20px;
+        
+    }
 }

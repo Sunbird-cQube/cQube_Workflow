@@ -279,6 +279,7 @@ export class TeacherAttendanceComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
+  schoolLevel = false
 
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
@@ -288,7 +289,7 @@ export class TeacherAttendanceComponent implements OnInit {
     let districtid = JSON.parse(localStorage.getItem("districtId"));
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid) {
       this.myDistrict = districtid;
       this.myDistData(districtid);
@@ -300,11 +301,13 @@ export class TeacherAttendanceComponent implements OnInit {
     if (clusterid) {
       this.myCluster = clusterid;
       this.myDistData(districtid, blockid, clusterid);
-
     }
 
 
-    if (level === "cluster") {
+    if (level === "School") {
+      this.clusterlevel(id);
+      this.levelVal = 3;
+    } else if (level === "cluster") {
       this.clusterlevel(id);
       this.levelVal = 3;
     } else if (level === "block") {
@@ -323,7 +326,7 @@ export class TeacherAttendanceComponent implements OnInit {
     let districtid = JSON.parse(localStorage.getItem("districtId"));
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid !== null) {
       this.myDistrict = districtid;
       this.distHidden = false;
@@ -339,7 +342,13 @@ export class TeacherAttendanceComponent implements OnInit {
     if (districtid === null) {
       this.distHidden = false;
     }
-    if (level === "Cluster") {
+
+    if (level === "School") {
+      this.myDistData(districtid, blockid, clusterid);
+      this.clusterlevel(clusterid);
+      this.selCluster = true
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.myDistData(districtid, blockid, clusterid);
       this.clusterlevel(clusterid);
       this.selCluster = true
@@ -658,7 +667,7 @@ export class TeacherAttendanceComponent implements OnInit {
     var month = this.getMonthYear[`${this.year}`].find(
       (a) => a.month === this.month
     );
-    // this.dateRange = `${month.data_from_date} to ${month.data_upto_date}`;
+   
     this.month_year = {
       month: this.month,
       year: this.year,
@@ -705,7 +714,7 @@ export class TeacherAttendanceComponent implements OnInit {
       };
       this.months.push(obj);
     });
-    // this.element.disabled = false;
+
   }
 
   public myData;
@@ -2261,7 +2270,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.commonService.errMsg();
     this.reportData = [];
     this.markers = [];
-    
+
     this.blockHidden = true;
     this.clusterHidden = true;
     this.dist = false;
@@ -2381,7 +2390,8 @@ export class TeacherAttendanceComponent implements OnInit {
   onClick_Marker(event) {
     var marker = event.target;
     this.markerData = marker.myJsonData;
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       this.clickedMarker(event, marker.myJsonData);
     }
 
@@ -2393,7 +2403,7 @@ export class TeacherAttendanceComponent implements OnInit {
       return false;
     }
     this.markerData = marker;
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       this.clickedMarker(event, marker);
     }
 
@@ -2446,7 +2456,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.markers = [];
     this.reportData = [];
     this.commonService.errMsg();
-    
+
     this.markerData = null;
 
     this.dist = true;
@@ -2643,7 +2653,7 @@ export class TeacherAttendanceComponent implements OnInit {
     if (this.period === "select_month" && !this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
-        this.myBlock = '';
+      this.myBlock = '';
       $('#choose_block').val('');
       return;
     }
@@ -2746,7 +2756,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.markers = [];
             this.teacherCount = res["teacherCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.schoolCount = res["schoolCount"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-            
+
             this.markers = sorted;
 
             //getting relative colors for all markers:::::::::::
@@ -2900,7 +2910,7 @@ export class TeacherAttendanceComponent implements OnInit {
     this.markers = [];
     this.reportData = [];
     this.commonService.errMsg();
-   
+
     this.markerData = null;
 
     this.dist = false;
@@ -2980,7 +2990,7 @@ export class TeacherAttendanceComponent implements OnInit {
       this.hierName = obj.name;
 
       this.globalId = this.myCluster = data;
-      
+
       this.myDistrict = Number(localStorage.getItem("distId"));
 
       if (this.myData) {
@@ -2996,7 +3006,16 @@ export class TeacherAttendanceComponent implements OnInit {
         })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["schoolsDetails"];
+            if (this.schoolLevel) {
+              let schoolData = res['schoolsDetails']
+              
+              let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+
+              this.reportData = this.mylatlngData = data;
+            } else {
+              this.reportData = this.mylatlngData = res["schoolsDetails"];
+            }
+
             this.dateRange = res["dateRange"];
             var uniqueData = this.mylatlngData.reduce(function (
               previous,
@@ -3131,7 +3150,7 @@ export class TeacherAttendanceComponent implements OnInit {
         break;
     }
 
-    
+
     if (chklevel) {
       markerIcon.on("mouseover", function (e) {
         this.openPopup();
@@ -3193,7 +3212,7 @@ export class TeacherAttendanceComponent implements OnInit {
       }).setContent(yourData);
       markerIcon.addTo(globalMap).bindPopup(popup);
     } else {
-     
+
       markers['label'] = yourData;
 
     }
@@ -3206,7 +3225,7 @@ export class TeacherAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-          
+
           event: event,
           level: level,
           locationid: data.id,
@@ -3219,7 +3238,7 @@ export class TeacherAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-          
+
           event: event,
           level: level,
           locationid: data.id,
@@ -3241,14 +3260,14 @@ export class TeacherAttendanceComponent implements OnInit {
       this.service.telemetrySar(dateObj).subscribe(
         (res) => { },
         (err) => {
-        
+
           this.changeDetection.detectChanges();
         }
       );
     }
   }
 
-  
+
   downloadRaw() {
     document.getElementById("spinner").style.display = "block";
     var selectedAcademicYear = this.academicYear;

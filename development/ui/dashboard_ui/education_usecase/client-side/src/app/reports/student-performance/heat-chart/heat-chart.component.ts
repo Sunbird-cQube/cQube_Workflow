@@ -816,7 +816,9 @@ export class HeatChartComponent implements OnInit {
 
       this.service.PATHeatMapDistData(a).subscribe(
         (response) => {
-          this.genericFunction(response);
+         
+            this.genericFunction(response);
+         
           var dist = this.districtNames.find(
             (a) => a.district_id == districtId
           );
@@ -1087,7 +1089,14 @@ export class HeatChartComponent implements OnInit {
     if (clusterid) {
       this.cluster = clusterid;
     }
-    if (level === "Cluster") {
+   
+    if (level === "School") {
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -1109,6 +1118,7 @@ export class HeatChartComponent implements OnInit {
 
   hideblock = false
   hideCluster = false
+  schoolLevel = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -1117,8 +1127,16 @@ export class HeatChartComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
 
-   
-    if (level === "Cluster") {
+    this.schoolLevel = level === "School" ? true : false
+    if (level === "School") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
+      this.selectedDistrict(districtid, blockid, clusterid);
+
+
+      this.levelVal = 3;
+    } else  if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;

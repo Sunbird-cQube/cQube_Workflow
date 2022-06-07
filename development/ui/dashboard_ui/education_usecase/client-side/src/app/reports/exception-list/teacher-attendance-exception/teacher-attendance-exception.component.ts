@@ -1885,7 +1885,9 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
   onClick_Marker(event) {
     var marker = event.target;
     this.markerData = marker.myJsonData;
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ''){
     this.clickedMarker(event, marker.myJsonData);
+    }
   }
 
   // clickMarker for Google map
@@ -1894,7 +1896,9 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       return false;
     }
     this.markerData = marker;
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ''){
     this.clickedMarker(event, marker);
+    }
   }
   distSelect(event, data, blockid?, clusterid?) {
     var distData: any = {};

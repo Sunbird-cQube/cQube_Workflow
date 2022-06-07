@@ -768,7 +768,7 @@ export class PATExceptionComponent implements OnInit {
               this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(this.data, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              
               this.globalService.onResize(this.level);
               this.changeDetection.detectChanges();
 
@@ -878,7 +878,7 @@ export class PATExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              
               this.globalService.onResize(this.level);
               this.changeDetection.detectChanges();
 
@@ -922,7 +922,7 @@ export class PATExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              
               this.globalService.onResize(this.level);
               this.changeDetection.detectChanges();
 
@@ -948,7 +948,7 @@ export class PATExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              
               this.globalService.onResize(this.level);
               this.changeDetection.detectChanges();
 
@@ -968,7 +968,7 @@ export class PATExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(this.data, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              
               this.globalService.onResize(this.level);
               this.changeDetection.detectChanges();
 
@@ -1402,25 +1402,28 @@ export class PATExceptionComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id)
-    }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ''){
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id)
       }
-      this.onBlockSelect(data.block_id)
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id
+        }
+        this.onBlockSelect(data.block_id)
       }
-      this.onClusterSelect(data.cluster_id)
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id
+        }
+        this.onClusterSelect(data.cluster_id)
+      }
     }
+    
   }
 
   // clickMarker for Google map
@@ -1429,25 +1432,28 @@ export class PATExceptionComponent implements OnInit {
       return false;
     }
     var data = marker;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id)
-    }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ''){
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id)
       }
-      this.onBlockSelect(data.block_id)
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id
+        }
+        this.onBlockSelect(data.block_id)
       }
-      this.onClusterSelect(data.cluster_id)
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id
+        }
+        this.onClusterSelect(data.cluster_id)
+      }
     }
+   
   }
 
   // google maps
