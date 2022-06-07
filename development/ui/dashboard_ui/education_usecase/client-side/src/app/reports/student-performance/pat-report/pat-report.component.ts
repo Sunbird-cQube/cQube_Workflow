@@ -490,6 +490,7 @@ export class PATReportComponent implements OnInit {
   selDist = false;
   hideDist
   levelVal = 0;
+  schoolLevel = false
 
   getView() {
 
@@ -499,7 +500,7 @@ export class PATReportComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    
+    this.schoolLevel = level === "School" ? true : false
     if (districtid) {
       this.districtId = districtid;
     }
@@ -527,7 +528,13 @@ export class PATReportComponent implements OnInit {
 
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.onclusterLinkClick(clusterid)
+
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+    } else if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
 
       this.selCluster = true;
@@ -2885,8 +2892,17 @@ export class PATReportComponent implements OnInit {
             )
             .subscribe(
               (res) => {
+                
                 try {
-                  this.markers = this.data = res["data"];
+                  if (this.schoolLevel) {
+                    let schoolData = res['data']
+                    let data = schoolData.filter(data => data.Details.school_id === Number(localStorage.getItem('schoolId')))
+
+                    this.markers = this.data = data
+                  } else {
+                    this.markers = this.data = res["data"];
+                  }
+                 
                   if (this.grade) {
                     this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                   }
@@ -3404,12 +3420,17 @@ export class PATReportComponent implements OnInit {
       "<br>" +
       yourData;
     if (this.mapName != 'googlemap') {
-      const popup = R.responsivePopup({
+      
+      markerIcon.addTo(globalMap).bindTooltip(tooltipContent , {
+        direction: 'auto',
+        permanent: false,   
+        className: 'tooltip1',
         hasTip: false,
         autoPan: false,
-        offset: [15, 20],
-      }).setContent(tooltipContent);
-      markerIcon.addTo(globalMap).bindPopup(popup);
+        offset: [15, 10],
+        opacity: 1,
+      })
+    
     } else {
       markers['label'] = tooltipContent;
     }
@@ -3474,7 +3495,7 @@ export class PATReportComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
@@ -3504,7 +3525,7 @@ export class PATReportComponent implements OnInit {
       return false;
     }
     let data = marker.Details;
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
