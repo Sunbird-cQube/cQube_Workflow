@@ -387,9 +387,21 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service.infraSchoolWise(distId, blockId, data, { management: this.management, category: this.category }).subscribe(res => {
+      
       if (this.schoolLevel) {
+         let result = res
        
-        this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+        let data =[]
+        for (var i = 0; result['length']; i++ ){
+          if (result[i].school.id === Number(localStorage.getItem('schoolId'))){
+            
+           data.push(result[i])
+          break 
+          }
+            
+        }
+        
+         this.reportData = this.SchoolInfrastructureSchoolNames = this.result = data;
       } else {
         this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
       }
