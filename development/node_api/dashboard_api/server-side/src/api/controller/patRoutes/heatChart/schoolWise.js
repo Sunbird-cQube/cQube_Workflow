@@ -9,6 +9,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         logger.info(`--- ${req.body.report} heat map school wise api ---`);
         let { year, month, grade, subject_name, exam_date, blockId, clusterId, viewBy, report, management, category } = req.body
         let fileName = '';
+        let schoolLevel = req.body.schoolLevel
 
         if (management != 'overall' && category == 'overall') {
             if (grade == "") {
@@ -29,7 +30,12 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     fileName = `${report}/heatChart/questionIdLevel/${year}/${month}/clusters/${blockId}.json`;
             }
         }
-        let data = await s3File.readFileConfig(fileName);
+        
+        let data =  await s3File.readFileConfig(fileName);
+        
+        if (schoolLevel) {
+            data = data.filter(id => id.school_id === req.body.schoolId)
+        }
 
         if (clusterId) {
             data = data.filter(val => {

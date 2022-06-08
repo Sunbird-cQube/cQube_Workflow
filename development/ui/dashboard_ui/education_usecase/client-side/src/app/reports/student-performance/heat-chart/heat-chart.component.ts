@@ -927,7 +927,6 @@ export class HeatChartComponent implements OnInit {
       this.blockHidden = this.selBlock ? true : false;
       this.clusterHidden = this.selCluster ? true : false;
 
-
       this.block = this.block === undefined || '' ? localStorage.getItem('blockId') : this.block
 
       let a = {
@@ -943,6 +942,8 @@ export class HeatChartComponent implements OnInit {
         clusterId: clusterId,
         management: this.management,
         category: this.category,
+        schoolLevel:this.schoolLevel,
+        schoolId : Number(localStorage.getItem('schoolId'))
       };
 
       this.service.PATHeatMapClusterData(a).subscribe(

@@ -591,19 +591,22 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       courses: this.selectedCourses,
       districtId: this.district,
       blockId: this.block,
-      clusterId: clusterId
+      clusterId: clusterId,
+      schoolLevel: this.schoolLevel,
+      schoolId: Number(localStorage.getItem('schoolId'))
     }
 
     this.service.tpdSchoolWise(a).subscribe(response => {
+      
       this.genericFunction(response);
       var cluster = this.allClusters.find(a => a.cluster_id == clusterId);
       this.clusterHierarchy = {
-        districtName: cluster.district_name,
-        distId: cluster.district_id,
-        blockName: cluster.block_name,
-        blockId: cluster.block_id,
-        clusterId: cluster.cluster_id,
-        clusterName: cluster.cluster_name
+        districtName: cluster?.district_name,
+        distId: cluster?.district_id,
+        blockName: cluster?.block_name,
+        blockId: cluster?.block_id,
+        clusterId: cluster?.cluster_id,
+        clusterName: cluster?.cluster_name
       }
       this.skul = false;
       this.dist = false;
@@ -686,6 +689,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   selDist = false;
   disHidden = true
   levelVal = 0;
+  schoolLevel = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -694,7 +698,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     let districtid = JSON.parse(localStorage.getItem("districtId"));
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
-
+    this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
       this.district = districtid;
       this.block = blockid;
