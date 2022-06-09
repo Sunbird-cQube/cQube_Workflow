@@ -5,13 +5,13 @@
                 <div class="col-sm-6 ">
                     <div *ngIf="skul">
                         <p id="dist">
-                            Composite Report for: <span (click)="districtWise()"
+                            Composite Report for: <span (click)="hideAccessBtn ? districtWise() : ''"
                                 style="cursor: pointer;text-decoration: underline;"
                                 class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf="dist">
                         <p id="block">
-                            Composite Report for: <span (click)="districtWise()"
+                            Composite Report for: <span (click)="hideAccessBtn ? districtWise() : ''"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="myDistData(distName)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
@@ -19,7 +19,7 @@
                     </div>
                     <div *ngIf="blok">
                         <p id="cluster">
-                            Composite Report for: <span (click)="districtWise()"
+                            Composite Report for: <span (click)="hideAccessBtn ? districtWise() : ''"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? myDistData(distName): ''"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -30,7 +30,7 @@
 
                     <div *ngIf="clust">
                         <p id="school">
-                            Composite Report for: <span (click)="districtWise()"
+                            Composite Report for: <span (click)="hideAccessBtn ? districtWise():''"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? myDistData(distName): ''"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -41,15 +41,7 @@
                                 {{hierName}}</span></p>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <button class="btn btn-primary" [hidden]="hideAccessBtn" id="download1" (click)="getView()">
-                                Access Level
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="col-sm-4">
                     <div class="row">
                         <div class="col-sm-3">

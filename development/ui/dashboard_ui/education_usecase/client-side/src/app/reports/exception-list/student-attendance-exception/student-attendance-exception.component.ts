@@ -181,14 +181,23 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               month: null,
               year: null,
             };
-            this.levelWiseFilter();
+            if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+              this.levelWiseFilter();
+            } else {
+              this.getView1()
+            }
           }
         } else {
           this.dateRange = "";
           this.changeDetection.detectChanges();
 
           this.getMonthYear = {};
-          this.levelWiseFilter();
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            this.levelWiseFilter();
+          } else {
+            this.getView1()
+          }
+
         }
         this.toHideDropdowns
       },
@@ -473,7 +482,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       period: this.period,
       report: "sarException",
     };
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView1()
+    }
+    
 
   }
 
@@ -2474,14 +2488,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
           (res) => {
             if (this.schoolLevel) {
               let schoolData = res['schoolsDetails'];
-             
+
               let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
 
               this.reportData = this.mylatlngData = data;
             } else {
               this.reportData = this.mylatlngData = res["schoolsDetails"];
             }
-           
+
             this.dateRange = res["dateRange"];
             var uniqueData = this.mylatlngData.reduce(function (
               previous,

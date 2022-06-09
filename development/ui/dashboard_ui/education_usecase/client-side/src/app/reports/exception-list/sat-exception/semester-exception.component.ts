@@ -173,7 +173,11 @@ export class SemesterExceptionComponent implements OnInit {
       this.semesters = res["data"];
       if (this.semesters.length > 0 && !this.semester)
         this.semester = this.semesters[this.semesters.length - 1].id;
-      this.levelWiseFilter();
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.levelWiseFilter();
+      }else{
+        this.getView1()
+      }
     }, err => {
       this.semesters = [];
       this.commonService.loaderAndErr(this.semesters);
@@ -182,14 +186,22 @@ export class SemesterExceptionComponent implements OnInit {
 
 
   semSelect() {
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    } else {
+      this.getView1()
+    }
   }
 
   onGradeSelect(data) {
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject ? this.subject : ''}_all_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subject = '';
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    } else {
+      this.getView1()
+    }
   }
 
   levelWiseFilter() {
@@ -349,7 +361,12 @@ export class SemesterExceptionComponent implements OnInit {
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView1()
+    }
+  
   }
 
   // to load all the districts for state data on the map

@@ -277,6 +277,7 @@ export class PATLOTableComponent implements OnInit {
 
   columns = [];
   createTable(dataSet) {
+    
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
     $(document).ready(function () {

@@ -102,7 +102,12 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.service.courseFilter({ timePeriod: 'All' }).subscribe(res => {
       this.scousesTOShow = this.courses = res;
     });
-    this.commonFunc()
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.commonFunc()
+    }else{
+       this.getView()
+    }
+    
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.disHidden = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;

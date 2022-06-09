@@ -179,7 +179,9 @@ export class SatReportComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
 
+   
     if (params && params.level) {
+      
       this.changeDetection.detectChanges();
       if (params.timePeriod == "overall") {
         params.timePeriod = "overall";
@@ -245,6 +247,7 @@ export class SatReportComponent implements OnInit {
         this.commonService.loaderAndErr([]);
       });
     } else {
+      
       this.service.getYears().subscribe(res => {
         try {
           res['data'].map(a => {
@@ -258,6 +261,7 @@ export class SatReportComponent implements OnInit {
       }, err => {
         this.commonService.loaderAndErr([]);
       });
+    
     }
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.distHide = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -277,14 +281,23 @@ export class SatReportComponent implements OnInit {
     if (this.semesters.length > 0) {
       this.semester = this.semesters[this.semesters.length - 1].id;
 
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.levelWiseFilter();
 
-      this.levelWiseFilter();
-      this.changeDetection.detectChanges();
+      }else{
+       this.getView()
+      } 
+            this.changeDetection.detectChanges();
     }
   }
 
   semSelect() {
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView()
+    }
+    
     this.changeDetection.detectChanges();
   }
 
@@ -2614,8 +2627,8 @@ export class SatReportComponent implements OnInit {
           };
 
           // to show and hide the dropdowns
-          this.blockHidden = false;
-          this.clusterHidden = false;
+          this.blockHidden = this.selBlock ? true : false;
+          this.clusterHidden =  false;
 
           this.districtId = this.data[0].Details.district_id;
           this.blockId = blockId;
@@ -2795,8 +2808,8 @@ export class SatReportComponent implements OnInit {
                   clusterName: this.data[0].Details.cluster_name,
                 };
 
-                this.blockHidden = false;
-                this.clusterHidden = false;
+                this.blockHidden =  this.selBlock ? true : false;
+                this.clusterHidden = this.selCluster ? true : false;
 
                 this.districtHierarchy = {
                   distId: this.data[0].Details.district_id,

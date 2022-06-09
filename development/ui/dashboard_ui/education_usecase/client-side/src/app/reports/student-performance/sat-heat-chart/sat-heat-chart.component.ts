@@ -130,7 +130,13 @@ export class SatHeatChartComponent implements OnInit {
       this.examDates = [{ exam_date: "all" }, ...this.examDates.filter(item => item !== { exam_date: "all" })];
 
       this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      this.commonFunc();
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+
+        this.commonFunc();
+      } else {
+        this.getView()
+
+      }
     }, err => {
       this.metaData = [];
       this.commonService.loaderAndErr(this.metaData);
@@ -205,10 +211,13 @@ export class SatHeatChartComponent implements OnInit {
     this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.resetOnAllGrades();
     this.year = this.years[this.years.length - 1];
-    this.commonFunc();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.commonFunc();
+    }else{
+      this.getView()
+    }
+    
     this.currentPage = 1;
-
-
   }
 
   commonFunc = () => {
@@ -664,7 +673,7 @@ export class SatHeatChartComponent implements OnInit {
     }
   }
 
-  selectedDistrict(districtId) {
+  selectedDistrict(districtId, bid?, cid?) {
     if (!this.month || this.month === '') {
       alert("Please select month!");
       this.dist = false;
@@ -707,6 +716,9 @@ export class SatHeatChartComponent implements OnInit {
         this.blok = false;
         this.clust = false;
         this.commonService.loaderAndErr(this.reportData);
+        if(bid){
+          this.selectedBlock(bid,cid)
+        }
       }, err => {
         this.reportData = [];
         this.commonService.loaderAndErr(this.reportData);
@@ -717,7 +729,7 @@ export class SatHeatChartComponent implements OnInit {
     }
   }
 
-  selectedBlock(blockId) {
+  selectedBlock(blockId, cid?) {
     if (!this.month || this.month === '') {
       alert("Please select month!");
       this.blok = false;
@@ -728,7 +740,7 @@ export class SatHeatChartComponent implements OnInit {
       this.level = 'cluster';
       this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
       this.cluster = undefined;
-      this.blockHidden = false;
+      this.blockHidden = this.selBlock ? true : false;
       this.clusterHidden = false;
 
       this.commonService.errMsg();
@@ -764,6 +776,9 @@ export class SatHeatChartComponent implements OnInit {
         this.blok = true;
         this.clust = false;
         this.commonService.loaderAndErr(this.reportData);
+        if (cid) {
+          this.selectedCluster(cid)
+        }
       }, err => {
         this.reportData = [];
         this.commonService.loaderAndErr(this.reportData);
@@ -821,6 +836,9 @@ export class SatHeatChartComponent implements OnInit {
         this.dist = false;
         this.blok = false;
         this.clust = true;
+      
+        this.blockHidden = this.selBlock ? true : false;
+        this.clusterHidden = this.selCluster ? true : false;
 
         this.commonService.loaderAndErr(this.reportData);
       }, err => {
@@ -929,6 +947,7 @@ export class SatHeatChartComponent implements OnInit {
   }
   blockhide = false
   schoolLevel = false
+  hideblock = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -936,47 +955,110 @@ export class SatHeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
+
     this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
       this.district = districtid;
-      this.block = blockid
+      this.block = blockid;
       this.cluster = clusterid;
-
-      this.selectedBlock(blockid);
-      this.selectedCluster(clusterid);
-      this.blockHidden = true
-      this.clusterHidden = true
-
+      this.selectedDistrict(districtid, blockid, clusterid);
       this.levelVal = 3;
     } else if (level === "Cluster") {
       this.district = districtid;
-      this.block = blockid
+      this.block = blockid;
       this.cluster = clusterid;
-
-      this.selectedBlock(blockid);
-      this.selectedCluster(clusterid);
-      this.blockHidden = true
-      this.clusterHidden = true
-
+      this.selectedDistrict(districtid, blockid, clusterid);
       this.levelVal = 3;
     } else if (level === "Block") {
       this.district = districtid;
+
+      this.cluster = clusterid;
+      this.hideblock = true
+      this.selectedDistrict(districtid, blockid);
       this.block = blockid;
-
-      this.selectedDistrict(districtid)
-      this.selectedBlock(blockid);
-      this.blockHidden = true
-
-
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
 
-      this.selectedDistrict(districtid)
+      let a = {
+        report: "pat",
+        year: this.year,
+        month: this.month,
+        grade: this.grade == "all" ? "" : this.grade,
+        subject_name: this.subject == "all" ? "" : this.subject,
+        exam_date: this.examDate == "all" ? "" : this.examDate,
+        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
+        management: this.management,
+        category: this.category,
+      };
+      this.service.PATHeatMapAllData(a).subscribe(
+        (response) => {
+          if (response["districtDetails"]) {
+            let districts = response["districtDetails"];
+            this.districtNames = districts.sort((a, b) =>
+              a.district_name > b.district_name
+                ? 1
+                : b.district_name > a.district_name
+                  ? -1
+                  : 0
+            );
+          }
+          this.selectedDistrict(districtid);
 
+
+        }
+      );
       this.levelVal = 1;
     }
   }
+  // getView() {
+  //   let id = localStorage.getItem("userLocation");
+  //   let level = localStorage.getItem("userLevel");
+  //   let clusterid = localStorage.getItem("clusterId");
+  //   let blockid = localStorage.getItem("blockId");
+  //   let districtid = localStorage.getItem("districtId");
+  //   let schoolid = localStorage.getItem("schoolId");
+  //   this.schoolLevel = level === "School" ? true : false
+  //   if (level === "School") {
+  //     this.district = districtid;
+  //     this.block = blockid
+  //     this.cluster = clusterid;
+
+  //     this.selectedBlock(blockid);
+  //     this.selectedCluster(clusterid);
+  //     this.blockHidden = true
+  //     this.clusterHidden = true
+
+  //     this.levelVal = 3;
+  //   } else if (level === "Cluster") {
+  //     this.district = districtid;
+  //     this.block = blockid
+  //     this.cluster = clusterid;
+
+  //     this.selectedBlock(blockid);
+  //     this.selectedCluster(clusterid);
+  //     this.blockHidden = true
+  //     this.clusterHidden = true
+
+  //     this.levelVal = 3;
+  //   } else if (level === "Block") {
+  //     this.district = districtid;
+  //     this.block = blockid;
+
+  //     this.selectedDistrict(districtid)
+  //     this.selectedBlock(blockid);
+  //     this.blockHidden = true
+
+
+  //     this.levelVal = 2;
+  //   } else if (level === "District") {
+  //     this.district = districtid;
+
+  //     this.selectedDistrict(districtid)
+
+  //     this.levelVal = 1;
+  //   }
+  // }
 
 
   distlevel(id) {
