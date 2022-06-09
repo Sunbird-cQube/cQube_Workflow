@@ -243,7 +243,7 @@ export class CrcReportComponent implements OnInit {
         this.onResize();
         this.levelWiseFilter()
       }
-      
+
     }, err => {
       this.commonService.loaderAndErr([]);
     });
@@ -265,7 +265,7 @@ export class CrcReportComponent implements OnInit {
   selDist = false;
   levelVal = 0;
   level
-
+  schoolLevel = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -273,9 +273,23 @@ export class CrcReportComponent implements OnInit {
     let blockid = JSON.parse(localStorage.getItem("blockId"));
     let districtid = JSON.parse(localStorage.getItem("districtId"));
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
+    this.schoolLevel = level === "School" ? true : false
 
+    if (level === "School") {
+      this.myDistrict = districtid;
+      this.myBlock = blockid;
+      this.myCluster = clusterid;
 
-    if (level === "Cluster") {
+      this.getDistricts('cluster');
+      this.getBlocks('cluster', districtid, blockid)
+      this.getClusters(districtid, blockid, clusterid)
+
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
@@ -321,19 +335,16 @@ export class CrcReportComponent implements OnInit {
     let level = localStorage.getItem("userLevel");
 
     if (level === "Cluster") {
-
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
-
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
-
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = true;
@@ -448,7 +459,7 @@ export class CrcReportComponent implements OnInit {
           ...this.month_year,
         }, ...{ management: this.management, category: this.category }
       })
-      .subscribe((result: any) => {
+      .subscribe((result: any) => {      
         this.crcClusterNames = result.visits;
         this.reportData = this.crcClusterNames;
 
@@ -1145,8 +1156,6 @@ export class CrcReportComponent implements OnInit {
     this.clusterHidden = false;
     this.blockHidden = this.hideIfAccessLevel ? false : true;
 
-    // this.clusterHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false;
-    // this.blockHidden = localStorage.getItem('userLevel') === 'Cluster' ? true : false
 
     if (this.myData) {
       this.myData.unsubscribe();
@@ -1167,11 +1176,21 @@ export class CrcReportComponent implements OnInit {
             }
             this.changeDetection.detectChanges();
           }
-
-          this.crcSchoolNames = result;
-          let a = this.crcSchoolNames.schoolsVisitedCount;
-          this.reportData = this.crcSchoolNames = this.crcSchoolNames.visits;
-
+          let a
+          if (this.schoolLevel) {
+            let schoolData = result.visits;
+            
+            let data = schoolData.filter(data => data.schoolId === Number(localStorage.getItem('schoolId')))
+            
+            this.crcSchoolNames = result;
+            a = this.crcSchoolNames.schoolsVisitedCount;
+            this.reportData = this.crcSchoolNames = data;
+          } else {
+            this.crcSchoolNames = result;
+            a = this.crcSchoolNames.schoolsVisitedCount;
+            this.reportData = this.crcSchoolNames = this.crcSchoolNames.visits;
+          }
+      
           var labels = [];
           for (var i = 0; i < this.crcSchoolNames.length; i++) {
             if (

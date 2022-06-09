@@ -34,7 +34,8 @@
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? myDistData(distName): ''"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{titleName}}</span><span> | </span><span (click)="!selCluster ? myBlockData(blockName) : ''"
+                                {{titleName}}</span><span> | </span><span
+                                (click)="!selCluster ? myBlockData(blockName) : ''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{title}}</span><span> | </span><span class="selected-level">
                                 {{hierName}}</span></p>
@@ -62,8 +63,8 @@
                                     (click)="downloadReportofState(downloadType)">Download Report &nbsp; <i
                                         class="fa fa-arrow-down" aria-hidden="true"></i>
                                 </button>
-                                <select *ngIf="xAxisFilter && xAxisFilter.length>0 " [hidden]="hideIfAccessLevel"
-                                    class="dwnld" id="downloader" [(ngModel)]="downloadType" name="downloadType">
+                                <select *ngIf="xAxisFilter && xAxisFilter.length>0 " class="dwnld" id="downloader"
+                                    [(ngModel)]="downloadType" name="downloadType">
                                     <option [value]="downloadType" disabled selected="selected"> Choose Report
                                     </option>
                                     <option *ngFor="let md of modes, let i = index" [(ngValue)]="modes[i]">

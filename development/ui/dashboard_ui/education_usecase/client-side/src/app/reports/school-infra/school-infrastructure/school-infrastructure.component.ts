@@ -99,7 +99,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-
+  schoolLevel = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
@@ -108,7 +108,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    if (level === "Cluster") {
+    this.schoolLevel = level === "School" ? true : false
+    if (level === "School") {
 
       this.downloadLevel = 'cluster';
       document.getElementById('spinner').style.display = 'block'
@@ -120,9 +121,17 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
 
-    
+    } else if (level === "Cluster") {
 
-
+      this.downloadLevel = 'cluster';
+      document.getElementById('spinner').style.display = 'block'
+      this.myDistData(districtid, blockid, clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.myDistrict = Number(districtid)
+      this.myBlock = Number(blockid)
+      this.myCluster = Number(clusterid)
 
     } else if (level === "Block") {
 
@@ -134,8 +143,6 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myDistrict = Number(districtid)
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
-      
-
     } else if (level === "District") {
 
 
@@ -143,7 +150,7 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myDistData(districtid)
       this.distHidden = true
       this.myDistrict = Number(districtid)
-    
+
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
@@ -287,7 +294,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myBlockData(data, clusterid?) {
-    
+
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
@@ -306,9 +313,7 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     localStorage.setItem('blockId', data);
     this.titleName = localStorage.getItem('dist');
-     this.distName = JSON.parse(localStorage.getItem('distId'));
-    
-    
+    this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = data;
     let obj = this.blockNames.find(o => o.id == data);
     localStorage.setItem('block', JSON.stringify(obj?.name));
@@ -366,7 +371,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.reportData = [];
 
     this.title = JSON.parse(localStorage.getItem('block'));
-    //this.title = localStorage.getItem('block');
+    
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));
@@ -382,7 +387,26 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myData.unsubscribe();
     }
     this.myData = this.service.infraSchoolWise(distId, blockId, data, { management: this.management, category: this.category }).subscribe(res => {
-      this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+      
+      if (this.schoolLevel) {
+         let result = res
+       
+        let data =[]
+        for (var i = 0; result['length']; i++ ){
+          if (result[i].school.id === Number(localStorage.getItem('schoolId'))){
+            
+           data.push(result[i])
+          break 
+          }
+            
+        }
+        
+         this.reportData = this.SchoolInfrastructureSchoolNames = this.result = data;
+      } else {
+        this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+      }
+     
+      
       // for download========
       this.funToDownload(this.reportData);
       //for chart =============================================
@@ -554,7 +578,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     }
     this.labels = labels;
     this.obj = obj;
-
+    
     this.createChart(labels, this.chartData, this.tableHead, obj);
   }
 
@@ -581,7 +605,9 @@ export class SchoolInfrastructureComponent implements OnInit {
     if ($.fn.DataTable.isDataTable('#table')) {
       $('#table').DataTable().destroy();
       $('#table').empty();
+      
     }
+    
     var my_columns = [];
     $.each(dataSet[0], function (key, value) {
       var my_item = {};
@@ -654,7 +680,7 @@ export class SchoolInfrastructureComponent implements OnInit {
         destroy: true, bLengthChange: false, bInfo: false,
         bPaginate: false, scrollY: '38vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
-        responsive: true,
+        responsive: true
       });
     });
   }

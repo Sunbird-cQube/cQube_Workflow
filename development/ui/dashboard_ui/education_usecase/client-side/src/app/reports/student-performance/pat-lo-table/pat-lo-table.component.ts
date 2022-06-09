@@ -117,8 +117,14 @@ export class PATLOTableComponent implements OnInit {
           ];
 
           this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
 
-          this.commonFunc();
+            this.commonFunc();
+          } else {
+
+            this.getView()
+          }
+
         } catch (e) {
           this.metaData = [];
           this.commonService.loaderAndErr(this.metaData);
@@ -146,7 +152,7 @@ export class PATLOTableComponent implements OnInit {
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    // this.getView1();
+
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -222,8 +228,13 @@ export class PATLOTableComponent implements OnInit {
     this.clusterHidden = true;
     this.year = this.years[this.years.length - 1];
     this.gradeSelected = false;
-    this.commonFunc();
-
+    if(this.hideAccessBtn){
+      
+      this.commonFunc();
+    }else{
+      this.getView()
+    }
+      
   }
 
   commonFunc = () => {
@@ -272,13 +283,16 @@ export class PATLOTableComponent implements OnInit {
       var headers = "<thead><tr>";
       var body = "<tbody>";
       my_columns.forEach((column, i) => {
-        
+
         var col = column.data.replace(/_/g, " ").replace(/\w\S*/g, (txt) => {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase() ;
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
-     
+        
+        if (col.length > 10) {
+          col = col.slice(0, 10) + "..."
+        }
         if (i > 3) {
-          headers += `<th class="rank"><div style="transform: rotate(270deg);">${col.slice(0, 10)}</div></th>`;
+          headers += `<th class="rank text-wrap"><div style="transform: rotate(270deg);">${col}</div></th>`;
         } else {
           if (col == 'Indicator') {
             headers += `<th class="indicator">${col}</th>`;
@@ -379,7 +393,7 @@ export class PATLOTableComponent implements OnInit {
       }
       if (dataSet.length > 0) {
         obj['order'] = [[0, "asc"]];
-        obj['columnDefs'] = [{ targets: 0, type: "date-dd-mm-yyyy" }];
+        obj['columnDefs'] = [{ targets: 0, type: "date-dd-mm-yyyy" },{ className: "dt-head-center" }];
       }
 
       this.table = $(`#LOtable`).DataTable(obj);
@@ -459,11 +473,14 @@ export class PATLOTableComponent implements OnInit {
         this.grade = "all";
         this.resetToInitPage();
       }
-      this.levelWiseFilter();
+      if(this.hideAccessBtn){
+        this.levelWiseFilter();
+       
+      }else{
+        this.getView() 
+      }
+        
     }
-
-    this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    this.levelWiseFilter();
   }
 
   selectedSubject() {
@@ -569,7 +586,7 @@ export class PATLOTableComponent implements OnInit {
     this.level = "cluster";
     this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
-    this.blockHidden = false;
+    this.blockHidden = this.selBlock ? true: false;
     this.clusterHidden = false;
 
     this.commonService.errMsg();
@@ -599,6 +616,7 @@ export class PATLOTableComponent implements OnInit {
               : 0
         );
         this.onChangePage();
+        
         var block = this.blockNames.find((a) => a.block_id == blockId);
 
         this.blockHierarchy = {
@@ -649,7 +667,23 @@ export class PATLOTableComponent implements OnInit {
 
     this.service.patLOTableSchoolData(a).subscribe(
       (response) => {
-        this.updatedTable = this.reportData = response["tableData"];
+        
+        if (this.schoolLevel) {
+          let schoolData = response['schoolDetails']
+          let tableData = response['tableData']
+          let schoolname = ""
+           schoolData.filter(data => {
+            if (data.school_id === Number(localStorage.getItem('schoolId'))) {
+              schoolname = data.school_name
+            } } )
+
+          let data = tableData.filter(data => data[schoolname]);
+          this.updatedTable = this.reportData = data
+          
+        } else {
+          this.updatedTable = this.reportData = response["tableData"];
+        }
+        
         this.onChangePage();
 
         var cluster = this.clusterNames.find((a) => a.cluster_id == clusterId);
@@ -665,6 +699,9 @@ export class PATLOTableComponent implements OnInit {
         this.dist = false;
         this.blok = false;
         this.clust = true;
+
+        this.blockHidden = this.selBlock ? true : false;
+        this.clusterHidden = this.selCluster ? true :false;
       },
       (err) => {
         this.handleError();
@@ -705,6 +742,7 @@ export class PATLOTableComponent implements OnInit {
   selDist = false;
   levelVal = 0;
   hideblock = false
+  schoolLevel = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -712,7 +750,7 @@ export class PATLOTableComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid) {
       this.district = districtid;
     }
@@ -727,8 +765,46 @@ export class PATLOTableComponent implements OnInit {
 
     }
 
+  
+    if (level === "School") {
+      this.district = districtid;
+      this.block = blockid;
+      this.cluster = clusterid;
 
-    if (level === "Cluster") {
+      let a = {
+        year: this.year,
+        month: this.month,
+        grade: this.grade == "all" ? "" : this.grade,
+        subject_name: this.subject == "all" ? "" : this.subject,
+        exam_date: this.examDate == "all" ? "" : this.examDate,
+        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
+        districtId: this.district,
+        blockId: blockid,
+        management: this.management,
+        category: this.category,
+      };
+
+      this.service.patLOTableClusterData(a).subscribe(
+        (response) => {
+          this.updatedTable = this.reportData = response["tableData"];
+          var clusterNames = response["clusterDetails"];
+          this.clusterNames = clusterNames.sort((a, b) =>
+            a.cluster_name > b.cluster_name
+              ? 1
+              : b.cluster_name > a.cluster_name
+                ? -1
+                : 0
+          );
+          this.selectedCluster(clusterid);
+        })
+
+      this.clusterHidden = true
+      this.blockHidden = true
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
@@ -799,8 +875,38 @@ export class PATLOTableComponent implements OnInit {
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid;
+      let a = {
+        year: this.year,
+        month: this.month,
+        grade: this.grade == "all" ? "" : this.grade,
+        subject_name: this.subject == "all" ? "" : this.subject,
+        exam_date: this.examDate == "all" ? "" : this.examDate,
+        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
+        management: this.management,
+        category: this.category,
+      };
+      this.month = a.month;
+      if (this.myData) {
+        this.myData.unsubscribe();
+      }
+      this.myData = this.service.patLOTableDistData(a).subscribe(
+        (response) => {
+          this.resetTable();
+          this.updatedTable = this.reportData = response["tableData"];
+          var districtNames = response["districtDetails"];
+          this.districtNames = districtNames.sort((a, b) =>
+            a.district_name > b.district_name
+              ? 1
+              : b.district_name > a.district_name
+                ? -1
+                : 0
+          );
+          this.selectedDistrict(districtid);
 
-      this.selectedDistrict(districtid);
+        },
+
+      );
+
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;

@@ -222,7 +222,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-
+  schoolLevel = false
   getView1() {
 
     let id = localStorage.getItem("userLocation");
@@ -231,18 +231,28 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
+    this.schoolLevel = level === "School" ? true : false;
 
-
-
-    if (level === "Cluster") {
+    if (level === "School") {
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      this.myDistData(districtid, blockid, clusterid)
-
+      this.myDistData(districtid, blockid, clusterid);
+      this.blockSelect({ type: "click" }, blockid);
+      this.clusterSelect({ type: "click" }, clusterid);
+      this.blockHidden = true
+      this.selCluster = true;
+    } else if (level === "Cluster") {
+      this.myDistrict = Number(districtid);
+      this.myBlock = Number(blockid);
+      this.myCluster = Number(clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.myDistData(districtid, blockid, clusterid);
       this.blockSelect({ type: "click" }, blockid);
       this.clusterSelect({ type: "click" }, clusterid);
       this.blockHidden = true
@@ -256,7 +266,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.myDistData(districtid, blockid, clusterid)
       this.blockSelect({ type: "click" }, blockid);
       this.blockHidden = true
-      
+
     } else if (level === "District") {
       this.selCluster = false;
       this.selBlock = false;
@@ -264,7 +274,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
 
       this.myDistrict = districtid;
 
-      this.distSelect({ type: "click" }, districtid, blockid, clusterid);
+      this.distSelect({ type: "click" }, districtid);
 
     }
   }
@@ -1088,7 +1098,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-               
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
@@ -1204,11 +1214,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-              
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-              
+
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1889,7 +1899,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   onClick_Marker(event) {
     var marker = event.target;
     this.markerData = marker.myJsonData;
-    this.clickedMarker(event, marker.myJsonData);
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      this.clickedMarker(event, marker.myJsonData);
+    }
   }
 
   // clickMarker for Google map
@@ -1898,7 +1910,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       return false;
     }
     this.markerData = marker;
-    this.clickedMarker(event, marker);
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      this.clickedMarker(event, marker);
+    }
   }
 
   distSelect(event, data, blockid?, clusterid?) {
@@ -2373,7 +2387,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden = false;
+    this.clusterHidden = !this.hideAccessBtn ? true : false;
     this.blockHidden = !this.hideAccessBtn ? true : false
 
     if (this.months.length > 0) {
@@ -2458,7 +2472,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         .schoolsPerCluster({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["schoolsDetails"];
+            if (this.schoolLevel) {
+              let schoolData = res['schoolsDetails'];
+             
+              let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+
+              this.reportData = this.mylatlngData = data;
+            } else {
+              this.reportData = this.mylatlngData = res["schoolsDetails"];
+            }
+           
             this.dateRange = res["dateRange"];
             var uniqueData = this.mylatlngData.reduce(function (
               previous,

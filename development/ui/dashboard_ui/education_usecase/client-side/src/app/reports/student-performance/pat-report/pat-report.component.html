@@ -2,7 +2,7 @@
   <div class="row reportHeader">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="row" (window:resize)="globalService.onResize(level); onResize()">
-        <div class="col-sm-6">
+        <div class="col-sm-7">
           <div *ngIf="skul">
             <p id="dist">
               Periodic Assessment Test Report for:
@@ -13,8 +13,9 @@
           <div *ngIf="dist">
             <p id="block">
               Periodic Assessment Test Report for:
-              <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
-              <span> | </span><span (click)="ondistLinkClick(districtHierarchy.distId)"
+              <span (click)=" linkClick()" style="cursor: pointer; text-decoration: underline">{{
+                state }}</span>
+              <span> | </span><span (click)="hideDist ? ondistLinkClick(districtHierarchy.distId):''"
                 style="cursor: pointer; text-decoration: underline" class="selected-level">
                 {{ districtHierarchy.districtName }}</span>
             </p>
@@ -22,7 +23,8 @@
           <div *ngIf="blok">
             <p id="cluster">
               Periodic Assessment Test Report for:
-              <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
+              <span (click)=" linkClick()" style="cursor: pointer; text-decoration: underline">{{
+                state }}</span><span> |
               </span><span (click)=" !selDist ? ondistLinkClick(blockHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ blockHierarchy.districtName }}</span><span> | </span><span
@@ -35,7 +37,8 @@
           <div *ngIf="clust">
             <p id="school">
               Periodic Assessment Test Report for:
-              <span (click)="linkClick()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span> |
+              <span (click)=" linkClick()" style="cursor: pointer; text-decoration: underline">{{
+                state }}</span><span> |
               </span><span (click)=" !selDist ? ondistLinkClick(clusterHierarchy.distId): ''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ clusterHierarchy.districtName }}</span><span> | </span><span
@@ -46,15 +49,7 @@
             </p>
           </div>
         </div>
-        <div class="col-lg-2 col-md-3 col-sm-12">
-          <div class="row">
-            <div class="col-sm-7">
-              <button class="btn btn-primary" id="download1" [hidden]="hideAccessBtn" (click)="getView()">
-                Access Level
-              </button>
-            </div>
-          </div>
-        </div>
+     
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-7">
@@ -110,13 +105,16 @@
               {{ months[i] }}
             </option>
           </select>
-          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" [disabled]="hideAllBlockBtn" (click)="blockClick()">
+          <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" [disabled]="hideAllBlockBtn"
+            (click)="blockClick()">
             &nbsp;<strong>Blocks</strong>
           </button>
-          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllCLusterBtn" (click)="clusterClick()">
+          <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" [disabled]="hideAllCLusterBtn"
+            (click)="clusterClick()">
             &nbsp;<strong>Clusters</strong>
           </button>
-          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"  [disabled] = "hideAllSchoolBtn" (click)="schoolClick()">
+          <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" [disabled]="hideAllSchoolBtn"
+            (click)="schoolClick()">
             &nbsp;<strong>Schools</strong>
           </button>
 

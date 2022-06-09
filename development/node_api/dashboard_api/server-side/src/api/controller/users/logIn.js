@@ -242,6 +242,27 @@ router.post('/login', async (req, res, next) => {
                             }
 
                         })
+                    } else if (userLevel === 'School') {
+
+                        db.query('SELECT distinct cluster_id,block_id,district_id FROM school_hierarchy_details WHERE school_id=$1;', [userLocation], (error, results) => {
+                            if (error) {
+                                logger.info('---user school level from DB error ---');
+                                res.send({ status: "401", err: "Invalid school user, Please Contact Respective Team" })
+                                throw error
+
+                            }
+                            logger.info('---user school level from DB  success ---');
+                            console.log('res', results)
+                            if (results['rowCount']) {
+                                let clusterId = results.rows[0]['cluster_id'] 
+                                let blockId = results.rows[0]['block_id']
+                                let districtId = results.rows[0]['district_id']
+                                res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation, clusterId: clusterId, blockId: blockId, districtId: districtId, schoolId: userLocation })
+                            } else {
+                                res.send({ status: "401", err: "Invalid school user, Please Contact Respective Team" })
+                            }
+
+                        })
                     } else if (userLevel === 'District') {
                         if (userLocation === "") {
                             logger.info('---user block level from DB error ---');

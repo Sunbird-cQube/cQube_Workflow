@@ -1770,7 +1770,15 @@ export class UdiseReportComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              this.markers = this.data = res["data"];
+              
+              if (this.schoolLevel) {
+                let schoolData = res['data']
+                let data = schoolData.filter(data => data.details.school_id === Number(localStorage.getItem('schoolId')))
+
+                this.markers = this.data = data
+              } else {
+                this.markers = this.data = res["data"];
+              }
               this.gettingIndiceFilters(this.data);
 
               this.schoolMarkers = this.data;
@@ -2127,6 +2135,7 @@ export class UdiseReportComponent implements OnInit {
   selDist = false;
   distHidden = false
   levelVal = 0;
+  schoolLevel = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
@@ -2135,7 +2144,7 @@ export class UdiseReportComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
 
     if (districtid) {
       this.districtId = Number(districtid);
@@ -2148,7 +2157,14 @@ export class UdiseReportComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+
+      this.onClusterSelect(clusterid)
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
 
       this.onClusterSelect(clusterid)
       this.selCluster = true;
@@ -2455,7 +2471,7 @@ export class UdiseReportComponent implements OnInit {
   onClick_Marker(event) {
     this.indiceFilter = [];
     var data = event.target.myJsonData.details;
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
@@ -2483,6 +2499,7 @@ export class UdiseReportComponent implements OnInit {
   onClick_AgmMarker(marker) {
     this.indiceFilter = [];
     var data = marker.details;
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ''){
     if (data.district_id && !data.block_id && !data.cluster_id) {
       this.stateLevel = 1;
       this.onDistrictSelect(data.district_id);
@@ -2501,7 +2518,7 @@ export class UdiseReportComponent implements OnInit {
         blockId: data.block_id,
       };
       this.onClusterSelect(data.cluster_id);
-    }
+    }}
   }
 
   // to download the csv report

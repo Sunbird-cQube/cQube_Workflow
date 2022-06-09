@@ -87,7 +87,6 @@ export class SatHeatChartComponent implements OnInit {
 
   getHeight(event) {
     this.height = event.target.innerHeight;
-    //
   }
 
   screenWidth: number;
@@ -801,10 +800,13 @@ export class SatHeatChartComponent implements OnInit {
         blockId: this.block,
         clusterId: clusterId,
         management: this.management,
-        category: this.category
+        category: this.category,
+        schoolLevel: this.schoolLevel,
+        schoolId: Number(localStorage.getItem('schoolId'))
       }
 
       this.service.PATHeatMapClusterData(a).subscribe(response => {
+       
         this.genericFunction(response);
         var cluster = this.clusterNames.find(a => a.cluster_id == clusterId);
         this.clusterHierarchy = {
@@ -926,6 +928,7 @@ export class SatHeatChartComponent implements OnInit {
     }
   }
   blockhide = false
+  schoolLevel = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -933,9 +936,19 @@ export class SatHeatChartComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
+    this.schoolLevel = level === "School" ? true : false
+    if (level === "School") {
+      this.district = districtid;
+      this.block = blockid
+      this.cluster = clusterid;
 
+      this.selectedBlock(blockid);
+      this.selectedCluster(clusterid);
+      this.blockHidden = true
+      this.clusterHidden = true
 
-    if (level === "Cluster") {
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid
       this.cluster = clusterid;
