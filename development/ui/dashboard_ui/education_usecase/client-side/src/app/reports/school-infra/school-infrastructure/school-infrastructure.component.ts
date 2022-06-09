@@ -83,11 +83,17 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView1()
+      this.getView()
+    }
+    
     document.getElementById('spinner').style.display = 'block';
-    this.getView1()
+    
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-
+    this.distHidden = !this.hideAccessBtn
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== '' || undefined) {
         this.hideIfAccessLevel = true;
@@ -113,7 +119,8 @@ export class SchoolInfrastructureComponent implements OnInit {
 
       this.downloadLevel = 'cluster';
       document.getElementById('spinner').style.display = 'block'
-      this.myDistData(districtid, blockid, clusterid);
+      // this.myDistData(districtid, blockid, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -125,7 +132,8 @@ export class SchoolInfrastructureComponent implements OnInit {
 
       this.downloadLevel = 'cluster';
       document.getElementById('spinner').style.display = 'block'
-      this.myDistData(districtid, blockid, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
+      // this.myDistData(districtid, blockid, clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -136,7 +144,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     } else if (level === "Block") {
 
       this.downloadLevel = 'block';
-      this.myDistData(districtid, blockid)
+      this.districtWise(districtid, blockid )
+      // this.myDistData(districtid, blockid)
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
@@ -145,9 +154,13 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myCluster = Number(clusterid)
     } else if (level === "District") {
 
-
-
-      this.myDistData(districtid)
+      this.myData = this.service.infraDistWise({ management: this.management, category: this.category }).subscribe(res => {
+        this.SchoolInfrastructureDistrictsNames = this.result = res;
+        
+      })
+      
+      this.districtWise(districtid)
+      // this.myDistData(districtid)
       this.distHidden = true
       this.myDistrict = Number(districtid)
 
@@ -186,7 +199,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   reportName = 'composite_report';
 
 
-  districtWise() {
+  districtWise(distId?, bid?, cid?,sid?) {
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'dist';
@@ -224,6 +237,9 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.SchoolInfrastructureDistrictsNames.sort((a, b) => (a.district.value > b.district.value) ? 1 : ((b.district.value > a.district.value) ? -1 : 0));
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
+      if(distId){
+        this.myDistData(distId,bid,cid)
+      }
     }, err => {
       this.result = [];
       this.createChart(["clg"], [], '', {});
@@ -320,7 +336,7 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     this.hierName = obj?.name;
 
-    this.blockHidden = false;
+    this.blockHidden = this.selBlock ? true : false;
     this.clusterHidden = false;
 
 
@@ -382,7 +398,8 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
 
-
+   this.blockHidden = this.selBlock ? true : false;
+   this.clusterHidden = this.selCluster ? true : false;
     if (this.myData) {
       this.myData.unsubscribe();
     }

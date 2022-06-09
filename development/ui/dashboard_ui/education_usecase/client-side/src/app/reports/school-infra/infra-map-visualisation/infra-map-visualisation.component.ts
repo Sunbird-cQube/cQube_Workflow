@@ -154,57 +154,62 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
-    if (params && params.level) {
-      let data = params.data;
-      if (params.level === "district") {
-        this.districtHierarchy = {
-          distId: data.id,
-        };
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      if (params && params.level) {
+        let data = params.data;
+        if (params.level === "district") {
+          this.districtHierarchy = {
+            distId: data.id,
+          };
 
-        this.districtId = data.id;
-        this.getDistricts();
-        this.onDistrictSelect(data.id);
-      } else if (params.level === "block") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
+          this.districtId = data.id;
+          this.getDistricts();
+          this.onDistrictSelect(data.id);
+        } else if (params.level === "block") {
+          this.districtHierarchy = {
+            distId: data.districtId,
+          };
 
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.id,
-        };
+          this.blockHierarchy = {
+            distId: data.districtId,
+            blockId: data.id,
+          };
 
-        this.districtId = data.districtId;
-        this.blockId = data.id;
-        this.getDistricts();
-        this.getBlocks(data.districtId, data.id);
-      } else if (params.level === "cluster") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
+          this.districtId = data.districtId;
+          this.blockId = data.id;
+          this.getDistricts();
+          this.getBlocks(data.districtId, data.id);
+        } else if (params.level === "cluster") {
+          this.districtHierarchy = {
+            distId: data.districtId,
+          };
 
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-        };
+          this.blockHierarchy = {
+            distId: data.districtId,
+            blockId: data.blockId,
+          };
 
-        this.clusterHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-          clusterId: data.id,
-        };
+          this.clusterHierarchy = {
+            distId: data.districtId,
+            blockId: data.blockId,
+            clusterId: data.id,
+          };
 
-        this.districtId = data.blockHierarchy.distId;
-        this.blockId = data.blockId;
-        this.clusterId = data.id;
-        this.getDistricts();
-        this.getBlocks(data.districtId);
-        this.getClusters(data.districtId, data.blockId, data.id);
+          this.districtId = data.blockHierarchy.distId;
+          this.blockId = data.blockId;
+          this.clusterId = data.id;
+          this.getDistricts();
+          this.getBlocks(data.districtId);
+          this.getClusters(data.districtId, data.blockId, data.id);
+        }
+      } else {
+        this.changeDetection.detectChanges();
+        this.levelWiseFilter();
       }
     } else {
-      this.changeDetection.detectChanges();
-      this.levelWiseFilter();
+      this.getView()
     }
+
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? false : true;
@@ -276,7 +281,12 @@ export class InfraMapVisualisationComponent implements OnInit {
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    } else {
+      this.getView()
+    }
+
   }
 
 
@@ -1829,7 +1839,7 @@ export class InfraMapVisualisationComponent implements OnInit {
           this.fileName = `${this.reportName}_clusters_of_block_${blockId}_${this.commonService.dateAndTime}`;
 
           // to show and hide the dropdowns
-          this.blockHidden = false;
+          this.blockHidden = this.selBlock ? true : false;
           this.clusterHidden = false;
 
           this.districtId = this.data[0].details.district_id;
@@ -1924,15 +1934,15 @@ export class InfraMapVisualisationComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-             
-               if (this.schoolLevel){
+
+              if (this.schoolLevel) {
                 let schoolData = res['data']
-                 let data =  schoolData.filter(data =>  data.details.school_id === Number(localStorage.getItem('schoolId')))
-           
-                   this.markers = this.data = data
-               }else{
+                let data = schoolData.filter(data => data.details.school_id === Number(localStorage.getItem('schoolId')))
+
+                this.markers = this.data = data
+              } else {
                 this.markers = this.data = res["data"];
-               }
+              }
               this.gettingInfraFilters(this.data);
 
               this.schoolMarkers = this.data;
@@ -1975,8 +1985,8 @@ export class InfraMapVisualisationComponent implements OnInit {
               };
               this.fileName = `${this.reportName}_schools_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
 
-              this.blockHidden = false;
-              this.clusterHidden = false;
+              this.blockHidden = this.selBlock ? true : false;
+              this.clusterHidden = this.selCluster ? true : false;
 
               this.districtHierarchy = {
                 distId: this.data[0].details.district_id,
@@ -2169,13 +2179,13 @@ export class InfraMapVisualisationComponent implements OnInit {
   selDist = false;
   levelVal = 0;
 
- schoolLevel = false
+  schoolLevel = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
     this.clusterId = localStorage.getItem("clusterId");
-      this.schoolLevel = level === "School" ? true : false
+    this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
@@ -2194,50 +2204,49 @@ export class InfraMapVisualisationComponent implements OnInit {
       this.blockHidden = true;
       this.clusterHidden = true;
     } else if (level === "Cluster") {
-        this.districtId = localStorage.getItem("districtId");
-        this.blockId = localStorage.getItem("blockId");
-        this.clusterId = localStorage.getItem('clusterId')
+      this.districtId = localStorage.getItem("districtId");
+      this.blockId = localStorage.getItem("blockId");
+      this.clusterId = localStorage.getItem('clusterId')
 
-        this.clusterHierarchy = {
-          distId: this.districtId,
-          blockId: this.blockId,
-          clusterId: this.clusterId,
-        };
-        this.onClusterSelect(this.clusterId)
-        this.selCluster = true;
-        this.selBlock = true;
-        this.selDist = true;
-        this.levelVal = 3;
-        this.blockHidden = true;
-        this.clusterHidden = true;
-      } else if (level === "Block") {
-        this.districtId = localStorage.getItem("districtId");
-        this.blockId = localStorage.getItem("blockId");
+      this.clusterHierarchy = {
+        distId: this.districtId,
+        blockId: this.blockId,
+        clusterId: this.clusterId,
+      };
+      this.onClusterSelect(this.clusterId)
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+      this.blockHidden = true;
+      this.clusterHidden = true;
+    } else if (level === "Block") {
+      this.districtId = localStorage.getItem("districtId");
+      this.blockId = localStorage.getItem("blockId");
 
-
-        this.blockHierarchy = {
-          distId: this.districtId,
-          blockId: this.blockId,
-        };
-        this.onBlockSelect(this.blockId)
-        this.selCluster = false;
-        this.selBlock = true;
-        this.selDist = true;
-        this.blockHidden = true
-        this.levelVal = 2;
-        this.blockId = Number(this.blockId)
-        this.districtId = Number(this.districtId)
-      } else if (level === "District") {
-        this.districtId = localStorage.getItem("districtId");
-        this.levelVal = 1;
-        this.districtHierarchy = {
-          distId: this.districtId,
-        };
-        this.onDistrictSelect(this.districtId)
-        this.selCluster = false;
-        this.selBlock = false;
-        this.selDist = false;
-      }
+      this.blockHierarchy = {
+        distId: this.districtId,
+        blockId: this.blockId,
+      };
+      this.onBlockSelect(this.blockId)
+      this.selCluster = false;
+      this.selBlock = true;
+      this.selDist = true;
+      this.blockHidden = true
+      this.levelVal = 2;
+      this.blockId = Number(this.blockId)
+      this.districtId = Number(this.districtId)
+    } else if (level === "District") {
+      this.districtId = localStorage.getItem("districtId");
+      this.levelVal = 1;
+      this.districtHierarchy = {
+        distId: this.districtId,
+      };
+      this.onDistrictSelect(this.districtId)
+      this.selCluster = false;
+      this.selBlock = false;
+      this.selDist = false;
+    }
   }
 
   getView1() {

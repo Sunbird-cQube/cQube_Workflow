@@ -140,11 +140,15 @@
         </div>
     </div>
     <div class="row reportContainer1" id="initTable" style="display: block;">
-        <div class="col-sm-12 dataTableCustom">
-            <table #dataTable id="LOtable" class="display responsive cell-border"
+        <div class="col-sm-12 dataTableCustom" >
+            <table #dataTable id="LOtable" *ngIf="filteredData.length > 0" class="display responsive cell-border"
                 style="text-align: center;  width: 100%; border: 1px solid gray;">
             </table>
+        <div *ngIf="filteredData.length === 0" style="position: absolute; left: 45%; top: 45%;color: red;">
+            No Data Available
         </div>
+        </div>
+       
     </div>
     <div class="row" *ngIf="reportData.length > 0 && columns.length>0" style="padding-top: 2vh !important">
         <div class="col-sm-9">

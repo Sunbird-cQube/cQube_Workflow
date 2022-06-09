@@ -49,12 +49,7 @@
                             <p id="errMsg" class="note">
                             </p>
                         </div>
-                        <div class="col-sm-4">
-                            <button class="btn btn-primary" [hidden]="hideAccessBtn" (click)="getView1()"
-                                id="download1">
-                                Access Level
-                            </button>
-                        </div>
+                        
                         <div class="col-sm-5">
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
                                 id="download1" (click)="downloadReport()">Download Report &nbsp; <i
