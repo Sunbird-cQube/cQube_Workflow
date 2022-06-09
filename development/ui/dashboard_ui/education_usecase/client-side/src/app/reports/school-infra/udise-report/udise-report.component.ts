@@ -154,58 +154,63 @@ export class UdiseReportComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
 
-    if (params && params.level) {
-      this.changeDetection.detectChanges();
-      let data = params.data;
-      if (params.level === "district") {
-        this.districtHierarchy = {
-          distId: data.id,
-        };
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      if (params && params.level) {
+        this.changeDetection.detectChanges();
+        let data = params.data;
+        if (params.level === "district") {
+          this.districtHierarchy = {
+            distId: data.id,
+          };
 
-        this.districtId = data.id;
-        this.getDistricts();
-        this.onDistrictSelect(data.id);
-      } else if (params.level === "block") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
+          this.districtId = data.id;
+          this.getDistricts();
+          this.onDistrictSelect(data.id);
+        } else if (params.level === "block") {
+          this.districtHierarchy = {
+            distId: data.districtId,
+          };
 
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.id,
-        };
+          this.blockHierarchy = {
+            distId: data.districtId,
+            blockId: data.id,
+          };
 
-        this.districtId = data.districtId;
-        this.blockId = data.id;
-        this.getDistricts();
-        this.getBlocks(data.districtId, data.id);
-      } else if (params.level === "cluster") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
+          this.districtId = data.districtId;
+          this.blockId = data.id;
+          this.getDistricts();
+          this.getBlocks(data.districtId, data.id);
+        } else if (params.level === "cluster") {
+          this.districtHierarchy = {
+            distId: data.districtId,
+          };
 
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-        };
+          this.blockHierarchy = {
+            distId: data.districtId,
+            blockId: data.blockId,
+          };
 
-        this.clusterHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-          clusterId: data.id,
-        };
+          this.clusterHierarchy = {
+            distId: data.districtId,
+            blockId: data.blockId,
+            clusterId: data.id,
+          };
 
-        this.districtId = data.blockHierarchy;
-        this.blockId = data.blockId;
-        this.clusterId = data.id;
-        this.getDistricts();
-        this.getBlocks(data.districtId);
-        this.getClusters(data.districtId, data.blockId, data.id);
+          this.districtId = data.blockHierarchy;
+          this.blockId = data.blockId;
+          this.clusterId = data.id;
+          this.getDistricts();
+          this.getBlocks(data.districtId);
+          this.getClusters(data.districtId, data.blockId, data.id);
+        }
+      } else {
+        this.changeDetection.detectChanges();
+        this.levelWiseFilter();
       }
-    } else {
-      this.changeDetection.detectChanges();
-      this.levelWiseFilter();
+    }else{
+      this.getView()
     }
+    
 
     //this.getView1();
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
@@ -274,7 +279,12 @@ export class UdiseReportComponent implements OnInit {
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView()
+    }
+    
   }
 
 
@@ -1677,7 +1687,7 @@ export class UdiseReportComponent implements OnInit {
           };
 
           // to show and hide the dropdowns
-          this.blockHidden = false;
+          this.blockHidden = this.selBlock ? true : false;
           this.clusterHidden = false;
 
           this.districtId = this.data[0].details.district_id;
@@ -1811,8 +1821,8 @@ export class UdiseReportComponent implements OnInit {
                 clusterName: this.data[0].details.Cluster_Name,
               };
 
-              this.blockHidden = false;
-              this.clusterHidden = false;
+              this.blockHidden = this.selBlock ? true : false;
+              this.clusterHidden = this.selCluster ? true : false;
 
               this.districtHierarchy = {
                 distId: this.data[0].details.district_id,

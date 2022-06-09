@@ -138,7 +138,12 @@ export class PATExceptionComponent implements OnInit {
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
     this.fileName = `${this.reportName}_${this.period}_${this.grade != 'all' ? this.grade : 'allGrades'}_${this.subject ? this.subject : ''}_allDistricts_${this.commonService.dateAndTime}`;
     this.changeDetection.detectChanges();
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView1()
+    }
+    
     //this.getView1()
     this.toHideDropdowns();
 
@@ -231,6 +236,13 @@ export class PATExceptionComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
     this.schoolLevel = level === "School" ? true : false
+
+    this.service.gradeMetaData({ period: this.period, report: 'pat_exception' }).subscribe(res => {
+      if (res['data']['district']) {
+        this.allGrades = res['data']['district'];
+        this.allGrades.sort((a, b) => (a.grade > b.grade) ? 1 : ((b.grade > a.grade) ? -1 : 0));
+        this.allGrades = [{ grade: "all" }, ...this.allGrades.filter(item => item !== { grade: "all" })];
+      }})
     if (districtid !== 'null') {
       this.districtId = districtid;
       this.distHidden = false;
@@ -330,7 +342,12 @@ export class PATExceptionComponent implements OnInit {
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView1()
+    }
+    
   }
 
   // to load all the districts for state data on the map

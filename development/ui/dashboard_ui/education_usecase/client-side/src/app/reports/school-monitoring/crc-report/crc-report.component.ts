@@ -240,8 +240,13 @@ export class CrcReportComponent implements OnInit {
           this.getClusters(data.districtId, data.blockId, data.id);
         }
       } else {
-        this.onResize();
-        this.levelWiseFilter()
+        if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+          this.onResize();
+          this.levelWiseFilter()
+        }else{
+          this.getView()
+        }
+       
       }
 
     }, err => {

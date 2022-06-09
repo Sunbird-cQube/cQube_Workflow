@@ -236,7 +236,12 @@ export class TeacherAttendanceComponent implements OnInit {
               this.changeDetection.detectChanges();
               this.getDistricts();
             } else {
-              this.levelWiseFilter();
+              if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+                this.levelWiseFilter();
+              }else{
+                this.getView1()
+              }
+              
             }
           }
         } catch (e) {
