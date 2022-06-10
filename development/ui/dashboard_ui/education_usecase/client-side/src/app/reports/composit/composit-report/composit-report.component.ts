@@ -93,12 +93,8 @@ export class CompositReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    // if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
-    //   this.levelWiseFilter();
-    // }else{
-    //   this.getView()
-    // }
-  
+
+
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -116,10 +112,10 @@ export class CompositReportComponent implements OnInit {
       }
       if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
         this.districtWise();
-      }else{
+      } else {
         this.getView()
       }
-      
+
     }, err => {
       this.result = [];
       this.createChart(["clg"], [], '', {});
@@ -193,8 +189,8 @@ export class CompositReportComponent implements OnInit {
       this.SchoolInfrastructureDistrictsNames.sort((a, b) => (a.district.value > b.district.value) ? 1 : ((b.district.value > a.district.value) ? -1 : 0));
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
-      if (disId){
-        this.myDistData(disId,bid,cid)
+      if (disId) {
+        this.myDistData(disId, bid, cid)
       }
     }, err => {
       this.result = [];
@@ -206,7 +202,7 @@ export class CompositReportComponent implements OnInit {
 
   public districtSelected: boolean = false
   public districtSlectedId
-  myDistData(data, bid?,cid?) {
+  myDistData(data, bid?, cid?) {
     this.districtSelected = true
     this.blockSelected = false
     this.selectedCluster = false
@@ -259,8 +255,8 @@ export class CompositReportComponent implements OnInit {
 
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
-      if(bid){
-        this.myBlockData(bid,cid)
+      if (bid) {
+        this.myBlockData(bid, cid)
       }
     }, err => {
       this.result = [];
@@ -272,7 +268,7 @@ export class CompositReportComponent implements OnInit {
 
   public blockSelected: boolean = false
   public blockSelectedId
-  myBlockData(data,cid?) {
+  myBlockData(data, cid?) {
     this.districtSelected = false
     this.selectedCluster = false
     this.blockSelected = true
@@ -303,7 +299,6 @@ export class CompositReportComponent implements OnInit {
     localStorage.setItem('blockId', data);
     this.titleName = localStorage.getItem('dist');
 
-    //  this.titleName = JSON.parse(localStorage.getItem('dist'));
     this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = data;
 
@@ -313,7 +308,7 @@ export class CompositReportComponent implements OnInit {
     this.hierName = obj?.name;
 
     this.blockHidden = this.selBlock ? true : false;
-    this.clusterHidden =  false;
+    this.clusterHidden = false;
 
 
     if (this.myData) {
@@ -333,7 +328,7 @@ export class CompositReportComponent implements OnInit {
 
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
-      if(cid){
+      if (cid) {
         this.myClusterData(cid)
       }
     }, err => {
@@ -349,7 +344,7 @@ export class CompositReportComponent implements OnInit {
   public hideAllBlockBtn: boolean = false
   public hideAllCLusterBtn: boolean = false
   public hideAllSchoolBtn: boolean = false
-  
+
   myClusterData(data) {
     this.hideAllBlockBtn = true
     this.blockSelected = false
@@ -377,7 +372,7 @@ export class CompositReportComponent implements OnInit {
     this.reportData = [];
 
     this.title = JSON.parse(localStorage.getItem('block'));
-    
+
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));
@@ -395,24 +390,24 @@ export class CompositReportComponent implements OnInit {
     }
     this.myData = this.service.school_per_cluster_data(distId, blockId, data, { management: this.management, category: this.category }).subscribe(res => {
       if (this.schoolLevel) {
-         let result = res
-       
-        let data =[]
-        for (var i = 0; result['length']; i++ ){
-          if (result[i].school.id === Number(localStorage.getItem('schoolId'))){
-            
-           data.push(result[i])
-          break 
+        let result = res
+
+        let data = []
+        for (var i = 0; result['length']; i++) {
+          if (result[i].school.id === Number(localStorage.getItem('schoolId'))) {
+
+            data.push(result[i])
+            break
           }
-            
+
         }
-        
-         this.reportData = this.SchoolInfrastructureSchoolNames = this.result = data;
+
+        this.reportData = this.SchoolInfrastructureSchoolNames = this.result = data;
       } else {
         this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
       }
 
-    
+
       // for download========
       this.funToDownload(this.reportData);
       //for chart =============================================
@@ -433,7 +428,7 @@ export class CompositReportComponent implements OnInit {
     this.reportData = [];
     this.commonService.errMsg();
     var element1: any = document.getElementsByClassName('dwnld');
-    // element1[0].disabled = true;
+    
     this.fileName = `${this.reportName}_allDistricts_${this.commonService.dateAndTime}`;
     this.selected = '';
     if (this.myData) {
@@ -642,24 +637,8 @@ export class CompositReportComponent implements OnInit {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
-      let obj = this.districtsNames.find(o => o.id == districtid);
-      this.hierName = obj.name;
 
-      localStorage.setItem('dist', obj.name);
-      localStorage.setItem('distId', districtid);
-
-      document.getElementById("spinner").style.display = "block";
-      this.service.cluster_per_block_data(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
-        this.result = res;
-
-        localStorage.setItem('block', JSON.stringify(this.result[0].block.value));
-        this.titleName = this.result[0].block.block_name
-        for (var i = 0; i < this.result.length; i++) {
-          this.clusterNames.push({ id: this.result[i].cluster.id, name: this.result[i].cluster.value });
-        }
-        this.myClusterData(clusterid);
-      });
-
+      this.districtWise(districtid, blockid, clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -669,25 +648,8 @@ export class CompositReportComponent implements OnInit {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
-      // let obj = this.districtsNames.find(o => o.id == districtid);
-      // this.hierName = obj.name;
 
-      // localStorage.setItem('dist', obj.name);
-      // localStorage.setItem('distId', districtid);
-
-      // document.getElementById("spinner").style.display = "block";
-      // this.service.cluster_per_block_data(districtid, blockid, { management: this.management, category: this.category }).subscribe(res => {
-      //   this.result = res;
-
-      //   localStorage.setItem('block', JSON.stringify(this.result[0].block.value));
-      //   this.titleName = this.result[0].block.block_name
-      //   for (var i = 0; i < this.result.length; i++) {
-      //     this.clusterNames.push({ id: this.result[i].cluster.id, name: this.result[i].cluster.value });
-      //   }
-      //  this.districtWise(districtid, blockid,clusterid)
-      //    this.myClusterData(clusterid);
-      // });
-       this.districtWise(districtid, blockid, clusterid)
+      this.districtWise(districtid, blockid, clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -697,24 +659,9 @@ export class CompositReportComponent implements OnInit {
       this.myBlock = blockid;
       this.myCluster = clusterid;
 
-      let obj = this.districtsNames.find(o => o.id == districtid);
-      this.hierName = obj?.name;
-      localStorage.setItem('dist', obj?.name);
-      localStorage.setItem('distId', districtid);
 
-      this.service.block_per_dist_data(this.myDistrict, { management: this.management, category: this.category }).subscribe(res => {
-        let result = this.result = res;
-
-        for (var i = 0; i < this.result.length; i++) {
-          this.blockNames.push({ id: this.result[i].block.id, name: this.result[i].block.value });
-        }
-        // this.districtWise(districtid, blockid)
-        this.myBlockData(blockid)
-      }, err => {
-        $('#table').empty();
-
-      });
-      // this.districtWise(districtid, blockid)
+      this.districtWise(districtid, blockid)
+      this.myBlockData(blockid)
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
@@ -724,7 +671,7 @@ export class CompositReportComponent implements OnInit {
       this.myBlock = blockid;
       this.myCluster = clusterid;
       this.districtWise(districtid)
-      //  this.myDistData(districtid);
+      
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
@@ -740,7 +687,7 @@ export class CompositReportComponent implements OnInit {
 
 
   showChart(result, downloadType) {
-   
+
     var l = undefined;
     if (downloadType == "dist") {
       l = this.management != 'overall' ? 2 : 1;
@@ -843,13 +790,10 @@ export class CompositReportComponent implements OnInit {
 
     if (this.skul) {
       if (this.downloadLevel == "dist") {
-
         this.districtWise();
       } else if (this.downloadLevel == "block") {
-
         this.blockWise();
       } else if (this.downloadLevel == "cluster") {
-
         this.clusterWise();
       }
     }

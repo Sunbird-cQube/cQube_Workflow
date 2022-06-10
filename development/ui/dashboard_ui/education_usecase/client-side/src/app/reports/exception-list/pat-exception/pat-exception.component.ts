@@ -176,7 +176,12 @@ export class PATExceptionComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject ? this.subject : ''}_all_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subject = '';
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView1()
+    }
+    
   }
 
   levelWiseFilter() {
@@ -265,7 +270,7 @@ export class PATExceptionComponent implements OnInit {
         blockId: blockid,
         distId: districtid
       }
-      this.onClusterSelect(clusterid);
+      this.districtWise(districtid, blockid,clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -275,7 +280,7 @@ export class PATExceptionComponent implements OnInit {
         blockId: blockid,
         distId: districtid
       }
-      this.onClusterSelect(clusterid);
+       this.districtWise(districtid, blockid,clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -284,14 +289,14 @@ export class PATExceptionComponent implements OnInit {
       this.districtHierarchy = {
         distId: districtid
       }
-      this.onBlockSelect(blockid);
+      this.districtWise(districtid,blockid)
 
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 2;
     } else if (level === "District") {
-      this.onDistrictSelect(districtid);
+      this.districtWise(districtid)
 
       this.distlevel(districtid)
       this.selCluster = false;
@@ -305,9 +310,9 @@ export class PATExceptionComponent implements OnInit {
     this.selCluster = false;
     this.selBlock = false;
     this.selDist = false;
-    //this.level= "blockPerDistrict";
+    
     this.districtId = id;
-    //this.levelWiseFilter();
+    
   }
 
   blocklevel(id) {
@@ -351,7 +356,7 @@ export class PATExceptionComponent implements OnInit {
   }
 
   // to load all the districts for state data on the map
-  districtWise() {
+  districtWise(distId?,bid?,cid?) {
     try {
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
@@ -416,6 +421,9 @@ export class PATExceptionComponent implements OnInit {
           this.changeDetection.detectChanges();
           // sort the districtname alphabetically
           this.districtMarkers.sort((a, b) => (a.district_name > b.district_name) ? 1 : ((b.district_name > a.district_name) ? -1 : 0));
+            if(distId){
+              this.onDistrictSelect(distId,bid,cid)
+            }   
         }, err => {
           this.data = this.districtMarkers = [];
           this.commonService.loaderAndErr(this.data);
@@ -499,7 +507,7 @@ export class PATExceptionComponent implements OnInit {
               // generate color gradient
               let colors = this.commonService.getRelativeColors(result, { value: 'percentage_schools_with_missing_data', report: 'exception' });
               this.colors = colors;
-              // this.markers = this.blockMarkers = marker;
+             
               this.allSubjects = [];
               if (this.grade != 'all') {
                 this.allSubjects = this.data['subjects'].filter(a => {
@@ -697,7 +705,7 @@ export class PATExceptionComponent implements OnInit {
               this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            
               this.globalService.onResize(this.level);
               this.changeDetection.detectChanges();
 
@@ -1022,7 +1030,7 @@ export class PATExceptionComponent implements OnInit {
   // to load all the blocks for selected district for state data on the map
   public districtSelected: boolean = false
   public districtSlectedId
-  onDistrictSelect(districtId) {
+  onDistrictSelect(districtId, bid?,cid?) {
     this.districtSelected = true
     this.blockSelected = false
     this.selectedCluster = false
@@ -1094,7 +1102,9 @@ export class PATExceptionComponent implements OnInit {
       // sort the blockname alphabetically
       this.blockMarkers.sort((a, b) => (a.block_name > b.block_name) ? 1 : ((b.block_name > a.block_name) ? -1 : 0));
       this.mark = this.blockMarkers;
-
+      if(bid){
+        this.onBlockSelect(bid,cid)
+      }
     }, err => {
       this.data = this.blockMarkers = [];
       this.commonService.loaderAndErr(this.data);
@@ -1107,7 +1117,7 @@ export class PATExceptionComponent implements OnInit {
   // to load all the clusters for selected block for state data on the map
   public blockSelected: boolean = false
   public blockSelectedId
-  onBlockSelect(blockId) {
+  onBlockSelect(blockId,cid?) {
     // to clear the existing data on the map layer
     this.districtSelected = false
     this.selectedCluster = false
@@ -1190,6 +1200,9 @@ export class PATExceptionComponent implements OnInit {
 
       // sort the clusterName alphabetically
       this.clusterMarkers.sort((a, b) => (a.cluster_name > b.cluster_name) ? 1 : ((b.cluster_name > a.cluster_name) ? -1 : 0));
+      if(cid){
+       this.onClusterSelect(cid)
+      }
     }, err => {
       this.data = this.clusterMarkers = [];
       this.commonService.loaderAndErr(this.data);

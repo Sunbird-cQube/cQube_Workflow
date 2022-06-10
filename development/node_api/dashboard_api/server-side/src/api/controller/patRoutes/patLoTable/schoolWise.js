@@ -6,7 +6,7 @@ const s3File = require('../../../lib/reads3File');
 router.post('/schoolWise', auth.authController, async (req, res) => {
     try {
         logger.info('---PAT LO table schoolWise api ---');
-
+        let schoolLevel = req.body.schoolLevel
         let { year, month, grade, subject_name, exam_date, viewBy, blockId, clusterId, management, category } = req.body
         let fileName;
         if (management != 'overall' && category == 'overall') {
@@ -20,7 +20,11 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
             } else if (viewBy == 'question_id')
                 fileName = `pat/heatChart/questionIdLevel/${year}/${month}/clusters/${blockId}.json`;
         }
-        let data = await s3File.readFileConfig(fileName);
+        let data1
+        let data = data1 = await s3File.readFileConfig(fileName);
+        if (schoolLevel) {
+            data = data.filter(id => id.school_id === req.body.schoolId)
+        }
 
         if (clusterId) {
             data = data.filter(val => {
@@ -108,7 +112,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 }, {});
                 tableData = val.map((item) => ({ ...def, ...item }));
                 logger.info('--- PAT LO table schoolWise response sent ---');
-                res.status(200).send({ schoolDetails, tableData });
+                res.status(200).send({ schoolDetails, tableData,data1 });
             } else {
                 logger.info('--- PAT LO table schoolWise response sent ---');
                 res.status(500).send({ errMsg: "No record found" });
