@@ -622,9 +622,19 @@ export class SatHeatChartComponent implements OnInit {
         this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
         this.gradeSelected = true;
       } else {
-        this.resetOnAllGrades();
+        if (this.hideDist) {
+          this.getView()
+          return
+        } else {
+          this.resetOnAllGrades();
+        }
       }
-      this.levelWiseFilter();
+      if (this.hideDist) {
+        this.getView()
+        return
+      } else {
+        this.levelWiseFilter();
+      }
     }
   }
 
@@ -925,7 +935,13 @@ export class SatHeatChartComponent implements OnInit {
     let level = localStorage.getItem("userLevel");
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    }else if (level === "Cluster") {
 
       this.selCluster = true;
       this.selBlock = true;

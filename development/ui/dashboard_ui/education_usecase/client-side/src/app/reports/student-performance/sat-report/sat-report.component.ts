@@ -287,7 +287,7 @@ export class SatReportComponent implements OnInit {
       }else{
        this.getView()
       } 
-            this.changeDetection.detectChanges();
+       this.changeDetection.detectChanges();
     }
   }
 
@@ -387,7 +387,13 @@ export class SatReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView()
+    }
+
+
   }
   onSubjectSelect(data) {
     if (this.semester == "") {
@@ -441,6 +447,7 @@ export class SatReportComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
     this.schoolLevel = level === "School" ? true : false
+    
     if (districtid) {
       this.districtId = districtid;
     }
@@ -451,7 +458,21 @@ export class SatReportComponent implements OnInit {
       this.clusterId = clusterid;
 
     }
-
+    this.service
+      .gradeMetaData({
+        report: "sat",
+        year: this.year,
+        sem: this.semester,
+      })
+      .subscribe(
+        (res) => {
+          if (res["data"]["district"]) {
+            this.allGrades = res["data"]["district"];
+          }
+          this.allGrades.sort((a, b) =>
+            a.grade > b.grade ? 1 : b.grade > a.grade ? -1 : 0
+          );
+        })
 
     if (level === "School") {
       this.onclusterLinkClick(clusterid)

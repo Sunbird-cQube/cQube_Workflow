@@ -113,9 +113,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
-    this.getAllData();
-    this.getProgramData();
-    this.getView1();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+      this.getProgramData();
+    }else{
+      this.getAllData();
+      this.getProgramData();
+      this.getView();
+    }
+    
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -167,8 +173,16 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     this.emptyChart();
-    this.getAllData();
-    this.getProgramData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+      this.getProgramData();
+     
+    }else{
+      this.getAllData();
+      this.getProgramData();
+      this.getView()
+    }
+    
   }
 
   deleteSingle(id: string) {

@@ -249,9 +249,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      this.myDistData(districtid, blockid, clusterid);
-      this.blockSelect({ type: "click" }, blockid);
-      this.clusterSelect({ type: "click" }, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
+
       this.blockHidden = true
       this.selCluster = true;
     } else if (level === "Cluster") {
@@ -261,9 +260,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      this.myDistData(districtid, blockid, clusterid);
-      this.blockSelect({ type: "click" }, blockid);
-      this.clusterSelect({ type: "click" }, clusterid);
+      this.districtWise(districtid, blockid,clusterid)
+
       this.blockHidden = true
       this.selCluster = true;
     } else if (level === "Block") {
@@ -272,8 +270,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selDist = true;
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
-      this.myDistData(districtid, blockid, clusterid)
-      this.blockSelect({ type: "click" }, blockid);
+      this.districtWise(districtid, blockid)
+
       this.blockHidden = true
 
     } else if (level === "District") {
@@ -282,8 +280,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selDist = false;
 
       this.myDistrict = districtid;
+      this.districtWise(districtid)
 
-      this.distSelect({ type: "click" }, districtid);
 
     }
   }
@@ -500,7 +498,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     infoWindow.close();
   }
 
-  async districtWise() {
+  async districtWise(distId?,bid?,cid?) {
     this.commonAtStateLevel();
     this.level = "District";
     this.googleMapZoom = 7;
@@ -598,6 +596,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
+            if (distId) {
+              this.distSelect({ type: "click" }, distId, bid, cid);
+            }
           },
           (err) => {
             this.dateRange = "";
@@ -605,6 +606,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.markers = [];
             this.districtsNames = [];
             this.commonService.loaderAndErr(this.markers);
+            
           }
         );
     } else {
@@ -2111,7 +2113,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
             if (blockid) {
-              this.myBlockData(blockid, clusterid)
+              this.blockSelect({ type: "click" }, blockid,clusterid);
             }
           },
           (err) => {
@@ -2129,7 +2131,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     globalMap.addLayer(this.layerMarkers);
   }
 
-  blockSelect(event, data) {
+  blockSelect(event, data,cid?) {
     var blokData: any = {};
     this.blockData.find((a) => {
       if (a.block_id == data) {
@@ -2142,7 +2144,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }
     });
     this.getTelemetryData(blokData, event.type, "block");
-    this.myBlockData(data);
+    this.myBlockData(data,cid);
   }
 
   clusterData = [];
@@ -2331,7 +2333,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
             if (clusterid) {
-              this.myClusterData(clusterid)
+              this.clusterSelect({type:'clicked'},clusterid)
             }
           },
           (err) => {

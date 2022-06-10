@@ -261,7 +261,14 @@ export class SemesterExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    this.schoolLevel = level === "School" ? true : false
+    this.schoolLevel = level === "School" ? true : false;
+
+    this.service.gradeMetaData({ period: this.period, report: 'sat_exception' }).subscribe(res => {
+      if (res['data']['district']) {
+        this.allGrades = res['data']['district'];
+        this.allGrades.sort((a, b) => (a.grade > b.grade) ? 1 : ((b.grade > a.grade) ? -1 : 0));
+        this.allGrades = [{ grade: "all" }, ...this.allGrades.filter(item => item !== { grade: "all" })];
+      }})
     if (districtid !== 'null') {
       this.districtId = districtid;
       this.distHidden = false;
@@ -763,7 +770,7 @@ export class SemesterExceptionComponent implements OnInit {
               this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            
               this.globalService.onResize(this.level);
             } else {
               let result = this.data['data'];
@@ -782,7 +789,7 @@ export class SemesterExceptionComponent implements OnInit {
               this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(this.data, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            
               this.globalService.onResize(this.level);
             }
 
@@ -892,7 +899,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+             
               this.globalService.onResize(this.level);
             } else if (this.blockSelected) {
               let result = this.data['data']
@@ -936,7 +943,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+             
               this.globalService.onResize(this.level);
             } else if (this.selectedCluster) {
               let result = this.data['data']
@@ -962,7 +969,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              
               this.globalService.onResize(this.level);
             } else {
               let result = this.data['data']
@@ -979,7 +986,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(this.data, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            
               this.globalService.onResize(this.level);
             }
 
