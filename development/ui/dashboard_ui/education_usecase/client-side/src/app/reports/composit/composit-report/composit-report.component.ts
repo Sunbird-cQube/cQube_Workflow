@@ -356,6 +356,7 @@ export class CompositReportComponent implements OnInit {
     if (this.chartData.length !== 0) {
       this.scatterChart.destroy();
     }
+   
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'school';
@@ -650,6 +651,7 @@ export class CompositReportComponent implements OnInit {
       this.myCluster = clusterid;
 
       this.districtWise(districtid, blockid, clusterid)
+      // this.myClusterData(clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -683,7 +685,13 @@ export class CompositReportComponent implements OnInit {
     }
   }
 
-
+onHomeClick(){
+  if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+this.districtWise()
+  }else{
+    this.getView()
+  }
+}
 
 
   showChart(result, downloadType) {
@@ -811,10 +819,11 @@ export class CompositReportComponent implements OnInit {
   labels: any;
   obj: any;
   createChart(labels, chartData, name, obj) {
-
+      
     var ctx = $('#myChart');
-    ctx.attr('height', this.height > 1760 ? '58vh' : this.height > 1160 && this.height < 1760 ? '54vh' : this.height > 667 && this.height < 1160 ? '50vh' : '46vh');
-    this.scatterChart = new Chart('myChart', {
+       
+    // ctx.attr('height', this.height > 1760 ? '58vh' : this.height > 1160 && this.height < 1760 ? '54vh' : this.height > 667 && this.height < 1160 ? '50vh' : '46vh');
+    this.scatterChart = new Chart(ctx, {
       type: 'scatter',
 
       data: {

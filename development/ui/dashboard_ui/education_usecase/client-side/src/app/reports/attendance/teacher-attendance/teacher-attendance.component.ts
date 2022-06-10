@@ -352,7 +352,7 @@ export class TeacherAttendanceComponent implements OnInit {
     
 
     if (level === "School") {
-      this.myDistData(districtid, blockid, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
       
       this.clusterlevel(clusterid);
       this.selCluster = true

@@ -1256,7 +1256,7 @@ export class PATExceptionComponent implements OnInit {
         
         this.allSubjects = [];
         if (this.grade != 'all') {
-          this.allSubjects = this.data['subjects'].filter(a => {
+          this.allSubjects = this.data['subjects']?.filter(a => {
             return a != 'grade';
           });
         }
