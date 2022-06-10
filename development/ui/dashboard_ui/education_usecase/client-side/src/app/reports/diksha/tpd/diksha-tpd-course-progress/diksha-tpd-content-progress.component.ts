@@ -172,10 +172,15 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.courses = courses;
     if (this.multiSelect)
       this.multiSelect.checkedList = [];
-    this.commonFunc();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.commonFunc();
+    }else{
+      this.getView()
+    }
+    
   }
 
-  commonFunc = () => {
+  commonFunc = (distId?,bid?,cid?) => {
     this.fileName = `${this.reportName}_allDistrict_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.commonService.dateAndTime}`;
     this.commonService.errMsg();
     this.level = 'district';
@@ -192,6 +197,9 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.myData = this.service.tpdDistWise(a).subscribe(response => {
       this.genericFunction(response);
       this.commonService.loaderAndErr(this.reportData);
+      if(distId){
+        this.selectedDistrict(distId, bid, cid)
+      }
     }, err => {
       this.scousesTOShow = [];
       this.items = [];
@@ -542,7 +550,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     this.level = 'cluster';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_block_${blockId}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
-    this.blockHidden = false;
+    this.blockHidden = this.selBlock ? true:false;
     this.clusterHidden = false;
 
     this.commonService.errMsg();
@@ -572,6 +580,9 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.blok = true;
       this.clust = false;
       this.commonService.loaderAndErr(this.reportData);
+      if (cid) {
+        this.selectedCluster(cid)
+      }
     }, err => {
       this.scousesTOShow = [];
       this.items = [];
@@ -586,7 +597,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   selectedCluster(clusterId) {
     this.level = 'school';
     this.fileName = `${this.reportName}_${this.timePeriod != 'All' ? this.timePeriod : 'overall'}_${this.level}s_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
-
+    this.blockHidden = this.selBlock ? true : false;
+    this.clusterHidden = this.selCluster ? true :false;
     this.commonService.errMsg();
     this.reportData = [];
 
@@ -707,8 +719,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     if (level === "School") {
       this.district = districtid;
       this.block = blockid;
-      this.selectedBlock(blockid, clusterid);
-      this.selectedCluster(clusterid);
+      this.commonFunc(districtid, blockid, clusterid)
+      
       this.clusterHidden = true;
       this.blockHidden = true
       this.selCluster = true;
@@ -718,8 +730,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     } else if (level === "Cluster") {
       this.district = districtid;
       this.block = blockid;
-      this.selectedBlock(blockid, clusterid);
-      this.selectedCluster(clusterid);
+      this.commonFunc(districtid, blockid,clusterid)
+     
       this.clusterHidden = true;
       this.blockHidden = true
       this.selCluster = true;
@@ -729,8 +741,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     } else if (level === "Block") {
       this.district = districtid;
       this.block = blockid;
-      this.selectedDistrict(districtid);
-      this.selectedBlock(blockid, clusterid);
+      this.commonFunc(districtid,blockid)
+     
       this.blockHidden = true;
       this.selCluster = false;
       this.selBlock = true;
@@ -738,7 +750,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.levelVal = 2;
     } else if (level === "District") {
       this.district = districtid
-      this.selectedDistrict(districtid);
+      this.commonFunc(districtid)
+     
       this.levelVal = 1;
       this.selCluster = false;
       this.selBlock = false;

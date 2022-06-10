@@ -397,13 +397,14 @@ export class SchoolInfrastructureComponent implements OnInit {
     let obj = this.clusterNames.find(o => o.id == data);
     this.hierName = obj.name;
     localStorage.setItem('clusterId', data);
+    let schoolId = localStorage.getItem('schoolId')
 
    this.blockHidden = this.selBlock ? true : false;
    this.clusterHidden = this.selCluster ? true : false;
     if (this.myData) {
       this.myData.unsubscribe();
     }
-    this.myData = this.service.infraSchoolWise(distId, blockId, data, { management: this.management, category: this.category }).subscribe(res => {
+    this.myData = this.service.infraSchoolWise(distId, blockId, data, { management: this.management, category: this.category, schoolId : schoolId, schoolLevel:this.schoolLevel }).subscribe(res => {
       
       if (this.schoolLevel) {
          let result = res

@@ -325,8 +325,6 @@ export class CrcReportComponent implements OnInit {
       this.levelVal = 2;
     } else if (level === "District") {
       this.myDistrict = districtid;
-
-
       this.getDistricts('district')
       this.selCluster = false;
       this.selBlock = false;
@@ -550,8 +548,12 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView()
+    }
+    
   }
 
   districtWise() {
