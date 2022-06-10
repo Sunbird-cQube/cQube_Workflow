@@ -283,7 +283,10 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   }
 
   chart;
+  chart1
   chartFun = (xLabel, xLabelId, yLabel, zLabel, data, level, xLabel1, yLabel1, tooltipData) => {
+    
+    this.chart1 = data
     let scrollBarX
     let scrollBarY
     let xAxis, yAxis, dataLabels, tooltipStyle;
@@ -619,7 +622,6 @@ export class DikshaTPDContentProgressComponent implements OnInit {
     }
 
     this.service.tpdSchoolWise(a).subscribe(response => {
-      
       this.genericFunction(response);
       var cluster = this.allClusters.find(a => a.cluster_id == clusterId);
       this.clusterHierarchy = {

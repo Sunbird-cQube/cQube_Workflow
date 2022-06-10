@@ -120,7 +120,10 @@
         </div>
     </div>
     <div class="row reportContainer">
-        <div class="col-md-12" id="container" [ngStyle]="{width: width,height: height > 776 ? '72vh' : '62vh'}"></div>
+        <div   class="col-md-12" id="container" [ngStyle]="{width: width,height: height > 776 ? '72vh' : '62vh'}"></div>
+    <div *ngIf="this.chart1.length === 0" style="position: absolute; top: 45%; left: 45%; color: red;">
+        No Data Found
+    </div>
     </div>
     <div *ngIf="reportData.length > 0 && chart" class="row">
         <div class="col-sm-9">

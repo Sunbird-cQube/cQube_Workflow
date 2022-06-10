@@ -277,7 +277,7 @@ export class PATLOTableComponent implements OnInit {
 
   columns = [];
   createTable(dataSet) {
-
+ 
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
     
@@ -483,9 +483,13 @@ export class PATLOTableComponent implements OnInit {
         this.gradeSelected = true;
       } else {
         this.grade = "all";
-        
+        if (this.hideAccessBtn) {
           this.resetToInitPage();
-       
+        } else {
+          this.getView()
+
+        }
+          
       }
       if (this.hideAccessBtn) {
         this.levelWiseFilter();
