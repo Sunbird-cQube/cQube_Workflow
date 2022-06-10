@@ -661,7 +661,12 @@ export class SatHeatChartComponent implements OnInit {
       alert("Please select month!");
     } else {
       this.fileName = `${this.reportName}_${this.grade}_${this.subject}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      this.levelWiseFilter();
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.levelWiseFilter();
+      }else{
+        this.getView()
+      }
+      
     }
   }
 
@@ -670,7 +675,11 @@ export class SatHeatChartComponent implements OnInit {
       alert("Please select month!");
     } else {
       this.fileName = `${this.reportName}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      this.levelWiseFilter();
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.levelWiseFilter();
+      } else {
+        this.getView()
+      }
     }
   }
 
@@ -679,7 +688,11 @@ export class SatHeatChartComponent implements OnInit {
       alert("Please select month!");
     } else {
       this.fileName = `${this.reportName}_${this.grade}_${this.viewBy}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-      this.levelWiseFilter();
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.levelWiseFilter();
+      } else {
+        this.getView()
+      }
     }
   }
 

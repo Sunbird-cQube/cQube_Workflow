@@ -2818,15 +2818,15 @@ export class SatReportComponent implements OnInit {
                       ? -1
                       : 0
                 );
-
+                 
                 // set hierarchy values
                 this.clusterHierarchy = {
-                  distId: this.data[0].Details.district_id,
-                  districtName: this.data[0].Details.district_name,
-                  blockId: this.data[0].Details.block_id,
-                  blockName: this.data[0].Details.block_name,
-                  clusterId: Number(this.data[0].Details.cluster_id),
-                  clusterName: this.data[0].Details.cluster_name,
+                  distId: this.data[0]?.Details.district_id,
+                  districtName: this.data[0]?.Details.district_name,
+                  blockId: this.data[0]?.Details.block_id,
+                  blockName: this.data[0]?.Details.block_name,
+                  clusterId: Number(this.data[0]?.Details.cluster_id),
+                  clusterName: this.data[0]?.Details.cluster_name,
                 };
 
                 this.blockHidden =  this.selBlock ? true : false;
