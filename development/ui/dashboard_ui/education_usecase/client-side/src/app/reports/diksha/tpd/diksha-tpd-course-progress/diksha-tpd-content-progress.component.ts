@@ -124,7 +124,12 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   selectedCourses = [];
   shareCheckedList(item: any[]) {
     this.selectedCourses = item;
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView()
+    }
+    
   }
 
   getHeight(event) {

@@ -483,12 +483,15 @@ export class PATLOTableComponent implements OnInit {
         this.gradeSelected = true;
       } else {
         this.grade = "all";
-        this.resetToInitPage();
+        
+          this.resetToInitPage();
+       
       }
       if (this.hideAccessBtn) {
         this.levelWiseFilter();
       } else {
         this.getView()
+        
       }
 
     }
