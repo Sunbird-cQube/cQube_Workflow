@@ -232,6 +232,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   selBlock = false;
   selDist = false;
   schoolLevel = false
+  hideFooter = false
   getView1() {
 
     let id = localStorage.getItem("userLocation");
@@ -243,6 +244,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.schoolLevel = level === "School" ? true : false;
 
     if (level === "School") {
+      this.hideFooter = true
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);

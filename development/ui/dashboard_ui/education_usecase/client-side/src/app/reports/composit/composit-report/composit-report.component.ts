@@ -624,6 +624,7 @@ export class CompositReportComponent implements OnInit {
   selBlock = false;
   selDist = false;
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -633,12 +634,12 @@ export class CompositReportComponent implements OnInit {
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
 
     this.schoolLevel = level === "School" ? true : false
-
+    
     if (level === "School") {
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
-
+      this.hideFooter = true
       this.districtWise(districtid, blockid, clusterid)
       this.selCluster = true;
       this.selBlock = true;
@@ -663,7 +664,7 @@ export class CompositReportComponent implements OnInit {
 
 
       this.districtWise(districtid, blockid)
-      this.myBlockData(blockid)
+      // this.myBlockData(blockid)
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;

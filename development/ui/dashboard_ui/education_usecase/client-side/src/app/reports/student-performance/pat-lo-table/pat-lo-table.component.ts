@@ -483,20 +483,12 @@ export class PATLOTableComponent implements OnInit {
         this.gradeSelected = true;
       } else {
         this.grade = "all";
-        if (this.hideAccessBtn) {
-          this.resetToInitPage();
-        } else {
-          this.getView()
-
-        }
-          
-      }
-      if (this.hideAccessBtn) {
-        this.levelWiseFilter();
-      } else {
-        this.getView()
         
+          this.resetToInitPage();   
       }
+      
+        this.levelWiseFilter();
+      
 
     }
   }
@@ -763,6 +755,7 @@ export class PATLOTableComponent implements OnInit {
   levelVal = 0;
   hideblock = false
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -790,7 +783,7 @@ export class PATLOTableComponent implements OnInit {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
-
+      this.hideFooter = true
       let a = {
         year: this.year,
         month: this.month,

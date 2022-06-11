@@ -290,7 +290,7 @@ export class StudengtAttendanceComponent implements OnInit {
   }
 
   schoolLevel = false
-
+  hideFooter = false
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -317,6 +317,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
 
     if (level === "School") {
+      this.hideFooter = true
       this.selCluster = true;
       this.selBlock = true;
       this.districtWise(districtid, blockid, clusterid)

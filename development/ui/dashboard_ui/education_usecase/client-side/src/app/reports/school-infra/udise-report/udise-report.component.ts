@@ -2146,7 +2146,7 @@ export class UdiseReportComponent implements OnInit {
   distHidden = false
   levelVal = 0;
   schoolLevel = false
-
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -2168,7 +2168,7 @@ export class UdiseReportComponent implements OnInit {
 
 
     if (level === "School") {
-
+      this.hideFooter = true
       this.onClusterSelect(clusterid)
       this.selCluster = true;
       this.selBlock = true;

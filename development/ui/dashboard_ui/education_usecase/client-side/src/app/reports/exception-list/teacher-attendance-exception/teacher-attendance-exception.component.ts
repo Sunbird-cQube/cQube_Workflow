@@ -220,6 +220,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
   selBlock = false;
   selDist = false;
   schoolLevel = false
+  hideFooter = false
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -246,6 +247,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
 
 
     if (level === "School") {
+      this.hideFooter = true
       this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
       this.selCluster = true;
       this.selBlock = true;
