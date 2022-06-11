@@ -107,6 +107,15 @@ export class SchoolInfrastructureComponent implements OnInit {
   selDist = false;
   schoolLevel = false
 
+ onHomeClick(){
+   if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise()
+   }else{
+     this.getView()
+   }
+ }
+  hideFooter = false
+
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -116,7 +125,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     let schoolid = localStorage.getItem("schoolId");
     this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
-
+      this.hideFooter = true
       this.downloadLevel = 'cluster';
       document.getElementById('spinner').style.display = 'block'
       // this.myDistData(districtid, blockid, clusterid);
@@ -199,7 +208,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   reportName = 'composite_report';
 
 
-  districtWise(distId?, bid?, cid?,sid?) {
+  districtWise(distId?, bid?, cid?) {
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'dist';
@@ -294,7 +303,7 @@ export class SchoolInfrastructureComponent implements OnInit {
 
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
-      if (blockid && clusterid) {
+      if (blockid) {
         this.myBlockData(blockid, clusterid)
       }
       else if (blockid) {
@@ -394,8 +403,10 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = blockId;
     this.clustName = data;
-    let obj = this.clusterNames.find(o => o.id == data);
-    this.hierName = obj.name;
+    
+    let obj = this.clusterNames.find(o => o.id == Number(data));
+    
+    this.hierName = obj?.name;
     localStorage.setItem('clusterId', data);
     let schoolId = localStorage.getItem('schoolId')
 
@@ -418,7 +429,10 @@ export class SchoolInfrastructureComponent implements OnInit {
           }
             
         }
-        
+        if(data.length === 0){
+          document.getElementById('spinner').style.display = "none"
+          return
+        }
          this.reportData = this.SchoolInfrastructureSchoolNames = this.result = data;
       } else {
         this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;

@@ -223,13 +223,13 @@
       <span id="visits">Total Number of visits: {{ visitCount }}</span>
     </div>
     <div style="margin-right: 5%">
-      <span id="schools" style="text-align: center">Total Number of Schools: {{ schoolCount }}</span>
+      <span id="schools" [hidden] = "hideFooter" style="text-align: center">Total Number of Schools: {{ schoolCount }}</span>
     </div>
     <div style="margin-right: 5%">
-      <span id="visited" style="float: right">Total schools visited: {{ visitedSchools }}</span>
+      <span id="visited" [hidden] = "hideFooter" style="float: right">Total schools visited: {{ visitedSchools }}</span>
     </div>
     <div style="margin-right: 5%">
-      <span id="notVisited" style="float: right">Total schools not visited: {{ notVisitedSchools }}</span>
+      <span id="notVisited" [hidden] = "hideFooter" style="float: right">Total schools not visited: {{ notVisitedSchools }}</span>
     </div>
   </div>
 </div>

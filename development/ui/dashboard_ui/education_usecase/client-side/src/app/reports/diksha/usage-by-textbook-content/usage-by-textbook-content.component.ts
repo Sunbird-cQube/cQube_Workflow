@@ -68,6 +68,10 @@ export class UsageByTextbookContentComponent implements OnInit {
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
   }
 
+  getview(){
+    
+  }
+
   height = window.innerHeight;
   onResize() {
     this.height = window.innerHeight;

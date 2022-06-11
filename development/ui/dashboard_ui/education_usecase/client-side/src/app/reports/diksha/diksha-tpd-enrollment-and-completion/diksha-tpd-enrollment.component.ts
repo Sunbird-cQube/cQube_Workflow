@@ -363,7 +363,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.programBarData = this.programData.filter((program) => {
         return program.program_id === this.selectedProgram;
       });
-
+     
       var chartData = {
         labels: "",
         data: "",
@@ -371,7 +371,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.programBarData = this.programBarData.sort((a, b) =>
         a.district_name > b.district_name ? 1 : -1
       );
-
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       chartData["labels"] = this.programBarData.map((a) => {
         return a.district_name;
       });
@@ -386,12 +386,20 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           certificate_per: a.certificate_percentage,
         };
       });
-
-      this.result = chartData;
-      this.reportData = this.programBarData;
-      setTimeout(() => {
-        this.getBarChartData();
-      }, 100);
+     
+        this.result = chartData;
+        this.reportData = this.programBarData;
+        setTimeout(() => {
+          this.getBarChartData();
+        }, 100);
+      }else{
+        setTimeout(() =>{
+          this.getView()
+        },500)
+       
+      }
+      
+      
 
     } catch (error) {
       this.result = [];
@@ -411,19 +419,28 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.collectionNames = [];
-          if (this.level == 'district') {
-            this.collectionNames = res["allCollections"];
-            this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            if (this.level == 'district') {
+              this.collectionNames = res["allCollections"];
+              this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+            }
+          }else{
+            
+              this.collectionNames = res["allCollections"];
+              this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+            
           }
+          
 
           if (this.level == 'program') {
+            
             this.collectionNames = []
             this.collectionData = res["allData"];
             let collectionlist = this.collectionData.data.filter((program) => {
               return program.program_id === this.selectedProgram;
             });
 
-
+         
             if (collectionlist) {
               let collections = [];
 
@@ -436,6 +453,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
                 }
               });
               this.collectionNames = collections;
+              
 
             }
           }
@@ -531,7 +549,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   selDist = false;
   hideDist: boolean = this.hideIfAccessLevel === true ? true : false
   levelVal = 0;
-
+  hideFooter = false
   schoolLevel = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
@@ -545,8 +563,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.skul = true;
     this.schoolLevel = level === "School" ? true : false
-
+    
     if (level === "School") {
+      this.hideFooter = true
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
@@ -565,6 +584,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
+      
       this.blockId = blockid;
       this.districtId = districtid;
       this.blockLinkClick(blockid);
@@ -1079,8 +1099,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
               };
             }
           }
-
-          this.getBarChartData();
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            this.getBarChartData();
+          }else{
+            this.getView()
+          }
+          
 
           this.commonService.loaderAndErr(this.result);
         },

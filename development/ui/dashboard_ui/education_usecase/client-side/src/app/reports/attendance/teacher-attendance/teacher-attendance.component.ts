@@ -285,7 +285,7 @@ export class TeacherAttendanceComponent implements OnInit {
   selDist = false;
   levelVal = 0;
   schoolLevel = false
-
+  hideFooter = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -293,7 +293,7 @@ export class TeacherAttendanceComponent implements OnInit {
     let blockid = JSON.parse(localStorage.getItem("blockId"));
     let districtid = JSON.parse(localStorage.getItem("districtId"));
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
-
+    
     this.schoolLevel = level === "School" ? true : false
     if (districtid) {
       this.myDistrict = districtid;
@@ -310,6 +310,7 @@ export class TeacherAttendanceComponent implements OnInit {
 
 
     if (level === "School") {
+      
       this.clusterlevel(id);
       this.levelVal = 3;
     } else if (level === "cluster") {
@@ -352,6 +353,7 @@ export class TeacherAttendanceComponent implements OnInit {
     
 
     if (level === "School") {
+      this.hideFooter = true
       this.districtWise(districtid, blockid, clusterid)
       
       this.clusterlevel(clusterid);

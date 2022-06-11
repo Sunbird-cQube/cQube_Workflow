@@ -271,6 +271,7 @@ export class CrcReportComponent implements OnInit {
   levelVal = 0;
   level
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -281,6 +282,7 @@ export class CrcReportComponent implements OnInit {
     this.schoolLevel = level === "School" ? true : false
 
     if (level === "School") {
+      this.hideFooter = true
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
