@@ -714,6 +714,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
   disHidden = true
   levelVal = 0;
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -724,6 +725,7 @@ export class DikshaTPDContentProgressComponent implements OnInit {
 
     this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
+      this.hideFooter = true
       this.district = districtid;
       this.block = blockid;
       this.commonFunc(districtid, blockid, clusterid)

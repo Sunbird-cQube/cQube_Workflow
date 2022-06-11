@@ -235,6 +235,7 @@ export class SemesterExceptionComponent implements OnInit {
   selDist = false;
   levelVal = 0;
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -288,6 +289,7 @@ export class SemesterExceptionComponent implements OnInit {
 
 
     if (level === "School") {
+      this.hideFooter = true
       this.clusterId = Number(clusterid);
       this.blockId = blockid?.toString();
       this.districtId = districtid;
@@ -360,7 +362,7 @@ export class SemesterExceptionComponent implements OnInit {
     this.grade = 'all';
     this.period = 'overall';
     this.level = "District";
-    this.blok = true;
+    
     this.subject = '';
     this.districtSelected = false;
     this.selectedCluster = false;
@@ -369,6 +371,7 @@ export class SemesterExceptionComponent implements OnInit {
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.blok = true;
       this.districtWise();
     }else{
       this.getView1()
@@ -1221,17 +1224,24 @@ export class SemesterExceptionComponent implements OnInit {
           data['data'] = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
           this.data = data;
           this.markers = this.schoolMarkers = data
+          this.allSubjects = [];
+          if (this.grade != 'all') {
+            this.allSubjects = res['subjects'].filter(a => {
+              return a != 'grade';
+            });
+          }
         } else {
           this.data = res;
           this.markers = this.schoolMarkers = this.data['data'];
+          this.allSubjects = [];
+          if (this.grade != 'all') {
+            this.allSubjects = this.data['subjects'].filter(a => {
+              return a != 'grade';
+            });
+          }
         }
        
-        this.allSubjects = [];
-        if (this.grade != 'all') {
-          this.allSubjects = this.data['subjects'].filter(a => {
-            return a != 'grade';
-          });
-        }
+       
         var markers = result['data'];
         var myBlocks = [];
         markers.forEach(element => {

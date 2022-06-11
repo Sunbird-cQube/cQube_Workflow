@@ -491,7 +491,7 @@ export class PATReportComponent implements OnInit {
   hideDist
   levelVal = 0;
   schoolLevel = false
-
+  hideFooter = false
   getView() {
 
     let id = localStorage.getItem("userLocation");
@@ -529,6 +529,7 @@ export class PATReportComponent implements OnInit {
 
 
     if (level === "School") {
+      this.hideFooter = true
       this.onclusterLinkClick(clusterid)
 
       this.selCluster = true;

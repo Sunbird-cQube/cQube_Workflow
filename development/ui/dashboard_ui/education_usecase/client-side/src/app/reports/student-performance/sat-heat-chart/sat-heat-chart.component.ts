@@ -977,6 +977,7 @@ export class SatHeatChartComponent implements OnInit {
   blockhide = false
   schoolLevel = false
   hideblock = false
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -987,6 +988,7 @@ export class SatHeatChartComponent implements OnInit {
 
     this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
+      this.hideFooter = true
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;

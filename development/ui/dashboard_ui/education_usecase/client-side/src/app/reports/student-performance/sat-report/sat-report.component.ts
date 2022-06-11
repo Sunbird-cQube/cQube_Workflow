@@ -13,6 +13,7 @@ import * as R from "leaflet-responsive-popup";
 import { AppServiceComponent } from "../../../app.service";
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
 import { environment } from "src/environments/environment";
+
 declare const $;
 
 @Component({
@@ -387,13 +388,9 @@ export class SatReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+  
       this.levelWiseFilter();
-    }else{
-      this.getView()
-    }
-
-
+  
   }
   onSubjectSelect(data) {
     if (this.semester == "") {
@@ -438,6 +435,7 @@ export class SatReportComponent implements OnInit {
   selDist = false;
   levelVal = 0;
   schoolLevel = false
+  hideFooter = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
@@ -475,6 +473,7 @@ export class SatReportComponent implements OnInit {
         })
 
     if (level === "School") {
+      this.hideFooter = true
       this.onclusterLinkClick(clusterid)
       this.selCluster = true;
       this.selBlock = true;
@@ -2719,6 +2718,7 @@ export class SatReportComponent implements OnInit {
   public hideAllBlockBtn: boolean = false;
   public hideAllCLusterBtn: boolean = false
   public hideAllSchoolBtn: boolean = false;
+  
   onClusterSelect(clusterId) {
 
     this.hideAllBlockBtn = true;
@@ -2771,11 +2771,25 @@ export class SatReportComponent implements OnInit {
             )
             .subscribe(
               (res) => {
+                if (res['data'].length === 0) {
+                  document.getElementById('loader').style.display = "none"
+                  document.getElementById('errMsg').style.display = "block"
+                  return;
+                }
                 if (this.schoolLevel) {
                   let schoolData = res['data']
                   let data = schoolData.filter(data => data.Details.school_id === Number(localStorage.getItem('schoolId')))
+                 
+                 if(data.length === 0){
+                   document.getElementById('loader').style.display = "none"
+                   document.getElementById('errMsg').style.display = "block"
+                   document.getElementById('errMsg').style.display = "block"
 
-                  this.markers = this.data = data
+                   return
+                 }else{
+                   this.markers = this.data = data
+                 }
+                 
                 } else {
                   this.markers = this.data = res["data"];
                 }
@@ -2833,11 +2847,12 @@ export class SatReportComponent implements OnInit {
                 this.clusterHidden = this.selCluster ? true : false;
 
                 this.districtHierarchy = {
-                  distId: this.data[0].Details.district_id,
+                  distId: this.data[0]?.Details.district_id,
                 };
+                
 
-                this.districtId = this.data[0].Details.district_id;
-                this.blockId = this.data[0].Details.block_id;
+                this.districtId = this.data[0]?.Details.district_id;
+                this.blockId = this.data[0]?.Details.block_id;
                 this.clusterId = clusterId;
 
                 // these are for showing the hierarchy names based on selection

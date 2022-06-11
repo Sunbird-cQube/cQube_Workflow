@@ -2180,13 +2180,14 @@ export class InfraMapVisualisationComponent implements OnInit {
   levelVal = 0;
 
   schoolLevel = false
-
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
     this.clusterId = localStorage.getItem("clusterId");
     this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
+      this.hideFooter = true
       this.districtId = localStorage.getItem("districtId");
       this.blockId = localStorage.getItem("blockId");
       this.clusterId = localStorage.getItem('clusterId')
