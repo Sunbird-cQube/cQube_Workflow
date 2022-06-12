@@ -5,6 +5,8 @@
 
 
 
+@import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
 /* You can add global styles to this file, and also import other style files */
 
 html,body {
@@ -1310,10 +1312,7 @@ border-color:var(--theme-back-button-border-color);
 
 
 
-
 /* theme css start */
-@import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700");
-@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
 
 :root {
   /* Colors */

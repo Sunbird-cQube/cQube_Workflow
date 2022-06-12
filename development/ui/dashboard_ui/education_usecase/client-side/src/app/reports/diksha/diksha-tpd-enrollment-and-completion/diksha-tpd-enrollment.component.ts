@@ -117,9 +117,13 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.getAllData();
       this.getProgramData();
     }else{
-      this.getAllData();
+       this.getAllData();
       this.getProgramData();
-      this.getView();
+      
+      setTimeout(() => {
+        this.getView();
+      }, );
+    
     }
     
 
@@ -178,8 +182,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.getProgramData();
      
     }else{
-      this.getAllData();
-      this.getProgramData();
+
       this.getView()
     }
     
@@ -393,7 +396,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           this.getBarChartData();
         }, 100);
       }else{
-        setTimeout(() =>{
+         setTimeout(() =>{
           this.getView()
         },500)
        
@@ -569,6 +572,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
+      if (this.courseSelected) this.districtSelected = true
+      if (this.programSeleted) this.districtSelected = true
       this.clusterLinkClick(clusterid);
       this.selCluster = true;
       this.selBlock = true;
@@ -578,6 +583,9 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
+      if (this.courseSelected) this.districtSelected = true
+      if (this.programSeleted) this.districtSelected = true
+      
       this.clusterLinkClick(clusterid);
       this.selCluster = true;
       this.selBlock = true;
