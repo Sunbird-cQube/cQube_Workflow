@@ -98,6 +98,7 @@ showError = false
   }
 
   getview(){
+    this.timeDetails = [];
     this.service.dikshaTableMetaData().subscribe(async result => {
       this.districtsDetails = result['districtDetails']
 

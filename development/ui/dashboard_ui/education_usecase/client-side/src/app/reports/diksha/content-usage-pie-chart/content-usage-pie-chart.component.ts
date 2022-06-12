@@ -54,7 +54,7 @@ export class ContentUsagePieChartComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
-
+showError = false
   ngOnInit(): void {
     this.commonService.errMsg();
     this.changeDetection.detectChanges();
@@ -63,10 +63,44 @@ export class ContentUsagePieChartComponent implements OnInit {
     document.getElementById('spinner').style.display = "none"
 
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    this.getStateData();
-
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getStateData();
+    }else{
+      if ( this.userAccessLevel === "District"){
+       
+        
+        this.onStateDropSelected("State with Districts")
+        
+          this.getview()
+      }else{
+        document.getElementById('spinner').style.display = "none"
+        this.showError = true
+      }
+    }
+    
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     
+  }
+
+  getview(){
+    let distId = localStorage.getItem('userLocation')
+    
+    try {
+      this.service.dikshaPieDist().subscribe(res => {
+        let distData = res['data'].data;
+        const filteredKeys = [distId];
+
+        this.distData = filteredKeys
+          .reduce((obj, key) => ({ ...obj, [key]: distData[key] }), {});
+        
+        this.districtSelectBox = false;
+        this.createDistPiechart()
+      })
+
+    } catch (error) {
+      this.distData = [];
+      this.commonService.loaderAndErr(this.distData);
+    }
   }
 
   public skul = true;
@@ -112,8 +146,13 @@ export class ContentUsagePieChartComponent implements OnInit {
     this.selectedDistricts = [];
     this.dist = false;
     this.skul = true;
-    this.getStateData();
-    this.multiSelect1.resetSelected();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getStateData();
+      this.multiSelect1.resetSelected();
+    }else{
+      this.getview()
+    }
+    
 
   }
 
@@ -166,7 +205,10 @@ export class ContentUsagePieChartComponent implements OnInit {
           return dist
         })
         this.distToDropDown.sort((a, b) => a.district_name.localeCompare(b.district_name))
-        this.getDistData();
+        if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+          this.getDistData();
+        }
+        
 
       })
     } catch (error) {
@@ -195,9 +237,14 @@ export class ContentUsagePieChartComponent implements OnInit {
         this.distToggle = false;
         this.districtSelectBox = false;
       }
-      this.getStateData();
-      this.getDistData();
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.getStateData();
+        this.getDistData();
 
+      }else{
+        this.getStateData();
+      }
+      
 
     } catch (error) {
       this.distData = [];
@@ -292,26 +339,49 @@ export class ContentUsagePieChartComponent implements OnInit {
     });
 
     let Distdata: any = []
-    pieData.filter(district => {
-      return this.selectedDistricts.find(districtId => districtId === +district.id)
-    }).forEach((district, i) => {
-      let obj = {
-        name: district.data[0].district_name,
-        totalContentDistWise: district.data[0].total_content_plays_districtwise.toLocaleString('en-IN'),
-        percentOverState: district.data[0].percentage_over_state,
-        data: []
-      }
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      pieData.filter(district => {
+        return this.selectedDistricts.find(districtId => districtId === +district.id)
+      }).forEach((district, i) => {
+        let obj = {
+          name: district.data[0].district_name,
+          totalContentDistWise: district.data[0].total_content_plays_districtwise.toLocaleString('en-IN'),
+          percentOverState: district.data[0].percentage_over_state,
+          data: []
+        }
 
-      district.data.forEach((metric, i) => {
+        district.data.forEach((metric, i) => {
 
-        obj.data.push({ name: metric.object_type, color: `#${metric.color_code}`, y: metric.total_content_plays_percent, value: metric.total_content_plays_districtwise });
-      });
+          obj.data.push({ name: metric.object_type, color: `#${metric.color_code}`, y: metric.total_content_plays_percent, value: metric.total_content_plays_districtwise });
+        });
 
 
-      Distdata.push(obj);
-      Distdata.sort((a, b) => a.name.localeCompare(b.name));
+        Distdata.push(obj);
+        Distdata.sort((a, b) => a.name.localeCompare(b.name));
 
-    })
+      })
+    }else{
+      pieData.forEach((district, i) => {
+        let obj = {
+          name: district.data[0].district_name,
+          totalContentDistWise: district.data[0].total_content_plays_districtwise.toLocaleString('en-IN'),
+          percentOverState: district.data[0].percentage_over_state,
+          data: []
+        }
+
+        district.data.forEach((metric, i) => {
+
+          obj.data.push({ name: metric.object_type, color: `#${metric.color_code}`, y: metric.total_content_plays_percent, value: metric.total_content_plays_districtwise });
+        });
+
+
+        Distdata.push(obj);
+        Distdata.sort((a, b) => a.name.localeCompare(b.name));
+
+      })
+    }
+   
+    
 
 
     let createdDiv;
