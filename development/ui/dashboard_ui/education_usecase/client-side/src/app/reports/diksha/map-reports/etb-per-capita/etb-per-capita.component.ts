@@ -74,6 +74,8 @@ export class EtbPerCapitaComponent implements OnInit {
     this.height = window.innerHeight;
   }
 
+  userAccessLevel = localStorage.getItem('userLevel')
+ showError = false
   ngOnInit(): void {
 
     this.mapName = this.commonService.mapName;
@@ -91,7 +93,13 @@ export class EtbPerCapitaComponent implements OnInit {
 
     document.getElementById("accessProgressCard").style.display = "none";
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
-    this.getDistData()
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getDistData()
+    }else{
+      document.getElementById('spinner').style.display = "none"
+      this.showError =true
+    }
+   
 
   }
 

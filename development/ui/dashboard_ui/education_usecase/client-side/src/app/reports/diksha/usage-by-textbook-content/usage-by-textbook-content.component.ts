@@ -64,6 +64,7 @@ export class UsageByTextbookContentComponent implements OnInit {
     this.collectionWise();
     this.onResize();
 
+    
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
   }

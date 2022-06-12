@@ -73,13 +73,16 @@
         <div class="col-lg-1">
 
         </div>
-        <div class="col-lg-10" id="r1">
+        <div *ngIf="!showError" class="col-lg-10" id="r1">
             <app-bar-chart *ngIf="chartData.length > 0" [category]="category" [data]="chartData"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [reportName]="collection_type">
             </app-bar-chart>
             <div *ngIf="chartData.length === 0" style="position: absolute; left: 40%; top: 120px;color: red;">
                 No Data Available
             </div>
+        </div>
+        <div *ngIf="showError" style="position: absolute; left: 40%; top: 120px;color: red;">
+            Do not have permission to see this report
         </div>
     </div>
 </div>

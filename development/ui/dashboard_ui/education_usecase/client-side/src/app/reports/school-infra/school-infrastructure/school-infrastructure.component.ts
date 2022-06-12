@@ -392,7 +392,7 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.commonService.errMsg();
     this.modes = [];
     this.reportData = [];
-
+    this.chartData = []
     this.title = JSON.parse(localStorage.getItem('block'));
 
     this.titleName = localStorage.getItem('dist');
