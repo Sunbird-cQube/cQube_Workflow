@@ -48,6 +48,7 @@ export class EnrollmentProgressComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
+  showError = false
 
   ngOnInit(): void {
     this.changeDetection.detectChanges();
@@ -56,16 +57,22 @@ export class EnrollmentProgressComponent implements OnInit {
     document.getElementById("backBtn")
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
-    if (this.level == "program") {
-      setTimeout(() => {
-        document.getElementById("spinner").style.display = "none";
-      }, 200);
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      if (this.level == "program") {
+        setTimeout(() => {
+          document.getElementById("spinner").style.display = "none";
+        }, 200);
+        this.getProgramData();
+      }
+      this.getExpectedMeta();
+      this.getStateData();
       this.getProgramData();
+      this.getAllDistCollection();
+    }else{
+      document.getElementById('spinner').style.display = "none"
+       this.showError = true
     }
-    this.getExpectedMeta();
-    this.getStateData();
-    this.getProgramData();
-    this.getAllDistCollection();
+   
      this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "") ? true : false;
     
   }

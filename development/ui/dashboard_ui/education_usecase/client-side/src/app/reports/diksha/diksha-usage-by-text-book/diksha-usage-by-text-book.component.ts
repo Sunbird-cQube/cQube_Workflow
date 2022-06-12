@@ -54,11 +54,19 @@ export class DikshaUsageByTextBookComponent implements OnInit {
   ) {
   }
 
+  userAccessLevel =localStorage.getItem('userLevel')
+  showError = false
   ngOnInit(): void {
     this.state = this.commonService.state;
 
     document.getElementById('accessProgressCard').style.display = "none";
-    this.getAllData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+    }else{
+      document.getElementById('spinner').style.display = "none";
+      this.showError = true
+    }
+    
   }
 
   emptyChart() {

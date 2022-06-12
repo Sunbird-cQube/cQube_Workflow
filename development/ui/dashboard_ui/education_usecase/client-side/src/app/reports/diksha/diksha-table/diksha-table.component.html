@@ -84,7 +84,7 @@
       </div>
     </div>
   </div>
-  <div class="row reportContainer">
+  <div *ngIf="!showError" class="row reportContainer">
     <div class="col-sm-12 dataTableCustom" [ngStyle]="{
         fontSize:
           height > 1760
@@ -97,6 +97,10 @@
       }">
       <table #DataTable id="table" class="display nowrap" width="100%" style="text-align: center"></table>
     </div>
+    
+  </div>
+  <div *ngIf="showError" style="position: absolute; left: 40%; top: 120px;color: red;">
+        Do not have permission to see this report
   </div>
 </div>
 <div id="spinner">

@@ -531,8 +531,8 @@ export class DikshaTPDContentProgressComponent implements OnInit {
       this.genericFunction(response);
       var dist = this.allDistricts.find(a => a.district_id == districtId);
       this.districtHierarchy = {
-        districtName: dist.district_name,
-        distId: dist.district_id
+        districtName: dist?.district_name,
+        distId: dist?.district_id
       }
       this.skul = false;
       this.dist = true;

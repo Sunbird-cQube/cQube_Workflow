@@ -85,7 +85,7 @@
   </div>
   <div class="row reportContainer pt-4">
 
-    <div *ngIf="expectedMeta === true" class="col-lg-12 m-auto">
+    <div *ngIf="expectedMeta === true || !showError"  class="col-lg-12 m-auto">
       <div [hidden]="chartData.length === 0" id="container" class="col-lg-12 m-auto" style="height: 66vh">
 
       </div>
@@ -98,9 +98,11 @@
 
       Expected Enrollemt Value is not available
     </div>
-
+      <div *ngIf="showError" style="position: absolute; left: 40%; top: 120px;color: red;">
+        Do not have permission to see this report
+      </div>
   </div>
-
+    
 </div>
 <div id="spinner">
   <div class="loading">Loading&#8230;</div>
