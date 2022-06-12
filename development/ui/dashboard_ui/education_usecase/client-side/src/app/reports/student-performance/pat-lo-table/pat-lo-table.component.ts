@@ -847,6 +847,8 @@ export class PATLOTableComponent implements OnInit {
                 : 0
           );
           this.selectedCluster(clusterid);
+        },(err)=>{
+          this.handleError()
         })
 
       this.clusterHidden = true

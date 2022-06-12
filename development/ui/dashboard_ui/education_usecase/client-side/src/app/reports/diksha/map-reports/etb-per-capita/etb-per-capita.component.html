@@ -43,8 +43,8 @@
     </div>
   </div>
 
-  <div class="row reportContainer">
-    <div [hidden]="mapHide === 0" class="col-sm-12">
+  <div  class="row reportContainer">
+    <div *ngIf="!showError" [hidden]="mapHide === 0" class="col-sm-12">
       <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '83%' : '100%' }">
         <div #mapContainer id="etbMap" class="active" [ngStyle]="{
                   height:
@@ -113,6 +113,12 @@
     <div [hidden]="mapHide !== 0" style="position: absolute; left: 40%; top: 120px;color: red;">
       Expected Users is not provided By the State
     </div>
+    <div class="row">
+      <div *ngIf="showError" style="position: absolute; left: 40%; top: 120px;color: red;">
+        Do not have permission to see this report
+      </div>
+    </div>
+    
   </div>
   <div *ngIf="mapHide > 0" class="row d-flex justify-content-around text-center" id="footer">
 

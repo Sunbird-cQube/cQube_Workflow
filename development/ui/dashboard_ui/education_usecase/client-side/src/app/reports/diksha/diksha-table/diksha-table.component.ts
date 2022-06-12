@@ -70,13 +70,25 @@ export class DikshaTableComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
-
+showError = false
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
-    this.collectionWise();
-    this.onResize();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.collectionWise();
+
+    }else{
+      if ( this.userAccessLevel === "District"){
+        this.getview()
+      }else{
+        document.getElementById('spinner').style.display = 'none';
+        this.showError = true
+      }
+    }
+        this.onResize();
+
+    
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
 
@@ -85,6 +97,21 @@ export class DikshaTableComponent implements OnInit {
 
   }
 
+  getview(){
+    this.service.dikshaTableMetaData().subscribe(async result => {
+      this.districtsDetails = result['districtDetails']
+
+      await result['timeRange'].forEach((element) => {
+        var obj = { timeRange: element, name: this.changeingStringCases(element.replace(/_/g, ' ')) }
+        this.timeDetails.push(obj);
+      });
+      await this.timeDetails.push({ timeRange: "all", name: "Overall" });
+      await this.timeDetails.reverse();
+      let distId = localStorage.getItem('userLocation')
+      await this.districtWise(distId);
+    })
+  
+  }
 
   //Loader and error message:::::
   loaderAndErr() {
@@ -107,11 +134,16 @@ export class DikshaTableComponent implements OnInit {
   //default page
   default() {
     this.currentPage = 1;
-    this.collectionWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.collectionWise();
+    }else{
+      this.getview()
+    }
+   
   }
 
   //show data based on selected collection:::::::::
-  collectionWise() {
+  collectionWise(distId?) {
 
     this.errMsg();
     this.districtId = '';
@@ -121,6 +153,7 @@ export class DikshaTableComponent implements OnInit {
     this.timeDetails = [];
     this.service.dikshaTableMetaData().subscribe(async result => {
       this.districtsDetails = result['districtDetails']
+      
       await result['timeRange'].forEach((element) => {
         var obj = { timeRange: element, name: this.changeingStringCases(element.replace(/_/g, ' ')) }
         this.timeDetails.push(obj);
@@ -128,6 +161,9 @@ export class DikshaTableComponent implements OnInit {
       await this.timeDetails.push({ timeRange: "all", name: "Overall" });
       await this.timeDetails.reverse();
     })
+
+    
+    
     if (this.result.length! > 0) {
       $('#table').DataTable().destroy();
       $('#table').empty();
@@ -158,6 +194,14 @@ export class DikshaTableComponent implements OnInit {
         });
         this.reportData.push(obj2);
       });
+      if (distId) {
+        $('#table').DataTable().destroy();
+        $('#table').empty();
+        this.districtWise(distId)
+
+      } else {
+
+      }
     }, err => {
       this.loaderAndErr();
     })

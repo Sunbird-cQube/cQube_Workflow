@@ -509,26 +509,31 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
-    if (this.level == "program") {
-      setTimeout(() => {
-        document.getElementById("spinner").style.display = "none";
-      }, 200);
-      this.getProgramData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      if (this.level == "program") {
+        setTimeout(() => {
+          document.getElementById("spinner").style.display = "none";
+        }, 200);
+        this.getProgramData();
+      }
+      if (this.level == "district") {
+        setTimeout(() => {
+          this.getAllData();
+        }, 100);
+      }
+      if (this.level == "block") {
+        this.onDistSelect(this.districtId);
+      }
+      if (this.level == "cluster") {
+        this.onBlockSelect(this.blockId);
+      }
+      if (this.level == "school") {
+        this.onClusterSelect(this.clusterId);
+      }
+    }else{
+      this.getView()
     }
-    if (this.level == "district") {
-      setTimeout(() => {
-        this.getAllData();
-      }, 100);
-    }
-    if (this.level == "block") {
-      this.onDistSelect(this.districtId);
-    }
-    if (this.level == "cluster") {
-      this.onBlockSelect(this.blockId);
-    }
-    if (this.level == "school") {
-      this.onClusterSelect(this.clusterId);
-    }
+    
   }
 
   //Showing data based on level selected:::::::

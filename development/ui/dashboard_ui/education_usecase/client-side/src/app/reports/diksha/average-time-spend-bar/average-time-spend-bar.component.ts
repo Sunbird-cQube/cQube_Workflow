@@ -52,7 +52,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
-
+showError = false
   ngOnInit(): void {
     this.changeDetection.detectChanges();
     this.state = this.commonService.state;
@@ -61,13 +61,40 @@ export class AverageTimeSpendBarComponent implements OnInit {
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
 
-    this.getStateData();
-    this.getDistdata();
+    
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getStateData();
+      this.getDistdata();
+    }else{
+      if ( this.userAccessLevel === "District"){
+        this.getDistMeta()
+        this.getview()   
+      }else{
+        document.getElementById('spinner').style.display = "none"
+        this.showError = true
+      }
+    }
 
     this.hideIfAccessLevel = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
  
   }
 
+  getview(){
+    let distId = Number(localStorage.getItem('userLocation'));
+    try {
+      this.service.getAvgTimespendDist().subscribe((res) => {
+        res['data'] ? this.distData = res["data"]["data"] : this.distData = [];
+        this.commonService.loaderAndErr(this.distData);
+        this.onDistSelected(distId)
+      });
+      
+    } catch (error) {
+      this.distData = [];
+      this.emptyChart();
+      this.commonService.loaderAndErr(this.distData);
+    }
+    
+  }
   public data;
   public chartData = [];
   public catgory = [];
@@ -109,8 +136,13 @@ export class AverageTimeSpendBarComponent implements OnInit {
     this.skul = true;
     this.emptyChart();
     this.selectedDist = undefined;
-    this.getStateData();
-    this.getDistdata();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getStateData();
+      this.getDistdata();
+    }else{
+      this.getview()
+    }
+    
   }
 
   public distData;
@@ -196,7 +228,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
 
     try {
       this.selectedDist = data;
-      document.getElementById("spinner").style.display = "block";
+     
       this.distToDropDown.filter((distName) => {
         if (distName.district_id === this.selectedDist) {
           this.distName = distName.district_name;
@@ -206,7 +238,9 @@ export class AverageTimeSpendBarComponent implements OnInit {
       this.distWiseData = this.distData[this.selectedDist];
 
       setTimeout(() => {
+        
         this.restructureBarChartData(this.distWiseData);
+        
       }, 300);
 
     } catch (error) {
@@ -249,7 +283,7 @@ export class AverageTimeSpendBarComponent implements OnInit {
           if (this.distData[district.district_id]) {
             distData = this.distData[district.district_id];
 
-            // let distData = this.distData[district.district_id];
+            
             let objectValue = distData.find(
               (metric) => metric.collection_name === element.collection_name
             );

@@ -77,7 +77,8 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
-
+  userAccessLevel = localStorage.getItem('userLevel')
+  showError = false
   ngOnInit(): void {
     this.mapName = this.commonService.mapName;
     this.state = this.commonService.state;
@@ -95,7 +96,13 @@ export class EtbTotalContentPlaysComponent implements OnInit {
     document.getElementById("backBtn")
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
-    this.getDistData();
+   
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getDistData()
+    } else {
+      document.getElementById('spinner').style.display = "none"
+      this.showError = true
+    }
   }
 
   data;
