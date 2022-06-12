@@ -18,8 +18,8 @@ export class ChangePasswordComponent implements OnInit {
   public isDisabled;
   otpConfig = environment.report_viewer_config_otp;
   public userName = localStorage.getItem('userName')
-  public otpToggle = environment.auth_api === 'cqube' && this.userName !== 'admin' ? true : false
-
+  public otpToggle =  this.userName !== 'admin' ? true : false 
+  
   roleIds: any = [];
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
