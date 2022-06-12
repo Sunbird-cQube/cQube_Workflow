@@ -1017,7 +1017,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           }
 
           this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${clusterId}_${this.commonService.dateAndTime}`;
-          this.reportData = res["downloadData"];
+          if (this.schoolLevel) {
+            this.reportData = res["downloadData"].filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+          }else{
+            this.reportData = res["downloadData"];
+          }
+          
           this.getBarChartData();
           this.commonService.loaderAndErr(this.result);
         },
