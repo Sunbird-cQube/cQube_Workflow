@@ -14,6 +14,7 @@ cursor: pointer;
 .tooltip1{
   font-size: 12px !important;
     z-index: 3000 !important;
+
 }
 .leaflet-tooltip-pane{
     z-index: 3000 !important;

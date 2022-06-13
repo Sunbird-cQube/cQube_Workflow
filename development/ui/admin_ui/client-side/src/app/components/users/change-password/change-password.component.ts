@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { KeycloakSecurityService } from '../../../keycloak-security.service';
 import { environment } from 'src/environments/environment';
+import { HomeComponent } from "../../../home/home.component"
+
 declare const $;
 
 @Component({
@@ -18,18 +20,19 @@ export class ChangePasswordComponent implements OnInit {
   public isDisabled;
   otpConfig = environment.report_viewer_config_otp;
   public userName = localStorage.getItem('userName')
-  public otpToggle = environment.auth_api === 'cqube' && this.userName !== 'admin' ? true : false
+  public otpToggle = this.userName !== 'admin' ? true : false
 
   roleIds: any = [];
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
     this.changePasswdData['userName'] = localStorage.getItem('userName');
+    
   }
 
   ngOnInit() {
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
-    
+
   }
 
   onSubmit(formData: NgForm) {
@@ -41,13 +44,18 @@ export class ChangePasswordComponent implements OnInit {
         this.err = "Password not matched";
         document.getElementById('spinner').style.display = 'none';
       } else {
-        this.service.changePassword(this.changePasswdData, localStorage.getItem('user_id')).subscribe(res => {
+        this.service.changePassword(this.changePasswdData, localStorage.getItem('userId')).subscribe(res => {
           document.getElementById('success').style.display = "Block";
           this.err = '';
           this.successMsg = res['msg'] + "\n" + " please login again...";
           document.getElementById('spinner').style.display = 'none';
           this.isDisabled = true;
           formData.resetForm();
+          if(environment.auth_api === 'state'){
+            localStorage.clear();
+            
+            window.location.href = `${environment.appUrl}/#/signin`;
+          }
           setTimeout(() => {
             localStorage.clear();
             let options = {

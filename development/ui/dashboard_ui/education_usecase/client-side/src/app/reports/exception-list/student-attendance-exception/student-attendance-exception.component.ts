@@ -181,14 +181,23 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               month: null,
               year: null,
             };
-            this.levelWiseFilter();
+            if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+              this.levelWiseFilter();
+            } else {
+              this.getView1()
+            }
           }
         } else {
           this.dateRange = "";
           this.changeDetection.detectChanges();
 
           this.getMonthYear = {};
-          this.levelWiseFilter();
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            this.levelWiseFilter();
+          } else {
+            this.getView1()
+          }
+
         }
         this.toHideDropdowns
       },
@@ -223,6 +232,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   selBlock = false;
   selDist = false;
   schoolLevel = false
+  hideFooter = false
   getView1() {
 
     let id = localStorage.getItem("userLocation");
@@ -234,15 +244,15 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.schoolLevel = level === "School" ? true : false;
 
     if (level === "School") {
+      this.hideFooter = true
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      this.myDistData(districtid, blockid, clusterid);
-      this.blockSelect({ type: "click" }, blockid);
-      this.clusterSelect({ type: "click" }, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
+
       this.blockHidden = true
       this.selCluster = true;
     } else if (level === "Cluster") {
@@ -252,20 +262,18 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      this.myDistData(districtid, blockid, clusterid);
-      this.blockSelect({ type: "click" }, blockid);
-      this.clusterSelect({ type: "click" }, clusterid);
-      this.blockHidden = true
-      this.selCluster = true;
+      this.districtWise(districtid, blockid,clusterid)
+
+  
     } else if (level === "Block") {
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
-      this.myDistData(districtid, blockid, clusterid)
-      this.blockSelect({ type: "click" }, blockid);
-      this.blockHidden = true
+      this.districtWise(districtid, blockid)
+
+   
 
     } else if (level === "District") {
       this.selCluster = false;
@@ -273,8 +281,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selDist = false;
 
       this.myDistrict = districtid;
+      this.districtWise(districtid)
 
-      this.distSelect({ type: "click" }, districtid);
 
     }
   }
@@ -473,7 +481,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       period: this.period,
       report: "sarException",
     };
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView1()
+    }
+    
 
   }
 
@@ -486,7 +499,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     infoWindow.close();
   }
 
-  async districtWise() {
+  async districtWise(distId?,bid?,cid?) {
     this.commonAtStateLevel();
     this.level = "District";
     this.googleMapZoom = 7;
@@ -584,6 +597,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
+            if (distId) {
+              this.distSelect({ type: "click" }, distId, bid, cid);
+            }
           },
           (err) => {
             this.dateRange = "";
@@ -591,6 +607,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.markers = [];
             this.districtsNames = [];
             this.commonService.loaderAndErr(this.markers);
+            
           }
         );
     } else {
@@ -2097,7 +2114,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
             if (blockid) {
-              this.myBlockData(blockid, clusterid)
+              this.blockSelect({ type: "click" }, blockid,clusterid);
             }
           },
           (err) => {
@@ -2115,7 +2132,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     globalMap.addLayer(this.layerMarkers);
   }
 
-  blockSelect(event, data) {
+  blockSelect(event, data,cid?) {
     var blokData: any = {};
     this.blockData.find((a) => {
       if (a.block_id == data) {
@@ -2128,7 +2145,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }
     });
     this.getTelemetryData(blokData, event.type, "block");
-    this.myBlockData(data);
+    this.myBlockData(data,cid);
   }
 
   clusterData = [];
@@ -2162,7 +2179,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = false;
     this.skul = false;
     this.clusterHidden = false;
-    this.blockHidden = this.hideIfAccessLevel ? true : false;
+    this.blockHidden = this.selBlock ? true : false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -2317,7 +2334,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
             if (clusterid) {
-              this.myClusterData(clusterid)
+              this.clusterSelect({type:'clicked'},clusterid)
             }
           },
           (err) => {
@@ -2387,8 +2404,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden = !this.hideAccessBtn ? true : false;
-    this.blockHidden = !this.hideAccessBtn ? true : false
+    this.clusterHidden = this.selBlock ? true : false;
+    this.blockHidden = this.selCluster ? true : false
 
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
@@ -2474,14 +2491,14 @@ export class StudentAttendanceExceptionComponent implements OnInit {
           (res) => {
             if (this.schoolLevel) {
               let schoolData = res['schoolsDetails'];
-             
+
               let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
 
               this.reportData = this.mylatlngData = data;
             } else {
               this.reportData = this.mylatlngData = res["schoolsDetails"];
             }
-           
+
             this.dateRange = res["dateRange"];
             var uniqueData = this.mylatlngData.reduce(function (
               previous,

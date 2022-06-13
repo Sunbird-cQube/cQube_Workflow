@@ -56,12 +56,19 @@ export class DikshaBarChartComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {
   }
-
+  userAccessLevel = localStorage.getItem('userLevel')
+  showError = false
   ngOnInit(): void {
     this.state = this.commonService.state;
     document.getElementById('accessProgressCard').style.display = 'none';
     document.getElementById('backBtn') ? document.getElementById('backBtn').style.display = 'none' : "";
-    this.getAllData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+    }else{
+      document.getElementById('spinner').style.display = "none"
+      this.showError = true
+    }
+    
   }
 
   //making chart empty

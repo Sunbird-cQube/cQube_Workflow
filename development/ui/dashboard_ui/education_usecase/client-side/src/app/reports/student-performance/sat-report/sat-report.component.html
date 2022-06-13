@@ -46,15 +46,7 @@
             </p>
           </div>
         </div>
-        <div class="col-lg-2 col-md-3 col-sm-12">
-          <div class="row">
-            <div class="col-sm-7">
-              <button class="btn btn-primary" [hidden]="hideAccessBtn" id="download1" (click)="getView()">
-                Access Level
-              </button>
-            </div>
-          </div>
-        </div>
+     
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-7">
@@ -232,6 +224,7 @@
         </div>
       </div>
     </div>
+  
   </div>
   <div class="row" id="footer">
     <div class="col-sm-2">
@@ -256,13 +249,13 @@
       <span id="name" class="note" style="text-align: center">Management Type: {{ managementName }}</span>
     </div>
     <div class="col-sm-2">
-      <span id="schools" style="text-align: center">Number of Schools: {{ schoolCount }}</span>
+      <span id="schools" [hidden] = "hideFooter" style="text-align: center">Number of Schools: {{ schoolCount }}</span>
     </div>
     <div class="col-sm-2">
-      <span id="students" style="text-align: center">Number of Students: {{ studentCount }}</span>
+      <span id="students" [hidden] = "hideFooter" style="text-align: center">Number of Students: {{ studentCount }}</span>
     </div>
     <div class="col-sm-3">
-      <span id="studentsAttended" class="note" style="text-align: center">Number of Students Attended: {{
+      <span id="studentsAttended" [hidden] = "hideFooter" class="note" style="text-align: center">Number of Students Attended: {{
         studentAttended }}</span>
     </div>
   </div>

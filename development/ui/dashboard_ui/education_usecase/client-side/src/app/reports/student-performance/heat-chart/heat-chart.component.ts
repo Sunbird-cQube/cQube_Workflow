@@ -1121,6 +1121,7 @@ export class HeatChartComponent implements OnInit {
   hideblock = false
   hideCluster = false
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -1131,6 +1132,7 @@ export class HeatChartComponent implements OnInit {
 
     this.schoolLevel = level === "School" ? true : false
     if (level === "School") {
+      this.hideFooter = true
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;

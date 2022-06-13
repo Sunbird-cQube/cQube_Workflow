@@ -96,7 +96,7 @@
         }" class="active"></div>
     </div>
 
-    <div *ngIf='!distToggle' class="col-lg-12" style="height: 70vh">
+    <div *ngIf='!distToggle ' class="col-lg-12" style="height: 70vh">
       <h5 style="text-align: center; font-weight: bold;" [ngStyle]="{
           fontSize:
             height > 1760
@@ -123,6 +123,10 @@
       style="max-height: 70vh; overflow-y: scroll; padding: 0;">
       <h4>District Level Data</h4>
 
+    </div>
+
+    <div *ngIf="showError" style="position: absolute; left: 45%; top: 45%;color: red;">
+     Do not have permission to see this report
     </div>
 
   </div>

@@ -40,7 +40,7 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   public userAccessLevel = localStorage.getItem("userLevel");
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
-
+  showError = false
   ngOnInit(): void {
     this.commonService.errMsg();
     this.changeDetection.detectChanges();
@@ -49,8 +49,32 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
     document.getElementById("backBtn")
       ? (document.getElementById("backBtn").style.display = "none")
       : "";
-    this.getStateData();
+    
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getStateData();
+    } else {
+      if (this.userAccessLevel === "District") {
+        this.getDistMeta()
+        this.getview()
+      } else {
+        document.getElementById('spinner').style.display = "none"
+        this.showError = true
+      }
+    }
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+  }
+
+  async getview(){
+    let distId = Number(localStorage.getItem('userLocation'))
+    try {
+      this.service.getDistTotalCotentPlayLine().subscribe((res) => {
+        this.distData = res["data"];
+        this.onDistSelected(distId)
+      });
+    } catch (error) {
+      this.distData = [];
+    }
+   
   }
 
   public data;
@@ -69,7 +93,12 @@ export class TotalContentPlayOverYearsComponent implements OnInit {
   clickHome() {
     this.selectedDist = '';
     this.emptyChart();
-    this.getStateData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getStateData();
+    }else{
+      this.getview()
+    }
+    
   }
 
   getStateData() {

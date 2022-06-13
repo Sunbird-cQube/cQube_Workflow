@@ -50,7 +50,7 @@
   </div>
 
   <div class="row reportContainer">
-    <div class="col-lg-12 col-md-12 col-sm-12">
+    <div *ngIf="!showError" class="col-lg-12 col-md-12 col-sm-12">
       <div id="leafletmap" style="float: left" [ngStyle]="{ width: selected == 'absolute' ? '82%' : '100%' }">
         <div #mapContainer id="tpdMap" class="active" [ngStyle]="{
                 height:
@@ -113,7 +113,11 @@
         </span>
       </div>
     </div>
-
+<div class="row">
+  <div *ngIf="showError" style="position: absolute; left: 40%; top: 120px;color: red;">
+    Do not have permission to see this report
+  </div>
+</div>
   </div>
   <div class="row d-flex justify-content-around text-center" id="footer">
     <div class="col-sm-4">

@@ -47,12 +47,7 @@
                         <div class="col-lg-2">
                             <p id="errMsg" class="note"></p>
                         </div>
-                        <div class="col-sm-6">
-                            <button class="btn btn-primary" id="download1" [hidden]="hideAccessBtn" (click)="getView1()"
-                                onload="">
-                                Access Level
-                            </button>
-                        </div>
+
                         <div class="col-lg-4">
                             <div class="level-headerbuttons label-header-button">
 
@@ -88,14 +83,14 @@
                         </option>
                     </select>
 
-                    <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllBlockBtn"
-                        (click)="blockWise()">&nbsp;<strong>Blocks</strong>
+                    <button class="btn btn-secondary" id="blockbtn" [hidden]="hideIfAccessLevel"
+                        [disabled]="hideAllBlockBtn" (click)="blockWise()">&nbsp;<strong>Blocks</strong>
                     </button>
-                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllCLusterBtn"
-                        (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
+                    <button class="btn btn-secondary" id="clusterbtn" [hidden]="hideIfAccessLevel"
+                        [disabled]="hideAllCLusterBtn" (click)="clusterWise()">&nbsp;<strong>Clusters</strong>
                     </button>
-                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel" [disabled] = "hideAllSchoolBtn"
-                        (click)="schoolWise()">&nbsp;<strong>Schools</strong>
+                    <button class="btn btn-secondary" id="schoolbtn" [hidden]="hideIfAccessLevel"
+                        [disabled]="hideAllSchoolBtn" (click)="schoolWise()">&nbsp;<strong>Schools</strong>
                     </button>
                     <select id="grades" [(ngModel)]="grade" (change)="onGradeSelect(grade)">
                         <option [value]="grade" disabled selected="selected">Choose Grade</option>
@@ -119,8 +114,8 @@
                             {{sem.name}}
                         </option>
                     </select>
-                    <select id="choose_dist" [(ngModel)]="districtId" [hidden]="hideDist" [disabled] = "selDist"
-                        (change)="onDistrictSelect(districtId)" >
+                    <select id="choose_dist" [(ngModel)]="districtId" [hidden]="hideDist" [disabled]="selDist"
+                        (change)="onDistrictSelect(districtId)">
                         <option [value]="districtId" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
                             {{dist.district_name}}
@@ -176,7 +171,8 @@
     </div>
     <div class="row" id="footer">
         <div class="col-sm-4">
-            <span id="schools" style="text-align: center;">Total School Not Received Data: {{schoolCount}}</span>
+            <span id="schools" [hidden]="hideFooter" style="text-align: center;">Total School Not Received Data:
+                {{schoolCount}}</span>
         </div>
         <div class="col-sm-4">
             <span id="name" class="note" style="text-align: center;">Management Type: {{managementName}}</span>

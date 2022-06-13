@@ -240,8 +240,13 @@ export class CrcReportComponent implements OnInit {
           this.getClusters(data.districtId, data.blockId, data.id);
         }
       } else {
-        this.onResize();
-        this.levelWiseFilter()
+        if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+          this.onResize();
+          this.levelWiseFilter()
+        }else{
+          this.getView()
+        }
+       
       }
 
     }, err => {
@@ -266,6 +271,7 @@ export class CrcReportComponent implements OnInit {
   levelVal = 0;
   level
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -276,6 +282,7 @@ export class CrcReportComponent implements OnInit {
     this.schoolLevel = level === "School" ? true : false
 
     if (level === "School") {
+      this.hideFooter = true
       this.myDistrict = districtid;
       this.myBlock = blockid;
       this.myCluster = clusterid;
@@ -320,8 +327,6 @@ export class CrcReportComponent implements OnInit {
       this.levelVal = 2;
     } else if (level === "District") {
       this.myDistrict = districtid;
-
-
       this.getDistricts('district')
       this.selCluster = false;
       this.selBlock = false;
@@ -545,8 +550,12 @@ export class CrcReportComponent implements OnInit {
       month: null,
       year: null,
     };
-
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView()
+    }
+    
   }
 
   districtWise() {

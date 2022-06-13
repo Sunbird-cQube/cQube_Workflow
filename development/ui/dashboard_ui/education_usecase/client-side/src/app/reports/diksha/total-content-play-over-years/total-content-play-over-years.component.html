@@ -65,8 +65,11 @@
     </div>
   </div>
   <div class="row reportContainer pt-4">
-    <div id="container" class="col-lg-12 m-auto" style="height: 66vh">
+    <div *ngIf="!showError" id="container" class="col-lg-12 m-auto" style="height: 66vh">
 
+    </div>
+    <div *ngIf="showError" style="position: absolute; left: 40%; top: 120px;color: red;">
+      Do not have permission to see this report
     </div>
   </div>
 

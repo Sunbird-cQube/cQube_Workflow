@@ -154,7 +154,7 @@ export class PATLOTableComponent implements OnInit {
     document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "none" : "";
 
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? true : false;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === '') ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
@@ -228,13 +228,13 @@ export class PATLOTableComponent implements OnInit {
     this.clusterHidden = true;
     this.year = this.years[this.years.length - 1];
     this.gradeSelected = false;
-    if(this.hideAccessBtn){
-      
+    if (this.hideAccessBtn) {
+
       this.commonFunc();
-    }else{
+    } else {
       this.getView()
     }
-      
+
   }
 
   commonFunc = () => {
@@ -277,8 +277,10 @@ export class PATLOTableComponent implements OnInit {
 
   columns = [];
   createTable(dataSet) {
+ 
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
+    
     $(document).ready(function () {
       var headers = "<thead><tr>";
       var body = "<tbody>";
@@ -287,13 +289,13 @@ export class PATLOTableComponent implements OnInit {
         var col = column.data.replace(/_/g, " ").replace(/\w\S*/g, (txt) => {
           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
-        
+
         if (col.length > 10) {
           col = col.slice(0, 10) + "..."
         }
         if (i > 3) {
           headers += `<th class="rank text-wrap"><div style="transform: rotate(270deg);">${col}</div></th>`;
-        } else {
+        }else {
           if (col == 'Indicator') {
             headers += `<th class="indicator">${col}</th>`;
           } else {
@@ -393,7 +395,7 @@ export class PATLOTableComponent implements OnInit {
       }
       if (dataSet.length > 0) {
         obj['order'] = [[0, "asc"]];
-        obj['columnDefs'] = [{ targets: 0, type: "date-dd-mm-yyyy" },{ className: "dt-head-center" }];
+        obj['columnDefs'] = [{ targets: 0, type: "date-dd-mm-yyyy" }, { className: "dt-head-center" }];
       }
 
       this.table = $(`#LOtable`).DataTable(obj);
@@ -446,7 +448,12 @@ export class PATLOTableComponent implements OnInit {
     this.examDate = "all";
     this.subject = "all";
     this.fetchFilters(this.metaData);
-    this.levelWiseFilter();
+    if (this.hideAccessBtn) {
+      this.levelWiseFilter();
+
+    } else {
+      this.getView()
+    }
   }
 
   selectedMonth() {
@@ -456,7 +463,13 @@ export class PATLOTableComponent implements OnInit {
     this.examDate = "all";
     this.subject = "all";
 
-    this.levelWiseFilter();
+    if (this.hideAccessBtn) {
+      this.levelWiseFilter();
+
+    } else {
+      this.resetTable();
+      this.getView()
+    }
   }
 
   selectedGrade() {
@@ -471,15 +484,13 @@ export class PATLOTableComponent implements OnInit {
         this.gradeSelected = true;
       } else {
         this.grade = "all";
-        this.resetToInitPage();
-      }
-      if(this.hideAccessBtn){
-        this.levelWiseFilter();
-       
-      }else{
-        this.getView() 
-      }
         
+          this.resetToInitPage();   
+      }
+      
+        this.levelWiseFilter();
+      
+
     }
   }
 
@@ -490,7 +501,12 @@ export class PATLOTableComponent implements OnInit {
     }
 
     this.fileName = `${this.reportName}_${this.grade}_${this.subject}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    this.levelWiseFilter();
+    if (this.hideAccessBtn) {
+      this.levelWiseFilter();
+
+    } else {
+      this.getView()
+    }
   }
 
   selectedExamDate() {
@@ -500,7 +516,12 @@ export class PATLOTableComponent implements OnInit {
     }
 
     this.fileName = `${this.reportName}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    this.levelWiseFilter();
+    if (this.hideAccessBtn) {
+      this.levelWiseFilter();
+
+    } else {
+      this.getView()
+    }
   }
 
   selectedViewBy() {
@@ -510,7 +531,12 @@ export class PATLOTableComponent implements OnInit {
     }
 
     this.fileName = `${this.reportName}_${this.grade}_${this.viewBy}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    this.levelWiseFilter();
+    if (this.hideAccessBtn) {
+      this.levelWiseFilter();
+
+    } else {
+      this.getView()
+    }
   }
 
   selectedDistrict(districtId, blockId?) {
@@ -586,7 +612,7 @@ export class PATLOTableComponent implements OnInit {
     this.level = "cluster";
     this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
-    this.blockHidden = this.selBlock ? true: false;
+    this.blockHidden = this.selBlock ? true : false;
     this.clusterHidden = false;
 
     this.commonService.errMsg();
@@ -616,7 +642,7 @@ export class PATLOTableComponent implements OnInit {
               : 0
         );
         this.onChangePage();
-        
+
         var block = this.blockNames.find((a) => a.block_id == blockId);
 
         this.blockHierarchy = {
@@ -653,7 +679,7 @@ export class PATLOTableComponent implements OnInit {
     this.commonService.errMsg();
     let a = {
       year: this.year,
-      month: this.month,
+       month: this.month,
       grade: this.grade == "all" ? "" : this.grade,
       subject_name: this.subject == "all" ? "" : this.subject,
       exam_date: this.examDate == "all" ? "" : this.examDate,
@@ -663,27 +689,14 @@ export class PATLOTableComponent implements OnInit {
       clusterId: clusterId,
       management: this.management,
       category: this.category,
+      schoolLevel: this.schoolLevel,
+      schoolId: Number(localStorage.getItem('schoolId'))
     };
 
     this.service.patLOTableSchoolData(a).subscribe(
       (response) => {
-        
-        if (this.schoolLevel) {
-          let schoolData = response['schoolDetails']
-          let tableData = response['tableData']
-          let schoolname = ""
-           schoolData.filter(data => {
-            if (data.school_id === Number(localStorage.getItem('schoolId'))) {
-              schoolname = data.school_name
-            } } )
 
-          let data = tableData.filter(data => data[schoolname]);
-          this.updatedTable = this.reportData = data
-          
-        } else {
-          this.updatedTable = this.reportData = response["tableData"];
-        }
-        
+        this.updatedTable = this.reportData = response["tableData"];
         this.onChangePage();
 
         var cluster = this.clusterNames.find((a) => a.cluster_id == clusterId);
@@ -701,9 +714,9 @@ export class PATLOTableComponent implements OnInit {
         this.clust = true;
 
         this.blockHidden = this.selBlock ? true : false;
-        this.clusterHidden = this.selCluster ? true :false;
+        this.clusterHidden = this.selCluster ? true : false;
       },
-      (err) => {
+      (err) => {        
         this.handleError();
       }
     );
@@ -743,6 +756,7 @@ export class PATLOTableComponent implements OnInit {
   levelVal = 0;
   hideblock = false
   schoolLevel = false
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -765,12 +779,12 @@ export class PATLOTableComponent implements OnInit {
 
     }
 
-  
+
     if (level === "School") {
       this.district = districtid;
       this.block = blockid;
       this.cluster = clusterid;
-
+      this.hideFooter = true
       let a = {
         year: this.year,
         month: this.month,
@@ -796,6 +810,9 @@ export class PATLOTableComponent implements OnInit {
                 : 0
           );
           this.selectedCluster(clusterid);
+        }, (err) => {
+
+          this.handleError();
         })
 
       this.clusterHidden = true
@@ -834,6 +851,8 @@ export class PATLOTableComponent implements OnInit {
                 : 0
           );
           this.selectedCluster(clusterid);
+        },(err)=>{
+          this.handleError()
         })
 
       this.clusterHidden = true

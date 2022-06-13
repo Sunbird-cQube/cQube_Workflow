@@ -179,7 +179,12 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               year: null,
             };
             this.changeDetection.detectChanges();
-            this.levelWiseFilter();
+            if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+              this.levelWiseFilter();
+            }else{
+              this.getView1()
+            }
+          
           }
         } catch (e) {
           this.commonService.loaderAndErr(this.markers);
@@ -215,6 +220,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
   selBlock = false;
   selDist = false;
   schoolLevel = false
+  hideFooter = false
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -241,17 +247,20 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
 
 
     if (level === "School") {
+      this.hideFooter = true
       this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Cluster") {
-      this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
+      this.districtWise(districtid, blockid, clusterid)
+      
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Block") {
-      this.distSelect({ type: "click" }, this.myDistrict, this.myBlock);
+      this.districtWise(districtid, blockid)
+      
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
@@ -259,8 +268,8 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
-      this.distSelect({ type: "click" }, districtid);
-
+      this.districtWise(districtid)
+      
     }
   }
 
@@ -456,7 +465,12 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       period: this.period,
       report: "tarException",
     };
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView1();
+    }
+    
 
   }
 
@@ -469,7 +483,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     infoWindow.close();
   }
 
-  async districtWise() {
+  async districtWise(distId?, bid?,cid?) {
     this.commonAtStateLevel();
     this.level = "District";
     this.googleMapZoom = 7;
@@ -566,6 +580,9 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
+            if(distId){
+              this.distSelect({ type: "click" }, distId,bid,cid)
+            }
           },
           (err) => {
             this.dateRange = "";
@@ -1970,6 +1987,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       }
       this.distName = { district_id: data, district_name: obj?.name };
       this.hierName = obj?.name;
+      
       localStorage.setItem("dist", obj?.name);
       localStorage.setItem("distId", data);
 
@@ -2148,7 +2166,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     this.clust = false;
     this.skul = false;
     this.clusterHidden = false;
-    this.blockHidden = false;
+    this.blockHidden = this.selBlock ? true : false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -2372,8 +2390,8 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden = false;
-    this.blockHidden = false;
+    this.clusterHidden = this.selBlock ? true : false;
+    this.blockHidden = this.selCluster ? true: false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {

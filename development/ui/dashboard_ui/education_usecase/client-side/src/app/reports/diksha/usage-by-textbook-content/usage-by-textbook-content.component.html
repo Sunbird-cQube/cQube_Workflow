@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="row" style="margin-top: 5px">
-        <div class="col-sm-12">
+        <div  class="col-sm-12">
           <select id="time_range" class="select-control" [(ngModel)]="timePeriod" name="timePeriod"
             (change)="timeRange(timePeriod)">
             <option [value]="timePeriod" disabled selected="selected">
@@ -76,11 +76,12 @@
             <input type="search" id="search-inp" (input)="updateFilter($event)" />
           </div>
         </div>
+          
       </div>
     </div>
   </div>
   <div class="row reportContainer">
-    <div class="col-sm-12 dataTableCustom" [ngStyle]="{
+    <div *ngIf="!showError" class="col-sm-12 dataTableCustom" [ngStyle]="{
         fontSize:
           height > 1760
             ? '34px'
@@ -91,6 +92,9 @@
             : '11px'
       }">
       <table #DataTable id="table" class="display nowrap" width="100%" style="text-align: center"></table>
+    </div>
+    <div *ngIf="showError" style="position: absolute; left: 40%; top: 120px;color: red;">
+    Do not have permission to see this report
     </div>
   </div>
 </div>

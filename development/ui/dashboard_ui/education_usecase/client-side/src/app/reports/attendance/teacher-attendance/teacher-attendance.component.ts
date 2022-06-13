@@ -236,7 +236,12 @@ export class TeacherAttendanceComponent implements OnInit {
               this.changeDetection.detectChanges();
               this.getDistricts();
             } else {
-              this.levelWiseFilter();
+              if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+                this.levelWiseFilter();
+              }else{
+                this.getView1()
+              }
+              
             }
           }
         } catch (e) {
@@ -280,7 +285,7 @@ export class TeacherAttendanceComponent implements OnInit {
   selDist = false;
   levelVal = 0;
   schoolLevel = false
-
+  hideFooter = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -288,7 +293,7 @@ export class TeacherAttendanceComponent implements OnInit {
     let blockid = JSON.parse(localStorage.getItem("blockId"));
     let districtid = JSON.parse(localStorage.getItem("districtId"));
     let schoolid = JSON.parse(localStorage.getItem("schoolId"));
-
+    
     this.schoolLevel = level === "School" ? true : false
     if (districtid) {
       this.myDistrict = districtid;
@@ -305,6 +310,7 @@ export class TeacherAttendanceComponent implements OnInit {
 
 
     if (level === "School") {
+      
       this.clusterlevel(id);
       this.levelVal = 3;
     } else if (level === "cluster") {
@@ -343,23 +349,28 @@ export class TeacherAttendanceComponent implements OnInit {
       this.distHidden = false;
     }
 
+
+    
+
     if (level === "School") {
-      this.myDistData(districtid, blockid, clusterid);
+      this.hideFooter = true
+      this.districtWise(districtid, blockid, clusterid)
+      
       this.clusterlevel(clusterid);
       this.selCluster = true
       this.levelVal = 3;
     } else if (level === "Cluster") {
-      this.myDistData(districtid, blockid, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
       this.clusterlevel(clusterid);
       this.selCluster = true
       this.levelVal = 3;
     } else if (level === "Block") {
-      this.myDistData(districtid, blockid);
+      this.districtWise(districtid,blockid)
       this.blocklevel(blockid);
       this.selBlock = true
       this.levelVal = 2;
     } else if (level === "District") {
-      this.myDistData(districtid);
+      this.districtWise(districtid)
       this.distlevel(districtid)
       this.levelVal = 1;
     }
@@ -370,27 +381,23 @@ export class TeacherAttendanceComponent implements OnInit {
     this.selCluster = false;
     this.selBlock = false;
     this.selDist = false;
-    //  this.level= "blockPerDistrict";
     this.myDistrict = id;
-    //   this.levelWiseFilter();
   }
 
   blocklevel(id) {
     this.selCluster = false;
     this.selBlock = true;
     this.selDist = true;
-    // this.level= "clusterPerBlock";
+ 
     this.myBlock = id;
-    //   this.levelWiseFilter();
+
   }
 
   clusterlevel(id) {
     this.selCluster = true;
     this.selBlock = true;
     this.selDist = true;
-    // this.level= "schoolPerCluster";
     this.myCluster = id;
-    //  this.levelWiseFilter();
   }
 
 
@@ -738,11 +745,16 @@ export class TeacherAttendanceComponent implements OnInit {
     this.timePeriod = {
       period: this.period,
     };
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView1()
+    }
+    
 
   }
 
-  async districtWise() {
+  async districtWise(distId?,bid?,cid?) {
     this.commonAtStateLevel();
     this.levelWise = "District";
     this.googleMapZoom = 7;
@@ -853,6 +865,10 @@ export class TeacherAttendanceComponent implements OnInit {
             this.globalService.onResize(this.levelWise);
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
+            if(distId){
+              this.myDistData(distId,bid,cid)
+            }
+            
           },
           (err) => {
             this.dateRange = "";

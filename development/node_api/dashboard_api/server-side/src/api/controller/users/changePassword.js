@@ -68,14 +68,12 @@ router.post('/:id', auth.authController, async (req, res) => {
                 res.status(404).json({ errMsg: error.response.data.errorMessage });
             })
 
-
         } else {
             let usersUrl = `${host}/auth/admin/realms/${realm}/users/${userId}/reset-password`;
             let newPass = {
                 type: "password",
                 temporary: false,
                 value: req.body.cnfpass
-                
             };
              let headers = {
                  "Content-Type": "application/json",

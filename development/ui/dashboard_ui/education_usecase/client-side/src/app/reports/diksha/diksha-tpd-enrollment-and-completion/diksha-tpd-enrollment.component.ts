@@ -113,9 +113,19 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
-    this.getAllData();
-    this.getProgramData();
-    this.getView1();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+      this.getProgramData();
+    }else{
+       this.getAllData();
+      this.getProgramData();
+      
+      setTimeout(() => {
+        this.getView();
+      }, );
+    
+    }
+    
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -167,8 +177,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     this.emptyChart();
-    this.getAllData();
-    this.getProgramData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+      this.getProgramData();
+     
+    }else{
+
+      this.getView()
+    }
+    
   }
 
   deleteSingle(id: string) {
@@ -349,7 +366,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.programBarData = this.programData.filter((program) => {
         return program.program_id === this.selectedProgram;
       });
-
+     
       var chartData = {
         labels: "",
         data: "",
@@ -357,7 +374,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.programBarData = this.programBarData.sort((a, b) =>
         a.district_name > b.district_name ? 1 : -1
       );
-
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       chartData["labels"] = this.programBarData.map((a) => {
         return a.district_name;
       });
@@ -372,12 +389,20 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           certificate_per: a.certificate_percentage,
         };
       });
-
-      this.result = chartData;
-      this.reportData = this.programBarData;
-      setTimeout(() => {
-        this.getBarChartData();
-      }, 100);
+     
+        this.result = chartData;
+        this.reportData = this.programBarData;
+        setTimeout(() => {
+          this.getBarChartData();
+        }, 100);
+      }else{
+         setTimeout(() =>{
+          this.getView()
+        },500)
+       
+      }
+      
+      
 
     } catch (error) {
       this.result = [];
@@ -397,19 +422,28 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.collectionNames = [];
-          if (this.level == 'district') {
-            this.collectionNames = res["allCollections"];
-            this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            if (this.level == 'district') {
+              this.collectionNames = res["allCollections"];
+              this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+            }
+          }else{
+            
+              this.collectionNames = res["allCollections"];
+              this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+            
           }
+          
 
           if (this.level == 'program') {
+            
             this.collectionNames = []
             this.collectionData = res["allData"];
             let collectionlist = this.collectionData.data.filter((program) => {
               return program.program_id === this.selectedProgram;
             });
 
-
+         
             if (collectionlist) {
               let collections = [];
 
@@ -422,6 +456,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
                 }
               });
               this.collectionNames = collections;
+              
 
             }
           }
@@ -474,26 +509,31 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
-    if (this.level == "program") {
-      setTimeout(() => {
-        document.getElementById("spinner").style.display = "none";
-      }, 200);
-      this.getProgramData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      if (this.level == "program") {
+        setTimeout(() => {
+          document.getElementById("spinner").style.display = "none";
+        }, 200);
+        this.getProgramData();
+      }
+      if (this.level == "district") {
+        setTimeout(() => {
+          this.getAllData();
+        }, 100);
+      }
+      if (this.level == "block") {
+        this.onDistSelect(this.districtId);
+      }
+      if (this.level == "cluster") {
+        this.onBlockSelect(this.blockId);
+      }
+      if (this.level == "school") {
+        this.onClusterSelect(this.clusterId);
+      }
+    }else{
+      this.getView()
     }
-    if (this.level == "district") {
-      setTimeout(() => {
-        this.getAllData();
-      }, 100);
-    }
-    if (this.level == "block") {
-      this.onDistSelect(this.districtId);
-    }
-    if (this.level == "cluster") {
-      this.onBlockSelect(this.blockId);
-    }
-    if (this.level == "school") {
-      this.onClusterSelect(this.clusterId);
-    }
+    
   }
 
   //Showing data based on level selected:::::::
@@ -517,7 +557,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   selDist = false;
   hideDist: boolean = this.hideIfAccessLevel === true ? true : false
   levelVal = 0;
-
+  hideFooter = false
   schoolLevel = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
@@ -531,11 +571,14 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.skul = true;
     this.schoolLevel = level === "School" ? true : false
-
+    
     if (level === "School") {
+      this.hideFooter = true
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
+      if (this.courseSelected) this.districtSelected = true
+      if (this.programSeleted) this.districtSelected = true
       this.clusterLinkClick(clusterid);
       this.selCluster = true;
       this.selBlock = true;
@@ -545,12 +588,16 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
+      if (this.courseSelected) this.districtSelected = true
+      if (this.programSeleted) this.districtSelected = true
+      
       this.clusterLinkClick(clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
+      
       this.blockId = blockid;
       this.districtId = districtid;
       this.blockLinkClick(blockid);
@@ -970,7 +1017,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           }
 
           this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${clusterId}_${this.commonService.dateAndTime}`;
-          this.reportData = res["downloadData"];
+          if (this.schoolLevel) {
+            this.reportData = res["downloadData"].filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+          }else{
+            this.reportData = res["downloadData"];
+          }
+          
           this.getBarChartData();
           this.commonService.loaderAndErr(this.result);
         },
@@ -1065,8 +1117,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
               };
             }
           }
-
-          this.getBarChartData();
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            this.getBarChartData();
+          }else{
+            this.getView()
+          }
+          
 
           this.commonService.loaderAndErr(this.result);
         },

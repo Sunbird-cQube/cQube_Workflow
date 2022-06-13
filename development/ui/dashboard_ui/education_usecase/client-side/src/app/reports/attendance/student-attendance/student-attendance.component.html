@@ -62,10 +62,7 @@
                                 (click)="downloadRaw()">Download
                                 Academic Year Data</a>
                             <p *ngIf="!academicYear" id="errMsg" class="note"></p>
-                            <button class="btn btn-primary" title="User Level Access" id="download1"
-                                [hidden]="hideAccessBtn" (click)="getView1()">
-                                Access Level
-                            </button>
+
                         </div>
                         <div class="col-sm-4">
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
@@ -129,8 +126,8 @@
                         [disabled]="hideAllSchoolBtn" (click)="schoolWise($event)">&nbsp;<strong>Schools</strong>
                     </button>
 
-                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideIfAccessLevel" [disabled] = "selDist"
-                        (change)="distSelect($event,myDistrict)" >
+                    <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideIfAccessLevel"
+                        [disabled]="selDist" (change)="distSelect($event,myDistrict)">
                         <option [value]="myDistrict" disabled selected="selected" style="color: white;">Choose a
                             District
                         </option>
@@ -159,7 +156,7 @@
                         </option>
                     </select>
 
-                   
+
 
                     <span class="note" id="trends" [routerLink]="['/attendance/student-attendance-chart']"
                         style="margin-right: 25px; cursor: pointer; float: right !important; font-weight: bold; text-decoration: underline; font-size: 13px; color: #3100cc">Click
@@ -216,7 +213,7 @@
     </div>
 
     <div class="row" id="footer">
-        <div class="col-sm-2">
+        <div [hidden]="hideFooter " class="col-sm-2">
             <div id="outer">
                 <div id="absolute" (click)="getColor('absolute')"
                     [ngStyle]="{'background-color' : selected == 'absolute' ? '#3100cc' : '#f5f6fb'}">
@@ -235,9 +232,10 @@
         <div class="col-sm-10">
             <span id="name" class="note" style="text-align: center;">Management Type: {{managementName}}</span>
 
-            <span id="students" style="margin-left: 4%;">Number of Students: {{studentCount}}</span>
+            <span id="students" [hidden]="hideFooter " style="margin-left: 4%;">Number of Students:
+                {{studentCount}}</span>
 
-            <span id="schools" style="text-align: center; margin-left: 4%;">Number of Schools:
+            <span id="schools" [hidden]="hideFooter " style="text-align: center; margin-left: 4%;">Number of Schools:
                 {{schoolCount}}</span>
 
             <span id="dateRange" style="float: right;">Date range: {{dateRange}}</span>

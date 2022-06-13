@@ -56,16 +56,42 @@ export class UsageByTextbookContentComponent implements OnInit {
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false
 
-
+showError = false
   ngOnInit(): void {
     this.state = this.commonService.state;
 
     document.getElementById('accessProgressCard').style.display = "none";
-    this.collectionWise();
+    
+    
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.collectionWise();
+    }else{
+      if (this.userAccessLevel === "District"){
+           this.getview()
+      }else{
+        document.getElementById('spinner').style.display = "none"
+         this.showError = true
+      }
+    }
     this.onResize();
 
-
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
+  }
+  
+  getview(){
+    this.timeDetails=[]
+    let distId = localStorage.getItem('userLocation')
+    this.service.dikshaTableMetaData().subscribe(async result => {
+      this.districtsDetails = result['districtDetails']
+      await result['timeRange'].forEach((element) => {
+        var obj = { timeRange: element, name: this.changeingStringCases(element.replace(/_/g, ' ')) }
+        this.timeDetails.push(obj);
+      });
+      await this.timeDetails.push({ timeRange: "all", name: "Overall" });
+      await this.timeDetails.reverse();
+      this.districtWise(distId)
+    })
+    
   }
 
   height = window.innerHeight;
@@ -98,7 +124,12 @@ export class UsageByTextbookContentComponent implements OnInit {
   default() {
     this.currentPage = 1;
     this.collectionType = "textbook";
-    this.collectionWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.collectionWise();
+    }else{
+      this.getview()
+    }
+    
   }
 
   collectionWise() {
@@ -189,9 +220,10 @@ export class UsageByTextbookContentComponent implements OnInit {
       this.service.dikshaDistrictTableData({ districtId: districtId, collectionType: this.collectionType }).subscribe(res => {
         this.fileName = `${this.reportName}_${this.timePeriod}_${districtId}_${this.commonService.dateAndTime}`;
         this.updatedTable = this.result = res;
+        this.reportData = this.result;
         this.onChangePage();
 
-        this.reportData = this.result;
+        
       }, err => {
         this.loaderAndErr();
       })
