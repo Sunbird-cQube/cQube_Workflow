@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { KeycloakSecurityService } from '../../../keycloak-security.service';
 import { environment } from 'src/environments/environment';
+import { HomeComponent } from "../../../home/home.component"
+
 declare const $;
 
 @Component({
@@ -24,6 +26,7 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
     this.changePasswdData['userName'] = localStorage.getItem('userName');
+    
   }
 
   ngOnInit() {
@@ -48,6 +51,11 @@ export class ChangePasswordComponent implements OnInit {
           document.getElementById('spinner').style.display = 'none';
           this.isDisabled = true;
           formData.resetForm();
+          if(environment.auth_api === 'state'){
+            localStorage.clear();
+            
+            window.location.href = `${environment.appUrl}/#/signin`;
+          }
           setTimeout(() => {
             localStorage.clear();
             let options = {
