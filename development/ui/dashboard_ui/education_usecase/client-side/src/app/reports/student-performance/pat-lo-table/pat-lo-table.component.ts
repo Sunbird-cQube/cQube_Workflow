@@ -467,6 +467,7 @@ export class PATLOTableComponent implements OnInit {
       this.levelWiseFilter();
 
     } else {
+      this.resetTable();
       this.getView()
     }
   }
