@@ -77,8 +77,9 @@ showError = false
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
   }
-
+  
   getview(){
+    this.timeDetails=[]
     let distId = localStorage.getItem('userLocation')
     this.service.dikshaTableMetaData().subscribe(async result => {
       this.districtsDetails = result['districtDetails']
@@ -88,7 +89,7 @@ showError = false
       });
       await this.timeDetails.push({ timeRange: "all", name: "Overall" });
       await this.timeDetails.reverse();
-     await this.districtWise(distId)
+      this.districtWise(distId)
     })
     
   }
@@ -219,9 +220,10 @@ showError = false
       this.service.dikshaDistrictTableData({ districtId: districtId, collectionType: this.collectionType }).subscribe(res => {
         this.fileName = `${this.reportName}_${this.timePeriod}_${districtId}_${this.commonService.dateAndTime}`;
         this.updatedTable = this.result = res;
+        this.reportData = this.result;
         this.onChangePage();
 
-        this.reportData = this.result;
+        
       }, err => {
         this.loaderAndErr();
       })

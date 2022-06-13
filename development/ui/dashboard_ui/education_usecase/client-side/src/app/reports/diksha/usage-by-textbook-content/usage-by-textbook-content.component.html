@@ -81,7 +81,7 @@
     </div>
   </div>
   <div class="row reportContainer">
-    <div *ngIf="showError" class="col-sm-12 dataTableCustom" [ngStyle]="{
+    <div *ngIf="!showError" class="col-sm-12 dataTableCustom" [ngStyle]="{
         fontSize:
           height > 1760
             ? '34px'

@@ -264,8 +264,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selDist = true;
       this.districtWise(districtid, blockid,clusterid)
 
-      this.blockHidden = true
-      this.selCluster = true;
+  
     } else if (level === "Block") {
       this.selCluster = false;
       this.selBlock = true;
@@ -274,7 +273,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.myBlock = Number(blockid);
       this.districtWise(districtid, blockid)
 
-      this.blockHidden = true
+   
 
     } else if (level === "District") {
       this.selCluster = false;
@@ -2180,7 +2179,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = false;
     this.skul = false;
     this.clusterHidden = false;
-    this.blockHidden = this.hideIfAccessLevel ? true : false;
+    this.blockHidden = this.selBlock ? true : false;
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
       if (this.month_year.month) {
@@ -2405,8 +2404,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden = !this.hideAccessBtn ? true : false;
-    this.blockHidden = !this.hideAccessBtn ? true : false
+    this.clusterHidden = this.selBlock ? true : false;
+    this.blockHidden = this.selCluster ? true : false
 
     if (this.months.length > 0) {
       var month = this.months.find((a) => a.id === this.month);
