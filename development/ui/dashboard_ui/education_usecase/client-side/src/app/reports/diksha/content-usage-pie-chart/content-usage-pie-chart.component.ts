@@ -84,7 +84,7 @@ showError = false
 
   getview(){
     let distId = localStorage.getItem('userLocation')
-    
+    this.districtSelectBox = false;
     try {
       this.service.dikshaPieDist().subscribe(res => {
         let distData = res['data'].data;
@@ -93,7 +93,7 @@ showError = false
         this.distData = filteredKeys
           .reduce((obj, key) => ({ ...obj, [key]: distData[key] }), {});
         
-        this.districtSelectBox = false;
+        
         this.createDistPiechart()
       })
 
@@ -150,6 +150,7 @@ showError = false
       this.getStateData();
       this.multiSelect1.resetSelected();
     }else{
+      this.onStateDropSelected("State with Districts")
       this.getview()
     }
     
