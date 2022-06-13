@@ -240,7 +240,7 @@ router.post('/login', async (req, res, next) => {
                     } else {
                         res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
                     }
-                    // res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
+                  
                 }).catch(error => {
 
                     res.status(409).json({ errMsg: error.response.data.errorMessage });
