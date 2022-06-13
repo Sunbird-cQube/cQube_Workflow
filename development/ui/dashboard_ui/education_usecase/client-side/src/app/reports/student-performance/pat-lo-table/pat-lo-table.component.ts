@@ -295,7 +295,7 @@ export class PATLOTableComponent implements OnInit {
         }
         if (i > 3) {
           headers += `<th class="rank text-wrap"><div style="transform: rotate(270deg);">${col}</div></th>`;
-        } else {
+        }else {
           if (col == 'Indicator') {
             headers += `<th class="indicator">${col}</th>`;
           } else {
@@ -678,7 +678,7 @@ export class PATLOTableComponent implements OnInit {
     this.commonService.errMsg();
     let a = {
       year: this.year,
-      month: this.month,
+       month: this.month,
       grade: this.grade == "all" ? "" : this.grade,
       subject_name: this.subject == "all" ? "" : this.subject,
       exam_date: this.examDate == "all" ? "" : this.examDate,
@@ -715,7 +715,7 @@ export class PATLOTableComponent implements OnInit {
         this.blockHidden = this.selBlock ? true : false;
         this.clusterHidden = this.selCluster ? true : false;
       },
-      (err) => {
+      (err) => {        
         this.handleError();
       }
     );
@@ -809,6 +809,9 @@ export class PATLOTableComponent implements OnInit {
                 : 0
           );
           this.selectedCluster(clusterid);
+        }, (err) => {
+
+          this.handleError();
         })
 
       this.clusterHidden = true
