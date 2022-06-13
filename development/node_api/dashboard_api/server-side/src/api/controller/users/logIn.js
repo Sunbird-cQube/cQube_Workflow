@@ -236,7 +236,6 @@ router.post('/login', async (req, res, next) => {
 
                         })
 
-
                     } else {
                         res.send({ token: token, role: 'report_viewer', username: username, userId: userId, user_level: userLevel, user_location: userLocation })
                     }
