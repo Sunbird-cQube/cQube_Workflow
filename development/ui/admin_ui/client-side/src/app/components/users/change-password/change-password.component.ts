@@ -18,8 +18,8 @@ export class ChangePasswordComponent implements OnInit {
   public isDisabled;
   otpConfig = environment.report_viewer_config_otp;
   public userName = localStorage.getItem('userName')
-  public otpToggle =  this.userName !== 'admin' ? true : false 
-  
+  public otpToggle = this.userName !== 'admin' ? true : false
+
   roleIds: any = [];
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
@@ -29,7 +29,7 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
-    
+
   }
 
   onSubmit(formData: NgForm) {
@@ -41,7 +41,7 @@ export class ChangePasswordComponent implements OnInit {
         this.err = "Password not matched";
         document.getElementById('spinner').style.display = 'none';
       } else {
-        this.service.changePassword(this.changePasswdData, localStorage.getItem('user_id')).subscribe(res => {
+        this.service.changePassword(this.changePasswdData, localStorage.getItem('userId')).subscribe(res => {
           document.getElementById('success').style.display = "Block";
           this.err = '';
           this.successMsg = res['msg'] + "\n" + " please login again...";
