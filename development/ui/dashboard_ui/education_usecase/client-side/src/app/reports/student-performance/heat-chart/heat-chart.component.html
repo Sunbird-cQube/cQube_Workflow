@@ -11,7 +11,7 @@
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
-                            Periodic Assessment Test Report for: <span (click)="resetToInitPage()"
+                            Periodic Assessment Test Report for: <span (click)=" resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="selectedDistrict(districtHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
@@ -19,7 +19,7 @@
                     </div>
                     <div *ngIf="blok">
                         <p id="cluster">
-                            Periodic Assessment Test Report for: <span (click)="resetToInitPage()"
+                            Periodic Assessment Test Report for: <span (click)=" resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(blockHierarchy.distId):''"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -31,7 +31,7 @@
 
                     <div *ngIf="clust">
                         <p id="school">
-                            Periodic Assessment Test Report for: <span (click)="resetToInitPage()"
+                            Periodic Assessment Test Report for: <span (click)=" resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(clusterHierarchy.distId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -42,16 +42,7 @@
                                 {{clusterHierarchy.clusterName}}</span></p>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <button class="btn btn-primary" [hidden]=" hideAccessBtn" id="download1"
-                                (click)="getView()">
-                                Access Level
-                            </button>
-                        </div>
-                    </div>
-                </div>
+              
                 <div class="col-sm-3">
                     <div class="row">
                         <div class="col-sm-7">
@@ -133,14 +124,14 @@
                     </select>
 
 
-                    <select [hidden]="blockHidden " id="block" class="select-control" [(ngModel)]="block"
+                    <select [hidden]="blockHidden" id="block" class="select-control" [(ngModel)]="block"
                         [disabled]="selBlock" (change)="selectedBlock(block)">
                         <option [value]="block" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockNames, let i =index" [(ngValue)]="block.block_id">
                             {{block.block_name}}
                         </option>
                     </select>
-                    <select [hidden]="clusterHidden " id="cluster" class="select-control mr-0" [(ngModel)]="cluster"
+                    <select [hidden]="clusterHidden" id="cluster" class="select-control mr-0" [(ngModel)]="cluster"
                         [disabled]="selCluster" (change)="selectedCluster(cluster)">
                         <option [value]="cluster" disabled selected="selected">Choose a Cluster</option>
                         <option *ngFor="let cluster of clusterNames, let i =index" [(ngValue)]="cluster.cluster_id">

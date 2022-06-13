@@ -23,7 +23,8 @@
             <p id="cluster">
               CRC Report for:
               <span (click)="onClockHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span>
-                | </span><span (click)="!selDist? myDistData(distName):''" style="cursor: pointer; text-decoration: underline">
+                | </span><span (click)="!selDist? myDistData(distName):''"
+                style="cursor: pointer; text-decoration: underline">
                 {{ titleName }}</span><span> | </span><span (click)="!selCluster? myBlockData(blockName):''"
                 style="cursor: pointer; text-decoration: underline" class="selected-level">
                 {{ hierName }}</span>
@@ -34,22 +35,15 @@
             <p id="school">
               CRC Report for:
               <span (click)="onClockHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span><span>
-                | </span><span (click)="!selDist? myDistData(distName):''" style="cursor: pointer; text-decoration: underline">
+                | </span><span (click)="!selDist? myDistData(distName):''"
+                style="cursor: pointer; text-decoration: underline">
                 {{ titleName }}</span><span> | </span><span (click)="!selCluster? myBlockData(blockName):''"
                 style="cursor: pointer; text-decoration: underline">
                 {{ title }}</span><span> | </span><span class="selected-level"> {{ hierName }}</span>
             </p>
           </div>
         </div>
-        <div class="col-lg-2 col-md-3 col-sm-12">
-          <div class="row">
-            <div class="col-sm-7">
-              <button class="btn btn-primary" [hidden]="hideAccessBtn" id="download1" (click)="getView()">
-                Access Level
-              </button>
-            </div>
-          </div>
-        </div>
+
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-4">
@@ -62,8 +56,8 @@
                   Download Report &nbsp;
                   <i class="fa fa-arrow-down" aria-hidden="true"></i>
                 </button>
-                <select *ngIf="reportData.length > 0" [hidden]="hideIfAccessLevel" class="dwnld" id="downloader"
-                  [(ngModel)]="downloadType" name="downloadType">
+                <select *ngIf="reportData.length > 0" class="dwnld" id="downloader" [(ngModel)]="downloadType"
+                  name="downloadType">
                   <option [value]="downloadType" disabled selected="selected">
                     Choose Report
                   </option>
@@ -133,8 +127,8 @@
               {{ months[i] }}
             </option>
           </select>
-          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideIfAccessLevel" [disabled] = "selDist"
-            (change)="myDistData(myDistrict)">
+          <select id="choose_dist" [(ngModel)]="myDistrict" name="myDistrict" [hidden]="hideIfAccessLevel"
+            [disabled]="selDist" (change)="myDistData(myDistrict)">
             <option [value]="myDistrict" disabled selected="selected">
               Choose District
             </option>
@@ -143,7 +137,7 @@
             </option>
           </select>
 
-          <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock" [disabled] = "selBlock"
+          <select [hidden]="blockHidden" id="choose_block" [(ngModel)]="myBlock" name="myBlock" [disabled]="selBlock"
             (change)="myBlockData(myBlock)">
             <option [value]="myBlock" disabled selected="selected">
               Choose Block
@@ -153,8 +147,8 @@
             </option>
           </select>
 
-          <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster" [disabled] = "selCluster"
-            (change)="myClusterData(myCluster)">
+          <select [hidden]="clusterHidden" id="choose_cluster" [(ngModel)]="myCluster" name="myCluster"
+            [disabled]="selCluster" (change)="myClusterData(myCluster)">
             <option [value]="myCluster" disabled selected="selected">
               Choose a Cluster
             </option>
@@ -229,13 +223,13 @@
       <span id="visits">Total Number of visits: {{ visitCount }}</span>
     </div>
     <div style="margin-right: 5%">
-      <span id="schools" style="text-align: center">Total Number of Schools: {{ schoolCount }}</span>
+      <span id="schools" [hidden] = "hideFooter" style="text-align: center">Total Number of Schools: {{ schoolCount }}</span>
     </div>
     <div style="margin-right: 5%">
-      <span id="visited" style="float: right">Total schools visited: {{ visitedSchools }}</span>
+      <span id="visited" [hidden] = "hideFooter" style="float: right">Total schools visited: {{ visitedSchools }}</span>
     </div>
     <div style="margin-right: 5%">
-      <span id="notVisited" style="float: right">Total schools not visited: {{ notVisitedSchools }}</span>
+      <span id="notVisited" [hidden] = "hideFooter" style="float: right">Total schools not visited: {{ notVisitedSchools }}</span>
     </div>
   </div>
 </div>

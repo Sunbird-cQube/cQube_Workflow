@@ -181,14 +181,23 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               month: null,
               year: null,
             };
-            this.levelWiseFilter();
+            if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+              this.levelWiseFilter();
+            } else {
+              this.getView1()
+            }
           }
         } else {
           this.dateRange = "";
           this.changeDetection.detectChanges();
 
           this.getMonthYear = {};
-          this.levelWiseFilter();
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            this.levelWiseFilter();
+          } else {
+            this.getView1()
+          }
+
         }
         this.toHideDropdowns
       },
@@ -222,7 +231,8 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
-
+  schoolLevel = false
+  hideFooter = false
   getView1() {
 
     let id = localStorage.getItem("userLocation");
@@ -231,20 +241,29 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
+    this.schoolLevel = level === "School" ? true : false;
 
-
-
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.hideFooter = true
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
       this.myCluster = Number(clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
-      this.myDistData(districtid, blockid, clusterid)
+      this.districtWise(districtid, blockid, clusterid)
 
-      this.blockSelect({ type: "click" }, blockid);
-      this.clusterSelect({ type: "click" }, clusterid);
+      this.blockHidden = true
+      this.selCluster = true;
+    } else if (level === "Cluster") {
+      this.myDistrict = Number(districtid);
+      this.myBlock = Number(blockid);
+      this.myCluster = Number(clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.districtWise(districtid, blockid,clusterid)
+
       this.blockHidden = true
       this.selCluster = true;
     } else if (level === "Block") {
@@ -253,18 +272,18 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       this.selDist = true;
       this.myDistrict = Number(districtid);
       this.myBlock = Number(blockid);
-      this.myDistData(districtid, blockid, clusterid)
-      this.blockSelect({ type: "click" }, blockid);
+      this.districtWise(districtid, blockid)
+
       this.blockHidden = true
-      
+
     } else if (level === "District") {
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
 
       this.myDistrict = districtid;
+      this.districtWise(districtid)
 
-      this.distSelect({ type: "click" }, districtid, blockid, clusterid);
 
     }
   }
@@ -463,7 +482,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       period: this.period,
       report: "sarException",
     };
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView1()
+    }
+    
 
   }
 
@@ -476,7 +500,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     infoWindow.close();
   }
 
-  async districtWise() {
+  async districtWise(distId?,bid?,cid?) {
     this.commonAtStateLevel();
     this.level = "District";
     this.googleMapZoom = 7;
@@ -574,6 +598,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
               .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
+            if (distId) {
+              this.distSelect({ type: "click" }, distId, bid, cid);
+            }
           },
           (err) => {
             this.dateRange = "";
@@ -581,6 +608,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.markers = [];
             this.districtsNames = [];
             this.commonService.loaderAndErr(this.markers);
+            
           }
         );
     } else {
@@ -1088,7 +1116,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-               
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
@@ -1204,11 +1232,11 @@ export class StudentAttendanceExceptionComponent implements OnInit {
                 clustNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-              
+
                 blockNames.sort((a, b) =>
                   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                 );
-              
+
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1889,7 +1917,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
   onClick_Marker(event) {
     var marker = event.target;
     this.markerData = marker.myJsonData;
-    this.clickedMarker(event, marker.myJsonData);
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      this.clickedMarker(event, marker.myJsonData);
+    }
   }
 
   // clickMarker for Google map
@@ -1898,7 +1928,9 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       return false;
     }
     this.markerData = marker;
-    this.clickedMarker(event, marker);
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      this.clickedMarker(event, marker);
+    }
   }
 
   distSelect(event, data, blockid?, clusterid?) {
@@ -2083,7 +2115,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
             if (blockid) {
-              this.myBlockData(blockid, clusterid)
+              this.blockSelect({ type: "click" }, blockid,clusterid);
             }
           },
           (err) => {
@@ -2101,7 +2133,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     globalMap.addLayer(this.layerMarkers);
   }
 
-  blockSelect(event, data) {
+  blockSelect(event, data,cid?) {
     var blokData: any = {};
     this.blockData.find((a) => {
       if (a.block_id == data) {
@@ -2114,7 +2146,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
       }
     });
     this.getTelemetryData(blokData, event.type, "block");
-    this.myBlockData(data);
+    this.myBlockData(data,cid);
   }
 
   clusterData = [];
@@ -2303,7 +2335,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             this.commonService.loaderAndErr(this.markers);
             this.changeDetection.markForCheck();
             if (clusterid) {
-              this.myClusterData(clusterid)
+              this.clusterSelect({type:'clicked'},clusterid)
             }
           },
           (err) => {
@@ -2373,7 +2405,7 @@ export class StudentAttendanceExceptionComponent implements OnInit {
     this.clust = true;
     this.skul = false;
 
-    this.clusterHidden = false;
+    this.clusterHidden = !this.hideAccessBtn ? true : false;
     this.blockHidden = !this.hideAccessBtn ? true : false
 
     if (this.months.length > 0) {
@@ -2458,7 +2490,16 @@ export class StudentAttendanceExceptionComponent implements OnInit {
         .schoolsPerCluster({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
-            this.reportData = this.mylatlngData = res["schoolsDetails"];
+            if (this.schoolLevel) {
+              let schoolData = res['schoolsDetails'];
+
+              let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+
+              this.reportData = this.mylatlngData = data;
+            } else {
+              this.reportData = this.mylatlngData = res["schoolsDetails"];
+            }
+
             this.dateRange = res["dateRange"];
             var uniqueData = this.mylatlngData.reduce(function (
               previous,

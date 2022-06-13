@@ -154,58 +154,63 @@ export class UdiseReportComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
 
-    if (params && params.level) {
-      this.changeDetection.detectChanges();
-      let data = params.data;
-      if (params.level === "district") {
-        this.districtHierarchy = {
-          distId: data.id,
-        };
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      if (params && params.level) {
+        this.changeDetection.detectChanges();
+        let data = params.data;
+        if (params.level === "district") {
+          this.districtHierarchy = {
+            distId: data.id,
+          };
 
-        this.districtId = data.id;
-        this.getDistricts();
-        this.onDistrictSelect(data.id);
-      } else if (params.level === "block") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
+          this.districtId = data.id;
+          this.getDistricts();
+          this.onDistrictSelect(data.id);
+        } else if (params.level === "block") {
+          this.districtHierarchy = {
+            distId: data.districtId,
+          };
 
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.id,
-        };
+          this.blockHierarchy = {
+            distId: data.districtId,
+            blockId: data.id,
+          };
 
-        this.districtId = data.districtId;
-        this.blockId = data.id;
-        this.getDistricts();
-        this.getBlocks(data.districtId, data.id);
-      } else if (params.level === "cluster") {
-        this.districtHierarchy = {
-          distId: data.districtId,
-        };
+          this.districtId = data.districtId;
+          this.blockId = data.id;
+          this.getDistricts();
+          this.getBlocks(data.districtId, data.id);
+        } else if (params.level === "cluster") {
+          this.districtHierarchy = {
+            distId: data.districtId,
+          };
 
-        this.blockHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-        };
+          this.blockHierarchy = {
+            distId: data.districtId,
+            blockId: data.blockId,
+          };
 
-        this.clusterHierarchy = {
-          distId: data.districtId,
-          blockId: data.blockId,
-          clusterId: data.id,
-        };
+          this.clusterHierarchy = {
+            distId: data.districtId,
+            blockId: data.blockId,
+            clusterId: data.id,
+          };
 
-        this.districtId = data.blockHierarchy;
-        this.blockId = data.blockId;
-        this.clusterId = data.id;
-        this.getDistricts();
-        this.getBlocks(data.districtId);
-        this.getClusters(data.districtId, data.blockId, data.id);
+          this.districtId = data.blockHierarchy;
+          this.blockId = data.blockId;
+          this.clusterId = data.id;
+          this.getDistricts();
+          this.getBlocks(data.districtId);
+          this.getClusters(data.districtId, data.blockId, data.id);
+        }
+      } else {
+        this.changeDetection.detectChanges();
+        this.levelWiseFilter();
       }
-    } else {
-      this.changeDetection.detectChanges();
-      this.levelWiseFilter();
+    }else{
+      this.getView()
     }
+    
 
     //this.getView1();
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
@@ -274,7 +279,12 @@ export class UdiseReportComponent implements OnInit {
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView()
+    }
+    
   }
 
 
@@ -1677,7 +1687,7 @@ export class UdiseReportComponent implements OnInit {
           };
 
           // to show and hide the dropdowns
-          this.blockHidden = false;
+          this.blockHidden = this.selBlock ? true : false;
           this.clusterHidden = false;
 
           this.districtId = this.data[0].details.district_id;
@@ -1770,7 +1780,15 @@ export class UdiseReportComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              this.markers = this.data = res["data"];
+              
+              if (this.schoolLevel) {
+                let schoolData = res['data']
+                let data = schoolData.filter(data => data.details.school_id === Number(localStorage.getItem('schoolId')))
+
+                this.markers = this.data = data
+              } else {
+                this.markers = this.data = res["data"];
+              }
               this.gettingIndiceFilters(this.data);
 
               this.schoolMarkers = this.data;
@@ -1803,8 +1821,8 @@ export class UdiseReportComponent implements OnInit {
                 clusterName: this.data[0].details.Cluster_Name,
               };
 
-              this.blockHidden = false;
-              this.clusterHidden = false;
+              this.blockHidden = this.selBlock ? true : false;
+              this.clusterHidden = this.selCluster ? true : false;
 
               this.districtHierarchy = {
                 distId: this.data[0].details.district_id,
@@ -2127,7 +2145,8 @@ export class UdiseReportComponent implements OnInit {
   selDist = false;
   distHidden = false
   levelVal = 0;
-
+  schoolLevel = false
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -2135,7 +2154,7 @@ export class UdiseReportComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
 
     if (districtid) {
       this.districtId = Number(districtid);
@@ -2148,7 +2167,14 @@ export class UdiseReportComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.hideFooter = true
+      this.onClusterSelect(clusterid)
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
 
       this.onClusterSelect(clusterid)
       this.selCluster = true;
@@ -2455,7 +2481,7 @@ export class UdiseReportComponent implements OnInit {
   onClick_Marker(event) {
     this.indiceFilter = [];
     var data = event.target.myJsonData.details;
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
@@ -2483,6 +2509,7 @@ export class UdiseReportComponent implements OnInit {
   onClick_AgmMarker(marker) {
     this.indiceFilter = [];
     var data = marker.details;
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === ''){
     if (data.district_id && !data.block_id && !data.cluster_id) {
       this.stateLevel = 1;
       this.onDistrictSelect(data.district_id);
@@ -2501,7 +2528,7 @@ export class UdiseReportComponent implements OnInit {
         blockId: data.block_id,
       };
       this.onClusterSelect(data.cluster_id);
-    }
+    }}
   }
 
   // to download the csv report

@@ -83,11 +83,15 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    } else {
+      this.getView1()
+      this.getView()
+    }
     document.getElementById('spinner').style.display = 'block';
-    this.getView1()
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
-
+    this.distHidden = !this.hideAccessBtn
     if (environment.auth_api !== 'cqube') {
       if (this.userAccessLevel !== '' || undefined) {
         this.hideIfAccessLevel = true;
@@ -99,7 +103,16 @@ export class SchoolInfrastructureComponent implements OnInit {
   selCluster = false;
   selBlock = false;
   selDist = false;
+  schoolLevel = false
 
+  onHomeClick() {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise()
+    } else {
+      this.getView()
+    }
+  }
+  hideFooter = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
@@ -108,11 +121,13 @@ export class SchoolInfrastructureComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-    if (level === "Cluster") {
-
+    this.schoolLevel = level === "School" ? true : false
+    if (level === "School") {
+      this.hideFooter = true
       this.downloadLevel = 'cluster';
-      document.getElementById('spinner').style.display = 'block'
-      this.myDistData(districtid, blockid, clusterid);
+      // document.getElementById('spinner').style.display = 'block'
+      // this.myDistData(districtid, blockid, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
@@ -120,30 +135,42 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
 
-    
+    } else if (level === "Cluster") {
 
-
+      this.downloadLevel = 'cluster';
+      document.getElementById('spinner').style.display = 'block'
+      this.districtWise(districtid, blockid, clusterid)
+      // this.myDistData(districtid, blockid, clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.myDistrict = Number(districtid)
+      this.myBlock = Number(blockid)
+      this.myCluster = Number(clusterid)
 
     } else if (level === "Block") {
 
       this.downloadLevel = 'block';
-      this.myDistData(districtid, blockid)
+      this.districtWise(districtid, blockid)
+      // this.myDistData(districtid, blockid)
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
       this.myDistrict = Number(districtid)
       this.myBlock = Number(blockid)
       this.myCluster = Number(clusterid)
-      
-
     } else if (level === "District") {
 
+      this.myData = this.service.infraDistWise({ management: this.management, category: this.category }).subscribe(res => {
+        this.SchoolInfrastructureDistrictsNames = this.result = res;
 
+      })
 
-      this.myDistData(districtid)
+      this.districtWise(districtid)
+      // this.myDistData(districtid)
       this.distHidden = true
       this.myDistrict = Number(districtid)
-    
+
       this.selCluster = false;
       this.selBlock = false;
       this.selDist = false;
@@ -179,7 +206,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   reportName = 'composite_report';
 
 
-  districtWise() {
+  districtWise(distId?, bid?, cid?) {
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'dist';
@@ -217,6 +244,9 @@ export class SchoolInfrastructureComponent implements OnInit {
       this.SchoolInfrastructureDistrictsNames.sort((a, b) => (a.district.value > b.district.value) ? 1 : ((b.district.value > a.district.value) ? -1 : 0));
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
+      if (distId) {
+        this.myDistData(distId, bid, cid)
+      }
     }, err => {
       this.result = [];
       this.createChart(["clg"], [], '', {});
@@ -245,8 +275,8 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     this.distName = data;
     let obj = this.districtsNames.find(o => o.id == data);
-    this.hierName = obj.name;
-    localStorage.setItem('dist', obj.name);
+    this.hierName = obj?.name;
+    localStorage.setItem('dist', obj?.name);
     localStorage.setItem('distId', data);
 
     this.blockHidden = false;
@@ -271,7 +301,7 @@ export class SchoolInfrastructureComponent implements OnInit {
 
       this.commonService.loaderAndErr(this.result);
       this.changeDetection.markForCheck();
-      if (blockid && clusterid) {
+      if (blockid) {
         this.myBlockData(blockid, clusterid)
       }
       else if (blockid) {
@@ -287,7 +317,7 @@ export class SchoolInfrastructureComponent implements OnInit {
   }
 
   myBlockData(data, clusterid?) {
-    
+
     this.xAxisFilter = [];
     this.yAxisFilter = [];
     this.downloadLevel = 'cluster';
@@ -306,16 +336,14 @@ export class SchoolInfrastructureComponent implements OnInit {
 
     localStorage.setItem('blockId', data);
     this.titleName = localStorage.getItem('dist');
-     this.distName = JSON.parse(localStorage.getItem('distId'));
-    
-    
+    this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = data;
     let obj = this.blockNames.find(o => o.id == data);
     localStorage.setItem('block', JSON.stringify(obj?.name));
 
     this.hierName = obj?.name;
 
-    this.blockHidden = false;
+    this.blockHidden = this.selBlock ? true : false;
     this.clusterHidden = false;
 
 
@@ -364,25 +392,51 @@ export class SchoolInfrastructureComponent implements OnInit {
     this.commonService.errMsg();
     this.modes = [];
     this.reportData = [];
-
+    this.chartData = []
     this.title = JSON.parse(localStorage.getItem('block'));
-    //this.title = localStorage.getItem('block');
+
     this.titleName = localStorage.getItem('dist');
     var distId = JSON.parse(localStorage.getItem('distId'));
     var blockId = JSON.parse(localStorage.getItem('blockId'));
     this.distName = JSON.parse(localStorage.getItem('distId'));
     this.blockName = blockId;
     this.clustName = data;
-    let obj = this.clusterNames.find(o => o.id == data);
-    this.hierName = obj.name;
+
+    let obj = this.clusterNames.find(o => o.id == Number(data));
+
+    this.hierName = obj?.name;
     localStorage.setItem('clusterId', data);
+    let schoolId = localStorage.getItem('schoolId')
 
-
+    this.blockHidden = this.selBlock ? true : false;
+    this.clusterHidden = this.selCluster ? true : false;
     if (this.myData) {
       this.myData.unsubscribe();
     }
-    this.myData = this.service.infraSchoolWise(distId, blockId, data, { management: this.management, category: this.category }).subscribe(res => {
-      this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+    this.myData = this.service.infraSchoolWise(distId, blockId, data, { management: this.management, category: this.category, schoolId: schoolId, schoolLevel: this.schoolLevel }).subscribe(res => {
+
+      if (this.schoolLevel) {
+        let result = res
+
+        let data = []
+        for (var i = 0; result['length']; i++) {
+          if (result[i].school.id === Number(localStorage.getItem('schoolId'))) {
+
+            data.push(result[i])
+            break
+          }
+
+        }
+        if (data.length === 0) {
+          document.getElementById('spinner').style.display = "none"
+          return
+        }
+        this.reportData = this.SchoolInfrastructureSchoolNames = this.result = data;
+      } else {
+        this.reportData = this.SchoolInfrastructureSchoolNames = this.result = res;
+      }
+
+
       // for download========
       this.funToDownload(this.reportData);
       //for chart =============================================
@@ -581,7 +635,9 @@ export class SchoolInfrastructureComponent implements OnInit {
     if ($.fn.DataTable.isDataTable('#table')) {
       $('#table').DataTable().destroy();
       $('#table').empty();
+
     }
+
     var my_columns = [];
     $.each(dataSet[0], function (key, value) {
       var my_item = {};
@@ -654,7 +710,7 @@ export class SchoolInfrastructureComponent implements OnInit {
         destroy: true, bLengthChange: false, bInfo: false,
         bPaginate: false, scrollY: '38vh', scrollX: true,
         scrollCollapse: true, paging: false, searching: false,
-        responsive: true,
+        responsive: true
       });
     });
   }

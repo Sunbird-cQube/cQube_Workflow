@@ -113,15 +113,25 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.state = this.commonService.state;
     document.getElementById("accessProgressCard").style.display = "none";
-    this.getAllData();
-    this.getProgramData();
-    this.getView1();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+      this.getProgramData();
+    }else{
+       this.getAllData();
+      this.getProgramData();
+      
+      setTimeout(() => {
+        this.getView();
+      }, );
+    
+    }
+    
 
-    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined ) ? true : false;
-    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined ) ? false : true;
+    this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
+    this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
 
     if (environment.auth_api !== 'cqube') {
-      if (this.userAccessLevel !== "" || undefined ) {
+      if (this.userAccessLevel !== "" || undefined) {
         this.hideIfAccessLevel = true;
       }
 
@@ -167,8 +177,15 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
     this.emptyChart();
-    this.getAllData();
-    this.getProgramData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.getAllData();
+      this.getProgramData();
+     
+    }else{
+
+      this.getView()
+    }
+    
   }
 
   deleteSingle(id: string) {
@@ -349,7 +366,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.programBarData = this.programData.filter((program) => {
         return program.program_id === this.selectedProgram;
       });
-
+     
       var chartData = {
         labels: "",
         data: "",
@@ -357,7 +374,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       this.programBarData = this.programBarData.sort((a, b) =>
         a.district_name > b.district_name ? 1 : -1
       );
-
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       chartData["labels"] = this.programBarData.map((a) => {
         return a.district_name;
       });
@@ -372,12 +389,20 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           certificate_per: a.certificate_percentage,
         };
       });
-
-      this.result = chartData;
-      this.reportData = this.programBarData;
-      setTimeout(() => {
-        this.getBarChartData();
-      }, 100);
+     
+        this.result = chartData;
+        this.reportData = this.programBarData;
+        setTimeout(() => {
+          this.getBarChartData();
+        }, 100);
+      }else{
+         setTimeout(() =>{
+          this.getView()
+        },500)
+       
+      }
+      
+      
 
     } catch (error) {
       this.result = [];
@@ -397,19 +422,28 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.collectionNames = [];
-          if (this.level == 'district') {
-            this.collectionNames = res["allCollections"];
-            this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            if (this.level == 'district') {
+              this.collectionNames = res["allCollections"];
+              this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+            }
+          }else{
+            
+              this.collectionNames = res["allCollections"];
+              this.collectionNames.sort((a, b) => (a > b ? 1 : b > a ? -1 : 0));
+            
           }
+          
 
           if (this.level == 'program') {
+            
             this.collectionNames = []
             this.collectionData = res["allData"];
             let collectionlist = this.collectionData.data.filter((program) => {
               return program.program_id === this.selectedProgram;
             });
 
-
+         
             if (collectionlist) {
               let collections = [];
 
@@ -422,6 +456,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
                 }
               });
               this.collectionNames = collections;
+              
 
             }
           }
@@ -474,26 +509,31 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
 
     this.time = this.timePeriod == "all" ? "overall" : this.timePeriod;
     this.fileToDownload = `diksha_raw_data/tpd_report2/${this.time}/${this.time}.csv`;
-    if (this.level == "program") {
-      setTimeout(() => {
-        document.getElementById("spinner").style.display = "none";
-      }, 200);
-      this.getProgramData();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      if (this.level == "program") {
+        setTimeout(() => {
+          document.getElementById("spinner").style.display = "none";
+        }, 200);
+        this.getProgramData();
+      }
+      if (this.level == "district") {
+        setTimeout(() => {
+          this.getAllData();
+        }, 100);
+      }
+      if (this.level == "block") {
+        this.onDistSelect(this.districtId);
+      }
+      if (this.level == "cluster") {
+        this.onBlockSelect(this.blockId);
+      }
+      if (this.level == "school") {
+        this.onClusterSelect(this.clusterId);
+      }
+    }else{
+      this.getView()
     }
-    if (this.level == "district") {
-      setTimeout(() => {
-        this.getAllData();
-      }, 100);
-    }
-    if (this.level == "block") {
-      this.onDistSelect(this.districtId);
-    }
-    if (this.level == "cluster") {
-      this.onBlockSelect(this.blockId);
-    }
-    if (this.level == "school") {
-      this.onClusterSelect(this.clusterId);
-    }
+    
   }
 
   //Showing data based on level selected:::::::
@@ -517,6 +557,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
   selDist = false;
   hideDist: boolean = this.hideIfAccessLevel === true ? true : false
   levelVal = 0;
+  hideFooter = false
+  schoolLevel = false
   getView() {
     let id = JSON.parse(localStorage.getItem("userLocation"));
     let level = localStorage.getItem("userLevel");
@@ -528,18 +570,34 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blok = false;
     this.clust = false;
     this.skul = true;
-
-
-    if (level === "Cluster") {
+    this.schoolLevel = level === "School" ? true : false
+    
+    if (level === "School") {
+      this.hideFooter = true
       this.blockId = blockid;
       this.districtId = districtid;
       this.clusterId = clusterid;
+      if (this.courseSelected) this.districtSelected = true
+      if (this.programSeleted) this.districtSelected = true
+      this.clusterLinkClick(clusterid);
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
+      this.blockId = blockid;
+      this.districtId = districtid;
+      this.clusterId = clusterid;
+      if (this.courseSelected) this.districtSelected = true
+      if (this.programSeleted) this.districtSelected = true
+      
       this.clusterLinkClick(clusterid);
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
       this.levelVal = 3;
     } else if (level === "Block") {
+      
       this.blockId = blockid;
       this.districtId = districtid;
       this.blockLinkClick(blockid);
@@ -617,17 +675,17 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     let compliChartData = [];
     let pecentChartData = [];
 
-    if (this.result.labels.length <= 25) {
+    if (this.result.labels?.length <= 25) {
       for (let i = 0; i <= 25; i++) {
         this.category.push(this.result.labels[i] ? this.result.labels[i] : " ");
       }
     } else {
-      this.result.labels.forEach((item) => {
+      this.result.labels?.forEach((item) => {
         this.category = this.result.labels;
       });
 
     }
-    this.result.data.forEach((element, i) => {
+    this.result.data?.forEach((element, i) => {
 
       if (
         (this.level === "district") &&
@@ -732,8 +790,8 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.blocks = [];
     this.clusters = [];
 
-     this.blockId = undefined;
-     this.clusterId = undefined;
+    this.blockId = undefined;
+    this.clusterId = undefined;
     this.yAxisLabel = "Block Names";
     this.xAxisLabel = "Total Numbers"
     var requestBody: any = {
@@ -809,7 +867,7 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
     this.clust = false;
     this.clusters = [];
 
-     this.clusterId = undefined;
+    this.clusterId = undefined;
     this.yAxisLabel = "Cluster Names";
 
 
@@ -926,7 +984,27 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
       .tpdSchoolEnrollCompAll(requestBody)
       .subscribe(
         async (res) => {
-          this.result = res["chartData"];
+          let chartData = { }
+
+          if (this.schoolLevel) {
+            let schoolData = res['downloadData']
+        
+            schoolData.filter(data => {
+              if (data.school_id === Number(localStorage.getItem('schoolId'))) {
+                chartData['labels'] = [data.school_name]
+                chartData['data'] = [{
+                  enrollment: data.total_enrolled,
+                  completion: data.total_completed,
+                  certificate_value: data.certificate_count,
+                }];
+              }
+            })
+          
+            this.result = chartData;
+          } else {
+            this.result = res["chartData"];
+          }
+     
           if (res["downloadData"].length !== 0) {
             this.clusterHierarchy = {
               distId: res["downloadData"][0].district_id,
@@ -939,7 +1017,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
           }
 
           this.fileName = `${this.reportName}_${this.type}_${this.timePeriod}_${clusterId}_${this.commonService.dateAndTime}`;
-          this.reportData = res["downloadData"];
+          if (this.schoolLevel) {
+            this.reportData = res["downloadData"].filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+          }else{
+            this.reportData = res["downloadData"];
+          }
+          
           this.getBarChartData();
           this.commonService.loaderAndErr(this.result);
         },
@@ -1034,8 +1117,12 @@ export class DikshaTpdEnrollmentComponent implements OnInit {
               };
             }
           }
-
-          this.getBarChartData();
+          if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+            this.getBarChartData();
+          }else{
+            this.getView()
+          }
+          
 
           this.commonService.loaderAndErr(this.result);
         },

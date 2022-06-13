@@ -49,11 +49,11 @@
         <div class="col-lg-2 col-md-3 col-sm-12">
           <div class="row">
 
-            <div class="col-sm-7">
+            <!-- <div class="col-sm-7">
               <button class="btn btn-primary" [hidden]="hideAccessBtn" id="download1" (click)="getView()">
                 Access Level
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
@@ -203,7 +203,7 @@
     </div>
   </div>
   <div class="row" id="footer">
-    <div class="col-sm-3">
+    <div [hidden] = "hideFooter" class="col-sm-3">
       <div id="outer">
         <div id="absolute" (click)="getColor('absolute')" [ngStyle]="{
             'background-color': selected == 'absolute' ? '#3100cc' : '#f5f6fb'
@@ -224,7 +224,7 @@
     <div class="col-sm-4">
       <span id="name" class="note" style="text-align: center">Management Type: {{ managementName }}</span>
     </div>
-    <div class="col-sm-5" *ngIf="!valueRange || valueRange == '0-100'">
+    <div [hidden] = "hideFooter" class="col-sm-5" *ngIf="!valueRange || valueRange == '0-100'">
       <span id="schools" class="note" style="text-align: center">Number of Schools: {{ schoolCount }}</span>
     </div>
   </div>

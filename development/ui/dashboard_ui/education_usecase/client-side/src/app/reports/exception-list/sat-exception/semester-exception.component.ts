@@ -173,7 +173,11 @@ export class SemesterExceptionComponent implements OnInit {
       this.semesters = res["data"];
       if (this.semesters.length > 0 && !this.semester)
         this.semester = this.semesters[this.semesters.length - 1].id;
-      this.levelWiseFilter();
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.levelWiseFilter();
+      }else{
+        this.getView1()
+      }
     }, err => {
       this.semesters = [];
       this.commonService.loaderAndErr(this.semesters);
@@ -182,14 +186,22 @@ export class SemesterExceptionComponent implements OnInit {
 
 
   semSelect() {
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    } else {
+      this.getView1()
+    }
   }
 
   onGradeSelect(data) {
     this.fileName = `${this.reportName}_${this.period}_${this.grade}_${this.subject ? this.subject : ''}_all_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subject = '';
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    } else {
+      this.getView1()
+    }
   }
 
   levelWiseFilter() {
@@ -222,11 +234,16 @@ export class SemesterExceptionComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
+  schoolLevel = false
+  hideFooter = false
   getView() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.clusterlevel(id);
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.clusterlevel(id);
       this.levelVal = 3;
     } else if (level === "Block") {
@@ -245,7 +262,14 @@ export class SemesterExceptionComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
+    this.schoolLevel = level === "School" ? true : false;
 
+    this.service.gradeMetaData({ period: this.period, report: 'sat_exception' }).subscribe(res => {
+      if (res['data']['district']) {
+        this.allGrades = res['data']['district'];
+        this.allGrades.sort((a, b) => (a.grade > b.grade) ? 1 : ((b.grade > a.grade) ? -1 : 0));
+        this.allGrades = [{ grade: "all" }, ...this.allGrades.filter(item => item !== { grade: "all" })];
+      }})
     if (districtid !== 'null') {
       this.districtId = districtid;
       this.distHidden = false;
@@ -264,7 +288,20 @@ export class SemesterExceptionComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.hideFooter = true
+      this.clusterId = Number(clusterid);
+      this.blockId = blockid?.toString();
+      this.districtId = districtid;
+      this.blockHierarchy = {
+        blockId: blockid,
+        distId: districtid
+      }
+
+      this.onClusterSelect(clusterid);
+      this.clusterlevel(clusterid);
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
       this.clusterId = Number(clusterid);
       this.blockId = blockid?.toString();
       this.districtId = districtid;
@@ -296,27 +333,26 @@ export class SemesterExceptionComponent implements OnInit {
     this.selCluster = false;
     this.selBlock = false;
     this.selDist = false;
-    //this.level= "blockPerDistrict";
     this.districtId = id;
-    //this.levelWiseFilter();
+    
   }
 
   blocklevel(id) {
     this.selCluster = false;
     this.selBlock = true;
     this.selDist = true;
-    //this.level= "clusterPerBlock";
+    
     this.blockId = id;
-    //this.levelWiseFilter();
+    
   }
 
   clusterlevel(id) {
     this.selCluster = true;
     this.selBlock = true;
     this.selDist = true;
-    //this.level= "schoolPerCluster";
+    
     this.clusterId = id;
-    //this.levelWiseFilter();
+    
   }
 
 
@@ -326,7 +362,7 @@ export class SemesterExceptionComponent implements OnInit {
     this.grade = 'all';
     this.period = 'overall';
     this.level = "District";
-    this.blok = true;
+    
     this.subject = '';
     this.districtSelected = false;
     this.selectedCluster = false;
@@ -334,7 +370,13 @@ export class SemesterExceptionComponent implements OnInit {
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.blok = true;
+      this.districtWise();
+    }else{
+      this.getView1()
+    }
+  
   }
 
   // to load all the districts for state data on the map
@@ -731,7 +773,7 @@ export class SemesterExceptionComponent implements OnInit {
               this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            
               this.globalService.onResize(this.level);
             } else {
               let result = this.data['data'];
@@ -750,7 +792,7 @@ export class SemesterExceptionComponent implements OnInit {
               this.globalService.restrictZoom(globalMap);
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(this.data, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            
               this.globalService.onResize(this.level);
             }
 
@@ -860,7 +902,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+             
               this.globalService.onResize(this.level);
             } else if (this.blockSelected) {
               let result = this.data['data']
@@ -904,7 +946,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+             
               this.globalService.onResize(this.level);
             } else if (this.selectedCluster) {
               let result = this.data['data']
@@ -930,7 +972,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(markers, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              
               this.globalService.onResize(this.level);
             } else {
               let result = this.data['data']
@@ -947,7 +989,7 @@ export class SemesterExceptionComponent implements OnInit {
               globalMap.scrollWheelZoom.enable();
               globalMap.setMaxBounds([[options.centerLat - 4.5, options.centerLng - 6], [options.centerLat + 3.5, options.centerLng + 6]]);
               this.genericFun(this.data, options, this.fileName);
-              // this.schoolCount = this.data['footer'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            
               this.globalService.onResize(this.level);
             }
 
@@ -1150,6 +1192,7 @@ export class SemesterExceptionComponent implements OnInit {
   public hideAllCLusterBtn: boolean = false
   public hideAllSchoolBtn: boolean = false
   onClusterSelect(clusterId) {
+    
     this.hideAllBlockBtn = true
     this.blockSelected = false
     this.districtSelected = false
@@ -1174,14 +1217,31 @@ export class SemesterExceptionComponent implements OnInit {
     }
     this.myData = this.service.patExceptionBlock({ ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'sat_exception', semester: this.semester }, ...{ management: this.management, category: this.category } }).subscribe(result => {
       this.myData = this.service.patExceptionSchoolPerClustter(this.blockHierarchy.distId, this.blockHierarchy.blockId, clusterId, { ...{ grade: this.grade, subject: this.subject, timePeriod: this.period, report: 'sat_exception', semester: this.semester }, ...{ management: this.management, category: this.category } }).subscribe(res => {
-        this.data = res;
-        this.markers = this.schoolMarkers = this.data['data'];
-        this.allSubjects = [];
-        if (this.grade != 'all') {
-          this.allSubjects = this.data['subjects'].filter(a => {
-            return a != 'grade';
-          });
+       
+        if (this.schoolLevel) {
+          let schoolData = res['data']
+          let data = {}
+          data['data'] = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+          this.data = data;
+          this.markers = this.schoolMarkers = data
+          this.allSubjects = [];
+          if (this.grade != 'all') {
+            this.allSubjects = res['subjects'].filter(a => {
+              return a != 'grade';
+            });
+          }
+        } else {
+          this.data = res;
+          this.markers = this.schoolMarkers = this.data['data'];
+          this.allSubjects = [];
+          if (this.grade != 'all') {
+            this.allSubjects = this.data['subjects'].filter(a => {
+              return a != 'grade';
+            });
+          }
         }
+       
+       
         var markers = result['data'];
         var myBlocks = [];
         markers.forEach(element => {
@@ -1374,25 +1434,28 @@ export class SemesterExceptionComponent implements OnInit {
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
     var data = event.target.myJsonData;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id)
-    }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id)
       }
-      this.onBlockSelect(data.block_id)
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id
+        }
+        this.onBlockSelect(data.block_id)
       }
-      this.onClusterSelect(data.cluster_id)
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id
+        }
+        this.onClusterSelect(data.cluster_id)
+      }
     }
+    
   }
 
   // clickMarker for Google map
@@ -1401,25 +1464,28 @@ export class SemesterExceptionComponent implements OnInit {
       return false;
     }
     var data = marker;
-    if (data.district_id && !data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.onDistrictSelect(data.district_id)
-    }
-    if (data.district_id && data.block_id && !data.cluster_id) {
-      this.stateLevel = 1;
-      this.districtHierarchy = {
-        distId: data.district_id
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
+      if (data.district_id && !data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.onDistrictSelect(data.district_id)
       }
-      this.onBlockSelect(data.block_id)
-    }
-    if (data.district_id && data.block_id && data.cluster_id) {
-      this.stateLevel = 1;
-      this.blockHierarchy = {
-        distId: data.district_id,
-        blockId: data.block_id
+      if (data.district_id && data.block_id && !data.cluster_id) {
+        this.stateLevel = 1;
+        this.districtHierarchy = {
+          distId: data.district_id
+        }
+        this.onBlockSelect(data.block_id)
       }
-      this.onClusterSelect(data.cluster_id)
+      if (data.district_id && data.block_id && data.cluster_id) {
+        this.stateLevel = 1;
+        this.blockHierarchy = {
+          distId: data.district_id,
+          blockId: data.block_id
+        }
+        this.onClusterSelect(data.cluster_id)
+      }
     }
+    
   }
 
   // google maps

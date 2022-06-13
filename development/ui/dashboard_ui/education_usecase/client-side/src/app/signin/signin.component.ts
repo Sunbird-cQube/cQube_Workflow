@@ -147,6 +147,15 @@ export class SigninComponent implements OnInit {
 
         localStorage.setItem('districtId', districtId);
         localStorage.setItem('clusterId', clusterId);
+      } else if (userLevel === "School") {
+        schoolId = res['schoolId']
+        districtId = res['districtId']
+        blockId = res['blockId']
+        clusterId = res['clusterId']
+        localStorage.setItem('blockId', blockId)
+        localStorage.setItem('schoolId', schoolId)
+        localStorage.setItem('districtId', districtId);
+        localStorage.setItem('clusterId', clusterId);
       } else if (userLevel === null || userLevel === ''|| userLevel === 'State' ){
 
       }

@@ -49,12 +49,7 @@
                             <p id="errMsg" class="note">
                             </p>
                         </div>
-                        <div class="col-sm-4">
-                            <button class="btn btn-primary" [hidden]="hideAccessBtn" (click)="getView1()"
-                                id="download1">
-                                Access Level
-                            </button>
-                        </div>
+                        
                         <div class="col-sm-5">
                             <button *ngIf="reportData.length>0" class="btn btn-primary" title="Download Report"
                                 id="download1" (click)="downloadReport()">Download Report &nbsp; <i
@@ -169,7 +164,7 @@
     </div>
     <div class="row" id="footer">
         <div class="col-sm-4">
-            <span id="schools" style="text-align: center;">Total School Not Received Data:
+            <span id="schools" [hidden] = "hideFooter" style="text-align: center;">Total School Not Received Data:
                 {{schoolCount}}</span>
         </div>
         <div class="col-sm-4">

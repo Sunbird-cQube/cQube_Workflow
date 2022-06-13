@@ -252,7 +252,13 @@ export class StudengtAttendanceComponent implements OnInit {
             this.changeDetection.detectChanges();
             this.getDistricts();
           } else {
-            this.levelWiseFilter();
+            if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+              this.levelWiseFilter();
+            }else{
+              
+              this.getView1()
+            }
+            
           }
         }
       },
@@ -283,7 +289,8 @@ export class StudengtAttendanceComponent implements OnInit {
     }
   }
 
-
+  schoolLevel = false
+  hideFooter = false
   getView1() {
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
@@ -291,7 +298,7 @@ export class StudengtAttendanceComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
     if (districtid !== 'null') {
       this.myDistrict = districtid;
       this.distHidden = false;
@@ -309,21 +316,34 @@ export class StudengtAttendanceComponent implements OnInit {
     }
 
 
-    if (level === "Cluster") {
+    if (level === "School") {
+      this.hideFooter = true
       this.selCluster = true;
       this.selBlock = true;
-      this.myDistData(districtid, blockid, clusterid);
+      this.districtWise(districtid, blockid, clusterid)
+      // this.myDistData(districtid, blockid, clusterid);
+      this.blockSelect({ type: "click" }, blockid);
+      this.clusterSelect({ type: "change" }, clusterid);
+      this.clusterlevel(clusterid);
+      this.levelVal = 3;
+    } else if (level === "Cluster") {
+      this.selCluster = true;
+      this.selBlock = true;
+      this.districtWise(districtid, blockid, clusterid)
+      // this.myDistData(districtid, blockid, clusterid);
       this.blockSelect({ type: "click" }, blockid);
       this.clusterSelect({ type: "change" }, clusterid);
       this.clusterlevel(clusterid);
       this.levelVal = 3;
     } else if (level === "Block") {
       this.selBlock = true;
-      this.myDistData(districtid, blockid);
+      this.districtWise(districtid, blockid)
+      // this.myDistData(districtid, blockid);
       this.blocklevel(blockid)
       this.levelVal = 2;
     } else if (level === "District") {
-      this.myDistData(districtid);
+      this.districtWise(districtid)
+      // this.myDistData(districtid);
       this.distlevel(districtid)
       this.levelVal = 1;
     }
@@ -728,11 +748,16 @@ export class StudengtAttendanceComponent implements OnInit {
     this.timePeriod = {
       period: this.period,
     };
-    this.districtWise();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.districtWise();
+    }else{
+      this.getView1()
+    }
+    
 
   }
 
-  async districtWise() {
+  async districtWise(distId?, bid?,cid?) {
     try {
       this.commonAtStateLevel();
       this.levelWise = "District";
@@ -844,6 +869,9 @@ export class StudengtAttendanceComponent implements OnInit {
               this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
+              if(distId){
+                this.myDistData(distId, bid,cid)
+              }
             },
             (err) => {
               this.dateRange = "";
@@ -1160,7 +1188,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 this.globalService.restrictZoom(globalMap);
 
                 //Setting map bound for scroll::::::::::::
-               
+
                 globalMap.setMaxBounds([
                   [this.lat - 4.5, this.lng - 6],
                   [this.lat + 3.5, this.lng + 6],
@@ -1594,7 +1622,7 @@ export class StudengtAttendanceComponent implements OnInit {
                   }
 
                 })
-                                this.mylatlngData = marker;
+                this.mylatlngData = marker;
                 this.hierName = marker[0].district_name;
                 this.titleName = "";
                 this.clustName = "";
@@ -1698,7 +1726,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 })
 
                 this.mylatlngData = marker;
-                
+
                 this.hierName = marker[0].block_name;
                 this.titleName = marker[0].district_name;
                 this.clustName = "";
@@ -2762,7 +2790,18 @@ export class StudengtAttendanceComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-              this.mylatlngData = res["schoolsDetails"];
+              if (this.schoolLevel) {
+
+                let schoolData = res['schoolsDetails']
+
+                let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
+
+                this.mylatlngData = data;
+              
+              } else {
+                this.mylatlngData = res["schoolsDetails"];
+              }
+
               this.dateRange = res["dateRange"];
               var uniqueData = this.mylatlngData.reduce(function (
                 previous,

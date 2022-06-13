@@ -13,6 +13,7 @@ import * as R from "leaflet-responsive-popup";
 import { AppServiceComponent } from "../../../app.service";
 import { MapService, globalMap } from '../../../services/map-services/maps.service';
 import { environment } from "src/environments/environment";
+
 declare const $;
 
 @Component({
@@ -179,7 +180,9 @@ export class SatReportComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
 
+   
     if (params && params.level) {
+      
       this.changeDetection.detectChanges();
       if (params.timePeriod == "overall") {
         params.timePeriod = "overall";
@@ -245,6 +248,7 @@ export class SatReportComponent implements OnInit {
         this.commonService.loaderAndErr([]);
       });
     } else {
+      
       this.service.getYears().subscribe(res => {
         try {
           res['data'].map(a => {
@@ -258,6 +262,7 @@ export class SatReportComponent implements OnInit {
       }, err => {
         this.commonService.loaderAndErr([]);
       });
+    
     }
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.distHide = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -277,14 +282,23 @@ export class SatReportComponent implements OnInit {
     if (this.semesters.length > 0) {
       this.semester = this.semesters[this.semesters.length - 1].id;
 
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.levelWiseFilter();
 
-      this.levelWiseFilter();
-      this.changeDetection.detectChanges();
+      }else{
+       this.getView()
+      } 
+       this.changeDetection.detectChanges();
     }
   }
 
   semSelect() {
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView()
+    }
+    
     this.changeDetection.detectChanges();
   }
 
@@ -374,7 +388,9 @@ export class SatReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    this.levelWiseFilter();
+  
+      this.levelWiseFilter();
+  
   }
   onSubjectSelect(data) {
     if (this.semester == "") {
@@ -418,6 +434,8 @@ export class SatReportComponent implements OnInit {
   selBlock = false;
   selDist = false;
   levelVal = 0;
+  schoolLevel = false
+  hideFooter = false
 
   getView() {
     let id = localStorage.getItem("userLocation");
@@ -426,7 +444,8 @@ export class SatReportComponent implements OnInit {
     let blockid = localStorage.getItem("blockId");
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
-
+    this.schoolLevel = level === "School" ? true : false
+    
     if (districtid) {
       this.districtId = districtid;
     }
@@ -437,9 +456,30 @@ export class SatReportComponent implements OnInit {
       this.clusterId = clusterid;
 
     }
+    this.service
+      .gradeMetaData({
+        report: "sat",
+        year: this.year,
+        sem: this.semester,
+      })
+      .subscribe(
+        (res) => {
+          if (res["data"]["district"]) {
+            this.allGrades = res["data"]["district"];
+          }
+          this.allGrades.sort((a, b) =>
+            a.grade > b.grade ? 1 : b.grade > a.grade ? -1 : 0
+          );
+        })
 
+    if (level === "School") {
+      this.hideFooter = true
+      this.onclusterLinkClick(clusterid)
+      this.selCluster = true;
+      this.selBlock = true;
+      this.selDist = true;
 
-    if (level === "Cluster") {
+    } if (level === "Cluster") {
       this.onclusterLinkClick(clusterid)
       this.selCluster = true;
       this.selBlock = true;
@@ -2607,8 +2647,8 @@ export class SatReportComponent implements OnInit {
           };
 
           // to show and hide the dropdowns
-          this.blockHidden = false;
-          this.clusterHidden = false;
+          this.blockHidden = this.selBlock ? true : false;
+          this.clusterHidden =  false;
 
           this.districtId = this.data[0].Details.district_id;
           this.blockId = blockId;
@@ -2678,6 +2718,7 @@ export class SatReportComponent implements OnInit {
   public hideAllBlockBtn: boolean = false;
   public hideAllCLusterBtn: boolean = false
   public hideAllSchoolBtn: boolean = false;
+  
   onClusterSelect(clusterId) {
 
     this.hideAllBlockBtn = true;
@@ -2730,7 +2771,29 @@ export class SatReportComponent implements OnInit {
             )
             .subscribe(
               (res) => {
-                this.markers = this.data = res["data"];
+                if (res['data'].length === 0) {
+                  document.getElementById('loader').style.display = "none"
+                  document.getElementById('errMsg').style.display = "block"
+                  return;
+                }
+                if (this.schoolLevel) {
+                  let schoolData = res['data']
+                  let data = schoolData.filter(data => data.Details.school_id === Number(localStorage.getItem('schoolId')))
+                 
+                 if(data.length === 0){
+                   document.getElementById('loader').style.display = "none"
+                   document.getElementById('errMsg').style.display = "block"
+                   document.getElementById('errMsg').style.display = "block"
+
+                   return
+                 }else{
+                   this.markers = this.data = data
+                 }
+                 
+                } else {
+                  this.markers = this.data = res["data"];
+                }
+              
                 if (this.grade) {
                   this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                 }
@@ -2769,26 +2832,27 @@ export class SatReportComponent implements OnInit {
                       ? -1
                       : 0
                 );
-
+                 
                 // set hierarchy values
                 this.clusterHierarchy = {
-                  distId: this.data[0].Details.district_id,
-                  districtName: this.data[0].Details.district_name,
-                  blockId: this.data[0].Details.block_id,
-                  blockName: this.data[0].Details.block_name,
-                  clusterId: Number(this.data[0].Details.cluster_id),
-                  clusterName: this.data[0].Details.cluster_name,
+                  distId: this.data[0]?.Details.district_id,
+                  districtName: this.data[0]?.Details.district_name,
+                  blockId: this.data[0]?.Details.block_id,
+                  blockName: this.data[0]?.Details.block_name,
+                  clusterId: Number(this.data[0]?.Details.cluster_id),
+                  clusterName: this.data[0]?.Details.cluster_name,
                 };
 
-                this.blockHidden = false;
-                this.clusterHidden = false;
+                this.blockHidden =  this.selBlock ? true : false;
+                this.clusterHidden = this.selCluster ? true : false;
 
                 this.districtHierarchy = {
-                  distId: this.data[0].Details.district_id,
+                  distId: this.data[0]?.Details.district_id,
                 };
+                
 
-                this.districtId = this.data[0].Details.district_id;
-                this.blockId = this.data[0].Details.block_id;
+                this.districtId = this.data[0]?.Details.district_id;
+                this.blockId = this.data[0]?.Details.block_id;
                 this.clusterId = clusterId;
 
                 // these are for showing the hierarchy names based on selection
@@ -3236,19 +3300,16 @@ export class SatReportComponent implements OnInit {
         "<br>" +
         yourData;
       if (this.mapName != 'googlemap') {
-        const popup = R.responsivePopup({
+     
+        markerIcon.addTo(globalMap).bindTooltip(toolTip, {
+          direction: 'auto',
+          permanent: false,
           hasTip: false,
+          className: 'tooltip1',
           autoPan: false,
-          offset: [15, 20],
-        }).setContent(
-          "<b><u>Details</u></b>" +
-          "<br>" +
-          yourData1 +
-          "<br><br><b><u>Semester Exam Score (%)</u></b>" +
-          "<br>" +
-          yourData
-        );
-        markerIcon.addTo(globalMap).bindPopup(popup);
+          offset: [15, 10],
+          opacity: 1,
+        })
       } else {
         markers['label'] = toolTip;
       }
@@ -3314,7 +3375,7 @@ export class SatReportComponent implements OnInit {
   onClick_Marker(event) {
     var data = event.target.myJsonData.Details;
 
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
@@ -3345,7 +3406,7 @@ export class SatReportComponent implements OnInit {
     }
     var data = marker.Details;
 
-    if (this.userAccessLevel === null || this.userAccessLevel === undefined || this.userAccessLevel === 'State') {
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
         this.stateLevel = 1;
         this.onDistrictSelect(data.district_id);
