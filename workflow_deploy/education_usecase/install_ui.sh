@@ -2,9 +2,10 @@
 
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 mode_of_installation=$(awk ''/^mode_of_installation:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
+installation_host_ip=$(awk ''/^installation_host_ip:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 if [[ $mode_of_installation == "localhost" ]]; then
-ansible-playbook -i hosts ../ansible/install_ui.yml --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook -i hosts ../ansible/install_ui.yml -e "my_hosts=$installation_host_ip" --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
                                                              --extra-vars "@config.yml" \
 							                                 --extra-vars "@memory_config.yml" \
                                                              --extra-vars "@.version" \
@@ -15,7 +16,7 @@ ansible-playbook -i hosts ../ansible/install_ui.yml --tags "install" --extra-var
                                                              --extra-vars "usecase_name=education_usecase" \
                                                              --extra-vars "protocol=http"
 else
-ansible-playbook -i hosts ../ansible/install_ui.yml  --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook -i hosts ../ansible/install_ui.yml -e "my_hosts=$installation_host_ip" --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
                                                              --extra-vars "@config.yml" \
 							                                 --extra-vars "@memory_config.yml" \
                                                              --extra-vars "@.version" \

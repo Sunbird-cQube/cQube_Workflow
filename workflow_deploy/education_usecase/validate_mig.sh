@@ -119,30 +119,6 @@ if [[ $base_dir_status == 1 ]]; then
 fi
 }
 
-check_version(){
-if [[ ! "$base_dir" = /* ]] || [[ ! -d $base_dir ]]; then
-    echo "Error - Please enter the absolute path or make sure the directory is present.";
-    exit 1
-else
-   if [[ -e "$base_dir/cqube/.cqube_config" ]]; then   
-        installed_ver=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_WORKFLOW_VERSION )
-        installed_version=$(cut -d "=" -f2 <<< "$installed_ver") 
-	if [[ ! $installed_version == "" ]]; then	
-            echo "Currently cQube $installed_version version is installed in this machine. Follow Upgradtion process if you want to upgrade."
-            echo "If you re-run the installation, all data will be lost"
-	    while true; do
-                read -p "Do you still want to re-run the installation (yes/no)? " yn
-                case $yn in
-                    yes) break;;
-                    no) exit;;
-                    * ) echo "Please answer yes or no.";;
-                esac
-            done
-    	fi   
-   fi
-fi
-}
-
 check_kc_config_otp(){
 if ! [[ $2 == "true" || $2 == "false" ]]; then
     echo "Error - Please enter either true or false for $1"; fail=1
@@ -180,26 +156,6 @@ else
 fi
 }
 
-check_postgres(){
-echo "Checking for Postgres ..."
-temp=$(psql -V > /dev/null 2>&1; echo $?)
-
-if [ $temp == 0 ]; then
-    version=`psql -V | head -n1 | cut -d" " -f3`
-    if [[ $(echo "$version >= 10.12" | bc) == 1 ]]
-    then
-        echo "WARNING: Postgres found."
-        echo "Removing Postgres..."
-        sudo systemctl stop kong.service > /dev/null 2>&1
-        sleep 5
-        sudo systemctl stop keycloak.service > /dev/null 2>&1
-        sleep 5
-        sudo systemctl stop postgresql
-        sudo apt-get --purge remove postgresql* -y
-        echo "Done"
-     fi
-fi
-}
 
 check_theme(){
 if ! [[ $2 == "theme1" || $2 == "theme2" || $2 == "theme3" ]]; then
@@ -410,7 +366,7 @@ case $key in
        else
           check_ip $key $value
        fi
-       ;;	   
+       ;;    
 	   
    *)
        if [[ $value == "" ]]; then
