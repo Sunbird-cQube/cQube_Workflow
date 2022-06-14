@@ -2863,7 +2863,6 @@ export class PATReportComponent implements OnInit {
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
     this.level = "longSchoolPerCluster";
-    // this.globalMarker = 13;
     this.globalMarker = 8;
 
     this.valueRange = undefined;
