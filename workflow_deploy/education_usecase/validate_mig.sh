@@ -254,8 +254,6 @@ slab2=$(awk ''/^slab2:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab3=$(awk ''/^slab3:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
-#check_mem
-check_version 
 
 # Iterate the array and retrieve values for mandatory fields from config file
 for i 
