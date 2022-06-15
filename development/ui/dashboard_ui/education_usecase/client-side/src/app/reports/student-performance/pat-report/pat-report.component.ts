@@ -451,7 +451,6 @@ export class PATReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
@@ -2980,7 +2979,7 @@ export class PATReportComponent implements OnInit {
                     centerLng: this.globalService.mapCenterLatlng.lng,
                     level: "longSchoolPerCluster",
                   };
-                  console.log(options)
+            
                   this.dataOptions = options;
                   this.globalService.latitude = this.lat = options.centerLat;
                   this.globalService.longitude = this.lng = options.centerLng;
@@ -3423,16 +3422,12 @@ export class PATReportComponent implements OnInit {
       "<br>" +
       yourData;
     if (this.mapName != 'googlemap') {
-
-      markerIcon.addTo(globalMap).bindTooltip(tooltipContent, {
-        direction: 'auto',
-        permanent: false,
-        className: 'tooltip1',
+      const popup = R.responsivePopup({
         hasTip: false,
         autoPan: false,
-        offset: [15, 10],
-        opacity: 1,
-      })
+        offset: [15, 20],
+      }).setContent(tooltipContent);
+      markerIcon.addTo(globalMap).bindPopup(popup);
 
     } else {
       markers['label'] = tooltipContent;
