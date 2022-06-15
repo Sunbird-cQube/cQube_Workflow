@@ -1298,7 +1298,7 @@ export class InfraMapVisualisationComponent implements OnInit {
                 centerLng: this.lng,
                 level: "School",
               };
-              // this.dataOptions = options;
+               this.dataOptions = options;
               this.schoolMarkers = [];
               if (this.data.length > 0) {
                 let result = this.data;
@@ -2367,7 +2367,7 @@ export class InfraMapVisualisationComponent implements OnInit {
     if (this.mapName != 'googlemap') {
       const popup = R.responsivePopup({
         hasTip: false,
-        autoPan: false,
+        autoPan: true,
         offset: [15, 20],
       }).setContent(
         "<b><u>Details</u></b>" +
@@ -2377,23 +2377,8 @@ export class InfraMapVisualisationComponent implements OnInit {
         "<br>" +
         yourData
       );
-
-      markerIcon.addTo(globalMap).bindTooltip("<div ><b><u>Details</u></b>" +
-        "<br>" +
-        yourData1 +
-        "<br><br><b><u>School Infrastructure Metrics (% of schools)</u></b>" +
-        "<br>" +
-        yourData + "</div>", {
-        direction: 'auto',
-        permanent: false,
-        className: 'tooltip1',
-        hasTip: false,
-        autoPan: false,
-        // sticky: true,
-        // offset: [auto, 30],
-        opacity: 1,
-      })
-
+      markerIcon.addTo(globalMap).bindPopup(popup);
+     
     } else {
       marker["label"] = toolTip
     }
@@ -2403,8 +2388,6 @@ export class InfraMapVisualisationComponent implements OnInit {
 
 
   popups(markerIcon, markers, level) {
-
-    let tooltipZIndex = 5000;
 
     markerIcon.on("mouseover", function (e) {
       this.openPopup();
