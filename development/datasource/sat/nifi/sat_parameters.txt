@@ -160,8 +160,9 @@ cluster_latitude=excluded.cluster_latitude,cluster_longitude=excluded.cluster_lo
 block_latitude=excluded.block_latitude,block_longitude=excluded.block_longitude,district_id=excluded.district_id,district_name=excluded.district_name,
 district_latitude=excluded.district_latitude,district_longitude=excluded.district_longitude,semester=excluded.semester,school_management_type=excluded.school_management_type,
 school_category=excluded.school_category,updated_on=now();""",
+"sat_semester_exam_mst_dup_table_name":"""semester_exam_mst_dup""",
 "sat_subject_footer_district_jolt_spec":"""[
- {
+  {
     "operation": "shift",
     "spec": {
       "*": {
@@ -170,7 +171,6 @@ school_category=excluded.school_category,updated_on=now();""",
     }
 	}
 ]""",
-"sat_semester_exam_mst_dup_table_name":"""semester_exam_mst_dup""",
 "sat_exception_grade_block_jolt_spec":"""[
   {
     "operation": "shift",
@@ -264,8 +264,6 @@ school_category=excluded.school_category,updated_on=now();""",
 """,
 "sat_filter_same_id_record_semester_exam_grade_details_qry":"""SELECT  school_id,grade,students_count from 
 (SELECT  school_id,grade,students_count,count(*) over (partition by school_id,grade) as rn from FLOWFILE) sq Where rn =1""",
-"sat_filter_same_record_semester_exam_subject_details_qry":"""select subject_id,subject,grade from (select  subject_id,subject,grade,row_number() over
-(partition by subject_id,subject,grade) as rn from flowfile) sq Where rn =1""",
 "sat_grade_cluster_jolt_spec":"""[
   {
     "operation": "shift",
@@ -332,6 +330,8 @@ school_category=excluded.school_category,updated_on=now();""",
       }
     }
 	}]""",
+"sat_filter_same_record_semester_exam_subject_details_qry":"""select subject_id,subject,grade from (select  subject_id,subject,grade,row_number() over
+(partition by subject_id,subject,grade) as rn from flowfile) sq Where rn =1""",
 "sat_trans_qst_agg":"""insert into semester_exam_school_qst_result(school_id,exam_code,exam_date,grade,total_marks,obtained_marks,indicator,question_id
 ,academic_year,students_attended,subject,school_name,cluster_id,cluster_name,total_students,
 block_id,block_name,district_id,district_name,school_management_type,school_category,created_on,updated_on)
@@ -388,6 +388,33 @@ section=excluded.section,
 question_id=excluded.question_id,
 obtained_marks=excluded.obtained_marks,
 updated_on=now()""",
+"sat_jolt_line_chart_block":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "block_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@block_name": "@(1,block_id).block_name[]",
+        "@block_performance": "@(1,block_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,block_id).performance.[&1].total_schools",
+        "@total_students": "@(1,block_id).performance.[&1].total_students",
+        "@students_attended": "@(1,block_id).performance.[&1].students_attended",
+        "semester": "@(1,block_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,block_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]""",
 "sat_semester_exam_qst_mst_count_null":"""(select
 SUM(CASE when question_id IS NULL THEN 1 ELSE 0 END) AS count_null_question_id,
 SUM(CASE when exam_id IS NULL THEN 1 ELSE 0 END) AS count_null_exam_id,
@@ -395,6 +422,33 @@ SUM(CASE when question_title IS NULL THEN 1 ELSE 0 END) AS count_null_question_t
 SUM(CASE when question IS NULL THEN 1 ELSE 0 END) AS count_null_question,
 SUM(CASE when question_marks IS NULL THEN 1 ELSE 0 END) AS count_null_question_marks
 from flowfile)""",
+"sat_jolt_line_chart_school":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "school_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@school_name": "@(1,school_id).school_name[]",
+        "@school_performance": "@(1,school_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,school_id).performance.[&1].total_schools",
+        "@total_students": "@(1,school_id).performance.[&1].total_students",
+        "@students_attended": "@(1,school_id).performance.[&1].students_attended",
+        "semester": "@(1,school_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,school_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]""",
 "sat_exam_block_jolt_spec":"""[
   {
     "operation": "shift",
@@ -530,10 +584,24 @@ HAVING  COUNT(*) > 1""",
       }
     }
 	}]""",
+"sat_jolt_line_chart_state":"""[{
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "state_performance": "@(1,academic_year).performance.[&1].state_performance",
+        "total_schools": "@(1,academic_year).performance.[&1].total_schools",
+        "total_students": "@(1,academic_year).performance.[&1].total_students",
+        "students_attended": "@(1,academic_year).performance.[&1].students_attended",
+        "semester": "@(1,academic_year).performance.[&1].semester",
+        "grade_wise_performance": "@(1,academic_year).Grades.@(1,semester)"
+      }
+    }
+	}
+]""",
 "sat_semester_exam_qst_mst_datatype":"""Optional(parseInt()),Optional(parseInt()),Optional(parseInt()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty()),Optional(StrNotNullOrEmpty())
 Optional(StrNotNullOrEmpty()),Optional(ParseDouble())""",
-"sat_exam_question_mst_table_name":"""semester_exam_mst""",
 "sat_remove_data_retention_qry":"""WITH deleted AS (delete from semester_exam_result_staging_1 sem where (to_date(substr(sem.exam_code,8,14),'ddmmyyyy')<(now() -(select concat(trim(coalesce(max(retention_period),90)::text),'days') from data_replay_meta)::interval)::date) and exam_code not in (select exam_code from semester_exam_mst sem join (select distinct unnest(string_to_array(regexp_replace(semesters,'[^0-9,]','','g'),',')) as semesters,academic_year from data_replay_meta where created_on>now()-'5days'::interval and cqube_process_status='SUCCESS' and data_source='semester_assessment_test') dsem on sem.semester=dsem.semesters::int and sem.assessment_year=dsem.academic_year) IS TRUE RETURNING *) SELECT CASE WHEN count(*)>0 THEN 'Deleted '||count(*)||' record from semester_exam_result_staging_1 due to retention policy' else 'SAT staging_1 completed' end as msg FROM deleted;""",
+"sat_exam_question_mst_table_name":"""semester_exam_mst""",
 "sat_semester_exam_subject_details_table_name":"""subject_details""",
 "sat_check_same_id_record_semester_exam_grade_details_qry":"""SELECT b.school_id,b.grade,b.students_count,count(*) num_of_times  from (select school_id,grade from flowfile
 group by school_id,grade having count(1)>1) as a, flowfile  b
@@ -808,7 +876,7 @@ or obtained_marks IS NULL""",
 where subject_id is null or grade is null""",
 "sat_semester_exam_result_dup_table_name":"""semester_exam_result_dup""",
 "sat_subject_footer_block_jolt_spec":"""[
- {
+  {
     "operation": "shift",
     "spec": {
       "*": {
@@ -902,17 +970,44 @@ where school_id is null or grade is null""",
       }
     }
 	}]""",
+"sat_semester_exam_result_trans_datatype":"""Optional(parseInt()),Optional(parseInt()),Optional(StrNotNullOrEmpty()),Optional(parseLong()),Optional(parseLong()),Optional(parseLong()),Optional(parseInt()),
+Optional(StrNotNullOrEmpty()),Optional(parseInt()),Optional(parseDouble())""",
 "semester_exam_grade_details_count_null":"""(select
 SUM(CASE when school_id IS NULL THEN 1 ELSE 0 END) AS count_null_school_id,
 SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
 from flowfile)""",
-"sat_semester_exam_result_trans_datatype":"""Optional(parseInt()),Optional(parseInt()),Optional(StrNotNullOrEmpty()),Optional(parseLong()),Optional(parseLong()),Optional(parseLong()),Optional(parseInt()),
-Optional(StrNotNullOrEmpty()),Optional(parseInt()),Optional(parseDouble())""",
 "sat_null_column_table_name":"""sat_null_col""",
 "sat_check_same_record_semester_exam_result_qry":"""SELECT id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks,count(id)-1  num_of_times
 FROM semester_exam_result_staging_1
 GROUP BY id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks
 HAVING  COUNT(*) > 1""",
+"sat_jolt_line_chart_cluster":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "cluster_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@cluster_name": "@(1,cluster_id).cluster_name[]",
+        "@cluster_performance": "@(1,cluster_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,cluster_id).performance.[&1].total_schools",
+        "@total_students": "@(1,cluster_id).performance.[&1].total_students",
+        "@students_attended": "@(1,cluster_id).performance.[&1].students_attended",
+        "semester": "@(1,cluster_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,cluster_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]""",
 "sch_hrchy_rm_special_char_2":"""update school_hierarchy_details set school_name=replace(school_name,']','') where school_name like '%]%';""",
 "sch_hrchy_rm_special_char_1":"""update school_hierarchy_details set school_name=replace(school_name,'[','') where school_name like '%[%';""",
 "sat_update_null_count_semester_result_trans_qry":"""update log_summary
@@ -1052,7 +1147,6 @@ where sat_null_col.ff_uuid = log_summary.ff_uuid""",
   }
 ]""",
 "sat_subject_footer_school_jolt_spec":"""[
-  
   {
     "operation": "modify-overwrite-beta",
     "spec": {
@@ -1086,7 +1180,7 @@ SUM(CASE when total_questions IS NULL THEN 1 ELSE 0 END) AS count_null_total_que
 SUM(CASE when total_marks IS NULL THEN 1 ELSE 0 END) AS count_null_total_marks
 from flowfile)""",
 "sat_subject_footer_cluster_jolt_spec":"""[
-   {
+  {
     "operation": "modify-overwrite-beta",
     "spec": {
       "*": {
@@ -1125,6 +1219,33 @@ or exam_id IS NULL
 or question_title IS NULL
 or question IS NULL
 or question_marks IS NULL""",
+"sat_jolt_line_chart_district":"""[{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": {
+        "district_id": ["=toString", null]
+      }
+    }
+	}, {
+    "operation": "shift",
+    "spec": {
+      "*": {
+        "@district_name": "@(1,district_id).district_name[]",
+        "@district_performance": "@(1,district_id).performance.[&1].district_performance",
+        "@total_schools": "@(1,district_id).performance.[&1].total_schools",
+        "@total_students": "@(1,district_id).performance.[&1].total_students",
+        "@students_attended": "@(1,district_id).performance.[&1].students_attended",
+        "semester": "@(1,district_id).performance.[&1].semester",
+        "@grade_wise_performance": "@(1,district_id).Grades.@(1,semester)"
+      }
+    }
+	},{
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "*": "=recursivelySquashNulls"
+    }
+  }
+ ]""",
 "sat_check_same_id_record_semester_exam_mst_qry":"""SELECT b.exam_id,b.assessment_year,b.semester,b.medium,b.standard,b.division,b.subject_id,b.subject_name,b.exam_type_id,b.exam_type,b.exam_code,b.exam_date,b.total_questions,b.
 total_marks,count(*) num_of_times  from (select exam_id,assessment_year,semester from flowfile
 group by exam_id,assessment_year,semester having count(1)>1)  as a, flowfile  b
@@ -1146,9 +1267,9 @@ and exam_code IS NOT  NULL
 and exam_date IS NOT  NULL
 and total_questions IS NOT  NULL
 and total_marks IS NOT  NULL""",
+"semester_exam_result_staging_1_tb_name":"""semester_exam_result_staging_1""",
 "sat_filter_same_record_semester_exam_qst_mst_qry":"""select question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks from (select question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks,
 row_number() over (partition by question_id,exam_id,indicator_id,indicator_title,"indicator",question_title,question,question_marks) as rn from flowfile) sq Where rn =1""",
-"semester_exam_result_staging_1_tb_name":"""semester_exam_result_staging_1""",
 "sat_insert_semester_exam_school_ind_result":"""insert into semester_exam_school_ind_result(academic_year,exam_code,exam_date,school_id,grade,school_name,district_id,district_name,block_id,block_name,cluster_id,cluster_name,subject,indicator,
 	obtained_marks,total_marks,students_attended,total_students,school_management_type,school_category,created_on,updated_on)
 	select data.academic_year,data.exam_code,data.exam_date,data.school_id,data.grade,data.school_name,data.district_id,data.district_name,data.block_id,data.block_name,data.cluster_id,data.cluster_name,
@@ -1188,13 +1309,13 @@ select id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,sect
 (select id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks,ff_uuid,
 row_number() over (partition by id,exam_id,exam_code,student_id,student_uid,school_id,studying_class,section,question_id,obtained_marks) as rn 
 from semester_exam_result_staging_1) sq Where rn =1""",
-"sat_exam_exam_mst_table_name":"""semester_exam_qst_mst""",
 "sat_check_same_id_record_semester_exam_result_qry":"""SELECT b.id,b.exam_id,b.exam_code,b.student_id,b.student_uid,b.school_id,b.studying_class,b.section,b.question_id,b.obtained_marks,count(*) num_of_times  from 
 (select exam_code,student_uid,question_id from semester_exam_result_staging_2
 group by exam_code,student_uid,question_id having count(1)>1)  as a, semester_exam_result_staging_2  b
 where 
 a.exam_code=b.exam_code and a.student_uid=b.student_uid and a.question_id=b.question_id
 group by b.id,b.exam_id,b.exam_code,b.student_id,b.student_uid,b.school_id,b.studying_class,b.section,b.question_id,b.obtained_marks""",
+"sat_exam_exam_mst_table_name":"""semester_exam_qst_mst""",
 "sat_learning_outcome_meta_jolt_spec":"""[
   {
     "operation": "shift",
@@ -1206,6 +1327,10 @@ group by b.id,b.exam_id,b.exam_code,b.student_id,b.student_uid,b.school_id,b.stu
   }
 ]
 """,
+"semester_exam_subject_details_count_null":"""(select
+SUM(CASE when subject_id IS NULL THEN 1 ELSE 0 END) AS count_null_subject_id,
+SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
+from flowfile)""",
 "sat_mv_queries":"""REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_district_last7;
 REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_block_last7;
 REFRESH MATERIALIZED VIEW sat_school_grade_enrolment_cluster_last7;
@@ -1320,16 +1445,11 @@ REFRESH MATERIALIZED VIEW semester_grade_school_mgmt_year_semester;
 
 REFRESH MATERIALIZED VIEW semester_exam_state_trendline;
 REFRESH MATERIALIZED VIEW semester_exam_state_mgmt_trendline;""",
-"semester_exam_subject_details_count_null":"""(select
-SUM(CASE when subject_id IS NULL THEN 1 ELSE 0 END) AS count_null_subject_id,
-SUM(CASE when grade IS NULL THEN 1 ELSE 0 END) AS count_null_grade
-from flowfile)""",
 "sat_check_same_id_record_semester_exam_subject_details_qry":"""SELECT b.subject_id,b.subject,b.grade,count(*) num_of_times  from (select subject_id,grade from flowfile
 group by subject_id,grade having count(1)>1) as a, flowfile  b
 where a.subject_id=b.subject_id and
 a.grade=b.grade
 group by b.subject_id,b.grade,b.subject""",
-"sat_semester_exam_qst_mst_dup_table_name":"""semester_exam_qst_mst_dup""",
 "sat_exception_block_jolt_spec":"""[
   {
     "operation": "shift",
@@ -1414,6 +1534,7 @@ group by b.subject_id,b.grade,b.subject""",
     }
   }
 ]""",
+"sat_semester_exam_qst_mst_dup_table_name":"""semester_exam_qst_mst_dup""",
 "sat_update_null_count_semester_exam_mst_qry":"""update log_summary
 SET exam_id = sat_null_col.count_null_exam_id,
 assessment_year = sat_null_col.count_null_assessment_year,
@@ -1728,126 +1849,81 @@ or obtained_marks IS NULL""",
     }
   }
 ]""",
-"sat_jolt_line_chart_state":"""[{
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "state_performance": "@(1,academic_year).performance.[&1].state_performance",
-        "total_schools": "@(1,academic_year).performance.[&1].total_schools",
-        "total_students": "@(1,academic_year).performance.[&1].total_students",
-        "students_attended": "@(1,academic_year).performance.[&1].students_attended",
-        "semester": "@(1,academic_year).performance.[&1].semester",
-        "grade_wise_performance": "@(1,academic_year).Grades.@(1,semester)"
-      }
-    }
-	}
-]""",
-"sat_jolt_line_chart_school":"""[{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": {
-        "school_id": ["=toString", null]
-      }
-    }
-	}, {
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "@school_name": "@(1,school_id).school_name[]",
-        "@school_performance": "@(1,school_id).performance.[&1].district_performance",
-        "@total_schools": "@(1,school_id).performance.[&1].total_schools",
-        "@total_students": "@(1,school_id).performance.[&1].total_students",
-        "@students_attended": "@(1,school_id).performance.[&1].students_attended",
-        "semester": "@(1,school_id).performance.[&1].semester",
-        "@grade_wise_performance": "@(1,school_id).Grades.@(1,semester)"
-      }
-    }
-	},{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": "=recursivelySquashNulls"
-    }
-  }
- ]""",
-"sat_jolt_line_chart_district":"""[{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": {
-        "district_id": ["=toString", null]
-      }
-    }
-	}, {
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "@district_name": "@(1,district_id).district_name[]",
-        "@district_performance": "@(1,district_id).performance.[&1].district_performance",
-        "@total_schools": "@(1,district_id).performance.[&1].total_schools",
-        "@total_students": "@(1,district_id).performance.[&1].total_students",
-        "@students_attended": "@(1,district_id).performance.[&1].students_attended",
-        "semester": "@(1,district_id).performance.[&1].semester",
-        "@grade_wise_performance": "@(1,district_id).Grades.@(1,semester)"
-      }
-    }
-	},{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": "=recursivelySquashNulls"
-    }
-  }
- ]""",
-"sat_jolt_line_chart_cluster":"""[{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": {
-        "cluster_id": ["=toString", null]
-      }
-    }
-	}, {
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "@cluster_name": "@(1,cluster_id).cluster_name[]",
-        "@cluster_performance": "@(1,cluster_id).performance.[&1].district_performance",
-        "@total_schools": "@(1,cluster_id).performance.[&1].total_schools",
-        "@total_students": "@(1,cluster_id).performance.[&1].total_students",
-        "@students_attended": "@(1,cluster_id).performance.[&1].students_attended",
-        "semester": "@(1,cluster_id).performance.[&1].semester",
-        "@grade_wise_performance": "@(1,cluster_id).Grades.@(1,semester)"
-      }
-    }
-	},{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": "=recursivelySquashNulls"
-    }
-  }
- ]""",
-"sat_jolt_line_chart_block":"""[{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": {
-        "block_id": ["=toString", null]
-      }
-    }
-	}, {
-    "operation": "shift",
-    "spec": {
-      "*": {
-        "@block_name": "@(1,block_id).block_name[]",
-        "@block_performance": "@(1,block_id).performance.[&1].district_performance",
-        "@total_schools": "@(1,block_id).performance.[&1].total_schools",
-        "@total_students": "@(1,block_id).performance.[&1].total_students",
-        "@students_attended": "@(1,block_id).performance.[&1].students_attended",
-        "semester": "@(1,block_id).performance.[&1].semester",
-        "@grade_wise_performance": "@(1,block_id).Grades.@(1,semester)"
-      }
-    }
-	},{
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "*": "=recursivelySquashNulls"
-    }
-  }
- ]"""
+"sat_update_processed_record":"""update log_summary as b
+	set processed_records= a.processed_records
+	from (
+		select ff_uuid,(sum(total_records)-sum(blank_lines+duplicate_records+datatype_mismatch)-coalesce(max(count_of_null_rows),0))as processed_records 
+		from log_summary where filename like 'semester_exam%' group by ff_uuid) as a
+	where a.ff_uuid=b.ff_uuid""",
+"sat_trans_qst_agg_none_validation":"""insert into semester_exam_school_qst_result(school_id,exam_code,exam_date,grade,total_marks,obtained_marks,indicator,question_id
+,academic_year,students_attended,subject,school_name,cluster_id,cluster_name,total_students,
+block_id,block_name,district_id,district_name,school_management_type,school_category,created_on,updated_on)
+select data.school_id,data.exam_code,data.exam_date,data.grade,data.total_marks,data.obtained_marks,data.indicator,data.question_id
+	,assessment_year as academic_year,data.students_attended,
+	d.subject_name as subject,initcap(b.school_name)as school_name,b.cluster_id,initcap(b.cluster_name)as cluster_name,g.students_count as total_students,
+	b.block_id,initcap(b.block_name)as block_name,b.district_id,initcap(b.district_name)as district_name,b.school_management_type,b.school_category,now(),now()
+	from
+	(select data.* from 
+	(select a.school_id,a.exam_code,a.students_attended,to_date(substr(exam_code,8,14)::text,'ddmmyyyy')as exam_date,
+		a.studying_class as grade,b.question_id,b.indicator,b.question_marks*sum(students_attended) as total_marks,sum(a.obtained_marks)as obtained_marks,b.exam_id
+	from
+	(select exam_id,school_id,exam_code,studying_class,question_id,sum(obtained_marks)as obtained_marks,count(distinct(student_uid)) as students_attended
+	from semester_exam_result_trans sem where to_date(substr(sem.exam_code,8,14),'ddmmyyyy')>(now() -(select concat(trim(max(retention_period)::text),'days') from data_replay_meta)::interval)::date and exam_code not in (select exam_code from semester_exam_mst sem join (select distinct unnest(string_to_array(regexp_replace(semesters,'[^0-9,]','','g'),',')) as semesters,academic_year from data_replay_meta where created_on>now()-'5days'::interval and cqube_process_status='SUCCESS' and data_source='semester_assessment_test') dsem on sem.semester=dsem.semesters::int and sem.assessment_year=dsem.academic_year)
+	group by exam_id,school_id,exam_code,studying_class,question_id)as a
+	left join (select exam_id,question_id,indicator,question_marks from semester_exam_qst_mst group by exam_id,question_id,indicator,question_marks) as b 
+	on a.exam_id=b.exam_id and a.question_id=b.question_id
+	group by a.school_id,a.exam_code,a.studying_class,a.students_attended,b.question_id,b.indicator,b.exam_id,b.question_marks,a.question_id)as data
+	where data.total_marks is not null)as data
+	inner join 
+	(select a.school_id,a.school_name,b.school_latitude,b.school_longitude,a.cluster_id,a.cluster_name,b.cluster_latitude,b.cluster_longitude,
+	a.block_id,a.block_name,b.block_latitude,b.block_longitude,a.district_id,a.district_name,b.district_latitude,b.district_longitude,a.school_management_type,a.school_category
+	from school_hierarchy_details as a inner join school_geo_master as b on a.school_id=b.school_id 
+	where a.school_name is not null and a.cluster_name is not null )as b 
+	on data.school_id=b.school_id
+	left join 
+	(select exam_id,assessment_year,exam_code,subject_name from semester_exam_mst) as d on data.exam_id=d.exam_id and data.exam_code=d.exam_code
+	left join 
+(select * from school_grade_enrolment) as g
+on data.school_id=g.school_id and data.grade=g.grade
+	where total_marks>=obtained_marks
+on conflict(school_id,exam_code,academic_year,question_id)
+do update set 
+school_id=excluded.school_id,exam_code=excluded.exam_code,exam_date=excluded.exam_date,grade=excluded.grade,total_marks=excluded.total_marks,
+obtained_marks=excluded.obtained_marks,indicator=excluded.indicator,question_id=excluded.question_id,academic_year=excluded.academic_year,subject=excluded.subject,
+students_attended=excluded.students_attended,school_name=excluded.school_name,total_students=excluded.total_students,
+cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,block_id=excluded.block_id,block_name=excluded.block_name,
+district_id=excluded.district_id,district_name=excluded.district_name,school_management_type=excluded.school_management_type,school_category=excluded.school_category,updated_on=now();""",
+"sat_qst_to_agg_none_validation":"""insert into semester_exam_school_result(school_id,exam_code,exam_date,grade,academic_year,subject,total_marks,obtained_marks
+,school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,students_count,students_attended,semester,
+block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,school_category,created_on,updated_on)
+select a.school_id,a.exam_code,exam_date,grade,academic_year,subject,total_marks,obtained_marks
+,school_name,school_latitude,school_longitude,a.cluster_id,cluster_name,cluster_latitude,cluster_longitude,students_count,students_attended,semester,
+a.block_id,block_name,block_latitude,block_longitude,a.district_id,district_name,district_latitude,district_longitude,school_management_type,school_category,now(),now()
+from
+(select school_id,exam_code,exam_date,grade,academic_year,subject,sum(total_marks)as total_marks,sum(obtained_marks)as obtained_marks,school_name,
+cluster_id,cluster_name,
+total_students students_count,block_id,block_name,
+district_id,district_name
+from semester_exam_school_qst_result
+group by school_id,exam_code,exam_date,grade,academic_year,subject,school_name,cluster_id,cluster_name,total_students,
+block_id,block_name,district_id,district_name
+) as a 
+inner join 
+(select a.school_id,b.school_latitude,b.school_longitude,a.cluster_id,b.cluster_latitude,b.cluster_longitude,
+a.block_id,b.block_latitude,b.block_longitude,a.district_id,b.district_latitude,b.district_longitude,a.school_management_type,a.school_category
+from school_hierarchy_details as a inner join school_geo_master as b on a.school_id=b.school_id 
+where a.school_name is not null and a.cluster_name is not null )as b on a.school_id=b.school_id
+left join
+(select exam_id,assessment_year,exam_code,semester from semester_exam_mst) as d on a.exam_code=d.exam_code
+left join (select count(distinct(student_uid)) as students_attended,school_id,exam_code from semester_exam_stud_grade_count group by school_id,exam_code) as trans 
+on a.school_id=trans.school_id and a.exam_code=trans.exam_code 
+on conflict(school_id,exam_code,academic_year)
+do update set 
+school_id=excluded.school_id,exam_code=excluded.exam_code,exam_date=excluded.exam_date,grade=excluded.grade,academic_year=excluded.academic_year,subject=excluded.subject,
+total_marks=excluded.total_marks,obtained_marks=excluded.obtained_marks,school_name=excluded.school_name,students_count=excluded.students_count,students_attended=excluded.students_attended,
+school_latitude=excluded.school_latitude,school_longitude=excluded.school_longitude,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,
+cluster_latitude=excluded.cluster_latitude,cluster_longitude=excluded.cluster_longitude,block_id=excluded.block_id,block_name=excluded.block_name,
+block_latitude=excluded.block_latitude,block_longitude=excluded.block_longitude,district_id=excluded.district_id,district_name=excluded.district_name,
+district_latitude=excluded.district_latitude,district_longitude=excluded.district_longitude,semester=excluded.semester,school_management_type=excluded.school_management_type,
+school_category=excluded.school_category,updated_on=now();"""
 }
