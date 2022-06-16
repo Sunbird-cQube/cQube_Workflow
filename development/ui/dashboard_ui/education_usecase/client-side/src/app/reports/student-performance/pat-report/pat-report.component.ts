@@ -230,6 +230,7 @@ export class PATReportComponent implements OnInit {
         this.period = params.timePeriod;
       }
       if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+        this.hideFooter = false
         if (params && params.level) {
           let data = params.data;
           if (params.level === "district") {
@@ -451,7 +452,12 @@ export class PATReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-    this.levelWiseFilter();
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      this.levelWiseFilter();
+    }else{
+      this.getView() 
+    }
+    
   }
   onSubjectSelect(data) {
     this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade}_${this.subject}_all${this.level}_${this.commonService.dateAndTime}`;
@@ -479,6 +485,7 @@ export class PATReportComponent implements OnInit {
     if (this.level == "clusterPerBlock") {
       this.onBlockSelect(this.blockId);
     }
+    
     if (this.level == "schoolPerCluster") {
       this.onClusterSelect(this.clusterId);
     }
@@ -491,7 +498,9 @@ export class PATReportComponent implements OnInit {
   hideDist
   levelVal = 0;
   schoolLevel = false
-  hideFooter = false
+  hideFooter =  false
+ 
+
   getView() {
 
     let id = localStorage.getItem("userLocation");
@@ -536,18 +545,21 @@ export class PATReportComponent implements OnInit {
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Cluster") {
+      this.hideFooter = false
       this.onclusterLinkClick(clusterid)
-
+      this.hideFooter = false
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Block") {
+      this.hideFooter = false
       this.onblockLinkClick(blockid)
-
+      
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "District") {
+      this.hideFooter = false
       this.ondistLinkClick(districtid)
       this.selCluster = false;
       this.selBlock = false;
@@ -2861,7 +2873,7 @@ export class PATReportComponent implements OnInit {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
-    this.level = "longSchoolPerCluster";
+    this.level = "schoolPerCluster";
     this.globalMarker = 8;
 
     this.valueRange = undefined;
@@ -2977,7 +2989,7 @@ export class PATReportComponent implements OnInit {
                     mapZoom: this.globalService.zoomLevel + 3,
                     centerLat: this.globalService.mapCenterLatlng.lat,
                     centerLng: this.globalService.mapCenterLatlng.lng,
-                    level: "longSchoolPerCluster",
+                    level: "schoolPerCluster",
                   };
             
                   this.dataOptions = options;
@@ -3492,6 +3504,9 @@ export class PATReportComponent implements OnInit {
 
   // drilldown/ click functionality on markers
   onClick_Marker(event) {
+    if (this.level == "schoolPerCluster") {
+      return false;
+    }
     var data = event.target.myJsonData.Details;
     if (environment.auth_api === 'cqube' || this.userAccessLevel === '') {
       if (data.district_id && !data.block_id && !data.cluster_id) {
