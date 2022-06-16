@@ -2986,9 +2986,9 @@ export class PATReportComponent implements OnInit {
                   let options = {
                     fillOpacity: 1,
                     strokeWeight: 0.01,
-                    mapZoom: this.globalService.zoomLevel + 3,
-                    centerLat: this.globalService.mapCenterLatlng.lat,
-                    centerLng: this.globalService.mapCenterLatlng.lng,
+                    mapZoom: this.globalService.zoomLevel + 5,
+                    centerLat: this.data[0].Details.latitude,
+                    centerLng: this.data[0].Details.longitude,
                     level: "schoolPerCluster",
                   };
             
@@ -3003,8 +3003,8 @@ export class PATReportComponent implements OnInit {
                   globalMap.doubleClickZoom.enable();
                   globalMap.scrollWheelZoom.enable();
                   globalMap.setMaxBounds([
-                    [options.centerLat - 1.5, options.centerLng - 7],
-                    [options.centerLat + 1.5, options.centerLng + 7],
+                    [options.centerLat - 1.5, options.centerLng - 2],
+                    [options.centerLat + 1.5, options.centerLng + 3],
                   ]);
                   this.changeDetection.detectChanges();
 
