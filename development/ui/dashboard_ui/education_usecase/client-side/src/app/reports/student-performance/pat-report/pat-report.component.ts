@@ -193,43 +193,43 @@ export class PATReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
-   
-      this.service.getMonthYear().subscribe((res) => {
-        this.getMonthYear = res;
-        this.getMonthYear.map((item) => {
-          this.years.push(item["academic_year"]);
-        });
-        this.year = this.years[this.years.length - 1];
 
-        this.months = [];
-        var months = [];
-        this.getMonthYear.map((item) => {
-          if (item["academic_year"] == this.year) {
-            months = item["month"];
-          }
-        });
-        months.map(a => {
-          this.months.push(a.trim());
-        });
-        this.months.sort((a, b) => {
-          return this.allMonths.indexOf(a) - this.allMonths.indexOf(b);
-        });
-        this.month = this.months[this.months.length - 1];
-        if (this.month) {
-          this.month_year = {
-            month: null,
-            year: null,
-          };
-        }
+    this.service.getMonthYear().subscribe((res) => {
+      this.getMonthYear = res;
+      this.getMonthYear.map((item) => {
+        this.years.push(item["academic_year"]);
+      });
+      this.year = this.years[this.years.length - 1];
 
-        if (params) {
-          this.changeDetection.detectChanges();
-          if (params.timePeriod == "overall") {
-            params.timePeriod = "all";
-          }
-          this.period = params.timePeriod;
+      this.months = [];
+      var months = [];
+      this.getMonthYear.map((item) => {
+        if (item["academic_year"] == this.year) {
+          months = item["month"];
         }
-        if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
+      });
+      months.map(a => {
+        this.months.push(a.trim());
+      });
+      this.months.sort((a, b) => {
+        return this.allMonths.indexOf(a) - this.allMonths.indexOf(b);
+      });
+      this.month = this.months[this.months.length - 1];
+      if (this.month) {
+        this.month_year = {
+          month: null,
+          year: null,
+        };
+      }
+
+      if (params) {
+        this.changeDetection.detectChanges();
+        if (params.timePeriod == "overall") {
+          params.timePeriod = "all";
+        }
+        this.period = params.timePeriod;
+      }
+      if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
         if (params && params.level) {
           let data = params.data;
           if (params.level === "district") {
@@ -280,14 +280,15 @@ export class PATReportComponent implements OnInit {
           this.changeDetection.detectChanges();
 
           this.levelWiseFilter();
-          } }else {
-      this.getView();
-     }
-      }, err => {
-        this.getMonthYear = [];
-        this.commonService.loaderAndErr(this.getMonthYear);
-      });
-    
+        }
+      } else {
+        this.getView();
+      }
+    }, err => {
+      this.getMonthYear = [];
+      this.commonService.loaderAndErr(this.getMonthYear);
+    });
+
 
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -397,12 +398,12 @@ export class PATReportComponent implements OnInit {
       month: this.month.trim(),
       year: this.year,
     };
-    if(this.hideDist){
+    if (this.hideDist) {
       this.getView()
-    }else{
+    } else {
       this.levelWiseFilter();
     }
-    
+
   }
 
   getMonth(event) {
@@ -450,7 +451,6 @@ export class PATReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-
     this.levelWiseFilter();
   }
   onSubjectSelect(data) {
@@ -621,13 +621,13 @@ export class PATReportComponent implements OnInit {
     this.fileName = `${this.reportName}_${this.period != 'select_month' ? this.period : this.month_year.year + '_' + this.month_year.month}_${this.grade ? this.grade : "allGrades"
       }_${this.subject ? this.subject : ""}_allDistricts_${this.commonService.dateAndTime
       }`;
-      if(this.hideDist){
-        this.getView();
-        
-      }else{
-        this.levelWiseFilter();
-      }
-    
+    if (this.hideDist) {
+      this.getView();
+
+    } else {
+      this.levelWiseFilter();
+    }
+
     this.changeDetection.detectChanges();
   }
 
@@ -2770,7 +2770,7 @@ export class PATReportComponent implements OnInit {
             };
 
             // to show and hide the dropdowns
-            this.blockHidden =this.selBlock ? true : false;
+            this.blockHidden = this.selBlock ? true : false;
             this.clusterHidden = false;
 
             this.districtId = this.data[0].Details.district_id;
@@ -2861,8 +2861,8 @@ export class PATReportComponent implements OnInit {
     globalMap.removeLayer(this.markersList);
     this.layerMarkers.clearLayers();
     this.commonService.errMsg();
-    this.level = "schoolPerCluster";
-    this.globalMarker = 13;
+    this.level = "longSchoolPerCluster";
+    this.globalMarker = 8;
 
     this.valueRange = undefined;
     this.selectedIndex = undefined;
@@ -2893,7 +2893,7 @@ export class PATReportComponent implements OnInit {
             )
             .subscribe(
               (res) => {
-                
+
                 try {
                   if (this.schoolLevel) {
                     let schoolData = res['data']
@@ -2903,7 +2903,7 @@ export class PATReportComponent implements OnInit {
                   } else {
                     this.markers = this.data = res["data"];
                   }
-                 
+
                   if (this.grade) {
                     this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                   }
@@ -2974,11 +2974,12 @@ export class PATReportComponent implements OnInit {
                   let options = {
                     fillOpacity: 1,
                     strokeWeight: 0.01,
-                    mapZoom: this.globalService.zoomLevel + 5,
-                    centerLat: this.data[0].Details.latitude,
-                    centerLng: this.data[0].Details.longitude,
-                    level: "schoolPerCluster",
+                    mapZoom: this.globalService.zoomLevel + 3,
+                    centerLat: this.globalService.mapCenterLatlng.lat,
+                    centerLng: this.globalService.mapCenterLatlng.lng,
+                    level: "longSchoolPerCluster",
                   };
+            
                   this.dataOptions = options;
                   this.globalService.latitude = this.lat = options.centerLat;
                   this.globalService.longitude = this.lng = options.centerLng;
@@ -2990,8 +2991,8 @@ export class PATReportComponent implements OnInit {
                   globalMap.doubleClickZoom.enable();
                   globalMap.scrollWheelZoom.enable();
                   globalMap.setMaxBounds([
-                    [options.centerLat - 1.5, options.centerLng - 3],
-                    [options.centerLat + 1.5, options.centerLng + 2],
+                    [options.centerLat - 1.5, options.centerLng - 7],
+                    [options.centerLat + 1.5, options.centerLng + 7],
                   ]);
                   this.changeDetection.detectChanges();
 
@@ -3421,17 +3422,13 @@ export class PATReportComponent implements OnInit {
       "<br>" +
       yourData;
     if (this.mapName != 'googlemap') {
-      
-      markerIcon.addTo(globalMap).bindTooltip(tooltipContent , {
-        direction: 'auto',
-        permanent: false,   
-        className: 'tooltip1',
+      const popup = R.responsivePopup({
         hasTip: false,
         autoPan: false,
-        offset: [15, 10],
-        opacity: 1,
-      })
-    
+        offset: [15, 20],
+      }).setContent(tooltipContent);
+      markerIcon.addTo(globalMap).bindPopup(popup);
+
     } else {
       markers['label'] = tooltipContent;
     }

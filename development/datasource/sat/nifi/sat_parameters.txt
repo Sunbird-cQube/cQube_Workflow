@@ -166,7 +166,7 @@ school_category=excluded.school_category,updated_on=now();""",
     "operation": "shift",
     "spec": {
       "*": {
-        "@grade": "@district_id"
+        "@json_object_agg": "@district_id"
       }
     }
 	}
@@ -880,7 +880,7 @@ where subject_id is null or grade is null""",
     "operation": "shift",
     "spec": {
       "*": {
-        "@grade": "@block_id"
+        "@json_object_agg": "@block_id"
       }
     }
 	}
@@ -1159,7 +1159,7 @@ where sat_null_col.ff_uuid = log_summary.ff_uuid""",
     "operation": "shift",
     "spec": {
       "*": {
-        "@grade": "@school_id"
+        "@json_object_agg": "@school_id"
       }
     }
 	}
@@ -1192,7 +1192,7 @@ from flowfile)""",
     "operation": "shift",
     "spec": {
       "*": {
-        "@grade": "@cluster_id"
+        "@json_object_agg": "@cluster_id"
       }
     }
 	}

@@ -294,7 +294,7 @@ export class PATLOTableComponent implements OnInit {
           col = col.slice(0, 10) + "..."
         }
         if (i > 3) {
-          headers += `<th class="rank text-wrap"><div style="transform: rotate(270deg);">${col}</div></th>`;
+          headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
         }else {
           if (col == 'Indicator') {
             headers += `<th class="indicator">${col}</th>`;
@@ -758,6 +758,8 @@ export class PATLOTableComponent implements OnInit {
   schoolLevel = false
   hideFooter = false
   getView() {
+    
+    document.getElementById("initTable").style.display = "block";
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
     let clusterid = localStorage.getItem("clusterId");
@@ -885,6 +887,8 @@ export class PATLOTableComponent implements OnInit {
             a.block_name > b.block_name ? 1 : b.block_name > a.block_name ? -1 : 0
           );
           this.selectedBlock(blockid);
+        },(err) => {
+          this.handleError()
         })
       this.selCluster = false;
       this.selBlock = true;
@@ -922,9 +926,9 @@ export class PATLOTableComponent implements OnInit {
           );
           this.selectedDistrict(districtid);
 
-        },
-
-      );
+        }, (err) => {
+          this.handleError()
+        });
 
       this.selCluster = false;
       this.selBlock = false;
