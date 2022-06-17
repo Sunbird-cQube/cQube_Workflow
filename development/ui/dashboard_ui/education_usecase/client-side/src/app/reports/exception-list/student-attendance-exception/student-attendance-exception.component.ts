@@ -2568,12 +2568,10 @@ export class StudentAttendanceExceptionComponent implements OnInit {
             },
               []);
             this.mylatlngData = uniqueData;
-            this.globalService.latitude = this.lat = Number(
+            this.globalService.latitude = this.lat =this.mylatlngData.length !== 0 ? Number(
               this.mylatlngData[0]["lat"]
-            );
-            this.globalService.longitude = this.lng = Number(
-              this.mylatlngData[0]["lng"]
-            );
+            ) : "";
+            this.globalService.longitude = this.lng =  this.mylatlngData.length !== 0 ? Number(this.mylatlngData[0]["lng"]) : ""
 
             var sorted = this.mylatlngData;
 
