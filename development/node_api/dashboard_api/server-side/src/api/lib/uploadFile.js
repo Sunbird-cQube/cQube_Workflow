@@ -20,6 +20,7 @@ function saveToS3(fileName, formData) {
                     //=====================Upload new files..........
                     jsonexport(formData, function (error, csv) {
                         if (error) return console.error(error);
+                       
                         params['Body'] = csv.replace(/,/g, '|');
                         const_data['s3'].upload(params, function (err1, result) {
                             if (err1) {
@@ -54,22 +55,26 @@ function saveToS3(fileName, formData) {
     })
 }
 function saveToLocal(fileName, formData, report) {
+    
     return new Promise((resolve, reject) => {
         try {
             let username = process.env.SYSTEM_USERNAME;
+          
             username = username.replace(/\n/g, '');
             var newLine = '\r';
-            fs.stat(fileName, async function (err, stat) {
+            fs.stat(fileName, async function (err, stats) {
+          
                 let data = "";
                 let row = "";
                 if (err == null) {
                     if (report != 'sar') {
-                        shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry/telemetry_view`);
+                    shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry/telemetry_view`);
                         row = `${formData[0].uid}|${formData[0].eventType}|${formData[0].reportId}|${formData[0].time}`
                     } else {
                         shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry`);
                         row = `${formData[0].pageId}|${formData[0].uid}|${formData[0].event}|${formData[0].level}|${formData[0].locationid}|${formData[0].locationname}|${formData[0].lat}|${formData[0].lng}|${formData[0].download}`
                     }
+
                     data = '\n' + row.replace(/,/g, '|') + newLine;
                     fs.appendFile(fileName, data, function (err) {
                         if (!err) {
@@ -80,19 +85,28 @@ function saveToLocal(fileName, formData, report) {
                     });
                 } else {
                     jsonexport(formData, function (error, csv) {
+                        if (error) return console.error(error);
+
                         let data = csv.replace(/,/g, '|');
+                        
                         let username = process.env.SYSTEM_USERNAME;
-                        username = username.replace(/\n/g, '');
-                        if (report != 'sar') {
-                            shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry/telemetry_view`);
+                        username = username.replace(/\n/g, ''); 
+                        if (report != 'sar') {   
+                            shell.exec(`sudo chown ${username}:${username} ${inputDir}/${fileName}`, function (err) {
+                                if (err) {
+                                   
+                                    process.exit(0);
+                                }
+                            });
                         } else {
                             shell.exec(`sudo chown ${username}:${username} ${inputDir}/telemetry`);
                         }
-                        fs.writeFile(fileName, data, function (err) {
+                      
+                        fs.writeFile(`${inputDir}/${fileName}`, data, function (err) {
                             if (!err) {
                                 resolve({ msg: "Successfully uploaded file" });
                             } else {
-                                reject({ errMsg: "Internal error" });
+                                reject({ errMsg: "Internal error telemetry view failed" });
                             }
                         });
                     });
@@ -105,28 +119,22 @@ function saveToLocal(fileName, formData, report) {
 }
 
 //azure config
-if(storageType === 'azure'){
+if (storageType === 'azure') {
     var azure = require('azure-storage');
-   const { storageType } = require('./reads3File');
-   const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
-   var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
-   const containerName = process.env.AZURE_OUTPUT_STORAGE;
+    const { storageType } = require('./reads3File');
+    const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+    var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+    const containerName = process.env.AZURE_OUTPUT_STORAGE;
 }
 
 
 const saveToAzure = async (containerName, fileName, formData, localFile) => {
     let file = inputDir + fileName;
-    // let res = await readFromBlob(containerName, fileName);
-    // console.log(res);
-    // if (res) {
-    // res.forEach(item => {
-    //     formData.push(item);
-    // })
-    // }
+    
     jsonexport(formData, function (error, csv) {
         let data = csv.replace(/,/g, '|');
         fs.writeFile(file, data, async (err) => {
-            // console.log("::::write:::::::", file)
+            
             if (err) {
                 console.log(err);
             } else {

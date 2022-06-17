@@ -2538,11 +2538,12 @@ export class StudentAttendanceExceptionComponent implements OnInit {
           (res) => {
             if (res["schoolsDetails"]) {
               let blockName = res["schoolsDetails"][0]?.block_name
-
+              let clusterName = res["schoolsDetails"][0]?.cluster_name
               let distName = res["schoolsDetails"][0]?.district_name
               this.titleName = this.titleName === null || undefined || "undefined"? this.titleName = distName : this.titleName
 
               this.title = this.title === undefined || "undefined" ? this.title = blockName : this.title
+              this.hierName = this.hierName === null || undefined || "undefined" ? this.hierName = clusterName : this.hierName
             }
             if (this.schoolLevel) {
               let schoolData = res['schoolsDetails'];
