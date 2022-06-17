@@ -2475,7 +2475,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
         district_name: this.distName.name,
       };
       this.clustName = { cluster_id: data };
-      this.hierName = obj.name;
+      this.hierName = obj?.name;
 
       this.globalId = this.myCluster = data;
 
