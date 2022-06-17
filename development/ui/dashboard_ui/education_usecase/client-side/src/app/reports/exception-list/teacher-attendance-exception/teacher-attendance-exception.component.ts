@@ -2112,6 +2112,10 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
             }
           },
           (err) => {
+            this.skul = false;
+            this.dist = false;
+            this.blok = false;
+            this.clust = false;
             this.dateRange = "";
             this.changeDetection.detectChanges();
             this.markers = [];
@@ -2340,6 +2344,10 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
             }
           },
           (err) => {
+            this.skul = false;
+            this.dist = false;
+            this.blok = false;
+            this.clust = false;
             this.dateRange = "";
             this.changeDetection.detectChanges();
             this.markers = [];
@@ -2595,6 +2603,10 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
             this.changeDetection.markForCheck();
           },
           (err) => {
+            this.skul = false;
+            this.dist = false;
+            this.blok = false;
+            this.clust = false;
             this.dateRange = "";
             this.changeDetection.detectChanges();
             this.markers = [];
