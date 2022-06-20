@@ -1558,7 +1558,7 @@ export class PATExceptionComponent implements OnInit {
       }
     });
     Object.keys(details).forEach(key => {
-      if (key !== lng) {
+      if (key !== lng && key !== "latitude")  {
         orgObject[key] = details[key];
       }
     });

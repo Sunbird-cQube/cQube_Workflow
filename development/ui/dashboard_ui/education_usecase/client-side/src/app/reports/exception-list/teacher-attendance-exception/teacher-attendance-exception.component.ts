@@ -249,18 +249,19 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
     if (level === "School") {
       this.hideFooter = true
       this.distSelect({ type: "click" }, this.myDistrict, this.myBlock, this.myCluster);
+      this.myClusterData(clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Cluster") {
       this.districtWise(districtid, blockid, clusterid)
-      
+      this.myClusterData(clusterid)
       this.selCluster = true;
       this.selBlock = true;
       this.selDist = true;
     } else if (level === "Block") {
       this.districtWise(districtid, blockid)
-      
+      this.myBlockData(blockid)
       this.selCluster = false;
       this.selBlock = true;
       this.selDist = true;
@@ -269,7 +270,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
       this.selBlock = false;
       this.selDist = false;
       this.districtWise(districtid)
-      
+      this.myDistData(districtid)
     }
   }
 
@@ -2003,6 +2004,14 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
         .blockPerDist({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
+            if (res["blockData"]) {
+              let blockName = res["blockData"][0]?.block_name
+
+              let distName = res["blockData"][0]?.district_name
+              this.titleName = this.titleName === null || undefined ? this.titleName = blockName : this.titleName
+
+              this.hierName = this.hierName === undefined ? this.hierName = distName : this.hierName
+            }
             this.reportData = this.blockData = this.mylatlngData =
               res["blockData"];
             this.dateRange = res["dateRange"];
@@ -2103,6 +2112,10 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
             }
           },
           (err) => {
+            this.skul = false;
+            this.dist = false;
+            this.blok = false;
+            this.clust = false;
             this.dateRange = "";
             this.changeDetection.detectChanges();
             this.markers = [];
@@ -2212,6 +2225,14 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
         .clusterPerBlock({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
+            if (res["clusterDetails"]) {
+              let blockName = res["clusterDetails"][0]?.block_name
+
+              let distName = res["clusterDetails"][0]?.district_name
+              this.titleName = this.titleName === null || undefined || "undefined" ? this.titleName = distName : this.titleName
+
+              this.hierName = this.hierName === undefined || "undefined" ? this.hierName = blockName : this.hierName
+            }
             this.reportData = this.clusterData = this.mylatlngData =
               res["clusterDetails"];
             this.dateRange = res["dateRange"];
@@ -2323,6 +2344,10 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
             }
           },
           (err) => {
+            this.skul = false;
+            this.dist = false;
+            this.blok = false;
+            this.clust = false;
             this.dateRange = "";
             this.changeDetection.detectChanges();
             this.markers = [];
@@ -2458,7 +2483,7 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
         district_name: this.distName.name,
       };
       this.clustName = { cluster_id: data };
-      this.hierName = obj.name;
+      this.hierName = obj?.name;
 
       this.globalId = this.myCluster = data;
 
@@ -2473,7 +2498,15 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
         .schoolsPerCluster({ ...this.month_year, ...this.timePeriod, ...{ management: this.management, category: this.category } })
         .subscribe(
           (res) => {
+            if (res["schoolsDetails"]) {
+              let blockName = res["schoolsDetails"][0]?.block_name
+              let clusterName = res["schoolsDetails"][0]?.cluster_name
+              let distName = res["schoolsDetails"][0]?.district_name
+              this.titleName = this.titleName === null || undefined || "undefined" ? this.titleName = distName : this.titleName
 
+              this.title = this.title === undefined || "undefined" ? this.title = blockName : this.title
+              this.hierName = this.hierName === null || undefined || "undefined" ? this.hierName = clusterName : this.hierName
+            }
             if (this.schoolLevel) {
               let schoolData = res['schoolsDetails'];
 
@@ -2570,6 +2603,10 @@ export class TeacherAttendanceExceptionComponent implements OnInit {
             this.changeDetection.markForCheck();
           },
           (err) => {
+            this.skul = false;
+            this.dist = false;
+            this.blok = false;
+            this.clust = false;
             this.dateRange = "";
             this.changeDetection.detectChanges();
             this.markers = [];

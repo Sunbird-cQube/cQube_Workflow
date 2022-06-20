@@ -389,10 +389,10 @@ export class SatReportComponent implements OnInit {
     this.subjectHidden = false;
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       this.levelWiseFilter();
-    }else{
-this.getView()
+    } else {
+      this.getView()
     }
-    
+
 
   }
   onSubjectSelect(data) {
@@ -2506,6 +2506,10 @@ this.getView()
             districtName: this.data[0].Details.district_name,
           };
 
+          this.schoolCount = res['footer']?.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentCount = res['footer']?.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentAttended = res['footer']?.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+        
           // to show and hide the dropdowns
           this.blockHidden = false;
           this.clusterHidden = true;
@@ -2548,10 +2552,7 @@ this.getView()
                 ? -1
                 : 0
           );
-
-          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+        
         },
         (err) => {
           this.errorHandling();
@@ -2661,7 +2662,11 @@ this.getView()
           this.dist = false;
           this.blok = true;
           this.clust = false;
+         // footer 
 
+          this.schoolCount = res['footer']?.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentCount = res['footer']?.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentAttended = res['footer']?.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
           // options to set for markers in the map
           let options = {
             fillOpacity: 1,
@@ -2692,9 +2697,7 @@ this.getView()
                 ? -1
                 : 0
           );
-          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+        
         },
         (err) => {
           this.errorHandling();
@@ -2856,6 +2859,12 @@ this.getView()
                 this.blockId = this.data[0]?.Details.block_id;
                 this.clusterId = clusterId;
 
+               //footer
+             
+                this.schoolCount = res['footer']?.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+                this.studentCount = res['footer']?.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+                this.studentAttended = res['footer']?.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+
                 // these are for showing the hierarchy names based on selection
                 this.skul = false;
                 this.dist = false;
@@ -2889,9 +2898,7 @@ this.getView()
                 this.genericFun(this.data, options, this.fileName);
                 this.globalService.onResize(this.level);
 
-                this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+             
               },
               (err) => {
                 this.errorHandling();

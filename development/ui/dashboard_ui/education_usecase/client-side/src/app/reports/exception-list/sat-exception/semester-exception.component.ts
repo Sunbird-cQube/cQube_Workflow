@@ -1527,11 +1527,13 @@ export class SemesterExceptionComponent implements OnInit {
       if (key !== lat) {
         details[key] = remIcon[key];
       }
+      
     });
     Object.keys(details).forEach(key => {
-      if (key !== lng) {
+      if (key !== lng && key !== "latitude") {
         orgObject[key] = details[key];
       }
+      
     });
     var detailSchool = {};
     var yourData;

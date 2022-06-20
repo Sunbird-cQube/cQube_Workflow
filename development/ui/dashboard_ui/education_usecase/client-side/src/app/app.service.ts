@@ -674,7 +674,7 @@ export class AppServiceComponent {
     };
     obj = {
 
-      uid: environment.auth_api === 'cqube' ? this.keyCloakService.kc.tokenParsed.sub : localStorage.getItem('userId'),
+      uid: environment.auth_api === 'cqube' ? this.keyCloakService.kc.tokenParsed.sub : localStorage.getItem('userid'),
       eventType: event,
       reportId: reportId,
       time:
