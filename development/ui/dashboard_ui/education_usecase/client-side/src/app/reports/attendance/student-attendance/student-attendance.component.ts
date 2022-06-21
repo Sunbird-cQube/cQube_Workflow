@@ -254,11 +254,11 @@ export class StudengtAttendanceComponent implements OnInit {
           } else {
             if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
               this.levelWiseFilter();
-            }else{
-              
+            } else {
+
               this.getView1()
             }
-            
+
           }
         }
       },
@@ -321,7 +321,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.districtWise(districtid, blockid, clusterid)
-      // this.myDistData(districtid, blockid, clusterid);
+
       this.blockSelect({ type: "click" }, blockid);
       this.clusterSelect({ type: "change" }, clusterid);
       this.clusterlevel(clusterid);
@@ -330,7 +330,7 @@ export class StudengtAttendanceComponent implements OnInit {
       this.selCluster = true;
       this.selBlock = true;
       this.districtWise(districtid, blockid, clusterid)
-      // this.myDistData(districtid, blockid, clusterid);
+
       this.blockSelect({ type: "click" }, blockid);
       this.clusterSelect({ type: "change" }, clusterid);
       this.clusterlevel(clusterid);
@@ -338,12 +338,10 @@ export class StudengtAttendanceComponent implements OnInit {
     } else if (level === "Block") {
       this.selBlock = true;
       this.districtWise(districtid, blockid)
-      // this.myDistData(districtid, blockid);
       this.blocklevel(blockid)
       this.levelVal = 2;
     } else if (level === "District") {
       this.districtWise(districtid)
-      // this.myDistData(districtid);
       this.distlevel(districtid)
       this.levelVal = 1;
     }
@@ -750,14 +748,14 @@ export class StudengtAttendanceComponent implements OnInit {
     };
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       this.districtWise();
-    }else{
+    } else {
       this.getView1()
     }
-    
+
 
   }
 
-  async districtWise(distId?, bid?,cid?) {
+  async districtWise(distId?, bid?, cid?) {
     try {
       this.commonAtStateLevel();
       this.levelWise = "District";
@@ -869,8 +867,8 @@ export class StudengtAttendanceComponent implements OnInit {
               this.globalService.onResize(this.levelWise);
               this.commonService.loaderAndErr(this.markers);
               this.changeDetection.markForCheck();
-              if(distId){
-                this.myDistData(distId, bid,cid)
+              if (distId) {
+                this.myDistData(distId, bid, cid)
               }
             },
             (err) => {
@@ -2164,7 +2162,7 @@ export class StudengtAttendanceComponent implements OnInit {
 
 
   distSelect(event, data) {
-
+   
     var distData: any = {};
     this.districtData.find((a) => {
       if (a.district_id == data) {
@@ -2797,7 +2795,7 @@ export class StudengtAttendanceComponent implements OnInit {
                 let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
 
                 this.mylatlngData = data;
-              
+
               } else {
                 this.mylatlngData = res["schoolsDetails"];
               }
@@ -2999,7 +2997,7 @@ export class StudengtAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-
+          uid: localStorage.getItem('userid'),
           event: event,
           level: level,
           locationid: data.id,
@@ -3012,7 +3010,7 @@ export class StudengtAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-
+          uid: localStorage.getItem('userid'),
           event: event,
           level: level,
           locationid: data.id,
