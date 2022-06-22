@@ -211,7 +211,7 @@ export class TeacherAttendanceComponent implements OnInit {
             this.months.push(obj);
           });
           this.month = this.months[this.months.length - 1].id;
-          // this.dateRange = `${this.getMonthYear[`${this.year}`][this.months.length - 1].data_from_date} to ${this.getMonthYear[`${this.year}`][this.months.length - 1].data_upto_date}`;
+      
           if (this.month) {
             this.month_year = {
               month: null,
@@ -247,7 +247,7 @@ export class TeacherAttendanceComponent implements OnInit {
         } catch (e) {
           this.commonService.loaderAndErr(this.markers);
         }
-        //this.getView1();
+      
       },
       (err) => {
         this.dateRange = "";
@@ -3241,7 +3241,7 @@ export class TeacherAttendanceComponent implements OnInit {
       if (event == "download") {
         obj = {
           pageId: "student_attendance",
-
+          uid: localStorage.getItem('userid'),
           event: event,
           level: level,
           locationid: data.id,
@@ -3254,7 +3254,7 @@ export class TeacherAttendanceComponent implements OnInit {
       } else {
         obj = {
           pageId: "student_attendance",
-
+          uid : localStorage.getItem('userid'),
           event: event,
           level: level,
           locationid: data.id,
