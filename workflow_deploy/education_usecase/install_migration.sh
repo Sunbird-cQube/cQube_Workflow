@@ -44,33 +44,33 @@ fi
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 installation_host_ip=$(awk ''/^installation_host_ip:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
-mode_of_installation=$(awk ''/^mode_of_installation:' /{ if ($2 !~ /#.*/) {print $2}}' $base_dir/cqube/conf/base_config.yml)
+mode_of_installation=$(awk ''/^mode_of_installation:' /{ if ($2 !~ /#.*/) {print $2}}' /tmp/cqube_migration/config.yml)
 if [[ $mode_of_installation == "localhost" ]]; then
-ansible-playbook -i hosts ../ansible/install.yml -e "my_hosts=$installation_host_ip" --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook -i hosts ../ansible/install.yml -e "my_hosts=$installation_host_ip" --tags "install" --extra-vars "@/tmp/cqube_migration/config.yml" \
                                                         --extra-vars "@config.yml" \
-							                            --extra-vars "@memory_config.yml" \
+                                                                                    --extra-vars "@memory_config.yml" \
                                                         --extra-vars "@.version" \
-                                                        --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
-														--extra-vars "@$base_dir/cqube/conf/azure_container_config.yml" \
-                                                        --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
-							                            --extra-vars "@datasource_config.yml" \
+                                                        --extra-vars "@/tmp/cqube_migration/aws_s3_config.yml" \
+                                                                                                                --extra-vars "@/tmp/cqube_migration/azure_container_config.yml" \
+                                                        --extra-vars "@/tmp/cqube_migration/local_storage_config.yml" \
+                                                                                    --extra-vars "@datasource_config.yml" \
                                                         --extra-vars "usecase_name=education_usecase" \
                                                         --extra-vars "protocol=http"
 else
-ansible-playbook -i hosts ../ansible/install.yml -e "my_hosts=$installation_host_ip" --tags "install" --extra-vars "@$base_dir/cqube/conf/base_config.yml" \
+ansible-playbook -i hosts ../ansible/install.yml -e "my_hosts=$installation_host_ip" --tags "install" --extra-vars "@/tmp/cqube_migration/config.yml" \
                                                          --extra-vars "@config.yml" \
-							                             --extra-vars "@memory_config.yml" \
+                                                                                     --extra-vars "@memory_config.yml" \
                                                          --extra-vars "@.version" \
-                                                         --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
-														 --extra-vars "@$base_dir/cqube/conf/azure_container_config.yml" \
-                                                         --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
-							                             --extra-vars "@datasource_config.yml" \
+                                                         --extra-vars "@/tmp/cqube_migration/aws_s3_config.yml" \
+                                                                                                                 --extra-vars "@/tmp/cqube_migration/azure_container_config.yml" \
+                                                         --extra-vars "@/tmp/cqube_migration/local_storage_config.yml" \
+                                                                                     --extra-vars "@datasource_config.yml" \
                                                          --extra-vars "usecase_name=education_usecase"
 fi
 if [ $? = 0 ]; then
-. "install_ui.sh"
+. "install_migration_ui.sh"
     if [ $? = 0 ]; then
        echo "cQube Workflow installed successfully!!"
     fi
-fi
+fi    
 
