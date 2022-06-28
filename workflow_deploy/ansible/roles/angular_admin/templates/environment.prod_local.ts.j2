@@ -2,6 +2,7 @@ export const environment = {
   production: true,
   apiEndpoint: "http://{{ proxy_host }}/api",
   appUrl: "{{ protocol }}://{{ api_endpoint }}:4200",
+  adminUrl: "http://{{ local_ipv4_address }}:4201" ,
   grafanaEndPoint: "http://{{ local_ipv4_address }}:9000",
   keycloakUrl: "{{ protocol }}://{{ api_endpoint }}:8080/auth",
   realm: "{{ realm_name }}",
