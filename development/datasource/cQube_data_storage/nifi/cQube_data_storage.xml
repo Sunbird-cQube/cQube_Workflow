@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description></description>
+    <description>new datasource</description>
     <groupId>040676a0-0181-1000-775a-38f02b5d5d7b</groupId>
     <name>cQube_data_storage</name>
     <snippet>
@@ -1670,6 +1670,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>1e480a4b-a5b3-3cf1-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>a05217d8-4b88-3256-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>configure</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>59ec7baa-5b18-30a2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>1e5a12a5-7669-3be5-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -2208,6 +2233,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>26e44e58-6711-3add-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>7496dcba-0574-33b2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>4e79c6b5-417d-33b4-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>27a093cc-3360-35c6-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -2399,6 +2449,56 @@
                     <source>
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>7ce7e780-cfae-3e4b-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>29dd2822-2be2-3b9b-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>cc0b631f-67e9-3e08-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>local</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>112b98c6-edc8-37e1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>29e61ab6-12d5-3950-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>b382628f-7a4d-3c6d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>s3</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>112b98c6-edc8-37e1-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -2745,6 +2845,35 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>2e7e7e25-e389-3e48-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>16162.628580760538</x>
+                        <y>5244.343624684421</y>
+                    </bends>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>3cbac3dc-1433-3a1a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>azure</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>112b98c6-edc8-37e1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>2e8f40f7-5aef-35a3-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -2819,6 +2948,31 @@
                     <source>
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>ed363b88-8924-3709-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>3070a260-2eae-3305-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>46a54cb8-435e-3a17-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>57a9fc18-ae68-35c1-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -3182,6 +3336,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>38c7b465-b17b-3c39-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>1f4fb9fe-a025-3dfb-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>azure</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>1d1c9efd-6925-31a9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>391ec0ec-2d49-3921-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -3302,48 +3481,6 @@
                     <source>
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>107d4208-987e-351b-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
-                    <id>3af8a66b-7a30-38c2-0000-000000000000</id>
-                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
-                        <id>d66a6d9b-0ffe-3382-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>block_master</selectedRelationships>
-                    <selectedRelationships>cluster_master</selectedRelationships>
-                    <selectedRelationships>cqube_telemetry</selectedRelationships>
-                    <selectedRelationships>crc</selectedRelationships>
-                    <selectedRelationships>data_replay_retention</selectedRelationships>
-                    <selectedRelationships>diksha_enroment</selectedRelationships>
-                    <selectedRelationships>district_master</selectedRelationships>
-                    <selectedRelationships>grade_details</selectedRelationships>
-                    <selectedRelationships>infra_trans</selectedRelationships>
-                    <selectedRelationships>pat</selectedRelationships>
-                    <selectedRelationships>sat</selectedRelationships>
-                    <selectedRelationships>school_category</selectedRelationships>
-                    <selectedRelationships>school_management</selectedRelationships>
-                    <selectedRelationships>school_mst</selectedRelationships>
-                    <selectedRelationships>student_attendance</selectedRelationships>
-                    <selectedRelationships>subject_deatis</selectedRelationships>
-                    <selectedRelationships>tch_att</selectedRelationships>
-                    <selectedRelationships>udise</selectedRelationships>
-                    <source>
-                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
-                        <id>8d1fb9e4-dd67-36de-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -3794,7 +3931,7 @@
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>16864.0</x>
+                        <x>16861.419921875</x>
                         <y>1720.0</y>
                     </bends>
                     <destination>
@@ -4918,6 +5055,50 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>5aa59d14-40fd-3ab7-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>d66a6d9b-0ffe-3382-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>block_master</selectedRelationships>
+                    <selectedRelationships>cluster_master</selectedRelationships>
+                    <selectedRelationships>configure</selectedRelationships>
+                    <selectedRelationships>cqube_telemetry</selectedRelationships>
+                    <selectedRelationships>crc</selectedRelationships>
+                    <selectedRelationships>data_replay_retention</selectedRelationships>
+                    <selectedRelationships>diksha</selectedRelationships>
+                    <selectedRelationships>diksha_enroment</selectedRelationships>
+                    <selectedRelationships>district_master</selectedRelationships>
+                    <selectedRelationships>grade_details</selectedRelationships>
+                    <selectedRelationships>infra_trans</selectedRelationships>
+                    <selectedRelationships>pat</selectedRelationships>
+                    <selectedRelationships>sat</selectedRelationships>
+                    <selectedRelationships>school_category</selectedRelationships>
+                    <selectedRelationships>school_management</selectedRelationships>
+                    <selectedRelationships>school_mst</selectedRelationships>
+                    <selectedRelationships>student_attendance</selectedRelationships>
+                    <selectedRelationships>subject_deatis</selectedRelationships>
+                    <selectedRelationships>tch_att</selectedRelationships>
+                    <selectedRelationships>udise</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>8d1fb9e4-dd67-36de-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>5b7cf48c-024f-33e6-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -5451,6 +5632,31 @@
                     <source>
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>5b02957c-ee78-3202-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>62194546-fe9b-3519-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>73f1f8e6-237d-39a8-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>7496dcba-0574-33b2-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -6465,6 +6671,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>79aec470-026c-3fbf-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>4e79c6b5-417d-33b4-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>local</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>1d1c9efd-6925-31a9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>79cd7dcc-1f6b-3fcd-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -7299,6 +7530,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>8668a954-1354-345a-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>77eed110-136f-384d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>s3</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>1d1c9efd-6925-31a9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>86ddd772-df45-37c9-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -7520,6 +7776,33 @@
                     <source>
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>3d65c453-d8f7-36ab-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>89487e54-16cd-31bb-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>57a9fc18-ae68-35c1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>azure</selectedRelationships>
+                    <selectedRelationships>s3</selectedRelationships>
+                    <selectedRelationships>unmatched</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>2ea740f4-95d7-3572-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -8703,6 +8986,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>a2dde9bf-5ff5-3f03-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>4f27a93d-88bb-3c03-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>cc0b631f-67e9-3e08-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>a2e4c9f3-f073-3079-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -9719,6 +10027,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>b2c48299-cc10-3fa1-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>56567051-d9f7-356f-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>77eed110-136f-384d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>b32d777c-9cb0-37c5-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -9997,6 +10330,31 @@
                     <source>
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>29778d86-7752-375e-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>b9374113-d85c-3536-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>56567051-d9f7-356f-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>1f4fb9fe-a025-3dfb-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -11492,6 +11850,55 @@
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>7b9d6327-ec5f-3257-0000-000000000000</id>
                         <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>d642045c-8876-3899-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>56567051-d9f7-356f-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>73f1f8e6-237d-39a8-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>d654227e-d1d2-30a4-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>1d1c9efd-6925-31a9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>2b60e45c-cf60-38be-0000-000000000000</id>
+                        <type>INPUT_PORT</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -13234,6 +13641,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>f788cb2d-ced8-3592-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>c58603bf-9d26-3407-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>configure_file</selectedRelationships>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>59ec7baa-5b18-30a2-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>f7a755e8-438e-313a-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -13570,6 +14002,30 @@
                     <source>
                         <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
                         <id>efab9527-f187-3b8b-0000-000000000000</id>
+                        <type>INPUT_PORT</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>fdf2a851-fed5-3a0c-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>112b98c6-edc8-37e1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>99f53b66-4ec0-38f2-0000-000000000000</groupId>
+                        <id>f2e8518e-7a8e-3f58-0000-000000000000</id>
                         <type>INPUT_PORT</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -15512,6 +15968,19 @@
                     <type>INPUT_PORT</type>
                 </inputPorts>
                 <inputPorts>
+                    <id>2b60e45c-cf60-38be-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14080.0</x>
+                        <y>120.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>config_datsource_S3_input_port</name>
+                    <state>STOPPED</state>
+                    <type>INPUT_PORT</type>
+                </inputPorts>
+                <inputPorts>
                     <id>3003bae0-4dd6-354c-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -15931,7 +16400,7 @@
                     <id>c449dbf7-abd2-3e23-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
-                        <x>16720.0</x>
+                        <x>16717.419921875</x>
                         <y>1104.0</y>
                     </position>
                     <comments></comments>
@@ -16110,6 +16579,19 @@
                     <type>INPUT_PORT</type>
                 </inputPorts>
                 <inputPorts>
+                    <id>f2e8518e-7a8e-3f58-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>16018.628580760538</x>
+                        <y>4628.343624684421</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>config_datasource_save-s3-log_summary_input_port</name>
+                    <state>STOPPED</state>
+                    <type>INPUT_PORT</type>
+                </inputPorts>
+                <inputPorts>
                     <id>f346eb9e-5401-3e8c-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -16135,6 +16617,27 @@
                     <state>STOPPED</state>
                     <type>INPUT_PORT</type>
                 </inputPorts>
+                <labels>
+                    <id>0043a2da-38d5-3af9-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14288.0</x>
+                        <y>1496.0</y>
+                    </position>
+                    <height>632.0</height>
+                    <label>On Premise </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#a65c1f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>400.0</width>
+                </labels>
                 <labels>
                     <id>01d1467b-d8e2-3327-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
@@ -16449,6 +16952,27 @@
                         </entry>
                     </style>
                     <width>576.0</width>
+                </labels>
+                <labels>
+                    <id>19d3e3de-9c59-3b7d-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>16245.208658885538</x>
+                        <y>5260.343624684421</y>
+                    </position>
+                    <height>176.0</height>
+                    <label>azure</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#155896</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
                 </labels>
                 <labels>
                     <id>1a8a713c-968d-3de4-0000-000000000000</id>
@@ -16806,6 +17330,27 @@
                         </entry>
                     </style>
                     <width>400.0</width>
+                </labels>
+                <labels>
+                    <id>37cbf741-702a-3aef-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14344.0</x>
+                        <y>456.0</y>
+                    </position>
+                    <height>184.0</height>
+                    <label>S3 </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#55a61f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
                 </labels>
                 <labels>
                     <id>38184d6c-9540-318e-0000-000000000000</id>
@@ -17273,7 +17818,7 @@
                     <id>66c69181-21d8-33c1-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
-                        <x>16944.0</x>
+                        <x>16941.419921875</x>
                         <y>1520.0</y>
                     </position>
                     <height>184.0</height>
@@ -18824,6 +19369,48 @@
                     <width>424.0</width>
                 </labels>
                 <labels>
+                    <id>e7458eb7-c413-3147-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>15701.208658885538</x>
+                        <y>5044.343624684421</y>
+                    </position>
+                    <height>464.0</height>
+                    <label>On Premise </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#a65c1f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>384.0</width>
+                </labels>
+                <labels>
+                    <id>e7e4e788-14ba-3318-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>16242.628580760538</x>
+                        <y>5044.343624684421</y>
+                    </position>
+                    <height>184.0</height>
+                    <label>S3 </label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#55a61f</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
                     <id>e8a38ee2-2dd1-3a2c-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -18866,6 +19453,27 @@
                     <width>384.0</width>
                 </labels>
                 <labels>
+                    <id>f0afc37b-21c2-38fa-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14056.0</x>
+                        <y>688.0</y>
+                    </position>
+                    <height>176.0</height>
+                    <label>azure</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#155896</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>392.0</width>
+                </labels>
+                <labels>
                     <id>f356d766-2c47-34f2-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -18890,8 +19498,8 @@
                     <id>f52ff1db-7b67-3611-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
-                        <x>14288.0</x>
-                        <y>1512.0</y>
+                        <x>13640.0</x>
+                        <y>456.0</y>
                     </position>
                     <height>632.0</height>
                     <label>On Premise </label>
@@ -19176,6 +19784,19 @@
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
                 <outputPorts>
+                    <id>56567051-d9f7-356f-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14704.0</x>
+                        <y>952.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>configure_datasource_S3-success_output_port</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
                     <id>582ae563-4630-3fe6-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -19254,6 +19875,19 @@
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
                 <outputPorts>
+                    <id>a05217d8-4b88-3256-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>10872.0</x>
+                        <y>-2256.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>configure_files</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
                     <id>a641f2db-b617-3f66-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -19289,6 +19923,19 @@
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                     <name>pat_wait_file_success_output</name>
+                    <state>STOPPED</state>
+                    <type>OUTPUT_PORT</type>
+                </outputPorts>
+                <outputPorts>
+                    <id>c58603bf-9d26-3407-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>10904.0</x>
+                        <y>-2344.0</y>
+                    </position>
+                    <comments></comments>
+                    <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                    <name>configure_datasource</name>
                     <state>STOPPED</state>
                     <type>OUTPUT_PORT</type>
                 </outputPorts>
@@ -24105,6 +24752,96 @@ VALUES
                     <type>org.apache.nifi.processors.standard.PutSQL</type>
                 </processors>
                 <processors>
+                    <id>112b98c6-edc8-37e1-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>15962.628580760538</x>
+                        <y>4780.343624684421</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>azure</key>
+<value>
+    <name>azure</name>
+</value>
+                            </entry>
+                            <entry>
+<key>local</key>
+<value>
+    <name>local</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3</key>
+<value>
+    <name>s3</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>azure</key>
+<value>${source:startsWith('azure')}</value>
+                            </entry>
+                            <entry>
+<key>local</key>
+<value>${source:startsWith('local')}</value>
+                            </entry>
+                            <entry>
+<key>s3</key>
+<value>${source:startsWith('s3')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>route_s3_or_local</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>azure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>local</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>s3</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>11e0d8f1-5016-32cf-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -26623,6 +27360,96 @@ ${query_type:startsWith('pat_exception_management_grade_school_last_30_days'):if
                     <type>org.apache.nifi.processors.aws.s3.PutS3Object</type>
                 </processors>
                 <processors>
+                    <id>1d1c9efd-6925-31a9-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14032.0</x>
+                        <y>264.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>azure</key>
+<value>
+    <name>azure</name>
+</value>
+                            </entry>
+                            <entry>
+<key>local</key>
+<value>
+    <name>local</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3</key>
+<value>
+    <name>s3</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>azure</key>
+<value>${source:startsWith('azure')}</value>
+                            </entry>
+                            <entry>
+<key>local</key>
+<value>${source:startsWith('local')}</value>
+                            </entry>
+                            <entry>
+<key>s3</key>
+<value>${source:startsWith('s3')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>route_s3_or_local</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>azure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>local</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>s3</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>1d6df77e-0bd4-325d-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -26997,6 +27824,204 @@ ${query_type:startsWith('pat_exception_management_grade_school_last_30_days'):if
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
+                    <id>1f4fb9fe-a025-3dfb-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14072.0</x>
+                        <y>720.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-azure-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>container-name</key>
+<value>
+    <name>container-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-credentials-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.services.azure.storage.AzureStorageCredentialsService</identifiesControllerService>
+    <name>storage-credentials-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-account-name</key>
+<value>
+    <name>storage-account-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-account-key</key>
+<value>
+    <name>storage-account-key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-sas-token</key>
+<value>
+    <name>storage-sas-token</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-endpoint-suffix</key>
+<value>
+    <name>storage-endpoint-suffix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
+    <name>proxy-configuration-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>blob</key>
+<value>
+    <name>blob</name>
+</value>
+                            </entry>
+                            <entry>
+<key>azure-create-container</key>
+<value>
+    <name>azure-create-container</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>container-name</key>
+<value>#{azure_output_container}</value>
+                            </entry>
+                            <entry>
+<key>storage-credentials-service</key>
+<value>d8a8e463-407a-35f9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>storage-account-name</key>
+                            </entry>
+                            <entry>
+<key>storage-account-key</key>
+                            </entry>
+                            <entry>
+<key>storage-sas-token</key>
+                            </entry>
+                            <entry>
+<key>storage-endpoint-suffix</key>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+                            </entry>
+                            <entry>
+<key>blob</key>
+<value>${query_type:startsWith('stud_att_district_wise'):ifElse('attendance/${year}/${month}/district.json',
+${query_type:startsWith('stud_att_block_wise'):ifElse('attendance/${year}/${month}/block.json',
+${query_type:startsWith('stud_att_cluster_wise'):ifElse('attendance/${year}/${month}/cluster.json',
+${query_type:startsWith('stud_att_school_wise'):ifElse('attendance/${year}/${month}/school.json',
+${query_type:startsWith('stud_att_meta'):ifElse('attendance/student_attendance_meta.json',
+${query_type:startsWith('stud_att_district_last_day'):ifElse('attendance/last_day/district.json',
+${query_type:startsWith('stud_att_district_last_7_days'):ifElse('attendance/last_7_days/district.json',
+${query_type:startsWith('stud_att_district_last_30_days'):ifElse('attendance/last_30_days/district.json',
+${query_type:startsWith('stud_att_district_overall'):ifElse('attendance/overall/district.json',  
+${query_type:startsWith('stud_att_block_last_day'):ifElse('attendance/last_day/block.json',
+${query_type:startsWith('stud_att_block_last_7_days'):ifElse('attendance/last_7_days/block.json',
+${query_type:startsWith('stud_att_block_last_30_days'):ifElse('attendance/last_30_days/block.json', 
+${query_type:startsWith('stud_att_block_overall'):ifElse('attendance/overall/block.json',   
+${query_type:startsWith('stud_att_cluster_last_day'):ifElse('attendance/last_day/cluster.json',
+${query_type:startsWith('stud_att_cluster_last_7_days'):ifElse('attendance/last_7_days/cluster.json',
+${query_type:startsWith('stud_att_cluster_last_30_days'):ifElse('attendance/last_30_days/cluster.json',
+${query_type:startsWith('stud_att_cluster_overall'):ifElse('attendance/overall/cluster.json',  
+${query_type:startsWith('stud_att_school_last_day'):ifElse('attendance/last_day/school.json',
+${query_type:startsWith('stud_att_school_last_7_days'):ifElse('attendance/last_7_days/school.json',
+${query_type:startsWith('stud_att_school_last_30_days'):ifElse('attendance/last_30_days/school.json',
+${query_type:startsWith('stud_att_school_overall'):ifElse('attendance/overall/school.json',
+${query_type:startsWith('stud_att_exception_meta'):ifElse("exception_list/student_attendance_completion/metaData.json",
+${query_type:startsWith('stud_att_exception_district_by_month_year'):ifElse("exception_list/student_attendance_completion/district_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_block_by_month_year'):ifElse("exception_list/student_attendance_completion/block_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_cluster_by_month_year'):ifElse("exception_list/student_attendance_completion/cluster_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_school_by_month_year'):ifElse("exception_list/student_attendance_completion/school_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_district_last_day'):ifElse('exception_list/student_attendance_completion/last_day/district.json',
+${query_type:startsWith('stud_att_exception_district_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/district.json',
+${query_type:startsWith('stud_att_exception_district_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/district.json',
+${query_type:startsWith('stud_att_exception_district_overall'):ifElse('exception_list/student_attendance_completion/overall/district.json',  
+${query_type:startsWith('stud_att_exception_block_last_day'):ifElse('exception_list/student_attendance_completion/last_day/block.json',
+${query_type:startsWith('stud_att_exception_block_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/block.json',
+${query_type:startsWith('stud_att_exception_block_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/block.json', 
+${query_type:startsWith('stud_att_exception_block_overall'):ifElse('exception_list/student_attendance_completion/overall/block.json', 
+${query_type:startsWith('stud_att_exception_cluster_last_day'):ifElse('exception_list/student_attendance_completion/last_day/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_overall'):ifElse('exception_list/student_attendance_completion/overall/cluster.json',  
+${query_type:startsWith('stud_att_exception_school_last_day'):ifElse('exception_list/student_attendance_completion/last_day/school.json',
+${query_type:startsWith('stud_att_exception_school_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/school.json',
+${query_type:startsWith('stud_att_exception_school_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/school.json',
+${query_type:startsWith('stud_att_exception_school_overall'):ifElse('exception_list/student_attendance_completion/overall/school.json',
+${query_type:startsWith('stud_att_raw_meta'):ifElse('attendance/raw/metaData.json',
+${query_type:startsWith('stud_att_raw_district'):ifElse('attendance/raw/student_attendance_all_districts_${year}.csv',
+${query_type:startsWith('stud_att_raw_block'):ifElse('attendance/raw/student_attendance_all_blocks_${year}.csv',
+${query_type:startsWith('stud_att_raw_cluster'):ifElse('attendance/raw/student_attendance_all_clusters_${year}.csv',
+${query_type:startsWith('stud_att_raw_school'):ifElse('attendance/raw/student_attendance_all_schools_${year}.csv',
+${query_type:startsWith('stud_att_raw_school'):ifElse('attendance/raw/student_attendance_all_schools_${year}.csv',
+${query_type:startsWith('stud_att_management_category_meta'):ifElse('attendance/school_management_category_meta.json',
+${query_type:startsWith('stud_att_management_category_district_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/district_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_block_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/block_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_cluster_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/cluster_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_school_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/school_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_district_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/school.json','None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
+)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
+                            </entry>
+                            <entry>
+<key>azure-create-container</key>
+<value>false</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>stud_att_azure_output</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.azure.storage.PutAzureBlobStorage</type>
                 </processors>
                 <processors>
                     <id>20aeef47-6381-3507-0000-000000000000</id>
@@ -28736,7 +29761,7 @@ ${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('a
                     <id>264f5f87-2a79-38a8-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
-                        <x>16968.0</x>
+                        <x>16965.419921875</x>
                         <y>1768.0</y>
                     </position>
                     <bundle>
@@ -31140,7 +32165,7 @@ ${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('a
                         <name>s3</name>
                     </relationships>
                     <relationships>
-                        <autoTerminate>true</autoTerminate>
+                        <autoTerminate>false</autoTerminate>
                         <name>unmatched</name>
                     </relationships>
                     <state>STOPPED</state>
@@ -34279,6 +35304,135 @@ ${query_type:startsWith('tch_att_management_category_school_overall'):ifElse('te
                     <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
+                    <id>3cbac3dc-1433-3a1a-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>16266.628580760538</x>
+                        <y>5292.343624684421</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-azure-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>container-name</key>
+<value>
+    <name>container-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-credentials-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.services.azure.storage.AzureStorageCredentialsService</identifiesControllerService>
+    <name>storage-credentials-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-account-name</key>
+<value>
+    <name>storage-account-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-account-key</key>
+<value>
+    <name>storage-account-key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-sas-token</key>
+<value>
+    <name>storage-sas-token</name>
+</value>
+                            </entry>
+                            <entry>
+<key>storage-endpoint-suffix</key>
+<value>
+    <name>storage-endpoint-suffix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
+    <name>proxy-configuration-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>blob</key>
+<value>
+    <name>blob</name>
+</value>
+                            </entry>
+                            <entry>
+<key>azure-create-container</key>
+<value>
+    <name>azure-create-container</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>container-name</key>
+<value>#{azure_output_container}</value>
+                            </entry>
+                            <entry>
+<key>storage-credentials-service</key>
+<value>d8a8e463-407a-35f9-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>storage-account-name</key>
+                            </entry>
+                            <entry>
+<key>storage-account-key</key>
+                            </entry>
+                            <entry>
+<key>storage-sas-token</key>
+                            </entry>
+                            <entry>
+<key>storage-endpoint-suffix</key>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+                            </entry>
+                            <entry>
+<key>blob</key>
+<value>log_summary/log_summary_student_attendance.json</value>
+                            </entry>
+                            <entry>
+<key>azure-create-container</key>
+<value>false</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>config_datasource_save_azure_log_summary</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.azure.storage.PutAzureBlobStorage</type>
+                </processors>
+                <processors>
                     <id>3d65c453-d8f7-36ab-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -36259,6 +37413,73 @@ ${query_type:startsWith('tch_att_management_exception_school_by_month_year'):ifE
                     <type>org.apache.nifi.processors.standard.LogAttribute</type>
                 </processors>
                 <processors>
+                    <id>46a54cb8-435e-3a17-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>1093.9862977083912</x>
+                        <y>-391.4422190392519</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>log-level</key>
+<value>
+    <name>log-level</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>
+    <name>log-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+<value>
+    <name>log-message</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>log-level</key>
+<value>info</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>****success****</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>LogMessage</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.LogMessage</type>
+                </processors>
+                <processors>
                     <id>47380392-4d95-3749-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -37245,6 +38466,161 @@ ${query_type:startsWith('sat_management_school_by_semester_year'):ifElse('sat/tr
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
                 </processors>
                 <processors>
+                    <id>4e79c6b5-417d-33b4-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>13664.0</x>
+                        <y>520.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>
+    <name>filename</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>${query_type:startsWith('stud_att_district_wise'):ifElse('attendance/${year}/${month}/district.json',
+${query_type:startsWith('stud_att_block_wise'):ifElse('attendance/${year}/${month}/block.json',
+${query_type:startsWith('stud_att_cluster_wise'):ifElse('attendance/${year}/${month}/cluster.json',
+${query_type:startsWith('stud_att_school_wise'):ifElse('attendance/${year}/${month}/school.json',
+${query_type:startsWith('stud_att_meta'):ifElse('attendance/student_attendance_meta.json',
+${query_type:startsWith('stud_att_district_last_day'):ifElse('attendance/last_day/district.json',
+${query_type:startsWith('stud_att_district_last_7_days'):ifElse('attendance/last_7_days/district.json',
+${query_type:startsWith('stud_att_district_last_30_days'):ifElse('attendance/last_30_days/district.json',
+${query_type:startsWith('stud_att_district_overall'):ifElse('attendance/overall/district.json',  
+${query_type:startsWith('stud_att_block_last_day'):ifElse('attendance/last_day/block.json',
+${query_type:startsWith('stud_att_block_last_7_days'):ifElse('attendance/last_7_days/block.json',
+${query_type:startsWith('stud_att_block_last_30_days'):ifElse('attendance/last_30_days/block.json', 
+${query_type:startsWith('stud_att_block_overall'):ifElse('attendance/overall/block.json',   
+${query_type:startsWith('stud_att_cluster_last_day'):ifElse('attendance/last_day/cluster.json',
+${query_type:startsWith('stud_att_cluster_last_7_days'):ifElse('attendance/last_7_days/cluster.json',
+${query_type:startsWith('stud_att_cluster_last_30_days'):ifElse('attendance/last_30_days/cluster.json',
+${query_type:startsWith('stud_att_cluster_overall'):ifElse('attendance/overall/cluster.json',  
+${query_type:startsWith('stud_att_school_last_day'):ifElse('attendance/last_day/school.json',
+${query_type:startsWith('stud_att_school_last_7_days'):ifElse('attendance/last_7_days/school.json',
+${query_type:startsWith('stud_att_school_last_30_days'):ifElse('attendance/last_30_days/school.json',
+${query_type:startsWith('stud_att_school_overall'):ifElse('attendance/overall/school.json',
+${query_type:startsWith('stud_att_exception_meta'):ifElse("exception_list/student_attendance_completion/metaData.json",
+${query_type:startsWith('stud_att_exception_district_by_month_year'):ifElse("exception_list/student_attendance_completion/district_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_block_by_month_year'):ifElse("exception_list/student_attendance_completion/block_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_cluster_by_month_year'):ifElse("exception_list/student_attendance_completion/cluster_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_school_by_month_year'):ifElse("exception_list/student_attendance_completion/school_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_district_last_day'):ifElse('exception_list/student_attendance_completion/last_day/district.json',
+${query_type:startsWith('stud_att_exception_district_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/district.json',
+${query_type:startsWith('stud_att_exception_district_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/district.json',
+${query_type:startsWith('stud_att_exception_district_overall'):ifElse('exception_list/student_attendance_completion/overall/district.json',  
+${query_type:startsWith('stud_att_exception_block_last_day'):ifElse('exception_list/student_attendance_completion/last_day/block.json',
+${query_type:startsWith('stud_att_exception_block_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/block.json',
+${query_type:startsWith('stud_att_exception_block_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/block.json', 
+${query_type:startsWith('stud_att_exception_block_overall'):ifElse('exception_list/student_attendance_completion/overall/block.json', 
+${query_type:startsWith('stud_att_exception_cluster_last_day'):ifElse('exception_list/student_attendance_completion/last_day/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_overall'):ifElse('exception_list/student_attendance_completion/overall/cluster.json',  
+${query_type:startsWith('stud_att_exception_school_last_day'):ifElse('exception_list/student_attendance_completion/last_day/school.json',
+${query_type:startsWith('stud_att_exception_school_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/school.json',
+${query_type:startsWith('stud_att_exception_school_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/school.json',
+${query_type:startsWith('stud_att_exception_school_overall'):ifElse('exception_list/student_attendance_completion/overall/school.json',
+${query_type:startsWith('stud_att_raw_meta'):ifElse('attendance/raw/metaData.json',
+${query_type:startsWith('stud_att_raw_district'):ifElse('attendance/raw/student_attendance_all_districts_${year}.csv',
+${query_type:startsWith('stud_att_raw_block'):ifElse('attendance/raw/student_attendance_all_blocks_${year}.csv',
+${query_type:startsWith('stud_att_raw_cluster'):ifElse('attendance/raw/student_attendance_all_clusters_${year}.csv',
+${query_type:startsWith('stud_att_raw_school'):ifElse('attendance/raw/student_attendance_all_schools_${year}.csv',
+${query_type:startsWith('stud_att_raw_school'):ifElse('attendance/raw/student_attendance_all_schools_${year}.csv',
+${query_type:startsWith('stud_att_management_category_meta'):ifElse('attendance/school_management_category_meta.json',
+${query_type:startsWith('stud_att_management_category_district_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/district_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_block_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/block_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_cluster_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/cluster_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_school_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/school_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_district_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/school.json','None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
+)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>stud_att_update_filename</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
                     <id>4e857c42-504f-3192-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -37329,6 +38705,123 @@ ${query_type:startsWith('sat_management_school_by_semester_year'):ifElse('sat/tr
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
+                    <id>4f27a93d-88bb-3c03-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>15717.208658885538</x>
+                        <y>5364.343624684421</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Directory</key>
+<value>
+    <name>Directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>
+    <name>Conflict Resolution Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>
+    <name>Create Missing Directories</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+<value>
+    <name>Maximum File Count</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+<value>
+    <name>Last Modified Time</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+<value>
+    <name>Permissions</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Group</key>
+<value>
+    <name>Group</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Directory</key>
+<value>#{output_directory}log_summary/</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>replace</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+                            </entry>
+                            <entry>
+<key>Group</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>S3-config_datasource_partition</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PutFile</type>
                 </processors>
                 <processors>
                     <id>4f47ce7c-381a-3586-0000-000000000000</id>
@@ -38170,7 +39663,7 @@ ${query_type:startsWith('tch_att_management_exception_school_overall'):ifElse('e
                     <id>57576fd6-22bd-3035-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
-                        <x>16968.0</x>
+                        <x>16965.419921875</x>
                         <y>1560.0</y>
                     </position>
                     <bundle>
@@ -38577,6 +40070,92 @@ ${query_type:startsWith('tch_att_management_exception_school_overall'):ifElse('e
                     <type>org.apache.nifi.processors.aws.s3.PutS3Object</type>
                 </processors>
                 <processors>
+                    <id>57a9fc18-ae68-35c1-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>1056.0</x>
+                        <y>-608.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>configure</key>
+<value>
+    <name>configure</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>configure</key>
+<value>${filename:notNull()}:ifElse(${filename:startsWith('configure')})</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>UpdateAttribute</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
                     <id>58754a27-a269-38ed-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -38775,6 +40354,18 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
 </value>
                             </entry>
                             <entry>
+<key>configure</key>
+<value>
+    <name>configure</name>
+</value>
+                            </entry>
+                            <entry>
+<key>configure_file</key>
+<value>
+    <name>configure_file</name>
+</value>
+                            </entry>
+                            <entry>
 <key>cqube_telemetry</key>
 <value>
     <name>cqube_telemetry</name>
@@ -38884,6 +40475,14 @@ ${query_type:startsWith('sat_management_learning_outcome_p3_cluster'):ifElse('sa
                             <entry>
 <key>Routing Strategy</key>
 <value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>configure</key>
+<value>${emission_filename:startsWith('config')}</value>
+                            </entry>
+                            <entry>
+<key>configure_file</key>
+<value>${filename:startsWith('configure_file')}</value>
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
@@ -39013,6 +40612,14 @@ ${filename:startsWith('sch_safety')}
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
                     <name>route_based_on_content</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>configure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>configure_file</name>
+                    </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>cqube_telemetry</name>
@@ -44802,6 +46409,123 @@ ${query_type:startsWith('comp_management_district_wise'):ifElse('composite/schoo
                     <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
                 </processors>
                 <processors>
+                    <id>73f1f8e6-237d-39a8-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>13672.0</x>
+                        <y>920.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Directory</key>
+<value>
+    <name>Directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>
+    <name>Conflict Resolution Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>
+    <name>Create Missing Directories</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+<value>
+    <name>Maximum File Count</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+<value>
+    <name>Last Modified Time</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+<value>
+    <name>Permissions</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Group</key>
+<value>
+    <name>Group</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Directory</key>
+<value>#{output_directory}${directory}/</value>
+                            </entry>
+                            <entry>
+<key>Conflict Resolution Strategy</key>
+<value>replace</value>
+                            </entry>
+                            <entry>
+<key>Create Missing Directories</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>Maximum File Count</key>
+                            </entry>
+                            <entry>
+<key>Last Modified Time</key>
+                            </entry>
+                            <entry>
+<key>Permissions</key>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+                            </entry>
+                            <entry>
+<key>Group</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>S3-student_attendance</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.PutFile</type>
+                </processors>
+                <processors>
                     <id>745c90d6-a66b-3f1d-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -44909,6 +46633,102 @@ ${query_type:startsWith('comp_management_district_wise'):ifElse('composite/schoo
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.FetchFile</type>
+                </processors>
+                <processors>
+                    <id>7496dcba-0574-33b2-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>13664.0</x>
+                        <y>728.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>directory</key>
+<value>
+    <name>directory</name>
+</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>
+    <name>filename</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>directory</key>
+<value>${filename:substringBeforeLast('/')}</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>${filename:substringAfterLast('/')}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>stud_att_update_filename_directory</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
                 </processors>
                 <processors>
                     <id>75726ab9-6dcf-340e-0000-000000000000</id>
@@ -45533,6 +47353,485 @@ ${query_type:startsWith('comp_management_district_wise'):ifElse('composite/schoo
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
+                    <id>77eed110-136f-384d-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>14368.0</x>
+                        <y>496.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-aws-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Object Key</key>
+<value>
+    <name>Object Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>
+    <name>Bucket</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Content Type</key>
+<value>
+    <name>Content Type</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Content Disposition</key>
+<value>
+    <name>Content Disposition</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Cache Control</key>
+<value>
+    <name>Cache Control</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+<value>
+    <name>Access Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+<value>
+    <name>Secret Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+<value>
+    <name>Credentials File</name>
+</value>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderService</identifiesControllerService>
+    <name>AWS Credentials Provider service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3-object-tags-prefix</key>
+<value>
+    <name>s3-object-tags-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3-object-remove-tags-prefix</key>
+<value>
+    <name>s3-object-remove-tags-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Storage Class</key>
+<value>
+    <name>Storage Class</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>
+    <name>Region</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>
+    <name>Communications Timeout</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Expiration Time Rule</key>
+<value>
+    <name>Expiration Time Rule</name>
+</value>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>
+    <name>FullControl User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>
+    <name>Read Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>
+    <name>Write Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>
+    <name>Read ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>
+    <name>Write ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canned-acl</key>
+<value>
+    <name>canned-acl</name>
+</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.ssl.SSLContextService</identifiesControllerService>
+    <name>SSL Context Service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+<value>
+    <name>Endpoint Override URL</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>
+    <name>Signer Override</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Threshold</key>
+<value>
+    <name>Multipart Threshold</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Part Size</key>
+<value>
+    <name>Multipart Part Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload AgeOff Interval</key>
+<value>
+    <name>Multipart Upload AgeOff Interval</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload Max Age Threshold</key>
+<value>
+    <name>Multipart Upload Max Age Threshold</name>
+</value>
+                            </entry>
+                            <entry>
+<key>server-side-encryption</key>
+<value>
+    <name>server-side-encryption</name>
+</value>
+                            </entry>
+                            <entry>
+<key>encryption-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.processors.aws.s3.AmazonS3EncryptionService</identifiesControllerService>
+    <name>encryption-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>use-chunked-encoding</key>
+<value>
+    <name>use-chunked-encoding</name>
+</value>
+                            </entry>
+                            <entry>
+<key>use-path-style-access</key>
+<value>
+    <name>use-path-style-access</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
+    <name>proxy-configuration-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+<value>
+    <name>Proxy Host</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+<value>
+    <name>Proxy Host Port</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+<value>
+    <name>proxy-user-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+<value>
+    <name>proxy-user-password</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Object Key</key>
+<value>${query_type:startsWith('stud_att_district_wise'):ifElse('attendance/${year}/${month}/district.json',
+${query_type:startsWith('stud_att_block_wise'):ifElse('attendance/${year}/${month}/block.json',
+${query_type:startsWith('stud_att_cluster_wise'):ifElse('attendance/${year}/${month}/cluster.json',
+${query_type:startsWith('stud_att_school_wise'):ifElse('attendance/${year}/${month}/school.json',
+${query_type:startsWith('stud_att_meta'):ifElse('attendance/student_attendance_meta.json',
+${query_type:startsWith('stud_att_district_last_day'):ifElse('attendance/last_day/district.json',
+${query_type:startsWith('stud_att_district_last_7_days'):ifElse('attendance/last_7_days/district.json',
+${query_type:startsWith('stud_att_district_last_30_days'):ifElse('attendance/last_30_days/district.json',
+${query_type:startsWith('stud_att_district_overall'):ifElse('attendance/overall/district.json',  
+${query_type:startsWith('stud_att_block_last_day'):ifElse('attendance/last_day/block.json',
+${query_type:startsWith('stud_att_block_last_7_days'):ifElse('attendance/last_7_days/block.json',
+${query_type:startsWith('stud_att_block_last_30_days'):ifElse('attendance/last_30_days/block.json', 
+${query_type:startsWith('stud_att_block_overall'):ifElse('attendance/overall/block.json',   
+${query_type:startsWith('stud_att_cluster_last_day'):ifElse('attendance/last_day/cluster.json',
+${query_type:startsWith('stud_att_cluster_last_7_days'):ifElse('attendance/last_7_days/cluster.json',
+${query_type:startsWith('stud_att_cluster_last_30_days'):ifElse('attendance/last_30_days/cluster.json',
+${query_type:startsWith('stud_att_cluster_overall'):ifElse('attendance/overall/cluster.json',  
+${query_type:startsWith('stud_att_school_last_day'):ifElse('attendance/last_day/school.json',
+${query_type:startsWith('stud_att_school_last_7_days'):ifElse('attendance/last_7_days/school.json',
+${query_type:startsWith('stud_att_school_last_30_days'):ifElse('attendance/last_30_days/school.json',
+${query_type:startsWith('stud_att_school_overall'):ifElse('attendance/overall/school.json',
+${query_type:startsWith('stud_att_exception_meta'):ifElse("exception_list/student_attendance_completion/metaData.json",
+${query_type:startsWith('stud_att_exception_district_by_month_year'):ifElse("exception_list/student_attendance_completion/district_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_block_by_month_year'):ifElse("exception_list/student_attendance_completion/block_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_cluster_by_month_year'):ifElse("exception_list/student_attendance_completion/cluster_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_school_by_month_year'):ifElse("exception_list/student_attendance_completion/school_${year}_${month}.json",
+${query_type:startsWith('stud_att_exception_district_last_day'):ifElse('exception_list/student_attendance_completion/last_day/district.json',
+${query_type:startsWith('stud_att_exception_district_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/district.json',
+${query_type:startsWith('stud_att_exception_district_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/district.json',
+${query_type:startsWith('stud_att_exception_district_overall'):ifElse('exception_list/student_attendance_completion/overall/district.json',  
+${query_type:startsWith('stud_att_exception_block_last_day'):ifElse('exception_list/student_attendance_completion/last_day/block.json',
+${query_type:startsWith('stud_att_exception_block_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/block.json',
+${query_type:startsWith('stud_att_exception_block_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/block.json', 
+${query_type:startsWith('stud_att_exception_block_overall'):ifElse('exception_list/student_attendance_completion/overall/block.json', 
+${query_type:startsWith('stud_att_exception_cluster_last_day'):ifElse('exception_list/student_attendance_completion/last_day/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/cluster.json',
+${query_type:startsWith('stud_att_exception_cluster_overall'):ifElse('exception_list/student_attendance_completion/overall/cluster.json',  
+${query_type:startsWith('stud_att_exception_school_last_day'):ifElse('exception_list/student_attendance_completion/last_day/school.json',
+${query_type:startsWith('stud_att_exception_school_last_7_days'):ifElse('exception_list/student_attendance_completion/last_7_days/school.json',
+${query_type:startsWith('stud_att_exception_school_last_30_days'):ifElse('exception_list/student_attendance_completion/last_30_days/school.json',
+${query_type:startsWith('stud_att_exception_school_overall'):ifElse('exception_list/student_attendance_completion/overall/school.json',
+${query_type:startsWith('stud_att_raw_meta'):ifElse('attendance/raw/metaData.json',
+${query_type:startsWith('stud_att_raw_district'):ifElse('attendance/raw/student_attendance_all_districts_${year}.csv',
+${query_type:startsWith('stud_att_raw_block'):ifElse('attendance/raw/student_attendance_all_blocks_${year}.csv',
+${query_type:startsWith('stud_att_raw_cluster'):ifElse('attendance/raw/student_attendance_all_clusters_${year}.csv',
+${query_type:startsWith('stud_att_raw_school'):ifElse('attendance/raw/student_attendance_all_schools_${year}.csv',
+${query_type:startsWith('stud_att_raw_school'):ifElse('attendance/raw/student_attendance_all_schools_${year}.csv',
+${query_type:startsWith('stud_att_management_category_meta'):ifElse('attendance/school_management_category_meta.json',
+${query_type:startsWith('stud_att_management_category_district_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/district_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_block_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/block_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_cluster_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/cluster_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_school_by_month_year'):ifElse('attendance/school_management_category/${management}/${category}/school_${year}_${month}.json',
+${query_type:startsWith('stud_att_management_category_district_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_day'):ifElse('attendance/last_day/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_7_days'):ifElse('attendance/last_7_days/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_last_30_days'):ifElse('attendance/last_30_days/school_management_category/${management}/${category}/school.json',
+${query_type:startsWith('stud_att_management_category_district_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/district.json',
+${query_type:startsWith('stud_att_management_category_block_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/block.json',
+${query_type:startsWith('stud_att_management_category_cluster_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/cluster.json',
+${query_type:startsWith('stud_att_management_category_school_overall'):ifElse('attendance/overall/school_management_category/${management}/${category}/school.json','None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
+)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )}</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>#{s3_output_bucket}</value>
+                            </entry>
+                            <entry>
+<key>Content Type</key>
+                            </entry>
+                            <entry>
+<key>Content Disposition</key>
+                            </entry>
+                            <entry>
+<key>Cache Control</key>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>cc4c73c7-cc0b-3677-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>s3-object-tags-prefix</key>
+                            </entry>
+                            <entry>
+<key>s3-object-remove-tags-prefix</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>Storage Class</key>
+<value>Standard</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>ap-south-1</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>30 secs</value>
+                            </entry>
+                            <entry>
+<key>Expiration Time Rule</key>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>${s3.permissions.full.users}</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>${s3.permissions.read.users}</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>${s3.permissions.write.users}</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>${s3.permissions.readacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>${s3.permissions.writeacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>${s3.owner}</value>
+                            </entry>
+                            <entry>
+<key>canned-acl</key>
+<value>${s3.permissions.cannedacl}</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>Default Signature</value>
+                            </entry>
+                            <entry>
+<key>Multipart Threshold</key>
+<value>1 GB</value>
+                            </entry>
+                            <entry>
+<key>Multipart Part Size</key>
+<value>100 MB</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload AgeOff Interval</key>
+<value>60 min</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload Max Age Threshold</key>
+<value>7 days</value>
+                            </entry>
+                            <entry>
+<key>server-side-encryption</key>
+<value>None</value>
+                            </entry>
+                            <entry>
+<key>encryption-service</key>
+                            </entry>
+                            <entry>
+<key>use-chunked-encoding</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>use-path-style-access</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>25</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>60 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>stud_att_s3_output</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.aws.s3.PutS3Object</type>
                 </processors>
                 <processors>
                     <id>7887ec95-d071-3a76-0000-000000000000</id>
@@ -50836,6 +53135,12 @@ ${filename:startsWith('udise_school_performance_null_report.csv'):ifElse('udise/
 </value>
                             </entry>
                             <entry>
+<key>configure</key>
+<value>
+    <name>configure</name>
+</value>
+                            </entry>
+                            <entry>
 <key>cqube_telemetry</key>
 <value>
     <name>cqube_telemetry</name>
@@ -50953,6 +53258,10 @@ ${filename:startsWith('udise_school_performance_null_report.csv'):ifElse('udise/
                             <entry>
 <key>cluster_master</key>
 <value>${filename:startsWith('cluster_')}</value>
+                            </entry>
+                            <entry>
+<key>configure</key>
+<value>${filename:startsWith('configure_')}</value>
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
@@ -51117,6 +53426,10 @@ ${filename:startsWith('sch_safety')}
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>cluster_master</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>configure</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -59136,6 +61449,416 @@ ${query_type:startsWith('stud_att_management_category_school_by_month_year'):ifE
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
                 </processors>
                 <processors>
+                    <id>b382628f-7a4d-3c6d-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>16266.628580760538</x>
+                        <y>5084.343624684421</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-aws-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Object Key</key>
+<value>
+    <name>Object Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>
+    <name>Bucket</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Content Type</key>
+<value>
+    <name>Content Type</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Content Disposition</key>
+<value>
+    <name>Content Disposition</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Cache Control</key>
+<value>
+    <name>Cache Control</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+<value>
+    <name>Access Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+<value>
+    <name>Secret Key</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+<value>
+    <name>Credentials File</name>
+</value>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderService</identifiesControllerService>
+    <name>AWS Credentials Provider service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3-object-tags-prefix</key>
+<value>
+    <name>s3-object-tags-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>s3-object-remove-tags-prefix</key>
+<value>
+    <name>s3-object-remove-tags-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Storage Class</key>
+<value>
+    <name>Storage Class</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>
+    <name>Region</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>
+    <name>Communications Timeout</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Expiration Time Rule</key>
+<value>
+    <name>Expiration Time Rule</name>
+</value>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>
+    <name>FullControl User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>
+    <name>Read Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>
+    <name>Write Permission User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>
+    <name>Read ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>
+    <name>Write ACL User List</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>
+    <name>Owner</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canned-acl</key>
+<value>
+    <name>canned-acl</name>
+</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.ssl.SSLContextService</identifiesControllerService>
+    <name>SSL Context Service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+<value>
+    <name>Endpoint Override URL</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>
+    <name>Signer Override</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Threshold</key>
+<value>
+    <name>Multipart Threshold</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Part Size</key>
+<value>
+    <name>Multipart Part Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload AgeOff Interval</key>
+<value>
+    <name>Multipart Upload AgeOff Interval</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload Max Age Threshold</key>
+<value>
+    <name>Multipart Upload Max Age Threshold</name>
+</value>
+                            </entry>
+                            <entry>
+<key>server-side-encryption</key>
+<value>
+    <name>server-side-encryption</name>
+</value>
+                            </entry>
+                            <entry>
+<key>encryption-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.processors.aws.s3.AmazonS3EncryptionService</identifiesControllerService>
+    <name>encryption-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>use-chunked-encoding</key>
+<value>
+    <name>use-chunked-encoding</name>
+</value>
+                            </entry>
+                            <entry>
+<key>use-path-style-access</key>
+<value>
+    <name>use-path-style-access</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.proxy.ProxyConfigurationService</identifiesControllerService>
+    <name>proxy-configuration-service</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+<value>
+    <name>Proxy Host</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+<value>
+    <name>Proxy Host Port</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+<value>
+    <name>proxy-user-name</name>
+</value>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+<value>
+    <name>proxy-user-password</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Object Key</key>
+<value>log_summary/log_summary_student_attendance.json</value>
+                            </entry>
+                            <entry>
+<key>Bucket</key>
+<value>#{s3_output_bucket}</value>
+                            </entry>
+                            <entry>
+<key>Content Type</key>
+                            </entry>
+                            <entry>
+<key>Content Disposition</key>
+                            </entry>
+                            <entry>
+<key>Cache Control</key>
+                            </entry>
+                            <entry>
+<key>Access Key</key>
+                            </entry>
+                            <entry>
+<key>Secret Key</key>
+                            </entry>
+                            <entry>
+<key>Credentials File</key>
+                            </entry>
+                            <entry>
+<key>AWS Credentials Provider service</key>
+<value>cc4c73c7-cc0b-3677-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>s3-object-tags-prefix</key>
+                            </entry>
+                            <entry>
+<key>s3-object-remove-tags-prefix</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>Storage Class</key>
+<value>Standard</value>
+                            </entry>
+                            <entry>
+<key>Region</key>
+<value>ap-south-1</value>
+                            </entry>
+                            <entry>
+<key>Communications Timeout</key>
+<value>30 secs</value>
+                            </entry>
+                            <entry>
+<key>Expiration Time Rule</key>
+                            </entry>
+                            <entry>
+<key>FullControl User List</key>
+<value>${s3.permissions.full.users}</value>
+                            </entry>
+                            <entry>
+<key>Read Permission User List</key>
+<value>${s3.permissions.read.users}</value>
+                            </entry>
+                            <entry>
+<key>Write Permission User List</key>
+<value>${s3.permissions.write.users}</value>
+                            </entry>
+                            <entry>
+<key>Read ACL User List</key>
+<value>${s3.permissions.readacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Write ACL User List</key>
+<value>${s3.permissions.writeacl.users}</value>
+                            </entry>
+                            <entry>
+<key>Owner</key>
+<value>${s3.owner}</value>
+                            </entry>
+                            <entry>
+<key>canned-acl</key>
+<value>${s3.permissions.cannedacl}</value>
+                            </entry>
+                            <entry>
+<key>SSL Context Service</key>
+                            </entry>
+                            <entry>
+<key>Endpoint Override URL</key>
+                            </entry>
+                            <entry>
+<key>Signer Override</key>
+<value>Default Signature</value>
+                            </entry>
+                            <entry>
+<key>Multipart Threshold</key>
+<value>5 GB</value>
+                            </entry>
+                            <entry>
+<key>Multipart Part Size</key>
+<value>5 GB</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload AgeOff Interval</key>
+<value>60 min</value>
+                            </entry>
+                            <entry>
+<key>Multipart Upload Max Age Threshold</key>
+<value>7 days</value>
+                            </entry>
+                            <entry>
+<key>server-side-encryption</key>
+<value>None</value>
+                            </entry>
+                            <entry>
+<key>encryption-service</key>
+                            </entry>
+                            <entry>
+<key>use-chunked-encoding</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>use-path-style-access</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>proxy-configuration-service</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host</key>
+                            </entry>
+                            <entry>
+<key>Proxy Host Port</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-name</key>
+                            </entry>
+                            <entry>
+<key>proxy-user-password</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>50</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>config_datasource_save_s3_log_summary</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.aws.s3.PutS3Object</type>
+                </processors>
+                <processors>
                     <id>b390c809-2e70-3b80-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
@@ -60939,7 +63662,7 @@ ${query_type:startsWith('comp_management_district_wise'):ifElse('school_manageme
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
                         <x>2576.0</x>
-                        <y>-1736.0</y>
+                        <y>-1712.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -65232,6 +67955,92 @@ ${query_type:startsWith('pat_management_learning_outcome_p3_cluster'):ifElse('pa
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
                     <name>pat_update_filename</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
+                    <id>cc0b631f-67e9-3e08-0000-000000000000</id>
+                    <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>15717.208658885538</x>
+                        <y>5084.343624684421</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>
+    <name>filename</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>filename</key>
+<value>log_summary_student_attendance.json</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>config_datasource_update_filename</name>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
@@ -70088,7 +72897,7 @@ ${query_type:startsWith('stud_att_management_exception_school_overall'):ifElse('
                     <id>e1be7da0-d5c9-3abd-0000-000000000000</id>
                     <parentGroupId>99f53b66-4ec0-38f2-0000-000000000000</parentGroupId>
                     <position>
-                        <x>16664.0</x>
+                        <x>16661.419921875</x>
                         <y>1256.0</y>
                     </position>
                     <bundle>
@@ -77764,5 +80573,5 @@ ${emission_filename:startsWith('inspection_master'):ifElse('log_summary_inspec.j
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>05/27/2022 21:14:31 IST</timestamp>
+    <timestamp>06/28/2022 10:26:02 IST</timestamp>
 </template>
