@@ -125,7 +125,9 @@ NIFI_INPUT_OUTPUT_PORTS = {
        'progress_card_transformer': [{'OUTPUT_PORT': 'progress_card_save_output_output_port', 'INPUT_PORT': 'progress_card_save_output_input_port'}        
                                     ],   
        'composite_transformer': [{'OUTPUT_PORT': 'comp_save_output_output_port', 'INPUT_PORT': 'comp_save_output_input_port'}
-                                ],            
+                                ],
+   	'configurable_datasource':[{'OUTPUT_PORT': 'config_datasource_listfile_DS_OP', 'INPUT_PORT': 'DS_emission_file'}
+                               ],            
 
 
     'cQube_data_storage': {
@@ -188,6 +190,8 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                                           {'OUTPUT_PORT': 'cqube_telemetry_file','INPUT_PORT': 'cqube_telemetry_input'},
                                                           {'OUTPUT_PORT': 's3_cqube_telemetry_success_output_port','INPUT_PORT': 's3_cqube_telemetry_success_input_port'},
                                                           {'OUTPUT_PORT': 's3_cqube_telemetry_success_output_port2','INPUT_PORT': 's3_cqube_telemetry_success_input_port2'}
-                                                         ]
+                                                         ],
+                          'configurable_datasource' :[{'OUTPUT_PORT': 'configure_files','INPUT_PORT': 'config_datasource_input'}]
+                            
                           }
     }
