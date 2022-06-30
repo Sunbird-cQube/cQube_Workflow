@@ -27,6 +27,7 @@ import { DataReplayComponent } from './components/data-replay/data-replay.compon
 import { MultiSelectComponent } from './components/data-replay/multi-select/multi-select.component';
 import { DikshaConfigComponent } from './components/diksha-config/diksha-config.component';
 import { CookieService } from 'ngx-cookie-service';
+import { ConfigurableDataComponent } from './components/configurable-data/configurable-data.component';
 export function kcFactory(kcSecurity: KeycloakSecurityService) {
   return () => kcSecurity.init();
 }
@@ -47,6 +48,7 @@ export function kcFactory(kcSecurity: KeycloakSecurityService) {
     DataReplayComponent,
     MultiSelectComponent,
     DikshaConfigComponent,
+    ConfigurableDataComponent
   ],
   imports: [
     FormsModule,

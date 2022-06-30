@@ -6,18 +6,12 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <!-- <div class="row">
-                <div class="col-sm-12">
-                    <br>
-                    <hr>
-                    <h6>Diksha TPD/ETB Data Input Method</h6>
-                </div>
-            </div> -->
+           
             <div class="row">
                 <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 10px !important;"></div>
                 <div class="col-lg-8 col-md-12 col-sm-12">
                     <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 2%;">
-                        <div class="row">      
+                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -40,14 +34,15 @@
 
                             </div>
                             <div class="col-sm-3">
-                                <p >Stopping Hours: </p>
-                                <select [disabled]="!(fromDate != null && toDate != null)" [(ngModel)]="selectedHour" (change)="onSelectHour()"  id="time" required >
+                                <p>Stopping Hours: </p>
+                                <select [disabled]="!(fromDate != null && toDate != null)" [(ngModel)]="selectedHour"
+                                    (change)="onSelectHour()" id="time" required>
                                     <option [value]="selectedHour" disabled selected> Choose Duration
                                     </option>
-                                    <option *ngFor="let hour of hoursArr" [(ngValue)]="hour.hours" >
-                                       {{hour.hours}}
+                                    <option *ngFor="let hour of hoursArr" [(ngValue)]="hour.hours">
+                                        {{hour.hours}}
                                     </option>
-                               </select>
+                                </select>
                             </div>
                             <div class="col-sm-3">
                                 <button class="btn btn-primary" id="ret-submit" (click)="onDikshaConfigSubmit()"
@@ -55,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -80,7 +75,7 @@
                                         [(ngModel)]="TPDselected">
                                         <option [value]="TPDselected" disabled selected="selected">Select Input Method
                                         </option>
-                                        <option *ngFor="let option of dropdownOptions; let i = index;"
+                                        <option *ngFor="let option of dropdownOptions; let i = index; "
                                             [(ngValue)]="dropdownOptions[i]">
                                             <span>{{dropdownOptions[i]}}</span>
                                         </option>
@@ -105,6 +100,48 @@
                                         style="float: right;margin-top: -5px !important;">Submit</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12 ml4">
+                    <br>
+                    <h6>Configurable Data Source</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-0 col-sm-0" style="padding-top: 10px !important;"></div>
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="box" style="padding: 10px; border-radius: 10px; margin-top: 2%;">
+                        <div class="row">
+                            <div class="col-sm-6" [hidden]="hideConfig">
+                                <div style="margin-top: 5px;">
+                                    <p>Configurable Data: </p>
+                                    <select id="tpdMethod" [(ngModel)]="dataListSelected">
+                                        <option [value]="dataListSelected" disabled selected="selected">Choose Data
+                                            Source
+                                        </option>
+                                        <option *ngFor="let data of dataSourceList; let i = index" [(ngValue)] = "dataSourceList[i]" >
+                                            {{dataSourceList[i]}}
+                                        </option>
+                                    </select>
+
+                                    <button class="btn btn-primary" id="ret-submit"
+                                        style="float: right;margin-top: -5px !important;"
+                                        (click)="activation()">Submit</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" [hidden]="!hideConfig">
+                                <div style="text-align: center ; margin-top: 25px !important;">
+                                    Wait for next activation <span id="time1">60:00</span> minutes!</div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

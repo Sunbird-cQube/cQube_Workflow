@@ -20,6 +20,11 @@ router.use('/', getMonthAndYear);
 const saveDataToS3 = require('./controller/data-replay/saveData');
 router.use('/savetoS3', saveDataToS3);
 
+// list new data source
+const listDataSource = require('./controller/configurable-data/list_datasource') 
+router.use('/listDataSource', listDataSource);
+const buildAngular = require('./controller/configurable-data/list_datasource')
+router.use('/', buildAngular);
 
 
 // send user info
