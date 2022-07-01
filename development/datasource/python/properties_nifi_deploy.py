@@ -209,7 +209,8 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                                          ],
                             'configurable_datasource' :[{'OUTPUT_PORT': 'configure_files','INPUT_PORT': 'config_datasource_input'}],
                             'validate_datasource': [{'OUTPUT_PORT': 'configure_datasource','INPUT_PORT': 'file_input'}],
-                         'transaction_and_aggregation':[{'OUTPUT_PORT': 'config_file_zip_output_port', 'INPUT_PORT': 'config_datasource_wait_zip'}]
+                         'transaction_and_aggregation':[{'OUTPUT_PORT': 'config_file_zip_output_port', 'INPUT_PORT': 'config_datasource_wait_zip'},
+                                                        {'OUTPUT_PORT': 'configure_datasource_S3-success_output_port', 'INPUT_PORT': 'configure_datasource_S3-success_input_port'}]
                           }
     }
 
