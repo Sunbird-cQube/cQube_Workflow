@@ -80,9 +80,12 @@
         "cQube_azure_validate_datasource"
     ],
     
-    "Transaction_and_Aggregation_template": [
-        "cQube_s3_Transaction_and_Aggregation_template",
-        "postgres_Transaction_and_Aggregation_template",
-        "cQube_azure_Transaction_and_Aggregation_template"
-    ],
+    "transaction_and_aggregation_template": [
+        "cQube_s3_transaction_and_aggregation_template",
+        "postgres_transaction_and_aggregation_template",
+        "cQube_azure_transaction_and_aggregation_template"
+    ]
 }
+
+
+
