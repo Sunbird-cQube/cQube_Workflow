@@ -1,0 +1,11 @@
+- name: Run configurable python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py configurable_datasource static_data_parameters 0"
+  tags: [ install, update ]
+
+- name: Connection of configurable to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage configurable_datasource"
+  tags: [ install, update ]
+
+- name: run python code to disable the processors
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py configurable_datasource {{ storage_type }}"
+  tags: [ install, update ]  
