@@ -130,13 +130,13 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                ],
     'validate_datasource': [{'OUTPUT_PORT': 'emission_file', 'INPUT_PORT': 'DS_emission_file'},
                             {'OUTPUT_PORT': 'split_wait', 'INPUT_PORT': 'split_wait'},
-                            {'OUTPUT_PORT': 'split_failure', 'INPUT_PORT': 'split_failure'},
+                            {'OUTPUT_PORT': 'split_failure', 'INPUT_PORT': 'split_file_failure'},
                             {'OUTPUT_PORT': 'split_success', 'INPUT_PORT': 'split_file_process_success'}
                             ],
 'transaction_and_aggregation': [
-    {'OUTPUT_PORT': 'S3-config_datasource_output_port','INPUT_PORT': 'S3-config_datasource_input_port'},
-    {'OUTPUT_PORT': 'S3_on_premise-config_datasource_partition_output_port','INPUT_PORT': 'S3_on_premise-config_datasource_partition_input_port'},
-    {'OUTPUT_PORT': 'config_datasource_save-s3-log_summary_output_port','INPUT_PORT': 'config_datasource_save-s3-log_summary_input_port'},
+    {'OUTPUT_PORT': 'S3-config_datasource_output_port','INPUT_PORT': 'config_datsource_S3_input_port'},
+    {'OUTPUT_PORT': 'S3_on_premise-config_partition_output_port','INPUT_PORT': 'S3_on_premise-config_partition_input_port'},
+    {'OUTPUT_PORT': 'Config_datasource_save-s3-log_summary_output_port','INPUT_PORT': 'config_datasource_save-s3-log_summary_input_port'},
     {'OUTPUT_PORT': 'config_datasource_S3_trends_output_port','INPUT_PORT': 'config_datasource_S3_trends_input_port'},
     {'OUTPUT_PORT': 'config_datasource_s3_year_month_overall_management_vs_category_output_port','INPUT_PORT': 'config_datasource_s3_year_month_overall_management_vs_category_input_port'},
     {'OUTPUT_PORT': 'config_datasource_s3_time_range_overall_category_vs_management_output_port','INPUT_PORT': 'config_datasource_s3_time_range_overall_category_vs_management_input_port'},
@@ -208,8 +208,8 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                                           {'OUTPUT_PORT': 's3_cqube_telemetry_success_output_port2','INPUT_PORT': 's3_cqube_telemetry_success_input_port2'}
                                                          ],
                             'configurable_datasource' :[{'OUTPUT_PORT': 'configure_files','INPUT_PORT': 'config_datasource_input'}],
-                            'validate_datasource': [{'OUTPUT_PORT': 'configure_files','INPUT_PORT': 'config_datasource_input'}],
-                         'transaction_and_aggregation':[{'OUTPUT_PORT': 'config_file_zip_output', 'INPUT_PORT': 'config_datasource_wait_zip'}]
+                            'validate_datasource': [{'OUTPUT_PORT': 'configure_datasource','INPUT_PORT': 'file_input'}],
+                         'transaction_and_aggregation':[{'OUTPUT_PORT': 'config_file_zip_output_port', 'INPUT_PORT': 'config_datasource_wait_zip'}]
                           }
     }
 

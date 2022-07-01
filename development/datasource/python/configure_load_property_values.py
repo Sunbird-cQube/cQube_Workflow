@@ -2,7 +2,7 @@
 import json
 
 import requests as rq, time, logging, sys
-import nifi_config as prop
+import properties_nifi_deploy as prop
 
 
 def get_nifi_root_pg():
