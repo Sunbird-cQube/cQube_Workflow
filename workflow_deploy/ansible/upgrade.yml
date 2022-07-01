@@ -68,7 +68,16 @@
           - role: progresscard
             tags: update
             when: progresscard
-           
+          
+          - role: validate
+            tags: update
+
+          - role: configurable
+            tags: update
+
+          - role: transaction_and_aggregation
+            tags: update
+
           - role: dummy_connections  
             tags: update  
   

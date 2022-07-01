@@ -1,0 +1,5 @@
+---
+
+- include_tasks: nifi_configurable.yml
+  tags: [ install, update ]
+

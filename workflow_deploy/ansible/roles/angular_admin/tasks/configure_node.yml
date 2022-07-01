@@ -115,7 +115,7 @@
       OUTPUT_BUCKET_NAME= {{ s3_output_bucket }} 
       AWS_REGION= "{{ aws_default_region }}"
 
-      NIFI_PROCESSORS= "crc_transformer,student_attendance_transformer,diksha_transformer,infra_transformer,static_data_transformer,udise_transformer,pat_transformer,composite_transformer,healthcard_transformer,teacher_attendance_transformer"
+      NIFI_PROCESSORS= "crc_transformer,student_attendance_transformer,diksha_transformer,infra_transformer,static_data_transformer,udise_transformer,pat_transformer,composite_transformer,healthcard_transformer,teacher_attendance_transformer,validate_datasource,configurable_datasource,transaction_and_aggregation_template"
       NIFI_URL= "http://localhost:8096/nifi-api"
 
       NODE_ENV= "DEVELOPMENT"
@@ -129,6 +129,7 @@
       DB_PASSWORD = "{{ db_password }}"
       DB_NAME = "{{ db_name }}"
       DB_PORT = "5432"
+      ANGULAR_DIRECTORY = "{{base_dir}}/cqube/dashboard/client_side"
 
   when: mode_of_installation == "localhost"
   tags: [ install, update ]
