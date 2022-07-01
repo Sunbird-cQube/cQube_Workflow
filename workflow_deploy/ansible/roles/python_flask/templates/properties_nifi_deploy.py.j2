@@ -126,7 +126,8 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                     ],   
        'composite_transformer': [{'OUTPUT_PORT': 'comp_save_output_output_port', 'INPUT_PORT': 'comp_save_output_input_port'}
                                 ],
-    'configurable_datasource':[{'OUTPUT_PORT': 'config_datasource_listfile_DS_OP', 'INPUT_PORT': 'DS_emission_file'}
+    'configurable_datasource':[{'OUTPUT_PORT': 'config_datasource_listfile_DS_OP', 'INPUT_PORT': 'DS_emission_file'},
+                                {'OUTPUT_PORT': 'UI_configurable_property', 'INPUT_PORT': 'UI_configurable_property_input_port'}
                                ],
     'validate_datasource': [{'OUTPUT_PORT': 'emission_file', 'INPUT_PORT': 'DS_emission_file'},
                             {'OUTPUT_PORT': 'split_wait', 'INPUT_PORT': 'split_wait'},
