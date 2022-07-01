@@ -1,0 +1,5 @@
+---
+
+- include_tasks: nifi_validate.yml
+  tags: [ install, update ]
+

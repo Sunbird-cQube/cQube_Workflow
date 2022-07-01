@@ -1,0 +1,11 @@
+- name: Run validate datasource python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py validate_datasource validate_datasource_parameters 4669"
+  tags: [ install, update ]
+
+- name: Connection of validate datasource to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage validate_datasource"
+  tags: [ install, update ]
+
+- name: run python code to disable the processors
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py validate_datasource {{ storage_type }}"
+  tags: [ install, update ]  
