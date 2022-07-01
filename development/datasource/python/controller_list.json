@@ -68,5 +68,24 @@
     ],
     "progress_card_transformer": [
         "postgres_progress_card"
+    ],
+    "configurable_datasource": [
+        "cQube_s3_configurable_datasource",
+        "postgres_configurable_datasource",
+        "cQube_azure_configurable_datasource"
+    ],
+    "validate_datasource": [
+        "cQube_s3_validate_datasource",
+        "postgres_validate_datasource",
+        "cQube_azure_validate_datasource"
+    ],
+    
+    "transaction_and_aggregation_template": [
+        "cQube_s3_transaction_and_aggregation_template",
+        "postgres_transaction_and_aggregation_template",
+        "cQube_azure_transaction_and_aggregation_template"
     ]
 }
+
+
+
