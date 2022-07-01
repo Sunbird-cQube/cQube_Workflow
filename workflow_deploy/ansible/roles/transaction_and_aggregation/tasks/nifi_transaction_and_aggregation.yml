@@ -5,7 +5,3 @@
 - name: Connection of transaction_and_aggregation to cqube data storage
   shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage transaction_and_aggregation"
   tags: [ install, update ]
-
-- name: run python code to disable the processors
-  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/nifi_disable_processor.py transaction_and_aggregation_template {{ storage_type }}"
-  tags: [ install, update ]  
