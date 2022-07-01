@@ -289,7 +289,7 @@ if __name__ == "__main__":
     
     
     #  3. Create parameters
-    params = get_json_file('parameters_files_static_list.json')
+    params = get_json_file(prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH+'parameters_files_static_list.json')
     # params = {
     #     'infra_parameters': 'infra_parameters.txt',
     #     'diksha_parameters': 'diksha_parameters.txt',
@@ -336,7 +336,7 @@ if __name__ == "__main__":
 
     # 6. Add sensitive value to controller services
     logging.info("Adding sensitive properties in controller services")
-    controller_list_all = get_json_file('controller_list.json')
+    controller_list_all = get_json_file(prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH+'controller_list.json')
     
     # controller_list_all = {
     #     'infra_transformer': ['cQube_s3_infra', 'postgres_infra','cQube_azure_infra'],
