@@ -20,7 +20,6 @@ router.get('/', async function (req, res) {
                 if (ext === ".sql") {
                     let name = filename.substr(0, filename.indexOf('.'))
                     jsonArray.push(name)
-
                 }
             }
             );
@@ -36,15 +35,14 @@ router.get('/', async function (req, res) {
 router.post('/buildUI', async function (req, res) {
     try {
         let dataSource = req.body.dataSource
-        console.log('req', req.body)
         logger.info('---buildUI ---');
         let UIpath = `${process.env.ANGULAR_DIRECTORY}`;
         shell.echo('--shell script started----')
-        var output = shell.exec(`fuser -n tcp -k 4200`, function (stdout, stderr, code){
-            var output1 = shell.exec(`cd  ${UIpath} && ng serve`, function (stdout, stderr, code){            
-         })
+        var output = shell.exec(`fuser -n tcp -k 4200`, function (stdout, stderr, code) {
+            var output1 = shell.exec(`cd  ${UIpath} && ng build --prod`, function (stdout, stderr, code) {
+            })
         })
-        var pyth1 = shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/configurable.py ${dataSource} `, function (stdout, stderr, code) {
+        var pyth1 = shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/configure_load_property_values.py ${dataSource} `, function (stdout, stderr, code) {
             console.log('code', code)
         })
     } catch (e) {
