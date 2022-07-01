@@ -133,7 +133,7 @@ NIFI_INPUT_OUTPUT_PORTS = {
                             {'OUTPUT_PORT': 'split_failure', 'INPUT_PORT': 'split_failure'},
                             {'OUTPUT_PORT': 'split_success', 'INPUT_PORT': 'split_file_process_success'}
                             ],
-'transaction_and_aggregation_template': [
+'transaction_and_aggregation': [
     {'OUTPUT_PORT': 'S3-config_datasource_output_port','INPUT_PORT': 'S3-config_datasource_input_port'},
     {'OUTPUT_PORT': 'S3_on_premise-config_datasource_partition_output_port','INPUT_PORT': 'S3_on_premise-config_datasource_partition_input_port'},
     {'OUTPUT_PORT': 'config_datasource_save-s3-log_summary_output_port','INPUT_PORT': 'config_datasource_save-s3-log_summary_input_port'},
@@ -209,7 +209,7 @@ NIFI_INPUT_OUTPUT_PORTS = {
                                                          ],
                             'configurable_datasource' :[{'OUTPUT_PORT': 'configure_files','INPUT_PORT': 'config_datasource_input'}],
                             'validate_datasource': [{'OUTPUT_PORT': 'configure_files','INPUT_PORT': 'config_datasource_input'}],
-                         'transaction_and_aggregation_template':[{'OUTPUT_PORT': 'config_file_zip_output', 'INPUT_PORT': 'config_datasource_wait_zip'},]
+                         'transaction_and_aggregation':[{'OUTPUT_PORT': 'config_file_zip_output', 'INPUT_PORT': 'config_datasource_wait_zip'}]
                           }
     }
 
