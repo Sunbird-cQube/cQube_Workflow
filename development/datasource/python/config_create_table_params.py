@@ -5,7 +5,7 @@ import configparser
 import yaml
 import os
 from yaml.loader import SafeLoader
-# import psycopg2
+import psycopg2
 
 config = configparser.ConfigParser()
 config.read('configurable_datasource_path_config.ini')
@@ -936,7 +936,7 @@ def create_dml_timeline_queries():
     dml_queries =dml_queries + '\n' + ']'
 
 def execute_sql():
-    with open('/cQube_Base/config.yml') as f:
+    with open('../../conf/base_config.yml') as f:
         data = yaml.load(f, Loader=SafeLoader)
         db_user = data['db_user']
         db_name = data['db_name']
