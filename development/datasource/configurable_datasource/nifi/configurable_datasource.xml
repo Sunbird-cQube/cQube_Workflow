@@ -64,31 +64,6 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>517d7a19-4a01-3ca0-0000-000000000000</id>
-                    <parentGroupId>15f8ec6e-2700-3d48-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>15f8ec6e-2700-3d48-0000-000000000000</groupId>
-                        <id>b3a99747-69f7-397e-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>original</selectedRelationships>
-                    <source>
-                        <groupId>15f8ec6e-2700-3d48-0000-000000000000</groupId>
-                        <id>899cb586-8289-385d-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
                     <id>8b961348-99b0-3f73-0000-000000000000</id>
                     <parentGroupId>15f8ec6e-2700-3d48-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -109,6 +84,31 @@
                     <source>
                         <groupId>15f8ec6e-2700-3d48-0000-000000000000</groupId>
                         <id>464f3a92-c264-3c4e-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>92383ea5-d536-3ba7-0000-000000000000</id>
+                    <parentGroupId>15f8ec6e-2700-3d48-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>15f8ec6e-2700-3d48-0000-000000000000</groupId>
+                        <id>b3a99747-69f7-397e-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>output stream</selectedRelationships>
+                    <source>
+                        <groupId>15f8ec6e-2700-3d48-0000-000000000000</groupId>
+                        <id>899cb586-8289-385d-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -1495,7 +1495,7 @@
                         <name>nonzero status</name>
                     </relationships>
                     <relationships>
-                        <autoTerminate>false</autoTerminate>
+                        <autoTerminate>true</autoTerminate>
                         <name>original</name>
                     </relationships>
                     <relationships>
@@ -2327,5 +2327,5 @@
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/01/2022 19:05:26 IST</timestamp>
+    <timestamp>07/02/2022 12:27:06 IST</timestamp>
 </template>
