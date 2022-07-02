@@ -110,7 +110,7 @@ def create_parameters_queries():
                         final = query1 + query2
                         delete_null_values_qry = delete_null_values_qry + final
                     # queries_filename
-                    queries_filename = '"queries_filename":"""'+table_names+'queries.json""",'
+                    queries_filename = '"queries_filename":"""'+table_names+'_queries.json""",'
 
                     #staging_1_tb_name
                     staging_1_tb_name = '"staging_1_tb_name":"""'+table_names+'_staging_1""",'
@@ -539,6 +539,14 @@ def create_table_queries():
                                                                                                 "_") + ') references ' + table + '(' + colms + ')'
                             iter = iter + 1
                     trans_query = trans_query + ');'
+                    global temp_to_trans
+                    trans_insert = 'insert into ' + table_names + '_trans( '
+                    exclude_col = ''
+                    for elem in columns:
+                        exclude_col += elem + '= excluded.' + elem + ','
+                    columns_insert = ','.join(columns)
+                    trans_insert += columns_insert + ',created_on,updated_on)  select ' + columns_insert + ',now(),now() from ' + table_names + '_temp' + ' on conflict('+ p_k_columns + ') do update set ' + exclude_col + 'updated_on=now();'
+                    temp_to_trans = '\n' + '{"temp_to_trans":"""' + trans_insert + '"""'
                     all_queries = all_queries + trans_query
 
                     query3 = 'create table if not exists ' + table_names + '_dup( '
@@ -640,7 +648,7 @@ def create_table_queries():
                         condition = ''
                     else:
                         condition = df_agg['condition'].dropna().to_string(index=False)
-                        condition = 'where ' + condition
+                        condition = ' where ' + condition
                     global agg_column
                     create_cols = ''
                     for col in select_columns:
@@ -677,22 +685,24 @@ def create_table_queries():
                 global group_by_op
                 group_by_op = df_op['group_by_columns'].dropna().to_string(index=False)
             elif 'visualization' in row[0]:
-                df = pd.DataFrame(mycsv)
-                new_header = df.iloc[0].str.strip().str.lower()
-                df.replace("", float("NaN"), inplace=True)
-                df.dropna(how='all', inplace=True)
-                df = df[1:]
-                if df[2:].empty:
-                    del df
+                df_vis = pd.DataFrame(mycsv)
+                df_vis.replace("", float("NaN"), inplace=True)
+                df.dropna(how='all', inplace=True, axis=1)
+                new_header = df_vis.iloc[0].str.strip().str.lower()
+                df_vis = df_vis[1:]
+                if df_vis[1:].empty:
+                    del df_vis
                 else:
-                    df.columns = new_header
-                    datasourcenames = df['datasourcename'].dropna().to_string(index=False).split()
-                    tmp_columns = df['reporttype'].dropna().tolist()
+                    df_vis.columns = new_header
+                    datasourcenames = df_vis['data_source_name'].dropna().to_string(index=False).split()
+                    tmp_columns = df_vis['report_type'].dropna().tolist()
+                    description = df_vis['description'].dropna().tolist()
                     create_table_query = ' '
-                    create_table_query = 'create table if not exists configurable_datasource_properties (datasource_name varchar(50),report_types varchar(20),status boolean);'
-                    for d, r in zip(datasourcenames, tmp_columns):
-                        a = "insert into configurable_datasource_properties values('" + d + ',' + r + ",False) ;";
-                    all_queries = all_queries + '\n' + create_table_query + '\n' + a
+                    create_table_query = 'create table if not exists configurable_datasource_properties (report_name varchar(50),report_type varchar(20),description text,status boolean);'
+                    insert_query = ''
+                    for d, r, info in zip(datasourcenames, tmp_columns, description):
+                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False) ;";
+                    all_queries = all_queries + '\n' + create_table_query + '\n' + insert_query
             key_index += 1
             del mycsv[:]
             if key_index == len(keywords):
@@ -964,7 +974,7 @@ def write_files():
     query_file.write(all_queries)
     query_file.close()
     global parameter_file
-    param_file_queries =all_param_queries + all_param_queries_1
+    param_file_queries =all_param_queries + all_param_queries_1 + temp_to_trans
     param_file = open((path+ '/{}/parameters.txt'.format(file_name_sql)), 'w')
     param_file.write(param_file_queries)
     param_file.close()
