@@ -962,14 +962,16 @@ def write_files():
     global query_file
     query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
     query_file.write(all_queries)
+    query_file.close()
     global parameter_file
     param_file_queries =all_param_queries + all_param_queries_1
     param_file = open((path+ '/{}/parameters.txt'.format(file_name_sql)), 'w')
     param_file.write(param_file_queries)
+    param_file.close()
     global json_file
     json_file = open((path+ '/{}/report_queries.json'.format(file_name_sql)), 'w')
     json_file.write(dml_queries)
-
+    json_file.close()
 
 if __name__ == "__main__":
     create_parameters_queries()
