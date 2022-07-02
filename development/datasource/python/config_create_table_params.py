@@ -95,13 +95,13 @@ def create_parameters_queries():
                         final = query1+query2
                         check_if_null_query = check_if_null_query +final
                     # Saving duplicates
-                    save_dup = '"save-to-' + table_names + '_dup":"""' + table_names + '_dup """,'
+                    save_dup = '"save_to_dup_table":"""' + table_names + '_dup """,'
                     # Delete null values query
                     delete_null_values_qry = ''
                     for num in (null_validation_columns):
                         query1 = ''
                         if null_validation_columns.index(num) == 0:
-                            query1 = ' "' + table_names + '_delete_null_values_qry":"""delete from ' + table_names + '_staging_1 where '
+                            query1 = '"delete_null_values_qry":"""delete from ' + table_names + '_staging_1 where '
 
                         if null_validation_columns.index(num) == len(null_validation_columns) - 1:
                             query2 = num + 'is null """,'
@@ -110,10 +110,10 @@ def create_parameters_queries():
                         final = query1 + query2
                         delete_null_values_qry = delete_null_values_qry + final
                     # queries_filename
-                    queries_filename = '"'+table_names+ '_queries_filename":"""'+table_names+'queries.json""",'
+                    queries_filename = '"queries_filename":"""'+table_names+'queries.json""",'
 
                     #staging_1_tb_name
-                    staging_1_tb_name = '"'+table_names+ '_staging_1_tb_name":"""'+table_names+'_staging_1""",'
+                    staging_1_tb_name = '"staging_1_tb_name":"""'+table_names+'_staging_1""",'
 
                     # Update Null log to db
                     query1 = ''
@@ -121,7 +121,7 @@ def create_parameters_queries():
                     for num in (null_validation_columns):
 
                         if null_validation_columns.index(num) == 0:
-                            query1 = ' "' + table_names + '_null_to_log_db":"""update log_summary SET '
+                            query1 = '"null_to_log_db":"""update log_summary SET '
                         query2 = num + '=' + table_names+ '_null_col.count_null_ '+num+','
 
                     query3 = 'from '+ table_names+ '_null_col where ' +table_names+ '_null_col.ff_uuid = log_summary.ff_uuid""",'
@@ -130,7 +130,7 @@ def create_parameters_queries():
                     # stg2 to temp query
                     clmn = ''.join(columns)
                     clmns = ''.join(new_column)
-                    q1 = '"' +table_names+'_stg_2_to_temp_qry": """ insert into ' +table_names+'_temp('
+                    q1 = '"stg_2_to_temp_qry": """ insert into ' +table_names+'_temp('
                     stg_2_to_temp_query = q1 + clmn +'ff_uuid) select '+clmn+'ff_uuid' ' from '+table_names+'_staging_2 """,'
                     val_same_id = ''.join(check_same_id_columns)
                     # check_same_id
@@ -140,7 +140,7 @@ def create_parameters_queries():
                     normalize = '"normalize":"""select'+clmns+' from flowfile""",'
 
                     #Sum of Duplicates
-                    sum_of_dup = '"' +table_names+'_sum_of_dup":"""select sum(num_of_times) from flowfile""",'
+                    sum_of_dup = '"sum_of_dup":"""select sum(num_of_times) from flowfile""",'
 
                     #unique_record_same_id
                     unique_record_same_id = '"unique_record_same_id":"""insert into '+table_names+'_temp('+clmn+'ff_uuid) select '+clmn+' ff_uuid from (select ' +clmn+ 'ff_uuid, count(*) over (partition by ' +columns_check_id+'ff_uuid) as rn  from '+table_names+'_staging_2)as a where a.rn=1""",'
@@ -149,7 +149,7 @@ def create_parameters_queries():
                     stg_1_to_stg_2_qry = '" stg_1_to_stg_2_qry ":"""insert into '+table_names+ '_staging_2('+clmn+'ff_uuid) select ' +clmn+ 'ff_uuid from ' +table_names+ '_staging_1""",'
 
                     #save_null_tb_name
-                    save_null_tb_name ='"'+table_names+'_save_null_tb_name":"""' +table_names+ '_null_col""",'
+                    save_null_tb_name ='"save_null_tb_name":"""' +table_names+ '_null_col""",'
 
                     #check_same_records
                     check_same_records = '"check_same_records":"""SELECT ' +clmn+ 'ff_uuid,count(*)-1 num_of_times FROM '+table_names+ '_staging_1 GROUP BY '+clmn+'ff_uuid HAVING  COUNT(*) > 1""",'
