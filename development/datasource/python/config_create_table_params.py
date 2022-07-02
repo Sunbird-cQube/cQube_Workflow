@@ -447,7 +447,7 @@ def create_table_queries():
     mycsv = []
     key_index = 0
     global all_queries
-    all_queries = ''
+    all_queries =''
     key = keywords[key_index]
     print(keywords)
     for row in csv.reader(read_input()):
@@ -500,7 +500,7 @@ def create_table_queries():
                                                                                           "_") + ') references ' + table + '(' + colms + ')'
                                 iter = iter + 1
                             staging_2_query = query1 + ');'
-                        all_queries = all_queries + '\n' + staging_2_query
+                        all_queries = all_queries + staging_2_query +'\n'
                     primary_key_filter = df[df['constraints'] == 'primary key']
 
                     p_k_columns = primary_key_filter['columns'].to_list()
@@ -539,7 +539,7 @@ def create_table_queries():
                                                                                                 "_") + ') references ' + table + '(' + colms + ')'
                             iter = iter + 1
                     trans_query = trans_query + ');'
-                    all_queries = all_queries + '\n' + trans_query
+                    all_queries = all_queries + trans_query
 
                     query3 = 'create table if not exists ' + table_names + '_dup( '
                     iter2 = 0
@@ -562,7 +562,7 @@ def create_table_queries():
                                 query4 = query4 + 'count_null_' + col + " int,"
                             iter2 = iter2 + 1
                         nul_col_query = query4 + 'ff_uuid varchar(200));'
-                        all_queries = all_queries + '\n' + nul_col_query + '\n'
+                        all_queries = all_queries + '\n' + nul_col_query
             elif 'type_of_data' in row[0]:
                 df_tod = pd.DataFrame(mycsv)
                 df_tod.replace("", float("NaN"), inplace=True)
@@ -611,7 +611,7 @@ def create_table_queries():
                                                                                             "_") + ') references ' + table + '(' + colms + ')'
                         iter = iter + 1
                 aggregation_query = aggregation_query + ');'
-                all_queries = all_queries + '\n' + aggregation_query + '\n'
+                all_queries = all_queries + '\n' + aggregation_query
 
             elif df_level_of_data not in df_filters_req and 'aggregation' in row[0]:
                 df_agg = pd.DataFrame(mycsv)
@@ -976,4 +976,4 @@ if __name__ == "__main__":
     create_table_queries()
     create_dml_timeline_queries()
     write_files()
-    # execute_sql()
+    execute_sql()
