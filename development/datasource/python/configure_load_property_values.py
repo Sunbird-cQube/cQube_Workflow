@@ -113,7 +113,6 @@ if __name__ == '__main__':
             Example: python update_processor_property.py diksha_transformer 2021-10-22 2021-10-23 1
     """
     filename = sys.argv[1]
-    header = {"Content-Type": "application/json"}
     processor_group_name = ['validate_datasource', 'cQube_data_storage', 'transaction_and_aggregation']
     processor_name = ['config_trans_route_based_on_s3_dir', "route_based_on_s3_input_dir", 'route_based_on_content',
                       'get_year_month_from_temp','config_datasource_delete_temp','config_datasource_delete_staging_1_table',
