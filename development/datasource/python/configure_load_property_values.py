@@ -1,9 +1,7 @@
-# from nifi_start_pg import start_processor_group
-import json
-
-import requests as rq, time, logging, sys
+import deploy_nifi as dn
 import properties_nifi_deploy as prop
-
+import update_nifi_params
+import requests as rq, time, logging, sys
 
 def get_nifi_root_pg():
     """ Fetch nifi root processor group ID"""
@@ -56,7 +54,6 @@ def get_processor_group_ports(processor_group_name):
     pg_source = get_processor_group_info(processor_group_name)
     pg_details = rq.get(
         f"{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/flow/process-groups/{pg_source['component']['id']}")
-    # f"{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/flow/process-groups/{pg_source['component']['id']}")
     if pg_details.status_code != 200:
         return pg_details.text
     else:
@@ -126,14 +123,14 @@ if __name__ == '__main__':
     conf_key = "configure_file"
     conf_key1 = "SQL select query"
     conf_key2 = "putsql-sql-statement"
-    conf_value = '${' + 'filename:startsWith({0}):or('.format(
+    conf_value = '${' + 'filename:startsWith("{0}"):or('.format(
         filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename) + '})}'
     conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) +'}'
     conf_value2 = "select distinct year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
     conf_value3 = "delete from " +filename+"_temp where ff_uuid='${zip_identifier}';"
     conf_value4 = "truncate table "+filename+"_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
-    # value = '{' + conf_key + ':' + conf_value + '}'
+
     processor_properties1 = {
         conf_key: conf_value
     }
@@ -158,6 +155,7 @@ if __name__ == '__main__':
     # Stops the processors
     start_processor_group(processor_group_name[0], 'STOPPED')
     start_processor_group(processor_group_name[1], 'STOPPED')
+    start_processor_group(processor_group_name[2], 'STOPPED')
     start_processor_group(data_storage_processor, 'STOPPED')
 
     # update processor property.
@@ -173,9 +171,34 @@ if __name__ == '__main__':
     nifi_update_processor_property(processor_group_name[0], processor_name[9], processor_properties6)
     nifi_update_processor_property(processor_group_name[1], processor_name[10], processor_properties2)
 
+    parameter_context_names = ['validate_datasource_parameters', 'transaction_and_aggregation_parameters']
+
+    for parameter_context_name in parameter_context_names:
+        # Load parameters from file to Nifi parameters
+        parameter_body = {
+            "revision": {
+                "clientId": "value",
+                "version": 0,
+                "lastModifier": "Admin"
+            },
+            "component": {
+                "name": parameter_context_name,
+                "parameters": [
+
+                ]
+            }
+        }
+        # if (dn.params.get(parameter_context_name)) and (parameter_context_name != 'cQube_data_storage_parameters'):
+        logging.info("Reading static parameters from file %s.txt", parameter_context_name)
+        parameter_body = update_nifi_params.nifi_params_config(parameter_context_name,
+                                                               f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt',
+                                                               parameter_body)
+        print(parameter_body)
+        dn.create_parameter(parameter_context_name, parameter_body)
 
     # Runs the processors
     start_processor_group(processor_group_name[0], 'RUNNING')
     start_processor_group(processor_group_name[1], 'RUNNING')
+    start_processor_group(processor_group_name[2], 'RUNNING')
     start_processor_group(data_storage_processor, 'RUNNING')
     time.sleep(5)
