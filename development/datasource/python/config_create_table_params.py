@@ -6,6 +6,7 @@ import yaml
 import os
 from yaml.loader import SafeLoader
 import psycopg2
+import json
 
 config = configparser.ConfigParser()
 config.read('configurable_datasource_path_config.ini')
@@ -583,7 +584,7 @@ def create_table_queries():
                         exclude_col += elem + '= excluded.' + elem + ','
                     columns_insert = ','.join(columns)
                     trans_insert += columns_insert + ',created_on,updated_on)  select ' + columns_insert + ',now(),now() from ' + table_names + '_temp' + ' on conflict('+ p_k_columns + ') do update set ' + exclude_col + 'updated_on=now();'
-                    temp_to_trans = '\n' + '"temp_to_trans":"""' + trans_insert + '"""}'
+                    temp_to_trans = '[' + '{"temp_to_trans":"' + trans_insert + '"},'
                     all_queries = all_queries + trans_query
 
                     query3 = 'create table if not exists ' + table_names + '_dup( '
@@ -760,10 +761,9 @@ def create_trans_to_aggregate_queries():
     inner_query_cols = inner_query_cols + result_col
     static_query =  '(select shd.school_id,school_name,school_latitude,school_longitude,shd.cluster_id,cluster_name,cluster_latitude,cluster_longitude,shd.block_id,block_name,block_latitude,block_longitude,shd.district_id,district_name,district_latitude,district_longitude from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
     stat = 'insert into '+table_names +'_aggregation('+ select_col + ',' + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude)' +' ' 'select '+ inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude' +' from '+inner_query + ' join '+  static_query + ' on a.school_id=sch.school_id;'
-    global to_parameters
-    to_parameters = '\n' +  '"trans_to_agg":"""'+stat +'""",'
-    all_param_queries_1 = all_param_queries_1 + to_parameters
-    print(all_param_queries_1)
+    global to_insert_json
+    to_insert_json = temp_to_trans
+    to_insert_json += '{"trans_to_agg":"' + stat + '"}]'
 
 def create_dml_timeline_queries():
     school_ = ' school_id,school_name,school_latitude,school_longitude,cluster_id,cluster_name,block_id,block_name,district_id,district_name'
@@ -1011,15 +1011,17 @@ def write_files():
     query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
     query_file.write(all_queries)
     query_file.close()
+    to_insert_json_ = json.loads(to_insert_json)
+    with open((path + '/{}/temp_trans_aggregation.json'.format(file_name_sql)),'w') as outfile:
+        json.dump(to_insert_json_, outfile)
     global parameter_file
-    param_file_queries =all_param_queries + all_param_queries_1 + temp_to_trans
+    param_file_queries =all_param_queries + all_param_queries_1
     param_file = open((path+ '/{}/parameters.txt'.format(file_name_sql)), 'w')
     param_file.write(param_file_queries)
     param_file.close()
-    global json_file
-    json_file = open((path+ '/{}/report_queries.json'.format(file_name_sql)), 'w')
-    json_file.write(dml_queries)
-    json_file.close()
+    to_report_json = json.loads(dml_queries)
+    with open((path + '/{}/report_queries.json'.format(file_name_sql)), 'w') as report_file:
+        json.dump(to_report_json, report_file)
 
 if __name__ == "__main__":
     create_parameters_queries()
@@ -1027,3 +1029,4 @@ if __name__ == "__main__":
     create_dml_timeline_queries()
     write_files()
     execute_sql()
+    
