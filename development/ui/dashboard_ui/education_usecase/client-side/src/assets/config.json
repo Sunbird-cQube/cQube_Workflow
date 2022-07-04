@@ -75,5 +75,12 @@
         "lng": 76.269104,
         "zoomLevel": 7.8,
         "stateCode": "02"
+    },
+    "IN": {
+        "name": "INDIA",
+        "lat": 20.5937,
+        "lng": 78.9629,
+        "zoomLevel": 4.3,
+        "stateCode": "02"
     }
 }

@@ -25,6 +25,7 @@
           <div class="sideBarHeight">
             <div style="max-height:100%;overflow:auto;">
               <div class="sideScrollHeight">
+
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/infrastructure-dashboard']"
                   (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
@@ -113,6 +114,22 @@
                     <span id="telemetry" class="groups">Telemetry</span>
                   </div>
                 </mat-list-item>
+              
+                <!--Dynamic side menu Start-->
+                <ng-container *ngFor="let menu of menuList; index as i;">
+                  <ng-container [ngTemplateOutlet]="parentMenu" [ngTemplateOutletContext]="{menu:menu}">
+                  </ng-container>
+                </ng-container>
+                <ng-template #parentMenu let-menu="menu">
+                  <mat-list-item (click)="closeSidebar();" [routerLink]="menu.routerLink" class="single-line">
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                      <img class="cubeImg" src="assets/images/menu-icon.svg" alt="">
+                      <span id="exceptList" class="groups">{{menu.reportName}}</span>
+                    </div>
+                  </mat-list-item>
+                </ng-template>
+                <!--Dynamic side menu Ends-->
+
                 <mat-list-item class="user-logout">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="">
 
