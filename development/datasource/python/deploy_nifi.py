@@ -47,6 +47,7 @@ def create_parameter(parameter_context,parameter_body):
     """
     create nifi parameter
     """
+    header = {"Content-Type": "application/json"}
     # create the parameter in nifi
     create_parameter_res = rq.post(
         f'{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/parameter-contexts', json=parameter_body, headers=header)
