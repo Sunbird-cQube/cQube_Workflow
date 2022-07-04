@@ -137,8 +137,45 @@ def create_parameters_queries():
                     # check_same_id
                     check_same_id_qry = '"check_same_id_records":"""SELECT ' +same_id+'b.ff_uuid,b.cnt num_of_times from (select sas.*,count(*) over (PARTITION by ' + val_same_id+'ff_uuid) as cnt from' +table_names+'_staging_2  sas ) b where cnt>1 group by'+columns_check_id+'b.ff_uuid,b.cnt;""",'
 
-                    #normalize
-                    normalize = '"normalize":"""select '+clmns+' from flowfile""",'
+                    # normalize
+                    lis_clm = list(clmns.split(','))
+                    norm_column = ''
+                    unwanted_cls = ['academic_year', 'distribution_date', 'month']
+                    for cl in lis_clm:
+                        if cl not in unwanted_cls:
+                            norm_column += cl + ','
+
+                    query_check1 = ''
+                    query_check2 = ''
+                    query_check3 = ''
+                    for check_norm_col in raw_columns:
+                        if check_norm_col == 'academic_year':
+                            query_check1 += '"academic_year",'
+                        if check_norm_col == 'distribution_date':
+                            query_check2 += '"distribution_date",'
+                        if check_norm_col == 'month':
+                            query_check3 += '"month"'
+                    normalize = '"normalize":"""select ' + norm_column + query_check1 + query_check2 + query_check3 + ' from flowfile""",'
+
+                    # Datatype check
+                    d_type1 = ''
+                    d_type2 = ''
+                    d_type3 = ''
+                    d_type4 = ''
+                    for d_type in data_types:
+                        if d_type == 'bigint':
+                            d_type1 = 'Optional(parseLong()),' + d_type1
+                        if d_type.startswith('Varchar'):
+                            d_type2 = 'Optional(StrNotNullOrEmpty()),' + d_type2
+                        if d_type == 'int':
+                            d_type3 = 'Optional(ParseInt()),' + d_type3
+                        if d_type == 'date':
+                            d_type4 = '''Optional(ParseDate("yyyy-MM-dd"))''' + d_type4
+
+                    data_type_check = d_type1 + d_type2 + d_type3 + d_type4
+
+                    # temp_trans_aggregation queries
+                    temp_trans_aggregation_queries = table_names + '.json'
 
                     #Sum of Duplicates
                     sum_of_dup = '"sum_of_dup":"""select sum(num_of_times) from flowfile""",'
@@ -170,7 +207,7 @@ def create_parameters_queries():
 
                     # unique_records_same_records
                     unique_records_same_records = '"unique_records_same_records":"""insert into '+table_names+'_staging_2(' +clmn+ 'ff_uuid) select '+clmn+'ff_uuid) select '+clmn+'ff_uuid from ( SELECT '+clmn+'ff_uuid, row_number() over (partition by '+clmn+ 'ff_uuid) as rn from '+table_names+'_staging_1) sq Where rn =1""",'
-                    validation_queries = check_if_null_query + save_dup + delete_null_values_qry + queries_filename+ staging_1_tb_name+ null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize +sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
+                    validation_queries = check_if_null_query + save_dup + delete_null_values_qry + queries_filename+ staging_1_tb_name+ null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize +data_type_check+temp_trans_aggregation_queries+sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
 
             elif 'aggre' in row[0]:
                 df_agg = pd.DataFrame(mycsv)

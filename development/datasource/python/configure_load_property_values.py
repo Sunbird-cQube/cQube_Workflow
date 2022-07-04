@@ -117,12 +117,13 @@ if __name__ == '__main__':
     processor_name = ['config_trans_route_based_on_s3_dir', "route_based_on_s3_input_dir", 'route_based_on_content',
                       'get_year_month_from_temp','config_datasource_delete_temp','config_datasource_delete_staging_1_table',
                       'config_datasource_delete_staging_2_table','config_delete_staging_1_table','conf_delete_staging_1_table',
-                      'conf_delete_staging_2_table','Route_on_zip']
+                      'conf_delete_staging_2_table','Route_on_zip','temp_trans_agg_add_qry_filename']
 
     data_storage_processor = 'cQube_data_storage'
     conf_key = "configure_file"
     conf_key1 = "SQL select query"
     conf_key2 = "putsql-sql-statement"
+    conf_key3 = "filename"
     conf_value = '${' + 'filename:startsWith("{0}"):or('.format(
         filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename) + '})}'
     conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) +'}'
@@ -130,6 +131,7 @@ if __name__ == '__main__':
     conf_value3 = "delete from " +filename+"_temp where ff_uuid='${zip_identifier}';"
     conf_value4 = "truncate table "+filename+"_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
+    conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/"+filename+"#{temp_trans_aggregation_queries}"
 
     processor_properties1 = {
         conf_key: conf_value
@@ -148,6 +150,9 @@ if __name__ == '__main__':
     }
     processor_properties6 = {
         conf_key2: conf_value5
+    }
+    processor_properties7 = {
+        conf_key3: conf_value6
     }
     # Enable the validation template and update
     time.sleep(5)
@@ -170,6 +175,7 @@ if __name__ == '__main__':
     nifi_update_processor_property(processor_group_name[0], processor_name[8], processor_properties5)
     nifi_update_processor_property(processor_group_name[0], processor_name[9], processor_properties6)
     nifi_update_processor_property(processor_group_name[1], processor_name[10], processor_properties2)
+    nifi_update_processor_property(processor_group_name[2], processor_name[11], processor_properties7)
 
     parameter_context_names = ['validate_datasource_parameters', 'transaction_and_aggregation_parameters']
 
@@ -188,7 +194,6 @@ if __name__ == '__main__':
                 ]
             }
         }
-        # if (dn.params.get(parameter_context_name)) and (parameter_context_name != 'cQube_data_storage_parameters'):
         logging.info("Reading static parameters from file %s.txt", parameter_context_name)
         parameter_body = update_nifi_params.nifi_params_config(parameter_context_name,
                                                                f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt',
