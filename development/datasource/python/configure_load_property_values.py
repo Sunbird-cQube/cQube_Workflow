@@ -1,6 +1,7 @@
 import deploy_nifi as dn
 import properties_nifi_deploy as prop
 import update_nifi_params
+from update_nifi_parameters_main import get_parameter_context,update_parameter
 import requests as rq, time, logging, sys
 
 def get_nifi_root_pg():
@@ -198,8 +199,13 @@ if __name__ == '__main__':
         parameter_body = update_nifi_params.nifi_params_config(parameter_context_name,
                                                                f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt',
                                                                parameter_body)
-        print(parameter_body)
-        dn.create_parameter(parameter_context_name, parameter_body)
+        # print(parameter_body)
+        pc = get_parameter_context(parameter_context_name)
+        parameter_body['revision']['version'] = pc['version']
+        parameter_body['id'] = pc['id']
+        parameter_body['component']['id'] = pc['id']
+        parameter_body['component']['name'] = pc['name']
+        update_parameter(parameter_body)
 
     # Runs the processors
     start_processor_group(processor_group_name[0], 'RUNNING')
