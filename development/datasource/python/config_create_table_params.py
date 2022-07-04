@@ -5,7 +5,7 @@ import configparser
 import yaml
 import os
 from yaml.loader import SafeLoader
-# import psycopg2
+import psycopg2
 
 config = configparser.ConfigParser()
 config.read('configurable_datasource_path_config.ini')
@@ -983,47 +983,47 @@ def create_dml_timeline_queries():
     dml_queries = dml_queries.rstrip(dml_queries[-1])
     dml_queries =dml_queries + '\n' + ']'
 
-# def execute_sql():
-#     with open('../../conf/base_config.yml') as f:
-#         data = yaml.load(f, Loader=SafeLoader)
-#         db_user = data['db_user']
-#         db_name = data['db_name']
-#         db_password = data['db_password']
-#
-#     #establishing the connection
-#     conn = psycopg2.connect(
-#     database=db_name, user=db_user, password=db_password, host='localhost', port= '5432')
-#     if conn:
-#         #Creating a cursor object using the cursor() method
-#         cursor = conn.cursor()
-#         cursor.execute(open(path + '/{}.sql'.format(file_name_sql),'r').read())
-#         conn.commit()
-#         conn.close()
-#
-# def write_files():
-#     isExist = os.path.exists(path)
-#     is_exist = os.path.exists(path +'/'+file_name_sql)
-#     if not isExist:
-#         os.makedirs(path)
-#     if not is_exist:
-#         os.makedirs(path + '/' + file_name_sql)
-#     global query_file
-#     query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
-#     query_file.write(all_queries)
-#     query_file.close()
-#     global parameter_file
-#     param_file_queries =all_param_queries + all_param_queries_1 + temp_to_trans
-#     param_file = open((path+ '/{}/parameters.txt'.format(file_name_sql)), 'w')
-#     param_file.write(param_file_queries)
-#     param_file.close()
-#     global json_file
-#     json_file = open((path+ '/{}/report_queries.json'.format(file_name_sql)), 'w')
-#     json_file.write(dml_queries)
-#     json_file.close()
+def execute_sql():
+    with open('../../conf/base_config.yml') as f:
+        data = yaml.load(f, Loader=SafeLoader)
+        db_user = data['db_user']
+        db_name = data['db_name']
+        db_password = data['db_password']
+
+    #establishing the connection
+    conn = psycopg2.connect(
+    database=db_name, user=db_user, password=db_password, host='localhost', port= '5432')
+    if conn:
+        #Creating a cursor object using the cursor() method
+        cursor = conn.cursor()
+        cursor.execute(open(path + '/{}.sql'.format(file_name_sql),'r').read())
+        conn.commit()
+        conn.close()
+
+def write_files():
+    isExist = os.path.exists(path)
+    is_exist = os.path.exists(path +'/'+file_name_sql)
+    if not isExist:
+        os.makedirs(path)
+    if not is_exist:
+        os.makedirs(path + '/' + file_name_sql)
+    global query_file
+    query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
+    query_file.write(all_queries)
+    query_file.close()
+    global parameter_file
+    param_file_queries =all_param_queries + all_param_queries_1 + temp_to_trans
+    param_file = open((path+ '/{}/parameters.txt'.format(file_name_sql)), 'w')
+    param_file.write(param_file_queries)
+    param_file.close()
+    global json_file
+    json_file = open((path+ '/{}/report_queries.json'.format(file_name_sql)), 'w')
+    json_file.write(dml_queries)
+    json_file.close()
 
 if __name__ == "__main__":
     create_parameters_queries()
-    # create_table_queries()
-    # create_dml_timeline_queries()
-    # write_files()
-    # execute_sql()
+    create_table_queries()
+    create_dml_timeline_queries()
+    write_files()
+    execute_sql()
