@@ -9,6 +9,9 @@ import { SchoolInfrastructureComponent } from './school-infrastructure/school-in
 import { FormsModule } from '@angular/forms';
 import { UdiseReportComponent } from './udise-report/udise-report.component';
 import { AgmCoreModule } from '@agm/core';
+import { TestMapReportComponent } from './test-map-report/test-map-report.component';
+import { CommonMapReportComponent } from '../common-map-report/common-map-report.component';
+
 
 const infraRoutes: Routes = [
   {
@@ -31,7 +34,8 @@ const infraRoutes: Routes = [
   declarations: [
     SchoolInfrastructureComponent,
     InfraMapVisualisationComponent,
-    UdiseReportComponent
+    UdiseReportComponent,
+    TestMapReportComponent,
   ],
   imports: [
     CommonModule,

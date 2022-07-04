@@ -205,6 +205,7 @@ export class InfraMapVisualisationComponent implements OnInit {
       } else {
         this.changeDetection.detectChanges();
         this.levelWiseFilter();
+        document.getElementById('spinner').style.display = "none"
       }
     } else {
       this.getView()
@@ -1298,7 +1299,7 @@ export class InfraMapVisualisationComponent implements OnInit {
                 centerLng: this.lng,
                 level: "School",
               };
-               this.dataOptions = options;
+              this.dataOptions = options;
               this.schoolMarkers = [];
               if (this.data.length > 0) {
                 let result = this.data;
@@ -1925,126 +1926,126 @@ export class InfraMapVisualisationComponent implements OnInit {
     }
     this.myData = this.service.infraMapAllBlockWise({ management: this.management, category: this.category }).subscribe(
       (result: any) => {
-       
-        
-          this.myData = this.service
-            .infraMapSchoolWise(
-              this.districtId,
-              this.blockId,
-              clusterId, { management: this.management, category: this.category }
-            )
-            .subscribe(
-              (res) => {
-            
-                if (this.schoolLevel) {
-                  let schoolData = res['data']
-                  let data = schoolData.filter(data => data.details.school_id === Number(localStorage.getItem('schoolId')))
 
-                  this.markers = this.data = data
-                } else {
-                  this.markers = this.data = res["data"];
-                }
-                this.gettingInfraFilters(this.data);
 
-                this.schoolMarkers = this.data;
-                var markers = result["data"];
-                var myBlocks = [];
-                markers.forEach((element) => {
-                  if (
-                    element.details.district_id == this.districtId
-                  ) {
-                    myBlocks.push(element);
-                  }
-                });
-                this.blockMarkers = myBlocks;
-                this.blockMarkers.sort((a, b) =>
-                  a.details.block_name > b.details.block_name
-                    ? 1
-                    : b.details.block_name > a.details.block_name
-                      ? -1
-                      : 0
-                );
+        this.myData = this.service
+          .infraMapSchoolWise(
+            this.districtId,
+            this.blockId,
+            clusterId, { management: this.management, category: this.category }
+          )
+          .subscribe(
+            (res) => {
 
-                this.changeDetection.detectChanges();
-                var myCluster = [];
-                this.clusterMarkers.forEach((element) => {
-                  if (element.details.block_id == this.blockId) {
-                    myCluster.push(element);
-                  }
-                });
-                this.clusterMarkers = myCluster;
+              if (this.schoolLevel) {
+                let schoolData = res['data']
+                let data = schoolData.filter(data => data.details.school_id === Number(localStorage.getItem('schoolId')))
 
-                this.changeDetection.detectChanges();
-                // set hierarchy values
-                this.clusterHierarchy = {
-                  distId: this.data[0].details.district_id,
-                  districtName: this.data[0].details.district_name,
-                  blockId: this.data[0].details.block_id,
-                  blockName: this.data[0].details.block_name,
-                  clusterId: this.data[0].details.cluster_id,
-                  clusterName: this.data[0].details.cluster_name,
-                };
-                this.fileName = `${this.reportName}_schools_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
-
-                this.blockHidden = this.selBlock ? true : false;
-                this.clusterHidden = this.selCluster ? true : false;
-
-                this.districtHierarchy = {
-                  distId: this.data[0].details.district_id,
-                };
-
-                this.districtId = this.data[0].details.district_id;
-                this.blockId = this.data[0].details.block_id;
-                this.clusterId = clusterId;
-
-                // these are for showing the hierarchy names based on selection
-                this.skul = false;
-                this.dist = false;
-                this.blok = false;
-                this.clust = true;
-
-                // options to set for markers in the map
-                let options = {
-                  radius: 5,
-                  fillOpacity: 1,
-                  strokeWeight: 0.01,
-                  mapZoom: this.globalService.zoomLevel + 5,
-                  centerLat: this.data[0].details.latitude,
-                  centerLng: this.data[0].details.longitude,
-                  level: "schoolPerCluster",
-                };
-                this.dataOptions = options;
-
-                this.globalService.latitude = this.lat = options.centerLat;
-                this.globalService.longitude = this.lng = options.centerLng;
-
-                globalMap.doubleClickZoom.enable();
-                globalMap.scrollWheelZoom.enable();
-                globalMap.setMaxBounds([
-                  [options.centerLat - 1.5, options.centerLng - 3],
-                  [options.centerLat + 1.5, options.centerLng + 2],
-                ]);
-
-                //schoolCount
-                this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
-                this.genericFun(this.schoolMarkers, options, this.fileName);
-                this.globalService.onResize(this.level);
-                this.changeDetection.detectChanges();
-
-              },
-              (err) => {
-              
-                this.schoolMarkers = [];
-                this.data = []
-                this.commonService.loaderAndErr(this.data);
+                this.markers = this.data = data
+              } else {
+                this.markers = this.data = res["data"];
               }
-            )
+              this.gettingInfraFilters(this.data);
+
+              this.schoolMarkers = this.data;
+              var markers = result["data"];
+              var myBlocks = [];
+              markers.forEach((element) => {
+                if (
+                  element.details.district_id == this.districtId
+                ) {
+                  myBlocks.push(element);
+                }
+              });
+              this.blockMarkers = myBlocks;
+              this.blockMarkers.sort((a, b) =>
+                a.details.block_name > b.details.block_name
+                  ? 1
+                  : b.details.block_name > a.details.block_name
+                    ? -1
+                    : 0
+              );
+
+              this.changeDetection.detectChanges();
+              var myCluster = [];
+              this.clusterMarkers.forEach((element) => {
+                if (element.details.block_id == this.blockId) {
+                  myCluster.push(element);
+                }
+              });
+              this.clusterMarkers = myCluster;
+
+              this.changeDetection.detectChanges();
+              // set hierarchy values
+              this.clusterHierarchy = {
+                distId: this.data[0].details.district_id,
+                districtName: this.data[0].details.district_name,
+                blockId: this.data[0].details.block_id,
+                blockName: this.data[0].details.block_name,
+                clusterId: this.data[0].details.cluster_id,
+                clusterName: this.data[0].details.cluster_name,
+              };
+              this.fileName = `${this.reportName}_schools_of_cluster_${clusterId}_${this.commonService.dateAndTime}`;
+
+              this.blockHidden = this.selBlock ? true : false;
+              this.clusterHidden = this.selCluster ? true : false;
+
+              this.districtHierarchy = {
+                distId: this.data[0].details.district_id,
+              };
+
+              this.districtId = this.data[0].details.district_id;
+              this.blockId = this.data[0].details.block_id;
+              this.clusterId = clusterId;
+
+              // these are for showing the hierarchy names based on selection
+              this.skul = false;
+              this.dist = false;
+              this.blok = false;
+              this.clust = true;
+
+              // options to set for markers in the map
+              let options = {
+                radius: 5,
+                fillOpacity: 1,
+                strokeWeight: 0.01,
+                mapZoom: this.globalService.zoomLevel + 5,
+                centerLat: this.data[0].details.latitude,
+                centerLng: this.data[0].details.longitude,
+                level: "schoolPerCluster",
+              };
+              this.dataOptions = options;
+
+              this.globalService.latitude = this.lat = options.centerLat;
+              this.globalService.longitude = this.lng = options.centerLng;
+
+              globalMap.doubleClickZoom.enable();
+              globalMap.scrollWheelZoom.enable();
+              globalMap.setMaxBounds([
+                [options.centerLat - 1.5, options.centerLng - 3],
+                [options.centerLat + 1.5, options.centerLng + 2],
+              ]);
+
+              //schoolCount
+              this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+              this.genericFun(this.schoolMarkers, options, this.fileName);
+              this.globalService.onResize(this.level);
+              this.changeDetection.detectChanges();
+
+            },
+            (err) => {
+
+              this.schoolMarkers = [];
+              this.data = []
+              this.commonService.loaderAndErr(this.data);
+            }
+          )
       },
       (err) => {
-       
+
         this.schoolMarkers = [];
-       
+
         this.commonService.loaderAndErr(this.schoolMarkers);
       }
     );
@@ -2322,6 +2323,7 @@ export class InfraMapVisualisationComponent implements OnInit {
         details[key] = marker.details[key];
       }
     });
+    
     Object.keys(details).forEach((key) => {
       if (key !== lng) {
         orgObject[key] = details[key];
@@ -2378,7 +2380,6 @@ export class InfraMapVisualisationComponent implements OnInit {
         yourData
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
-     
     } else {
       marker["label"] = toolTip
     }
