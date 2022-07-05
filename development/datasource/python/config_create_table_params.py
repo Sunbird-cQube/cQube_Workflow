@@ -669,18 +669,17 @@ def create_table_queries():
                 new_header = df_agg.iloc[0].str.strip().str.lower()
                 df_agg.columns = new_header
                 df_agg = df_agg[1:]
-                static_columns = 'school_name varchar(200),school_latitude double precision,school_longitude double precision,district_id bigint,district_name varchar(100),district_latitude  double precision,district_longitude  double precision,block_id  bigint,block_name varchar(100),block_latitude  double precision,block_longitude  double precision,cluster_id  bigint,cluster_name varchar(100),cluster_latitude  double precision,cluster_longitude  double precision'
                 if df_agg.empty:
                     del df_agg
                 else:
-                    static_create_columns = 'school_name varchar(200),school_latitude double precision,school_longitude double precision,district_id bigint,district_name varchar(100),district_latitude  double precision,district_longitude  double precision,block_id  bigint,block_name varchar(100),block_latitude  double precision,block_longitude  double precision,cluster_id  bigint,cluster_name varchar(100),cluster_latitude  double precision,cluster_longitude  double precision'
+                    static_create_columns = 'school_name varchar(200),school_latitude double precision,school_longitude double precision,district_id bigint,district_name varchar(100),district_latitude  double precision,district_longitude  double precision,block_id  bigint,block_name varchar(100),block_latitude  double precision,block_longitude  double precision,cluster_id  bigint,cluster_name varchar(100),cluster_latitude  double precision,cluster_longitude  double precision,school_management_type varchar(100)'
                     df_agg_metric = df_agg['metric_type'].dropna().to_string(index=False)
-                    select_cols = df_agg['select_column'].dropna().to_list()
                     reference_column = df_agg['ref_columns'].dropna().to_string(index=False)
                     global result_col
                     result_col = df_agg['result_metric'].dropna().to_string(index=False)
                     primary_key = df_agg['primary_key'].dropna().to_list()
-                    p_k_columns = ','.join([str(elem) for elem in primary_key])
+                    global agg_pk_columns
+                    agg_pk_columns = ','.join([str(elem) for elem in primary_key])
                     global select_columns
                     select_columns = df_agg['select_column'].dropna()
                     global condition
@@ -700,7 +699,10 @@ def create_table_queries():
 
                     if 'count' in df_agg_metric:
                         agg_column = 'count(' + reference_column + ')  as ' + result_col
-
+                    elif 'sum' in df_agg_metric:
+                        agg_column = 'sum(' + reference_column + ')  as ' + result_col
+                    else:
+                        agg_column = ''
                     aggregation_query = 'create table if not exists ' + table_names + '_aggregation(' + static_create_columns + ',' + create_cols + result_col + ' integer,created_on  TIMESTAMP without time zone ,updated_on  TIMESTAMP without time zone,primary key(' + p_k_columns + '));'
                     create_trans_to_aggregate_queries()
                     all_queries = all_queries + '\n' + aggregation_query + '\n'
@@ -755,18 +757,23 @@ def create_table_queries():
 def create_trans_to_aggregate_queries():
     global all_param_queries_1
     all_param_queries_1 = ''
+    select_cols_exclude = ''
+    for elem in select_columns:
+        select_cols_exclude +=  elem + ' = excluded.' + elem + ','
+    select_cols_exclude += result_col + ' = excluded.' + result_col
+    select_cols_exclude += ',school_name=excluded.school_name,school_latitude=excluded.school_latitude,school_longitude=excluded.school_longitude,district_id=excluded.district_id,district_name=excluded.district_name,district_latitude=excluded.district_latitude,district_longitude=excluded.district_longitude,block_id=excluded.block_id,block_name=excluded.block_name,block_latitude=excluded.block_latitude,block_longitude=excluded.block_longitude,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,cluster_latitude=excluded.cluster_latitude,cluster_longitude=excluded.cluster_longitude,school_management_type=excluded.school_management_type'
     select_col = ','.join([str(elem) for elem in select_columns])
-    print(select_col)
     inner_query = '(select '+ select_col + ',' + agg_column + ' from' + table_names +'_trans' + condition + ' group by ' + select_col + ') as a'
     inner_query_cols = ''
     for elem in select_columns:
         inner_query_cols = inner_query_cols + 'a.'+str(elem) +','
     inner_query_cols = inner_query_cols + result_col
-    static_query =  '(select shd.school_id,school_name,school_latitude,school_longitude,shd.cluster_id,cluster_name,cluster_latitude,cluster_longitude,shd.block_id,block_name,block_latitude,block_longitude,shd.district_id,district_name,district_latitude,district_longitude from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
-    stat = 'insert into '+table_names +'_aggregation('+ select_col + ',' + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude)' +' ' 'select '+ inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude' +' from '+inner_query + ' join '+  static_query + ' on a.school_id=sch.school_id;'
+    static_query =  '(select shd.school_id,school_name,school_latitude,school_longitude,shd.cluster_id,cluster_name,cluster_latitude,cluster_longitude,shd.block_id,block_name,block_latitude,block_longitude,shd.district_id,district_name,district_latitude,district_longitude,school_management_type from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
+    stat = 'insert into '+table_names +'_aggregation('+ select_col + ',' + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select '+ inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,now(),now()' +' from '+inner_query + ' join '+  static_query + ' on a.school_id=sch.school_id on conflict('+ agg_pk_columns + ') do update set ' + select_cols_exclude + ',updated_on=now();'
     global to_insert_json
     to_insert_json = temp_to_trans
     to_insert_json += '{"trans_to_agg":"' + stat + '"}]'
+
 
 def create_dml_timeline_queries():
     school_ = ' school_id,school_name,school_latitude,school_longitude,cluster_id,cluster_name,block_id,block_name,district_id,district_name'
@@ -1014,7 +1021,7 @@ def write_files():
     query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
     query_file.write(all_queries)
     query_file.close()
-    to_insert_json_ = json.loads(to_insert_json)
+    to_insert_json_ = json.loads(to_insert_json,strict=False)
     with open((path + '/{}/temp_trans_aggregation_queries.json'.format(file_name_sql)),'w') as outfile:
         json.dump(to_insert_json_, outfile)
     global parameter_file
@@ -1022,7 +1029,7 @@ def write_files():
     param_file = open((path+ '/{}/parameters.txt'.format(file_name_sql)), 'w')
     param_file.write(param_file_queries)
     param_file.close()
-    to_report_json = json.loads(dml_queries)
+    to_report_json = json.loads(dml_queries,strict=False)
     with open((path + '/{}/report_queries.json'.format(file_name_sql)), 'w') as report_file:
         json.dump(to_report_json, report_file)
 
