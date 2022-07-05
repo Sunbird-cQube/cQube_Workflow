@@ -3,14 +3,13 @@ const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 const fs = require('fs');
 const csv = require('csvtojson')
-const path = require('node:path');
 const shell = require('shelljs');
 const baseDir = process.env.BASE_DIR;
-const { PythonShell } = require('python-shell');
+
 router.get('/', async function (req, res) {
     try {
         logger.info('---list new dataSource api ---');
-        let csvFilePath = `${process.env.BASE_DIR}/cqube/emission_app/python/postgres`;
+        let csvFilePath = `${process.env.BASE_DIR}/cqube/emission_app/python/postgres/`;
         let jsonArray = [];
         // read directory
         fs.readdir(csvFilePath, (error, fileNames) => {
