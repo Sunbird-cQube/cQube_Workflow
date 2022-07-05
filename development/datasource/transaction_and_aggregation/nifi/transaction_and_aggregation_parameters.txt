@@ -50,4 +50,5 @@
 	}
 ]""",
 "select_files_from_log_db":"""select * from log_summary where filename like 'student_attendance%'""",
+"temp_trans_aggregation_queries":"""filename"""
 }

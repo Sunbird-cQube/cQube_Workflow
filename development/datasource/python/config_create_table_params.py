@@ -6,6 +6,7 @@ import yaml
 import os
 from yaml.loader import SafeLoader
 import psycopg2
+import json
 
 config = configparser.ConfigParser()
 config.read('configurable_datasource_path_config.ini')
@@ -45,7 +46,7 @@ def create_parameters_queries():
                     del df
                 else:
                     df.columns = new_header
-                    table_names = df['table_name'].dropna().to_string(index=False)
+                    table_names = df['table_name'].dropna().to_string(index=False).strip()
                     raw_columns = df['columns'].dropna().tolist()
                     columns = []
                     for column in(raw_columns):
@@ -95,7 +96,7 @@ def create_parameters_queries():
                         final = query1+query2
                         check_if_null_query = check_if_null_query +final
                     # Saving duplicates
-                    save_dup = '"save_to_dup_table":"""' + table_names + '_dup """,'
+                    save_dup = '"save_to_dup_table":"""'+table_names.strip()+'_dup""",'
                     # Delete null values query
                     delete_null_values_qry = ''
                     for num in (null_validation_columns):
@@ -110,10 +111,10 @@ def create_parameters_queries():
                         final = query1 + query2
                         delete_null_values_qry = delete_null_values_qry + final
                     # queries_filename
-                    queries_filename = '"queries_filename":"""../../emission_app/python/postgres/'+table_names+'/'+table_names+'_queries.json""",'
+                    queries_filename = '"queries_filename":"""emission_app/python/postgres/'+table_names+'/report_queries.json""",'
 
                     #staging_1_tb_name
-                    staging_1_tb_name = '"staging_1_tb_name":"""'+table_names+'_staging_1""",'
+                    staging_1_tb_name = '"staging_1_tb_name":"""'+table_names.strip()+'_staging_1""",'
 
                     # Update Null log to db
                     query1 = ''
@@ -134,16 +135,56 @@ def create_parameters_queries():
                     stg_2_to_temp_query = q1 + clmn +'ff_uuid) select '+clmn+'ff_uuid' ' from '+table_names+'_staging_2 """,'
                     val_same_id = ''.join(check_same_id_columns)
                     # check_same_id
-                    check_same_id_qry = '"check_same_id_records":"""SELECT ' +same_id+'b.ff_uuid,b.cnt num_of_times from (select sas.*,count(*) over (PARTITION by ' + val_same_id+'ff_uuid) as cnt from' +table_names+'_staging_2  sas ) b where cnt>1 group by'+columns_check_id+'b.ff_uuid,b.cnt;""",'
+                    check_same_id_qry = '"check_same_id_records":"""SELECT ' +same_id+'b.ff_uuid,b.cnt num_of_times from (select sas.*,count(*) over (PARTITION by ' + val_same_id+'ff_uuid) as cnt from' +table_names+'_staging_2  sas ) b where cnt>1 group by '+same_id+'b.ff_uuid,b.cnt;""",'
 
-                    #normalize
-                    normalize = '"normalize":"""select '+clmns+' from flowfile""",'
+                    # normalize
+                    query_check1 = ''
+                    for check_norm_col in raw_columns:
+
+                        if ('year' in check_norm_col) or ('date' in check_norm_col) or ('month' in check_norm_col):
+                            print("check_norm_col", check_norm_col)
+                            query_check1 += '"' + check_norm_col + '",'
+                        else:
+                            query_check1 += check_norm_col + ','
+
+                    if query_check1.endswith(','):
+                        query_check1 = query_check1[:-1]
+                    normalize = '"normalize":"""select ' + query_check1 + ' from flowfile""",'
+
+                    # Datatype check
+
+                    dtype_check = {
+                        "bigint": "Optional(parseLong())",
+                        "varchar": "Optional(StrNotNullOrEmpty())",
+                        "text": "Optional(StrNotNullOrEmpty())",
+                        "int": "Optional(ParseInt())",
+                        "date": "Optional(ParseDate(\"yyyy-MM-dd\"))"
+                    }
+                    d_type1 = ''
+                    for d_type in data_types:
+                        d_type = d_type.lower()
+                        if d_type.__contains__('varchar'):
+                            d_type = d_type.split('(')[0]
+                            d_type1 += dtype_check[d_type] + ','
+                        else:
+                            d_type1 += dtype_check[d_type] + ','
+
+                    if d_type1.endswith(','):
+                        d_type1 = d_type1[:-1]
+
+                    data_type_check = '"schema":"""' + d_type1 + '""",'
+                    # print(data_type_check)
+
+                    # temp_trans_aggregation queries
+                    temp_trans_aggregation_queries = '"temp_trans_aggregation_queries":"""temp_trans_aggregation_queries.json""",'
+                    # print(temp_trans_aggregation_queries)
+
 
                     #Sum of Duplicates
                     sum_of_dup = '"sum_of_dup":"""select sum(num_of_times) from flowfile""",'
 
                     #unique_record_same_id
-                    unique_record_same_id = '"unique_record_same_id":"""insert into '+table_names+'_temp('+clmn+'ff_uuid) select '+clmn+' ff_uuid from (select ' +clmn+ 'ff_uuid, count(*) over (partition by ' +columns_check_id+'ff_uuid) as rn  from '+table_names+'_staging_2)as a where a.rn=1""",'
+                    unique_record_same_id = '"unique_record_same_id":"""insert into '+table_names+'_temp('+clmn+',ff_uuid) select '+clmn+',ff_uuid from (select ' +clmn+ ',ff_uuid, count(*) over (partition by '+columns_check_id+'ff_uuid) as rn  from '+table_names+'_staging_2)as a where a.rn=1""",'
 
                     #stg_1_to_stg_2_qry
                     stg_1_to_stg_2_qry = '" stg_1_to_stg_2_qry ":"""insert into '+table_names+ '_staging_2('+clmn+'ff_uuid) select ' +clmn+ 'ff_uuid from ' +table_names+ '_staging_1""",'
@@ -152,7 +193,7 @@ def create_parameters_queries():
                     save_null_tb_name ='"save_null_tb_name":"""'+table_names+'_null_col""",'
 
                     #check_same_records
-                    check_same_records = '"check_same_records":"""SELECT ' +clmn+ 'ff_uuid,count(*)-1 num_of_times FROM '+table_names+ '_staging_1 GROUP BY '+clmn+'ff_uuid HAVING  COUNT(*) > 1""",'
+                    check_same_records = '"check_same_records":"""SELECT ' +clmn+ ',ff_uuid,count(*)-1 num_of_times FROM '+table_names+ '_staging_1 GROUP BY '+clmn+',ff_uuid HAVING  COUNT(*) > 1""",'
 
                     #count_null_value
                     count_null_value = ''
@@ -168,8 +209,8 @@ def create_parameters_queries():
                         count_null_value = count_null_value + final
 
                     # unique_records_same_records
-                    unique_records_same_records = '"unique_records_same_records":"""insert into '+table_names+'_staging_2(' +clmn+ 'ff_uuid) select '+clmn+'ff_uuid) select '+clmn+'ff_uuid from ( SELECT '+clmn+'ff_uuid, row_number() over (partition by '+clmn+ 'ff_uuid) as rn from '+table_names+'_staging_1) sq Where rn =1""",'
-                    validation_queries = check_if_null_query + save_dup + delete_null_values_qry + queries_filename+ staging_1_tb_name+ null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize +sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
+                    unique_records_same_records = '"unique_records_same_records":"""insert into '+table_names+'_staging_2(' +clmn+ ',ff_uuid) select '+clmn+',ff_uuid from ( SELECT '+clmn+',ff_uuid, row_number() over (partition by '+clmn+ ',ff_uuid) as rn from '+table_names+'_staging_1) sq Where rn =1""",'
+                    validation_queries = check_if_null_query + save_dup + delete_null_values_qry + queries_filename+ staging_1_tb_name+ null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize +data_type_check+temp_trans_aggregation_queries+sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
 
             elif 'aggre' in row[0]:
                 df_agg = pd.DataFrame(mycsv)
@@ -430,7 +471,7 @@ def create_parameters_queries():
                     jolt_line_chart_cluster = qur64+qur65+qur66
 
                     # raw_block_jolt_spec
-                    raw_block_jolt_spec = '"raw_block_jolt_spec":"""[{"operation":"shift","spec":{"*":{"block_id":"[&1].Block ID","block_name":"[&1].Block Name","district_id":"[&1].District ID","district_name":"[&1].District Name","academic_year":"[&1].Academic Year","'+table_names+'_percent_june":"[&1].'+table_names+' (%) June","'+table_names+'_count_june":"[&1].Total '+table_names+' June","total_schools_june":"[&1].Total Schools June","'+table_names+'_percent_july":"[&1].'+table_names+' (%) July","'+table_names+'_count_july":"[&1].Total '+table_names+' July","total_schools_july":"[&1].Total Schools July","'+table_names+'_percent_august":"[&1].'+table_names+' (%) August","'+table_names+'_count_august":"[&1].Total '+table_names+' August","total_schools_august":"[&1].Total Schools August","'+table_names+'_percent_september":"[&1].'+table_names+' (%) September","'+table_names+'_count_september":"[&1].Total '+table_names+' September","total_schools_september":"[&1].Total Schools September","'+table_names+'_percent_october":"[&1].'+table_names+' (%) October","'+table_names+'_count_october":"[&1].Total '+table_names+' October","total_schools_october":"[&1].Total Schools October","'+table_names+'_percent_november":"[&1].'+table_names+' (%) November","'+table_names+'_count_november":"[&1].Total '+table_names+' November","total_schools_november":"[&1].Total Schools November","'+table_names+'_percent_december":"[&1].'+table_names+' (%) December","'+table_names+'_count_december":"[&1].Total '+table_names+' December","total_schools_december":"[&1].Total Schools December","'+table_names+'_percent_january":"[&1].'+table_names+' (%) January","'+table_names+'_count_january":"[&1].Total '+table_names+' January","total_schools_january":"[&1].Total Schools January","'+table_names+'_percent_february":"[&1].'+table_names+' (%) February","'+table_names+'_count_february":"[&1].Total '+table_names+' February","total_schools_february":"[&1].Total Schools February","'+table_names+'_percent_march":"[&1].'+table_names+' (%) March","'+table_names+'_count_march":"[&1].Total '+table_names+' March","total_schools_march":"[&1].Total Schools March","'+table_names+'_percent_april":"[&1].'+table_names+' (%) April","'+table_names+'_count_april":"[&1].Total '+table_names+' April","total_schools_april":"[&1].Total Schools April","'+table_names+'_percent_may":"[&1].'+table_names+' (%) May","'+table_names+'_count_may":"[&1].Total '+table_names+' May","total_schools_may":"[&1].Total Schools May"}}}]""",'
+                    raw_block_jolt_spec = '"raw_block_jolt_spec":"""[{"operation":"shift","spec":{"*":{"block_id":"[&1].Block ID","block_name":"[&1].Block Name","district_id":"[&1].District ID","district_name":"[&1].District Name","academic_year":"[&1].Academic Year","'+table_names+'_percent_june":"[&1].'+table_names+' (%) June","'+table_names+'_count_june":"[&1].Total '+table_names+' June","total_schools_june":"[&1].Total Schools June","'+table_names+'_percent_july":"[&1].'+table_names+' (%) July","'+table_names+'_count_july":"[&1].Total '+table_names+' July","total_schools_july":"[&1].Total Schools July","'+table_names+'_percent_august":"[&1].'+table_names+' (%) August","'+table_names+'_count_august":"[&1].Total '+table_names+' August","total_schools_august":"[&1].Total Schools August","'+table_names+'_percent_september":"[&1].'+table_names+' (%) September","'+table_names+'_count_september":"[&1].Total '+table_names+' September","total_schools_september":"[&1].Total Schools September","'+table_names+'_percent_october":"[&1].'+table_names+' (%) October","'+table_names+'_count_october":"[&1].Total '+table_names+' October","total_schools_october":"[&1].Total Schools October","'+table_names+'_percent_november":"[&1].'+table_names+' (%) November","'+table_names+'_count_november":"[&1].Total '+table_names+' November","total_schools_november":"[&1].Total Schools November","'+table_names+'_percent_december":"[&1].'+table_names+' (%) December","'+table_names+'_count_december":"[&1].Total '+table_names+' December","total_schools_december":"[&1].Total Schools December","'+table_names+'_percent_january":"[&1].'+table_names+' (%) January","'+table_names+'_count_january":"[&1].Total '+table_names+' January","total_schools_january":"[&1].Total Schools January","'+table_names+'_percent_february":"[&1].'+table_names+' (%) February","'+table_names+'_count_february":"[&1].Total '+table_names+' February","total_schools_february":"[&1].Total Schools February","'+table_names+'_percent_march":"[&1].'+table_names+' (%) March","'+table_names+'_count_march":"[&1].Total '+table_names+' March","total_schools_march":"[&1].Total Schools March","'+table_names+'_percent_april":"[&1].'+table_names+' (%) April","'+table_names+'_count_april":"[&1].Total '+table_names+' April","total_schools_april":"[&1].Total Schools April","'+table_names+'_percent_may":"[&1].'+table_names+' (%) May","'+table_names+'_count_may":"[&1].Total '+table_names+' May","total_schools_may":"[&1].Total Schools May"}}}]"""}'
                     all_param_queries += validation_queries+district_jolt+exception_block_jolt_spec+school_timeseries_jolt_spec+raw_district_jolt_spec+jolt_line_chart_state+jolt_spec_cluster+raw_school_jolt_spec+jolt_line_chart_block+jolt_line_chart_district+transform_district_wise+jolt_line_chart_school+jolt_spec_school_management_category_meta+jolt_spec_school+exception_district_jolt_spec+cluster_timeseries_jolt_spec+exception_school_jolt_spec+transform_cluster_wise+raw_cluster_jolt_spec+transform_school_wise+jolt_spec_block+transform_block_wise+district_timeseries_jolt_spec+block_time_series_jolt+jolt_for_log_summary+exception_cluster_jolt_spec+jolt_line_chart_cluster+raw_block_jolt_spec
             key_index += 1
             del mycsv[:]
@@ -546,7 +587,7 @@ def create_table_queries():
                         exclude_col += elem + '= excluded.' + elem + ','
                     columns_insert = ','.join(columns)
                     trans_insert += columns_insert + ',created_on,updated_on)  select ' + columns_insert + ',now(),now() from ' + table_names + '_temp' + ' on conflict('+ p_k_columns + ') do update set ' + exclude_col + 'updated_on=now();'
-                    temp_to_trans = '\n' + '"temp_to_trans":"""' + trans_insert + '"""}'
+                    temp_to_trans = '[' + '{"temp_to_trans":"' + trans_insert + '"},'
                     all_queries = all_queries + trans_query
 
                     query3 = 'create table if not exists ' + table_names + '_dup( '
@@ -628,18 +669,17 @@ def create_table_queries():
                 new_header = df_agg.iloc[0].str.strip().str.lower()
                 df_agg.columns = new_header
                 df_agg = df_agg[1:]
-                static_columns = 'school_name varchar(200),school_latitude double precision,school_longitude double precision,district_id bigint,district_name varchar(100),district_latitude  double precision,district_longitude  double precision,block_id  bigint,block_name varchar(100),block_latitude  double precision,block_longitude  double precision,cluster_id  bigint,cluster_name varchar(100),cluster_latitude  double precision,cluster_longitude  double precision'
                 if df_agg.empty:
                     del df_agg
                 else:
-                    static_create_columns = 'school_name varchar(200),school_latitude double precision,school_longitude double precision,district_id bigint,district_name varchar(100),district_latitude  double precision,district_longitude  double precision,block_id  bigint,block_name varchar(100),block_latitude  double precision,block_longitude  double precision,cluster_id  bigint,cluster_name varchar(100),cluster_latitude  double precision,cluster_longitude  double precision'
+                    static_create_columns = 'school_name varchar(200),school_latitude double precision,school_longitude double precision,district_id bigint,district_name varchar(100),district_latitude  double precision,district_longitude  double precision,block_id  bigint,block_name varchar(100),block_latitude  double precision,block_longitude  double precision,cluster_id  bigint,cluster_name varchar(100),cluster_latitude  double precision,cluster_longitude  double precision,school_management_type varchar(100)'
                     df_agg_metric = df_agg['metric_type'].dropna().to_string(index=False)
-                    select_cols = df_agg['select_column'].dropna().to_list()
                     reference_column = df_agg['ref_columns'].dropna().to_string(index=False)
                     global result_col
                     result_col = df_agg['result_metric'].dropna().to_string(index=False)
                     primary_key = df_agg['primary_key'].dropna().to_list()
-                    p_k_columns = ','.join([str(elem) for elem in primary_key])
+                    global agg_pk_columns
+                    agg_pk_columns = ','.join([str(elem) for elem in primary_key])
                     global select_columns
                     select_columns = df_agg['select_column'].dropna()
                     global condition
@@ -659,7 +699,10 @@ def create_table_queries():
 
                     if 'count' in df_agg_metric:
                         agg_column = 'count(' + reference_column + ')  as ' + result_col
-
+                    elif 'sum' in df_agg_metric:
+                        agg_column = 'sum(' + reference_column + ')  as ' + result_col
+                    else:
+                        agg_column = ''
                     aggregation_query = 'create table if not exists ' + table_names + '_aggregation(' + static_create_columns + ',' + create_cols + result_col + ' integer,created_on  TIMESTAMP without time zone ,updated_on  TIMESTAMP without time zone,primary key(' + p_k_columns + '));'
                     create_trans_to_aggregate_queries()
                     all_queries = all_queries + '\n' + aggregation_query + '\n'
@@ -714,19 +757,23 @@ def create_table_queries():
 def create_trans_to_aggregate_queries():
     global all_param_queries_1
     all_param_queries_1 = ''
+    select_cols_exclude = ''
+    for elem in select_columns:
+        select_cols_exclude +=  elem + ' = excluded.' + elem + ','
+    select_cols_exclude += result_col + ' = excluded.' + result_col
+    select_cols_exclude += ',school_name=excluded.school_name,school_latitude=excluded.school_latitude,school_longitude=excluded.school_longitude,district_id=excluded.district_id,district_name=excluded.district_name,district_latitude=excluded.district_latitude,district_longitude=excluded.district_longitude,block_id=excluded.block_id,block_name=excluded.block_name,block_latitude=excluded.block_latitude,block_longitude=excluded.block_longitude,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,cluster_latitude=excluded.cluster_latitude,cluster_longitude=excluded.cluster_longitude,school_management_type=excluded.school_management_type'
     select_col = ','.join([str(elem) for elem in select_columns])
-    print(select_col)
     inner_query = '(select '+ select_col + ',' + agg_column + ' from' + table_names +'_trans' + condition + ' group by ' + select_col + ') as a'
     inner_query_cols = ''
     for elem in select_columns:
         inner_query_cols = inner_query_cols + 'a.'+str(elem) +','
     inner_query_cols = inner_query_cols + result_col
-    static_query =  '(select shd.school_id,school_name,school_latitude,school_longitude,shd.cluster_id,cluster_name,cluster_latitude,cluster_longitude,shd.block_id,block_name,block_latitude,block_longitude,shd.district_id,district_name,district_latitude,district_longitude from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
-    stat = 'insert into '+table_names +'_aggregation('+ select_col + ',' + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude)' +' ' 'select '+ inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude' +' from '+inner_query + ' join '+  static_query + ' on a.school_id=sch.school_id;'
-    global to_parameters
-    to_parameters = '\n' +  '"trans_to_agg":"""'+stat +'""",'
-    all_param_queries_1 = all_param_queries_1 + to_parameters
-    print(all_param_queries_1)
+    static_query =  '(select shd.school_id,school_name,school_latitude,school_longitude,shd.cluster_id,cluster_name,cluster_latitude,cluster_longitude,shd.block_id,block_name,block_latitude,block_longitude,shd.district_id,district_name,district_latitude,district_longitude,school_management_type from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
+    stat = 'insert into '+table_names +'_aggregation('+ select_col + ',' + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select '+ inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,now(),now()' +' from '+inner_query + ' join '+  static_query + ' on a.school_id=sch.school_id on conflict('+ agg_pk_columns + ') do update set ' + select_cols_exclude + ',updated_on=now();'
+    global to_insert_json
+    to_insert_json = temp_to_trans
+    to_insert_json += '{"trans_to_agg":"' + stat + '"}]'
+
 
 def create_dml_timeline_queries():
     school_ = ' school_id,school_name,school_latitude,school_longitude,cluster_id,cluster_name,block_id,block_name,district_id,district_name'
@@ -974,15 +1021,17 @@ def write_files():
     query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
     query_file.write(all_queries)
     query_file.close()
+    to_insert_json_ = json.loads(to_insert_json,strict=False)
+    with open((path + '/{}/temp_trans_aggregation_queries.json'.format(file_name_sql)),'w') as outfile:
+        json.dump(to_insert_json_, outfile)
     global parameter_file
-    param_file_queries =all_param_queries + all_param_queries_1 + temp_to_trans
+    param_file_queries =all_param_queries + all_param_queries_1
     param_file = open((path+ '/{}/parameters.txt'.format(file_name_sql)), 'w')
     param_file.write(param_file_queries)
     param_file.close()
-    global json_file
-    json_file = open((path+ '/{}/report_queries.json'.format(file_name_sql)), 'w')
-    json_file.write(dml_queries)
-    json_file.close()
+    to_report_json = json.loads(dml_queries,strict=False)
+    with open((path + '/{}/report_queries.json'.format(file_name_sql)), 'w') as report_file:
+        json.dump(to_report_json, report_file)
 
 if __name__ == "__main__":
     create_parameters_queries()
