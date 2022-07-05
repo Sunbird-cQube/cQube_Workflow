@@ -3,7 +3,6 @@ const { logger } = require('../../lib/logger');
 const auth = require('../../middleware/check-auth');
 const fs = require('fs');
 const csv = require('csvtojson')
-const path = require('node:path');
 const shell = require('shelljs');
 const baseDir = process.env.BASE_DIR;
 
