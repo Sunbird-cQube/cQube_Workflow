@@ -13,4 +13,6 @@
 "stg_2_to_temp_qry":"""aa""",
 "unique_records_same_records":"""aa""",
 "stg_1_to_stg_2_qry":"""aa""",
+"save_to_dup_table":"""tablename""",
+"schema":"""Optional(parseLong())"""
 }
