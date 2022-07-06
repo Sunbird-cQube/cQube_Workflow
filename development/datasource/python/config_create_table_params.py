@@ -213,7 +213,7 @@ def create_parameters_queries():
                     unique_records_same_records = '"unique_records_same_records":"""insert into ' + table_names + '_staging_2(' + clmn + ',ff_uuid) select ' + clmn + ',ff_uuid from ( SELECT ' + clmn + ',ff_uuid, row_number() over (partition by ' + clmn + ',ff_uuid) as rn from ' + table_names + '_staging_1) sq Where rn =1""",'
                     validation_queries = check_if_null_query + save_dup + delete_null_values_qry + queries_filename + staging_1_tb_name + null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize + data_type_check + temp_trans_aggregation_queries + sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
 
-            elif 'aggre' in row[0]:
+            elif 'type_of_data' in row[0]:
                 df_agg = pd.DataFrame(mycsv)
                 df_agg.replace("", float("NaN"), inplace=True)
                 df_agg.dropna(how='all', inplace=True)
@@ -224,7 +224,7 @@ def create_parameters_queries():
                 if df_agg.empty:
                     del df_agg
                 else:
-                    select_column = df_agg['select_column'].dropna().unique()
+                    select_column = df_agg['nifi_select_columns'].dropna().unique()
                     # jolt_spec_district
                     qu1 = ''
                     qu = '"jolt_spec_district":"""[{"operation": "shift","spec": {"*": {"district_id": "data.[&1].district_id","district_name": "data.[&1].district_name","percentage": "data.[&1].percentage","district_latitude": "data.[&1].district_latitude","district_longitude": "data.[&1].district_longitude","data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date",'
