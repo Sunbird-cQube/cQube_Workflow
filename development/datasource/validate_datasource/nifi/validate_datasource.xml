@@ -1408,8 +1408,8 @@
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <destination>
                         <groupId>b580b831-a9be-386f-0000-000000000000</groupId>
-                        <id>5543ed28-752e-3e24-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
+                        <id>fcdd5b72-c552-3374-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
                     <labelIndex>1</labelIndex>
@@ -2432,6 +2432,31 @@
                     <source>
                         <groupId>b580b831-a9be-386f-0000-000000000000</groupId>
                         <id>560a3ccc-1705-3e48-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>d30451c5-6c79-3ac6-0000-000000000000</id>
+                    <parentGroupId>b580b831-a9be-386f-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>b580b831-a9be-386f-0000-000000000000</groupId>
+                        <id>5543ed28-752e-3e24-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>b580b831-a9be-386f-0000-000000000000</groupId>
+                        <id>fcdd5b72-c552-3374-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -4362,8 +4387,8 @@
                     <id>5543ed28-752e-3e24-0000-000000000000</id>
                     <parentGroupId>b580b831-a9be-386f-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-9272.0</x>
-                        <y>-1368.0</y>
+                        <x>-8672.0</x>
+                        <y>-1336.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -4790,7 +4815,7 @@
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>DISABLED</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ListFile</type>
                 </processors>
@@ -5814,7 +5839,7 @@ same id data validation of file:${filename} started</value>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>DISABLED</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.azure.storage.ListAzureBlobStorage</type>
                 </processors>
@@ -13133,6 +13158,92 @@ Mirror data validation of file:${filename} started</value>
                     <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
+                    <id>fcdd5b72-c552-3374-0000-000000000000</id>
+                    <parentGroupId>b580b831-a9be-386f-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-9328.0</x>
+                        <y>-1400.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-update-attribute-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Delete Attributes Expression</key>
+<value>
+    <name>Delete Attributes Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>
+    <name>Store State</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+<value>
+    <name>Stateful Variables Initial Value</name>
+</value>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>
+    <name>canonical-value-lookup-cache-size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>datasource_name</key>
+<value>
+    <name>datasource_name</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Delete Attributes Expression</key>
+                            </entry>
+                            <entry>
+<key>Store State</key>
+<value>Do not store state</value>
+                            </entry>
+                            <entry>
+<key>Stateful Variables Initial Value</key>
+                            </entry>
+                            <entry>
+<key>canonical-value-lookup-cache-size</key>
+<value>100</value>
+                            </entry>
+                            <entry>
+<key>datasource_name</key>
+<value>#{datasource_name}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>datasource_name</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+                </processors>
+                <processors>
                     <id>fde4cd9b-7189-346c-0000-000000000000</id>
                     <parentGroupId>b580b831-a9be-386f-0000-000000000000</parentGroupId>
                     <position>
@@ -13288,5 +13399,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>07/05/2022 20:25:10 IST</timestamp>
+    <timestamp>07/06/2022 19:00:34 IST</timestamp>
 </template>
