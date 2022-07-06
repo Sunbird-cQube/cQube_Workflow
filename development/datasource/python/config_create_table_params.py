@@ -196,6 +196,9 @@ def create_parameters_queries():
                     # check_same_records
                     check_same_records = '"check_same_records":"""SELECT ' + clmn + ',ff_uuid,count(*)-1 num_of_times FROM ' + table_names + '_staging_1 GROUP BY ' + clmn + ',ff_uuid HAVING  COUNT(*) > 1""",'
 
+                    # datasource_name
+                    datasource_name = '"datasource_name":"""' + table_names + '""",'
+
                     # count_null_value
                     count_null_value = ''
                     for num in (null_validation_columns):
@@ -211,7 +214,7 @@ def create_parameters_queries():
 
                     # unique_records_same_records
                     unique_records_same_records = '"unique_records_same_records":"""insert into ' + table_names + '_staging_2(' + clmn + ',ff_uuid) select ' + clmn + ',ff_uuid from ( SELECT ' + clmn + ',ff_uuid, row_number() over (partition by ' + clmn + ',ff_uuid) as rn from ' + table_names + '_staging_1) sq Where rn =1""",'
-                    validation_queries = check_if_null_query + save_dup + delete_null_values_qry + queries_filename + staging_1_tb_name + null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize + data_type_check + temp_trans_aggregation_queries + sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
+                    validation_queries = check_if_null_query + save_dup +datasource_name+ delete_null_values_qry + queries_filename + staging_1_tb_name + null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize + data_type_check + temp_trans_aggregation_queries + sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
 
             elif 'type_of_data' in row[0]:
                 df_agg = pd.DataFrame(mycsv)
