@@ -148,6 +148,33 @@
     - sat_transformer.xml
   tags: [ install, update ]
 
+- name: Copying the validation nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/validate_datasource/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - validate_datasource.xml
+  tags: [ install, update ]
+
+- name: Copying the configurable datasource nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/configurable_datasource/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - configurable_datasource.xml
+  tags: [ install, update ]
+
+- name: Copying the transaction_and_aggregation nifi templetes to nifi directory
+  copy:
+    src: ../../development/datasource/transaction_and_aggregation/nifi/{{ item }}
+    dest: "{{ base_dir }}/cqube/nifi/nifi_templates/{{ item }}"
+    mode: "0644"
+  with_items:
+    - transaction_and_aggregation.xml
+  tags: [ install, update ]
+    
 - name: Copying the diksha nifi templetes to nifi directory
   copy:
     src: ../../development/datasource/diksha/nifi/{{ item }}

@@ -742,5 +742,6 @@ where subject_id is null or grade is null""",
 "static_grade_details_not_null":"""select * from flowfile where school_id  is not null and grade  is not null""",
 "static_subject_details_not_null":"""select * from flowfile where subject_id is not null and grade is not null""",
 "static_subject_log_summary_qry": """select * from log_summary where filename like 'subject%';""",
-"static_grade_log_summary_qry":"""select * from log_summary where filename like 'grade%';"""
+"static_grade_log_summary_qry":"""select * from log_summary where filename like 'grade%';""",
+"configurable_python_filename":"""config_create_table_params.py"""
 }

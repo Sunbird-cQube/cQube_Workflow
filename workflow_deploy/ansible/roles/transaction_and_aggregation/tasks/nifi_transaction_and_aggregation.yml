@@ -1,0 +1,7 @@
+- name: Run nifi_transaction_and_aggregation python code
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/deploy_nifi.py transaction_and_aggregation transaction_and_aggregation_parameters 4700"
+  tags: [ install, update ]
+
+- name: Connection of transaction_and_aggregation to cqube data storage
+  shell: "{{ base_dir }}/cqube/emission_app/flaskenv/bin/python {{ base_dir }}/cqube/emission_app/python/connect_nifi_processors.py cQube_data_storage transaction_and_aggregation"
+  tags: [ install, update ]

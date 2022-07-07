@@ -15,6 +15,7 @@ import { TelemetryDashboardComponent } from './group-dashboards/telemetry-dashbo
 import { ManagementSelectorComponent } from 'src/app/common/management-selector/management-selector.component';
 import { FormsModule } from '@angular/forms';
 import { CommonDashboardComponent } from './group-dashboards/common-dashboard/common-dashboard.component';
+import { DynamicComponentComponent } from './group-dashboards/dynamic-component/dynamic-component.component';
 
 var dashboardRoutes: Routes = [
   {
@@ -51,6 +52,9 @@ var dashboardRoutes: Routes = [
       },
       {
         path: 'telemetry-dashboard', component: TelemetryDashboardComponent
+      },
+      {
+        path: ':id', component: DynamicComponentComponent
       }
     ]
   }
@@ -71,7 +75,8 @@ var dashboardRoutes: Routes = [
     ExceptionDashboardComponent,
     TelemetryDashboardComponent,
     ManagementSelectorComponent,
-    CommonDashboardComponent
+    CommonDashboardComponent,
+    DynamicComponentComponent
   ],
   imports: [
     CommonModule,

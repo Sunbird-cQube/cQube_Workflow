@@ -47,6 +47,7 @@ def create_parameter(parameter_context,parameter_body):
     """
     create nifi parameter
     """
+    header = {"Content-Type": "application/json"}
     # create the parameter in nifi
     create_parameter_res = rq.post(
         f'{prop.NIFI_IP}:{prop.NIFI_PORT}/nifi-api/parameter-contexts', json=parameter_body, headers=header)
@@ -252,12 +253,26 @@ def controller_service_enable(processor_group_name):
             else:
                 return controller_service_enable_res.text
 
+# Get JSON file
+def get_json_file(path):
+    '''
+    param:path [ filepath ]
+    type:String
+    '''
+    # Opening JSON file
+    with open(path, 'r') as openfile:
+        # Reading from json file
+        json_object = json.load(openfile)
+    return json_object
+
+
 
 # Main # sys arguments 1. Template name 2. parameter context name 3. distributed server port
 if __name__ == "__main__":
     nifi_root_pg_id = ''
     processor_group = ''
     header = {"Content-Type": "application/json"}
+
 
     processor_group_name = sys.argv[1]
     parameter_context_name = sys.argv[2]
@@ -272,24 +287,26 @@ if __name__ == "__main__":
     # 2. Instantiate template
     logging.info("Instatiating the template.")
     instantiate_template(processor_group_name)
-
+    
+    
     #  3. Create parameters
-    params = {
-        'infra_parameters': 'infra_parameters.txt',
-        'diksha_parameters': 'diksha_parameters.txt',
-        'static_data_parameters': 'static_data_parameters.txt',
-        'crc_parameters': 'crc_parameters.txt',
-        'student_attendance_parameters': 'student_attendance_parameters.txt',
-        'teacher_attendance_parameters': 'teacher_attendance_parameters.txt',
-        'sat_parameters':'sat_parameters.txt',
-        'cqube_telemetry_parameters': 'cqube_telemetry_parameters.txt',
-        'udise_parameters': 'udise_parameters.txt',
-        'composite_parameters': 'composite_parameters.txt',
-        'progress_card_parameters':'progress_card_parameters.txt',
-        'pat_parameters': 'pat_parameters.txt',
-        'data_replay_parameters':'data_replay_parameters.txt'
+    params = get_json_file(prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH+'parameters_files_static_list.json')
+    # params = {
+    #     'infra_parameters': 'infra_parameters.txt',
+    #     'diksha_parameters': 'diksha_parameters.txt',
+    #     'static_data_parameters': 'static_data_parameters.txt',
+    #     'crc_parameters': 'crc_parameters.txt',
+    #     'student_attendance_parameters': 'student_attendance_parameters.txt',
+    #     'teacher_attendance_parameters': 'teacher_attendance_parameters.txt',
+    #     'sat_parameters':'sat_parameters.txt',
+    #     'cqube_telemetry_parameters': 'cqube_telemetry_parameters.txt',
+    #     'udise_parameters': 'udise_parameters.txt',
+    #     'composite_parameters': 'composite_parameters.txt',
+    #     'progress_card_parameters':'progress_card_parameters.txt',
+    #     'pat_parameters': 'pat_parameters.txt',
+    #     'data_replay_parameters':'data_replay_parameters.txt'
         
-    }
+    # }
     # read the parameter file created by Ansible using configuration
     logging.info("Reading dynamic parameters from file %s.json",parameter_context_name)
     f = open(f'{prop.NIFI_PARAMETER_DIRECTORY_PATH}{parameter_context_name}.json', "rb")
@@ -320,23 +337,25 @@ if __name__ == "__main__":
 
     # 6. Add sensitive value to controller services
     logging.info("Adding sensitive properties in controller services")
-    controller_list_all = {
-        'infra_transformer': ['cQube_s3_infra', 'postgres_infra','cQube_azure_infra'],
-        'cQube_data_storage': ['cQube_s3_static_raw', 'postgres_static_raw','cQube_azure_data_storage'],
-        'diksha_transformer': ['cQube_s3_diksha', 'postgres_diksha','cQube_azure_diksha'],
-        'diksha_transformer_custom': ['postgres_diksha'],
-        'static_data_transformer': ['cQube_s3_static', 'postgres_static','cQube_azure_static'],
-        'crc_transformer': ['cQube_s3_crc', 'postgres_crc','cQube_azure_crc'],
-        'student_attendance_transformer': ['cQube_s3_stud_att', 'postgres_stud_att','cQube_azure_stud_att'],
-        'teacher_attendance_transformer': ['cQube_s3_tch_att', 'postgres_tch_att','cQube_azure_tch_att'],
-        'sat_transformer': ['cQube_s3_sat', 'postgres_sat','cQube_azure_sat'],
-        'cqube_telemetry_transformer': ['cQube_s3_cqube_telemetry', 'postgres_cqube_telemetry','cQube_azure_cqube_telemetry'],
-        'udise_transformer': ['cQube_s3_udise', 'postgres_udise','cQube_azure_udise'],
-        'composite_transformer': ['cQube_s3_composite', 'postgres_composite'],
-        'pat_transformer': ['cQube_s3_pat', 'postgres_pat','cQube_azure_pat'],
-        'data_replay_transformer': ['cQube_s3_data_replay', 'postgres_data_replay','cQube_azure_data_replay'],
-        'progress_card_transformer': ['postgres_progress_card']
-    }
+    controller_list_all = get_json_file(prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH+'controller_list.json')
+    
+    # controller_list_all = {
+    #     'infra_transformer': ['cQube_s3_infra', 'postgres_infra','cQube_azure_infra'],
+    #     'cQube_data_storage': ['cQube_s3_static_raw', 'postgres_static_raw','cQube_azure_data_storage'],
+    #     'diksha_transformer': ['cQube_s3_diksha', 'postgres_diksha','cQube_azure_diksha'],
+    #     'diksha_transformer_custom': ['postgres_diksha'],
+    #     'static_data_transformer': ['cQube_s3_static', 'postgres_static','cQube_azure_static'],
+    #     'crc_transformer': ['cQube_s3_crc', 'postgres_crc','cQube_azure_crc'],
+    #     'student_attendance_transformer': ['cQube_s3_stud_att', 'postgres_stud_att','cQube_azure_stud_att'],
+    #     'teacher_attendance_transformer': ['cQube_s3_tch_att', 'postgres_tch_att','cQube_azure_tch_att'],
+    #     'sat_transformer': ['cQube_s3_sat', 'postgres_sat','cQube_azure_sat'],
+    #     'cqube_telemetry_transformer': ['cQube_s3_cqube_telemetry', 'postgres_cqube_telemetry','cQube_azure_cqube_telemetry'],
+    #     'udise_transformer': ['cQube_s3_udise', 'postgres_udise','cQube_azure_udise'],
+    #     'composite_transformer': ['cQube_s3_composite', 'postgres_composite'],
+    #     'pat_transformer': ['cQube_s3_pat', 'postgres_pat','cQube_azure_pat'],
+    #     'data_replay_transformer': ['cQube_s3_data_replay', 'postgres_data_replay','cQube_azure_data_replay'],
+    #     'progress_card_transformer': ['postgres_progress_card']
+    # }
     
     if controller_list_all.get(processor_group_name):
         for controller in controller_list_all.get(processor_group_name):

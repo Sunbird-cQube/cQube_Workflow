@@ -1,0 +1,96 @@
+{
+        "revision": {
+            "clientId": "value",
+            "version": 0,
+            "lastModifier": "Admin"
+        },
+        "component":{
+                "name":"transaction_and_aggregation_parameters",
+
+        "parameters":[
+            {
+                "parameter":{"name":"s3_emission_bucket",
+                        "value":"{{ s3_emission_bucket }}"
+                            }
+            },
+	    	{
+                "parameter":{"name":"db_user",
+                        "value":"{{ db_user }}"
+                            }
+            },
+            {
+                "parameter":{"name":"db_name",
+                        "value":"{{ db_name }}"
+                            }
+            },
+            {
+                "parameter":{"name":"db_driver_dir",
+                        "value":"{{ db_driver_dir }}"
+                            }
+            },
+            {
+                "parameter":{"name":"db_driver_class_name",
+                        "value":"{{ db_driver_class_name }}"
+                            }
+            },
+            {
+                "parameter":{"name":"db_connection_url",
+                        "value":"{{ db_connection_url }}"
+                            }
+            },
+	        {
+                "parameter":{"name":"s3_access_key",
+                "sensitive": true,
+                        "value":"{{ s3_access_key }}"
+                            }
+            },
+            {
+                "parameter":{"name":"s3_secret_key",
+                "sensitive": true,
+                        "value":"{{ s3_secret_key }}"
+                            }
+            },
+            {
+                "parameter":{"name":"db_password",
+                "sensitive": true,
+                        "value":"{{ db_password }}"
+                            }
+            },
+            {
+                "parameter":{"name":"emission_directory",
+                        "value":"{{ emission_directory }}"
+                            }
+            },
+			{
+                "parameter":{"name":"azure_emission_container",
+                        "value":"{{ azure_emission_container }}"
+                            }
+            },
+			{
+                "parameter":{"name":"azure_account_name",
+                "sensitive": true,
+                        "value":"{{ azure_account_name }}"
+                            }
+            },
+            {
+                "parameter":{"name":"azure_account_key",
+                "sensitive": true,
+                        "value":"{{ azure_account_key }}"
+                            }
+            },
+			{
+                "parameter":{"name":"base_dir",
+                        "value":"{{ base_dir }}"
+                            }
+            },
+			{
+                "parameter":{"name":"map_name",
+                        "value":"{{ map_name }}"
+                            }
+            }
+
+
+        ]
+}
+}
+

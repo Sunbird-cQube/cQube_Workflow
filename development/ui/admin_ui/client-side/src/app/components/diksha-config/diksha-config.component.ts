@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfigurableData } from 'src/app/services/configurable.data.service';
 import { DikshaConfigService } from 'src/app/services/diksha-config.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class DikshaConfigComponent implements OnInit {
   selectedHour = [];
   selectedDuration: any;
 
-  constructor(private service: DikshaConfigService, public router: Router) {
+  constructor(private service: DikshaConfigService, public router: Router, public service1: ConfigurableData, private elementRef: ElementRef) {
     //added
     for (let i = 1; i <= 10; i++) {
       this.hoursArr.push({ hours: i });
@@ -23,19 +24,21 @@ export class DikshaConfigComponent implements OnInit {
 
   public date = new Date();
   public getTime = `${this.date.getFullYear()}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${("0" + (this.date.getDate())).slice(-2)}, ${("0" + (this.date.getHours())).slice(-2)}:${("0" + (this.date.getMinutes())).slice(-2)}:${("0" + (this.date.getSeconds())).slice(-2)}`;
-  // public types = ['Default', 'Date Range'];
+
   public types = ['Date Range'];
 
   ngOnInit(): void {
     document.getElementById('spinner').style.display = 'none';
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
+    this.getdatalist()
   }
 
   dropdownOptions = ['Emission', 'API'];
   TPDselected = 'API';
   ETBselected = 'API';
   TPDdata = {};
+
   TPDonSubmit() {
     document.getElementById('spinner').style.display = 'block';
     this.TPDdata['selected'] = this.TPDselected;
@@ -62,9 +65,6 @@ export class DikshaConfigComponent implements OnInit {
       document.getElementById('spinner').style.display = 'none';
     })
   }
-
-
-
 
   fromDate = null;
   toDate = null;
@@ -105,6 +105,76 @@ export class DikshaConfigComponent implements OnInit {
 
   onSelectHour() {
     this.selectedDuration = this.selectedHour;
+  }
+
+
+  dataSourceList
+  dataSourceItem
+  dataListSelected = "choose DataSource "
+  getdatalist() {
+    this.service1.getConfigDataSource().subscribe(res => {
+      this.dataSourceList = res
+      console.log('thia.data', this.dataSourceList)
+    }, err => {
+      document.getElementById('spinner').style.display = "none";
+
+    })
+
+  }
+
+  hideConfig: boolean = false
+
+  interver = null
+
+  startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    var self = this;
+    let _interver = setInterval(function () {
+
+      minutes = Math.floor(timer / 60);
+      seconds = Math.floor(timer % 60);
+
+      minutes = minutes < 60 ? minutes : minutes;
+      seconds = seconds < 60 ? seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      if (--timer < 0) {
+        self.hideConfig = false
+        clearInterval(_interver);
+
+      }
+    }, 1000);
+
+  }
+
+  startTimer1() {
+    var fiveMinutes = 60 * 0.1,
+      display = this.elementRef.nativeElement.querySelector('#time1');
+    this.startTimer(fiveMinutes, display);
+  };
+
+  activation() {
+    this.hideConfig = true
+    this.startTimer1()
+    this.buildAngular()
+  }
+
+  buildAngular() {
+    let obj = {
+      dataSource: this.dataListSelected
+    }
+   
+    this.service1.buildAngular(obj).subscribe(res => {
+      
+      let index = this.dataSourceList.indexOf(this.dataListSelected)
+      if (index > -1) { // only splice array when item is found
+        this.dataSourceList.splice(index, 1); 
+      }
+      
+    },err => {
+       console.log('err', err)
+    })
   }
 
 }

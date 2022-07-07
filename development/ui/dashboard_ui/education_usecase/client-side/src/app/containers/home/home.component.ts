@@ -8,6 +8,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
 import { LoginService } from '../../services/login.service'
+import { TelemetryService } from 'src/app/services/telemetry.service';
+import { dynamicReportService } from 'src/app/services/dynamic-report.service';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +30,7 @@ export class HomeComponent implements OnInit {
   public hideReport: String = environment.mapName
 
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
-    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService, public logInservice: LoginService) {
+    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService, public logInservice: LoginService, public Test: TelemetryService, public configServic: dynamicReportService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -51,7 +53,7 @@ export class HomeComponent implements OnInit {
   public userType = localStorage.getItem('roleName') === "admin";
   public roleName;
   mobileQuery: MediaQueryList;
-
+  menuList
   // diksha columns
   diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
@@ -71,6 +73,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.showBackBtn = false;
     }
+     this.fetchConfigProperty()
   }
 
   onClickToggleMenu() {
@@ -88,7 +91,6 @@ export class HomeComponent implements OnInit {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
         if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
-          
           this.sidebar.close();
         }
       }, 1000);
@@ -136,6 +138,11 @@ export class HomeComponent implements OnInit {
 
   }
 
+  fetchConfigProperty(){
+    this.configServic.configurableProperty().subscribe(res => {
+      this.menuList = res['data']
+    })
+  }
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);
