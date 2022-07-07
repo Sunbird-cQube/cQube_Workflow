@@ -11,7 +11,7 @@ router.post('/configCardProperties', auth.authController, async (req, res) => {
          let data = await s3File.readFileConfig(filename);
        
         data.forEach(data => {
-            data.routerLink = `/${data.reportName.replace(/\s+/g, '-').toLowerCase()}/${data.reportType}`;
+            data.routerLink = `/${data.report_name.replace(/\s+/g, '-').toLowerCase()}/${data.report_type}`;
         });
 
         logger.info('--- Configurable card properties  api response sent ---');

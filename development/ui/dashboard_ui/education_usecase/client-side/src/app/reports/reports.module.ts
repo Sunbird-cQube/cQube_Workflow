@@ -49,7 +49,7 @@ const otherRoutes = [
   {
     path: '', canActivate: [AuthGuard], children: [
       {
-        path: ':id/lotable', component: CommonLoTableComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+        path: ':id/lo_table', component: CommonLoTableComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }]
   },
 ]
