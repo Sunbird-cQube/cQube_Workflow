@@ -628,7 +628,7 @@ def create_table_queries():
                 global df_time_sel
                 df_time_sel = df_tod['time_selections'].dropna().to_list()
                 global date_col
-                date_col = df_tod['date_column_to_filter'].dropna().to_string(index=False)
+                date_col = df_tod['date_column_to_filter'].dropna().to_string(index=False).strip()
             elif df_level_of_data in df_filters_req and 'aggregation' not in keywords:
                 query2 = 'create table if not exists ' + table_names + '_aggregation( '
                 iter2 = 0
@@ -721,7 +721,7 @@ def create_table_queries():
                 global sel_col_op1
                 sel_col_op1 = df_op['select_column'].dropna()
                 for elem in sel_col_op1:
-                    if elem!='school_id' and elem != date_col:
+                    if elem!='school_id' and elem != date_col.strip():
                         sel_col_op += elem +','
                 sel_col_op = sel_col_op[:-1]
                 global metric_op
