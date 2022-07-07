@@ -15,7 +15,7 @@ router.post('/configProperties', auth.authController, async (req, res) => {
             [item[key], item])).values()];
 
         arrayUniqueByKey.forEach(data => {
-            data.routerLink = `/dashboard/${data.reportName.replace(/\s+/g, '-').toLowerCase()}`;
+            data.routerLink = `/dashboard/${data.report_name.replace(/\s+/g, '-').toLowerCase()}`;
         });
 
         logger.info('--- Configurable properties  api response sent ---');
