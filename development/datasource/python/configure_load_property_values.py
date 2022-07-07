@@ -132,7 +132,7 @@ if __name__ == '__main__':
     conf_value3 = "delete from " +filename+"_temp where ff_uuid='${zip_identifier}';"
     conf_value4 = "truncate table "+filename+"_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
-    conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/"+filename+"#{temp_trans_aggregation_queries}"
+    conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/"+filename+"/#{temp_trans_aggregation_queries}"
 
     processor_properties1 = {
         conf_key: conf_value
