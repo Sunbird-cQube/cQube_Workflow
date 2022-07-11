@@ -1,8 +1,11 @@
-import deploy_nifi as dn
+import logging
+import requests as rq
+import sys
+import time
 import properties_nifi_deploy as prop
 import update_nifi_params
-from update_nifi_parameters_main import get_parameter_context,update_parameter
-import requests as rq, time, logging, sys
+from update_nifi_parameters_main import get_parameter_context, update_parameter
+
 
 def get_nifi_root_pg():
     """ Fetch nifi root processor group ID"""
@@ -107,18 +110,17 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
 
 if __name__ == '__main__':
     """[summary]
-    sys arguments = 1.Processor group name. 2.From date 3.To date 4.Stop hour
-    Updates the summary rollup start date and end date in nifi processor property.
-
-    syntax: python update_processor_property.py <processor group name> <yyyy-mm-dd> <yyyy-mm-dd> <stop hour>
-            Example: python update_processor_property.py diksha_transformer 2021-10-22 2021-10-23 1
+    sys arguments = 1.Processor group name
+    According to the Datasource name will update the property and value
     """
     filename = sys.argv[1]
     processor_group_name = ['validate_datasource', 'cQube_data_storage', 'transaction_and_aggregation']
-    processor_name = ['config_trans_route_based_on_s3_dir', "route_based_on_s3_input_dir", 'route_based_on_content',
-                      'get_year_month_from_temp','config_datasource_delete_temp','config_datasource_delete_staging_1_table',
-                      'config_datasource_delete_staging_2_table','config_delete_staging_1_table','conf_delete_staging_1_table',
-                      'conf_delete_staging_2_table','Route_on_zip','temp_trans_agg_add_qry_filename']
+    processor_name = ['config_listing_files_from_emission', "route_based_on_s3_input_dir", 'route_based_on_content',
+                      'get_year_month_from_temp', 'config_datasource_delete_temp',
+                      'config_datasource_delete_staging_1_table',
+                      'config_datasource_delete_staging_2_table', 'config_delete_staging_1_table',
+                      'conf_delete_staging_1_table',
+                      'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename']
 
     data_storage_processor = 'cQube_data_storage'
     conf_key = "configure_file"
@@ -127,12 +129,12 @@ if __name__ == '__main__':
     conf_key3 = "filename"
     conf_value = '${' + 'filename:startsWith("{0}"):or('.format(
         filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename) + '})}'
-    conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) +'}'
+    conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) + '}'
     conf_value2 = "select distinct year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
-    conf_value3 = "delete from " +filename+"_temp where ff_uuid='${zip_identifier}';"
-    conf_value4 = "truncate table "+filename+"_staging_1"
+    conf_value3 = "delete from " + filename + "_temp where ff_uuid='${zip_identifier}';"
+    conf_value4 = "truncate table " + filename + "_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
-    conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/"+filename+"/#{temp_trans_aggregation_queries}"
+    conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/" + filename + "/#{temp_trans_aggregation_queries}"
 
     processor_properties1 = {
         conf_key: conf_value
@@ -199,7 +201,6 @@ if __name__ == '__main__':
         parameter_body = update_nifi_params.nifi_params_config(parameter_context_name,
                                                                f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt',
                                                                parameter_body)
-        # print(parameter_body)
         pc = get_parameter_context(parameter_context_name)
         parameter_body['revision']['version'] = pc['version']
         parameter_body['id'] = pc['id']
