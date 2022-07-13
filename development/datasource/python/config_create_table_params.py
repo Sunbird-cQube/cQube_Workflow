@@ -10,8 +10,8 @@ import json
 
 config = configparser.ConfigParser()
 config.read('configurable_datasource_path_config.ini')
-
 path = config['DEFAULT']['path']
+
 
 def read_input():
     if len(sys.argv[1:]) > 0:
@@ -34,6 +34,7 @@ def create_parameters_queries():
     table_names = ''
     validation_queries = ''
     global all_param_queries
+
     all_param_queries = ''
     for row in csv.reader(read_input()):
         if row[0] == key:
@@ -211,9 +212,23 @@ def create_parameters_queries():
                         final = query4 + query5
                         count_null_value = count_null_value + final
 
+                    #date_column
+                    date_column = ''
+                    for date in raw_columns:
+                        if date.__contains__('date'):
+                            # date_column += '"date_column":"""' + date + '""",'
+                            date_column += date + ','
+                            # print(type(date_column))
+                    date_column1 = [date_column[0:-1]]
+                    date_column2 = str(date_column1).replace("['", "'").replace(',', "','").replace("']", "'")
+                    date_column = '"date_column":"""[' + date_column2 + ']""",'
+
+                    # select_files_from__log_db
+                    select_files_from_log_db = '"select_files_from__log_db":"""select * from log_summary where filename like' "'" + table_names + "%'"'""",'
+
                     # unique_records_same_records
                     unique_records_same_records = '"unique_records_same_records":"""insert into ' + table_names + '_staging_2(' + clmn + ',ff_uuid) select ' + clmn + ',ff_uuid from ( SELECT ' + clmn + ',ff_uuid, row_number() over (partition by ' + clmn + ',ff_uuid) as rn from ' + table_names + '_staging_1) sq Where rn =1""",'
-                    validation_queries = check_if_null_query + save_dup +datasource_name+ delete_null_values_qry + queries_filename + staging_1_tb_name + null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize + data_type_check + temp_trans_aggregation_queries + sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
+                    validation_queries = check_if_null_query + date_column+select_files_from_log_db+save_dup +datasource_name+ delete_null_values_qry + queries_filename + staging_1_tb_name + null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize + data_type_check + temp_trans_aggregation_queries + sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
 
             elif 'type_of_data' in row[0]:
                 df_agg = pd.DataFrame(mycsv)
@@ -507,10 +522,17 @@ def create_parameters_queries():
                             qur65 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
                     qur66 = '"' + table_names + '_count": "[&1].' + table_names + '.' + table_names + '_count","total_schools": "[&1].' + table_names + '.total_schools"}}}, {"operation": "shift","spec": {"*": {"@cluster_name": "@(1,cluster_id).cluster_name[]","@' + table_names + '": "@(1,cluster_id).' + table_names + '[]"}}}]""",'
                     jolt_line_chart_cluster = qur64 + qur65 + qur66
+                    # partition_by_date_column
+                    partition_date = ''
+                    for partition_col in select_column:
+                        if partition_col.__contains__('date'):
+                            partition_date += partition_col
+                    partition_date_column = '"partition_select_column":"""' + partition_date + '""",'
+                    # print(partition_date_column)
 
                     # raw_block_jolt_spec
                     raw_block_jolt_spec = '"raw_block_jolt_spec":"""[{"operation":"shift","spec":{"*":{"block_id":"[&1].Block ID","block_name":"[&1].Block Name","district_id":"[&1].District ID","district_name":"[&1].District Name","academic_year":"[&1].Academic Year","' + table_names + '_percent_june":"[&1].' + table_names + ' (%) June","' + table_names + '_count_june":"[&1].Total ' + table_names + ' June","total_schools_june":"[&1].Total Schools June","' + table_names + '_percent_july":"[&1].' + table_names + ' (%) July","' + table_names + '_count_july":"[&1].Total ' + table_names + ' July","total_schools_july":"[&1].Total Schools July","' + table_names + '_percent_august":"[&1].' + table_names + ' (%) August","' + table_names + '_count_august":"[&1].Total ' + table_names + ' August","total_schools_august":"[&1].Total Schools August","' + table_names + '_percent_september":"[&1].' + table_names + ' (%) September","' + table_names + '_count_september":"[&1].Total ' + table_names + ' September","total_schools_september":"[&1].Total Schools September","' + table_names + '_percent_october":"[&1].' + table_names + ' (%) October","' + table_names + '_count_october":"[&1].Total ' + table_names + ' October","total_schools_october":"[&1].Total Schools October","' + table_names + '_percent_november":"[&1].' + table_names + ' (%) November","' + table_names + '_count_november":"[&1].Total ' + table_names + ' November","total_schools_november":"[&1].Total Schools November","' + table_names + '_percent_december":"[&1].' + table_names + ' (%) December","' + table_names + '_count_december":"[&1].Total ' + table_names + ' December","total_schools_december":"[&1].Total Schools December","' + table_names + '_percent_january":"[&1].' + table_names + ' (%) January","' + table_names + '_count_january":"[&1].Total ' + table_names + ' January","total_schools_january":"[&1].Total Schools January","' + table_names + '_percent_february":"[&1].' + table_names + ' (%) February","' + table_names + '_count_february":"[&1].Total ' + table_names + ' February","total_schools_february":"[&1].Total Schools February","' + table_names + '_percent_march":"[&1].' + table_names + ' (%) March","' + table_names + '_count_march":"[&1].Total ' + table_names + ' March","total_schools_march":"[&1].Total Schools March","' + table_names + '_percent_april":"[&1].' + table_names + ' (%) April","' + table_names + '_count_april":"[&1].Total ' + table_names + ' April","total_schools_april":"[&1].Total Schools April","' + table_names + '_percent_may":"[&1].' + table_names + ' (%) May","' + table_names + '_count_may":"[&1].Total ' + table_names + ' May","total_schools_may":"[&1].Total Schools May"}}}]"""}'
-                    all_param_queries += validation_queries + district_jolt + exception_block_jolt_spec + school_timeseries_jolt_spec + raw_district_jolt_spec + jolt_line_chart_state + jolt_spec_cluster + raw_school_jolt_spec + jolt_line_chart_block + jolt_line_chart_district + transform_district_wise + jolt_line_chart_school + jolt_spec_school_management_category_meta + jolt_spec_school + exception_district_jolt_spec + cluster_timeseries_jolt_spec + exception_school_jolt_spec + transform_cluster_wise + raw_cluster_jolt_spec + transform_school_wise + jolt_spec_block + transform_block_wise + district_timeseries_jolt_spec + block_time_series_jolt + jolt_for_log_summary + exception_cluster_jolt_spec + jolt_line_chart_cluster + raw_block_jolt_spec
+                    all_param_queries += validation_queries + partition_date_column+district_jolt + exception_block_jolt_spec + school_timeseries_jolt_spec + raw_district_jolt_spec + jolt_line_chart_state + jolt_spec_cluster + raw_school_jolt_spec + jolt_line_chart_block + jolt_line_chart_district + transform_district_wise + jolt_line_chart_school + jolt_spec_school_management_category_meta + jolt_spec_school + exception_district_jolt_spec + cluster_timeseries_jolt_spec + exception_school_jolt_spec + transform_cluster_wise + raw_cluster_jolt_spec + transform_school_wise + jolt_spec_block + transform_block_wise + district_timeseries_jolt_spec + block_time_series_jolt + jolt_for_log_summary + exception_cluster_jolt_spec + jolt_line_chart_cluster + raw_block_jolt_spec
             key_index += 1
             del mycsv[:]
             if key_index == len(keywords):

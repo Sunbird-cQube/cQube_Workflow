@@ -2,10 +2,14 @@ import logging
 import requests as rq
 import sys
 import time
+from update_nifi_parameters_main import *
 import properties_nifi_deploy as prop
 import update_nifi_params
 from update_nifi_parameters_main import get_parameter_context, update_parameter
+import ast
 
+
+# print(config_create_table_params.create_parameters_queries())
 
 def get_nifi_root_pg():
     """ Fetch nifi root processor group ID"""
@@ -108,6 +112,15 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
                     return update_processor_res.text
 
 
+def parse_file(filename_path, key):
+    with open(filename_path, 'r') as fd:
+        parameter_data = fd.read()
+    parameter_dict = ast.literal_eval(parameter_data)
+    date_columns = parameter_dict.get(key)
+
+    return date_columns
+
+
 if __name__ == '__main__':
     """[summary]
     sys arguments = 1.Processor group name
@@ -120,7 +133,8 @@ if __name__ == '__main__':
                       'config_datasource_delete_staging_1_table',
                       'config_datasource_delete_staging_2_table', 'config_delete_staging_1_table',
                       'conf_delete_staging_1_table',
-                      'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename']
+                      'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename',
+                      'add_ff_uuid_and_convert_date', 'convert_date_to_ist', 'convert_management_date_to_ist','partition_according_columns','partition_management']
 
     data_storage_processor = 'cQube_data_storage'
     conf_key = "configure_file"
@@ -135,6 +149,20 @@ if __name__ == '__main__':
     conf_value4 = "truncate table " + filename + "_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
     conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/" + filename + "/#{temp_trans_aggregation_queries}"
+    # Date_column_update
+    res = parse_file(f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt', 'date_column')
+    res = ast.literal_eval(res)
+    processor_properties_date = {}
+    for date_column_name in res:
+        date_value = "${field.value:format('yyyy-MM-dd','IST')}"
+        date_key = "/{0}".format(date_column_name)
+        processor_properties_date.update({date_key: date_value})
+
+    # Partition_date_column_upload
+    partition_res = parse_file(f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt',
+                               'partition_select_column')
+    partition_date_key = 'day'
+    partition_date_value = "/{0}".format(partition_res)
 
     processor_properties1 = {
         conf_key: conf_value
@@ -156,6 +184,9 @@ if __name__ == '__main__':
     }
     processor_properties7 = {
         conf_key3: conf_value6
+    }
+    processor_properties8 = {
+        partition_date_key: partition_date_value
     }
     # Enable the validation template and update
     time.sleep(5)
@@ -179,7 +210,11 @@ if __name__ == '__main__':
     nifi_update_processor_property(processor_group_name[0], processor_name[9], processor_properties6)
     nifi_update_processor_property(processor_group_name[1], processor_name[10], processor_properties2)
     nifi_update_processor_property(processor_group_name[2], processor_name[11], processor_properties7)
-
+    nifi_update_processor_property(processor_group_name[0], processor_name[12], processor_properties_date)
+    nifi_update_processor_property(processor_group_name[2], processor_name[13], processor_properties_date)
+    nifi_update_processor_property(processor_group_name[2], processor_name[14], processor_properties_date)
+    nifi_update_processor_property(processor_group_name[2], processor_name[15], processor_properties8)
+    nifi_update_processor_property(processor_group_name[2], processor_name[16], processor_properties8)
     parameter_context_names = ['validate_datasource_parameters', 'transaction_and_aggregation_parameters']
 
     for parameter_context_name in parameter_context_names:
