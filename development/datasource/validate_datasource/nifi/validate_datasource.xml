@@ -5598,6 +5598,12 @@ where ff_uuid= '${files_uuid}';</value>
     <name>/ff_uuid</name>
 </value>
                             </entry>
+                            <entry>
+<key>/issued_date</key>
+<value>
+    <name>/issued_date</name>
+</value>
+                            </entry>
                         </descriptors>
                         <executionNode>ALL</executionNode>
                         <lossTolerant>false</lossTolerant>
@@ -5617,11 +5623,15 @@ where ff_uuid= '${files_uuid}';</value>
                             </entry>
                             <entry>
 <key>/distribution_date</key>
-<value>${field.value:toNumber():format('yyyy-MM-dd','IST')}</value>
+<value>${field.value:format('yyyy-MM-dd','IST')}</value>
                             </entry>
                             <entry>
 <key>/ff_uuid</key>
 <value>${files_uuid}</value>
+                            </entry>
+                            <entry>
+<key>/issued_date</key>
+<value>${field.value:format('yyyy-MM-dd','IST')}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -5630,7 +5640,7 @@ where ff_uuid= '${files_uuid}';</value>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>add_ff_uuid</name>
+                    <name>add_ff_uuid_and_convert_date</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -10494,8 +10504,8 @@ where ff_uuid= '${files_uuid}'</value>
                     <id>c26a5f80-056c-39f3-0000-000000000000</id>
                     <parentGroupId>4389ad58-bb05-3404-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-6560.0</x>
-                        <y>864.0</y>
+                        <x>-6248.0</x>
+                        <y>936.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -13525,5 +13535,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>07/11/2022 18:03:57 IST</timestamp>
+    <timestamp>07/13/2022 16:59:23 IST</timestamp>
 </template>
