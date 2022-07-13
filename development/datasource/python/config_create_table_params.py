@@ -667,7 +667,7 @@ def create_table_queries():
                 df_time_sel = df_tod['time_selections'].dropna().to_list()
                 for val in df_time_sel:
                     val = val.replace('_',' ')
-                    insert_time_selections += "insert into configure_time_selections(datasource_name,time_selections_required) values('" + table_names + "','" + val + "') except(select datasource_name,time_selections_required from time_selections_required);"
+                    insert_time_selections += "insert into configure_time_selections(datasource_name,time_selections_required) values('" + table_names + "','" + val + "') except(select datasource_name,time_selections_required from configure_time_selections);"
                 global date_col
                 date_col = df_tod['date_column_to_filter'].dropna().to_string(index=False).strip()
                 all_queries += '\n' + create_time_selection_table + '\n' + insert_time_selections
@@ -961,7 +961,7 @@ def create_dml_timeline_queries():
         else:
             return
 
-        dml_queries += '{"time_period_meta":"select time_selections_required as value from time_selections_required where datasource_name = ' + "'" + table_names + "'" + '"},'
+        dml_queries += '{"time_period_meta":"select time_selections_required as value from configure_time_selections where datasource_name = ' + "'" + table_names + "'" + '"},'
     dml_queries = dml_queries.rstrip(dml_queries[-1])
     dml_queries = dml_queries + '\n' + ']'
 
