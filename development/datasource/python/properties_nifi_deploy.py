@@ -139,12 +139,7 @@ NIFI_INPUT_OUTPUT_PORTS = {
     {'OUTPUT_PORT': 'S3_on_premise-config_partition_output_port','INPUT_PORT': 'S3_on_premise-config_partition_input_port'},
     {'OUTPUT_PORT': 'Config_datasource_save-s3-log_summary_output_port','INPUT_PORT': 'config_datasource_save-s3-log_summary_input_port'},
     {'OUTPUT_PORT': 'config_datasource_S3_trends_output_port','INPUT_PORT': 'config_datasource_S3_trends_input_port'},
-    {'OUTPUT_PORT': 'config_datasource_s3_year_month_overall_management_vs_category_output_port','INPUT_PORT': 'config_datasource_s3_year_month_overall_management_vs_category_input_port'},
-    {'OUTPUT_PORT': 'config_datasource_s3_time_range_overall_category_vs_management_output_port','INPUT_PORT': 'config_datasource_s3_time_range_overall_category_vs_management_input_port'},
-    {'OUTPUT_PORT': 'config_datasource_s3_time_range_overall_category_vs_management_partition_output_port','INPUT_PORT': 'config_datasource_s3_time_range_overall_category_vs_management_partition_input_port'},
-    {'OUTPUT_PORT': 'config_datasource_s3_time_range_overall_management_vs_category_output_port','INPUT_PORT': 'config_datasource_s3_time_range_overall_management_vs_category_input_port'},
-    {'OUTPUT_PORT': 'config_datasource_s3_year_month_overall_category_vs_management_output_port','INPUT_PORT': 'config_datasource_s3_year_month_overall_category_vs_management_input_port'},
-    {'OUTPUT_PORT': 'config_datasource_s3_year_month_overall_category_vs_management_partition_output_port','INPUT_PORT': 'config_datasource_s3_year_month_overall_category_vs_management_partition_input_port'}
+    {'OUTPUT_PORT': 'config_datasource_management_output_port','INPUT_PORT': 'config_datasource_management_input_port'}
     ],
 
     'cQube_data_storage': {
