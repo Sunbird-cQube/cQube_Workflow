@@ -659,10 +659,18 @@ def create_table_queries():
                 df_level_of_data = df_tod['level_of_data'].dropna().to_string()
                 global df_filters_req
                 df_filters_req = df_tod['filters_required'].dropna().to_list()
+                global create_time_selecion_table
+                create_time_selection_table = 'create table if not exists configure_time_selections(datasource_name varchar(50),time_selections_required varchar(20));'
+                global insert_time_selections
+                insert_time_selections = ''
                 global df_time_sel
                 df_time_sel = df_tod['time_selections'].dropna().to_list()
+                for val in df_time_sel:
+                    val = val.replace('_',' ')
+                    insert_time_selections += "insert into configure_time_selections(datasource_name,time_selections_required) values('" + table_names + "','" + val + "') except(select datasource_name,time_selections_required from time_selections_required);"
                 global date_col
                 date_col = df_tod['date_column_to_filter'].dropna().to_string(index=False).strip()
+                all_queries += '\n' + create_time_selection_table + '\n' + insert_time_selections
             elif df_level_of_data in df_filters_req and 'aggregation' not in keywords:
                 query2 = 'create table if not exists ' + table_names + '_aggregation( '
                 iter2 = 0
@@ -793,7 +801,7 @@ def create_table_queries():
                     create_table_query = 'create table if not exists configurable_datasource_properties (report_name varchar(50),report_type varchar(20),description text,status boolean);'
                     insert_query = ''
                     for d, r, info in zip(datasourcenames, tmp_columns, description):
-                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False) ;";
+                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False) except(select report_name,report_type,description,status from configurable_datasource_properties) ;";
                     all_queries = all_queries + '\n' + create_table_query + '\n' + insert_query
             key_index += 1
             del mycsv[:]
@@ -817,7 +825,7 @@ def create_trans_to_aggregate_queries():
     group_col = ''
     for col in select_columns:
         if col.lower() == 'grade':
-            select_col += "concat('Grade ', + grade) as grade,"
+            select_col += "concat('Grade_', + grade) as grade,"
             group_col = group_col + 'grade,'
         elif col.lower() != 'month':
             select_col += col + ','
@@ -947,11 +955,13 @@ def create_dml_timeline_queries():
                 dml_queries += '{"' + filter + '_management_grade_subject_last_7":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + var + ',school_management_type' + '"},'
 
         if 'grade' in df_filters_req and 'subject' in df_filters_req:
-            dml_queries += '{"meta:":"select grade.academic_year,json_agg(json_build_object(' + "'grades',grades,'months',months)) as data from (select academic_year,json_agg(json_build_object('grade',grade,'subjects',subjects)) as grades from (select academic_year,grade,json_agg(subject) as subjects from (select  distinct academic_year(" + date_col +") as academic_year,grade,subject from " + table_names + "_aggregation) as a group by academic_year,grade) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('months',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from  (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col + ") -date_trunc('week', date_trunc('month', " + date_col +" ))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation ' + ') as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
+            dml_queries += '{"meta":"select grade.academic_year,json_agg(json_build_object(' + "'grades',grades,'months',months)) as data from (select academic_year,json_agg(json_build_object('grade',grade,'subjects',subjects)) as grades from (select academic_year,grade,json_agg(subject) as subjects from (select  distinct academic_year(" + date_col +") as academic_year,grade,subject from " + table_names + "_aggregation) as a group by academic_year,grade) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('months',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from  (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col + ") -date_trunc('week', date_trunc('month', " + date_col +" ))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation ' + ') as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
         elif 'grade' in df_filters_req:
-            dml_queries += '{"meta:":"select grade.academic_year,json_agg(json_build_object('+ "'grades',grades,'months',months)) as data from (select academic_year,json_agg(grade) as grades from (select  distinct academic_year(" + date_col + ") as academic_year,grade from " + table_names + "_aggregation) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('month',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col +") -date_trunc('week', date_trunc('month'," + date_col + "))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation) as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
+            dml_queries += '{"meta":"select grade.academic_year,json_agg(json_build_object('+ "'grades',grades,'months',months)) as data from (select academic_year,json_agg(grade) as grades from (select  distinct academic_year(" + date_col + ") as academic_year,grade from " + table_names + "_aggregation) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('month',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col +") -date_trunc('week', date_trunc('month'," + date_col + "))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation) as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
         else:
             return
+
+        dml_queries += '{"time_period_meta":"select time_selections_required as value from time_selections_required where datasource_name = ' + "'" + table_names + "'" + '"},'
     dml_queries = dml_queries.rstrip(dml_queries[-1])
     dml_queries = dml_queries + '\n' + ']'
 
