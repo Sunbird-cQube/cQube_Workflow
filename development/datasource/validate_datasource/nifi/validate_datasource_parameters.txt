@@ -1,4 +1,4 @@
-{"emission_directory":"""/tmp/""",
+{
 "normalize":"""select * from flowfile""",
 "staging_1_tb_name":"""kk""",
 "check_if_null":"""kk""",
