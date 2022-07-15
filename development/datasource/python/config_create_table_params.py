@@ -857,8 +857,10 @@ def create_trans_to_aggregate_queries():
     inner_query_cols = ''
 
     for elem in select_columns:
-        inner_query_cols = inner_query_cols + 'a.' + str(elem) + ','
-    inner_query_cols = inner_query_cols + result_col
+    	if elem != 'month':
+	        inner_query_cols = inner_query_cols + 'a.' + str(elem) + ','
+	        
+    inner_query_cols = inner_query_cols + 'month,' +result_col
     static_query = '(select shd.school_id,school_name,school_latitude,school_longitude,shd.cluster_id,cluster_name,cluster_latitude,cluster_longitude,shd.block_id,block_name,block_latitude,block_longitude,shd.district_id,district_name,district_latitude,district_longitude,school_management_type from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
     stat = 'insert into ' + table_names + '_aggregation(' + group_col + ',month,'  + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select ' + inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,now(),now()' + ' from ' + inner_query + ' join ' + static_query + ' on a.school_id=sch.school_id on conflict(' + agg_pk_columns + ') do update set ' + select_cols_exclude + ',updated_on=now();'
     global to_insert_json
