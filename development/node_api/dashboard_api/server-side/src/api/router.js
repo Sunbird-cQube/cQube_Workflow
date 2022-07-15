@@ -378,14 +378,19 @@ router.use('/common', commonDist)
 const commonBlock = require('./controller/commonRoutes/blockWise')
 router.use('/common', commonBlock)
 
+
 const commonCluster = require('./controller/commonRoutes/clusterWise')
 router.use('/common', commonCluster)
 
-
+const commonAllSchool = require('./controller/commonRoutes/schoolWise')
+router.use('/common', commonAllSchool)
 //configurable property data
 const configProperties = require('./controller/configurarableProperty/configProperty');
 router.use('/', configProperties)
 
 const configCardProperties = require('./controller/configurarableProperty/configCardProperty');
 router.use('/', configCardProperties)
+
+const configMetaData = require('./controller/commonRoutes/dropDownMeta')
+router.use('/', configMetaData)
 module.exports = router;
