@@ -10,7 +10,6 @@ import json
 
 config = configparser.ConfigParser()
 config.read('configurable_datasource_path_config.ini')
-
 path = config['DEFAULT']['path']
 
 
@@ -35,6 +34,7 @@ def create_parameters_queries():
     table_names = ''
     validation_queries = ''
     global all_param_queries
+
     all_param_queries = ''
     for row in csv.reader(read_input()):
         if row[0] == key:
@@ -212,9 +212,23 @@ def create_parameters_queries():
                         final = query4 + query5
                         count_null_value = count_null_value + final
 
+                    #date_column
+                    date_column = ''
+                    for date in raw_columns:
+                        if date.__contains__('date'):
+                            # date_column += '"date_column":"""' + date + '""",'
+                            date_column += date + ','
+                            # print(type(date_column))
+                    date_column1 = [date_column[0:-1]]
+                    date_column2 = str(date_column1).replace("['", "'").replace(',', "','").replace("']", "'")
+                    date_column = '"date_column":"""[' + date_column2 + ']""",'
+
+                    # select_files_from__log_db
+                    select_files_from_log_db = '"select_files_from__log_db":"""select * from log_summary where filename like' "'" + table_names + "%'"'""",'
+
                     # unique_records_same_records
                     unique_records_same_records = '"unique_records_same_records":"""insert into ' + table_names + '_staging_2(' + clmn + ',ff_uuid) select ' + clmn + ',ff_uuid from ( SELECT ' + clmn + ',ff_uuid, row_number() over (partition by ' + clmn + ',ff_uuid) as rn from ' + table_names + '_staging_1) sq Where rn =1""",'
-                    validation_queries = check_if_null_query + save_dup +datasource_name+ delete_null_values_qry + queries_filename + staging_1_tb_name + null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize + data_type_check + temp_trans_aggregation_queries + sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
+                    validation_queries = check_if_null_query + date_column+select_files_from_log_db+save_dup +datasource_name+ delete_null_values_qry + queries_filename + staging_1_tb_name + null_to_log_db + stg_2_to_temp_query + check_same_id_qry + normalize + data_type_check + temp_trans_aggregation_queries + sum_of_dup + unique_record_same_id + stg_1_to_stg_2_qry + save_null_tb_name + check_same_records + count_null_value + unique_records_same_records
 
             elif 'type_of_data' in row[0]:
                 df_agg = pd.DataFrame(mycsv)
@@ -257,11 +271,20 @@ def create_parameters_queries():
                     exception_block_jolt_spec = qu3 + qu4 + qu5 + qu6 + qu7 + qu8 + qu9
 
                     # school_timeseries_jolt_spec
-                    school_timeseries_jolt_spec = '"school_timeseries_jolt_spec":"""[{"operation":"modify-overwrite-beta","spec":{"*":{"cluster_id":["=toString",null]}}},{"operation":"shift","spec":{"*":{"school_id":"data.[&1].school_id","school_name":"data.[&1].school_name","cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","crc_name":"data.[&1].crc_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","school_latitude":"data.[&1].school_latitude","school_longitude":"data.[&1].school_longitude","data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"footer.@(1,cluster_id).' + table_names + '[]","total_schools":"footer.@(1,cluster_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"school_id":"data.[&1].school_id","school_name":"data.[&1].school_name","cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","crc_name":"data.[&1].crc_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","school_latitude":"data.[&1].school_latitude","school_longitude":"data.[&1].school_longitude","data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allSchoolsFooter.students[]","total_schools":"allSchoolsFooter.schools[]"}},"footer":"&"}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
-
+                    qur80 = ''
+                    qur84 = ''
+                    for sel_col in select_column:
+                        if sel_col != 'school_id':
+                            qur80 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
+                    qur82 = '"school_timeseries_jolt_spec":"""[{"operation": "modify-overwrite-beta","spec": {"*": {"cluster_id": ["=toString",null]}}},{"operation": "shift","spec": {"*": {"school_id": "data.[&1].school_id","school_name": "data.[&1].school_name","cluster_id": "data.[&1].cluster_id","cluster_name": "data.[&1].cluster_name","crc_name": "data.[&1].crc_name","district_id": "data.[&1].district_id","district_name": "data.[&1].district_name","block_id": "data.[&1].block_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","school_latitude": "data.[&1].school_latitude","school_longitude": "data.[&1].school_longitude","data_from_date": "data.[&1].data_from_date",'
+                    for sel_col in select_column:
+                        if sel_col != 'school_id':
+                            qur84 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
+                    qur83 = '"data_upto_date": "data.[&1].data_upto_date","@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "footer.@(1,cluster_id).students[]","total_schools": "footer.@(1,cluster_id).schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"footer": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}},{"operation": "shift","spec": {"data": {"*": {"school_id": "data.[&1].school_id","school_name": "data.[&1].school_name","cluster_id": "data.[&1].cluster_id","cluster_name": "data.[&1].cluster_name","crc_name": "data.[&1].crc_name","district_id": "data.[&1].district_id","district_name": "data.[&1].district_name","block_id": "data.[&1].block_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","school_latitude": "data.[&1].school_latitude","school_longitude": "data.[&1].school_longitude",'
+                    qur81 = '"data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date","@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "allSchoolsFooter.students[]","total_schools": "allSchoolsFooter.schools[]"}},"footer": "&"}},{"operation": "modify-overwrite-beta","spec": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}]""",'
+                    school_timeseries_jolt_spec = qur82 + qur80 + qur83 + qur84 + qur81
                     # raw_district_jolt_spec
                     raw_district_jolt_spec = '"raw_district_jolt_spec":"""[{"operation":"shift","spec":{"*":{"district_id":"[&1].District ID","district_name":"[&1].District Name","academic_year":"[&1].Academic Year","' + table_names + '_percent_june":"[&1].' + table_names + ' (%) June","' + table_names + '_count_june":"[&1].Total ' + table_names + ' June","total_schools_june":"[&1].Total Schools June","' + table_names + '_percent_july":"[&1].' + table_names + ' (%) July","' + table_names + '_count_july":"[&1].Total ' + table_names + ' July","total_schools_july":"[&1].Total Schools July","' + table_names + '_percent_august":"[&1].' + table_names + ' (%) August","' + table_names + '_count_august":"[&1].Total ' + table_names + ' August","total_schools_august":"[&1].Total Schools August","' + table_names + '_percent_september":"[&1].' + table_names + ' (%) September","' + table_names + '_count_september":"[&1].Total ' + table_names + ' September","total_schools_september":"[&1].Total Schools September","' + table_names + '_percent_october":"[&1].' + table_names + ' (%) October","' + table_names + '_count_october":"[&1].Total ' + table_names + ' October","total_schools_october":"[&1].Total Schools October","' + table_names + '_percent_november":"[&1].' + table_names + ' (%) November","' + table_names + '_count_november":"[&1].Total ' + table_names + ' November","total_schools_november":"[&1].Total Schools November","' + table_names + '_percent_december":"[&1].' + table_names + ' (%) December","' + table_names + '_count_december":"[&1].Total ' + table_names + ' December","total_schools_december":"[&1].Total Schools December","' + table_names + '_percent_january":"[&1].' + table_names + ' (%) January","' + table_names + '_count_january":"[&1].Total ' + table_names + ' January","total_schools_january":"[&1].Total Schools January","' + table_names + '_percent_february":"[&1].' + table_names + ' (%) February","' + table_names + '_count_february":"[&1].Total ' + table_names + ' February","total_schools_february":"[&1].Total Schools February","' + table_names + '_percent_march":"[&1].' + table_names + ' (%) March","' + table_names + '_count_march":"[&1].Total ' + table_names + ' March","total_schools_march":"[&1].Total Schools March","' + table_names + '_percent_april":"[&1].' + table_names + ' (%) April","' + table_names + '_count_april":"[&1].Total ' + table_names + ' April","total_schools_april":"[&1].Total Schools April","' + table_names + '_percent_may":"[&1].' + table_names + ' (%) May","' + table_names + '_count_may":"[&1].Total ' + table_names + ' May","total_schools_may":"[&1].Total Schools May"}}}]""",'
-
                     # jolt_line_chart_state
                     jolt_line_chart_state = '"jolt_line_chart_state":"""[{"operation":"shift","spec":{"*":{"percentage":"' + table_names + '.[&1].' + table_names + '_percentage","' + table_names + '_count":"' + table_names + '.[&1].' + table_names + '_count","total_schools":"' + table_names + '.[&1].total_schools","month":"' + table_names + '.[&1].month","year":"' + table_names + '.[&1].year"}}},{"operation":"shift","spec":{"' + table_names + '":{"*":{"@":"@(1,year)[]"}}}}]""",'
 
@@ -350,8 +373,20 @@ def create_parameters_queries():
                     exception_district_jolt_spec = qur22 + qur23 + qur24 + qur25 + qur26
 
                     # cluster_timeseries_jolt_spec
-                    cluster_timeseries_jolt_spec = '"cluster_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","cluster_latitude":"data.[&1].cluster_latitude","cluster_longitude":"data.[&1].cluster_longitude","data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"footer.@(1,block_id).' + table_names + '[]","total_schools":"footer.@(1,block_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","cluster_latitude":"data.[&1].cluster_latitude","cluster_longitude":"data.[&1].cluster_longitude","data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allClustersFooter.' + table_names + '[]","total_schools":"allClustersFooter.schools[]"}},"footer":"&"}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+                    qur77 = ''
 
+                    for sel_col in select_column:
+
+                        if sel_col != 'school_id':
+                            qur77 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
+
+                    qur78 = '"cluster_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","cluster_latitude":"data.[&1].cluster_latitude","cluster_longitude":"data.[&1].cluster_longitude",'
+                    qur85 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"footer.@(1,block_id).' + table_names + '[]","total_schools":"footer.@(1,block_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","cluster_latitude":"data.[&1].cluster_latitude","cluster_longitude":"data.[&1].cluster_longitude",'
+                    qur86 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allClustersFooter.' + table_names + '[]","total_schools":"allClustersFooter.schools[]"}},"footer":"&"}},'
+                    qur79 = '{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+
+                    cluster_timeseries_jolt_spec = qur78 + qur77 + qur85 + qur77 + qur86 + qur79
+                    # print(cluster_timeseries_jolt_spec)
                     # exception_school_jolt_spec
                     qur28 = ''
                     qur30 = ''
@@ -431,11 +466,26 @@ def create_parameters_queries():
                     transform_block_wise = qur49 + qur50 + qur51 + qur52 + qur53
 
                     # district_timeseries_jolt_spec
-                    district_timeseries_jolt_spec = '"district_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","percentage":"data.[&1].percentage","district_latiitude":"data.[&1].district_latiitude","district_longitude":"data.[&1].district_longitude","data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allDistrictsFooter.' + table_names + '[]","total_schools":"allDistrictsFooter.schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+                    qur70 = ''
 
+                    for sel_col in select_column:
+
+                        if sel_col != 'school_id':
+                            qur70 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
+
+                    qur71 = '"district_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","percentage":"data.[&1].percentage","district_latitude":"data.[&1].district_latitude","district_longitude":"data.[&1].district_longitude",'
+                    qur72 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allDistrictsFooter.' + table_names + '[]","total_schools":"allDistrictsFooter.schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+
+                    district_timeseries_jolt_spec = qur71 + qur70 + qur72
                     # block_time_series_jolt
-                    block_time_series_jolt = '"block_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"block_id":"data.[&1].block_id","district_name":"data.[&1].district_name","district_id":"data.[&1].district_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","block_latitude":"data.[&1].block_latitude","block_longitude":"data.[&1].block_longitude","data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"footer.@(1,district_id).' + table_names + '[]","total_schools":"footer.@(1,district_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"block_id":"data.[&1].block_id","district_name":"data.[&1].district_name","district_id":"data.[&1].district_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","block_latitude":"data.[&1].block_latitude","block_longitude":"data.[&1].block_longitude","data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allBlocksFooter.' + table_names + '[]","total_schools":"allBlocksFooter.schools[]"}},"footer":"&"}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
-
+                    qur74 = ''
+                    for sel_col in select_column:
+                        if sel_col != 'school_id':
+                            qur74 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
+                    qur75 = '"block_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"block_id":"data.[&1].block_id","district_name":"data.[&1].district_name","district_id":"data.[&1].district_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","block_latitude":"data.[&1].block_latitude","block_longitude":"data.[&1].block_longitude",'
+                    qur90 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"footer.@(1,district_id).' + table_names + '[]","total_schools":"footer.@(1,district_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"block_id":"data.[&1].block_id","district_name":"data.[&1].district_name","district_id":"data.[&1].district_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","block_latitude":"data.[&1].block_latitude","block_longitude":"data.[&1].block_longitude",'
+                    qur76 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allBlocksFooter.' + table_names + '[]","total_schools":"allBlocksFooter.schools[]"}},"footer":"&"}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+                    block_time_series_jolt = qur75 + qur74 + qur90 + qur74 + qur76
                     # jolt_for_log_summary
                     qur55 = ''
                     qur54 = '"jolt_for_log_summary":"""[{"operation": "shift","spec": {"*": {"filename": "[&1].filename","ff_uuid": "[&1].ff_uuid","total_records": "[&1].total_records","blank_lines": "[&1].blank_lines","duplicate_records": "[&1].duplicate_records","datatype_mismatch": "[&1].datatype_mismatch","' + table_names + '_id": "[&1].records_with_null_value.' + table_names + '_id","' + table_names + '_id": "[&1].records_with_null_value.' + table_names + '_id","school_id": "[&1].records_with_null_value.school_id",'
@@ -472,10 +522,17 @@ def create_parameters_queries():
                             qur65 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
                     qur66 = '"' + table_names + '_count": "[&1].' + table_names + '.' + table_names + '_count","total_schools": "[&1].' + table_names + '.total_schools"}}}, {"operation": "shift","spec": {"*": {"@cluster_name": "@(1,cluster_id).cluster_name[]","@' + table_names + '": "@(1,cluster_id).' + table_names + '[]"}}}]""",'
                     jolt_line_chart_cluster = qur64 + qur65 + qur66
+                    # partition_by_date_column
+                    partition_date = ''
+                    for partition_col in select_column:
+                        if partition_col.__contains__('date'):
+                            partition_date += partition_col
+                    partition_date_column = '"partition_select_column":"""' + partition_date + '""",'
+                    # print(partition_date_column)
 
                     # raw_block_jolt_spec
                     raw_block_jolt_spec = '"raw_block_jolt_spec":"""[{"operation":"shift","spec":{"*":{"block_id":"[&1].Block ID","block_name":"[&1].Block Name","district_id":"[&1].District ID","district_name":"[&1].District Name","academic_year":"[&1].Academic Year","' + table_names + '_percent_june":"[&1].' + table_names + ' (%) June","' + table_names + '_count_june":"[&1].Total ' + table_names + ' June","total_schools_june":"[&1].Total Schools June","' + table_names + '_percent_july":"[&1].' + table_names + ' (%) July","' + table_names + '_count_july":"[&1].Total ' + table_names + ' July","total_schools_july":"[&1].Total Schools July","' + table_names + '_percent_august":"[&1].' + table_names + ' (%) August","' + table_names + '_count_august":"[&1].Total ' + table_names + ' August","total_schools_august":"[&1].Total Schools August","' + table_names + '_percent_september":"[&1].' + table_names + ' (%) September","' + table_names + '_count_september":"[&1].Total ' + table_names + ' September","total_schools_september":"[&1].Total Schools September","' + table_names + '_percent_october":"[&1].' + table_names + ' (%) October","' + table_names + '_count_october":"[&1].Total ' + table_names + ' October","total_schools_october":"[&1].Total Schools October","' + table_names + '_percent_november":"[&1].' + table_names + ' (%) November","' + table_names + '_count_november":"[&1].Total ' + table_names + ' November","total_schools_november":"[&1].Total Schools November","' + table_names + '_percent_december":"[&1].' + table_names + ' (%) December","' + table_names + '_count_december":"[&1].Total ' + table_names + ' December","total_schools_december":"[&1].Total Schools December","' + table_names + '_percent_january":"[&1].' + table_names + ' (%) January","' + table_names + '_count_january":"[&1].Total ' + table_names + ' January","total_schools_january":"[&1].Total Schools January","' + table_names + '_percent_february":"[&1].' + table_names + ' (%) February","' + table_names + '_count_february":"[&1].Total ' + table_names + ' February","total_schools_february":"[&1].Total Schools February","' + table_names + '_percent_march":"[&1].' + table_names + ' (%) March","' + table_names + '_count_march":"[&1].Total ' + table_names + ' March","total_schools_march":"[&1].Total Schools March","' + table_names + '_percent_april":"[&1].' + table_names + ' (%) April","' + table_names + '_count_april":"[&1].Total ' + table_names + ' April","total_schools_april":"[&1].Total Schools April","' + table_names + '_percent_may":"[&1].' + table_names + ' (%) May","' + table_names + '_count_may":"[&1].Total ' + table_names + ' May","total_schools_may":"[&1].Total Schools May"}}}]"""}'
-                    all_param_queries += validation_queries + district_jolt + exception_block_jolt_spec + school_timeseries_jolt_spec + raw_district_jolt_spec + jolt_line_chart_state + jolt_spec_cluster + raw_school_jolt_spec + jolt_line_chart_block + jolt_line_chart_district + transform_district_wise + jolt_line_chart_school + jolt_spec_school_management_category_meta + jolt_spec_school + exception_district_jolt_spec + cluster_timeseries_jolt_spec + exception_school_jolt_spec + transform_cluster_wise + raw_cluster_jolt_spec + transform_school_wise + jolt_spec_block + transform_block_wise + district_timeseries_jolt_spec + block_time_series_jolt + jolt_for_log_summary + exception_cluster_jolt_spec + jolt_line_chart_cluster + raw_block_jolt_spec
+                    all_param_queries += validation_queries + partition_date_column+district_jolt + exception_block_jolt_spec + school_timeseries_jolt_spec + raw_district_jolt_spec + jolt_line_chart_state + jolt_spec_cluster + raw_school_jolt_spec + jolt_line_chart_block + jolt_line_chart_district + transform_district_wise + jolt_line_chart_school + jolt_spec_school_management_category_meta + jolt_spec_school + exception_district_jolt_spec + cluster_timeseries_jolt_spec + exception_school_jolt_spec + transform_cluster_wise + raw_cluster_jolt_spec + transform_school_wise + jolt_spec_block + transform_block_wise + district_timeseries_jolt_spec + block_time_series_jolt + jolt_for_log_summary + exception_cluster_jolt_spec + jolt_line_chart_cluster + raw_block_jolt_spec
             key_index += 1
             del mycsv[:]
             if key_index == len(keywords):
@@ -483,7 +540,6 @@ def create_parameters_queries():
             key = keywords[key_index]
         else:
             mycsv.append(row)
-
 
 def create_table_queries():
     input_df = pd.read_csv(read_input())
@@ -592,7 +648,6 @@ def create_table_queries():
                     trans_insert += columns_insert + ',created_on,updated_on)  select ' + columns_insert + ',now(),now() from ' + table_names + '_temp' + ' on conflict(' + p_k_columns + ') do update set ' + exclude_col + 'updated_on=now();'
                     temp_to_trans = '[' + '{"temp_to_trans_insert":"' + trans_insert + '"},'
                     all_queries = all_queries + trans_query
-
                     query3 = 'create table if not exists ' + table_names + '_dup( '
                     iter2 = 0
                     for col, dt in zip(columns, data_types):
@@ -601,6 +656,7 @@ def create_table_queries():
                                 query3 = query3 + 'day_' + col + " " + dt + ","
                             else:
                                 query3 = query3 + col + " " + dt + ","
+
                         iter2 = iter2 + 1
                     dup_query = query3 + 'num_of_times int,ff_uuid varchar(255),created_on_file_process timestamp default current_timestamp);'
                     all_queries = all_queries + '\n' + dup_query
@@ -625,20 +681,29 @@ def create_table_queries():
                 df_level_of_data = df_tod['level_of_data'].dropna().to_string()
                 global df_filters_req
                 df_filters_req = df_tod['filters_required'].dropna().to_list()
+                global create_time_selecion_table
+                create_time_selection_table = 'create table if not exists configure_time_selections(datasource_name varchar(50),time_selections_required varchar(20));'
+                global insert_time_selections
+                insert_time_selections = ''
                 global df_time_sel
                 df_time_sel = df_tod['time_selections'].dropna().to_list()
+                for val in df_time_sel:
+                    val = val.replace('_',' ')
+                    insert_time_selections += "insert into configure_time_selections(datasource_name,time_selections_required) values('" + table_names + "','" + val + "') except(select datasource_name,time_selections_required from configure_time_selections);"
                 global date_col
                 date_col = df_tod['date_column_to_filter'].dropna().to_string(index=False).strip()
+                all_queries += '\n' + create_time_selection_table + '\n' + insert_time_selections
             elif df_level_of_data in df_filters_req and 'aggregation' not in keywords:
                 query2 = 'create table if not exists ' + table_names + '_aggregation( '
                 iter2 = 0
                 for col, dt in zip(columns, data_types):
                     if iter2 <= no_of_columns:
-                        if col in range(1, 31):
+                        if col in range(1, 31) :
                             query2 = query2 + 'day_' + col + " " + dt + ","
-                        else:
+                        elif col.lower() !='month':
                             query2 = query2 + col + " " + dt + ","
                     iter2 = iter2 + 1
+
                 aggregation_query = query2 + 'created_on  TIMESTAMP without time zone, updated_on  TIMESTAMP without time zone'
                 if len(p_k_columns) == 0 and f_k_columns_l.empty:
                     aggregation_query = aggregation_query + ');'
@@ -665,7 +730,7 @@ def create_table_queries():
                 aggregation_query = aggregation_query + ');'
                 all_queries = all_queries + '\n' + aggregation_query
 
-            elif df_level_of_data not in df_filters_req and 'aggregation' in row[0]:
+            elif df_level_of_data not in df_filters_req and 'aggre' in row[0]:
                 df_agg = pd.DataFrame(mycsv)
                 df_agg.replace("", float("NaN"), inplace=True)
                 df_agg.dropna(how='all', inplace=True)
@@ -695,6 +760,11 @@ def create_table_queries():
                     global agg_column
                     create_cols = ''
                     for col in select_columns:
+                        if col.lower() == 'month':
+                            continue
+                        if col.lower() == 'grade':
+                            create_cols = create_cols + 'grade varchar(10),'
+                            continue
                         for create_col, dt in zip(columns, data_types):
                             if col == create_col:
                                 create_cols = create_cols + col + " " + dt + ","
@@ -706,7 +776,7 @@ def create_table_queries():
                         agg_column = 'sum(' + reference_column + ')  as ' + result_col
                     else:
                         agg_column = ''
-                    aggregation_query = 'create table if not exists ' + table_names + '_aggregation(' + static_create_columns + ',' + create_cols + result_col + ' integer,created_on  TIMESTAMP without time zone ,updated_on  TIMESTAMP without time zone,primary key(' + agg_pk_columns + '));'
+                    aggregation_query = 'create table if not exists ' + table_names + '_aggregation(' + static_create_columns + ',' + create_cols + result_col + ' integer,month varchar(15),created_on  TIMESTAMP without time zone ,updated_on  TIMESTAMP without time zone,primary key(' + agg_pk_columns + '));'
                     create_trans_to_aggregate_queries()
                     all_queries = all_queries + '\n' + aggregation_query + '\n'
             elif 'report' in row[0]:
@@ -752,7 +822,7 @@ def create_table_queries():
                     create_table_query = 'create table if not exists configurable_datasource_properties (report_name varchar(50),report_type varchar(20),description text,status boolean);'
                     insert_query = ''
                     for d, r, info in zip(datasourcenames, tmp_columns, description):
-                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False) ;";
+                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False) except(select report_name,report_type,description,status from configurable_datasource_properties) ;";
                     all_queries = all_queries + '\n' + create_table_query + '\n' + insert_query
             key_index += 1
             del mycsv[:]
@@ -768,17 +838,29 @@ def create_trans_to_aggregate_queries():
     all_param_queries_1 = ''
     select_cols_exclude = ''
     for elem in select_columns:
-        select_cols_exclude += elem + ' = excluded.' + elem + ','
+        if elem !='month':
+            select_cols_exclude += elem + ' = excluded.' + elem + ','
     select_cols_exclude += result_col + ' = excluded.' + result_col
-    select_cols_exclude += ',school_name=excluded.school_name,school_latitude=excluded.school_latitude,school_longitude=excluded.school_longitude,district_id=excluded.district_id,district_name=excluded.district_name,district_latitude=excluded.district_latitude,district_longitude=excluded.district_longitude,block_id=excluded.block_id,block_name=excluded.block_name,block_latitude=excluded.block_latitude,block_longitude=excluded.block_longitude,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,cluster_latitude=excluded.cluster_latitude,cluster_longitude=excluded.cluster_longitude,school_management_type=excluded.school_management_type'
-    select_col = ','.join([str(elem) for elem in select_columns])
-    inner_query = '(select ' + select_col + ',' + agg_column + ' from' + table_names + '_trans' + condition + ' group by ' + select_col + ') as a'
+    select_cols_exclude += ',school_name=excluded.school_name,school_latitude=excluded.school_latitude,school_longitude=excluded.school_longitude,district_id=excluded.district_id,district_name=excluded.district_name,district_latitude=excluded.district_latitude,district_longitude=excluded.district_longitude,block_id=excluded.block_id,block_name=excluded.block_name,block_latitude=excluded.block_latitude,block_longitude=excluded.block_longitude,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,cluster_latitude=excluded.cluster_latitude,cluster_longitude=excluded.cluster_longitude,school_management_type=excluded.school_management_type,month=excluded.month'
+    select_col = ''
+    group_col = ''
+    for col in select_columns:
+        if col.lower() == 'grade':
+            select_col += "concat('Grade_', + grade) as grade,"
+            group_col = group_col + 'grade,'
+        elif col.lower() != 'month':
+            select_col += col + ','
+            group_col += col + ','
+    select_col = select_col[:-1]
+    group_col = group_col[:-1]
+    inner_query = '(select ' + select_col + ',trim(TO_CHAR(' + date_col + ", 'Month')) AS month" + ',' + agg_column + ' from ' + table_names + '_trans' + condition + ' group by ' + group_col + ') as a'
     inner_query_cols = ''
+
     for elem in select_columns:
         inner_query_cols = inner_query_cols + 'a.' + str(elem) + ','
     inner_query_cols = inner_query_cols + result_col
     static_query = '(select shd.school_id,school_name,school_latitude,school_longitude,shd.cluster_id,cluster_name,cluster_latitude,cluster_longitude,shd.block_id,block_name,block_latitude,block_longitude,shd.district_id,district_name,district_latitude,district_longitude,school_management_type from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
-    stat = 'insert into ' + table_names + '_aggregation(' + select_col + ',' + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select ' + inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,now(),now()' + ' from ' + inner_query + ' join ' + static_query + ' on a.school_id=sch.school_id on conflict(' + agg_pk_columns + ') do update set ' + select_cols_exclude + ',updated_on=now();'
+    stat = 'insert into ' + table_names + '_aggregation(' + group_col + ',month,'  + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select ' + inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,now(),now()' + ' from ' + inner_query + ' join ' + static_query + ' on a.school_id=sch.school_id on conflict(' + agg_pk_columns + ') do update set ' + select_cols_exclude + ',updated_on=now();'
     global to_insert_json
     to_insert_json = temp_to_trans
     to_insert_json += '{"trans_to_agg_insert":"' + stat + '"}]'
@@ -789,216 +871,118 @@ def create_dml_timeline_queries():
     cluster_ = ' cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,district_id,district_name'
     block_ = ' block_id,block_name,block_latitude,block_longitude,district_id,district_name'
     district_ = ' district_id,district_name,district_latitude,district_longitude'
-    week = "cast(extract('day' from date_trunc('week'," + date_col + ") -date_trunc('week', date_trunc('month'," + date_col + " ))) / 7 + 1 as integer) as week"
+    week = "concat('week_',cast(extract('day' from date_trunc('week'," + date_col + ") -date_trunc('week', date_trunc('month'," + date_col + " ))) / 7 + 1 as integer)::text) as week"
     daily_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
     weekly_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'100day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
     last_30_day_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
     last_7_day_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'7day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
     global dml_queries
     dml_queries = '[' + '\n'
-
+    filters = ['school','cluster','block','district']
+    filter_var = [school_,cluster_,block_,district_]
     if 'daily' in df_time_sel:
-        school_daily = '{ "school_daily":"select ' + week + ',' + school_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + school_ + ',' + date_col + ',' + sel_col_op + ',week"},'
-        cluster_daily = '{ "cluster_daily":"select ' + week + ',' + cluster_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + cluster_ + ',' + date_col + ',' + sel_col_op + ',week"},'
-        block_daily = '{ "block_daily":"select ' + week + ',' + block_ + ',' + sel_col_op + ','+ date_col + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + block_ + ',' + date_col + ',' + sel_col_op + ',week"},'
-        district_daily = '{"district_daily":"select ' + week + ',' + district_ + ',' + sel_col_op + ','+ date_col + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + district_ + ',' + date_col + ',' + sel_col_op + ',week"},'
-        school_mgmt_daily = '{"school_management_daily":"select ' + week + ',' + school_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + school_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week"},'
-        cluster_mgmt_daily = '{"cluster_management_daily":"select ' + week + ',' + cluster_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + cluster_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week"},'
-        block_mgmt_daily = '{"block_management_daily":"select ' + week + ',' + block_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + block_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week"},'
-        district_mgmt_daily = '{"district_management_daily":"select ' + week + ',' + district_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + district_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week"},'
-        dml_queries = dml_queries + '\n' + school_daily + '\n' + cluster_daily + '\n' + block_daily + '\n' + district_daily + '\n' + school_mgmt_daily + '\n' + cluster_mgmt_daily + '\n' + block_mgmt_daily + '\n' + district_mgmt_daily
+        for filter,var in zip(filters,filter_var):
+            dml_queries += '{ "' + filter + '_daily":"select ' + week + ',' + var + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',' + sel_col_op + ',week"},'
+            dml_queries += '{"' + filter + '_management_daily":"select ' + week + ',' + var + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',week"},'
 
     if 'weekly' in df_time_sel:
-        school_weekly = '{"school_weekly":"select ' + week + ',' + school_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + school_ + ',' + sel_col_op + ',week' + '"},'
-        cluster_weekly = '{"cluster_weekly":"select ' + week + ',' + cluster_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',week' + '"},'
-        block_weekly = '{"block_weekly":"select ' + week + ',' + block_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + block_ + ',' + sel_col_op + ',week' + '"},'
-        district_weekly = '{"district_weekly":"select ' + week + ',' + district_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + district_ + ',' + sel_col_op + ',week' + '"},'
-        school_mgmt_weekly = '{"school_management_weekly":"select ' + week + ',' + school_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + school_ + ',' + sel_col_op + ',week,school_management_type' + '"},'
-        cluster_mgmt_weekly = '{"cluster_management_weekly":"select ' + week + ',' + cluster_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',week,school_management_type' + '"},'
-        block_mgmt_weekly = '{"block_management_weekly":"select ' + week + ',' + block_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + block_ + ',' + sel_col_op + ',week,school_management_type' + '"},'
-        district_mgmt_weekly = '{"district_management_weekly":"select ' + week + ',' + district_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + district_ + ',' + sel_col_op + ',week,school_management_type' + '"},'
-        dml_queries = dml_queries + '\n' + school_weekly + '\n' + cluster_weekly + '\n' + block_weekly + '\n' + district_weekly + '\n' + school_mgmt_weekly + '\n' + cluster_mgmt_weekly + '\n' + block_mgmt_weekly + '\n' + district_mgmt_weekly
+        for filter, var in zip(filters, filter_var):
+            dml_queries += '{"'+ filter + '_weekly":"select ' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week' + '"},'
+            dml_queries += '{"'+ filter + '_management_weekly":"select ' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type' + '"},'
 
-    if 'monthly' in df_time_sel:
-        school_monthly = '{"school_by_month_year":"select ' + school_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',' + sel_col_op + '"},'
-        cluster_monthly = '{"cluster_by_month_year":"select ' + cluster_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',' + sel_col_op + '"},'
-        block_monthly = '{"block_by_month_year":"select ' + block_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',' + sel_col_op + '"},'
-        district_monthly = '{"district_by_month_year":"select ' + district_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',' + sel_col_op + '"},'
-        school_mgmt_monthly = '{"school_management_by_month_year":"select ' + school_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',' + sel_col_op + ',school_management_type' + '"},'
-        cluster_mgmt_monthly = '{"cluster_management_by_month_year":"select ' + cluster_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',' + sel_col_op + ',school_management_type' + '"},'
-        block_mgmt_monthly = '{"block_management_by_month_year":"select ' + block_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',' + sel_col_op + ',school_management_type' + '"},'
-        district_mgmt_monthly = '{"district_management_by_month_year":"select ' + district_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',' + sel_col_op + ',school_management_type' + '"},'
-        dml_queries = dml_queries + '\n' + school_monthly + '\n' + cluster_monthly + '\n' + block_monthly + '\n' + district_monthly + '\n' + school_mgmt_monthly + '\n' + cluster_mgmt_monthly + '\n' + block_mgmt_monthly + '\n' + district_mgmt_monthly
+    if 'year_and_month' in df_time_sel:
+        for filter, var in zip(filters, filter_var):
+            dml_queries += '{"' +filter+'_by_month_year":"select ' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + '"},'
+            dml_queries += '{"' + filter + '_management_by_month_year":"select ' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + ',school_management_type' + '"},'
 
     if 'overall' in df_time_sel:
-        school_all = '{"school_overall":"select ' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + '"},'
-        cluster_all = '{"cluster_overall":"select ' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + '"},'
-        block_all = '{"block_overall":"select ' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + '"},'
-        district_all = '{"district_overall":"select ' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + '"},'
-        school_mgmt_all = '{"school_management_overall":"select ' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',school_management_type' + '"},'
-        cluster_mgmt_all = '{"cluster_management_overall":"select ' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',school_management_type' + '"},'
-        block_mgmt_all = '{"block_management_overall":"select ' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',school_management_type' + '"},'
-        district_mgmt_all = '{"district_management_overall":"select ' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',school_management_type' + '"},'
-        dml_queries = dml_queries + '\n' + school_all + '\n' + cluster_all + '\n' + block_all + '\n' + district_all + '\n' + school_mgmt_all + '\n' + cluster_mgmt_all + '\n' + block_mgmt_all + '\n' + district_mgmt_all
+        for filter, var in zip(filters, filter_var):
+            dml_queries += '{"' + filter + '_overall":"select ' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + '"},'
+            dml_queries += '{"' + filter + '_management_overall":"select ' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',school_management_type' + '"},'
 
     if 'last_30_days' in df_time_sel:
-        school_last_30 = '{"school_last_30":"select ' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + school_ + '"},'
-        cluster_last_30 = '{"cluster_last_30":"select ' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + cluster_ + '"},'
-        block_last_30 = '{"block_last_30":"select ' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + block_ + '"},'
-        district_last_30 = '{"district_last_30":"select ' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + district_ + '"},'
-        school_mgmt_last_30 = '{"school_management_last_30":"select ' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + school_ + ',school_management_type' + '"},'
-        cluster_mgmt_last_30 = '{"cluster_management_last_30":"select ' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + cluster_ + ',school_management_type' + '"},'
-        block_mgmt_last_30 = '{"block_management_last_30":"select ' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + block_ + ',school_management_type' + '"},'
-        district_mgmt_last_30 = '{"district_management_last_30":"select ' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + district_ + ',school_management_type' + '"},'
-        dml_queries = dml_queries + '\n' + school_last_30 + '\n' + cluster_last_30 + '\n' + block_last_30 + '\n' + district_last_30 + '\n' + school_mgmt_last_30 + '\n' + cluster_mgmt_last_30 + '\n' + block_mgmt_last_30 + '\n' + district_mgmt_last_30
+        for filter, var in zip(filters, filter_var):
+            dml_queries += '{"' + filter + '_last_30":"select ' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + var + '"},'
+            dml_queries += '{"' + filter + '_management_last_30":"select ' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + var + ',school_management_type' + '"},'
 
     if 'last_7_days' in df_time_sel:
-        school_last_7 = '{"school_last_7":"select ' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + school_ + '"},'
-        cluster_last_7 = '{"cluster_last_7":"select ' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + cluster_ + '"},'
-        block_last_7 = '{"block_last_7":"select ' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + block_ + '"},'
-        district_last_7 = '{"district_last_7":"select ' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + district_ + '"},'
-        school_mgmt_last_7 = '{"school_management_last_7":"select ' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + school_ + ',school_management_type' + '"},'
-        cluster_mgmt_last_7 = '{"cluster_management_last_7":"select ' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + cluster_ + ',school_management_type' + '"},'
-        block_mgmt_last_7 = '{"block_management_last_7":"select ' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + block_ + ',school_management_type' + '"},'
-        district_mgmt_last_7 = '{"district_management_last_7":"select ' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + district_ + ',school_management_type' + '"},'
-        dml_queries = dml_queries + '\n' + school_last_7 + '\n' + cluster_last_7 + '\n' + block_last_7 + '\n' + district_last_7 + '\n' + school_mgmt_last_7 + '\n' + cluster_mgmt_last_7 + '\n' + block_mgmt_last_7 + '\n' + district_mgmt_last_7
+        for filter, var in zip(filters, filter_var):
+            dml_queries += '{"' + filter + '_last_7":"select ' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + var + '"},'
+            dml_queries += '{"' + filter + '_management_last_7":"select ' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + var + ',school_management_type' + '"},'
 
     # Grade level queries
     if 'grade' in df_filters_req:
         if 'daily' in df_time_sel:
-            school_grade_daily = '{ "school_grade_daily":"select grade,' + week + ',' + school_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + school_ + ',' + sel_col_op + ',' + date_col + ',week,grade"},'
-            cluster_grade_daily = '{ "cluster_grade_daily":"select grade,' + week + ',' + cluster_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',' + date_col + ',week,grade"},'
-            block_grade_daily = '{ "block_grade_daily":"select grade,' + week + ',' + block_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + block_ + ',' + sel_col_op + ',' + date_col + ',week,grade"},'
-            district_grade_daily = '{"district_grade_daily":"select grade,' + week + ',' + district_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + district_ + ',' + sel_col_op + ',' + date_col + ',week,grade"},'
-            school_mgmt_grade_daily = '{"school_management_grade_daily":"select grade,' + week + ',' + school_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + school_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade"},'
-            cluster_mgmt_grade_daily = '{"cluster_management_grade_daily":"select grade,' + week + ',' + cluster_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + cluster_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade"},'
-            block_mgmt_grade_daily = '{"block_management_grade_daily":"select grade,' + week + ',' + block_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + block_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade"},'
-            district_mgmt_grade_daily = '{"district_management_grade_daily":"select grade,' + week + ',' + district_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + district_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade"},'
-            dml_queries = dml_queries + '\n' + school_grade_daily + '\n' + cluster_grade_daily + '\n' + block_grade_daily + '\n' + district_grade_daily + '\n' + school_mgmt_grade_daily + '\n' + cluster_mgmt_grade_daily + '\n' + block_mgmt_grade_daily + '\n' + district_mgmt_grade_daily
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{ "' + filter +'_grade_daily":"select grade,' + week + ',' + var + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + sel_col_op + ',' + date_col + ',week,grade"},'
+                dml_queries += '{"' +  filter + '_management_grade_daily":"select grade,' + week + ',' + var + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade"},'
 
         if 'weekly' in df_time_sel:
-            school_grade_weekly = '{"school_grade_weekly":"select grade,' + week + ',' + school_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + school_ + ',' + sel_col_op + ',week,grade' + '"},'
-            cluster_grade_weekly = '{"cluster_grade_weekly":"select grade,' + week + ',' + cluster_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',week,grade' + '"},'
-            block_grade_weekly = '{"block_grade_weekly":"select grade,' + week + ',' + block_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + block_ + ',' + sel_col_op + ',week,grade' + '"},'
-            district_grade_weekly = '{"district_grade_weekly":"select grade,' + week + ',' + district_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + district_ + ',' + sel_col_op + ',week,grade' + '"},'
-            school_mgmt_grade_weekly = '{"school_management_grade_weekly":"select grade,' + week + ',' + school_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + school_ + ',' + sel_col_op + ',week,school_management_type,grade' + '"},'
-            cluster_mgmt_grade_weekly = '{"cluster_management_grade_weekly":"select grade,' + week + ',' + cluster_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',week,school_management_type,grade' + '"},'
-            block_mgmt_grade_weekly = '{"block_management_grade_weekly":"select grade,' + week + ',' + block_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + block_ + ',' + sel_col_op + ',week,school_management_type,grade' + '"},'
-            district_mgmt_grade_weekly = '{"district_management_grade_weekly":"select grade,' + week + ',' + district_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + district_ + ',' + sel_col_op + ',week,school_management_type,grade' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_weekly + '\n' + cluster_grade_weekly + '\n' + block_grade_weekly + '\n' + district_grade_weekly + '\n' + school_mgmt_grade_weekly + '\n' + cluster_mgmt_grade_weekly + '\n' + block_mgmt_grade_weekly + '\n' + district_mgmt_grade_weekly
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_weekly":"select grade,' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,grade' + '"},'
+                dml_queries += '{"' + filter + '_management_grade_weekly":"select grade,' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type,grade' + '"},'
 
-        if 'monthly' in df_time_sel:
-            school_grade_monthly = '{"school_grade_by_month_year":"select grade,' + school_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',grade,' + sel_col_op + '"},'
-            cluster_grade_monthly = '{"cluster_grade_by_month_year":"select grade,' + cluster_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',grade,' + sel_col_op + '"},'
-            block_grade_monthly = '{"block_grade_by_month_year":"select grade,' + block_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',grade,' + sel_col_op + '"},'
-            district_grade_monthly = '{"district_grade_by_month_year":"select grade,' + district_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',grade,' + sel_col_op + '"},'
-            school_mgmt_grade_monthly = '{"school_management_grade_by_month_year":"select grade,' + school_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            cluster_mgmt_grade_monthly = '{"cluster_management_grade_by_month_year":"select grade,' + cluster_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            block_mgmt_grade_monthly = '{"block_management_grade_by_month_year":"select grade,' + block_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            district_mgmt_grade_monthly = '{"district_management_grade_by_month_year":"select grade,' + district_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_monthly + '\n' + cluster_grade_monthly + '\n' + block_grade_monthly + '\n' + district_grade_monthly + '\n' + school_mgmt_grade_monthly + '\n' + cluster_mgmt_grade_monthly + '\n' + block_mgmt_grade_monthly + '\n' + district_mgmt_grade_monthly
+        if 'year_and_month' in df_time_sel:
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_by_month_year":"select grade,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',grade,' + sel_col_op + '"},'
+                dml_queries += '{"' + filter + '_management_grade_by_month_year":"select grade,' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + ',school_management_type,grade' + '"},'
 
         if 'overall' in df_time_sel:
-            school_grade_all = '{"school_grade_overall":"select grade,' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,' + school_ + '"},'
-            cluster_grade_all = '{"cluster_grade_overall":"select grade,' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,' + cluster_ + '"},'
-            block_grade_all = '{"block_grade_overall":"select grade,' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,' + block_ + '"},'
-            district_grade_all = '{"district_grade_overall":"select grade,' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,' + district_ + '"},'
-            school_mgmt_grade_all = '{"school_management_grade_overall":"select grade,' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',school_management_type,grade' + '"},'
-            cluster_mgmt_grade_all = '{"cluster_management_grade_overall":"select grade,' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',school_management_type,grade' + '"},'
-            block_mgmt_grade_all = '{"block_management_grade_overall":"select grade,' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',school_management_type,grade' + '"},'
-            district_mgmt_grade_all = '{"district_management_grade_overall":"select grade,' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',school_management_type,grade' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_all + '\n' + cluster_grade_all + '\n' + block_grade_all + '\n' + district_grade_all + '\n' + school_mgmt_grade_all + '\n' + cluster_mgmt_grade_all + '\n' + block_mgmt_grade_all + '\n' + district_mgmt_grade_all
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_overall":"select grade,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,' + var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_overall":"select grade,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',school_management_type,grade' + '"},'
 
         if 'last_30_days' in df_time_sel:
-            school_grade_last_30 = '{"school_grade_last_30":"select grade,' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + school_ + '"},'
-            cluster_grade_last_30 = '{"cluster_grade_last_30":"select grade,' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + cluster_ + '"},'
-            block_grade_last_30 = '{"block_grade_last_30":"select grade,' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + block_ + '"},'
-            district_grade_last_30 = '{"district_grade_last_30":"select grade,' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + district_ + '"},'
-            school_mgmt_grade_last_30 = '{"school_management_grade_last_30":"select grade,' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + school_ + ',school_management_type' + '"},'
-            cluster_mgmt_grade_last_30 = '{"cluster_management_grade_last_30":"select grade,' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + cluster_ + ',school_management_type' + '"},'
-            block_mgmt_grade_last_30 = '{"block_management_grade_last_30":"select grade,' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + block_ + ',school_management_type' + '"},'
-            district_mgmt_grade_last_30 = '{"district_management_grade_last_30":"select grade,' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade, ' + district_ + ',school_management_type' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_last_30 + '\n' + cluster_grade_last_30 + '\n' + block_grade_last_30 + '\n' + district_grade_last_30 + '\n' + school_mgmt_grade_last_30 + '\n' + cluster_mgmt_grade_last_30 + '\n' + block_mgmt_grade_last_30 + '\n' + district_mgmt_grade_last_30
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_last_30":"select grade,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_last_30":"select grade,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade, ' + var + ',school_management_type' + '"},'
 
         if 'last_7_days' in df_time_sel:
-            school_grade_last_7 = '{"school_grade_last_7":"select grade,' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + school_ + '"},'
-            cluster_grade_last_7 = '{"cluster_grade_last_7":"select grade,' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + cluster_ + '"},'
-            block_grade_last_7 = '{"block_grade_last_7":"select grade,' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + block_ + '"},'
-            district_grade_last_7 = '{"district_grade_last_7":"select grade,' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + district_ + '"},'
-            school_mgmt_grade_last_7 = '{"school_management_grade_last_7":"select grade,' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + school_ + ',school_management_type' + '"},'
-            cluster_mgmt_grade_last_7 = '{"school_management_grade_last_7":"select grade,' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + cluster_ + ',school_management_type' + '"},'
-            block_mgmt_grade_last_7 = '{"school_management_grade_last_7":"select grade,' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + block_ + ',school_management_type' + '"},'
-            district_mgmt_grade_last_7 = '{"school_management_grade_last_7":"select grade,' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + district_ + ',school_management_type' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_last_7 + '\n' + cluster_grade_last_7 + '\n' + block_grade_last_7 + '\n' + district_grade_last_7 + '\n' + school_mgmt_grade_last_7 + '\n' + cluster_mgmt_grade_last_7 + '\n' + block_mgmt_grade_last_7 + '\n' + district_mgmt_grade_last_7
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_last_7":"select grade,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_last_7":"select grade,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + var + ',school_management_type' + '"},'
+
 
     # Grade and Subject level queries
     if 'subject' in df_filters_req:
         if 'daily' in df_time_sel:
-            school_grade_subject_daily = '{ "school_grade_subject_daily":"select grade,subject,' + week + ',' + school_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + school_ + ',' + sel_col_op + ',' + date_col + ',week,grade,subject"},'
-            cluster_grade_subject_daily = '{ "cluster_grade_subject_daily":"select grade,subject,' + week + ',' + cluster_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',' + date_col + ',week,grade,subject"},'
-            block_grade_subject_daily = '{ "block_grade_subject_daily":"select grade,subject,' + week + ',' + block_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + block_ + ',' + sel_col_op + ',' + date_col + ',week,grade,subject"},'
-            district_grade_subject_daily = '{"district_grade_subject_daily":"select grade,subject,' + week + ',' + district_ + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + district_ + ',' + sel_col_op + ',' + date_col + ',week,grade,subject"},'
-            school_mgmt_grade_subject_daily = '{"school_management_grade_subject_daily":"select grade,subject,' + week + ',' + school_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + school_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade,subject"},'
-            cluster_mgmt_grade_subject_daily = '{"cluster_management_grade_subject_daily":"select grade,subject,' + week + ',' + cluster_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + cluster_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade,subject"},'
-            block_mgmt_grade_subject_daily = '{"block_management_grade_subject_daily":"select grade,subject,' + week + ',' + block_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + block_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade,subject"},'
-            district_mgmt_grade_subject_daily = '{"district_management_grade_subject_daily":"select grade,subject,' + week + ',' + district_ + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + district_ + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade,subject"},'
-            dml_queries = dml_queries + '\n' + school_grade_subject_daily + '\n' + cluster_grade_subject_daily + '\n' + block_grade_subject_daily + '\n' + district_grade_subject_daily + '\n' + school_mgmt_grade_subject_daily + '\n' + cluster_mgmt_grade_subject_daily + '\n' + block_mgmt_grade_subject_daily + '\n' + district_mgmt_grade_subject_daily
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{ "' + filter + '_grade_subject_daily":"select grade,subject,' + week + ',' + var + ','+ date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + sel_col_op + ',' + date_col + ',week,grade,subject"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_daily":"select grade,subject,' + week + ',' + var + ','+ date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade,subject"},'
 
         if 'weekly' in df_time_sel:
-            school_grade_subject_weekly = '{"school_grade_subject_weekly":"select grade,subject,' + week + ',' + school_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + school_ + ',' + sel_col_op + ',week,grade,subject' + '"},'
-            cluster_grade_subject_weekly = '{"cluster_grade_subject_weekly":"select grade,subject,' + week + ',' + cluster_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',week,grade,subject' + '"},'
-            block_grade_subject_weekly = '{"block_grade_subject_weekly":"select grade,subject,' + week + ',' + block_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + block_ + ',' + sel_col_op + ',week,grade,subject' + '"},'
-            district_grade_subject_weekly = '{"district_grade_subject_weekly":"select grade,subject,' + week + ',' + district_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + district_ + ',' + sel_col_op + ',week,grade,subject' + '"},'
-            school_mgmt_grade_subject_weekly = '{"school_management_grade_subject_weekly":"select grade,subject,' + week + ',' + school_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + school_ + ',' + sel_col_op + ',week,school_management_type,grade,subject' + '"},'
-            cluster_mgmt_grade_subject_weekly = '{"cluster_management_grade_subject_weekly":"select grade,subject,' + week + ',' + cluster_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + cluster_ + ',' + sel_col_op + ',week,school_management_type,grade,subject' + '"},'
-            block_mgmt_grade_subject_weekly = '{"block_management_grade_subject_weekly":"select grade,subject,' + week + ',' + block_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + block_ + ',' + sel_col_op + ',week,school_management_type,grade,subject' + '"},'
-            district_mgmt_grade_subject_weekly = '{"district_management_grade_subject_weekly":"select grade,subject,' + week + ',' + district_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + district_ + ',' + sel_col_op + ',week,school_management_type,grade,subject' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_subject_weekly + '\n' + cluster_grade_subject_weekly + '\n' + block_grade_subject_weekly + '\n' + district_grade_subject_weekly + '\n' + school_mgmt_grade_subject_weekly + '\n' + cluster_mgmt_grade_subject_weekly + '\n' + block_mgmt_grade_subject_weekly + '\n' + district_mgmt_grade_subject_weekly
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_subject_weekly":"select grade,subject,' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,grade,subject' + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_weekly":"select grade,subject,' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type,grade,subject' + '"},'
 
-        if 'monthly' in df_time_sel:
-            school_grade_subject_monthly = '{"school_grade_subject_by_month_year":"select grade,subject,' + school_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',grade,subject,' + sel_col_op + '"},'
-            cluster_grade_subject_monthly = '{"cluster_grade_subject_by_month_year":"select grade,subject,' + cluster_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',grade,subject,' + sel_col_op + '"},'
-            block_grade_subject_monthly = '{"block_grade_subject_by_month_year":"select grade,subject,' + block_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',grade,subject,' + sel_col_op + '"},'
-            district_grade_subject_monthly = '{"district_grade_subject_by_month_year":"select grade,subject,' + district_ + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',grade,subject,' + sel_col_op + '"},'
-            school_mgmt_grade_subject_monthly = '{"school_management_grade_subject_by_month_year":"select grade,subject,' + school_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by subject,' + school_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            cluster_mgmt_grade_subject_monthly = '{"cluster_management_grade_subject_by_month_year":"select grade,subject,' + cluster_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by subject,' + cluster_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            block_mgmt_grade_subject_monthly = '{"block_management_grade_subject_by_month_year":"select grade,subject,' + block_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by subject,' + block_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            district_mgmt_grade_subject_monthly = '{"district_management_grade_subject_by_month_year":"select grade,subject,' + district_ + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by subject,' + district_ + ',' + sel_col_op + ',school_management_type,grade' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_subject_monthly + '\n' + cluster_grade_subject_monthly + '\n' + block_grade_subject_monthly + '\n' + district_grade_subject_monthly + '\n' + school_mgmt_grade_subject_monthly + '\n' + cluster_mgmt_grade_subject_monthly + '\n' + block_mgmt_grade_subject_monthly + '\n' + district_mgmt_grade_subject_monthly
+        if 'year_and_month' in df_time_sel:
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_subject_by_month_year":"select grade,subject,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',grade,subject,' + sel_col_op + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_by_month_year":"select grade,subject,' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by subject,' + var + ',' + sel_col_op + ',school_management_type,grade' + '"},'
 
         if 'overall' in df_time_sel:
-            school_grade_subject_all = '{"school_grade_subject_overall":"select grade,subject,' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,subject,' + school_ + '"},'
-            cluster_grade_subject_all = '{"cluster_grade_subject_overall":"select grade,subject,' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,subject,' + cluster_ + '"},'
-            block_grade_subject_all = '{"block_grade_subject_overall":"select grade,subject,' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,subject,' + block_ + '"},'
-            district_grade_subject_all = '{"district_grade_subject_overall":"select grade,subject,' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,subject,' + district_ + '"},'
-            school_mgmt_grade_subject_all = '{"school_management_grade_subject_overall":"select grade,subject,' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + school_ + ',school_management_type,grade,subject' + '"},'
-            cluster_mgmt_grade_subject_all = '{"cluster_management_grade_subject_overall":"select grade,subject,' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + cluster_ + ',school_management_type,grade,subject' + '"},'
-            block_mgmt_grade_subject_all = '{"block_management_grade_subject_overall":"select grade,subject,' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + block_ + ',school_management_type,grade,subject' + '"},'
-            district_mgmt_grade_subject_all = '{"district_management_grade_subject_overall":"select grade,subject,' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + district_ + ',school_management_type,grade,subject' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_subject_all + '\n' + cluster_grade_subject_all + '\n' + block_grade_subject_all + '\n' + district_grade_subject_all + '\n' + school_mgmt_grade_subject_all + '\n' + cluster_mgmt_grade_subject_all + '\n' + block_mgmt_grade_subject_all + '\n' + district_mgmt_grade_subject_all
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_subject_overall":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,subject,' + var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_overall":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',school_management_type,grade,subject' + '"},'
 
         if 'last_30_days' in df_time_sel:
-            school_grade_subject_last_30 = '{"school_grade_subject_last_30":"select grade,subject,' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + school_ + '"},'
-            cluster_grade_subject_last_30 = '{"cluster_grade_subject_last_30":"select grade,subject,' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + cluster_ + '"},'
-            block_grade_subject_last_30 = '{"block_grade_subject_last_30":"select grade,subject,' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + block_ + '"},'
-            district_grade_subject_last_30 = '{"district_grade_subject_last_30":"select grade,subject,' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + district_ + '"},'
-            school_mgmt_grade_subject_last_30 = '{"school_management_grade_subject_last_30":"select grade,subject,' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + school_ + ',school_management_type' + '"},'
-            cluster_mgmt_grade_subject_last_30 = '{"cluster_management_grade_subject_last_30":"select grade,subject,' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + cluster_ + ',school_management_type' + '"},'
-            block_mgmt_grade_subject_last_30 = '{"block_management_grade_subject_last_30":"select grade,subject,' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + block_ + ',school_management_type' + '"},'
-            district_mgmt_grade_subject_last_30 = '{"district_management_grade_subject_last_30":"select grade,subject,' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject, ' + district_ + ',school_management_type' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_subject_last_30 + '\n' + cluster_grade_subject_last_30 + '\n' + block_grade_subject_last_30 + '\n' + district_grade_subject_last_30 + '\n' + school_mgmt_grade_subject_last_30 + '\n' + cluster_mgmt_grade_subject_last_30 + '\n' + block_mgmt_grade_subject_last_30 + '\n' + district_mgmt_grade_subject_last_30
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_subject_last_30":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_last_30":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject, ' + var + ',school_management_type' + '"},'
 
         if 'last_7_days' in df_time_sel:
-            school_grade_subject_last_7 = '{"school_grade_subject_last_7":"select grade,subject,' + school_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + school_ + '"},'
-            cluster_grade_subject_last_7 = '{"cluster_grade_subject_last_7":"select grade,subject,' + cluster_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + cluster_ + '"},'
-            block_grade_subject_last_7 = '{"block_grade_subject_last_7":"select grade,subject,' + block_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + block_ + '"},'
-            district_grade_subject_last_7 = '{"district_grade_subject_last_7":"select grade,subject,' + district_ + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + district_ + '"},'
-            school_mgmt_grade_subject_last_7 = '{"school_management_grade_subject_last_7":"select grade,subject,' + school_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + school_ + ',school_management_type' + '"},'
-            cluster_mgmt_grade_subject_last_7 = '{"school_management_grade_subject_last_7":"select grade,subject,' + cluster_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + cluster_ + ',school_management_type' + '"},'
-            block_mgmt_grade_subject_last_7 = '{"school_management_grade_subject_last_7":"select grade,subject,' + block_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + block_ + ',school_management_type' + '"},'
-            district_mgmt_grade_subject_last_7 = '{"school_management_grade_subject_last_7":"select grade,subject,' + district_ + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + district_ + ',school_management_type' + '"},'
-            dml_queries = dml_queries + '\n' + school_grade_subject_last_7 + '\n' + cluster_grade_subject_last_7 + '\n' + block_grade_subject_last_7 + '\n' + district_grade_subject_last_7 + '\n' + school_mgmt_grade_subject_last_7 + '\n' + cluster_mgmt_grade_subject_last_7 + '\n' + block_mgmt_grade_subject_last_7 + '\n' + district_mgmt_grade_subject_last_7
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_subject_last_7":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_last_7":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + var + ',school_management_type' + '"},'
 
+        if 'grade' in df_filters_req and 'subject' in df_filters_req:
+            dml_queries += '{"meta":"select grade.academic_year,json_agg(json_build_object(' + "'grades',grades,'months',months)) as data from (select academic_year,json_agg(json_build_object('grade',grade,'subjects',subjects)) as grades from (select academic_year,grade,json_agg(subject) as subjects from (select  distinct academic_year(" + date_col +") as academic_year,grade,subject from " + table_names + "_aggregation) as a group by academic_year,grade) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('months',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from  (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col + ") -date_trunc('week', date_trunc('month', " + date_col +" ))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation ' + ') as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
+        elif 'grade' in df_filters_req:
+            dml_queries += '{"meta":"select grade.academic_year,json_agg(json_build_object('+ "'grades',grades,'months',months)) as data from (select academic_year,json_agg(grade) as grades from (select  distinct academic_year(" + date_col + ") as academic_year,grade from " + table_names + "_aggregation) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('month',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col +") -date_trunc('week', date_trunc('month'," + date_col + "))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation) as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
+        else:
+            return
+
+        dml_queries += '{"time_period_meta":"select time_selections_required as value from configure_time_selections where datasource_name = ' + "'" + table_names + "'" + '"},'
     dml_queries = dml_queries.rstrip(dml_queries[-1])
     dml_queries = dml_queries + '\n' + ']'
 
@@ -1051,4 +1035,3 @@ if __name__ == "__main__":
     create_dml_timeline_queries()
     write_files()
     execute_sql()
-
