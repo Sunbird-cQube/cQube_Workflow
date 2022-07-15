@@ -1,4 +1,4 @@
-import logging
+
 import requests as rq
 import sys
 import time
@@ -136,13 +136,14 @@ if __name__ == '__main__':
                       'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename',
                       'add_ff_uuid_and_convert_date', 'convert_date_to_ist', 'convert_management_date_to_ist','partition_according_columns','partition_management']
 
+
     data_storage_processor = 'cQube_data_storage'
     conf_key = "configure_file"
     conf_key1 = "SQL select query"
     conf_key2 = "putsql-sql-statement"
     conf_key3 = "filename"
     conf_value = '${' + 'filename:startsWith("{0}"):or('.format(
-        filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename) + '})}'
+        filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename) + ':or(${path:startsWith("configure_datasource/"):not():or(${s3:startsWith("configure_datasource/"):not():or(${azure.blobname:startsWith("configure_datasource/"):not()})})})})}'
     conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) + '}'
     conf_value2 = "select distinct year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
     conf_value3 = "delete from " + filename + "_temp where ff_uuid='${zip_identifier}';"
