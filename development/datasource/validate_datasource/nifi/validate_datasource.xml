@@ -5758,11 +5758,7 @@ Mirror data validation of file:${filename}.Error while selecting unique data</va
                             </entry>
                             <entry>
 <key>configure_file</key>
-<value>${filename:startsWith("textbook_distribution"):or(
-${azure.blobname:startsWith("textbook_distribution"):or(
-${path:startsWith("configure_datasource/"):not():or(
-${s3:startsWith('configure_datasource/'):not():or(
-${azure.blobname:startsWith('configure_datasource/'):not()})})})})}</value>
+<value>${filename:startsWith("textbook_distribution"):or(${azure.blobname:startsWith("textbook_distribution")})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -6775,7 +6771,7 @@ where ff_uuid= '${files_uuid}'</value>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>DISABLED</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.azure.storage.ListAzureBlobStorage</type>
                 </processors>
@@ -7640,7 +7636,7 @@ where ff_uuid= '${files_uuid}';</value>
                     <parentGroupId>a668eecb-0f11-3003-0000-000000000000</parentGroupId>
                     <position>
                         <x>-9416.0</x>
-                        <y>-1040.0</y>
+                        <y>-1032.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12588,7 +12584,7 @@ file: ${filename} columns validation started.</value>
                         <autoTerminate>false</autoTerminate>
                         <name>success</name>
                     </relationships>
-                    <state>DISABLED</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ListFile</type>
                 </processors>
@@ -13539,5 +13535,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>07/15/2022 12:26:32 IST</timestamp>
+    <timestamp>07/15/2022 16:08:41 IST</timestamp>
 </template>
