@@ -198,6 +198,7 @@ if __name__ == '__main__':
     start_processor_group(data_storage_processor, 'STOPPED')
 
     # update processor property.
+
     nifi_update_processor_property(processor_group_name[0], processor_name[0], processor_properties1)
     nifi_update_processor_property(processor_group_name[1], processor_name[1], processor_properties2)
     nifi_update_processor_property(processor_group_name[1], processor_name[2], processor_properties2)
