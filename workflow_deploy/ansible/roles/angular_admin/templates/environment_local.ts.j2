@@ -2,13 +2,12 @@ export const environment = {
   production: false,
   apiEndpoint: "http://{{ proxy_host }}:3001/api",
   appUrl: "{{ protocol }}://{{ api_endpoint }}:4200",
-  adminUrl: "http://{{ local_ipv4_address }}:4201" ,
+  adminUrl: "http://{{ local_ipv4_address }}:4201",
   grafanaEndPoint: "http://{{ local_ipv4_address }}:9000",
   keycloakUrl: "{{ protocol }}://{{ api_endpoint }}:8080/auth",
   realm: "{{ realm_name }}",
   clientId: "{{ admin_app_client_id }}",
-  storageType: "{{ storage_type }}"
-  report_viewer_config_otp: {% if report_viewer_config_otp == True %}true{% endif %}{% if report_viewer_config_otp == False %}false{% endif %}
-,
-  auth_api: "{{ auth_api }}"  
+  storageType: "{{ storage_type }}",
+  report_viewer_config_otp: {% if report_viewer_config_otp == True %}true{% endif %}{% if report_viewer_config_otp == False %}false{% endif %},
+  auth_api: "{{ auth_api }}" 
 };

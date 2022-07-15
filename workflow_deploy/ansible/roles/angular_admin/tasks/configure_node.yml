@@ -1,7 +1,8 @@
 ---
 - name: Stoping the admin_server_side app
   become: yes
-  shell: pm2 stop admin_server_side
+  become_user: "{{ system_user_name }}"
+  shell: sudo pm2 stop admin_server_side
   tags: update
 
 - name: Delete admin_server_side directory
@@ -24,10 +25,6 @@
     src: "../../development/node_api/admin_api/server-side/"
     dest: "{{base_dir}}/cqube/admin_dashboard/server_side"
   tags: [ install, update ]  
-
-  #- name: copying admin's server-side script
-  # shell: "cp -R ../../development/node_api/admin_api/server-side/* {{base_dir}}/cqube/admin_dashboard/server_side"
-  #tags: [ install, update ]
 
 - name: NodeJS dependencies install
   npm:
