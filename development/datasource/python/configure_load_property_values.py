@@ -1,4 +1,3 @@
-
 import requests as rq
 import sys
 import time
@@ -134,8 +133,8 @@ if __name__ == '__main__':
                       'config_datasource_delete_staging_2_table', 'config_delete_staging_1_table',
                       'conf_delete_staging_1_table',
                       'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename',
-                      'add_ff_uuid_and_convert_date', 'convert_date_to_ist', 'convert_management_date_to_ist','partition_according_columns','partition_management']
-
+                      'add_ff_uuid_and_convert_date', 'convert_date_to_ist', 'convert_management_date_to_ist',
+                      'partition_according_columns', 'partition_management']
 
     data_storage_processor = 'cQube_data_storage'
     conf_key = "configure_file"
@@ -143,8 +142,10 @@ if __name__ == '__main__':
     conf_key2 = "putsql-sql-statement"
     conf_key3 = "filename"
     conf_value = '${' + 'filename:startsWith("{0}"):or('.format(
-        filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename) + ':or(${path:startsWith("configure_datasource/"):not():or(${s3:startsWith("configure_datasource/"):not():or(${azure.blobname:startsWith("configure_datasource/"):not()})})})})}'
+        filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(
+        filename) + ':or(${path:startsWith("configure_datasource/"):not():or(${s3:startsWith("configure_datasource/"):not():or(${azure.blobname:startsWith("configure_datasource/"):not()})})})})}'
     conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) + '}'
+    conf_value7 = '${' + "emission_filename:startsWith('{0}')".format(filename) + '}'
     conf_value2 = "select distinct year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
     conf_value3 = "delete from " + filename + "_temp where ff_uuid='${zip_identifier}';"
     conf_value4 = "truncate table " + filename + "_staging_1"
@@ -189,6 +190,9 @@ if __name__ == '__main__':
     processor_properties8 = {
         partition_date_key: partition_date_value
     }
+    processor_properties9 = {
+        conf_key: conf_value7
+    }
     # Enable the validation template and update
     time.sleep(5)
 
@@ -202,7 +206,7 @@ if __name__ == '__main__':
 
     nifi_update_processor_property(processor_group_name[0], processor_name[0], processor_properties1)
     nifi_update_processor_property(processor_group_name[1], processor_name[1], processor_properties2)
-    nifi_update_processor_property(processor_group_name[1], processor_name[2], processor_properties2)
+    nifi_update_processor_property(processor_group_name[1], processor_name[2], processor_properties9)
     nifi_update_processor_property(processor_group_name[2], processor_name[3], processor_properties3)
     nifi_update_processor_property(processor_group_name[2], processor_name[4], processor_properties4)
     nifi_update_processor_property(processor_group_name[0], processor_name[5], processor_properties5)

@@ -39495,7 +39495,7 @@ where ff_uuid= '${files_uuid}';
                             </entry>
                             <entry>
 <key>configure_file</key>
-<value>${filename:startsWith('textbook_distribution')}</value>
+<value>${emission_filename:startsWith('textbook_distribution')}</value>
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
@@ -39808,7 +39808,7 @@ ${filename:startsWith('sch_safety')}
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>1 day</schedulingPeriod>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
                         <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
@@ -51573,7 +51573,7 @@ and(${filename:startsWith('diksha_tpd_api'):not()})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
-                        <schedulingPeriod>1 day</schedulingPeriod>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
                         <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
@@ -55443,7 +55443,7 @@ ${query_type:startsWith('time_period_meta'):ifElse(${datasource_name:append('/ti
                             </entry>
                             <entry>
 <key>configure</key>
-<value>${emission_filename:startsWith('configure_datasource')}</value>
+<value>${emission_filename:startsWith('config')}</value>
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
@@ -83274,5 +83274,5 @@ ${file_type:startsWith('log_summary'):and(${filename:startsWith('inspection_mast
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/15/2022 12:26:41 IST</timestamp>
+    <timestamp>07/15/2022 16:10:28 IST</timestamp>
 </template>
