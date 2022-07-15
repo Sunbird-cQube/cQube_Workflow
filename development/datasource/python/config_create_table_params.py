@@ -703,7 +703,6 @@ def create_table_queries():
                         elif col.lower() !='month':
                             query2 = query2 + col + " " + dt + ","
                     iter2 = iter2 + 1
-                    print(col)
 
                 aggregation_query = query2 + 'created_on  TIMESTAMP without time zone, updated_on  TIMESTAMP without time zone'
                 if len(p_k_columns) == 0 and f_k_columns_l.empty:
@@ -891,7 +890,7 @@ def create_dml_timeline_queries():
             dml_queries += '{"'+ filter + '_weekly":"select ' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week' + '"},'
             dml_queries += '{"'+ filter + '_management_weekly":"select ' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type' + '"},'
 
-    if 'monthly' in df_time_sel:
+    if 'year_and_month' in df_time_sel:
         for filter, var in zip(filters, filter_var):
             dml_queries += '{"' +filter+'_by_month_year":"select ' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + '"},'
             dml_queries += '{"' + filter + '_management_by_month_year":"select ' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + ',school_management_type' + '"},'
@@ -923,7 +922,7 @@ def create_dml_timeline_queries():
                 dml_queries += '{"' + filter + '_grade_weekly":"select grade,' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,grade' + '"},'
                 dml_queries += '{"' + filter + '_management_grade_weekly":"select grade,' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type,grade' + '"},'
 
-        if 'monthly' in df_time_sel:
+        if 'year_and_month' in df_time_sel:
             for filter, var in zip(filters, filter_var):
                 dml_queries += '{"' + filter + '_grade_by_month_year":"select grade,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',grade,' + sel_col_op + '"},'
                 dml_queries += '{"' + filter + '_management_grade_by_month_year":"select grade,' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + ',school_management_type,grade' + '"},'
@@ -956,7 +955,7 @@ def create_dml_timeline_queries():
                 dml_queries += '{"' + filter + '_grade_subject_weekly":"select grade,subject,' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,grade,subject' + '"},'
                 dml_queries += '{"' + filter + '_management_grade_subject_weekly":"select grade,subject,' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type,grade,subject' + '"},'
 
-        if 'monthly' in df_time_sel:
+        if 'year_and_month' in df_time_sel:
             for filter, var in zip(filters, filter_var):
                 dml_queries += '{"' + filter + '_grade_subject_by_month_year":"select grade,subject,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',grade,subject,' + sel_col_op + '"},'
                 dml_queries += '{"' + filter + '_management_grade_subject_by_month_year":"select grade,subject,' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by subject,' + var + ',' + sel_col_op + ',school_management_type,grade' + '"},'
