@@ -61,30 +61,35 @@
             </div>
             <div class="row">
                 <div class="col-md-12 " style="margin-bottom: 10px;">
-                    <select id="year" class="select-control" [(ngModel)]="year" (change)="selectedYear()">
-                        <option value="" disabled selected="selected">Choose Year</option>
-                        <option *ngFor="let year of years let i =index" [(ngValue)]="years[i]">
-                            {{years[i]}}
+
+                    <select id="period" [(ngModel)]="period" (change)="  selectedYear()">
+                        <option [value]="period" disabled selected="selected">Choose TimeRange</option>
+                        <option *ngFor="let periods of timeRange,  let i =index" style="width: 100px;"
+                            [(ngValue)]="periods.value">
+                            {{periods.value}}
                         </option>
                     </select>
-                    <select id="month" required class="select-control" [(ngModel)]="month" (change)="selectedMonth()">
+                    <select id="month" required class="select-control" *ngIf="!hideMonth" [(ngModel)]="month"
+                        (change)="selectedMonth()">
                         <option [value]="month" disabled selected="selected">Choose a Month</option>
-                        <option *ngFor="let month of months let i =index" [(ngValue)]="months[i]">
-                            {{months[i]}}
-                        </option>
-                    </select>
-                    
-                    <select id="month" required class="select-control" [(ngModel)]="month" (change)="selectedMonth()">
-                        <option [value]="week" disabled selected="selected">Choose a Week</option>
-                        <option *ngFor="let month of months let i =index" [(ngValue)]="months[i]">
-                            {{months[i]}}
+                        <option *ngFor="let month of months; let i =index" [(ngValue)]="month.month">
+                            {{month.month}}
                         </option>
                     </select>
 
-                    <select id="month" required class="select-control" [(ngModel)]="month" (change)="selectedMonth()">
-                        <option [value]="day" disabled selected="selected">Choose a Day</option>
-                        <option *ngFor="let month of months let i =index" [(ngValue)]="months[i]">
-                            {{months[i]}}
+                    <select id="month" required class="select-control" *ngIf="!hideWeek" [(ngModel)]="week"
+                        (change)="selectedWeek()">
+                        <option [value]="week" disabled selected="selected">Choose a Week</option>
+                        <option *ngFor="let week of weeks; let i =index" [(ngValue)]="week.week">
+                            {{week.week}}
+                        </option>
+                    </select>
+
+                    <select id="examDate" class="select-control" *ngIf="!hideDay" [(ngModel)]="examDate"
+                        (change)="selectedExamDate()">
+                        <option [value]="examDate" disabled selected="selected">Choose an Date</option>
+                        <option *ngFor="let day of date, let i =index" [ngValue]="day">
+                            {{day}}
                         </option>
                     </select>
 
@@ -106,23 +111,6 @@
                                 All Subjects
                             </span>
                             <ng-template #other_content> {{subjects[i]}}</ng-template>
-                        </option>
-                    </select>
-
-                    <select id="examDate" class="select-control" [(ngModel)]="examDate" (change)="selectedExamDate()">
-                        <option [value]="examDate" disabled selected="selected">Choose an Examdate</option>
-                        <option *ngFor="let examDate of examDates, let i =index" [(ngValue)]="examDate.exam_date">
-                            <span *ngIf="examDate.exam_date == 'all'; else other_content">
-                                All Dates
-                            </span>
-                            <ng-template #other_content> {{examDate.exam_date}}</ng-template>
-                        </option>
-                    </select>
-
-                    <select id="viewBy" class="select-control" [(ngModel)]="viewBy" (change)="selectedViewBy()">
-                        <option [value]="viewBy" disabled selected="selected">Choose View by</option>
-                        <option *ngFor="let viewBy of allViews, let i =index" [(ngValue)]="viewBy.key">
-                            {{viewBy.value}}
                         </option>
                     </select>
 

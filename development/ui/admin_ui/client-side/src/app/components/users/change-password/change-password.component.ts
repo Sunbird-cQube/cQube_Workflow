@@ -27,7 +27,7 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService, cookieService: CookieService) {
     this.changePasswdData['userName'] = localStorage.getItem('userName');
-    
+
   }
 
   ngOnInit() {
@@ -36,10 +36,10 @@ export class ChangePasswordComponent implements OnInit {
 
   }
   logout() {
-    
-      localStorage.clear();
-     
-      window.location.href = `${environment.appUrl}/#/signin`;
+
+    localStorage.clear();
+
+    window.location.href = `${environment.appUrl}/#/signin`;
   }
 
   onSubmit(formData: NgForm) {
@@ -51,7 +51,7 @@ export class ChangePasswordComponent implements OnInit {
         this.err = "Password not matched";
         document.getElementById('spinner').style.display = 'none';
       } else {
-        this.service.changePassword(this.changePasswdData, localStorage.getItem('userId')).subscribe(res => {
+        this.service.changePassword(this.changePasswdData, localStorage.getItem('user_id')).subscribe(res => {
           document.getElementById('success').style.display = "Block";
           this.err = '';
           this.successMsg = res['msg'] + "\n" + " please login again...";
@@ -59,10 +59,11 @@ export class ChangePasswordComponent implements OnInit {
           this.isDisabled = true;
           formData.resetForm();
           setTimeout(() => {
-          if (environment.auth_api === 'state') {
-            this.logout()
-            }}, 2000)
-       
+            if (environment.auth_api === 'state') {
+              this.logout()
+            }
+          }, 2000)
+
           setTimeout(() => {
             localStorage.clear();
             let options = {
@@ -75,7 +76,7 @@ export class ChangePasswordComponent implements OnInit {
           document.getElementById('spinner').style.display = 'none';
         })
       }
-      
+
     } else {
       this.err = "Invalid User";
       document.getElementById('spinner').style.display = 'none';
