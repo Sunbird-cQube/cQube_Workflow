@@ -107,7 +107,7 @@ def create_parameters_queries():
                             query1 = '"delete_null_values_qry":"""delete from ' + table_names + '_staging_1 where '
 
                         if null_validation_columns.index(num) == len(null_validation_columns) - 1:
-                            query2 = num + 'is null """,'
+                            query2 = num + ' is null """,'
                         else:
                             query2 = num + ' is null or '
                         final = query1 + query2
