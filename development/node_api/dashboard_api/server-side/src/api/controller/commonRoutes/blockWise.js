@@ -9,56 +9,79 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         logger.info('---Common table blockWise api ---');
 
         let { year, grade, month, dataSource, reportType, subject_name, exam_date, week, period, districtId, management, category } = req.body
-        console.log('body', req.body)
+       
         let fileName;
-        if (reportType == "loTable") {
+        if (reportType == "lotable") {
             if (category == 'overall') {
-                fileName = `${dataSource}/overall/block_subject_footer.json`;
+                if (period == "overall") {
+                 
+                    fileName = `${dataSource}/overall/block_subject_footer.json`;
+                } else if (period == "last 30 days") {
+                   
+                    fileName = `${dataSource}/last_30_day/block_subject_footer.json`;
+                } else if (period == "last 7 days") {
+                  
+                    fileName = `${dataSource}/last_7_day/block_subject_footer.json`;
+                } else if (period == "year and month") {
+              
+                    if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/block_subject_footer.json`
+                    } else if (month && week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject_footer.json`
+                    } else if (month && week && exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject_footer.json`
+                    } else if (month && week && exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
+                    } else if (month && week && exam_date && grade && subject_name) {
+                 
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject_footer.json`
+                    } 
+                }
             }
         } else {
             if (category == 'overall') {
                 if (period === "overall") {
                     if (grade && !subject_name) {
-                        console.log('grade')
+                  
                         fileName = `${dataSource}/overall/block/${grade}.json`;
                     } else if (grade && subject_name) {
-                        console.log('grade and subject')
+                   
                         fileName = `${dataSource}/overall/block_subject_footer.json`;
                     } else if (!grade && !subject_name) {
-                        console.log('overall')
+                   
                         fileName = `${dataSource}/overall/block.json`;
                     }
-                } else if (period === "Last 30 Days") {
+                } else if (period === "last 30 days") {
                     if (grade && !subject_name) {
-                        console.log('grade')
+                 
                         fileName = `${dataSource}/last_30_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
-                        console.log('grade and subject')
+                 
                         fileName = `${dataSource}/last_30_day/block_subject_footer.json`;
                     } else if (!grade && !subject_name) {
-                        console.log('overall')
+                 
                         fileName = `${dataSource}/last_30_day/block.json`;
                     }
-                } else if (period === "Last 7 Days") {
+                } else if (period === "last 7 days") {
                     if (grade && !subject_name) {
-                        console.log('grade')
+             
                         fileName = `${dataSource}/last_7_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
-                        console.log('grade and subject')
+                  
                         fileName = `${dataSource}/last_7_day/block_subject_footer.json`;
                     } else if (!grade && !subject_name) {
-                        console.log('overall')
+                      
                         fileName = `${dataSource}/last_7_day/block.json`;
                     }
-                } else if (period === "Year and Month") {
+                } else if (period === "year and month") {
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                        console.log('month+++++++++++')
+                   
                         fileName = `${dataSource}/${year}/${month}/block.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
-                        console.log('month && week')
+                   
                         fileName = `${dataSource}/${year}/${month}/week_${week}/block.json`
                     } else if (month && week && exam_date && !grade && !subject_name) {
-                        console.log('month && week && day')
+                    
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
@@ -71,10 +94,10 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         // }
                     }
                 } else if (period === "Last 30 Days") {
-
                 }
             }
         }
+     
 
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
@@ -102,13 +125,13 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
-      
+
         if (exam_date) {
             data = data.filter(val => {
                 return val.distribution_date == exam_date
             })
         }
-        console.log('subject', data)
+        
         if (grade) {
             data = data.filter(val => {
                 return val.grade == grade
@@ -134,30 +157,66 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             res.status(200).send({ data, blockDetails })
         }
 
-        if (reportType === "loTable") {
+        if (reportType === "lotable") {
             Promise.all(data.map(item => {
-               
-                let label =
-                    "grade" + item.grade + "/" +
-                    item.subject + "/" + item.no_of_books_distributed
-                // label += viewBy == "indicator" ? item.indicator : item.question_id
 
-                arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
-
+                if (week && !exam_date) {
+                  
+                    label =
+                        item.grade + "/" +
+                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1] + item
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                } else if (week && exam_date) {
+                  
+                    label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                } else {
+                    label =
+                        item.grade + "/" +
+                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                }
             })).then(() => {
                 let keys = Object.keys(arr)
-                console.log('arr', keys)
+            
                 let val = []
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.block_name) > (b.block_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
-                    var x = {
-                        // date: splitVal[0],
-                        grade: splitVal[0],
-                        subject: splitVal[1],
-                        // [`${ viewBy } `]: splitVal[2],
+
+                    if (week && !exam_date) {
+                        var x = {
+                            grade: splitVal[0],
+                            subject: splitVal[1],
+                            week: splitVal[3],
+
+                        }
+                    } else if (week && exam_date) {
+                        var x = {
+
+                            grade: splitVal[1],
+                            subject: splitVal[2],
+                            week: splitVal[3],
+                            date: splitVal[0]
+
+                        }
+                    } else if (week && exam_date) {
+                        var x = {
+
+                            grade: splitVal[1],
+                            subject: splitVal[2],
+                            week: splitVal[3],
+                            date: splitVal[0]
+
+                        }
+                    } else {
+                        var x = {
+                            grade: splitVal[0],
+                            subject: splitVal[1],
+                        }
                     }
                     z.map(val1 => {
+
                         let y = {
                             [`${val1.block_name}`]: { percentage: val1.no_of_books_distributed, mark: val1.marks }
                         }
@@ -203,7 +262,7 @@ router.post('/AllBlockWise', auth.authController, async (req, res) => {
         if (category == 'overall') {
             fileName = `${dataSource}/overall/block.json`;
         }
-        console.log('fileName', fileName)
+    
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
 
@@ -230,24 +289,7 @@ router.post('/AllBlockWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
-        // console.log('Grae', `Grade ${grade}`)
-        // if (grade) {
-
-        //     data = data.filter(val => {
-        //         return val.grade == `Grade ${grade}`
-        //     })
-        // }
-        // console.log('data', data)
-        // if (subject_name) {
-        //     data = data.filter(val => {
-        //         return val.subject == subject_name
-        //     })
-        // }
-        // if (exam_date) {
-        //     data = data.filter(val => {
-        //         return val.exam_date == day
-        //     })
-        // }
+     
 
         res.status(200).send({ data });
 

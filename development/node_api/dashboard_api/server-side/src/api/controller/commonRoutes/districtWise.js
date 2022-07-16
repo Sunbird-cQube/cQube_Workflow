@@ -8,34 +8,35 @@ router.post('/distWise', auth.authController, async (req, res) => {
         logger.info('---common table distWise api ---');
 
         let { year, grade, dataSource, month, week, subject_name, exam_date, period, management, category, reportType } = req.body
-
+    
         let fileName
         if (reportType == "lotable") {
             if (category == 'overall') {
-                if(period = "overall"){
+                if (period == "overall") {
+                
                     fileName = `${dataSource}/overall/district_subject_footer.json`;
-                }else{
-                    if (!month && !week && !exam_date && grade) {
-                        fileName = `${dataSource}/overall/district_subject_footer.json`
-                    } else if (month && !week && !exam_date && !grade) {
+                } else if (period == "last 30 days") {
+             
+                    fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
+                } else if (period == "last 7 days") {
+                 
+                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                } else if (period == "year and month") {
+               
+                    if (month && !week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
-                    } else if ((month && week && !exam_date && !grade)) {
-                        fileName = `${dataSource}/${year}/${month}/${week}/district_subject_footer.json`
-                    } else if ((month && week && exam_date && !grade)) {
-                        fileName = `${dataSource}/${year}/${month}/${week}/${exam_date}/district_subject_footer.json`
-                    } else if ((month && week && exam_date && grade)) {
-                        fileName = `${dataSource}/${year}/${month}/${week}/${exam_date}/Grade_${grade}.json`
-                    } else if (!month && !week && !exam_date && !grade && !subject_name) {
-                        // if (grade) {
-                        // fileName = `${dataSource}/overall/district_subject_footer.json`;
-                        // }
+                    } else if ((month && week && !exam_date && !grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                    } else if ((month && week && exam_date && !grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                    } else if ((month && week && exam_date && grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district/${grade}.json`
+                    } else if ((month && week && exam_date && grade && subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
                     }
                 }
-
-
-
             } else {
-        
+
             }
         } else {
 
@@ -44,7 +45,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/overall/district/${grade}.json`;
                     } else if (grade && subject_name) {
-                        console.log('district')
+                       
                         fileName = `${dataSource}/overall/district_subject_footer.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/overall/district.json`;
@@ -53,7 +54,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/district/${grade}.json`;
                     } else if (grade && subject_name) {
-                        console.log('district')
+                       
                         fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/district.json`;
@@ -62,21 +63,21 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/district/${grade}.json`;
                     } else if (grade && subject_name) {
-                        console.log('district')
+                       
                         fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/district.json`;
                     }
                 } else if (period === "year and month") {
-                    console.log('year and month')
+                  
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                        console.log('month+++++++++++')
+                      
                         fileName = `${dataSource}/${year}/${month}/district.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                        console.log('month && week')
+                      
                         fileName = `${dataSource}/${year}/${month}/week_${week}/district.json`
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
-                        console.log('month && week && day')
+                    
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district/${grade}.json`
@@ -89,10 +90,10 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
 
             } else {
-               
+
             }
         }
-
+      
 
         let data = await s3File.readFileConfig(fileName);
 
@@ -112,6 +113,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
+
         if (month) {
             data = data.filter(val => {
                 return val.month == month
@@ -123,13 +125,13 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 return val.week == `week_${week}`
             })
         }
-
+ 
         if (exam_date) {
             data = data.filter(val => {
                 return val.distribution_date == exam_date
             })
         }
-        console.log('grade', data)
+
         if (grade) {
             data = data.filter(val => {
                 return val.grade == grade
@@ -142,17 +144,17 @@ router.post('/distWise', auth.authController, async (req, res) => {
             })
         }
 
-        if (reportType === "loTable") {
+        if (reportType === "lotable") {
             Promise.all(data.map(item => {
+                
                 let label
                 if (week && !exam_date) {
-                    console.log('week')
+                 
                     label =
                         item.grade + "/" +
                         item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
-                    console.log('week & Exam_Date')
                     label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else {
@@ -167,21 +169,20 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.district_name) > (b.district_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
-                   
                     if (week && !exam_date) {
                         var x = {
                             grade: splitVal[0],
                             subject: splitVal[1],
-                            week: splitVal[3]
+                            week: splitVal[3],
+
                         }
                     } else if (week && exam_date) {
                         var x = {
-                            
                             grade: splitVal[1],
                             subject: splitVal[2],
                             week: splitVal[3],
                             date: splitVal[0]
-                            
+
                         }
                     } else {
                         var x = {
