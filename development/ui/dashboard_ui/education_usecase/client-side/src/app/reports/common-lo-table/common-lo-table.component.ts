@@ -69,7 +69,7 @@ export class CommonLoTableComponent implements OnInit {
 
 
 
-  reportName = "periodic_assesment_test_loTable";
+  reportName = `lo_Table`;
   managementName;
   management;
   category;
@@ -93,7 +93,8 @@ export class CommonLoTableComponent implements OnInit {
     public commonService: AppServiceComponent,
     public router: Router,
     public aRoute: ActivatedRoute) {
-    this.datasourse = "textbook_distribution"
+
+    this.datasourse = this.aRoute.snapshot.paramMap.get('id');
 
     service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(
       (res) => {
@@ -133,16 +134,8 @@ export class CommonLoTableComponent implements OnInit {
 
       },
       (err) => {
-        // this.metaData = [];
-        // this.commonService.loaderAndErr(this.metaData);
-
-
-
-
-        //         } catch (e) {
-        //           this.metaData = [];
-        //           this.commonService.loaderAndErr(this.metaData);
-        //         }
+        this.metaData = [];
+        this.commonService.loaderAndErr(this.metaData);
       }
     );
   }
@@ -151,9 +144,10 @@ export class CommonLoTableComponent implements OnInit {
   public hideIfAccessLevel: boolean = false
   public hideAccessBtn: boolean = false;
   public datasourse
+  public header
+  public description
 
   ngOnInit(): void {
-    this.datasourse = this.aRoute.snapshot.paramMap.get('id');
 
     this.managementName = this.management = JSON.parse(localStorage.getItem('management')).id;
     this.category = JSON.parse(localStorage.getItem('category')).id;
@@ -172,6 +166,10 @@ export class CommonLoTableComponent implements OnInit {
         this.hideIfAccessLevel = true;
       }
     }
+
+
+    this.header = `Report on ${this.datasourse.replace(/_+/g, ' ')} access by location for`
+    this.description = `The ${this.datasourse.replace(/_+/g, ' ')} dashboard visualises the data on ${this.datasourse.replace(/_+/g, ' ')} metrics for ${this.state}`
   }
 
   hideDist = true;
@@ -205,13 +203,6 @@ export class CommonLoTableComponent implements OnInit {
 
     })
   }
-  // timeRange = [
-  //   { key: "overall", value: "Overall" },
-  //   { key: "last_30_days", value: "Last 30 Days" },
-  //   { key: "last_7_days", value: "Last 7 Days" },
-  //   { key: "last_day", value: "Last Day" },
-  //   { key: "select_month", value: "Year and Month" },
-  // ];
 
   timeRange = [
     { value: "overall" },
@@ -243,15 +234,7 @@ export class CommonLoTableComponent implements OnInit {
         break;
       }
     }
-    // if (!this.months.includes(this.month)) {
-    //   this.month = this.months[this.months.length - 1];
-    // }
-    // this.date = metaData[i].data["months"][`${this.month}`]["examDate"];
-    // this.date = [
-    //   { exam_date: "all" },
-    //   ...this.date.filter((item) => item !== { exam_date: "all" }),
-    // ];
-
+   
     this.grades = [
       { grade: "all" },
       ...this.grades.filter((item) => item !== { grade: "all" }),
@@ -268,7 +251,9 @@ export class CommonLoTableComponent implements OnInit {
     this.hideMonth = true
     this.hideWeek = true
     this.hideDay = true
-    this.period = "Overall"
+    this.gradeSelected = false
+    this.month = ""
+    this.period = "overall"
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -278,7 +263,7 @@ export class CommonLoTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
-    this.year = this.years[this.years.length - 1];
+   
     this.gradeSelected = false;
     if (this.hideAccessBtn) {
 
@@ -294,7 +279,7 @@ export class CommonLoTableComponent implements OnInit {
 
     this.level = "district";
 
-    // this.fetchFilters(this.metaData);
+   
     let a = {
       dataSource: this.datasourse,
       reportType: this.reportType,
@@ -306,6 +291,7 @@ export class CommonLoTableComponent implements OnInit {
       exam_date: this.examDate == "all" ? "" : this.examDate,
       management: this.management,
       category: this.category,
+      period: this.period
     };
     this.month = a.month;
     if (this.myData) {
@@ -313,7 +299,7 @@ export class CommonLoTableComponent implements OnInit {
     }
     this.myData = this.service1.dynamicDistData(a).subscribe(
       (response) => {
-       
+
         this.resetTable();
         this.updatedTable = this.reportData = response["tableData"];
         var districtNames = response["districtDetails"];
@@ -335,7 +321,7 @@ export class CommonLoTableComponent implements OnInit {
   columns = [];
   colorRange = []
   createTable(dataSet) {
-
+    let weekSelct = this.weekSeletced
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
 
@@ -376,18 +362,18 @@ export class CommonLoTableComponent implements OnInit {
         });
         newArr.push(temp);
       });
+
       let Arr1 = []
 
       $.each(dataSet, function (a, b) {
-        let temp = [];
         $.each(b, function (key, value) {
-          let new_item = [];
           if (key !== 'subject' && key !== 'grade') {
-            Arr1.push(value.percentage)
+            if (typeof (value.percentage) == "number") {
+              Arr1.push(value.percentage)
+            }
 
           }
         });
-        // Arr1.push(temp);
       });
 
       Arr1 = Arr1.sort(function (a, b) {
@@ -397,44 +383,26 @@ export class CommonLoTableComponent implements OnInit {
       const min = Math.min(...Arr1);
       const max = Math.max(...Arr1);
 
-      const getRangeArray = (min, max, n) => {
-        const delta = (max - min) / n;
+      function generateArrayMinMax(min, max, n) {
+        let list = [min],
+          interval = (max - min) / (n - 1);
 
-        const ranges = [];
-        let range1 = min;
-        for (let i = 0; i < n; i += 1) {
-          const range2 = range1 + delta;
-          // this.colorRange.push(
-          //   `${Number(range1).toLocaleString("en-IN")}-${Number(
-          //     range2
-          //   ).toLocaleString("en-IN")}`
-          // );
-          // ranges.push([range1, range2]);
-          // range1 = range2;
+        for (let i = 1; i < n - 1; i++) {
+          list.push(min + interval * i);
         }
+        list.push(max); // prevent floating point arithmetic errors
+        return list;
+      }
 
-        return ranges;
-      };
-
-
-      const rangeArrayIn3Parts = getRangeArray(min, max, 3);
-
+      const rangeArrayIn10Parts = generateArrayMinMax(min, max, 10);
 
       function tableCellColor(data) {
-        let colorArr = [data]
+        let colors = {}
+        let color = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850', '#006837']
+        rangeArrayIn10Parts.forEach((value, i) => {
+          colors[value] = color[i]
+        })
 
-        var colors = {
-          10: '#a50026',
-          400: '#d73027',
-          600: '#f46d43',
-          700: '#fdae61',
-          50: '#fee08b',
-          60: '#d9ef8b',
-          800: '#a6d96a',
-          900: '#66bd63',
-          100: '#1a9850',
-          2079: '#006837'
-        }
         var keys = Object.keys(colors);
         var setColor = '';
         for (let i = 0; i < keys.length; i++) {
@@ -457,28 +425,54 @@ export class CommonLoTableComponent implements OnInit {
         return key;
       }
       newArr.forEach((columns, i1) => {
-        body += "<tr>";
-        columns.forEach((column, i2) => {
-          if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
-            let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(columns[2].data.replace('_', ' '))}: ${columns[2].value}`;
-            body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
-          }
-          else {
-            if (column.data == 'indicator') {
-              body += `<td class="indicator" style="min-width: 170px">${column.value.substring(0, 30)}</td>`;
-            } else {
-              if (column.data == 'date') {
-                var date = column.value.split("-");
-                body += `<td>${date[0]}</td>`;
-              } else if (column.data == 'grade') {
-                body += `<td>${column.value[column.value.length - 1]}</td>`;
+        if (weekSelct === true) {
+          body += "<tr>";
+          columns.forEach((column, i2) => {
+            if (i2 > 2 && column.value || i2 > 2 && String(column.value) == String(0)) {
+              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(columns[2].data.replace('_', ' '))}: ${columns[2].value}`;
+              body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+            }
+            else {
+              if (column.data == 'indicator') {
+                body += `<td class="indicator" style="min-width: 170px">${column.value.substring(0, 30)}</td>`;
               } else {
-                body += `<td>${column.value}</td>`;
+                if (column.data == 'date') {
+                  var date = column.value.split("-");
+                  body += `<td>${date[0]}</td>`;
+                } else if (column.data == 'grade') {
+                  body += `<td>${column.value[column.value.length - 1]}</td>`;
+                } else {
+                  body += `<td>${column.value}</td>`;
+                }
               }
             }
-          }
-        });
-        body += "</tr>";
+          });
+          body += "</tr>";
+        } else {
+          body += "<tr>";
+          columns.forEach((column, i2) => {
+            if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
+              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(columns[2].data.replace('_', ' '))}: ${columns[2].value}`;
+              body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+            }
+            else {
+              if (column.data == 'indicator') {
+                body += `<td class="indicator" style="min-width: 170px">${column.value.substring(0, 30)}</td>`;
+              } else {
+                if (column.data == 'date') {
+                  var date = column.value.split("-");
+                  body += `<td>${date[0]}</td>`;
+                } else if (column.data == 'grade') {
+                  body += `<td>${column.value[column.value.length - 1]}</td>`;
+                } else {
+                  body += `<td>${column.value}</td>`;
+                }
+              }
+            }
+          });
+          body += "</tr>";
+        }
+
       });
 
       headers += `</tr></thead>`;
@@ -547,16 +541,14 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   selectedYear() {
-    // this.months = [...this.months.filter((item) => item)]
-    this.hideMonth = this.period === "Year and Month" ? false : true;
-    this.hideWeek = this.period === "Year and Month" ? false : true;
-    this.month = this.period === "Year and Month" ? this.months[this.months.length - 1]['months'] : '';
-    this.weeks = this.period === "Year and Month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-    // this.month = "December";
+    this.hideMonth = this.period === "year and month" ? false : true;
+    this.hideWeek = this.period === "year and month" ? false : true;
+    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
-    // this.fetchFilters(this.metaData);
+    this.week = "";
     if (this.hideAccessBtn) {
       this.levelWiseFilter();
 
@@ -567,7 +559,7 @@ export class CommonLoTableComponent implements OnInit {
 
   selectedMonth() {
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    
+
     this.weeks = this.months.find(a => { return a.month == this.month }).weeks;
     this.grade = "all";
     this.examDate = "all";
@@ -581,8 +573,9 @@ export class CommonLoTableComponent implements OnInit {
       this.getView()
     }
   }
-
+  public weekSeletced = false
   selectedWeek() {
+    this.weekSeletced = true
     this.hideDay = false;
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.date = this.weeks.find(a => { return a.week == this.week }).days;
@@ -600,7 +593,7 @@ export class CommonLoTableComponent implements OnInit {
 
 
   selectedGrade() {
-   
+
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.grade !== "all") {
       this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
@@ -614,12 +607,10 @@ export class CommonLoTableComponent implements OnInit {
 
     this.levelWiseFilter();
 
-
-    //   }
   }
 
   selectedSubject() {
-   
+
     this.fileName = `${this.reportName}_${this.grade}_${this.subject}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.hideAccessBtn) {
       this.levelWiseFilter();
@@ -630,7 +621,7 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   selectedExamDate() {
-  
+
     this.grade = "all";
     this.subject = "all";
     this.fileName = `${this.reportName}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -641,7 +632,7 @@ export class CommonLoTableComponent implements OnInit {
     }
   }
 
-  
+
 
   selectedDistrict(districtId, blockId?) {
 
@@ -657,7 +648,9 @@ export class CommonLoTableComponent implements OnInit {
 
     let a = {
       dataSource: this.datasourse,
+      reportType: this.reportType,
       year: this.year,
+      week: this.week,
       month: this.month,
       grade: this.grade == "all" ? "" : this.grade,
       subject_name: this.subject == "all" ? "" : this.subject,
@@ -665,6 +658,7 @@ export class CommonLoTableComponent implements OnInit {
       districtId: districtId,
       management: this.management,
       category: this.category,
+      period: this.period
     };
 
     this.service1.dynamicBlockData(a).subscribe(
@@ -709,6 +703,9 @@ export class CommonLoTableComponent implements OnInit {
 
     let a = {
       dataSource: this.datasourse,
+      reportType: this.reportType,
+      period: this.period,
+      week: this.week,
       year: this.year,
       month: this.month,
       grade: this.grade == "all" ? "" : this.grade,
@@ -762,7 +759,10 @@ export class CommonLoTableComponent implements OnInit {
     this.commonService.errMsg();
     let a = {
       dataSource: this.datasourse,
+      reportType: this.reportType,
+      period: this.period,
       year: this.year,
+      week: this.week,
       month: this.month,
       grade: this.grade == "all" ? "" : this.grade,
       subject_name: this.subject == "all" ? "" : this.subject,
@@ -883,7 +883,7 @@ export class CommonLoTableComponent implements OnInit {
         category: this.category,
       };
 
-      this.service.patLOTableClusterData(a).subscribe(
+      this.service1.dynamicClusterData(a).subscribe(
         (response) => {
           this.updatedTable = this.reportData = response["tableData"];
           var clusterNames = response["clusterDetails"];
@@ -912,19 +912,22 @@ export class CommonLoTableComponent implements OnInit {
       this.cluster = clusterid;
 
       let a = {
+        dataSource: this.datasourse,
+        reportType: this.reportType,
+        period: this.period,
+        week: this.week,
         year: this.year,
         month: this.month,
         grade: this.grade == "all" ? "" : this.grade,
         subject_name: this.subject == "all" ? "" : this.subject,
         exam_date: this.examDate == "all" ? "" : this.examDate,
-        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
         districtId: this.district,
         blockId: blockid,
         management: this.management,
         category: this.category,
       };
 
-      this.service.patLOTableClusterData(a).subscribe(
+      this.service1.dynamicClusterData(a).subscribe(
         (response) => {
           this.updatedTable = this.reportData = response["tableData"];
           var clusterNames = response["clusterDetails"];
@@ -952,17 +955,20 @@ export class CommonLoTableComponent implements OnInit {
       this.hideblock = true
 
       let a = {
+        dataSource: this.datasourse,
+        reportType: this.reportType,
         year: this.year,
+        week: this.week,
         month: this.month,
         grade: this.grade == "all" ? "" : this.grade,
         subject_name: this.subject == "all" ? "" : this.subject,
         exam_date: this.examDate == "all" ? "" : this.examDate,
-        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
         districtId: districtid,
         management: this.management,
         category: this.category,
+        period: this.period
       };
-      this.service.patLOTableBlockData(a).subscribe(
+      this.service1.dynamicBlockData(a).subscribe(
         (response) => {
           this.updatedTable = this.reportData = response["tableData"];
           var blockNames = response["blockDetails"];
@@ -982,20 +988,23 @@ export class CommonLoTableComponent implements OnInit {
     } else if (level === "District") {
       this.district = districtid;
       let a = {
+        dataSource: this.datasourse,
+        reportType: this.reportType,
         year: this.year,
         month: this.month,
+        week: this.week,
         grade: this.grade == "all" ? "" : this.grade,
         subject_name: this.subject == "all" ? "" : this.subject,
         exam_date: this.examDate == "all" ? "" : this.examDate,
-        viewBy: this.viewBy == "indicator" ? "indicator" : this.viewBy,
         management: this.management,
         category: this.category,
+        period: this.period
       };
       this.month = a.month;
       if (this.myData) {
         this.myData.unsubscribe();
       }
-      this.myData = this.service.patLOTableDistData(a).subscribe(
+      this.myData = this.service1.dynamicDistData(a).subscribe(
         (response) => {
           this.resetTable();
           this.updatedTable = this.reportData = response["tableData"];

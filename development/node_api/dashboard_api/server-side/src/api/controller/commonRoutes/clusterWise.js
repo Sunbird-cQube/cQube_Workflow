@@ -10,62 +10,90 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
 
         let { year, month, grade, dataSource, subject_name, exam_date, week, period, viewBy, blockId, management, category, reportType } = req.body
         let fileName;
-        if (reportType == "loTable") {
+        if (reportType == "lotable") {
             if (category == 'overall') {
-                fileName = `${dataSource}/overall/cluster_subject_footer.json`;
-            }
-        } else {
-           
-            if (period === "overall") {
-
-                if (grade && !subject_name) {
-                    console.log("++++++++++ grade++++++++")
-                    fileName = `${dataSource}/overall/cluster/${grade}.json`;
-                } else if (grade && subject_name) {
-                    console.log("++++++++++subject & grade++++++++")
+                if (period == "overall") {
+                
                     fileName = `${dataSource}/overall/cluster_subject_footer.json`;
-                } else if (!grade && !subject_name) {
-                    console.log("++++++++++Overall++++++++")
-                    fileName = `${dataSource}/overall/cluster.json`;
-                }
-            } if (period === "last 30 days") {
-                if (grade && !subject_name) {
-                    fileName = `${dataSource}/last_30_day/cluster/${grade}.json`;
-                } else if (grade && subject_name) {
+                } else if (period == "last 30 days") {
+           
                     fileName = `${dataSource}/last_30_day/cluster_subject_footer.json`;
-                } else {
-                    fileName = `${dataSource}/last_30_day/cluster.json`;
                 }
-            } if (period === "last 7 days") {
-                if (grade && !subject_name) {
-                    fileName = `${dataSource}/last_7_day/cluster/${grade}.json`;
-                } else if (grade && subject_name) {
+                else if (period == "last 7 days") {
+              
                     fileName = `${dataSource}/last_7_day/cluster_subject_footer.json`;
-                } else {
-                    fileName = `${dataSource}/last_7_day/cluster.json`;
+
+                } else if (period == "year and month") {
+              
+                    if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/cluster_subject_footer.json`
+                    } else if (month && week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/cluster_subject_footer.json`
+                    } else if (month && week && exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
+                    } else if (month && week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/cluster_subject_footer.json`
+                    } else if (month && week && exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster/${grade}.json`
+                    } else if (month && week && exam_date && grade && subject_name) {
+                     
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
+                    } 
                 }
-            } else {
-                if (month && !week && !exam_date && !grade && !subject_name) {
-                    console.log('month+++++++++++')
-                    fileName = `${dataSource}/${year}/${month}/cluster.json`
-                } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                    console.log('month && week')
-                    fileName = `${dataSource}/${year}/${month}/week_${week}/cluster.json`
-                } else if ((month && week && exam_date && !grade && !subject_name)) {
-                    console.log('month && week && day')
-                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster.json`
-                } else if ((month && week && exam_date && grade && !subject_name)) {
-                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster/${grade}.json`
-                } else if ((month && week && exam_date && grade && subject_name)) {
-                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
-                } 
+            }
+            else {
+
+                if (period === "overall") {
+
+                    if (grade && !subject_name) {
+               
+                        fileName = `${dataSource}/overall/cluster/${grade}.json`;
+                    } else if (grade && subject_name) {
+                
+                        fileName = `${dataSource}/overall/cluster_subject_footer.json`;
+                    } else if (!grade && !subject_name) {
+                      
+                        fileName = `${dataSource}/overall/cluster.json`;
+                    }
+                } if (period === "last 30 days") {
+                    if (grade && !subject_name) {
+                        fileName = `${dataSource}/last_30_day/cluster/${grade}.json`;
+                    } else if (grade && subject_name) {
+                        fileName = `${dataSource}/last_30_day/cluster_subject_footer.json`;
+                    } else {
+                        fileName = `${dataSource}/last_30_day/cluster.json`;
+                    }
+                } if (period === "last 7 days") {
+                    if (grade && !subject_name) {
+                        fileName = `${dataSource}/last_7_day/cluster/${grade}.json`;
+                    } else if (grade && subject_name) {
+                        fileName = `${dataSource}/last_7_day/cluster_subject_footer.json`;
+                    } else {
+                        fileName = `${dataSource}/last_7_day/cluster.json`;
+                    }
+                } else {
+                    if (month && !week && !exam_date && !grade && !subject_name) {
+                   
+                        fileName = `${dataSource}/${year}/${month}/cluster.json`
+                    } else if ((month && week && !exam_date && !grade && !subject_name)) {
+                     
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/cluster.json`
+                    } else if ((month && week && exam_date && !grade && !subject_name)) {
+                      
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster.json`
+                    } else if ((month && week && exam_date && grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster/${grade}.json`
+                    } else if ((month && week && exam_date && grade && subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
+                    }
+                }
             }
         }
-        console.log('filename', fileName)
+
 
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
-        console.log('data', data)
+   
         if (blockId) {
             data = data.filter(val => {
                 return (
@@ -99,13 +127,13 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 return val.distribution_date == exam_date
             })
         }
-        console.log(data)
+    
         if (grade) {
             data = data.filter(val => {
                 return val.grade == grade
             })
         }
-        console.log('week', data)
+    
         if (subject_name) {
             data = data.filter(val => {
                 return val.subject == subject_name
@@ -125,23 +153,53 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
             res.status(200).send({ data, clusterDetails })
         }
 
-        if (reportType == "loTable") {
+        if (reportType == "lotable") {
             Promise.all(data.map(item => {
-                let label =
-                    "grade" + item.grade + "/" +
-                    item.subject
-
-                arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
-
+             
+                if (week && !exam_date) {
+                   
+                    label =
+                        item.grade + "/" +
+                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                } else if (week && exam_date) {
+                  
+                    label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                } else {
+                    label =
+                        item.grade + "/" +
+                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                }
             })).then(() => {
                 let keys = Object.keys(arr)
                 let val = []
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.cluster_name) > (b.cluster_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
-                    var x = {
-                        grade: splitVal[0],
-                        subject: splitVal[1],
+                 
+                    if (week && !exam_date) {
+                        var x = {
+                            grade: splitVal[0],
+                            subject: splitVal[1],
+                            week: splitVal[3],
+
+                        }
+                    } else if (week && exam_date) {
+                        var x = {
+
+                            grade: splitVal[1],
+                            subject: splitVal[2],
+                            week: splitVal[3],
+                            date: splitVal[0]
+
+                        }
+                    } else {
+                        var x = {
+                            grade: splitVal[0],
+                            subject: splitVal[1],
+                        }
                     }
                     z.map(val1 => {
                         let y = {
@@ -215,7 +273,7 @@ router.post('/AllClusterWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
-       
+
         res.status(200).send({ data });
 
 
