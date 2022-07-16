@@ -8,65 +8,64 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
     try {
         logger.info('---Common table clusterWise api ---');
 
-        let { year, month, grade, subject_name, exam_date, viewBy, blockId, management, category } = req.body
+        let { year, month, grade, dataSource, subject_name, exam_date, week, period, viewBy, blockId, management, category, reportType } = req.body
         let fileName;
-        if (management != 'overall' && category == 'overall') {
-            if (viewBy == 'indicator') {
-                fileName = `pat/school_management_category/heatChart/indicatorIdLevel/${year}/${month}/overall_category/${management}/blocks/${blockId}.json`;
-            } else if (viewBy == 'question_id')
-                fileName = `pat/school_management_category/heatChart/questionIdLevel/${year}/${month}/overall_category/${management}/blocks/${blockId}.json`;
-        } else {
-            if (viewBy == 'indicator') {
-                fileName = `pat/heatChart/indicatorIdLevel/${year}/${month}/blocks/${blockId}.json`;
-            } else if (viewBy == 'question_id')
-                fileName = `pat/heatChart/questionIdLevel/${year}/${month}/blocks/${blockId}.json`;
-        }
-
-        // let data = await s3File.readFileConfig(fileName);
-
-        let data = [
-            {
-                "academic_year": "2021-22",
-                "grade": "Grade 1",
-                "subject_name": "Hindi",
-                "Performance": 55.6,
-                "block_id": 90112,
-                "block_name": "Muzaffarabad",
-                "cluster_id": "901120008",
-                "cluster_name": "Chutmalpur",
-                "district_id": 901,
-                "district_name": "Saharanpur",
-                "latitude": 30.04318,
-                "longitude": 77.7465,
-                "month": "November",
-                "week": 4,
-                "date": "26-04-2021",
-                "school_id": 9011207703,
-                "school_name": "U.P.S.Alipur Sambhalki",
-                "school_management_type": "govt"
-            },
-            {
-                "academic_year": "2021-22",
-                "grade": "Grade 1",
-                "subject_name": "Hindi",
-                "Performance": 77.8,
-                "block_id": 90112,
-                "block_name": "Muzaffarabad",
-                "cluster_id": "901120005",
-                "cluster_name": "Fatehpur Kalan",
-                "district_id": 901,
-                "district_name": "Saharanpur",
-                "latitude": 30.164156,
-                "longitude": 77.683854,
-                "month": "November",
-                "week": 4,
-                "date": "26-04-2021",
-                "school_id": 9011207902,
-                "school_name": "U.P.S.Saluni Merge"
-
+        if (reportType == "loTable") {
+            if (category == 'overall') {
+                fileName = `${dataSource}/overall/cluster_subject_footer.json`;
             }
-        ]
+        } else {
+           
+            if (period === "overall") {
 
+                if (grade && !subject_name) {
+                    console.log("++++++++++ grade++++++++")
+                    fileName = `${dataSource}/overall/cluster/${grade}.json`;
+                } else if (grade && subject_name) {
+                    console.log("++++++++++subject & grade++++++++")
+                    fileName = `${dataSource}/overall/cluster_subject_footer.json`;
+                } else if (!grade && !subject_name) {
+                    console.log("++++++++++Overall++++++++")
+                    fileName = `${dataSource}/overall/cluster.json`;
+                }
+            } if (period === "last 30 days") {
+                if (grade && !subject_name) {
+                    fileName = `${dataSource}/last_30_day/cluster/${grade}.json`;
+                } else if (grade && subject_name) {
+                    fileName = `${dataSource}/last_30_day/cluster_subject_footer.json`;
+                } else {
+                    fileName = `${dataSource}/last_30_day/cluster.json`;
+                }
+            } if (period === "last 7 days") {
+                if (grade && !subject_name) {
+                    fileName = `${dataSource}/last_7_day/cluster/${grade}.json`;
+                } else if (grade && subject_name) {
+                    fileName = `${dataSource}/last_7_day/cluster_subject_footer.json`;
+                } else {
+                    fileName = `${dataSource}/last_7_day/cluster.json`;
+                }
+            } else {
+                if (month && !week && !exam_date && !grade && !subject_name) {
+                    console.log('month+++++++++++')
+                    fileName = `${dataSource}/${year}/${month}/cluster.json`
+                } else if ((month && week && !exam_date && !grade && !subject_name)) {
+                    console.log('month && week')
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/cluster.json`
+                } else if ((month && week && exam_date && !grade && !subject_name)) {
+                    console.log('month && week && day')
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster.json`
+                } else if ((month && week && exam_date && grade && !subject_name)) {
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster/${grade}.json`
+                } else if ((month && week && exam_date && grade && subject_name)) {
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
+                } 
+            }
+        }
+        console.log('filename', fileName)
+
+        let data = await s3File.readFileConfig(fileName);
+        data = data['data']
+        console.log('data', data)
         if (blockId) {
             data = data.filter(val => {
                 return (
@@ -95,69 +94,131 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
 
         let arr = {}
 
+        if (exam_date) {
+            data = data.filter(val => {
+                return val.distribution_date == exam_date
+            })
+        }
+        console.log(data)
         if (grade) {
             data = data.filter(val => {
                 return val.grade == grade
             })
         }
+        console.log('week', data)
         if (subject_name) {
             data = data.filter(val => {
-                return val.subject_name == subject_name
-            })
-        }
-        if (exam_date) {
-            data = data.filter(val => {
-                return val.exam_date == exam_date
+                return val.subject == subject_name
             })
         }
 
-        Promise.all(data.map(item => {
-            let label = item.exam_date + "/" +
-                "grade" + item.grade + "/" +
-                item.subject_name + "/"
-            label += viewBy == "indicator" ? item.indicator : item.question_id
+        if (reportType == "Map") {
+            data = data.map(({
+                cluster_latitude: lat,
+                cluster_longitude: long,
 
-            arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                ...rest
+            }) => ({
+                lat, long,
+                ...rest
+            }));
+            res.status(200).send({ data, clusterDetails })
+        }
 
-        })).then(() => {
-            let keys = Object.keys(arr)
-            let val = []
-            for (let i = 0; i < keys.length; i++) {
-                let z = arr[keys[i]].sort((a, b) => (a.cluster_name) > (b.cluster_name) ? 1 : -1)
-                let splitVal = keys[i].split('/')
-                var x = {
-                    date: splitVal[0],
-                    grade: splitVal[1],
-                    subject: splitVal[2],
-                    [`${viewBy}`]: splitVal[3],
-                }
-                z.map(val1 => {
-                    let y = {
-                        [`${val1.cluster_name}`]: { percentage: val1.percentage, mark: val1.marks }
+        if (reportType == "loTable") {
+            Promise.all(data.map(item => {
+                let label =
+                    "grade" + item.grade + "/" +
+                    item.subject
+
+                arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+
+            })).then(() => {
+                let keys = Object.keys(arr)
+                let val = []
+                for (let i = 0; i < keys.length; i++) {
+                    let z = arr[keys[i]].sort((a, b) => (a.cluster_name) > (b.cluster_name) ? 1 : -1)
+                    let splitVal = keys[i].split('/')
+                    var x = {
+                        grade: splitVal[0],
+                        subject: splitVal[1],
                     }
-                    x = { ...x, ...y }
-                })
-                val.push(x);
-            }
+                    z.map(val1 => {
+                        let y = {
+                            [`${val1.cluster_name}`]: { percentage: val1.no_of_books_distributed, mark: val1.marks }
+                        }
+                        x = { ...x, ...y }
+                    })
+                    val.push(x);
+                }
 
-            var tableData = [];
-            // filling the missing key - value to make the object contains same data set
-            if (val.length > 0) {
-                let obj = val.reduce((res1, item) => ({ ...res1, ...item }));
-                let keys1 = Object.keys(obj);
-                let def = keys1.reduce((result1, key) => {
-                    result1[key] = ''
-                    return result1;
-                }, {});
-                tableData = val.map((item) => ({ ...def, ...item }));
-                logger.info('--- commn table clusterWise response sent ---');
-                res.status(200).send({ clusterDetails, tableData });
-            } else {
-                logger.info('--- common table schoolWise response sent ---');
-                res.status(500).send({ errMsg: "No record found" });
-            }
+                var tableData = [];
+                // filling the missing key - value to make the object contains same data set
+                if (val.length > 0) {
+                    let obj = val.reduce((res1, item) => ({ ...res1, ...item }));
+                    let keys1 = Object.keys(obj);
+                    let def = keys1.reduce((result1, key) => {
+                        result1[key] = ''
+                        return result1;
+                    }, {});
+                    tableData = val.map((item) => ({ ...def, ...item }));
+                    logger.info('--- commn table clusterWise response sent ---');
+                    res.status(200).send({ clusterDetails, tableData });
+                } else {
+                    logger.info('--- common table schoolWise response sent ---');
+                    res.status(500).send({ errMsg: "No record found" });
+                }
 
+            })
+        }
+
+    } catch (e) {
+        logger.error(`Error :: ${e}`)
+        res.status(500).json({ errMessage: "Internal error. Please try again!!" });
+    }
+});
+
+router.post('/AllClusterWise', auth.authController, async (req, res) => {
+    try {
+        logger.info('---Common table blockWise api ---');
+
+        let { year, grade, month, dataSource, subject_name, exam_date, viewBy, districtId, management, category } = req.body
+        let fileName;
+
+        if (category == 'overall') {
+            fileName = `${dataSource}/overall/cluster.json`;
+        }
+
+        let data = await s3File.readFileConfig(fileName);
+        data = data['data']
+
+        if (districtId) {
+            data = data.filter(val => {
+                return val.district_id == districtId
+            })
+        }
+
+        let blockDetails = data.map(e => {
+            return {
+                district_id: e.district_id,
+                district_name: e.district_name,
+                block_id: e.block_id,
+                block_name: e.block_name
+            }
         })
+
+        blockDetails = blockDetails.reduce((unique, o) => {
+            if (!unique.some(obj => obj.block_id === o.block_id)) {
+                unique.push(o);
+            }
+            return unique;
+        }, []);
+
+        let arr = {}
+       
+        res.status(200).send({ data });
+
+
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });

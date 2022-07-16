@@ -18,11 +18,25 @@ export class dynamicReportService {
     dynamicDistData(data) {
         this.service.logoutOnTokenExpire();
         return this.http.post(`${this.baseUrl}/common/distWise`, data);
-    }    
-    
+    }
+
     dynamicBlockData(data) {
         this.service.logoutOnTokenExpire();
         return this.http.post(`${this.baseUrl}/common/blockWise`, data);
+    }
+    dynamicAllBlockData(data) {
+        this.service.logoutOnTokenExpire();
+        return this.http.post(`${this.baseUrl}/common/AllBlockWise`, data);
+    }
+
+    dynamicAllClusterData(data) {
+        this.service.logoutOnTokenExpire();
+        return this.http.post(`${this.baseUrl}/common/AllClusterWise`, data);
+    }
+
+    dynamicAllSchoolData(data) {
+        this.service.logoutOnTokenExpire();
+        return this.http.post(`${this.baseUrl}/common/AllSchoolWise`, data);
     }
 
     dynamicClusterData(data) {
@@ -32,15 +46,26 @@ export class dynamicReportService {
 
     dynamicSchoolData(data) {
         this.service.logoutOnTokenExpire();
-        return this.http.post(`${this.baseUrl}/common/distWise`, data);
+        return this.http.post(`${this.baseUrl}/common/schoolWise`, data);
     }
 
-    configurableProperty(){
+    configurableProperty() {
         this.service.logoutOnTokenExpire();
-        return this.http.post(`${this.baseUrl}/configProperties`,{});
+        return this.http.post(`${this.baseUrl}/configProperties`, {});
     }
     configurableCardProperty() {
         this.service.logoutOnTokenExpire();
         return this.http.post(`${this.baseUrl}/configCardProperties`, {});
     }
+
+    configurableMetaData(data) {
+        this.service.logoutOnTokenExpire();
+        return this.http.post(`${this.baseUrl}/meta`, data);
+    }
+    configurableTimePeriodMeta(data) {
+        this.service.logoutOnTokenExpire();
+        return this.http.post(`${this.baseUrl}/timePeriod`, data);
+    }
 }
+
+
