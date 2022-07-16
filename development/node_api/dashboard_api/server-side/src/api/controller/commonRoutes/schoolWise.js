@@ -13,7 +13,28 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
 
         if (reportType == "loTable") {
             if (category == 'overall') {
-                fileName = `${dataSource}/overall/school_subject_footer.json`;
+                if (period == "overall") {
+                   
+                    fileName = `${dataSource}/overall/school_subject_footer.json`;
+                } else if (period == "year and month") {
+                  
+                    if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
+                    } else if (month && week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                    } else if (month && week && exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
+                    } else if (month && week && exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
+                    } else if (month && week && exam_date && grade && subject_name) {
+                      
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
+                    } 
+                } else if (period == "last 7 days") {
+                    fileName = `${dataSource}/last_7_day/school_subject_footer.json`;
+                } else if (period == "last 30 days") {
+                    fileName = `${dataSource}/last_30_day/school_subject_footer.json`;
+                }
             }
         } else {
             if (category == 'overall') {
@@ -43,13 +64,13 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     }
                 } else if (period === "year and month") {
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                        console.log('month+++++++++++')
+                      
                         fileName = `${dataSource}/${year}/${month}/school.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                        console.log('month && week')
+                       
                         fileName = `${dataSource}/${year}/${month}/week_${week}/school.json`
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
-                        console.log('month && week && day')
+                      
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
@@ -64,7 +85,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
 
             }
         }
-        console.log('filename', fileName)
+    
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
 
@@ -117,7 +138,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 return val.distribution_date == exam_date
             })
         }
-        console.log('map', data)
+     
         if (reportType == "Map") {
             data = data.map(({
                 school_latitude: lat,
@@ -133,12 +154,23 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
 
         if (reportType == "loTable") {
             Promise.all(data.map(item => {
-                let label =
-                    "grade" + item.grade + "/" +
-                    item.subject_name + item.no_of_books_distributed
-                // label += day  ? item.date : item.question_id
-
-                arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+               
+                if (week && !exam_date) {
+                   
+                    label =
+                        item.grade + "/" +
+                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1] + item
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                } else if (week && exam_date) {
+                  
+                    label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                } else {
+                    label =
+                        item.grade + "/" +
+                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week
+                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                }
 
             })).then(() => {
                 let keys = Object.keys(arr)
@@ -147,10 +179,10 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     let z = arr[keys[i]].sort((a, b) => (a.school_name) > (b.school_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
                     var x = {
-                        // date: splitVal[0],
+                       
                         grade: splitVal[0],
                         subject: splitVal[1],
-                        // [`${viewBy}`]: splitVal[3],
+                       
                     }
                     z.map(val1 => {
                         let y = {
@@ -230,7 +262,7 @@ router.post('/AllSchoolWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
-        
+
 
         res.status(200).send({ data });
 

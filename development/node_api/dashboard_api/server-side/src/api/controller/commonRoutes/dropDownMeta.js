@@ -10,9 +10,9 @@ router.post('/meta', auth.authController, async (req, res) => {
         logger.info('--- Meta file ---');
 
         let filename = `${dataSource}/meta.json`
-        console.log('filename', filename)
+    
         let data = await s3File.readFileConfig(filename);
-        console.log('data', data)
+   
         logger.info('--- Meta file  api response sent ---');
         res.status(200).send(data);
     } catch (e) {
@@ -25,10 +25,10 @@ router.post('/timePeriod', auth.authController, async (req, res) => {
     let { dataSource } = req.body
     try {
         logger.info('--- Meta file ---');
-        console.log('dataSource', dataSource)
+    
         let filename = `${dataSource}/time_period_meta.json`
         let data = await s3File.readFileConfig(filename);
-        console.log('data', data)
+
         logger.info('--- Meta file  api response sent ---');
         res.status(200).send(data);
     } catch (e) {

@@ -15,7 +15,7 @@
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="selectedDistrict(districtHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
-                                {{districtHierarchy.districtName}}</span> </p>
+                                {{districtHierarchy.districtName | titlecase}</span> </p>
                     </div>
                     <div *ngIf="blok">
                         <p id="cluster">
@@ -23,10 +23,10 @@
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(blockHierarchy.distId):''"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{blockHierarchy.districtName}}</span><span> | </span><span
+                                {{blockHierarchy.districtName | titlecase}}</span><span> | </span><span
                                 (click)=" selectedBlock(blockHierarchy.blockId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
-                                {{blockHierarchy.blockName}}</span></p>
+                                {{blockHierarchy.blockName | titlecase}}</span></p>
                     </div>
 
                     <div *ngIf="clust">
@@ -35,11 +35,11 @@
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(clusterHierarchy.distId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.districtName}}</span><span> | </span><span
+                                {{clusterHierarchy.districtName |titlecase}}</span><span> | </span><span
                                 (click)=" !selCluster ? selectedBlock(clusterHierarchy.blockId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName}}</span><span> | </span><span class="selected-level">
-                                {{clusterHierarchy.clusterName}}</span></p>
+                                {{clusterHierarchy.blockName | titlecase}}</span><span> | </span><span class="selected-level">
+                                {{clusterHierarchy.clusterName | titlecase}}</span></p>
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
                     </select>
                     <select id="month" required class="select-control" *ngIf="!hideMonth" [(ngModel)]="month"
                         (change)="selectedMonth()">
-                        <option [value]="month" disabled selected="selected">Choose a Month</option>
+                        <option [value]="month" disabled selected="selected">{{month}}</option>
                         <option *ngFor="let month of months; let i =index" [(ngValue)]="month.month">
                             {{month.month}}
                         </option>
@@ -99,7 +99,7 @@
                             <span *ngIf="grade.grade == 'all'; else other_content">
                                 All Grades
                             </span>
-                            <ng-template #other_content> Grade {{grade.grade}}</ng-template>
+                            <ng-template #other_content>{{grade.grade}}</ng-template>
                         </option>
                     </select>
 
@@ -118,7 +118,7 @@
                         [disabled]="selDist" (change)="selectedDistrict(district)">
                         <option [value]="district" disabled selected="selected">Choose a District</option>
                         <option *ngFor="let district of districtNames, let i =index" [(ngValue)]="district.district_id">
-                            {{district.district_name}}
+                            {{district.district_name | titlecase}}
                         </option>
                     </select>
 
@@ -127,14 +127,14 @@
                         [disabled]="selBlock" (change)="selectedBlock(block)">
                         <option [value]="block" disabled selected="selected">Choose a Block</option>
                         <option *ngFor="let block of blockNames, let i =index" [(ngValue)]="block.block_id">
-                            {{block.block_name}}
+                            {{block.block_name | titlecase}}
                         </option>
                     </select>
                     <select [hidden]="clusterHidden" id="cluster" class="select-control mr-0" [(ngModel)]="cluster"
                         [disabled]="selCluster" (change)="selectedCluster(cluster)">
                         <option [value]="cluster" disabled selected="selected">Choose a Cluster</option>
                         <option *ngFor="let cluster of clusterNames, let i =index" [(ngValue)]="cluster.cluster_id">
-                            {{cluster.cluster_name}}
+                            {{cluster.cluster_name | titlecase}}
                         </option>
                     </select>
                 </div>
