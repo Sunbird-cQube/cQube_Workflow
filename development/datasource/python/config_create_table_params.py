@@ -121,14 +121,22 @@ def create_parameters_queries():
                     # Update Null log to db
                     query1 = ''
                     query2 = ''
+                    query4 = ''
+                    global alter_log_summary
+                    alter_log_summary = ''
                     for num in (null_validation_columns):
+
+                        alter_log_summary += 'alter table log_summary add COLUMN if not exists ' +num+ ' int;'
 
                         if null_validation_columns.index(num) == 0:
                             query1 = '"null_to_log_db":"""update log_summary SET '
-                        query2 = num + '=' + table_names + '_null_col.count_null_ ' + num + ','
+                        if null_validation_columns.index(num) == len(null_validation_columns) - 1:
+                            query2 += num + '=' + table_names + '_null_col.count_null_' + num
+                        else:
+                            query4 += num + '=' + table_names + '_null_col.count_null_' + num + ','
 
-                    query3 = 'from ' + table_names + '_null_col where ' + table_names + '_null_col.ff_uuid = log_summary.ff_uuid""",'
-                    null_to_log_db = query1 + query2 + query3
+                    query3 = ' from ' + table_names + '_null_col where ' + table_names + '_null_col.ff_uuid = log_summary.ff_uuid""",'
+                    null_to_log_db = query1 + query4 + query2 + query3
 
                     # stg2 to temp query
                     clmn = ''.join(columns)
@@ -1014,8 +1022,9 @@ def write_files():
         os.makedirs(path)
     if not is_exist:
         os.makedirs(path + '/' + file_name_sql)
-    global query_file
+    global query_file, all_queries
     query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
+    all_queries +=alter_log_summary
     query_file.write(all_queries)
     query_file.close()
     to_insert_json_ = json.loads(to_insert_json, strict=False)
