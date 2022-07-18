@@ -234,7 +234,7 @@ export class CommonLoTableComponent implements OnInit {
         break;
       }
     }
-   
+
     this.grades = [
       { grade: "all" },
       ...this.grades.filter((item) => item !== { grade: "all" }),
@@ -257,13 +257,14 @@ export class CommonLoTableComponent implements OnInit {
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
+    this.week = ""
     this.viewBy = "indicator";
     this.district = undefined;
     this.block = undefined;
     this.cluster = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
-   
+
     this.gradeSelected = false;
     if (this.hideAccessBtn) {
 
@@ -275,11 +276,12 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   commonFunc = () => {
+
     this.commonService.errMsg();
 
     this.level = "district";
+    this.values = []
 
-   
     let a = {
       dataSource: this.datasourse,
       reportType: this.reportType,
@@ -310,6 +312,28 @@ export class CommonLoTableComponent implements OnInit {
               ? -1
               : 0
         );
+
+        let Arr1 = []
+
+        $.each(this.reportData, function (a, b) {
+          $.each(b, function (key, value) {
+            if (key !== 'subject' && key !== 'grade') {
+              if (typeof (value.percentage) == "number") {
+                Arr1.push(value.percentage)
+              }
+
+            }
+          });
+        });
+
+        Arr1 = Arr1.sort(function (a, b) {
+          return parseFloat(a) - parseFloat(b);
+        });
+
+        const min = Math.min(...Arr1);
+        const max = Math.max(...Arr1);
+        this.getRangeArray(min, max, 10)
+
         this.onChangePage();
       },
       (err) => {
@@ -324,7 +348,7 @@ export class CommonLoTableComponent implements OnInit {
     let weekSelct = this.weekSeletced
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
-
+   
     $(document).ready(function () {
       var headers = "<thead><tr>";
       var body = "<tbody>";
@@ -337,15 +361,21 @@ export class CommonLoTableComponent implements OnInit {
         if (col.length > 10) {
           col = col.slice(0, 10) + "..."
         }
-        if (i > 3) {
-          headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
+        if (weekSelct) {
+          if (i > 3) {
+            headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
+          } else {
+            headers += `<th>${col}</th>`;
+          }
+
         } else {
-          if (col == 'Indicator') {
-            headers += `<th class="indicator">${col}</th>`;
+          if (i > 1) {
+            headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
           } else {
             headers += `<th>${col}</th>`;
           }
         }
+
       });
 
       let newArr = [];
@@ -382,7 +412,7 @@ export class CommonLoTableComponent implements OnInit {
 
       const min = Math.min(...Arr1);
       const max = Math.max(...Arr1);
-
+     
       function generateArrayMinMax(min, max, n) {
         let list = [min],
           interval = (max - min) / (n - 1);
@@ -390,7 +420,7 @@ export class CommonLoTableComponent implements OnInit {
         for (let i = 1; i < n - 1; i++) {
           list.push(min + interval * i);
         }
-        list.push(max); // prevent floating point arithmetic errors
+        list.push(max);
         return list;
       }
 
@@ -429,22 +459,20 @@ export class CommonLoTableComponent implements OnInit {
           body += "<tr>";
           columns.forEach((column, i2) => {
             if (i2 > 2 && column.value || i2 > 2 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(columns[2].data.replace('_', ' '))}: ${columns[2].value}`;
+              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value} <br/> Subject: ${column[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+
             }
             else {
-              if (column.data == 'indicator') {
-                body += `<td class="indicator" style="min-width: 170px">${column.value.substring(0, 30)}</td>`;
+              if (column.data == 'date') {
+                var date = column.value.split("-");
+                body += `<td>${date[0]}</td>`;
+              } else if (column.data == 'grade') {
+                body += `<td>${column.value[column.value.length - 1]}</td>`;
               } else {
-                if (column.data == 'date') {
-                  var date = column.value.split("-");
-                  body += `<td>${date[0]}</td>`;
-                } else if (column.data == 'grade') {
-                  body += `<td>${column.value[column.value.length - 1]}</td>`;
-                } else {
-                  body += `<td>${column.value}</td>`;
-                }
+                body += `<td>${column.value}</td>`;
               }
+
             }
           });
           body += "</tr>";
@@ -452,23 +480,22 @@ export class CommonLoTableComponent implements OnInit {
           body += "<tr>";
           columns.forEach((column, i2) => {
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(columns[2].data.replace('_', ' '))}: ${columns[2].value}`;
+              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+           
             }
             else {
-              if (column.data == 'indicator') {
-                body += `<td class="indicator" style="min-width: 170px">${column.value.substring(0, 30)}</td>`;
+
+              if (column.data == 'date') {
+                var date = column.value.split("-");
+                body += `<td>${date[0]}</td>`;
+              } else if (column.data == 'grade') {
+                body += `<td>${column.value[column.value.length - 1]}</td>`;
               } else {
-                if (column.data == 'date') {
-                  var date = column.value.split("-");
-                  body += `<td>${date[0]}</td>`;
-                } else if (column.data == 'grade') {
-                  body += `<td>${column.value[column.value.length - 1]}</td>`;
-                } else {
-                  body += `<td>${column.value}</td>`;
-                }
+                body += `<td>${column.value}</td>`;
               }
             }
+
           });
           body += "</tr>";
         }
@@ -499,9 +526,7 @@ export class CommonLoTableComponent implements OnInit {
 
       this.table = $(`#LOtable`).DataTable(obj);
       $('[data-toggle="tooltip"]').tooltip({
-
         placement: 'right',
-
         container: 'body'
       }
       ).on('inserted.bs.tooltip', function () {
@@ -545,6 +570,7 @@ export class CommonLoTableComponent implements OnInit {
     this.hideWeek = this.period === "year and month" ? false : true;
     this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+   
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -663,6 +689,7 @@ export class CommonLoTableComponent implements OnInit {
 
     this.service1.dynamicBlockData(a).subscribe(
       (response) => {
+        document.getElementById("initTable").style.display = "block";
         this.updatedTable = this.reportData = response["tableData"];
         var blockNames = response["blockDetails"];
         this.blockNames = blockNames.sort((a, b) =>
@@ -1156,6 +1183,24 @@ export class CommonLoTableComponent implements OnInit {
     this.pageChange();
   }
 
+  getRangeArray = (min, max, n) => {
+    const delta = (max - min) / n;
+    const ranges = [];
+    let range1 = min;
+    for (let i = 0; i < n; i += 1) {
+      const range2 = range1 + delta;
+      this.values.push(
+        `${Number(range1).toLocaleString("en-IN")}-${Number(
+          range2
+        ).toLocaleString("en-IN")}`
+      );
+      ranges.push([range1, range2]);
+      range1 = range2;
+    }
+
+    return ranges;
+  }
+
   public legendColors: any = [
     "#a50026",
     "#d73027",
@@ -1168,17 +1213,19 @@ export class CommonLoTableComponent implements OnInit {
     "#1a9850",
     "#006837",
   ];
-  public values = [
-    "0-10",
-    "11-20",
-    "21-30",
-    "31-40",
-    "41-50",
-    "51-60",
-    "61-70",
-    "71-80",
-    "81-90",
-    "91-100"
-  ];
+
+  public values = []
+  // public values = [
+  //   "0-10",
+  //   "11-20",
+  //   "21-30",
+  //   "31-40",
+  //   "41-50",
+  //   "51-60",
+  //   "61-70",
+  //   "71-80",
+  //   "81-90",
+  //   "91-100"
+  // ];
 
 }
