@@ -1018,8 +1018,7 @@ def execute_sql():
     with open('../../conf/base_config.yml') as f:
         data = yaml.load(f, Loader=SafeLoader)
         db_user = 'postgres'
-        db_name = 'cqube_db'
-    #        db_password = data['db_password']
+        db_name = data['db_name']
 
     # establishing the connection
     conn = psycopg2.connect(
