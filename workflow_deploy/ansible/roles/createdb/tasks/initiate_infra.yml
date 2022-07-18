@@ -168,6 +168,13 @@
   when: storage_type == "s3" and datasource_status == "unmatched"
   tags: [ install, update ]
 
+- name: Clearing local output folder data
+  shell: rm -rf "{{ output_directory }}"*
+  args:
+    warn: false
+  when: storage_type == "local" and datasource_status == "unmatched"
+  tags: [ install, update ]
+  
 - name: Create database user
   become: true
   become_user: postgres
