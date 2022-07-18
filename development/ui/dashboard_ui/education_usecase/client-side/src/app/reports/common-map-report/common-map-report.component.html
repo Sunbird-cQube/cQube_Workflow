@@ -136,15 +136,16 @@
                             <ng-template #other_content> {{subjects[i]}}</ng-template>
                         </option>
                     </select>
-                    <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn" (click)="blockWise()">
+                    <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn"
+                        [disabled]="hideAllBlockBtn" (click)="blockWise()">
                         &nbsp;<strong>Blocks</strong>
                     </button>
                     <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn"
-                        (click)="clusterWise() ">
+                        [disabled]="hideAllCLusterBtn" (click)="clusterWise() ">
                         &nbsp;<strong>Clusters</strong>
                     </button>
                     <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn"
-                        (click)="schoolWise()">
+                        [disabled]="hideAllSchoolBtn" (click)="schoolWise()">
                         &nbsp;<strong>Schools</strong>
                     </button>
 

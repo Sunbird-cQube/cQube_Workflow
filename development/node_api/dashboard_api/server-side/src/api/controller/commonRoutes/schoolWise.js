@@ -14,11 +14,15 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         if (reportType == "loTable") {
             if (category == 'overall') {
                 if (period == "overall") {
-                   
+
                     fileName = `${dataSource}/overall/school_subject_footer.json`;
                 } else if (period == "year and month") {
-                  
+
                     if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
+                    } else if (month && !week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
+                    } else if (month && !week && !exam_date && grade && subject_name) {
                         fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
@@ -27,13 +31,15 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-                      
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
-                    } 
+                    }
                 } else if (period == "last 7 days") {
                     fileName = `${dataSource}/last_7_day/school_subject_footer.json`;
                 } else if (period == "last 30 days") {
                     fileName = `${dataSource}/last_30_day/school_subject_footer.json`;
+                } else if (period == "last day") {
+                    fileName = `${dataSource}/last_day/school_subject_footer.json`;
                 }
             }
         } else {
@@ -62,30 +68,40 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/school.json`;
                     }
+                } else if (period === "last day") {
+                    if (grade && !subject_name) {
+                        fileName = `${dataSource}/last_day/school/${grade}.json`;
+                    } else if (grade && subject_name) {
+                        fileName = `${dataSource}/last_day/school_subject_footer.json`;
+                    } else if (!grade && !subject_name) {
+                        fileName = `${dataSource}/last_day/school.json`;
+                    }
                 } else if (period === "year and month") {
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                      
+
                         fileName = `${dataSource}/${year}/${month}/school.json`
+                    } else if (month && !week && !exam_date && grade && !subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/school/${grade}.json`
+                    } else if (month && !week && !exam_date && grade && subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                       
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/school.json`
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
-                      
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
                     } else if ((month && week && exam_date && grade && subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
-                    } else {
-                        // if (grade) {
-                        fileName = `${dataSource}/overall/school.json`;
-                        // }
                     }
                 }
 
             }
         }
-    
+
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
 
@@ -138,7 +154,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 return val.distribution_date == exam_date
             })
         }
-     
+
         if (reportType == "Map") {
             data = data.map(({
                 school_latitude: lat,
@@ -154,15 +170,15 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
 
         if (reportType == "loTable") {
             Promise.all(data.map(item => {
-               
+
                 if (week && !exam_date) {
-                   
+
                     label =
                         item.grade + "/" +
                         item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1] + item
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
-                  
+
                     label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else {
@@ -179,10 +195,10 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     let z = arr[keys[i]].sort((a, b) => (a.school_name) > (b.school_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
                     var x = {
-                       
+
                         grade: splitVal[0],
                         subject: splitVal[1],
-                       
+
                     }
                     z.map(val1 => {
                         let y = {
