@@ -8,14 +8,13 @@ router.post('/configProperties', auth.authController, async (req, res) => {
         logger.info('--- Configurable properties ---');
         let filename = `ui_configurable_property/ui_configurable_property.json`
         let data = await s3File.readFileConfig(filename);
-
-        const key = 'reportName';
+        const key = 'report_name';
 
         const arrayUniqueByKey = [...new Map(data.map(item =>
             [item[key], item])).values()];
 
         arrayUniqueByKey.forEach(data => {
-            data.routerLink = `/dashboard/${data.report_name.replace(/\s+/g, '-').toLowerCase()}`;
+            data.routerLink = `${data.report_name.replace(/\s+/g, '-').toLowerCase()}`;
         });
 
         logger.info('--- Configurable properties  api response sent ---');

@@ -5,21 +5,21 @@
                 <div class="col-sm-7 ">
                     <div *ngIf='skul'>
                         <p id="dist">
-                            Periodic Assessment Test LO Report for: <span (click)="resetToInitPage()"
+                            {{header | titlecase }}: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;"
                                 class="selected-level">{{state}}</span></p>
                     </div>
                     <div *ngIf='dist'>
                         <p id="block">
-                            Periodic Assessment Test LO Report for: <span (click)=" resetToInitPage()"
+                            {{header | titlecase}}: <span (click)=" resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span> <span> |
                             </span><span (click)="selectedDistrict(districtHierarchy.distId)"
                                 style="cursor: pointer;text-decoration: underline;" class="selected-level">
-                                {{districtHierarchy.districtName | titlecase}</span> </p>
+                                {{districtHierarchy.districtName | titlecase}}</span> </p>
                     </div>
                     <div *ngIf="blok">
                         <p id="cluster">
-                            Periodic Assessment Test LO Report for: <span (click)="resetToInitPage()"
+                            {{header | titlecase}}: <span (click)="resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(blockHierarchy.distId):''"
                                 style="cursor: pointer;text-decoration: underline;">
@@ -31,14 +31,15 @@
 
                     <div *ngIf="clust">
                         <p id="school">
-                            Periodic Assessment Test LO Report for: <span (click)=" resetToInitPage()"
+                            {{header | titlecase}}: <span (click)=" resetToInitPage()"
                                 style="cursor: pointer;text-decoration: underline;">{{state}}</span><span> |
                             </span><span (click)="!selDist ? selectedDistrict(clusterHierarchy.distId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
                                 {{clusterHierarchy.districtName |titlecase}}</span><span> | </span><span
                                 (click)=" !selCluster ? selectedBlock(clusterHierarchy.blockId): ''"
                                 style="cursor: pointer;text-decoration: underline;">
-                                {{clusterHierarchy.blockName | titlecase}}</span><span> | </span><span class="selected-level">
+                                {{clusterHierarchy.blockName | titlecase}}</span><span> | </span><span
+                                class="selected-level">
                                 {{clusterHierarchy.clusterName | titlecase}}</span></p>
                     </div>
                 </div>
