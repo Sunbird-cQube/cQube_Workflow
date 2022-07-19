@@ -34,7 +34,6 @@ def create_parameters_queries():
     table_names = ''
     validation_queries = ''
     global all_param_queries
-
     all_param_queries = ''
     for row in csv.reader(read_input()):
         if row[0] == key:
@@ -337,7 +336,7 @@ def create_parameters_queries():
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur12 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
-                    qur13 = '"@' + table_names + '_count": "data.[&1].' + table_names + '_count","@total_schools": "data.[&1].total_schools","' + table_names + '_count": "allDistrictsFooter.' + table_names + '[]","total_schools": "allDistrictsFooter.schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"*": {"' + table_names + '": "=intSum(@(1,' + table_names + '))","schools": "=intSum(@(1,schools))"}}}]""",'
+                    qur13 = '"@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "allDistrictsFooter.students[]","total_schools": "allDistrictsFooter.schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}]""",'
                     transform_district_wise = qur11 + qur12 + qur13
 
                     # jolt_line_chart_school
@@ -389,9 +388,9 @@ def create_parameters_queries():
                             qur77 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
 
                     qur78 = '"cluster_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","cluster_latitude":"data.[&1].cluster_latitude","cluster_longitude":"data.[&1].cluster_longitude",'
-                    qur85 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"footer.@(1,block_id).' + table_names + '[]","total_schools":"footer.@(1,block_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","cluster_latitude":"data.[&1].cluster_latitude","cluster_longitude":"data.[&1].cluster_longitude",'
-                    qur86 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allClustersFooter.' + table_names + '[]","total_schools":"allClustersFooter.schools[]"}},"footer":"&"}},'
-                    qur79 = '{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+                    qur85 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@students_count":"data.[&1].students_count","@total_schools":"data.[&1].total_schools","students_count":"footer.@(1,block_id).students[]","total_schools":"footer.@(1,block_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"students":"=intSum(@(1,students))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"cluster_id":"data.[&1].cluster_id","cluster_name":"data.[&1].cluster_name","district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","block_id":"data.[&1].block_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","cluster_latitude":"data.[&1].cluster_latitude","cluster_longitude":"data.[&1].cluster_longitude",'
+                    qur86 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@students_count":"data.[&1].students_count","@total_schools":"data.[&1].total_schools","students_count":"allClustersFooter.students[]","total_schools":"allClustersFooter.schools[]"}},"footer":"&"}},'
+                    qur79 = '{"operation":"modify-overwrite-beta","spec":{"*":{"students":"=intSum(@(1,students))","schools":"=intSum(@(1,schools))"}}}]""",'
 
                     cluster_timeseries_jolt_spec = qur78 + qur77 + qur85 + qur77 + qur86 + qur79
                     # print(cluster_timeseries_jolt_spec)
@@ -421,11 +420,11 @@ def create_parameters_queries():
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur35 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
-                    qur36 = '"@' + table_names + '_count": "data.[&1].' + table_names + '_count","@total_schools": "data.[&1].total_schools","' + table_names + '_count": "footer.@(1,block_id).' + table_names + '[]","total_schools": "footer.@(1,block_id).schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"footer": {"*": {"' + table_names + '": "=intSum(@(1,' + table_names + '))","schools": "=intSum(@(1,schools))"}}}},{"operation": "shift","spec": {"data": {"*": {"cluster_id": "data.[&1].cluster_id","cluster_name": "data.[&1].cluster_name","district_id": "data.[&1].district_id","district_name": "data.[&1].district_name","block_id": "data.[&1].block_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","cluster_latitude": "data.[&1].cluster_latitude","cluster_longitude": "data.[&1].cluster_longitude","data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date",'
+                    qur36 = '"@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "footer.@(1,block_id).students[]","total_schools": "footer.@(1,block_id).schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"footer": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}},{"operation": "shift","spec": {"data": {"*": {"cluster_id": "data.[&1].cluster_id","cluster_name": "data.[&1].cluster_name","district_id": "data.[&1].district_id","district_name": "data.[&1].district_name","block_id": "data.[&1].block_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","cluster_latitude": "data.[&1].cluster_latitude","cluster_longitude": "data.[&1].cluster_longitude","data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date",'
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur37 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
-                    qur38 = '"@' + table_names + '_count": "data.[&1].' + table_names + '_count","@total_schools": "data.[&1].total_schools","' + table_names + '_count": "allClustersFooter.' + table_names + '[]","total_schools": "allClustersFooter.schools[]"}},"footer": "&"}},{"operation": "modify-overwrite-beta","spec": {"*": {"' + table_names + '": "=intSum(@(1,' + table_names + '))","schools": "=intSum(@(1,schools))"}}}]""",'
+                    qur38 = '"@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "allClustersFooter.students[]","total_schools": "allClustersFooter.schools[]"}},"footer": "&"}},{"operation": "modify-overwrite-beta","spec": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}]""",'
                     transform_cluster_wise = qur34 + qur35 + qur36 + qur37 + qur38
 
                     # raw_cluster_jolt_spec
@@ -438,11 +437,11 @@ def create_parameters_queries():
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur40 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
-                    qur41 = '"@' + table_names + '_count": "data.[&1].' + table_names + '_count","@total_schools": "data.[&1].total_schools","' + table_names + '_count": "footer.@(1,cluster_id).' + table_names + '[]","total_schools": "footer.@(1,cluster_id).schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"footer": {"*": {"' + table_names + '": "=intSum(@(1,' + table_names + '))","schools": "=intSum(@(1,schools))"}}}}, {"operation": "shift","spec": {"data": {"*": {"school_id": "data.[&1].school_id","school_name": "data.[&1].school_name","cluster_id": "data.[&1].cluster_id","cluster_name": "data.[&1].cluster_name","crc_name": "data.[&1].crc_name","district_id": "data.[&1].district_id","district_name": "data.[&1].district_name","block_id": "data.[&1].block_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","school_latitude": "data.[&1].school_latitude","school_longitude": "data.[&1].school_longitude","data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date",'
+                    qur41 = '"@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "footer.@(1,cluster_id).students[]","total_schools": "footer.@(1,cluster_id).schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"footer": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}}, {"operation": "shift","spec": {"data": {"*": {"school_id": "data.[&1].school_id","school_name": "data.[&1].school_name","cluster_id": "data.[&1].cluster_id","cluster_name": "data.[&1].cluster_name","crc_name": "data.[&1].crc_name","district_id": "data.[&1].district_id","district_name": "data.[&1].district_name","block_id": "data.[&1].block_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","school_latitude": "data.[&1].school_latitude","school_longitude": "data.[&1].school_longitude","data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date",'
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur42 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
-                    qur43 = '"@' + table_names + '_count": "data.[&1].' + table_names + '_count","@total_schools": "data.[&1].total_schools","' + table_names + '_count": "allSchoolsFooter.' + table_names + '[]","total_schools": "allSchoolsFooter.schools[]"}},"footer": "&"}}, {"operation": "modify-overwrite-beta","spec": {"*": {"' + table_names + '": "=intSum(@(1,' + table_names + '))","schools": "=intSum(@(1,schools))"}}}]""",'
+                    qur43 = '"@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "allSchoolsFooter.students[]","total_schools": "allSchoolsFooter.schools[]"}},"footer": "&"}}, {"operation": "modify-overwrite-beta","spec": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}]""",'
                     transform_school_wise = qur39 + qur40 + qur41 + qur42 + qur43
 
                     # jolt_spec_block
@@ -466,11 +465,11 @@ def create_parameters_queries():
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur50 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
-                    qur51 = '"@' + table_names + '_count": "data.[&1].' + table_names + '_count","@total_schools": "data.[&1].total_schools","' + table_names + '_count": "footer.@(1,district_id).' + table_names + '[]","total_schools": "footer.@(1,district_id).schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"footer": {"*": {"' + table_names + '": "=intSum(@(1,' + table_names + '))","schools": "=intSum(@(1,schools))"}}}},{"operation": "shift","spec": {"data": {"*": {"block_id": "data.[&1].block_id","district_name": "data.[&1].district_name","district_id": "data.[&1].district_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","block_latitude": "data.[&1].block_latitude","block_longitude": "data.[&1].block_longitude","data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date",'
+                    qur51 = '"@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "footer.@(1,district_id).students[]","total_schools": "footer.@(1,district_id).schools[]"}}},{"operation": "modify-overwrite-beta","spec": {"footer": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}},{"operation": "shift","spec": {"data": {"*": {"block_id": "data.[&1].block_id","district_name": "data.[&1].district_name","district_id": "data.[&1].district_id","block_name": "data.[&1].block_name","percentage": "data.[&1].percentage","block_latitude": "data.[&1].block_latitude","block_longitude": "data.[&1].block_longitude","data_from_date": "data.[&1].data_from_date","data_upto_date": "data.[&1].data_upto_date",'
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur52 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
-                    qur53 = '"@' + table_names + '_count": "data.[&1].' + table_names + '_count","@total_schools": "data.[&1].total_schools","' + table_names + '_count": "allBlocksFooter.' + table_names + '[]","total_schools": "allBlocksFooter.schools[]"}},"footer": "&"}},{"operation": "modify-overwrite-beta","spec": {"*": {"' + table_names + '": "=intSum(@(1,' + table_names + '))","schools": "=intSum(@(1,schools))"}}}]""",'
+                    qur53 = '"@students_count": "data.[&1].students_count","@total_schools": "data.[&1].total_schools","students_count": "allBlocksFooter.students[]","total_schools": "allBlocksFooter.schools[]"}},"footer": "&"}},{"operation": "modify-overwrite-beta","spec": {"*": {"students": "=intSum(@(1,students))","schools": "=intSum(@(1,schools))"}}}]""",'
                     transform_block_wise = qur49 + qur50 + qur51 + qur52 + qur53
 
                     # district_timeseries_jolt_spec
@@ -482,7 +481,7 @@ def create_parameters_queries():
                             qur70 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
 
                     qur71 = '"district_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"district_id":"data.[&1].district_id","district_name":"data.[&1].district_name","percentage":"data.[&1].percentage","district_latitude":"data.[&1].district_latitude","district_longitude":"data.[&1].district_longitude",'
-                    qur72 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allDistrictsFooter.' + table_names + '[]","total_schools":"allDistrictsFooter.schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+                    qur72 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@students_count":"data.[&1].students_count","@total_schools":"data.[&1].total_schools","students_count":"allDistrictsFooter.students[]","total_schools":"allDistrictsFooter.schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"*":{"students":"=intSum(@(1,students))","schools":"=intSum(@(1,schools))"}}}]""",'
 
                     district_timeseries_jolt_spec = qur71 + qur70 + qur72
                     # block_time_series_jolt
@@ -491,8 +490,8 @@ def create_parameters_queries():
                         if sel_col != 'school_id':
                             qur74 += '"' + sel_col + '": "data.[&1].' + sel_col + '",'
                     qur75 = '"block_timeseries_jolt_spec":"""[{"operation":"shift","spec":{"*":{"block_id":"data.[&1].block_id","district_name":"data.[&1].district_name","district_id":"data.[&1].district_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","block_latitude":"data.[&1].block_latitude","block_longitude":"data.[&1].block_longitude",'
-                    qur90 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"footer.@(1,district_id).' + table_names + '[]","total_schools":"footer.@(1,district_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"block_id":"data.[&1].block_id","district_name":"data.[&1].district_name","district_id":"data.[&1].district_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","block_latitude":"data.[&1].block_latitude","block_longitude":"data.[&1].block_longitude",'
-                    qur76 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@' + table_names + '_count":"data.[&1].' + table_names + '_count","@total_schools":"data.[&1].total_schools","' + table_names + '_count":"allBlocksFooter.' + table_names + '[]","total_schools":"allBlocksFooter.schools[]"}},"footer":"&"}},{"operation":"modify-overwrite-beta","spec":{"*":{"' + table_names + '":"=intSum(@(1,' + table_names + '))","schools":"=intSum(@(1,schools))"}}}]""",'
+                    qur90 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@students_count":"data.[&1].students_count","@total_schools":"data.[&1].total_schools","students_count":"footer.@(1,district_id).students[]","total_schools":"footer.@(1,district_id).schools[]"}}},{"operation":"modify-overwrite-beta","spec":{"footer":{"*":{"students":"=intSum(@(1,students))","schools":"=intSum(@(1,schools))"}}}},{"operation":"shift","spec":{"data":{"*":{"block_id":"data.[&1].block_id","district_name":"data.[&1].district_name","district_id":"data.[&1].district_id","block_name":"data.[&1].block_name","percentage":"data.[&1].percentage","block_latitude":"data.[&1].block_latitude","block_longitude":"data.[&1].block_longitude",'
+                    qur76 = '"data_from_date":"data.[&1].data_from_date","data_upto_date":"data.[&1].data_upto_date","@students_count":"data.[&1].students_count","@total_schools":"data.[&1].total_schools","students_count":"allBlocksFooter.students[]","total_schools":"allBlocksFooter.schools[]"}},"footer":"&"}},{"operation":"modify-overwrite-beta","spec":{"*":{"students":"=intSum(@(1,students))","schools":"=intSum(@(1,schools))"}}}]""",'
                     block_time_series_jolt = qur75 + qur74 + qur90 + qur74 + qur76
                     # jolt_for_log_summary
                     qur55 = ''
@@ -558,7 +557,6 @@ def create_table_queries():
     global all_queries
     all_queries = ''
     key = keywords[key_index]
-    print(keywords)
     for row in csv.reader(read_input()):
         if row[0] == key:
             if 'trans' in row[0]:
@@ -574,10 +572,14 @@ def create_table_queries():
                     global table_names
                     table_names = df['table_name'].dropna().to_string(index=False).strip()
                     tmp_columns = df['columns'].dropna().tolist()
+                    global student_id_exists
                     columns = []
                     for col in tmp_columns:
                         x = col.replace(" ", "_")
                         columns.append(x)
+                    for tmp in tmp_columns:
+                        if tmp.lower().replace(' ','_').strip() == 'student_id':
+                            student_id_exists = True
                     data_types = df['data_type']
                     ref_table_df = df['ref_table'].dropna().to_list()
                     ref_col_df = df['ref_column'].dropna()
@@ -882,46 +884,150 @@ def create_dml_timeline_queries():
     cluster_ = ' cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,district_id,district_name'
     block_ = ' block_id,block_name,block_latitude,block_longitude,district_id,district_name'
     district_ = ' district_id,district_name,district_latitude,district_longitude'
-    week = "concat('week_',cast(extract('day' from date_trunc('week'," + date_col + ") -date_trunc('week', date_trunc('month'," + date_col + " ))) / 7 + 1 as integer)::text) as week"
-    daily_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
-    weekly_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'100day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
-    last_30_day_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
-    last_7_day_filter = ' where ' + date_col + " in (select (generate_series(now()::date-'7day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
-    last_day_filter = ' where ' + date_col + " in (select ((now()::date-'1day'::interval)::date) as day) "
+    school_grp = 'school_id,school_name,school_latitude,school_longitude,cluster_id,cluster_name,block_id,block_name,district_id,district_name'
+    cluster_grp = ' cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,district_id,district_name'
+    block_grp = ' block_id,block_name,block_latitude,block_longitude,district_id,district_name'
+    district_grp = ' district_id,district_name,district_latitude,district_longitude'
+    week = "concat('week_',cast(extract('day' from date_trunc('week',a." + date_col + ") -date_trunc('week', date_trunc('month',a." + date_col + " ))) / 7 + 1 as integer)::text) as week"
+    daily_filter = ' where a.' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
+    weekly_filter = ' where a.' + date_col + " in (select (generate_series(now()::date-'100day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
+    last_30_day_filter = ' where a.' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
+    last_7_day_filter = ' where a.' + date_col + " in (select (generate_series(now()::date-'7day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
+    last_day_filter = ' where a.' + date_col + " in (select ((now()::date-'1day'::interval)::date) as day) "
 
+    if student_id_exists is True:
+        school_ =  'cnt.school_id,school_name,school_latitude,school_longitude,cnt.cluster_id,cluster_name,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as student_count'
+        cluster_ = 'cnt.cluster_id,cluster_name,cluster_latitude,cluster_longitude,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as students_count'
+        block_ = 'cnt.block_id,block_name,block_latitude,block_longitude,cnt.district_id,district_name,max(cnt.students_count) as students_count'
+        district_ = ' cnt.district_id,district_name,district_latitude,district_longitude,max(cnt.students_count) as students_count'
+        school_grp = 'cnt.school_id,school_name,school_latitude,school_longitude,cnt.cluster_id,cluster_name,cnt.block_id,block_name,cnt.district_id,district_name'
+        cluster_grp = ' cnt.cluster_id,cluster_name,cluster_latitude,cluster_longitude,cnt.block_id,block_name,cnt.district_id,district_name'
+        block_grp = ' cnt.block_id,block_name,block_latitude,block_longitude,cnt.district_id,district_name'
+        district_grp = ' cnt.district_id,district_name,district_latitude,district_longitude'
+    global to_sql
+    to_sql = '\n'
     global dml_queries
     dml_queries = '[' + '\n'
     filters = ['school', 'cluster', 'block', 'district']
     filter_var = [school_, cluster_, block_, district_]
+    filter_grp = [school_grp,cluster_grp,block_grp,district_grp]
+    school_count = ''
+    school_count_mgmt = ''
     if 'daily' in df_time_sel:
-        for filter, var in zip(filters, filter_var):
-            dml_queries += '{ "' + filter + '_daily":"select ' + week + ',' + var + ',' + date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',' + sel_col_op + ',week"},'
-            dml_queries += '{"' + filter + '_management_daily":"select ' + week + ',' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',week"},'
+        if student_id_exists is True:
+            to_sql += 'create or replace view ' + table_names + '_school_students_count_daily as  select shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,' + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by shd.school_id,cluster_id,block_id,district_id,a.' + date_col+ ';' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_cluster_students_count_daily as  select school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,' + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by cluster_id,block_id,district_id,school_management_type,a.' + date_col + ';' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_block_students_count_daily as  select school_management_type,block_id,district_id,count(distinct student_id) as students_count,' + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by block_id,district_id,school_management_type,a.' + date_col + ';' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_district_students_count_daily as  select school_management_type,district_id,count(distinct student_id) as students_count,' + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by district_id,school_management_type,a.' + date_col + ';' + '\n'
+
+        for filter, var,var_grp in zip(filters, filter_var,filter_grp):
+            if student_id_exists is True:
+                school_count = ' join ' + table_names + '_' + filter + '_students_count_daily as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.' + date_col + '=cnt.' + date_col + ' '
+                school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_daily as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.' + date_col + '=cnt.' + date_col + ' and a.school_management_type=cnt.school_management_type'
+            else:
+                school_count = ''
+                school_count_mgmt = ''
+            dml_queries += '{ "' + filter + '_daily":"select ' + week + ',' + var + ',a.' + date_col + ',count(distinct a.school_id) as total_schools,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a'+ school_count + daily_filter + 'group by ' + var_grp + ',a.' + date_col + ',' + sel_col_op + ',week "},'
+            dml_queries += '{"' + filter + '_management_daily":"select ' + week + ',' + var + ',a.' + date_col + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a' + school_count_mgmt + daily_filter + 'group by ' + var_grp + ',a.' + date_col + ',a.school_management_type,' + sel_col_op + ',week"},'
 
     if 'weekly' in df_time_sel:
-        for filter, var in zip(filters, filter_var):
-            dml_queries += '{"' + filter + '_weekly":"select ' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week' + '"},'
-            dml_queries += '{"' + filter + '_management_weekly":"select ' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type' + '"},'
+        if student_id_exists is True:
+            to_sql += 'create or replace view ' + table_names + '_school_students_count_weekly as  select shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,' + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by shd.school_id,cluster_id,block_id,district_id,week;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_cluster_students_count_weekly as  select school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,' + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by cluster_id,block_id,district_id,school_management_type,week;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_block_students_count_weekly as  select school_management_type,block_id,district_id,count(distinct student_id) as students_count,' + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by block_id,district_id,school_management_type,week;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_district_students_count_weekly as  select school_management_type,district_id,count(distinct student_id) as students_count,' + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by district_id,school_management_type,week ;' + '\n'
+
+        for filter, var, var_grp in zip(filters, filter_var,filter_grp):
+            if student_id_exists is True:
+                week_var = week[:-8]
+                school_count = ' join ' + table_names + '_' + filter + '_students_count_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week '
+                school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week and a.school_management_type=cnt.school_management_type '
+            else:
+                school_count = ''
+                school_count_mgmt = ''
+            dml_queries += '{"' + filter + '_weekly":"select ' + week + ',' + var + ',count(distinct a.school_id) as total_schools,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + weekly_filter + 'group by ' + var_grp + ',' + sel_col_op + ','+ week_var + '"},'
+            dml_queries += '{"' + filter + '_management_weekly":"select ' + week + ',' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a' + school_count_mgmt + weekly_filter + 'group by ' + var_grp + ',' + sel_col_op + ',a.school_management_type,' + week_var +'"},'
 
     if 'year_and_month' in df_time_sel:
-        for filter, var in zip(filters, filter_var):
-            dml_queries += '{"' + filter + '_by_month_year":"select ' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + '"},'
-            dml_queries += '{"' + filter + '_management_by_month_year":"select ' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + ',school_management_type' + '"},'
+        if student_id_exists is True:
+            to_sql += 'create or replace view ' + table_names + '_school_students_count_monthly as  select shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,academic_year(' + date_col + ')as academic_year,trim(TO_CHAR(' + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by shd.school_id,cluster_id,block_id,school_management_type,district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month'));" + '\n'
+            to_sql += 'create or replace view ' + table_names + '_cluster_students_count_monthly as  select school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,academic_year(' + date_col + ')as academic_year,trim(TO_CHAR(' + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by cluster_id,block_id,district_id,academic_year(distribution_date),school_management_type,trim(TO_CHAR(' + date_col + ", 'Month'));" + '\n'
+            to_sql += 'create or replace view ' + table_names + '_block_students_count_monthly as  select school_management_type,block_id,district_id,count(distinct student_id) as students_count,academic_year(' + date_col + ')as academic_year,trim(TO_CHAR(' + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by block_id,district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),school_management_type;" + '\n'
+            to_sql += 'create or replace view ' + table_names + '_district_students_count_monthly as  select school_management_type,district_id,count(distinct student_id) as students_count,academic_year(' + date_col + ')as academic_year,trim(TO_CHAR(' + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),school_management_type;" + '\n'
+        for filter, var,var_grp in zip(filters, filter_var,filter_grp):
+            if student_id_exists is True:
+                school_count = ' join ' + table_names + '_' + filter + '_students_count_monthly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.month=cnt.month and a.academic_year=cnt.academic_year '
+                school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_monthly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.month=cnt.month and a.school_management_type=cnt.school_management_type and a.academic_year = cnt.academic_year '
+            else:
+                school_count = ''
+                school_count_mgmt = ''
+            dml_queries += '{"' + filter + '_by_month_year":"select ' + var + ',count(distinct a.school_id) as total_schools,a.academic_year,a.month,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + 'group by ' + var_grp + ',a.academic_year,a.month"},'
+            dml_queries += '{"' + filter + '_management_by_month_year":"select ' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,a.academic_year,a.month,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + 'group by ' + var_grp + ',' + 'a.academic_year,a.month,a.school_management_type"},'
+  
 
     if 'overall' in df_time_sel:
-        for filter, var in zip(filters, filter_var):
-            dml_queries += '{"' + filter + '_overall":"select ' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + '"},'
-            dml_queries += '{"' + filter + '_management_overall":"select ' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',school_management_type' + '"},'
+        if student_id_exists is True:
+            to_sql += 'create or replace view ' + table_names + '_school_students_count_overall as  select shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by shd.school_id,cluster_id,block_id,school_management_type,district_id;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_cluster_students_count_overall as  select school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by cluster_id,block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_block_students_count_overall as  select school_management_type,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_district_students_count_overall as  select school_management_type,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by district_id,school_management_type;' + '\n'
+        for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+            if student_id_exists is True:
+                school_count = ' join ' + table_names + '_' + filter + '_students_count_overall as cnt on a.' + filter + '_id= cnt.' + filter + '_id  '
+                school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_overall as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type '
+            else:
+                school_count = ''
+                school_count_mgmt = ''
+            dml_queries += '{"' + filter + '_overall":"select ' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + 'group by ' + var_grp + '"},'
+            dml_queries += '{"' + filter + '_management_overall":"select ' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a' + school_count_mgmt + 'group by ' + var_grp + ',a.school_management_type' + '"},'
 
     if 'last_30_days' in df_time_sel:
-        for filter, var in zip(filters, filter_var):
-            dml_queries += '{"' + filter + '_last_30":"select ' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + var + '"},'
-            dml_queries += '{"' + filter + '_management_last_30":"select ' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by ' + var + ',school_management_type' + '"},'
+        if student_id_exists is True:
+            to_sql += 'create or replace view ' + table_names + '_school_students_count_last30 as  select shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_cluster_students_count_last30 as  select school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by cluster_id,block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_block_students_count_last30 as  select school_management_type,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + 'group by block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_district_students_count_last30 as  select school_management_type,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by district_id,school_management_type;' + '\n'
+        for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+            if student_id_exists is True:
+                school_count = ' join ' + table_names + '_' + filter + '_students_count_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id  '
+                school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type '
+            else:
+                school_count = ''
+                school_count_mgmt = ''
+            dml_queries += '{"' + filter + '_last_30":"select ' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_30_day_filter + 'group by ' + var_grp + '"},'
+            dml_queries += '{"' + filter + '_management_last_30":"select ' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_30_day_filter + 'group by ' + var_grp + ',a.school_management_type' + '"},'
 
     if 'last_7_days' in df_time_sel:
-        for filter, var in zip(filters, filter_var):
-            dml_queries += '{"' + filter + '_last_7":"select ' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + var + '"},'
-            dml_queries += '{"' + filter + '_management_last_7":"select ' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by ' + var + ',school_management_type' + '"},'
+        if student_id_exists is True:
+            to_sql += 'create or replace view ' + table_names + '_school_students_count_last7 as  select shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_cluster_students_count_last7 as  select school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by cluster_id,block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_block_students_count_last7 as  select school_management_type,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + 'group by block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_district_students_count_last7 as  select school_management_type,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by district_id,school_management_type;' + '\n'
+        for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+            if student_id_exists is True:
+                school_count = ' join ' + table_names + '_' + filter + '_students_count_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id  '
+                school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type '
+            else:
+                school_count = ''
+                school_count_mgmt = ''
+            dml_queries += '{"' + filter + '_last_7":"select ' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_7_day_filter + 'group by ' + var_grp + '"},'
+            dml_queries += '{"' + filter + '_management_last_7":"select ' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_7_day_filter + 'group by ' + var_grp + ',a.school_management_type' + '"},'
+
+    if 'last_day' in df_time_sel:
+        if student_id_exists is True:
+            to_sql += 'create or replace view ' + table_names + '_school_students_count_last_day as  select shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_cluster_students_count_last_day as  select school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by cluster_id,block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_block_students_count_last_day as  select school_management_type,block_id,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + 'group by block_id,district_id,school_management_type;' + '\n'
+            to_sql += 'create or replace view ' + table_names + '_district_students_count_last_day as  select school_management_type,district_id,count(distinct student_id) as students_count from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by district_id,school_management_type;' + '\n'
+        for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+            if student_id_exists is True:
+                school_count = ' join ' + table_names + '_' + filter + '_students_count_last_day as cnt on a.' + filter + '_id= cnt.' + filter + '_id  '
+                school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_last_day as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type '
+            else:
+                school_count = ''
+                school_count_mgmt = ''
+            dml_queries += '{"' + filter + '_last_day":"select ' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_day_filter + 'group by ' + var_grp + '"},'
+            dml_queries += '{"' + filter + '_management_last_day":"select ' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_day_filter + 'group by ' + var_grp + ',a.school_management_type' + '"},'
 
     if 'last_day' in df_time_sel:
         for filter, var in zip(filters, filter_var):
@@ -931,71 +1037,238 @@ def create_dml_timeline_queries():
     # Grade level queries
     if 'grade' in df_filters_req:
         if 'daily' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{ "' + filter + '_grade_daily":"select grade,' + week + ',' + var + ',' + date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + sel_col_op + ',' + date_col + ',week,grade"},'
-                dml_queries += '{"' + filter + '_management_grade_daily":"select grade,' + week + ',' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_daily as  select concat('Grade_', + grade) as grade,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by shd.school_id,cluster_id,block_id,district_id,a.' + date_col + ',grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_daily as  select concat('Grade_', + grade) as grade,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by cluster_id,block_id,district_id,school_management_type,a.' + date_col + ',grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_daily as  select concat('Grade_', + grade) as grade,school_management_type,block_id,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by block_id,district_id,school_management_type,a.' + date_col + ',grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_daily as  select concat('Grade_', + grade) as grade,school_management_type,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by district_id,school_management_type,a.' + date_col + ',grade;' + '\n'
+
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_daily as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.' + date_col + '=cnt.' + date_col + ' and a.grade = cnt.grade '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_daily as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.' + date_col + '=cnt.' + date_col + ' and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade'
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{ "' + filter + '_grade_daily":"select a.grade,' + week + ',count(distinct a.school_id) as total_schools,' + var + ',a.' + date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + daily_filter + 'group by ' + var_grp + ',' + sel_col_op + ',a.' + date_col + ',week,a.grade"},'
+                dml_queries += '{"' + filter + '_management_grade_daily":"select a.grade,' + week + ',count(distinct a.school_id) as total_schools,' + var + ',a.' + date_col + ',a.school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + daily_filter + 'group by ' + var_grp + ',a.' + date_col + ',a.school_management_type,' + sel_col_op + ',week,a.grade"},'
 
         if 'weekly' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_weekly":"select grade,' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,grade' + '"},'
-                dml_queries += '{"' + filter + '_management_grade_weekly":"select grade,' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type,grade' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_weekly as  select concat('Grade_', + grade) as grade,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id  ' + weekly_filter + ' group by shd.school_id,cluster_id,block_id,district_id,week,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_weekly as  select concat('Grade_', + grade) as grade,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by cluster_id,block_id,district_id,school_management_type,week,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_weekly as  select concat('Grade_', + grade) as grade,school_management_type,block_id,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by block_id,district_id,school_management_type,week,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_weekly as  select concat('Grade_', + grade) as grade,school_management_type,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by district_id,school_management_type,week,grade ;' + '\n'
+
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    week_var = week[:-8]
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week and a.grade=cnt.grade '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week and a.school_management_type=cnt.school_management_type and a.grade = cnt.grade'
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_weekly":"select a.grade,' + week + ',count(distinct a.school_id) as total_schools,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + weekly_filter + 'group by ' + var_grp + ',' + sel_col_op  +',a.grade,' + week_var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_weekly":"select a.grade,' + week + ',count(distinct a.school_id) as total_schools,' + var + ',a.school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + weekly_filter + 'group by ' + var_grp + ',' + sel_col_op + ',week,a.school_management_type,a.grade,' + week_var +'"},'
 
         if 'year_and_month' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_by_month_year":"select grade,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',grade,' + sel_col_op + '"},'
-                dml_queries += '{"' + filter + '_management_grade_by_month_year":"select grade,' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',' + sel_col_op + ',school_management_type,grade' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_monthly as  select concat('Grade_', + grade) as grade,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by shd.school_id,cluster_id,block_id,school_management_type,district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),grade;" + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_monthly as  select concat('Grade_', + grade) as grade,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by cluster_id,block_id,district_id,academic_year(distribution_date),school_management_type,trim(TO_CHAR(' + date_col + ", 'Month')),grade;" + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_monthly as  select concat('Grade_', + grade) as grade,school_management_type,block_id,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by block_id,district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),school_management_type,grade;" + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_monthly as  select concat('Grade_', + grade) as grade,school_management_type,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),school_management_type,grade;" + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_monthly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.month=cnt.month and a.academic_year=cnt.academic_year and a.grade = cnt.grade '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_monthly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.month=cnt.month and a.school_management_type=cnt.school_management_type and a.academic_year = cnt.academic_year and a.grade = cnt.grade '
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_by_month_year":"select a.grade,a.academic_year,a.month,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + 'group by ' + var_grp + ',a.grade,a.academic_year,a.month' + '"},'
+                dml_queries += '{"' + filter + '_management_grade_by_month_year":"select a.grade,a.academic_year,a.month,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' +school_count_mgmt + 'group by ' + var_grp  + ',a.school_management_type,a.grade,a.academic_year,a.month' + '"},'
 
         if 'overall' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_overall":"select grade,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_overall":"select grade,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',school_management_type,grade' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_overall as  select concat('Grade_', + grade) as grade,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_overall as  select concat('Grade_', + grade) as grade,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by cluster_id,block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_overall as  select concat('Grade_', + grade) as grade,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_overall as  select concat('Grade_', + grade) as grade,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by district_id,school_management_type,grade;' + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_overall as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_overall as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade = cnt.grade '
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_overall":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a' + school_count + 'group by a.grade,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_overall":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a' + school_count_mgmt + 'group by ' + var_grp + ',a.school_management_type,a.grade' + '"},'
 
         if 'last_30_days' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_last_30":"select grade,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_last_30":"select grade,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade, ' + var + ',school_management_type' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_last30 as  select concat('Grade_', + grade) as grade,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_last30 as  select concat('Grade_', + grade) as grade,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by cluster_id,block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_last30 as  select concat('Grade_', + grade) as grade,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + 'group by block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_last30 as  select concat('Grade_', + grade) as grade,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by district_id,school_management_type,grade;' + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade'
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade'
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_last_30":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_30_day_filter + 'group by a.grade,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_last_30":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_30_day_filter + 'group by a.grade, ' + var_grp + ',a.school_management_type' + '"},'
 
         if 'last_7_days' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_last_7":"select grade,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_last_7":"select grade,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,' + var + ',school_management_type' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_last7 as  select concat('Grade_', + grade) as grade,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_last7 as  select concat('Grade_', + grade) as grade,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by cluster_id,block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_last7 as  select concat('Grade_', + grade) as grade,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + 'group by block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_last7 as  select concat('Grade_', + grade) as grade,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by district_id,school_management_type,grade;' + '\n'
+
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_last7 as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade'
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_last7 as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade'
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_last_7":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_7_day_filter + 'group by a.grade,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_last_7":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_7_day_filter + 'group by a.grade, ' + var_grp + ',a.school_management_type' + '"},'
 
         if 'last_day' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_last_day":"select grade,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_last_day":"select grade,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,' + var + ',school_management_type' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_last_day as  select concat('Grade_', + grade) as grade,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_last_day as  select concat('Grade_', + grade) as grade,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by cluster_id,block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_last_day as  select concat('Grade_', + grade) as grade,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + 'group by block_id,district_id,school_management_type,grade;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_last_day as  select concat('Grade_', + grade) as grade,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by district_id,school_management_type,grade;' + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_last_day as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade'
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_last_day as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade'
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_last_day":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_day_filter + 'group by a.grade,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_last_day":"select a.grade,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_day_filter + 'group by a.grade, ' + var_grp + ',a.school_management_type' + '"},'
 
     # Grade and Subject level queries
     if 'subject' in df_filters_req:
         if 'daily' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{ "' + filter + '_grade_subject_daily":"select grade,subject,' + week + ',' + var + ',' + date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + sel_col_op + ',' + date_col + ',week,grade,subject"},'
-                dml_queries += '{"' + filter + '_management_grade_subject_daily":"select grade,subject,' + week + ',' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + daily_filter + 'group by ' + var + ',' + date_col + ',school_management_type,' + sel_col_op + ',week,grade,subject"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_sub_daily as  select concat('Grade_', + grade) as grade,subject,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by shd.school_id,cluster_id,block_id,district_id,a.' + date_col + ',grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_sub_daily as  select concat('Grade_', + grade) as grade,subject,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by cluster_id,block_id,district_id,school_management_type,a.' + date_col + ',grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_sub_daily as  select concat('Grade_', + grade) as grade,subject,school_management_type,block_id,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by block_id,district_id,school_management_type,a.' + date_col + ',grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_sub_daily as  select concat('Grade_', + grade) as grade,subject,school_management_type,district_id,count(distinct student_id) as students_count," + date_col + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + daily_filter + ' group by district_id,school_management_type,a.' + date_col + ',grade,subject;' + '\n'
+
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_daily as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.' + date_col + '=cnt.' + date_col + ' and a.grade = cnt.grade  and a.subject = cnt.subject '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_daily as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.' + date_col + '=cnt.' + date_col + ' and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade and a.subject = cnt.subject '
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{ "' + filter + '_grade_subject_daily":"select a.grade,a.subject,' + week + ',count(distinct a.school_id) as total_schools,' + var + ',a.' + date_col + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + daily_filter + 'group by ' + var_grp + ',' + sel_col_op + ',a.' + date_col + ',week,a.grade,a.subject"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_daily":"select a.grade,a.subject,' + week + ',count(distinct a.school_id) as total_schools,' + var + ',a.' + date_col + ',a.school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + daily_filter + 'group by ' + var_grp + ',a.' + date_col + ',a.school_management_type,' + sel_col_op + ',week,a.grade,a.subject"},'
 
         if 'weekly' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_subject_weekly":"select grade,subject,' + week + ',' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,grade,subject' + '"},'
-                dml_queries += '{"' + filter + '_management_grade_subject_weekly":"select grade,subject,' + week + ',' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + weekly_filter + 'group by ' + var + ',' + sel_col_op + ',week,school_management_type,grade,subject' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_sub_weekly as  select concat('Grade_', + grade) as grade,subject,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id  ' + weekly_filter + ' group by shd.school_id,cluster_id,block_id,district_id,week,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_sub_weekly as  select concat('Grade_', + grade) as grade,subject,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by cluster_id,block_id,district_id,school_management_type,week,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_sub_weekly as  select concat('Grade_', + grade) as grade,subject,school_management_type,block_id,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by block_id,district_id,school_management_type,week,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_sub_weekly as  select concat('Grade_', + grade) as grade,subject,school_management_type,district_id,count(distinct student_id) as students_count," + week + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + weekly_filter + ' group by district_id,school_management_type,week,grade,subject;' + '\n'
+
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    week_var = week[:-8]
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week and a.grade=cnt.grade and a.subject = cnt.subject'
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week and a.school_management_type=cnt.school_management_type and a.grade = cnt.grade and a.subject = cnt.subject '
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_subject_weekly":"select a.grade,a.subject, '+ week + ',count(distinct a.school_id) as total_schools,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + weekly_filter + 'group by ' + var_grp + ',' + sel_col_op  +',a.grade,a.subject,' + week_var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_weekly":"select a.grade,a.subject,' + week + ',count(distinct a.school_id) as total_schools,' + var + ',a.school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + weekly_filter + 'group by ' + var_grp + ',' + sel_col_op + ',week,a.school_management_type,a.grade,a.subject,' + week_var +'"},'
 
         if 'year_and_month' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_subject_by_month_year":"select grade,subject,' + var + ',' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',grade,subject,' + sel_col_op + '"},'
-                dml_queries += '{"' + filter + '_management_grade_subject_by_month_year":"select grade,subject,' + var + ',school_management_type,' + sel_col_op + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by subject,' + var + ',' + sel_col_op + ',school_management_type,grade' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_sub_monthly as  select concat('Grade_', + grade) as grade,subject,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by shd.school_id,cluster_id,block_id,school_management_type,district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),grade,a.subject;" + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_sub_monthly as  select concat('Grade_', + grade) as grade,subject,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by cluster_id,block_id,district_id,academic_year(distribution_date),school_management_type,trim(TO_CHAR(' + date_col + ", 'Month')),grade,a.subject;" + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_sub_monthly as  select concat('Grade_', + grade) as grade,subject,school_management_type,block_id,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by block_id,district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),school_management_type,grade,a.subject;" + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_sub_monthly as  select concat('Grade_', + grade) as grade,subject,school_management_type,district_id,count(distinct student_id) as students_count,academic_year(" + date_col + ")as academic_year,trim(TO_CHAR(" + date_col + ", 'Month')) AS month " + ' from ' + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by district_id,academic_year(distribution_date),trim(TO_CHAR(' + date_col + ", 'Month')),school_management_type,grade,a.subject;" + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_monthly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.month=cnt.month and a.academic_year=cnt.academic_year and a.grade = cnt.grade and a.subject = cnt.subject'
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_monthly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.month=cnt.month and a.school_management_type=cnt.school_management_type and a.academic_year = cnt.academic_year and a.grade = cnt.grade and a.subject=cnt.subject'
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_subject_by_month_year":"select a.grade,a.subject,a.academic_year,a.month,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + 'group by ' + var_grp + ',a.grade,a.academic_year,a.month,a.subject' + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_by_month_year":"select a.grade,a.subject,a.academic_year,a.month,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' +school_count_mgmt + 'group by ' + var_grp  + ',a.school_management_type,a.grade,a.academic_year,a.month,a.subject' + '"},'
 
         if 'overall' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_subject_overall":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by grade,subject,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_subject_overall":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + 'group by ' + var + ',school_management_type,grade,subject' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_sub_overall as  select concat('Grade_', + grade) as grade,subject,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_sub_overall as  select concat('Grade_', + grade) as grade,subject,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by cluster_id,block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_sub_overall as  select concat('Grade_', + grade) as grade,subject,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_sub_overall as  select concat('Grade_', + grade) as grade,subject,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id group by district_id,school_management_type,grade,subject;' + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_overall as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade and a.subject = cnt.subject '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_overall as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade = cnt.grade and a.subject = cnt.subject '
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_subject_overall":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a' + school_count + 'group by a.grade,a.subject,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_overall":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a' + school_count_mgmt + 'group by ' + var_grp + ',a.school_management_type,a.grade,a.subject' + '"},'
 
         if 'last_30_days' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_subject_last_30":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_subject_last_30":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_30_day_filter + 'group by grade,subject, ' + var + ',school_management_type' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_sub_last30 as  select concat('Grade_', + grade) as grade,subject,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_sub_last30 as  select concat('Grade_', + grade) as grade,subject,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by cluster_id,block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_sub_last30 as  select concat('Grade_', + grade) as grade,subject,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + 'group by block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_sub_last30 as  select concat('Grade_', + grade) as grade,subject,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_30_day_filter + ' group by district_id,school_management_type,grade,subject;' + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade and a.subject = cnt.subject '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_last30 as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade and a.subject = cnt.subject '
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_subject_last_30":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_30_day_filter + 'group by a.grade,a.subject,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_last_30":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_30_day_filter + 'group by a.grade,a.subject, ' + var_grp + ',a.school_management_type' + '"},'
 
         if 'last_7_days' in df_time_sel:
-            for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_subject_last_7":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_subject_last_7":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_7_day_filter + 'group by grade,subject,' + var + ',school_management_type' + '"},'
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_sub_last7 as  select concat('Grade_', + grade) as grade,subject,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_sub_last7 as  select concat('Grade_', + grade) as grade,subject,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by cluster_id,block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_sub_last7 as  select concat('Grade_', + grade) as grade,subject,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + 'group by block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_sub_last7 as  select concat('Grade_', + grade) as grade,subject,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_7_day_filter + ' group by district_id,school_management_type,grade,subject;' + '\n'
+
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_last7 as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade'
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_last7 as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade'
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_subject_last_7":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_7_day_filter + 'group by a.grade,a.subject,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_last_7":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_7_day_filter + 'group by a.grade, ' + var_grp + ',a.school_management_type,a.subject' + '"},'
+
+        if 'last_day' in df_time_sel:
+            if student_id_exists is True:
+                to_sql += 'create or replace view ' + table_names + "_school_students_count_grade_sub_last_day as  select concat('Grade_', + grade) as grade,subject,shd.school_id,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by shd.school_id,cluster_id,block_id,school_management_type,district_id,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_cluster_students_count_grade_sub_last_day as  select concat('Grade_', + grade) as grade,subject,school_management_type,cluster_id,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by cluster_id,block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_block_students_count_grade_sub_last_day as  select concat('Grade_', + grade) as grade,subject,school_management_type,block_id,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + 'group by block_id,district_id,school_management_type,grade,subject;' + '\n'
+                to_sql += 'create or replace view ' + table_names + "_district_students_count_grade_sub_last_day as  select concat('Grade_', + grade) as grade,subject,school_management_type,district_id,count(distinct student_id) as students_count from " + table_names + '_trans a  join school_hierarchy_details shd on a.school_id= shd.school_id ' + last_day_filter + ' group by district_id,school_management_type,grade,subject;' + '\n'
+            for filter, var, var_grp in zip(filters, filter_var, filter_grp):
+                if student_id_exists is True:
+                    school_count = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_last_day as cnt on a.' + filter + '_id= cnt.' + filter + '_id  and a.grade=cnt.grade and a.subject=cnt.subject '
+                    school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_grade_sub_last_day as cnt on a.' + filter + '_id= cnt.' + filter + '_id and a.school_management_type=cnt.school_management_type and a.grade=cnt.grade and a.subject = cnt.subject '
+                else:
+                    school_count = ''
+                    school_count_mgmt = ''
+                dml_queries += '{"' + filter + '_grade_subject_last_day":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_day_filter + 'group by a.grade,a.subject,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_last_day":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_day_filter + 'group by a.grade, ' + var_grp + ',a.school_management_type,a.subject' + '"},'
 
         if 'last_day' in df_time_sel:
             for filter, var in zip(filters, filter_var):
@@ -1041,6 +1314,7 @@ def write_files():
     global query_file, all_queries
     query_file = open((path + '/{}.sql'.format(file_name_sql)), 'w')
     all_queries += alter_log_summary
+    all_queries += to_sql
     query_file.write(all_queries)
     query_file.close()
     to_insert_json_ = json.loads(to_insert_json, strict=False)

@@ -68,31 +68,6 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
-                    <id>1a818c15-cf29-3844-0000-000000000000</id>
-                    <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
-                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-                    <destination>
-                        <groupId>6e80967d-20f7-32f1-0000-000000000000</groupId>
-                        <id>74034ab9-ced5-3e68-0000-000000000000</id>
-                        <type>OUTPUT_PORT</type>
-                    </destination>
-                    <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
-                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
-                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
-                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
-                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
-                    <name></name>
-                    <selectedRelationships>config</selectedRelationships>
-                    <source>
-                        <groupId>6e80967d-20f7-32f1-0000-000000000000</groupId>
-                        <id>66a56d55-3d3c-322d-0000-000000000000</id>
-                        <type>PROCESSOR</type>
-                    </source>
-                    <zIndex>0</zIndex>
-                </connections>
-                <connections>
                     <id>26cc8da1-ed6b-3c19-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -163,6 +138,31 @@
                         <groupId>6e80967d-20f7-32f1-0000-000000000000</groupId>
                         <id>5702648e-a944-3889-0000-000000000000</id>
                         <type>INPUT_PORT</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>7c245fcf-de11-37c1-0000-000000000000</id>
+                    <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>6e80967d-20f7-32f1-0000-000000000000</groupId>
+                        <id>74034ab9-ced5-3e68-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>config</selectedRelationships>
+                    <source>
+                        <groupId>6e80967d-20f7-32f1-0000-000000000000</groupId>
+                        <id>66a56d55-3d3c-322d-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -854,8 +854,8 @@
                     <id>5702648e-a944-3889-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-14032.0</x>
-                        <y>664.0</y>
+                        <x>-13680.0</x>
+                        <y>224.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -888,8 +888,8 @@
                     <id>1246cdc1-facc-381c-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-14800.0</x>
-                        <y>728.0</y>
+                        <x>-14448.0</x>
+                        <y>288.0</y>
                     </position>
                     <height>40.0</height>
                     <label>Creating the configure directory and calling the python code
@@ -961,8 +961,8 @@
                     <id>bc3248da-9f10-3042-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13344.0</x>
-                        <y>1248.0</y>
+                        <x>-12992.0</x>
+                        <y>808.0</y>
                     </position>
                     <comments></comments>
                     <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
@@ -974,8 +974,8 @@
                     <id>15857762-4131-3abc-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-13952.0</x>
-                        <y>1048.0</y>
+                        <x>-13600.0</x>
+                        <y>608.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -1128,8 +1128,8 @@
                     <id>3462a120-e8d2-3ab9-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-15248.0</x>
-                        <y>832.0</y>
+                        <x>-14896.0</x>
+                        <y>392.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -1174,7 +1174,7 @@
                             </entry>
                             <entry>
 <key>log-message</key>
-<value>Error while storing file=${filename} into #{base_dir}/cqube/nifi/diksha_enrolment</value>
+<value>Error while storing file=${filename} into #{base_dir}/cqube/nifi/</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -1196,8 +1196,8 @@
                     <id>622cb55f-e393-3de5-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-15248.0</x>
-                        <y>1056.0</y>
+                        <x>-14896.0</x>
+                        <y>616.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -1264,8 +1264,8 @@
                     <id>6539331f-50c8-3b43-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-14608.0</x>
-                        <y>1288.0</y>
+                        <x>-14256.0</x>
+                        <y>848.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -2082,8 +2082,8 @@
                     <id>d3422559-c61e-3a4b-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-14600.0</x>
-                        <y>1064.0</y>
+                        <x>-14248.0</x>
+                        <y>624.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -2207,8 +2207,8 @@
                     <id>e07eb60f-371a-3e0f-0000-000000000000</id>
                     <parentGroupId>6e80967d-20f7-32f1-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-14608.0</x>
-                        <y>832.0</y>
+                        <x>-14256.0</x>
+                        <y>392.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -2327,5 +2327,5 @@
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/15/2022 16:09:07 IST</timestamp>
+    <timestamp>07/19/2022 19:30:54 IST</timestamp>
 </template>
