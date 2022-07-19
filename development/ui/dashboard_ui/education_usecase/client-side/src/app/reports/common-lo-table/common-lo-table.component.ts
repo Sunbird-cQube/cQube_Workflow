@@ -348,7 +348,7 @@ export class CommonLoTableComponent implements OnInit {
     let weekSelct = this.weekSeletced
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
-   
+
     $(document).ready(function () {
       var headers = "<thead><tr>";
       var body = "<tbody>";
@@ -412,7 +412,7 @@ export class CommonLoTableComponent implements OnInit {
 
       const min = Math.min(...Arr1);
       const max = Math.max(...Arr1);
-     
+
       function generateArrayMinMax(min, max, n) {
         let list = [min],
           interval = (max - min) / (n - 1);
@@ -458,8 +458,9 @@ export class CommonLoTableComponent implements OnInit {
         if (weekSelct === true) {
           body += "<tr>";
           columns.forEach((column, i2) => {
+
             if (i2 > 2 && column.value || i2 > 2 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value} <br/> Subject: ${column[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
+              let title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
 
             }
@@ -479,10 +480,11 @@ export class CommonLoTableComponent implements OnInit {
         } else {
           body += "<tr>";
           columns.forEach((column, i2) => {
+          
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
               let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
-           
+
             }
             else {
 
@@ -570,7 +572,7 @@ export class CommonLoTableComponent implements OnInit {
     this.hideWeek = this.period === "year and month" ? false : true;
     this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-   
+
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -1215,17 +1217,6 @@ export class CommonLoTableComponent implements OnInit {
   ];
 
   public values = []
-  // public values = [
-  //   "0-10",
-  //   "11-20",
-  //   "21-30",
-  //   "31-40",
-  //   "41-50",
-  //   "51-60",
-  //   "61-70",
-  //   "71-80",
-  //   "81-90",
-  //   "91-100"
-  // ];
+
 
 }

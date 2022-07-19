@@ -11,6 +11,7 @@ import { LoginService } from '../../services/login.service'
 import { TelemetryService } from 'src/app/services/telemetry.service';
 import { dynamicReportService } from 'src/app/services/dynamic-report.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -58,6 +59,7 @@ export class HomeComponent implements OnInit {
   diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
   ngOnInit() {
+
     this.toggleTheme('defaultTheme');
     this.email = localStorage.getItem('userName');
     this.email = this.email.charAt(0).toUpperCase() + this.email.substr(1).toLowerCase();
@@ -73,7 +75,8 @@ export class HomeComponent implements OnInit {
     } else {
       this.showBackBtn = false;
     }
-     this.fetchConfigProperty()
+    this.fetchConfigProperty()
+
   }
 
   onClickToggleMenu() {
@@ -108,6 +111,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+ 
   logout() {
     if (environment.auth_api === 'cqube') {
       localStorage.clear();
@@ -138,9 +142,14 @@ export class HomeComponent implements OnInit {
 
   }
 
-  fetchConfigProperty(){
+  fetchConfigProperty() {
     this.configServic.configurableProperty().subscribe(res => {
+      if (res['data']) {
+        document.getElementById('spinner').style.display = "none"
+      }
+
       this.menuList = res['data']
+
     })
   }
 

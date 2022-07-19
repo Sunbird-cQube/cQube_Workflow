@@ -121,7 +121,8 @@
                   </ng-container>
                 </ng-container>
                 <ng-template #parentMenu let-menu="menu">
-                  <mat-list-item (click)="closeSidebar();" [routerLink]="['/dashboard',menu.routerLink]" class="single-line">
+                  <mat-list-item (click)="closeSidebar();"
+                    [routerLink]="['/dashboard',menu.routerLink]" class="single-line">
                     <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
                       <img class="cubeImg" src="assets/images/menu-icon.svg" alt="">
                       <span id="exceptList" class="groups">{{menu.report_name}}</span>
@@ -184,4 +185,8 @@
       </mat-sidenav-content>
     </mat-sidenav-container>
   </div>
+</div>
+
+<div id="spinner" style="display: none;">
+  <div id="loader" class="loading">Loading&#8230;</div>
 </div>
