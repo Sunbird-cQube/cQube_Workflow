@@ -8,7 +8,6 @@ from update_nifi_parameters_main import get_parameter_context, update_parameter
 import ast
 
 
-# print(config_create_table_params.create_parameters_queries())
 
 def get_nifi_root_pg():
     """ Fetch nifi root processor group ID"""
@@ -142,9 +141,7 @@ if __name__ == '__main__':
     conf_key2 = "putsql-sql-statement"
     conf_key3 = "filename"
     conf_key4 = "Object Key"
-    conf_value = '${' + 'filename:startsWith("{0}"):or('.format(
-        filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(
-        filename) + ':or(${path:startsWith("configure_datasource/"):not():or(${s3:startsWith("configure_datasource/"):not():or(${azure.blobname:startsWith("configure_datasource/"):not()})})})})}'
+    conf_value = '${' + 'filename:startsWith("{0}"):or('.format(filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename)+'})}'
     conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) + ':and(${path:startsWith("config"):or(${filename:startsWith("config"):or(${azure.blobname:startsWith("config")})}):not()})}'
     conf_value7 = '${' + "emission_filename:startsWith('{0}')".format(filename) + '}'
     conf_value2 = "select distinct year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
