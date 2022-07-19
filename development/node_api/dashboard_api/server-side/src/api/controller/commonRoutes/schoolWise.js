@@ -103,6 +103,13 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         }
 
         let data = await s3File.readFileConfig(fileName);
+        if (clusterId) {
+            footer = data['footer']
+            footer = footer[clusterId.toString()]
+        } else {
+            footer = data['allDistrictsFooter']
+        }
+
         data = data['data']
 
         if (schoolLevel) {
@@ -165,7 +172,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 lat, long,
                 ...rest
             }));
-            res.status(200).send({ data, schoolDetails })
+            res.status(200).send({ data, schoolDetails, footer })
         }
 
         if (reportType == "loTable") {

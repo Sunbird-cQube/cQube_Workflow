@@ -145,11 +145,15 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
             }
         }
-      
 
+        
         let data = await s3File.readFileConfig(fileName);
 
+        let footer = data['allDistrictsFooter']
+    
         data = data['data']
+
+        
         let districtDetails = data.map(e => {
             return {
                 district_id: e.district_id,
@@ -282,7 +286,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 lat, long,
                 ...rest
             }));
-            res.status(200).send({ data, districtDetails });
+            res.status(200).send({ data, districtDetails, footer });
         }
     } catch (e) {
         logger.error(`Error:: ${e} `)
