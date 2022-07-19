@@ -154,7 +154,7 @@
                         <option [value]="districtId" disabled selected="selected">
                             Choose a District
                         </option>
-                        <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
+                        <option *ngFor="let dist of districtDropDown" [(ngValue)]="dist.district_id">
                             {{ dist.district_name | titlecase}}
                         </option>
 
