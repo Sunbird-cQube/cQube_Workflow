@@ -11,7 +11,7 @@ const path = require('path');
 router.get('/', async function (req, res) {
     try {
         logger.info('---list new dataSource api ---');
-         let csvFilePath = `${process.env.BASE_DIR}/cqube/emission_app/python/postgres/`;
+        let csvFilePath = `${process.env.BASE_DIR}/cqube/emission_app/python/postgres/`;
         let jsonArray = [];
         // read directory
         fs.readdir(csvFilePath, (error, fileNames) => {

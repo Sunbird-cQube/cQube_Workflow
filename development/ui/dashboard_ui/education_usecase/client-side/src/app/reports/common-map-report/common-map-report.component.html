@@ -136,15 +136,16 @@
                             <ng-template #other_content> {{subjects[i]}}</ng-template>
                         </option>
                     </select>
-                    <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn" (click)="blockWise()">
+                    <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn"
+                        [disabled]="hideAllBlockBtn" (click)="blockWise()">
                         &nbsp;<strong>Blocks</strong>
                     </button>
                     <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn"
-                        (click)="clusterWise() ">
+                        [disabled]="hideAllCLusterBtn" (click)="clusterWise() ">
                         &nbsp;<strong>Clusters</strong>
                     </button>
                     <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn"
-                        (click)="schoolWise()">
+                        [disabled]="hideAllSchoolBtn" (click)="schoolWise()">
                         &nbsp;<strong>Schools</strong>
                     </button>
 
@@ -153,7 +154,7 @@
                         <option [value]="districtId" disabled selected="selected">
                             Choose a District
                         </option>
-                        <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
+                        <option *ngFor="let dist of districtDropDown" [(ngValue)]="dist.district_id">
                             {{ dist.district_name | titlecase}}
                         </option>
 

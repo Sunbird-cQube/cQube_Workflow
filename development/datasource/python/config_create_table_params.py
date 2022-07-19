@@ -548,6 +548,7 @@ def create_parameters_queries():
         else:
             mycsv.append(row)
 
+
 def create_table_queries():
     input_df = pd.read_csv(read_input())
     keywords = input_df['keywords'].dropna().tolist()
@@ -962,6 +963,7 @@ def create_dml_timeline_queries():
                 school_count_mgmt = ''
             dml_queries += '{"' + filter + '_by_month_year":"select ' + var + ',count(distinct a.school_id) as total_schools,a.academic_year,a.month,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + 'group by ' + var_grp + ',a.academic_year,a.month"},'
             dml_queries += '{"' + filter + '_management_by_month_year":"select ' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,a.academic_year,a.month,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + 'group by ' + var_grp + ',' + 'a.academic_year,a.month,a.school_management_type"},'
+  
 
     if 'overall' in df_time_sel:
         if student_id_exists is True:
@@ -1026,6 +1028,11 @@ def create_dml_timeline_queries():
                 school_count_mgmt = ''
             dml_queries += '{"' + filter + '_last_day":"select ' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_day_filter + 'group by ' + var_grp + '"},'
             dml_queries += '{"' + filter + '_management_last_day":"select ' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_day_filter + 'group by ' + var_grp + ',a.school_management_type' + '"},'
+
+    if 'last_day' in df_time_sel:
+        for filter, var in zip(filters, filter_var):
+            dml_queries += '{"' + filter + '_last_day":"select ' + var + ',count(distinct school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by ' + var + '"},'
+            dml_queries += '{"' + filter + '_management_last_day":"select ' + var + ',count(distinct school_id) as total_schools,school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by ' + var + ',school_management_type' + '"},'
 
     # Grade level queries
     if 'grade' in df_filters_req:
@@ -1263,6 +1270,11 @@ def create_dml_timeline_queries():
                 dml_queries += '{"' + filter + '_grade_subject_last_day":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count + last_day_filter + 'group by a.grade,a.subject,' + var_grp + '"},'
                 dml_queries += '{"' + filter + '_management_grade_subject_last_day":"select a.grade,a.subject,' + var + ',count(distinct a.school_id) as total_schools,a.school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation as a ' + school_count_mgmt + last_day_filter + 'group by a.grade, ' + var_grp + ',a.school_management_type,a.subject' + '"},'
 
+        if 'last_day' in df_time_sel:
+            for filter, var in zip(filters, filter_var):
+                dml_queries += '{"' + filter + '_grade_subject_last_day":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,subject,' + var + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_last_day":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,subject,' + var + ',school_management_type' + '"},'
+
         if 'grade' in df_filters_req and 'subject' in df_filters_req:
             dml_queries += '{"meta":"select grade.academic_year,json_agg(json_build_object(' + "'grades',grades,'months',months)) as data from (select academic_year,json_agg(json_build_object('grade',grade,'subjects',subjects)) as grades from (select academic_year,grade,json_agg(subject) as subjects from (select  distinct academic_year(" + date_col + ") as academic_year,grade,subject from " + table_names + "_aggregation) as a group by academic_year,grade) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('months',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from  (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col + ") -date_trunc('week', date_trunc('month', " + date_col + " ))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation ' + ') as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
         elif 'grade' in df_filters_req:
@@ -1280,7 +1292,6 @@ def execute_sql():
         data = yaml.load(f, Loader=SafeLoader)
         db_user = 'postgres'
         db_name = data['db_name']
-    #        db_password = data['db_password']
 
     # establishing the connection
     conn = psycopg2.connect(

@@ -8,22 +8,29 @@ router.post('/distWise', auth.authController, async (req, res) => {
         logger.info('---common table distWise api ---');
 
         let { year, grade, dataSource, month, week, subject_name, exam_date, period, management, category, reportType } = req.body
-    
+
         let fileName
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-                
                     fileName = `${dataSource}/overall/district_subject_footer.json`;
                 } else if (period == "last 30 days") {
-             
+
                     fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
                 } else if (period == "last 7 days") {
-                 
+
                     fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                } else if (period == "last 7 days") {
+
+                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                } else if (period == "last day") {
+
+                    fileName = `${dataSource}/last_day/district_subject_footer.json`;
                 } else if (period == "year and month") {
-               
+
                     if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                    } if (month && !week && !exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
@@ -36,7 +43,37 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     }
                 }
             } else {
+                if (management == "govt" && period == "overall") {
 
+                    fileName = `${dataSource}/school_management_category/overall/${management}/district_subject_footer.json`;
+                } else if (period == "last 30 days") {
+
+                    fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
+                } else if (period == "last 7 days") {
+
+                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                } else if (period == "last 7 days") {
+
+                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                } else if (period == "last day") {
+
+                    fileName = `${dataSource}/last_day/district_subject_footer.json`;
+                } else if (period == "year and month") {
+
+                    if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                    } if (month && !week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                    } else if ((month && week && !exam_date && !grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                    } else if ((month && week && exam_date && !grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                    } else if ((month && week && exam_date && grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district/${grade}.json`
+                    } else if ((month && week && exam_date && grade && subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                    }
+                }
             }
         } else {
 
@@ -45,7 +82,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/overall/district/${grade}.json`;
                     } else if (grade && subject_name) {
-                       
+
                         fileName = `${dataSource}/overall/district_subject_footer.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/overall/district.json`;
@@ -54,7 +91,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/district/${grade}.json`;
                     } else if (grade && subject_name) {
-                       
+
                         fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/district.json`;
@@ -63,21 +100,36 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/district/${grade}.json`;
                     } else if (grade && subject_name) {
-                       
+
                         fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/district.json`;
                     }
+                } else if (period === "last day") {
+                    if (grade && !subject_name) {
+                        fileName = `${dataSource}/last_day/district/${grade}.json`;
+                    } else if (grade && subject_name) {
+
+                        fileName = `${dataSource}/last_day/district_subject_footer.json`;
+                    } else if (!grade && !subject_name) {
+                        fileName = `${dataSource}/last_day/district.json`;
+                    }
                 } else if (period === "year and month") {
-                  
+
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                      
+
                         fileName = `${dataSource}/${year}/${month}/district.json`
+                    } else if (month && !week && !exam_date && grade && !subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/district/${grade}.json`
+                    } else if (month && !week && !exam_date && grade && subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                      
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/district.json`
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
-                    
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district/${grade}.json`
@@ -125,7 +177,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 return val.week == `week_${week}`
             })
         }
- 
+
         if (exam_date) {
             data = data.filter(val => {
                 return val.distribution_date == exam_date
@@ -146,10 +198,10 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
         if (reportType === "lotable") {
             Promise.all(data.map(item => {
-                
+
                 let label
                 if (week && !exam_date) {
-                 
+
                     label =
                         item.grade + "/" +
                         item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]

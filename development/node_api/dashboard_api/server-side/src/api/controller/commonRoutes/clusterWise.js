@@ -13,19 +13,24 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-                
                     fileName = `${dataSource}/overall/cluster_subject_footer.json`;
+
                 } else if (period == "last 30 days") {
-           
                     fileName = `${dataSource}/last_30_day/cluster_subject_footer.json`;
                 }
                 else if (period == "last 7 days") {
-              
                     fileName = `${dataSource}/last_7_day/cluster_subject_footer.json`;
 
+                } else if (period == "last day") {
+                    fileName = `${dataSource}/last_day/cluster_subject_footer.json`;
+
                 } else if (period == "year and month") {
-              
+
                     if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/cluster_subject_footer.json`
+                    } else if (month && !week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/cluster_subject_footer.json`
+                    } else if (month && !week && !exam_date && grade && subject_name) {
                         fileName = `${dataSource}/${year}/${month}/cluster_subject_footer.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/cluster_subject_footer.json`
@@ -36,56 +41,74 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster/${grade}.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-                     
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
-                    } 
+                    }
                 }
             }
-            else {
 
-                if (period === "overall") {
+        } else if (reportType == "Map") {
 
-                    if (grade && !subject_name) {
+            if (period === "overall") {
                
-                        fileName = `${dataSource}/overall/cluster/${grade}.json`;
-                    } else if (grade && subject_name) {
-                
-                        fileName = `${dataSource}/overall/cluster_subject_footer.json`;
-                    } else if (!grade && !subject_name) {
-                      
-                        fileName = `${dataSource}/overall/cluster.json`;
-                    }
-                } if (period === "last 30 days") {
-                    if (grade && !subject_name) {
-                        fileName = `${dataSource}/last_30_day/cluster/${grade}.json`;
-                    } else if (grade && subject_name) {
-                        fileName = `${dataSource}/last_30_day/cluster_subject_footer.json`;
-                    } else {
-                        fileName = `${dataSource}/last_30_day/cluster.json`;
-                    }
-                } if (period === "last 7 days") {
-                    if (grade && !subject_name) {
-                        fileName = `${dataSource}/last_7_day/cluster/${grade}.json`;
-                    } else if (grade && subject_name) {
-                        fileName = `${dataSource}/last_7_day/cluster_subject_footer.json`;
-                    } else {
-                        fileName = `${dataSource}/last_7_day/cluster.json`;
-                    }
+                if (grade && !subject_name) {
+
+                    fileName = `${dataSource}/overall/cluster/${grade}.json`;
+                } else if (grade && subject_name) {
+
+                    fileName = `${dataSource}/overall/cluster_subject_footer.json`;
+                } else if (!grade && !subject_name) {
+
+                    fileName = `${dataSource}/overall/cluster.json`;
+                }
+            } else if (period === "last 30 days") {
+           
+                if (grade && !subject_name) {
+                    fileName = `${dataSource}/last_30_day/cluster/${grade}.json`;
+                } else if (grade && subject_name) {
+                    fileName = `${dataSource}/last_30_day/cluster_subject_footer.json`;
                 } else {
-                    if (month && !week && !exam_date && !grade && !subject_name) {
+                    fileName = `${dataSource}/last_30_day/cluster.json`;
+                }
+            } else if (period === "last 7 days") {
+               
+                if (grade && !subject_name) {
+                    fileName = `${dataSource}/last_7_day/cluster/${grade}.json`;
+                } else if (grade && subject_name) {
+                    fileName = `${dataSource}/last_7_day/cluster_subject_footer.json`;
+                } else {
+                    fileName = `${dataSource}/last_7_day/cluster.json`;
+                }
+            } else if (period === "last day") {
+               
+                if (grade && !subject_name) {
+                    fileName = `${dataSource}/last_day/cluster/${grade}.json`;
+                } else if (grade && subject_name) {
+                    fileName = `${dataSource}/last_day/cluster_subject_footer.json`;
+                } else {
+                    fileName = `${dataSource}/last_day/cluster.json`;
+                }
+            } else if (period === "year and month") {
+               
+                if (month && !week && !exam_date && !grade && !subject_name) {
+                    fileName = `${dataSource}/${year}/${month}/cluster.json`
+                } else if (month && !week && !exam_date && grade && !subject_name) {
                    
-                        fileName = `${dataSource}/${year}/${month}/cluster.json`
-                    } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                     
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/cluster.json`
-                    } else if ((month && week && exam_date && !grade && !subject_name)) {
-                      
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster.json`
-                    } else if ((month && week && exam_date && grade && !subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster/${grade}.json`
-                    } else if ((month && week && exam_date && grade && subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
-                    }
+                    fileName = `${dataSource}/${year}/${month}/cluster/${grade}.json`
+                } else if (month && !week && !exam_date && grade && subject_name) {
+
+                    fileName = `${dataSource}/${year}/${month}/cluster_subject_footer.json`
+                } else if ((month && week && !exam_date && !grade && !subject_name)) {
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/cluster.json`
+                } else if ((month && week && exam_date && !grade && !subject_name)) {
+
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster.json`
+                } else if ((month && week && exam_date && grade && !subject_name)) {
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster/${grade}.json`
+                } else if ((month && week && exam_date && grade && subject_name)) {
+                    fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
+                } else {
+                   
                 }
             }
         }
@@ -93,7 +116,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
 
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
-   
+
         if (blockId) {
             data = data.filter(val => {
                 return (
@@ -127,13 +150,13 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 return val.distribution_date == exam_date
             })
         }
-    
+
         if (grade) {
             data = data.filter(val => {
                 return val.grade == grade
             })
         }
-    
+
         if (subject_name) {
             data = data.filter(val => {
                 return val.subject == subject_name
@@ -155,21 +178,21 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
 
         if (reportType == "lotable") {
             Promise.all(data.map(item => {
-             
+
                 if (week && !exam_date) {
-                   
+
                     label =
                         item.grade + "/" +
                         item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
-                  
+
                     label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else {
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
+                        item.subject + "/" + item.no_of_books_distributed
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 }
             })).then(() => {
@@ -178,7 +201,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.cluster_name) > (b.cluster_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
-                 
+
                     if (week && !exam_date) {
                         var x = {
                             grade: splitVal[0],

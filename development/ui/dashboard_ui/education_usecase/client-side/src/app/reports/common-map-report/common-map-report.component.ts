@@ -9,7 +9,7 @@ import * as L from "leaflet";
 import * as R from "leaflet-responsive-popup";
 import { dynamicReportService } from "src/app/services/dynamic-report.service";
 import { ActivatedRoute } from '@angular/router';
-import { ArgumentOutOfRangeError } from 'rxjs';
+
 
 @Component({
   selector: 'app-common-map-report',
@@ -113,7 +113,7 @@ export class CommonMapReportComponent implements OnInit {
 
   reportType = "Map"
   timeRange
-  
+
   period = "overall";
 
   public metaData
@@ -180,7 +180,7 @@ export class CommonMapReportComponent implements OnInit {
     );
 
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
-    
+
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       if (params && params.level) {
         let data = params.data;
@@ -241,13 +241,13 @@ export class CommonMapReportComponent implements OnInit {
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? true : false;
     this.hideDist = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined || null) ? false : true;
 
-    if (environment.auth_api !== 'cqube') {
+    // if (environment.auth_api === 'cqube' && environment.auth_api === '' ) {
 
-      if (this.userAccessLevel !== "") {
-        this.hideIfAccessLevel = true;
-      }
-
+    if (this.userAccessLevel !== "") {
+      this.hideIfAccessLevel = true;
     }
+
+    // }
 
     this.header = `Report on ${this.datasourse.replace(/_+/g, ' ')} access by location for`
     this.description = `The ${this.datasourse.replace(/_+/g, ' ')} dashboard visualises the data on ${this.datasourse.replace(/_+/g, ' ')} metrics for ${this.state}`
@@ -255,7 +255,15 @@ export class CommonMapReportComponent implements OnInit {
 
   getTimelineMeta() {
     this.service1.configurableTimePeriodMeta({ dataSource: this.datasourse }).subscribe(res => {
-       this.timeRange = res
+      // this.timeRange = res
+
+      this.timeRange = [
+        { value: "overall" },
+        { value: "last 30 days" },
+        { value: "last 7 days" },
+        { value: "last day" },
+        { value: "year and month" },
+      ];
     })
   }
   getMetaData() {
@@ -288,7 +296,7 @@ export class CommonMapReportComponent implements OnInit {
 
 
   selectedExamDate() {
-  
+
     this.grade = "all";
     this.subject = "all";
     this.fileName = `${this.reportName}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -301,18 +309,18 @@ export class CommonMapReportComponent implements OnInit {
   selectedTimePeriod() {
 
     this.months = [...this.months.filter((item) => item)]
-  
+
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
     this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
     this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-    
+
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
-   
+
     if (this.hideAccessBtn) {
       this.levelWiseFilter();
 
@@ -323,7 +331,7 @@ export class CommonMapReportComponent implements OnInit {
 
   selectedYear() {
 
-   
+
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -338,7 +346,7 @@ export class CommonMapReportComponent implements OnInit {
 
   selectedMonth() {
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-   
+
     this.weeks = this.months.find(a => { return a.months == this.month }).weeks;
     this.grade = "all";
     this.examDate = "all";
@@ -360,7 +368,7 @@ export class CommonMapReportComponent implements OnInit {
     if (this.grade !== "all") {
       this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
       this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
-     
+
     } else {
       this.grade = "all";
     }
@@ -375,7 +383,7 @@ export class CommonMapReportComponent implements OnInit {
       this.levelWiseFilter();
 
     } else {
-    
+
       this.getView()
     }
   }
@@ -385,7 +393,7 @@ export class CommonMapReportComponent implements OnInit {
     this.hideDay = false;
 
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-   
+
     this.date = this.weeks.find(a => { return a.week == this.week }).days;
     this.grade = "all";
     this.examDate = "all";
@@ -394,7 +402,7 @@ export class CommonMapReportComponent implements OnInit {
       this.levelWiseFilter();
 
     } else {
-    
+
       this.getView()
     }
   }
@@ -406,7 +414,7 @@ export class CommonMapReportComponent implements OnInit {
       this.districtMarkers.sort((a, b) =>
         a.details.district_name > b.details.district_name
           ? 1
-          : b.details.district_name > a.details.district_name
+          : b.district_name > a.district_name
             ? -1
             : 0
       );
@@ -456,6 +464,17 @@ export class CommonMapReportComponent implements OnInit {
     this.hideAllBlockBtn = false;
     this.hideAllCLusterBtn = false;
     this.hideAllSchoolBtn = false;
+
+    this.hideIfAccessLevel = true;
+
+    this.month = "",
+      this.hideMonth = true
+    this.hideWeek = true
+    this.hideDay = true
+    this.hideYear = true,
+      this.grade = "all"
+
+    this.period = "overall"
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       this.districtWise();
     } else {
@@ -476,7 +495,7 @@ export class CommonMapReportComponent implements OnInit {
   // to load all the districts for state data on the map
 
   districtDropDown
-
+  hideMap: boolean = false
   districtWise() {
     try {
       // to clear the existing data on the map layer
@@ -540,74 +559,79 @@ export class CommonMapReportComponent implements OnInit {
 
       this.myData = this.service1.dynamicDistData(obj).subscribe(
         (res) => {
-          this.myDistData = res;
-          this.markers = this.data = res["data"];
-          // this.gettingInfraFilters(this.data);
-          this.districtDropDown = res["districtDetails"]
-          // to show only in dropdowns
-          this.districtMarkers = this.data;
-          let arr = [];
-          this.values = [];
-          for (let i = 0; i < this.data.length; i++) {
+          if (res["data"]) {
+            this.myDistData = res;
+            this.markers = this.data = res["data"];
+            // this.gettingInfraFilters(this.data);
+            this.districtDropDown = res["districtDetails"]
+            // to show only in dropdowns
+            this.districtMarkers = this.data;
+            let arr = [];
+            this.values = [];
+            for (let i = 0; i < this.data.length; i++) {
 
-            arr.push(this.data[i]['no_of_books_distributed'])
+              arr.push(this.data[i]['no_of_books_distributed'])
+            }
+
+            arr = arr.sort(function (a, b) {
+              return parseFloat(a) - parseFloat(b);
+            });
+
+
+            const min = Math.min(...arr);
+            const max = Math.max(...arr);
+
+            this.getRangeArray(min, max, 10);
+
+            // options to set for markers in the map
+            let options = {
+              radius: 6,
+              fillOpacity: 1,
+              strokeWeight: 0.01,
+              mapZoom: this.globalService.zoomLevel,
+              centerLat: this.lat,
+              centerLng: this.lng,
+              level: "District",
+            };
+            this.dataOptions = options;
+            this.globalService.restrictZoom(globalMap);
+            globalMap.setMaxBounds([
+              [options.centerLat - 4.5, options.centerLng - 6],
+              [options.centerLat + 3.5, options.centerLng + 6],
+            ]);
+            this.changeDetection.detectChanges();
+
+            this.data.sort((a, b) =>
+              `${a[this.infraData]}` > `${b[this.infraData]}`
+                ? 1
+                : `${b[this.infraData]}` > `${a[this.infraData]}`
+                  ? -1
+                  : 0
+            );
+            //schoolCount
+            // this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+            this.genericFun(this.districtMarkers, options, this.fileName);
+
+            this.globalService.onResize(this.level);
+
+            // sort the districtname alphabetically
+            this.districtMarkers.sort((a, b) =>
+              a.district_name > b.district_name
+                ? 1
+                : b.district_name > a.district_name
+                  ? -1
+                  : 0
+            );
+            this.changeDetection.detectChanges();
           }
-        
-          arr = arr.sort(function (a, b) {
-            return parseFloat(a) - parseFloat(b);
-          });
 
-
-          const min = Math.min(...arr);
-          const max = Math.max(...arr);
-
-          this.getRangeArray(min, max, 10);
-        
-          // options to set for markers in the map
-          let options = {
-            radius: 6,
-            fillOpacity: 1,
-            strokeWeight: 0.01,
-            mapZoom: this.globalService.zoomLevel,
-            centerLat: this.lat,
-            centerLng: this.lng,
-            level: "District",
-          };
-          this.dataOptions = options;
-          this.globalService.restrictZoom(globalMap);
-          globalMap.setMaxBounds([
-            [options.centerLat - 4.5, options.centerLng - 6],
-            [options.centerLat + 3.5, options.centerLng + 6],
-          ]);
-          this.changeDetection.detectChanges();
-
-          this.data.sort((a, b) =>
-            `${a[this.infraData]}` > `${b[this.infraData]}`
-              ? 1
-              : `${b[this.infraData]}` > `${a[this.infraData]}`
-                ? -1
-                : 0
-          );
-          //schoolCount
-          // this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
-          this.genericFun(this.districtMarkers, options, this.fileName);
-
-          this.globalService.onResize(this.level);
-
-          // sort the districtname alphabetically
-          this.districtMarkers.sort((a, b) =>
-            a.district_name > b.district_name
-              ? 1
-              : b.district_name > a.district_name
-                ? -1
-                : 0
-          );
-          this.changeDetection.detectChanges();
+          this.commonService.loaderAndErr(this.data);
         },
         (err) => {
           this.data = [];
           this.commonService.loaderAndErr(this.data);
+
         }
       );
       // }
@@ -618,6 +642,7 @@ export class CommonMapReportComponent implements OnInit {
     } catch (e) {
       this.districtMarkers = [];
       this.commonService.loaderAndErr(this.districtMarkers);
+
       console.log(e);
     }
   }
@@ -678,7 +703,7 @@ export class CommonMapReportComponent implements OnInit {
           if (this.districtSelected) {
             this.myBlockData = res["data"];
             let marker = this.myBlockData.filter(a => {
-              if (a.details.district_id === this.districtSlectedId) {
+              if (a.district_id === this.districtSlectedId) {
 
                 return a
               }
@@ -765,7 +790,7 @@ export class CommonMapReportComponent implements OnInit {
           } else if (this.blockSelected) {
             this.myBlockData = res["data"];
             let marker = this.myBlockData.filter(a => {
-              if (a.details.block_id === this.blockSelectedId) {
+              if (a.block_id === this.blockSelectedId) {
 
                 return a
               }
@@ -852,7 +877,7 @@ export class CommonMapReportComponent implements OnInit {
           } else if (this.selectedCluster) {
             this.myBlockData = res["data"];
             let marker = this.myBlockData.filter(a => {
-              if (a.details.block_id === this.blockSelectedId) {
+              if (a.block_id === this.blockSelectedId) {
                 return a
               }
 
@@ -900,8 +925,8 @@ export class CommonMapReportComponent implements OnInit {
                   }
 
                   var markerIcon = this.globalService.initMarkers1(
-                    this.blockMarkers[i].details.latitude,
-                    this.blockMarkers[i].details.longitude,
+                    this.blockMarkers[i].lat,
+                    this.blockMarkers[i].long,
                     color,
                     0.01,
                     1,
@@ -966,8 +991,8 @@ export class CommonMapReportComponent implements OnInit {
                   }
 
                   var markerIcon = this.globalService.initMarkers1(
-                    this.blockMarkers[i].block_latitude,
-                    this.blockMarkers[i].block_longitude,
+                    this.blockMarkers[i].lat,
+                    this.blockMarkers[i].long,
                     "green",
                     0.01,
                     1,
@@ -981,7 +1006,7 @@ export class CommonMapReportComponent implements OnInit {
                     "latitude",
                     "longitude"
                   );
-                   this.getDownloadableData(this.blockMarkers[i], options.level);
+                  this.getDownloadableData(this.blockMarkers[i], options.level);
                 }
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1052,15 +1077,15 @@ export class CommonMapReportComponent implements OnInit {
             let cluster = res['data']
 
             let marker = cluster.filter(a => {
-              if (a.details.district_id === this.districtSlectedId) {
+              if (a.district_id === this.districtSlectedId) {
                 return a
               }
 
             })
 
             this.districtHierarchy = {
-              distId: marker[0].details.district_id,
-              districtName: marker[0].details.district_name,
+              distId: marker[0].district_id,
+              districtName: marker[0].district_name,
             };
             this.blockHidden = false;
             this.clusterHidden = true;
@@ -1073,8 +1098,8 @@ export class CommonMapReportComponent implements OnInit {
             let options = {
               radius: 5,
               mapZoom: this.globalService.zoomLevel,
-              centerLat: marker[0].details.latitude,
-              centerLng: marker[0].details.longitude,
+              centerLat: marker[0].lat,
+              centerLng: marker[0].long,
               level: "allCluster",
             };
 
@@ -1112,8 +1137,8 @@ export class CommonMapReportComponent implements OnInit {
                   }
 
                   var markerIcon = this.globalService.initMarkers1(
-                    this.clusterMarkers[i].details.latitude,
-                    this.clusterMarkers[i].details.longitude,
+                    this.clusterMarkers[i].lat,
+                    this.clusterMarkers[i].long,
                     color,
                     1,
                     1,
@@ -1148,7 +1173,7 @@ export class CommonMapReportComponent implements OnInit {
           } else if (this.blockSelected) {
             let cluster = res['data']
             let marker = cluster.filter(a => {
-              if (a.details.block_id === this.blockSelectedId) {
+              if (a.block_id === this.blockSelectedId) {
                 return a
               }
 
@@ -1197,8 +1222,8 @@ export class CommonMapReportComponent implements OnInit {
                   }
 
                   var markerIcon = this.globalService.initMarkers1(
-                    this.clusterMarkers[i].details.latitude,
-                    this.clusterMarkers[i].details.longitude,
+                    this.clusterMarkers[i].lat,
+                    this.clusterMarkers[i].long,
                     color,
                     0.01,
                     0.5,
@@ -1233,7 +1258,7 @@ export class CommonMapReportComponent implements OnInit {
           } else if (this.selectedCluster) {
             let cluster = res['data']
             let marker = cluster.filter(a => {
-              if (a.details.cluster_id === this.selectedCLusterId) {
+              if (a.cluster_id === this.selectedCLusterId) {
                 return a
               }
 
@@ -1282,8 +1307,8 @@ export class CommonMapReportComponent implements OnInit {
                   }
 
                   var markerIcon = this.globalService.initMarkers1(
-                    this.clusterMarkers[i].details.latitude,
-                    this.clusterMarkers[i].details.longitude,
+                    this.clusterMarkers[i].lat,
+                    this.clusterMarkers[i].long,
                     color,
                     0.01,
                     0.5,
@@ -1317,7 +1342,7 @@ export class CommonMapReportComponent implements OnInit {
             }
           } else {
             this.markers = this.data = res["data"];
-           
+
             let options = {
               radius: 2,
               mapZoom: this.globalService.zoomLevel,
@@ -1359,7 +1384,7 @@ export class CommonMapReportComponent implements OnInit {
                     "latitude",
                     "longitude"
                   );
-                   this.getDownloadableData(this.clusterMarkers[i], options.level);
+                  this.getDownloadableData(this.clusterMarkers[i], options.level);
                 }
 
                 //schoolCount
@@ -1758,7 +1783,7 @@ export class CommonMapReportComponent implements OnInit {
                 let result = this.data;
                 this.schoolCount = 0;
                 this.schoolMarkers = result;
-          
+
                 if (this.schoolMarkers.length !== 0) {
                   for (let i = 0; i < this.schoolMarkers.length; i++) {
                     var color;
@@ -1788,7 +1813,7 @@ export class CommonMapReportComponent implements OnInit {
                       "latitude",
                       "longitude"
                     );
-                     this.getDownloadableData(this.schoolMarkers[i], options.level);
+                    this.getDownloadableData(this.schoolMarkers[i], options.level);
                   }
                   globalMap.doubleClickZoom.enable();
                   globalMap.scrollWheelZoom.enable();
@@ -1840,6 +1865,7 @@ export class CommonMapReportComponent implements OnInit {
   public blockDropDown
   // to load all the blocks for selected district for state data on the map
   onDistrictSelect(districtId) {
+    this.hideIfAccessLevel = false;
     this.districtSelected = true
     this.blockSelected = false
     this.selectedCluster = false
@@ -1896,82 +1922,93 @@ export class CommonMapReportComponent implements OnInit {
 
     this.myData = this.service1.dynamicBlockData(obj).subscribe(
       (res) => {
-        this.markers = this.data = res["data"];
-        this.gettingInfraFilters(this.data);
-        this.blockDropDown = res['blockDetails']
-        this.blockMarkers = this.data;
+        if (res["data"].length) {
+          this.markers = this.data = res["data"];
 
-        this.districtMarkers = this.data;
-        let arr = [];
-        this.values = [];
-        for (let i = 0; i < this.data.length; i++) {
-          arr.push(this.data[i]['no_of_books_distributed'])
+          this.blockDropDown = res['blockDetails']
+          this.blockMarkers = this.data;
+
+          const key = 'district_id';
+
+          this.districtMarkers = [...new Map(this.data.map(item =>
+            [item[key], item])).values()];
+
+          let arr = [];
+          this.values = [];
+          for (let i = 0; i < this.data.length; i++) {
+            arr.push(this.data[i]['no_of_books_distributed'])
+          }
+
+          arr = arr.sort(function (a, b) {
+            return parseFloat(a) - parseFloat(b);
+          });
+
+
+          const min = Math.min(...arr);
+          const max = Math.max(...arr);
+
+          this.getRangeArray(min, max, 10);
+
+
+          // set hierarchy values
+          this.districtHierarchy = {
+            distId: this.data[0]?.district_id,
+            districtName: this.data[0]?.district_name,
+          };
+          this.fileName = `${this.reportName}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
+
+          // to show and hide the dropdowns
+          this.blockHidden = false;
+          this.clusterHidden = true;
+
+          this.districtId = districtId;
+
+          // these are for showing the hierarchy names based on selection
+          this.skul = false;
+          this.dist = true;
+          this.blok = false;
+          this.clust = false;
+
+          // options to set for markers in the map
+          let options = {
+            radius: 5,
+            fillOpacity: 1,
+            strokeWeight: 0.01,
+            mapZoom: this.globalService.zoomLevel + 1,
+            centerLat: this.data[0]?.lat,
+            centerLng: this.data[0]?.long,
+            level: "blockPerDistrict",
+          };
+          this.dataOptions = options;
+          this.globalService.latitude = this.lat = options.centerLat;
+          this.globalService.longitude = this.lng = options.centerLng;
+
+          this.globalService.restrictZoom(globalMap);
+          globalMap.setMaxBounds([
+            [options.centerLat - 1.5, options.centerLng - 3],
+            [options.centerLat + 1.5, options.centerLng + 2],
+          ]);
+
+          //schoolCount
+          // this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+          this.genericFun(this.blockMarkers, options, this.fileName);
+          this.globalService.onResize(this.level);
+          // sort the blockname alphabetically
+          this.blockMarkers.sort((a, b) =>
+            a.block_name > b.block_name
+              ? 1
+              : b.block_name > a.block_name
+                ? -1
+                : 0
+          );
+          this.changeDetection.detectChanges();
+        } else {
+          this.blockMarkers = [];
+          this.commonService.loaderAndErr(this.blockMarkers);
         }
-       
-        arr = arr.sort(function (a, b) {
-          return parseFloat(a) - parseFloat(b);
-        });
 
 
-        const min = Math.min(...arr);
-        const max = Math.max(...arr);
-
-        this.getRangeArray(min, max, 10);
-
-
-        // set hierarchy values
-        this.districtHierarchy = {
-          distId: this.data[0]?.district_id,
-          districtName: this.data[0]?.district_name,
-        };
-        this.fileName = `${this.reportName}_blocks_of_district_${districtId}_${this.commonService.dateAndTime}`;
-
-        // to show and hide the dropdowns
-        this.blockHidden = false;
-        this.clusterHidden = true;
-
-        this.districtId = districtId;
-
-        // these are for showing the hierarchy names based on selection
-        this.skul = false;
-        this.dist = true;
-        this.blok = false;
-        this.clust = false;
-
-        // options to set for markers in the map
-        let options = {
-          radius: 5,
-          fillOpacity: 1,
-          strokeWeight: 0.01,
-          mapZoom: this.globalService.zoomLevel + 1,
-          centerLat: this.data[0]?.lat,
-          centerLng: this.data[0]?.long,
-          level: "blockPerDistrict",
-        };
-        this.dataOptions = options;
-        this.globalService.latitude = this.lat = options.centerLat;
-        this.globalService.longitude = this.lng = options.centerLng;
-
-        this.globalService.restrictZoom(globalMap);
-        globalMap.setMaxBounds([
-          [options.centerLat - 1.5, options.centerLng - 3],
-          [options.centerLat + 1.5, options.centerLng + 2],
-        ]);
-
-        //schoolCount
-        // this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
-        this.genericFun(this.blockMarkers, options, this.fileName);
-        this.globalService.onResize(this.level);
-        // sort the blockname alphabetically
-        this.blockMarkers.sort((a, b) =>
-          a.block_name > b.block_name
-            ? 1
-            : b.block_name > a.block_name
-              ? -1
-              : 0
-        );
-        this.changeDetection.detectChanges();
       },
       (err) => {
         this.blockMarkers = [];
@@ -2041,89 +2078,100 @@ export class CommonMapReportComponent implements OnInit {
       .dynamicClusterData(obj)
       .subscribe(
         (res) => {
-          this.markers = this.data = res["data"];
-     
-          this.districtMarkers = this.data;
-          let arr = [];
-          this.values = [];
-          for (let i = 0; i < this.data.length; i++) {
-            arr.push(this.data[i]['no_of_books_distributed'])
-          }
-        
-          arr = arr.sort(function (a, b) {
-            return parseFloat(a) - parseFloat(b);
-          });
+          if (res["data"].length) {
+            this.markers = this.data = res["data"];
 
-
-          const min = Math.min(...arr);
-          const max = Math.max(...arr);
-
-          this.getRangeArray(min, max, 10);
-          this.clusterMarkers = this.data;
-          var myBlocks = [];
-          this.blockMarkers.forEach((element) => {
-            if (element.district_id == this.districtId) {
-              myBlocks.push(element);
+            this.districtMarkers = this.data;
+            let distKey = "district_id"
+            this.districtMarkers = [...new Map(this.data.map(item =>
+              [item[distKey], item])).values()];
+            let arr = [];
+            this.values = [];
+            for (let i = 0; i < this.data.length; i++) {
+              arr.push(this.data[i]['no_of_books_distributed'])
             }
-          });
-          this.blockMarkers = myBlocks;
 
-          // set hierarchy values
-          this.blockHierarchy = {
-            distId: this.data[0]?.district_id,
-            districtName: this.data[0]?.district_name,
-            blockId: this.data[0]?.block_id,
-            blockName: this.data[0]?.block_name,
-          };
-          this.fileName = `${this.reportName}_clusters_of_block_${blockId}_${this.commonService.dateAndTime}`;
+            arr = arr.sort(function (a, b) {
+              return parseFloat(a) - parseFloat(b);
+            });
 
-          // to show and hide the dropdowns
-          this.blockHidden = this.selBlock ? true : false;
-          this.clusterHidden = false;
 
-          this.districtId = this.data[0]?.district_id;
-          this.blockId = blockId;
+            const min = Math.min(...arr);
+            const max = Math.max(...arr);
 
-          // these are for showing the hierarchy names based on selection
-          this.skul = false;
-          this.dist = false;
-          this.blok = true;
-          this.clust = false;
+            this.getRangeArray(min, max, 10);
+            this.clusterMarkers = this.data;
+            var myBlocks = [];
+            this.blockMarkers.forEach((element) => {
+              if (element.district_id == this.districtId) {
+                myBlocks.push(element);
+              }
+            });
+            let key = "block_id"
+            this.blockMarkers = myBlocks;
+            this.blockMarkers = [...new Map(this.data.map(item =>
+              [item[key], item])).values()];
+            // set hierarchy values
+            this.blockHierarchy = {
+              distId: this.data[0]?.district_id,
+              districtName: this.data[0]?.district_name,
+              blockId: this.data[0]?.block_id,
+              blockName: this.data[0]?.block_name,
+            };
+            this.fileName = `${this.reportName}_clusters_of_block_${blockId}_${this.commonService.dateAndTime}`;
 
-          // options to set for markers in the map
-          let options = {
-            radius: 5,
-            fillOpacity: 1,
-            strokeWeight: 0.01,
-            mapZoom: this.globalService.zoomLevel + 3,
-            centerLat: this.data[0]?.lat,
-            centerLng: this.data[0]?.long,
-            level: "clusterPerBlock",
-          };
-          this.dataOptions = options;
-          this.globalService.latitude = this.lat = options.centerLat;
-          this.globalService.longitude = this.lng = options.centerLng;
+            // to show and hide the dropdowns
+            this.blockHidden = this.selBlock ? true : false;
+            this.clusterHidden = false;
 
-          this.globalService.restrictZoom(globalMap);
-          globalMap.setMaxBounds([
-            [options.centerLat - 1.5, options.centerLng - 3],
-            [options.centerLat + 1.5, options.centerLng + 2],
-          ]);
+            this.districtId = this.data[0]?.district_id;
+            this.blockId = blockId;
 
-          //schoolCount
-          // this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            // these are for showing the hierarchy names based on selection
+            this.skul = false;
+            this.dist = false;
+            this.blok = true;
+            this.clust = false;
 
-          this.genericFun(this.clusterMarkers, options, this.fileName);
-          this.globalService.onResize(this.level);
-          // sort the clusterName alphabetically
-          this.clusterMarkers.sort((a, b) =>
-            a.cluster_name > b.cluster_name
-              ? 1
-              : b.cluster_name > a.cluster_name
-                ? -1
-                : 0
-          );
-          this.changeDetection.detectChanges();
+            // options to set for markers in the map
+            let options = {
+              radius: 5,
+              fillOpacity: 1,
+              strokeWeight: 0.01,
+              mapZoom: this.globalService.zoomLevel + 3,
+              centerLat: this.data[0]?.lat,
+              centerLng: this.data[0]?.long,
+              level: "clusterPerBlock",
+            };
+            this.dataOptions = options;
+            this.globalService.latitude = this.lat = options.centerLat;
+            this.globalService.longitude = this.lng = options.centerLng;
+
+            this.globalService.restrictZoom(globalMap);
+            globalMap.setMaxBounds([
+              [options.centerLat - 1.5, options.centerLng - 3],
+              [options.centerLat + 1.5, options.centerLng + 2],
+            ]);
+
+            //schoolCount
+            // this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+            this.genericFun(this.clusterMarkers, options, this.fileName);
+            this.globalService.onResize(this.level);
+            // sort the clusterName alphabetically
+            this.clusterMarkers.sort((a, b) =>
+              a.cluster_name > b.cluster_name
+                ? 1
+                : b.cluster_name > a.cluster_name
+                  ? -1
+                  : 0
+            );
+            this.changeDetection.detectChanges();
+          } else {
+            this.clusterMarkers = [];
+            this.commonService.loaderAndErr(this.clusterMarkers);
+          }
+
         },
         (err) => {
           this.clusterMarkers = [];
@@ -2213,12 +2261,15 @@ export class CommonMapReportComponent implements OnInit {
               }
               // this.gettingInfraFilters(this.data);
               this.districtMarkers = this.data;
+              let distKey = "district_id"
+              this.districtMarkers = [...new Map(this.data.map(item =>
+                [item[distKey], item])).values()];
               let arr = [];
               this.values = [];
               for (let i = 0; i < this.data.length; i++) {
                 arr.push(this.data[i]['no_of_books_distributed'])
               }
-           
+
               arr = arr.sort(function (a, b) {
                 return parseFloat(a) - parseFloat(b);
               });
@@ -2272,11 +2323,11 @@ export class CommonMapReportComponent implements OnInit {
               this.clusterHidden = this.selCluster ? true : false;
 
               this.districtHierarchy = {
-                distId: this.data[0].district_id,
+                distId: this.data[0]?.district_id,
               };
 
-              this.districtId = this.data[0].district_id;
-              this.blockId = this.data[0].block_id;
+              this.districtId = this.data[0]?.district_id;
+              this.blockId = this.data[0]?.block_id;
               this.clusterId = clusterId;
 
               // these are for showing the hierarchy names based on selection
@@ -2337,16 +2388,16 @@ export class CommonMapReportComponent implements OnInit {
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
     try {
-     
+
       this.reportData = [];
       this.markers = data;
 
 
-     
+
       // attach values to markers
       for (var i = 0; i < this.markers.length; i++) {
         var color;
-       
+
         var markerIcon = this.globalService.initMarkers1(
           this.markers[i].lat,
           this.markers[i].long,
@@ -2381,7 +2432,7 @@ export class CommonMapReportComponent implements OnInit {
   //infra filters.....
   gettingInfraFilters(data) {
     this.infraFilter = [];
-   
+
   }
 
   public infraData = "infrastructure_score";
@@ -2554,7 +2605,7 @@ export class CommonMapReportComponent implements OnInit {
     var details = {};
     var orgObject = {};
     Object.keys(marker).forEach((key) => {
-      if (key !== lat) {
+      if (key !== "lat" && key !== "long") {
         details[key] = marker[key];
       }
     });
@@ -2578,16 +2629,16 @@ export class CommonMapReportComponent implements OnInit {
       yourData1 = this.globalService.getInfoFrom(orgObject, "", level, "infra-map", infraName, colorText)
         .join(" <br>");
     }
-  
+
 
     var toolTip = "<b><u>Details</u></b>" +
       "<br>" +
       yourData1
-    
+
     var toolTip = "<b><u>Details</u></b>" +
       "<br>" +
       yourData1
-   
+
     if (this.mapName != 'googlemap') {
       const popup = R.responsivePopup({
         hasTip: false,
@@ -2597,7 +2648,7 @@ export class CommonMapReportComponent implements OnInit {
         "<b><u>Details</u></b>" +
         "<br>" +
         yourData1
-     
+
       );
       markerIcon.addTo(globalMap).bindPopup(popup);
 
@@ -2849,7 +2900,7 @@ export class CommonMapReportComponent implements OnInit {
     this.filterRangeWiseData(value, i);
   }
 
-  
+
   filterRangeWiseData(value, index) {
 
     this.prevRange = value;

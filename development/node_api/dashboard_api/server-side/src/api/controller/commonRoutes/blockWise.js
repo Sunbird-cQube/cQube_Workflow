@@ -9,22 +9,29 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         logger.info('---Common table blockWise api ---');
 
         let { year, grade, month, dataSource, reportType, subject_name, exam_date, week, period, districtId, management, category } = req.body
-       
+
+      
         let fileName;
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-                 
+                   
                     fileName = `${dataSource}/overall/block_subject_footer.json`;
                 } else if (period == "last 30 days") {
-                   
                     fileName = `${dataSource}/last_30_day/block_subject_footer.json`;
                 } else if (period == "last 7 days") {
-                  
+
                     fileName = `${dataSource}/last_7_day/block_subject_footer.json`;
+                } else if (period == "last day") {
+
+                    fileName = `${dataSource}/last_day/block_subject_footer.json`;
                 } else if (period == "year and month") {
-              
+
                     if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/block_subject_footer.json`
+                    } else if (month && !week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/block_subject_footer.json`
+                    } else if (month && !week && !exam_date && grade && subject_name) {
                         fileName = `${dataSource}/${year}/${month}/block_subject_footer.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject_footer.json`
@@ -33,55 +40,71 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-                 
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject_footer.json`
-                    } 
+                    }
                 }
             }
-        } else {
+        } else if (reportType == "Map") {
             if (category == 'overall') {
                 if (period === "overall") {
                     if (grade && !subject_name) {
-                  
+
                         fileName = `${dataSource}/overall/block/${grade}.json`;
                     } else if (grade && subject_name) {
-                   
+
                         fileName = `${dataSource}/overall/block_subject_footer.json`;
                     } else if (!grade && !subject_name) {
-                   
                         fileName = `${dataSource}/overall/block.json`;
                     }
                 } else if (period === "last 30 days") {
                     if (grade && !subject_name) {
-                 
+
                         fileName = `${dataSource}/last_30_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
-                 
+
                         fileName = `${dataSource}/last_30_day/block_subject_footer.json`;
                     } else if (!grade && !subject_name) {
-                 
+
                         fileName = `${dataSource}/last_30_day/block.json`;
                     }
                 } else if (period === "last 7 days") {
                     if (grade && !subject_name) {
-             
+
                         fileName = `${dataSource}/last_7_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
-                  
+
                         fileName = `${dataSource}/last_7_day/block_subject_footer.json`;
                     } else if (!grade && !subject_name) {
-                      
+
                         fileName = `${dataSource}/last_7_day/block.json`;
+                    }
+                } else if (period === "last day") {
+                    if (grade && !subject_name) {
+
+                        fileName = `${dataSource}/last_day/block/${grade}.json`;
+                    } else if (grade && subject_name) {
+
+                        fileName = `${dataSource}/last_day/block_subject_footer.json`;
+                    } else if (!grade && !subject_name) {
+
+                        fileName = `${dataSource}/last_day/block.json`;
                     }
                 } else if (period === "year and month") {
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                   
+
                         fileName = `${dataSource}/${year}/${month}/block.json`
+                    } else if (month && !week && !exam_date && grade && !subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/block/${grade}.json`
+                    } else if (month && !week && !exam_date && grade && subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/block_subject_footer.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
-                   
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/block.json`
                     } else if (month && week && exam_date && !grade && !subject_name) {
-                    
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
@@ -93,15 +116,14 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/overall/block.json`;
                         // }
                     }
-                } else if (period === "Last 30 Days") {
                 }
             }
         }
-     
+      
 
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
-
+      
         if (districtId) {
             data = data.filter(val => {
                 return val.district_id == districtId
@@ -124,6 +146,8 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             return unique;
         }, []);
 
+
+
         let arr = {}
 
         if (exam_date) {
@@ -131,7 +155,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 return val.distribution_date == exam_date
             })
         }
-        
+
         if (grade) {
             data = data.filter(val => {
                 return val.grade == grade
@@ -161,43 +185,32 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             Promise.all(data.map(item => {
 
                 if (week && !exam_date) {
-                  
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1] + item
+                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
-                  
                     label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else {
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week
+                        item.subject + "/" + item.no_of_books_distributed
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 }
             })).then(() => {
                 let keys = Object.keys(arr)
-            
+               
                 let val = []
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.block_name) > (b.block_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
-
+                   
                     if (week && !exam_date) {
                         var x = {
                             grade: splitVal[0],
                             subject: splitVal[1],
                             week: splitVal[3],
-
-                        }
-                    } else if (week && exam_date) {
-                        var x = {
-
-                            grade: splitVal[1],
-                            subject: splitVal[2],
-                            week: splitVal[3],
-                            date: splitVal[0]
 
                         }
                     } else if (week && exam_date) {
@@ -245,6 +258,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             })
         }
 
+
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
@@ -262,7 +276,7 @@ router.post('/AllBlockWise', auth.authController, async (req, res) => {
         if (category == 'overall') {
             fileName = `${dataSource}/overall/block.json`;
         }
-    
+
         let data = await s3File.readFileConfig(fileName);
         data = data['data']
 
@@ -289,7 +303,7 @@ router.post('/AllBlockWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
-     
+
 
         res.status(200).send({ data });
 
