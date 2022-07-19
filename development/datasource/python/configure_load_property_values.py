@@ -8,7 +8,6 @@ from update_nifi_parameters_main import get_parameter_context, update_parameter
 import ast
 
 
-# print(config_create_table_params.create_parameters_queries())
 
 def get_nifi_root_pg():
     """ Fetch nifi root processor group ID"""
@@ -134,23 +133,23 @@ if __name__ == '__main__':
                       'conf_delete_staging_1_table',
                       'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename',
                       'add_ff_uuid_and_convert_date', 'convert_date_to_ist', 'convert_management_date_to_ist',
-                      'partition_according_columns', 'partition_management']
+                      'partition_according_columns', 'partition_management','config_datasource_save_s3_log_summary','config_datasource_update_filename','']
 
     data_storage_processor = 'cQube_data_storage'
     conf_key = "configure_file"
     conf_key1 = "SQL select query"
     conf_key2 = "putsql-sql-statement"
     conf_key3 = "filename"
-    conf_value = '${' + 'filename:startsWith("{0}"):or('.format(
-        filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(
-        filename) + ':or(${path:startsWith("configure_datasource/"):not():or(${s3:startsWith("configure_datasource/"):not():or(${azure.blobname:startsWith("configure_datasource/"):not()})})})})}'
-    conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) + '}'
+    conf_key4 = "Object Key"
+    conf_value = '${' + 'filename:startsWith("{0}"):or('.format(filename) + '${' + 'azure.blobname:startsWith("{0}")'.format(filename)+'})}'
+    conf_value1 = '${' + "filename:startsWith('{0}')".format(filename) + ':and(${path:startsWith("config"):or(${filename:startsWith("config"):or(${azure.blobname:startsWith("config")})}):not()})}'
     conf_value7 = '${' + "emission_filename:startsWith('{0}')".format(filename) + '}'
     conf_value2 = "select distinct year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
     conf_value3 = "delete from " + filename + "_temp where ff_uuid='${zip_identifier}';"
     conf_value4 = "truncate table " + filename + "_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
     conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/" + filename + "/#{temp_trans_aggregation_queries}"
+    conf_value8 = "log_summary/log_summary_"+filename+".json"
     # Date_column_update
     res = parse_file(f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt', 'date_column')
     res = ast.literal_eval(res)
@@ -193,6 +192,12 @@ if __name__ == '__main__':
     processor_properties9 = {
         conf_key: conf_value7
     }
+    processor_properties10 = {
+        conf_key4: conf_value8
+    }
+    processor_properties11 = {
+        conf_key3: conf_value8
+    }
     # Enable the validation template and update
     time.sleep(5)
 
@@ -221,6 +226,8 @@ if __name__ == '__main__':
     nifi_update_processor_property(processor_group_name[2], processor_name[14], processor_properties_date)
     nifi_update_processor_property(processor_group_name[2], processor_name[15], processor_properties8)
     nifi_update_processor_property(processor_group_name[2], processor_name[16], processor_properties8)
+    nifi_update_processor_property(processor_group_name[1], processor_name[17], processor_properties10)
+    nifi_update_processor_property(processor_group_name[1], processor_name[18], processor_properties11)
     parameter_context_names = ['validate_datasource_parameters', 'transaction_and_aggregation_parameters']
 
     for parameter_context_name in parameter_context_names:

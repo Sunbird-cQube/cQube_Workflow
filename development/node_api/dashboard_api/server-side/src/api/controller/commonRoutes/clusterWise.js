@@ -50,7 +50,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
         } else if (reportType == "Map") {
 
             if (period === "overall") {
-               
+
                 if (grade && !subject_name) {
 
                     fileName = `${dataSource}/overall/cluster/${grade}.json`;
@@ -62,7 +62,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                     fileName = `${dataSource}/overall/cluster.json`;
                 }
             } else if (period === "last 30 days") {
-           
+
                 if (grade && !subject_name) {
                     fileName = `${dataSource}/last_30_day/cluster/${grade}.json`;
                 } else if (grade && subject_name) {
@@ -71,7 +71,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                     fileName = `${dataSource}/last_30_day/cluster.json`;
                 }
             } else if (period === "last 7 days") {
-               
+
                 if (grade && !subject_name) {
                     fileName = `${dataSource}/last_7_day/cluster/${grade}.json`;
                 } else if (grade && subject_name) {
@@ -80,7 +80,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                     fileName = `${dataSource}/last_7_day/cluster.json`;
                 }
             } else if (period === "last day") {
-               
+
                 if (grade && !subject_name) {
                     fileName = `${dataSource}/last_day/cluster/${grade}.json`;
                 } else if (grade && subject_name) {
@@ -89,11 +89,11 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                     fileName = `${dataSource}/last_day/cluster.json`;
                 }
             } else if (period === "year and month") {
-               
+
                 if (month && !week && !exam_date && !grade && !subject_name) {
                     fileName = `${dataSource}/${year}/${month}/cluster.json`
                 } else if (month && !week && !exam_date && grade && !subject_name) {
-                   
+
                     fileName = `${dataSource}/${year}/${month}/cluster/${grade}.json`
                 } else if (month && !week && !exam_date && grade && subject_name) {
 
@@ -108,13 +108,19 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 } else if ((month && week && exam_date && grade && subject_name)) {
                     fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/cluster_subject_footer.json`
                 } else {
-                   
+
                 }
             }
         }
 
 
         let data = await s3File.readFileConfig(fileName);
+        if (blockId) {
+            footer = data['footer']
+            footer = footer[blockId.toString()]
+        } else {
+            footer = data['allDistrictsFooter']
+        }
         data = data['data']
 
         if (blockId) {
@@ -173,7 +179,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 lat, long,
                 ...rest
             }));
-            res.status(200).send({ data, clusterDetails })
+            res.status(200).send({ data, clusterDetails, footer })
         }
 
         if (reportType == "lotable") {

@@ -48,6 +48,8 @@ export class CommonMapReportComponent implements OnInit {
   public blockHierarchy: any = "";
   public clusterHierarchy: any = "";
 
+
+
   // leaflet layer dependencies
   public layerMarkers = new L.layerGroup();
   public markersList = new L.FeatureGroup();
@@ -564,6 +566,8 @@ export class CommonMapReportComponent implements OnInit {
             this.markers = this.data = res["data"];
             // this.gettingInfraFilters(this.data);
             this.districtDropDown = res["districtDetails"]
+            this.schoolCount = res["footer"]['schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.studentCount = res["footer"]['students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             // to show only in dropdowns
             this.districtMarkers = this.data;
             let arr = [];
@@ -1926,6 +1930,8 @@ export class CommonMapReportComponent implements OnInit {
           this.markers = this.data = res["data"];
 
           this.blockDropDown = res['blockDetails']
+          this.schoolCount = res["footer"]['schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+          this.studentCount = res["footer"]['students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
           this.blockMarkers = this.data;
 
           const key = 'district_id';
@@ -2080,7 +2086,8 @@ export class CommonMapReportComponent implements OnInit {
         (res) => {
           if (res["data"].length) {
             this.markers = this.data = res["data"];
-
+            this.schoolCount = res["footer"]['schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.studentCount = res["footer"]['students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
             this.districtMarkers = this.data;
             let distKey = "district_id"
             this.districtMarkers = [...new Map(this.data.map(item =>
@@ -2250,7 +2257,8 @@ export class CommonMapReportComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-
+              this.schoolCount = res["footer"]['schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = res["footer"]['students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               if (this.schoolLevel) {
                 let schoolData = res['data']
                 let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
@@ -2598,7 +2606,7 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   generateToolTip(marker, level, markerIcon, lat, lng) {
-
+    console.log('tooltip', marker)
     this.popups(markerIcon, marker, level);
     var infraName = this.infraData;
     let colorText = `style='color:blue !important;'`;

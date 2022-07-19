@@ -367,13 +367,17 @@
                     <parentGroupId>d293690e-dbeb-3770-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>3416.0</x>
+                        <y>-728.0</y>
+                    </bends>
                     <destination>
                         <groupId>d293690e-dbeb-3770-0000-000000000000</groupId>
                         <id>0723cb63-5ac7-337e-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </destination>
                     <flowFileExpiration>0 sec</flowFileExpiration>
-                    <labelIndex>1</labelIndex>
+                    <labelIndex>0</labelIndex>
                     <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
                     <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
@@ -1947,6 +1951,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>e5da369d-1de0-3991-0000-000000000000</id>
+                    <parentGroupId>d293690e-dbeb-3770-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>d293690e-dbeb-3770-0000-000000000000</groupId>
+                        <id>9c7d28b3-8c9c-31b1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>d293690e-dbeb-3770-0000-000000000000</groupId>
+                        <id>8f64cd53-89c5-3a84-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>e6c39d04-5c95-3e3f-0000-000000000000</id>
                     <parentGroupId>d293690e-dbeb-3770-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -3329,8 +3358,8 @@
                     <id>6ec6604f-662c-3257-0000-000000000000</id>
                     <parentGroupId>d293690e-dbeb-3770-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-2176.0</x>
-                        <y>-888.0</y>
+                        <x>-2056.0</x>
+                        <y>-896.0</y>
                     </position>
                     <versionedComponentId>75a54ab2-7813-30c8-baa2-76d4c7492a47</versionedComponentId>
                     <height>1288.0</height>
@@ -4194,6 +4223,7 @@ ${query_type:startsWith('school_management_grade_subject_last'):or(${query_type:
                             </entry>
                             <entry>
 <key>SQL select query</key>
+<value>select a.grade,a.subject,cnt.block_id,block_name,block_latitude,block_longitude,cnt.district_id,district_name,max(cnt.students_count) as students_count,count(distinct a.school_id) as total_schools,sum( no_of_books_distributed)  as  no_of_books_distributed from textbook_distribution_aggregation as a join textbook_distribution_block_students_count_grade_sub_overall as cnt on a.block_id= cnt.block_id  and a.grade=cnt.grade and a.subject = cnt.subject group by a.grade,a.subject, cnt.block_id,block_name,block_latitude,block_longitude,cnt.district_id,district_name</value>
                             </entry>
                             <entry>
 <key>sql-post-query</key>
@@ -5522,8 +5552,8 @@ ${query_type:startsWith('school_management_last')
                     <id>51fe8298-5e50-3d58-0000-000000000000</id>
                     <parentGroupId>d293690e-dbeb-3770-0000-000000000000</parentGroupId>
                     <position>
-                        <x>7304.0</x>
-                        <y>-312.0</y>
+                        <x>7280.0</x>
+                        <y>-360.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -5911,12 +5941,6 @@ ${query_type:startsWith('school_management_daily')
     <name>/distribution_date</name>
 </value>
                             </entry>
-                            <entry>
-<key>/issued_date</key>
-<value>
-    <name>/issued_date</name>
-</value>
-                            </entry>
                         </descriptors>
                         <executionNode>ALL</executionNode>
                         <lossTolerant>false</lossTolerant>
@@ -5936,10 +5960,6 @@ ${query_type:startsWith('school_management_daily')
                             </entry>
                             <entry>
 <key>/distribution_date</key>
-<value>${field.value:format('yyyy-MM-dd','IST')}</value>
-                            </entry>
-                            <entry>
-<key>/issued_date</key>
 <value>${field.value:format('yyyy-MM-dd','IST')}</value>
                             </entry>
                         </properties>
@@ -8359,6 +8379,112 @@ ${query_type:startsWith('school_grade_by_month_year')
                     <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
                 </processors>
                 <processors>
+                    <id>8f64cd53-89c5-3a84-0000-000000000000</id>
+                    <parentGroupId>d293690e-dbeb-3770-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>2816.0</x>
+                        <y>-1264.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>File Size</key>
+<value>
+    <name>File Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>
+    <name>Batch Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Data Format</key>
+<value>
+    <name>Data Format</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Unique FlowFiles</key>
+<value>
+    <name>Unique FlowFiles</name>
+</value>
+                            </entry>
+                            <entry>
+<key>generate-ff-custom-text</key>
+<value>
+    <name>generate-ff-custom-text</name>
+</value>
+                            </entry>
+                            <entry>
+<key>character-set</key>
+<value>
+    <name>character-set</name>
+</value>
+                            </entry>
+                            <entry>
+<key>mime-type</key>
+<value>
+    <name>mime-type</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>File Size</key>
+<value>0B</value>
+                            </entry>
+                            <entry>
+<key>Batch Size</key>
+<value>1</value>
+                            </entry>
+                            <entry>
+<key>Data Format</key>
+<value>Text</value>
+                            </entry>
+                            <entry>
+<key>Unique FlowFiles</key>
+<value>false</value>
+                            </entry>
+                            <entry>
+<key>generate-ff-custom-text</key>
+                            </entry>
+                            <entry>
+<key>character-set</key>
+<value>UTF-8</value>
+                            </entry>
+                            <entry>
+<key>mime-type</key>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>1day</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>GenerateFlowFile</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.GenerateFlowFile</type>
+                </processors>
+                <processors>
                     <id>9796c644-eccf-3f03-0000-000000000000</id>
                     <parentGroupId>d293690e-dbeb-3770-0000-000000000000</parentGroupId>
                     <position>
@@ -9705,12 +9831,6 @@ ${query_type:startsWith('school_management_by_month_year')
     <name>/distribution_date</name>
 </value>
                             </entry>
-                            <entry>
-<key>/issued_date</key>
-<value>
-    <name>/issued_date</name>
-</value>
-                            </entry>
                         </descriptors>
                         <executionNode>ALL</executionNode>
                         <lossTolerant>false</lossTolerant>
@@ -9730,10 +9850,6 @@ ${query_type:startsWith('school_management_by_month_year')
                             </entry>
                             <entry>
 <key>/distribution_date</key>
-<value>${field.value:format('yyyy-MM-dd','IST')}</value>
-                            </entry>
-                            <entry>
-<key>/issued_date</key>
 <value>${field.value:format('yyyy-MM-dd','IST')}</value>
                             </entry>
                         </properties>
@@ -10962,5 +11078,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>07/15/2022 16:08:52 IST</timestamp>
+    <timestamp>07/19/2022 19:29:07 IST</timestamp>
 </template>

@@ -10,12 +10,12 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
         let { year, grade, month, dataSource, reportType, subject_name, exam_date, week, period, districtId, management, category } = req.body
 
-      
+
         let fileName;
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-                   
+
                     fileName = `${dataSource}/overall/block_subject_footer.json`;
                 } else if (period == "last 30 days") {
                     fileName = `${dataSource}/last_30_day/block_subject_footer.json`;
@@ -119,11 +119,20 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 }
             }
         }
-      
+
 
         let data = await s3File.readFileConfig(fileName);
+        let footer
+        if (districtId) {
+            footer = data['footer']
+            footer = footer[districtId.toString()]
+        } else {
+            footer = data['allDistrictsFooter']
+        }
+
+
         data = data['data']
-      
+
         if (districtId) {
             data = data.filter(val => {
                 return val.district_id == districtId
@@ -178,7 +187,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 lat, long,
                 ...rest
             }));
-            res.status(200).send({ data, blockDetails })
+            res.status(200).send({ data, blockDetails, footer })
         }
 
         if (reportType === "lotable") {
@@ -200,12 +209,12 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 }
             })).then(() => {
                 let keys = Object.keys(arr)
-               
+
                 let val = []
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.block_name) > (b.block_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
-                   
+
                     if (week && !exam_date) {
                         var x = {
                             grade: splitVal[0],
