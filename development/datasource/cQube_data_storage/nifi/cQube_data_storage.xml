@@ -10515,7 +10515,7 @@
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
                     <backPressureObjectThreshold>10000</backPressureObjectThreshold>
                     <bends>
-                        <x>1288.0</x>
+                        <x>1264.0</x>
                         <y>-976.0</y>
                     </bends>
                     <destination>
@@ -50188,9 +50188,7 @@ ${query_type:startsWith('crc_management_district_last_30_days'):ifElse('crc/scho
                             </entry>
                             <entry>
 <key>configure_file</key>
-<value>${filename:startsWith('textbook_distribution')
-:and(${path:startsWith('config'):or(${filename:startsWith('config'):or(${azure.blobname:startsWith('config')
-})}):not()})}</value>
+<value>${filename:startsWith('datasource_name'):and(${path:startsWith("config"):or(${filename:startsWith("config"):or(${azure.blobname:startsWith("config")})}):not()})}</value>
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
@@ -78442,7 +78440,7 @@ ${query_type:startsWith('stud_att_management_category_school_by_month_year'):ifE
                             </entry>
                             <entry>
 <key>configure_file</key>
-<value>${filename:startsWith('textbook_distribution')}</value>
+<value>${filename:startsWith('textbook_distribution'):and(${path:startsWith("config"):or(${filename:startsWith("config"):or(${azure.blobname:startsWith("config")})}):not()})}</value>
                             </entry>
                             <entry>
 <key>crc</key>
@@ -83178,5 +83176,5 @@ ${file_type:startsWith('log_summary'):and(${filename:startsWith('inspection_mast
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/19/2022 17:07:05 IST</timestamp>
+    <timestamp>07/19/2022 19:28:17 IST</timestamp>
 </template>
