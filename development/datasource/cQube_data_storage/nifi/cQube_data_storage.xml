@@ -10582,7 +10582,6 @@
                     <name></name>
                     <selectedRelationships>block_master</selectedRelationships>
                     <selectedRelationships>cluster_master</selectedRelationships>
-                    <selectedRelationships>config_file</selectedRelationships>
                     <selectedRelationships>configure</selectedRelationships>
                     <selectedRelationships>configure_file</selectedRelationships>
                     <selectedRelationships>cqube_telemetry</selectedRelationships>
@@ -19719,7 +19718,7 @@
                     <id>e9ecb31f-4519-3236-0000-000000000000</id>
                     <parentGroupId>8fd67bb0-338d-3222-0000-000000000000</parentGroupId>
                     <position>
-                        <x>1512.0</x>
+                        <x>1520.0</x>
                         <y>-1208.0</y>
                     </position>
                     <height>184.0</height>
@@ -25761,7 +25760,7 @@ ${query_type:startsWith('sat_management_school_by_semester_year'):ifElse('sat/tr
                         <properties>
                             <entry>
 <key>Object Key</key>
-<value>log_summary/log_summary_configure_datasource.json</value>
+<value>log_summary/log_summary_textbook_distribution.json</value>
                             </entry>
                             <entry>
 <key>Bucket</key>
@@ -50053,12 +50052,6 @@ ${query_type:startsWith('crc_management_district_last_30_days'):ifElse('crc/scho
 </value>
                             </entry>
                             <entry>
-<key>config_file</key>
-<value>
-    <name>config_file</name>
-</value>
-                            </entry>
-                            <entry>
 <key>configure</key>
 <value>
     <name>configure</name>
@@ -50190,16 +50183,14 @@ ${query_type:startsWith('crc_management_district_last_30_days'):ifElse('crc/scho
 <value>${filename:startsWith('cluster_')}</value>
                             </entry>
                             <entry>
-<key>config_file</key>
-<value>${filename:startsWith('student_attendance')}</value>
-                            </entry>
-                            <entry>
 <key>configure</key>
 <value>${filename:contains('config'):or(${path:contains('config'):or(${azure.blobname:contains('config')})})}</value>
                             </entry>
                             <entry>
 <key>configure_file</key>
-<value>${filename:startsWith('textbook_distribution')}</value>
+<value>${filename:startsWith('textbook_distribution')
+:and(${path:startsWith('config'):or(${filename:startsWith('config'):or(${azure.blobname:startsWith('config')
+})}):not()})}</value>
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
@@ -50364,10 +50355,6 @@ ${filename:startsWith('sch_safety')}
                     <relationships>
                         <autoTerminate>false</autoTerminate>
                         <name>cluster_master</name>
-                    </relationships>
-                    <relationships>
-                        <autoTerminate>false</autoTerminate>
-                        <name>config_file</name>
                     </relationships>
                     <relationships>
                         <autoTerminate>false</autoTerminate>
@@ -51268,7 +51255,7 @@ ${query_type:startsWith('sat_subject_footer_school_year_semester'):ifElse('sat/$
                     <id>732bcdd3-8ce9-3812-0000-000000000000</id>
                     <parentGroupId>8fd67bb0-338d-3222-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2136.0</x>
+                        <x>2112.0</x>
                         <y>-1240.0</y>
                     </position>
                     <bundle>
@@ -80361,7 +80348,7 @@ ${query_type:startsWith('sat_exception_management_grade_school_last_30_days'):if
                             </entry>
                             <entry>
 <key>filename</key>
-<value>log_summary_configure_datasource.json</value>
+<value>log_summary/log_summary_textbook_distribution.json</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -83191,5 +83178,5 @@ ${file_type:startsWith('log_summary'):and(${filename:startsWith('inspection_mast
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/18/2022 14:46:30 IST</timestamp>
+    <timestamp>07/19/2022 17:07:05 IST</timestamp>
 </template>
