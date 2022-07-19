@@ -162,11 +162,18 @@ export class NifiShedularComponent implements OnInit {
       this.processorId = res['processorId'];
       this.service.nifiGetProcessorDetails(this.processorId).subscribe(details => {
         this.result = details;
+
         let processors = this.result.filter(a => {
           return a.name != "cQube_data_storage";
         })
         processors = processors.filter(a => {
           return a.name != 'diksha_transformer_custom'
+        })
+        processors = processors.filter(a => {
+          return a.name != "transaction_and_aggregation"
+        })
+        processors = processors.filter(a => {
+          return a.name != "validate_datasource"
         })
         this.data = processors;
         for (let i = 0; i < this.result.length; i++) {

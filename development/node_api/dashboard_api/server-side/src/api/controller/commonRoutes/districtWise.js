@@ -13,8 +13,39 @@ router.post('/distWise', auth.authController, async (req, res) => {
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-
                     fileName = `${dataSource}/overall/district_subject_footer.json`;
+                } else if (period == "last 30 days") {
+
+                    fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
+                } else if (period == "last 7 days") {
+
+                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                } else if (period == "last 7 days") {
+
+                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                } else if (period == "last day") {
+
+                    fileName = `${dataSource}/last_day/district_subject_footer.json`;
+                } else if (period == "year and month") {
+
+                    if (month && !week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                    } if (month && !week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                    } else if ((month && week && !exam_date && !grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                    } else if ((month && week && exam_date && !grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                    } else if ((month && week && exam_date && grade && !subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district/${grade}.json`
+                    } else if ((month && week && exam_date && grade && subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                    }
+                }
+            } else {
+                if (management == "govt" && period == "overall") {
+
+                    fileName = `${dataSource}/school_management_category/overall/${management}/district_subject_footer.json`;
                 } else if (period == "last 30 days") {
 
                     fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
@@ -114,7 +145,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
             }
         }
-
+      
 
         let data = await s3File.readFileConfig(fileName);
 
