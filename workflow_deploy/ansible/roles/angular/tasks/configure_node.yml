@@ -1,7 +1,8 @@
 ---
 - name: Stoping the server_side app
   become: yes
-  shell: pm2 stop server_side
+  become_user: "{{ system_user_name }}"
+  shell: sudo pm2 stop server_side
   tags: update
 
 - name: Delete server_side directory

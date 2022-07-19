@@ -35,7 +35,6 @@ if [ -e /etc/ansible/ansible.cfg ]; then
 	sudo sed -i 's/^#log_path/log_path/g' /etc/ansible/ansible.cfg
 fi
 
-echo '127.0.0.0' >> /etc/ansible/hosts
 
 if [ ! $? = 0 ]; then
 tput setaf 1; echo "Error there is a problem installing Ansible"; tput sgr0
@@ -43,6 +42,7 @@ exit
 fi
    
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+installation_host_ip=$(awk ''/^installation_host_ip:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 installation_host_ip=$(awk ''/^installation_host_ip:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
@@ -55,7 +55,7 @@ ansible-playbook -i hosts ../ansible/install.yml -e "my_hosts=$installation_host
                                                          --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
 														 --extra-vars "@$base_dir/cqube/conf/azure_container_config.yml" \
                                                          --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
-							                            --extra-vars "@datasource_config.yml" \
+							                             --extra-vars "@datasource_config.yml" \
                                                          --extra-vars "usecase_name=education_usecase" \
                                                          --extra-vars "protocol=http"
 else

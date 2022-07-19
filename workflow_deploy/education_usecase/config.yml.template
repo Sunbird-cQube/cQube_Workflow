@@ -42,4 +42,7 @@ slab3:                                    #Enter slab3 value range is greater th
 
 slab4:                                    #Enter slab4 value is greater than or equal to slab3 last value between 1-100 ( eg: slab4 75 )
 
-auth_api:                                #Enter `cqube` for  local cqube authentication , Enter api url for other authentication api  
+auth_api:                                #Enter `cqube` for  local cqube authentication , Enter api url for other authentication api 
+
+installation_host_ip: 127.0.0.1             # If migration, then enter the public ip of remote server.
+

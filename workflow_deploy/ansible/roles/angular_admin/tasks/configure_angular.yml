@@ -1,7 +1,8 @@
 ---
 - name: Stoping the admin_client_side app
   become: yes
-  shell: pm2 stop admin_client_side
+  become_user: "{{ system_user_name }}"
+  shell: sudo pm2 stop admin_client_side
   tags: update
 
 - name: Delete admin_client_side directory
@@ -24,10 +25,6 @@
     src: "../../development/ui/admin_ui/client-side/"
     dest: "{{base_dir}}/cqube/admin_dashboard/client_side"
   tags: [ install, update ]  
-
-  #- name: copying server-side script
-  #shell: "cp -R ../../development/ui/admin_ui/client-side/* {{base_dir}}/cqube/admin_dashboard/client_side"
-  #tags: [ install, update ]
 
 - name: Configure the environment.ts
   template:
