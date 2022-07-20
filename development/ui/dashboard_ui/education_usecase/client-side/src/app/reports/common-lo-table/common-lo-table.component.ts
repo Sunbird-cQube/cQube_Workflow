@@ -318,6 +318,7 @@ export class CommonLoTableComponent implements OnInit {
 
         let Arr1 = []
 
+        
         $.each(this.reportData, function (a, b) {
           $.each(b, function (key, value) {
             if (key !== 'subject' && key !== 'grade') {

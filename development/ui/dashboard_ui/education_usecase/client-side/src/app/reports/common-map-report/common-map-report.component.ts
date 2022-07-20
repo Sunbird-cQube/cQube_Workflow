@@ -465,6 +465,7 @@ export class CommonMapReportComponent implements OnInit {
 
     this.hideIfAccessLevel = true;
 
+    
     this.month = "",
       this.week = "",
       this.hideMonth = true
