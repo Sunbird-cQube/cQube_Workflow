@@ -25,12 +25,12 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
     this.currentRoute = [];
     this.route.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-        
+
       }
 
       if (event instanceof NavigationEnd) {
         // Hide progress spinner or progress bar
-        document.getElementById('spinner').style.display = "none"
+        document.getElementById('spinner').style.display = "block"
         this.currentRoute = event.url.split("/");
         this.fetchCardConfig()
 
