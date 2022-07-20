@@ -12,6 +12,7 @@ import { CommonMapReportComponent } from './common-map-report/common-map-report.
 import { CommonBarChartComponent } from './common-bar-chart/common-bar-chart.component';
 import { CommonLoTableComponent } from './common-lo-table/common-lo-table.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { DynamicBarChartComponent } from './dynamic-bar-chart/dynamic-bar-chart.component';
 
 
 const otherRoutes = [
@@ -64,6 +65,7 @@ const otherRoutes = [
     CommonBarChartComponent,
     CommonMapReportComponent,
     CommonLoTableComponent,
+    DynamicBarChartComponent,
   ],
   imports: [
     CommonModule,

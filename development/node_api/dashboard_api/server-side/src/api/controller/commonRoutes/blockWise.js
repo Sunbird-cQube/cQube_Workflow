@@ -287,6 +287,7 @@ router.post('/AllBlockWise', auth.authController, async (req, res) => {
         }
 
         let data = await s3File.readFileConfig(fileName);
+        footer = data['allDistrictsFooter']
         data = data['data']
 
         if (districtId) {
@@ -313,8 +314,16 @@ router.post('/AllBlockWise', auth.authController, async (req, res) => {
 
         let arr = {}
 
+        data = data.map(({
+            block_latitude: lat,
+            block_longitude: long,
 
-        res.status(200).send({ data });
+            ...rest
+        }) => ({
+            lat, long,
+            ...rest
+        }));
+        res.status(200).send({ data, footer });
 
 
     } catch (e) {
