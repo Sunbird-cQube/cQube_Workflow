@@ -465,14 +465,15 @@ export class CommonMapReportComponent implements OnInit {
 
     this.hideIfAccessLevel = true;
 
-    
-    this.month = "",
-      this.week = "",
-      this.hideMonth = true
+
+    this.month = ""
+    this.week = ""
+    this.hideMonth = true
     this.hideWeek = true
     this.hideDay = true
-    this.hideYear = true,
-      this.grade = "all"
+    this.hideYear = true
+    this.grade = "all"
+    this.examDate = ""
 
     this.period = "overall"
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
