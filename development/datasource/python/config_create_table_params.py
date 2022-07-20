@@ -573,6 +573,7 @@ def create_table_queries():
                     table_names = df['table_name'].dropna().to_string(index=False).strip()
                     tmp_columns = df['columns'].dropna().tolist()
                     global student_id_exists
+                    student_id_exists = False
                     columns = []
                     for col in tmp_columns:
                         x = col.replace(" ", "_")
