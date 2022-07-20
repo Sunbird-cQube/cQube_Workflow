@@ -231,7 +231,7 @@ def create_parameters_queries():
                     date_column = '"date_column":"""[' + date_column2 + ']""",'
 
                     # select_files_from__log_db
-                    select_files_from_log_db = '"select_files_from__log_db":"""select * from log_summary where filename like' "'" + table_names + "%'"'""",'
+                    select_files_from_log_db = '"select_files_from_log_db":"""select * from log_summary where filename like' "'" + table_names + "%'"'""",'
 
                     # unique_records_same_records
                     unique_records_same_records = '"unique_records_same_records":"""insert into ' + table_names + '_staging_2(' + clmn + ',ff_uuid) select ' + clmn + ',ff_uuid from ( SELECT ' + clmn + ',ff_uuid, row_number() over (partition by ' + clmn + ',ff_uuid) as rn from ' + table_names + '_staging_1) sq Where rn =1""",'
@@ -1272,8 +1272,8 @@ def create_dml_timeline_queries():
 
         if 'last_day' in df_time_sel:
             for filter, var in zip(filters, filter_var):
-                dml_queries += '{"' + filter + '_grade_subject_last_day":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,subject,' + var + '"},'
-                dml_queries += '{"' + filter + '_management_grade_subject_last_day":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,subject,' + var + ',school_management_type' + '"},'
+                dml_queries += '{"' + filter + '_grade_subject_last_day":"select grade,subject,' + var + ',' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,subject,' + var_grp + '"},'
+                dml_queries += '{"' + filter + '_management_grade_subject_last_day":"select grade,subject,' + var + ',school_management_type,' + metric_rep + ' from ' + table_names + '_aggregation ' + last_day_filter + 'group by grade,subject,' + var_grp + ',school_management_type' + '"},'
 
         if 'grade' in df_filters_req and 'subject' in df_filters_req:
             dml_queries += '{"meta":"select grade.academic_year,json_agg(json_build_object(' + "'grades',grades,'months',months)) as data from (select academic_year,json_agg(json_build_object('grade',grade,'subjects',subjects)) as grades from (select academic_year,grade,json_agg(subject) as subjects from (select  distinct academic_year(" + date_col + ") as academic_year,grade,subject from " + table_names + "_aggregation) as a group by academic_year,grade) as a group by academic_year) as grade join (select academic_year,json_agg(json_build_object('months',month,'weeks',weeks)) as months from (select academic_year,trim(month) as month,json_agg(json_build_object('week',week,'days',dates)) as weeks from  (select academic_year,month,week,json_agg(" + date_col + ")as dates from (select distinct " + date_col + ",cast(extract('day' from date_trunc('week' ," + date_col + ") -date_trunc('week', date_trunc('month', " + date_col + " ))) / 7 + 1 as integer) as week,TO_CHAR(" + date_col + ", 'Month') AS month,academic_year(" + date_col + ") as academic_year from " + table_names + '_aggregation ' + ') as a group by academic_year,month,week) as a group by academic_year,month) as b group by academic_year) as  dates on grade.academic_year = dates.academic_year group by grade.academic_year"},'
