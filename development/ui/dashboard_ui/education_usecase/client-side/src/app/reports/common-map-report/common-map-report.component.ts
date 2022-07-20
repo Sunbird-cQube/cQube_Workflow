@@ -169,7 +169,7 @@ export class CommonMapReportComponent implements OnInit {
     this.globalService.latitude = this.lat = this.globalService.mapCenterLatlng.lat;
     this.globalService.longitude = this.lng = this.globalService.mapCenterLatlng.lng;
     this.changeDetection.detectChanges();
-    this.globalService.initMap("infraMap", [[this.lat, this.lng]]);
+    this.globalService.initMap("commonMap", [[this.lat, this.lng]]);
     if (this.mapName == 'googlemap') {
       document.getElementById('leafletmap').style.display = "none";
     }
@@ -257,15 +257,11 @@ export class CommonMapReportComponent implements OnInit {
 
   getTimelineMeta() {
     this.service1.configurableTimePeriodMeta({ dataSource: this.datasourse }).subscribe(res => {
-      // this.timeRange = res
+      this.timeRange = res
+      const key = 'value';
+      this.timeRange = [...new Map(this.timeRange.map(item =>
+        [item[key], item])).values()];
 
-      this.timeRange = [
-        { value: "overall" },
-        { value: "last 30 days" },
-        { value: "last 7 days" },
-        { value: "last day" },
-        { value: "year and month" },
-      ];
     })
   }
   getMetaData() {
@@ -499,7 +495,7 @@ export class CommonMapReportComponent implements OnInit {
   districtDropDown
   hideMap: boolean = false
   districtWise() {
-    try {
+  
       // to clear the existing data on the map layer
       globalMap.removeLayer(this.markersList);
       this.layerMarkers.clearLayers();
@@ -558,7 +554,7 @@ export class CommonMapReportComponent implements OnInit {
         obj['exam_date'] = this.examDate
       }
 
-
+    
       this.myData = this.service1.dynamicDistData(obj).subscribe(
         (res) => {
           if (res["data"]) {
@@ -628,27 +624,19 @@ export class CommonMapReportComponent implements OnInit {
                   : 0
             );
             this.changeDetection.detectChanges();
+          }else{
+            this.commonService.loaderAndErr(this.data);
           }
-
-          this.commonService.loaderAndErr(this.data);
+         
         },
         (err) => {
           this.data = [];
           this.commonService.loaderAndErr(this.data);
-
+          this.globalService.setZoomLevel(this.level)
         }
       );
-      // }
-
       // adding the markers to the map layers
       globalMap.addLayer(this.layerMarkers);
-
-    } catch (e) {
-      this.districtMarkers = [];
-      this.commonService.loaderAndErr(this.districtMarkers);
-
-      console.log(e);
-    }
   }
 
   getRangeArray = (min, max, n) => {
@@ -1098,7 +1086,7 @@ export class CommonMapReportComponent implements OnInit {
             this.districtId = this.districtSlectedId
             this.markers = this.data = marker;
             this.level = "allCluster";
-            this.gettingInfraFilters(this.data);
+        
             let options = {
               radius: 5,
               mapZoom: this.globalService.zoomLevel,
@@ -1112,26 +1100,26 @@ export class CommonMapReportComponent implements OnInit {
               let result = this.data;
               this.clusterMarkers = [];
               this.clusterMarkers = result;
-              var colors = this.commonService.getRelativeColors(
-                this.clusterMarkers,
-                this.infraData
-              );
+              // var colors = this.commonService.getRelativeColors(
+              //   this.clusterMarkers,
+              //   this.infraData
+              // );
               this.schoolCount = 0;
               if (this.clusterMarkers.length !== 0) {
                 for (let i = 0; i < this.clusterMarkers.length; i++) {
                   var color;
-                  if (this.selected == "absolute") {
-                    color = this.commonService.colorGredient(
-                      this.clusterMarkers[i],
-                      this.infraData
-                    );
-                  } else {
-                    color = this.commonService.relativeColorGredient(
-                      this.clusterMarkers[i],
-                      this.infraData,
-                      colors
-                    );
-                  }
+                  // if (this.selected == "absolute") {
+                  //   color = this.commonService.colorGredient(
+                  //     this.clusterMarkers[i],
+                  //     this.infraData
+                  //   );
+                  // } else {
+                  //   color = this.commonService.relativeColorGredient(
+                  //     this.clusterMarkers[i],
+                  //     this.infraData,
+                  //     colors
+                  //   );
+                  // }
                   // google map circle icon
 
                   if (this.mapName == "googlemap") {
@@ -1143,7 +1131,7 @@ export class CommonMapReportComponent implements OnInit {
                   var markerIcon = this.globalService.initMarkers1(
                     this.clusterMarkers[i].lat,
                     this.clusterMarkers[i].long,
-                    color,
+                    "green",
                     1,
                     1,
                     options.level
@@ -1160,9 +1148,9 @@ export class CommonMapReportComponent implements OnInit {
                 }
 
                 //schoolCount
-                this.schoolCount = res["footer"]
-                  .toString()
-                  .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+                // this.schoolCount = res["footer"]
+                //   .toString()
+                //   .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1391,10 +1379,7 @@ export class CommonMapReportComponent implements OnInit {
                   this.getDownloadableData(this.clusterMarkers[i], options.level);
                 }
 
-                //schoolCount
-                // this.schoolCount = res["footer"]
-                //   .toString()
-                //   .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+               
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1467,7 +1452,7 @@ export class CommonMapReportComponent implements OnInit {
               this.districtId = this.districtSlectedId;
               let data = res["data"];
               let marker = data.filter(a => {
-                if (a.details.district_id === this.districtSlectedId) {
+                if (a.district_id === this.districtSlectedId) {
                   return a
                 }
               })
@@ -1478,14 +1463,14 @@ export class CommonMapReportComponent implements OnInit {
               this.dist = true;
               this.districtId = this.districtSlectedId;
               this.districtHierarchy = {
-                distId: marker[0].details.district_id,
-                districtName: marker[0].details.district_name,
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name,
               };
 
               // to show and hide the dropdowns
               this.blockHidden = false;
               this.clusterHidden = false;
-              this.gettingInfraFilters(this.data);
+            
               let options = {
                 radius: 1,
                 mapZoom: this.globalService.zoomLevel,
@@ -1499,25 +1484,10 @@ export class CommonMapReportComponent implements OnInit {
                 let result = this.data;
                 this.schoolCount = 0;
                 this.schoolMarkers = result;
-                var colors = this.commonService.getRelativeColors(
-                  this.schoolMarkers,
-                  this.infraData
-                );
                 if (this.schoolMarkers.length !== 0) {
                   for (let i = 0; i < this.schoolMarkers.length; i++) {
                     var color;
-                    if (this.selected == "absolute") {
-                      color = this.commonService.colorGredient(
-                        this.schoolMarkers[i],
-                        this.infraData
-                      );
-                    } else {
-                      color = this.commonService.relativeColorGredient(
-                        this.schoolMarkers[i],
-                        this.infraData,
-                        colors
-                      );
-                    }
+                  
 
                     // google map circle icon
 
@@ -1528,9 +1498,9 @@ export class CommonMapReportComponent implements OnInit {
                     }
 
                     var markerIcon = this.globalService.initMarkers1(
-                      this.schoolMarkers[i].details.latitude,
-                      this.schoolMarkers[i].details.longitude,
-                      color,
+                      this.schoolMarkers[i].lat,
+                      this.schoolMarkers[i].long,
+                      "green",
                       0,
                       0.3,
                       options.level
@@ -1556,9 +1526,7 @@ export class CommonMapReportComponent implements OnInit {
 
                   //schoolCount
                   this.schoolCount = res["footer"];
-                  this.schoolCount = this.schoolCount
-                    .toString()
-                    .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
 
                   this.commonService.loaderAndErr(this.data);
                   this.changeDetection.markForCheck();
@@ -1583,14 +1551,14 @@ export class CommonMapReportComponent implements OnInit {
               this.blockHidden = false;
               this.clusterHidden = false;
               this.blockHierarchy = {
-                distId: marker[0].details.district_id,
-                districtName: marker[0].details.district_name,
-                blockId: marker[0].details.block_id,
-                blockName: marker[0].details.block_name,
+                distId: marker[0].district_id,
+                districtName: marker[0].district_name,
+                blockId: marker[0].block_id,
+                blockName: marker[0].block_name,
               };
 
               this.markers = this.data = marker
-              this.gettingInfraFilters(this.data);
+            
               let options = {
                 radius: 1,
                 mapZoom: this.globalService.zoomLevel,
@@ -1611,18 +1579,7 @@ export class CommonMapReportComponent implements OnInit {
                 if (this.schoolMarkers.length !== 0) {
                   for (let i = 0; i < this.schoolMarkers.length; i++) {
                     var color;
-                    if (this.selected == "absolute") {
-                      color = this.commonService.colorGredient(
-                        this.schoolMarkers[i],
-                        this.infraData
-                      );
-                    } else {
-                      color = this.commonService.relativeColorGredient(
-                        this.schoolMarkers[i],
-                        this.infraData,
-                        colors
-                      );
-                    }
+                
 
                     // google map circle icon
 
@@ -1633,21 +1590,15 @@ export class CommonMapReportComponent implements OnInit {
                     }
 
                     var markerIcon = this.globalService.initMarkers1(
-                      this.schoolMarkers[i].details.latitude,
-                      this.schoolMarkers[i].details.longitude,
-                      color,
+                      this.schoolMarkers[i].latitude,
+                      this.schoolMarkers[i].longitude,
+                      "green",
                       0,
                       0.3,
                       options.level
                     );
 
-                    this.generateToolTip(
-                      this.schoolMarkers[i],
-                      options.level,
-                      markerIcon,
-                      "latitude",
-                      "longitude"
-                    );
+                 
                     this.getDownloadableData(this.schoolMarkers[i], options.level);
                   }
                   globalMap.doubleClickZoom.enable();
@@ -1828,11 +1779,7 @@ export class CommonMapReportComponent implements OnInit {
                   this.changeDetection.detectChanges();
                   this.globalService.onResize(this.level);
 
-                  //schoolCount
-                  // this.schoolCount = res["footer"];
-                  // this.schoolCount = this.schoolCount
-                  //   .toString()
-                  //   .replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+               
 
                   this.commonService.loaderAndErr(this.data);
                   this.changeDetection.markForCheck();
@@ -1995,9 +1942,7 @@ export class CommonMapReportComponent implements OnInit {
             [options.centerLat + 1.5, options.centerLng + 2],
           ]);
 
-          //schoolCount
-          // this.schoolCount = res["footer"].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-
+         
           this.genericFun(this.blockMarkers, options, this.fileName);
           this.globalService.onResize(this.level);
           // sort the blockname alphabetically
@@ -2012,6 +1957,7 @@ export class CommonMapReportComponent implements OnInit {
         } else {
           this.blockMarkers = [];
           this.commonService.loaderAndErr(this.blockMarkers);
+        
         }
 
 
@@ -2019,6 +1965,7 @@ export class CommonMapReportComponent implements OnInit {
       (err) => {
         this.blockMarkers = [];
         this.commonService.loaderAndErr(this.blockMarkers);
+     
       }
     );
     globalMap.addLayer(this.layerMarkers);
@@ -2606,7 +2553,7 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   generateToolTip(marker, level, markerIcon, lat, lng) {
-    console.log('tooltip', marker)
+   
     this.popups(markerIcon, marker, level);
     var infraName = this.infraData;
     let colorText = `style='color:blue !important;'`;
