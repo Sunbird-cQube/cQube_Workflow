@@ -136,15 +136,16 @@
                             <ng-template #other_content> {{subjects[i]}}</ng-template>
                         </option>
                     </select>
-                    <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn" (click)="blockWise()">
+                    <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="blockbtn"
+                        [disabled]="hideAllBlockBtn" (click)="blockWise()">
                         &nbsp;<strong>Blocks</strong>
                     </button>
                     <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="clusterbtn"
-                        (click)="clusterWise() ">
+                        [disabled]="hideAllCLusterBtn" (click)="clusterWise() ">
                         &nbsp;<strong>Clusters</strong>
                     </button>
                     <button class="btn btn-secondary" [hidden]="hideIfAccessLevel" id="schoolbtn"
-                        (click)="schoolWise()">
+                        [disabled]="hideAllSchoolBtn" (click)="schoolWise()">
                         &nbsp;<strong>Schools</strong>
                     </button>
 
@@ -153,7 +154,7 @@
                         <option [value]="districtId" disabled selected="selected">
                             Choose a District
                         </option>
-                        <option *ngFor="let dist of districtMarkers" [(ngValue)]="dist.district_id">
+                        <option *ngFor="let dist of districtDropDown" [(ngValue)]="dist.district_id">
                             {{ dist.district_name | titlecase}}
                         </option>
 
@@ -250,32 +251,16 @@
         </div>
     </div>
     <div class="row" id="footer">
-        <div class="col-sm-3">
-            <!-- <div id="outer">
-                <div id="absolute" [ngStyle]="{
-            'background-color': selected == 'absolute' ? '#3100cc' : '#f5f6fb'
-          }">
-                    <p [ngStyle]="{ color: selected == 'absolute' ? 'white' : 'black' }"
-                        style="text-align: center; padding: 2%">
-                        Absolute
-                    </p>
-                </div>
-                <div id="relative" [ngStyle]="{
-            'background-color': selected == 'relative' ? '#3100cc' : '#f5f6fb'
-          }">
-                    <p [ngStyle]="{ color: selected == 'relative' ? 'white' : 'black' }"
-                        style="text-align: center; padding: 2%">
-                        Relative
-                    </p>
-                </div>
-            </div> -->
-        </div>
+
         <!-- <div class="col-sm-4">
             <span id="name" class="note" style="text-align: center">Management Type: </span>
-        </div>
-        <div class="col-sm-5" *ngIf="!valueRange || valueRange == '0-100'">
-            <span id="schools" class="note" style="text-align: center">Number of Schools: </span>
         </div> -->
+        <div class="col-sm-4" *ngIf="!valueRange || valueRange == '0-100'">
+            <span id="schools" class="note" style="text-align: center">Number of Schools: {{schoolCount}} </span>
+        </div>
+        <div class="col-sm-4" *ngIf="!valueRange || valueRange == '0-100'">
+            <span id="schools" class="note" style="text-align: center">Number of Students: {{studentCount}} </span>
+        </div>
     </div>
 </div>
 <div id="spinner">

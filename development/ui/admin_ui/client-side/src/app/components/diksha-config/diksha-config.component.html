@@ -123,7 +123,7 @@
                             <div class="col-sm-6" [hidden]="hideConfig">
                                 <div style="margin-top: 5px;">
                                     <p>Configurable Data: </p>
-                                    <select id="tpdMethod" [(ngModel)]="dataListSelected">
+                                    <select id="tpdMethod" [(ngModel)]="dataListSelected" (change)="selectedDataList()">
                                         <option [value]="dataListSelected" disabled selected="selected">Choose Data
                                             Source
                                         </option>
@@ -132,7 +132,7 @@
                                         </option>
                                     </select>
 
-                                    <button class="btn btn-primary" id="ret-submit"
+                                    <button class="btn btn-primary" id="ret-submit" [disabled]="disableBtn"
                                         style="float: right;margin-top: -5px !important;"
                                         (click)="activation()">Submit</button>
                                 </div>

@@ -33,6 +33,8 @@ export class SummaryStatistictsComponent implements OnInit {
   tableData19: any = [];
   tableData20: any = [];
   tableData21: any = [];
+  tableData22: any = [];
+  tableData23: any = [];
   constructor(private router: Router, private service: SummaryService) { }
 
   ngOnInit(): void {
@@ -171,7 +173,7 @@ export class SummaryStatistictsComponent implements OnInit {
       document.getElementById('spinner').style.display = 'none';
     });
 
-    
+
     this.service.getDikshaProgramSummary().subscribe((res: any) => {
       this.tableData15 = res;
       if (this.tableData15.length > 0) {
@@ -238,6 +240,29 @@ export class SummaryStatistictsComponent implements OnInit {
         this.tableWithSubHeaders(this.tableData21, "table22");
         document.getElementById('spinner').style.display = 'none';
       }
+
+    }, err => {
+      document.getElementById('spinner').style.display = 'none';
+    });
+
+    this.service.getSchoolDetailsSummary().subscribe((res: any) => {
+      this.tableData22 = res;
+      if (this.tableData22.length > 0) {
+        this.tableWithSubHeaders(this.tableData22, "table23");
+        document.getElementById('spinner').style.display = 'none';
+      }
+
+    }, err => {
+      document.getElementById('spinner').style.display = 'none';
+    });
+
+    this.service.getTextBookDistDetailsSummary().subscribe((res: any) => {
+      this.tableData23 = res;
+      if (this.tableData23.length > 0) {
+        this.tableWithSubHeaders(this.tableData23, "table24");
+        document.getElementById('spinner').style.display = 'none';
+      }
+
     }, err => {
       document.getElementById('spinner').style.display = 'none';
     });

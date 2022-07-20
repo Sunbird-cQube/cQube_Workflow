@@ -115,4 +115,13 @@ export class SummaryService {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/summary/subjectDetails`, {});
   }
+  getSchoolDetailsSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/schoolDetails`, {});
+  }
+
+  getTextBookDistDetailsSummary() {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/summary/textBookDetails`, {});
+  }
 }

@@ -26,8 +26,11 @@ export class DikshaConfigComponent implements OnInit {
   public getTime = `${this.date.getFullYear()}-${("0" + (this.date.getMonth() + 1)).slice(-2)}-${("0" + (this.date.getDate())).slice(-2)}, ${("0" + (this.date.getHours())).slice(-2)}:${("0" + (this.date.getMinutes())).slice(-2)}:${("0" + (this.date.getSeconds())).slice(-2)}`;
 
   public types = ['Date Range'];
-
+  public disableBtn
   ngOnInit(): void {
+
+    this.disableBtn = this.dataListSelected == "choose DataSource" ? false : true
+    console.log('btn', this.disableBtn)
     document.getElementById('spinner').style.display = 'none';
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
@@ -154,6 +157,10 @@ export class DikshaConfigComponent implements OnInit {
     this.startTimer(fiveMinutes, display);
   };
 
+  selectedDataList() {
+    this.disableBtn = false
+  }
+
   activation() {
     this.hideConfig = true
     this.startTimer1()
@@ -164,16 +171,16 @@ export class DikshaConfigComponent implements OnInit {
     let obj = {
       dataSource: this.dataListSelected
     }
-   
+
     this.service1.buildAngular(obj).subscribe(res => {
-      
+
       let index = this.dataSourceList.indexOf(this.dataListSelected)
       if (index > -1) { // only splice array when item is found
-        this.dataSourceList.splice(index, 1); 
+        this.dataSourceList.splice(index, 1);
       }
-      
-    },err => {
-       console.log('err', err)
+
+    }, err => {
+      console.log('err', err)
     })
   }
 
