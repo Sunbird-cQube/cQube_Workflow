@@ -260,6 +260,7 @@ router.post('/AllSchoolWise', auth.authController, async (req, res) => {
         }
 
         let data = await s3File.readFileConfig(fileName);
+        let footer = data['allDistrictsFooter']
         data = data['data']
 
         if (districtId) {
@@ -285,9 +286,17 @@ router.post('/AllSchoolWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
+        data = data.map(({
+            cluster_latitude: lat,
+            cluster_longitude: long,
 
+            ...rest
+        }) => ({
+            lat, long,
+            ...rest
+        }));
 
-        res.status(200).send({ data });
+        res.status(200).send({ data, footer });
 
 
     } catch (e) {

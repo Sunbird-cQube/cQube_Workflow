@@ -95,7 +95,7 @@ export class CommonLoTableComponent implements OnInit {
     public aRoute: ActivatedRoute) {
 
     this.datasourse = this.aRoute.snapshot.paramMap.get('id');
-
+    this.getTimelineMeta()
     service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(
       (res) => {
         try {
@@ -203,14 +203,17 @@ export class CommonLoTableComponent implements OnInit {
 
     })
   }
+  public timeRange
+  getTimelineMeta() {
+    this.service1.configurableTimePeriodMeta({ dataSource: this.datasourse }).subscribe(res => {
+      this.timeRange = res
+      const key = 'value';
+      this.timeRange = [...new Map(this.timeRange.map(item =>
+        [item[key], item])).values()];
 
-  timeRange = [
-    { value: "overall" },
-    { value: "last 30 days" },
-    { value: "last 7 days" },
-    { value: "last day" },
-    { value: "year and month" },
-  ];
+    })
+  }
+
   period = "overall";
 
   onChangePage() {
@@ -480,7 +483,7 @@ export class CommonLoTableComponent implements OnInit {
         } else {
           body += "<tr>";
           columns.forEach((column, i2) => {
-          
+
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
               let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
