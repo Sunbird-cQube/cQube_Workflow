@@ -130,7 +130,6 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             footer = data['allDistrictsFooter']
         }
 
-
         data = data['data']
 
         if (districtId) {
@@ -196,7 +195,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 if (week && !exam_date) {
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
+                        item.subject + "/"  + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
                     label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
@@ -204,7 +203,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 } else {
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed
+                        item.subject 
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 }
             })).then(() => {

@@ -189,7 +189,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
 
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1]
+                        item.subject  + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
 
@@ -198,7 +198,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 } else {
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed
+                        item.subject 
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 }
             })).then(() => {

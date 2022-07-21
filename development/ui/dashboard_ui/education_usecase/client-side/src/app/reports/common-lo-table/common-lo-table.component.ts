@@ -227,22 +227,7 @@ export class CommonLoTableComponent implements OnInit {
     this.createTable(this.filteredData);
   }
 
-  fetchFilters(metaData) {
-    let i;
-    for (i = 0; i < metaData.length; i++) {
-      if (metaData[i]["academic_year"] == this.year) {
-        this.months = Object.keys(this.metaData[i].data.months);
-        this.grades = metaData[i].data["grades"];
-        this.allViews = metaData[i].data["viewBy"];
-        break;
-      }
-    }
 
-    this.grades = [
-      { grade: "all" },
-      ...this.grades.filter((item) => item !== { grade: "all" }),
-    ];
-  }
 
   resetToInitPage() {
     this.resetTable();
@@ -298,7 +283,7 @@ export class CommonLoTableComponent implements OnInit {
       category: this.category,
       period: this.period
     };
-    this.month = a.month;
+
     if (this.myData) {
       this.myData.unsubscribe();
     }
@@ -307,6 +292,7 @@ export class CommonLoTableComponent implements OnInit {
 
         this.resetTable();
         this.updatedTable = this.reportData = response["tableData"];
+        console.log('updated', this.updatedTable)
         var districtNames = response["districtDetails"];
         this.districtNames = districtNames.sort((a, b) =>
           a.district_name > b.district_name
@@ -352,7 +338,7 @@ export class CommonLoTableComponent implements OnInit {
     let weekSelct = this.weekSeletced
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
-
+    console.log('my_column', dataSet)
     $(document).ready(function () {
       var headers = "<thead><tr>";
       var body = "<tbody>";
@@ -391,11 +377,12 @@ export class CommonLoTableComponent implements OnInit {
           let new_item = {};
           new_item["data"] = key;
           new_item["value"] = typeof (value) != 'object' ? value : value.percentage;
-          new_item["mark"] = typeof (value) != 'object' ? '' : value.mark;
+          // new_item["mark"] = typeof (value) != 'object' ? '' : value.mark;
           temp.push(new_item);
         });
         newArr.push(temp);
       });
+      console.log('newArr', newArr)
 
       let Arr1 = []
 
@@ -458,13 +445,15 @@ export class CommonLoTableComponent implements OnInit {
           .join(' ');
         return key;
       }
+
       newArr.forEach((columns, i1) => {
+
         if (weekSelct === true) {
           body += "<tr>";
           columns.forEach((column, i2) => {
 
             if (i2 > 2 && column.value || i2 > 2 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
+              let title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
 
             }
@@ -484,9 +473,9 @@ export class CommonLoTableComponent implements OnInit {
         } else {
           body += "<tr>";
           columns.forEach((column, i2) => {
-
+            console.log('column', column)
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> value: ${column.value}`;
+              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
 
             }
@@ -572,10 +561,13 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   selectedYear() {
+    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
-    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+
+    console.log('month', this.months)
 
     this.grade = "all";
     this.examDate = "all";
@@ -591,8 +583,14 @@ export class CommonLoTableComponent implements OnInit {
 
   selectedMonth() {
     this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-
-    this.weeks = this.months.find(a => { return a.month == this.month }).weeks;
+    // this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.hideMonth = this.period === "year and month" ? false : true;
+    // this.hideYear = this.period === "year and month" ? false : true;
+    this.hideWeek = this.period === "year and month" ? false : true;
+    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+    this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
+    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+    // this.weeks = this.months.find(a => { return a.month == this.month }).weeks;
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
