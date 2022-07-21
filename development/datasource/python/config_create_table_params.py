@@ -890,6 +890,7 @@ def create_dml_timeline_queries():
     block_grp = ' block_id,block_name,block_latitude,block_longitude,district_id,district_name'
     district_grp = ' district_id,district_name,district_latitude,district_longitude'
     week = "concat('week_',cast(extract('day' from date_trunc('week',a." + date_col + ") -date_trunc('week', date_trunc('month',a." + date_col + " ))) / 7 + 1 as integer)::text) as week"
+    week_var = week[:-8]
     daily_filter = ' where a.' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
     weekly_filter = ' where a.' + date_col + " in (select (generate_series(now()::date-'100day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
     last_30_day_filter = ' where a.' + date_col + " in (select (generate_series(now()::date-'30day'::interval,(now()::date-'1day'::interval)::date,'1day'::interval)::date) as day) "
@@ -940,7 +941,6 @@ def create_dml_timeline_queries():
 
         for filter, var, var_grp in zip(filters, filter_var, filter_grp):
             if student_id_exists is True:
-                week_var = week[:-8]
                 school_count = ' join ' + table_names + '_' + filter + '_students_count_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week '
                 school_count_mgmt = ' join ' + table_names + '_' + filter + '_students_count_weekly as cnt on a.' + filter + '_id= cnt.' + filter + '_id and ' + week_var + '=cnt.week and a.school_management_type=cnt.school_management_type '
             else:
