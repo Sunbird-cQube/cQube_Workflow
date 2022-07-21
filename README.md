@@ -7,7 +7,7 @@
 - Navigate to the directory where cQube_Workflow has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.6
+git checkout release-3.7
 git pull
 ```
 ### Configuration of infrastructure attributes and udise data indices, metrics:
@@ -160,7 +160,7 @@ python3 client.py
 - Navigate to the directory where cQube has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.6
+git checkout release-3.7
 git pull
 ```
 - If you are opting for education_usecase. usecase_name as education_usecase - Copy the config.yml.template to config.yml 
