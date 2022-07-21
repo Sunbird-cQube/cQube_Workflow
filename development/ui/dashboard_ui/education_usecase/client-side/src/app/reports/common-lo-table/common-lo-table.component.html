@@ -72,9 +72,9 @@
                     </select>
                     <select id="month" required class="select-control" *ngIf="!hideMonth" [(ngModel)]="month"
                         (change)="selectedMonth()">
-                        <option [value]="month" disabled selected="selected">{{month}}</option>
-                        <option *ngFor="let month of months; let i =index" [(ngValue)]="month.month">
-                            {{month.month}}
+                        <option [value]="month" disabled selected="selected">choose month</option>
+                        <option *ngFor="let month of months; let i =index" [(ngValue)]="month.months">
+                            {{month.months}}
                         </option>
                     </select>
 

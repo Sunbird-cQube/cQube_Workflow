@@ -312,9 +312,8 @@ export class CommonMapReportComponent implements OnInit {
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
     this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
-    this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-
+  
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -328,8 +327,13 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   selectedYear() {
-
-
+    this.months = [...this.months.filter((item) => item)]
+    this.hideMonth = this.period === "year and month" ? false : true;
+    this.hideYear = this.period === "year and month" ? false : true;
+    this.hideWeek = this.period === "year and month" ? false : true;
+    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+    this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
+    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -343,9 +347,14 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   selectedMonth() {
-    this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-
-    this.weeks = this.months.find(a => { return a.months == this.month }).weeks;
+    this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.hideMonth = this.period === "year and month" ? false : true;
+    this.hideYear = this.period === "year and month" ? false : true;
+    this.hideWeek = this.period === "year and month" ? false : true;
+    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+    this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
+    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+    // this.weeks = this.months.find(a => { return a.months == this.month }).weeks;
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -2207,8 +2216,8 @@ export class CommonMapReportComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              this.schoolCount = res["footer"]['schools'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
-              this.studentCount = res["footer"]['students'].toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.schoolCount = res["footer"]['schools']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+              this.studentCount = res["footer"]['students']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
               if (this.schoolLevel) {
                 let schoolData = res['data']
                 let data = schoolData.filter(data => data.school_id === Number(localStorage.getItem('schoolId')))
