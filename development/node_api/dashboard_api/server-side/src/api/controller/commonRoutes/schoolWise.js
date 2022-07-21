@@ -26,10 +26,14 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
-                    } else if (month && week && exam_date && !grade && !subject_name) {
+                    } else if (month && week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                    } else if (month && week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                    } else if (month && week && exam_date && grade && subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
                     } else if (month && week && exam_date && grade && subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
@@ -92,6 +96,12 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school.json`
+                    } else if ((month && week && !exam_date && grade && !subject_name)) {
+
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                    } else if ((month && week && !exam_date && grade && subject_name)) {
+
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
                     } else if ((month && week && exam_date && grade && subject_name)) {
