@@ -30,7 +30,6 @@ export class DikshaConfigComponent implements OnInit {
   ngOnInit(): void {
 
     this.disableBtn = this.dataListSelected == "choose DataSource" ? false : true
-    console.log('btn', this.disableBtn)
     document.getElementById('spinner').style.display = 'none';
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
@@ -117,7 +116,7 @@ export class DikshaConfigComponent implements OnInit {
   getdatalist() {
     this.service1.getConfigDataSource().subscribe(res => {
       this.dataSourceList = res
-      console.log('thia.data', this.dataSourceList)
+
     }, err => {
       document.getElementById('spinner').style.display = "none";
 
@@ -152,7 +151,7 @@ export class DikshaConfigComponent implements OnInit {
   }
 
   startTimer1() {
-    var fiveMinutes = 60 * 60,
+    var fiveMinutes = 60 * 0.1,
       display = this.elementRef.nativeElement.querySelector('#time1');
     this.startTimer(fiveMinutes, display);
   };

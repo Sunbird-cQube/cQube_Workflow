@@ -292,7 +292,7 @@ export class CommonLoTableComponent implements OnInit {
 
         this.resetTable();
         this.updatedTable = this.reportData = response["tableData"];
-        console.log('updated', this.updatedTable)
+
         var districtNames = response["districtDetails"];
         this.districtNames = districtNames.sort((a, b) =>
           a.district_name > b.district_name
@@ -338,7 +338,7 @@ export class CommonLoTableComponent implements OnInit {
     let weekSelct = this.weekSeletced
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
-    console.log('my_column', dataSet)
+
     $(document).ready(function () {
       var headers = "<thead><tr>";
       var body = "<tbody>";
@@ -382,7 +382,6 @@ export class CommonLoTableComponent implements OnInit {
         });
         newArr.push(temp);
       });
-      console.log('newArr', newArr)
 
       let Arr1 = []
 
@@ -473,7 +472,7 @@ export class CommonLoTableComponent implements OnInit {
         } else {
           body += "<tr>";
           columns.forEach((column, i2) => {
-            console.log('column', column)
+
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
               let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
@@ -567,7 +566,6 @@ export class CommonLoTableComponent implements OnInit {
 
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
 
-    console.log('month', this.months)
 
     this.grade = "all";
     this.examDate = "all";
