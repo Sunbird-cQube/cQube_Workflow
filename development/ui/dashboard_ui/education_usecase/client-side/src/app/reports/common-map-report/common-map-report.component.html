@@ -166,7 +166,7 @@
                             Choose a Block
                         </option>
                         <option *ngFor="let block of blockDropDown" [(ngValue)]="block.block_id">
-                            {{ block.block_name }}
+                            {{ block.block_name | titlecase }}
                         </option>
 
                     </select>
@@ -180,7 +180,7 @@
                                         color:
                                           cluster.clusterName !== 'NO NAME FOUND' ? 'white' : '#ff3333'
                                       }">
-                            {{ cluster.cluster_name }}
+                            {{ cluster.cluster_name | titlecase}}
                         </option>
 
                     </select>

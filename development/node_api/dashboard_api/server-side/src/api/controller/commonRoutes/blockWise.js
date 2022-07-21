@@ -35,10 +35,14 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/${year}/${month}/block_subject_footer.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject_footer.json`
+                    } else if (month && week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject_footer.json`
+                    } else if (month && week && !exam_date && grade && subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject_footer.json`
                     } else if (month && week && exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject_footer.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject_footer.json`
                     } else if (month && week && exam_date && grade && subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject_footer.json`
@@ -106,6 +110,12 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                     } else if (month && week && exam_date && !grade && !subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block.json`
+                    } else if (month && week && !exam_date && grade && !subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject_footer.json`
+                    } else if (month && week && !exam_date && grade && subject_name) {
+
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject_footer.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
                     } else if (month && week && exam_date && grade && subject_name) {
@@ -195,7 +205,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 if (week && !exam_date) {
                     label =
                         item.grade + "/" +
-                        item.subject + "/"  + "/" + item.week.split("_")[1]
+                        item.subject + "/" + "/" + item.week.split("_")[1]
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
                     label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
@@ -203,7 +213,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                 } else {
                     label =
                         item.grade + "/" +
-                        item.subject 
+                        item.subject
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 }
             })).then(() => {
