@@ -219,7 +219,7 @@ check_host_ip()
     else
         echo "Error - Invalid value for $key"; fail=1
     fi
-pub_ip=$(awk '{print $1}}' hosts)
+pub_ip=$(awk '{print $1}' hosts)
 
  if [[ ! $2 == $pub_ip ]]; then
      echo "Error - Invalid value for $key"; fail=1
