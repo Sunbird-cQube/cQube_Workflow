@@ -302,6 +302,15 @@ router.post('/AllClusterWise', auth.authController, async (req, res) => {
         }, []);
 
         let arr = {}
+        data = data.map(({
+            cluster_latitude: lat,
+            cluster_longitude: long,
+
+            ...rest
+        }) => ({
+            lat, long,
+            ...rest
+        }));
 
         res.status(200).send({ data });
 

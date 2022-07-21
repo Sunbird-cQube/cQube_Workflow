@@ -95,7 +95,7 @@ export class CommonLoTableComponent implements OnInit {
     public aRoute: ActivatedRoute) {
 
     this.datasourse = this.aRoute.snapshot.paramMap.get('id');
-
+    this.getTimelineMeta()
     service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(
       (res) => {
         try {
@@ -120,7 +120,7 @@ export class CommonLoTableComponent implements OnInit {
           ];
 
 
-          this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+          this.fileName = `${this.datasourse}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
           if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
             this.commonFunc();
           } else {
@@ -203,14 +203,17 @@ export class CommonLoTableComponent implements OnInit {
 
     })
   }
+  public timeRange
+  getTimelineMeta() {
+    this.service1.configurableTimePeriodMeta({ dataSource: this.datasourse }).subscribe(res => {
+      this.timeRange = res
+      const key = 'value';
+      this.timeRange = [...new Map(this.timeRange.map(item =>
+        [item[key], item])).values()];
 
-  timeRange = [
-    { value: "overall" },
-    { value: "last 30 days" },
-    { value: "last 7 days" },
-    { value: "last day" },
-    { value: "year and month" },
-  ];
+    })
+  }
+
   period = "overall";
 
   onChangePage() {
@@ -243,7 +246,7 @@ export class CommonLoTableComponent implements OnInit {
 
   resetToInitPage() {
     this.resetTable();
-    this.fileName = `${this.reportName}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_overall_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.skul = true;
     this.dist = false;
     this.blok = false;
@@ -314,6 +317,7 @@ export class CommonLoTableComponent implements OnInit {
         );
 
         let Arr1 = []
+
 
         $.each(this.reportData, function (a, b) {
           $.each(b, function (key, value) {
@@ -480,9 +484,9 @@ export class CommonLoTableComponent implements OnInit {
         } else {
           body += "<tr>";
           columns.forEach((column, i2) => {
-          
+
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> ${toTitleCase(column.data.replace('_', ' '))}: ${column.value}`;
+              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> value: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
 
             }
@@ -586,7 +590,7 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   selectedMonth() {
-    this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
 
     this.weeks = this.months.find(a => { return a.month == this.month }).weeks;
     this.grade = "all";
@@ -622,7 +626,7 @@ export class CommonLoTableComponent implements OnInit {
 
   selectedGrade() {
 
-    this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.grade !== "all") {
       this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
       this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
@@ -639,7 +643,7 @@ export class CommonLoTableComponent implements OnInit {
 
   selectedSubject() {
 
-    this.fileName = `${this.reportName}_${this.grade}_${this.subject}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_${this.grade}_${this.subject}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.hideAccessBtn) {
       this.levelWiseFilter();
 
@@ -652,7 +656,7 @@ export class CommonLoTableComponent implements OnInit {
 
     this.grade = "all";
     this.subject = "all";
-    this.fileName = `${this.reportName}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.hideAccessBtn) {
       this.levelWiseFilter();
     } else {
@@ -666,7 +670,7 @@ export class CommonLoTableComponent implements OnInit {
 
     this.resetTable();
     this.level = "block";
-    this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_district_${districtId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_${this.grade}_${this.level}s_of_district_${districtId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.block = undefined;
     this.cluster = undefined;
     this.blockHidden = false;
@@ -723,7 +727,7 @@ export class CommonLoTableComponent implements OnInit {
 
     this.resetTable();
     this.level = "cluster";
-    this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_${this.grade}_${this.level}s_of_block_${blockId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.cluster = undefined;
     this.blockHidden = this.selBlock ? true : false;
     this.clusterHidden = false;
@@ -783,7 +787,7 @@ export class CommonLoTableComponent implements OnInit {
 
     this.resetTable();
     this.level = "school";
-    this.fileName = `${this.reportName}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+    this.fileName = `${this.datasourse}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
 
     this.commonService.errMsg();
     let a = {

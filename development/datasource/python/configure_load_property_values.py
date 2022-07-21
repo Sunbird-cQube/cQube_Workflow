@@ -149,7 +149,8 @@ if __name__ == '__main__':
     conf_value4 = "truncate table " + filename + "_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
     conf_value6 = "#{base_dir}/cqube/emission_app/python/postgres/" + filename + "/#{temp_trans_aggregation_queries}"
-    conf_value8 = "log_summary/log_summary_"+filename+".json"
+    conf_value8 = "log_summary_"+filename+".json"
+    conf_value9 = "log_summary/log_summary_" + filename + ".json"
     # Date_column_update
     res = parse_file(f'{prop.NIFI_STATIC_PARAMETER_DIRECTORY_PATH}postgres/{filename}/parameters.txt', 'date_column')
     res = ast.literal_eval(res)
@@ -193,7 +194,7 @@ if __name__ == '__main__':
         conf_key: conf_value7
     }
     processor_properties10 = {
-        conf_key4: conf_value8
+        conf_key4: conf_value9
     }
     processor_properties11 = {
         conf_key3: conf_value8

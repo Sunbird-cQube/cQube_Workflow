@@ -10,7 +10,8 @@
                         <div class="card-header border-0 bg-transparent">
                             <div class="card-header-left">
                                 <ul class="list-unstyled card-option mb-0">
-                                    <li><i class="fa fa-pie-chart text-white" aria-hidden="true"></i></li>
+                                    <li><i [ngClass]="card.report_type == 'map' ? 'fa fa-map-marker text-white' : 'fa fa-table text-white'"
+                                            aria-hidden="true"></i></li>
                                 </ul>
                             </div>
                             <div class="card-head-text">
@@ -23,10 +24,10 @@
                             </div>
                         </div>
                         <div class="card-body bg-light-grad-pink d-flex align-items-center">
-                            <h6> {{card.report_name}}</h6>
+                            <h6> {{card.report_name.replaceAll('_', ' ') | titlecase}}</h6>
                         </div>
                         <div class="card-footer bg-footer border-0">
-                            <p class="mb-0">test description</p>
+                            <p class="mb-0">{{card.description}}</p>
                         </div>
                     </div>
                 </span>

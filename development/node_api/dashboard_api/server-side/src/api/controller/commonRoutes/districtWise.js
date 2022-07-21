@@ -146,14 +146,13 @@ router.post('/distWise', auth.authController, async (req, res) => {
             }
         }
 
-        
         let data = await s3File.readFileConfig(fileName);
 
         let footer = data['allDistrictsFooter']
-    
+
         data = data['data']
 
-        
+
         let districtDetails = data.map(e => {
             return {
                 district_id: e.district_id,

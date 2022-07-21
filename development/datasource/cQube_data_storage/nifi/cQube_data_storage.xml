@@ -50188,7 +50188,7 @@ ${query_type:startsWith('crc_management_district_last_30_days'):ifElse('crc/scho
                             </entry>
                             <entry>
 <key>configure_file</key>
-<value>${filename:startsWith('datasource_name'):and(${path:startsWith("config"):or(${filename:startsWith("config"):or(${azure.blobname:startsWith("config")})}):not()})}</value>
+<value>${filename:startsWith('textbook_distribution'):and(${path:startsWith("config"):or(${filename:startsWith("config"):or(${azure.blobname:startsWith("config")})}):not()})}</value>
                             </entry>
                             <entry>
 <key>cqube_telemetry</key>
@@ -83176,5 +83176,5 @@ ${file_type:startsWith('log_summary'):and(${filename:startsWith('inspection_mast
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/19/2022 19:28:17 IST</timestamp>
+    <timestamp>07/20/2022 12:15:13 IST</timestamp>
 </template>

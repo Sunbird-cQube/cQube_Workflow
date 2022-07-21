@@ -163,6 +163,7 @@ export class DikshaConfigComponent implements OnInit {
 
   activation() {
     this.hideConfig = true
+    this.dataSourceList = this.dataSourceList.filter(list => list !== this.dataListSelected)
     this.startTimer1()
     this.buildAngular()
   }
