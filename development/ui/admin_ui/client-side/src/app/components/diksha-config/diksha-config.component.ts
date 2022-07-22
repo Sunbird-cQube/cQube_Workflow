@@ -151,7 +151,7 @@ export class DikshaConfigComponent implements OnInit {
   }
 
   startTimer1() {
-    var fiveMinutes = 60 * 0.1,
+    var fiveMinutes = 60 * 60,
       display = this.elementRef.nativeElement.querySelector('#time1');
     this.startTimer(fiveMinutes, display);
   };
