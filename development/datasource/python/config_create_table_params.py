@@ -495,12 +495,21 @@ def create_parameters_queries():
                     block_time_series_jolt = qur75 + qur74 + qur90 + qur74 + qur76
                     # jolt_for_log_summary
                     qur55 = ''
-                    qur54 = '"jolt_for_log_summary":"""[{"operation": "shift","spec": {"*": {"filename": "[&1].filename","ff_uuid": "[&1].ff_uuid","total_records": "[&1].total_records","blank_lines": "[&1].blank_lines","duplicate_records": "[&1].duplicate_records","datatype_mismatch": "[&1].datatype_mismatch","' + table_names + '_id": "[&1].records_with_null_value.' + table_names + '_id","' + table_names + '_id": "[&1].records_with_null_value.' + table_names + '_id","school_id": "[&1].records_with_null_value.school_id",'
+                    qurs2 = ''
+                    qurs3 = '}}}}]""",'
+                    qur54 = '"jolt_for_log_summary":"""[{"operation": "shift","spec": {"*": {"filename": "[&1].filename","ff_uuid": "[&1].ff_uuid","total_records": "[&1].total_records","blank_lines": "[&1].blank_lines","duplicate_records": "[&1].duplicate_records","datatype_mismatch": "[&1].datatype_mismatch","student_id": "[&1].records_with_null_value.student_id","student_id": "[&1].records_with_null_value.student_id","school_id": "[&1].records_with_null_value.school_id",'
                     for sel_col in select_column:
                         if sel_col != 'school_id':
                             qur55 += '"' + sel_col + '": "[&1].records_with_null_value.' + sel_col + '",'
-                    qur56 = '"processed_records": "[&1].processed_records","process_start_time": "[&1].process_start_time","process_end_time": "[&1].process_end_time"}}}]""",'
-                    jolt_for_log_summary = qur54 + qur55 + qur56
+                    qur56 = '"processed_records": "[&1].processed_records","process_start_time": "[&1].process_start_time","process_end_time": "[&1].process_end_time"}}}, {"operation": "default","spec": {"*": {"records_with_null_value": {'
+                    for null_jolt in null_validation_columns:
+                        qurs2 += ''
+                        if null_validation_columns.index(null_jolt) == len(null_validation_columns) - 1:
+                            qurs2 += '"' + null_jolt + '": 0'
+                        else:
+                            qurs2 += '"' + null_jolt + '": 0,'
+
+                    jolt_for_log_summary = qur54 + qur55 + qur56 + qurs2 + qurs3
 
                     # exception cluster_jolt_spec
                     qur58 = ''
