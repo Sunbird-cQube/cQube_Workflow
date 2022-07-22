@@ -26,10 +26,14 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
-                    } else if (month && week && exam_date && !grade && !subject_name) {
+                    } else if (month && week && !exam_date && grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                    } else if (month && week && !exam_date && !grade && !subject_name) {
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                    } else if (month && week && exam_date && grade && subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
                     } else if (month && week && exam_date && grade && subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
@@ -92,6 +96,12 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school.json`
+                    } else if ((month && week && !exam_date && grade && !subject_name)) {
+
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                    } else if ((month && week && !exam_date && grade && subject_name)) {
+
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
                     } else if ((month && week && exam_date && grade && subject_name)) {
@@ -182,7 +192,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
 
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week.split("_")[1] + item
+                        item.subject + "/" + item.week.split("_")[1] + item
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 } else if (week && exam_date) {
 
@@ -191,7 +201,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 } else {
                     label =
                         item.grade + "/" +
-                        item.subject + "/" + item.no_of_books_distributed + "/" + item.week
+                        item.subject + "/" + item.week
                     arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
                 }
 
