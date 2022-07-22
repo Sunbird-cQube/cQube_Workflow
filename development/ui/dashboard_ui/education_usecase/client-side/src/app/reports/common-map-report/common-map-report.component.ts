@@ -2993,6 +2993,7 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   deSelect() {
+    this.onRangeSelect = "";
     var elements = document.getElementsByClassName('legends');
     for (var j = 0; j < elements.length; j++) {
       if (this.selectedIndex !== j) {
