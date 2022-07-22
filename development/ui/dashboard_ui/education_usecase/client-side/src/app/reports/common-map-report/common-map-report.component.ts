@@ -106,6 +106,7 @@ export class CommonMapReportComponent implements OnInit {
   hideDay: boolean = true
   hideYear: boolean = true
   public dataOptions = {};
+  public onRangeSelect;
 
 
   colorGenData: any = [];
@@ -2372,6 +2373,8 @@ export class CommonMapReportComponent implements OnInit {
 
   }
 
+  public selectedType = "no_of_books_distributed"
+
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
     try {
@@ -2379,16 +2382,38 @@ export class CommonMapReportComponent implements OnInit {
       this.reportData = [];
       this.markers = data;
 
+      var colors = this.commonService.commonRelativeColors(
+        this.markers,
+        {
+          value: this.selectedType,
+          report: "reports",
+        }
+      );
+
 
 
       // attach values to markers
       for (var i = 0; i < this.markers.length; i++) {
         var color;
 
+        if (this.onRangeSelect == "absolute") {
+          color = this.commonService.commonColorGredient(
+            this.markers[i],
+            this.valueRange,
+            //colors
+          );
+        } else {
+          color = this.commonService.colorGredientForDikshaMaps(
+            this.markers[i],
+            this.selectedType,
+            colors
+          );
+        }
+
         var markerIcon = this.globalService.initMarkers1(
           this.markers[i].lat,
           this.markers[i].long,
-          "green",
+          color,
           options.level == 'School' ? 0 : options.strokeWeight,
           options.level == 'School' ? 0.3 : 1,
           options.level
@@ -2882,7 +2907,7 @@ export class CommonMapReportComponent implements OnInit {
   public valueRange = undefined;
   public prevRange = undefined;
   selectRange(value, i) {
-    this.selected = "absolute";
+    this.onRangeSelect = "absolute";
     this.valueRange = i;
     this.filterRangeWiseData(value, i);
   }
@@ -2935,8 +2960,8 @@ export class CommonMapReportComponent implements OnInit {
       this.data.map((a) => {
         if (a.lat) {
           if (
-            a['no_of_books_distributed'] <= Math.max(...slabArr) &&
-            a['no_of_books_distributed'] >= Math.min(...slabArr)
+            a[`${this.selectedType}`] <= Math.max(...slabArr) &&
+            a[`${this.selectedType}`] >= Math.min(...slabArr)
           ) {
             markers.push(a);
 

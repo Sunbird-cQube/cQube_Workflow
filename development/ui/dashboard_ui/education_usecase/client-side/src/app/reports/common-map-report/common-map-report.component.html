@@ -224,7 +224,7 @@
                 </agm-map>
             </div>
             <!--Marker legends ======================-->
-            <div style="float: right; width: 9%; margin-left: 1%; margin-top: 1%">
+            <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%">
                 <h5 id="legend" style="margin-left: 15%">
                     Legend
                     <img *ngIf="valueRange && valueRange != '0-100'" id="resetImg"

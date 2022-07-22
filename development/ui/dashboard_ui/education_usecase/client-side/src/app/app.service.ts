@@ -378,8 +378,12 @@ export class AppServiceComponent {
     return setColor;
   }
 
+
+
+
   // color gredient based on intervals
   tpdColorGredient(data, filter) {
+
     var keys = Object.keys(this.tpdColors);
     var dataSet = data;
     var setColor = "";
@@ -392,6 +396,27 @@ export class AppServiceComponent {
         dataSet[filter] <= parseInt(keys[i + 1])
       ) {
         setColor = this.tpdColors[keys[i + 1]];
+        break;
+      }
+    }
+    return setColor;
+  }
+
+
+  // color gredient based on intervals
+  commonColorGredient(data, filter) {
+    var keys = Object.keys(this.commonColors);
+    var dataSet = data;
+    var setColor = "";
+    for (let i = 0; i < keys.length; i++) {
+      if (filter == parseInt(keys[i])) {
+        setColor = this.commonColors[keys[i]];
+        break;
+      } else if (
+        dataSet[filter] >= parseInt(keys[i]) &&
+        dataSet[filter] <= parseInt(keys[i + 1])
+      ) {
+        setColor = this.commonColors[keys[i + 1]];
         break;
       }
     }
@@ -465,6 +490,96 @@ export class AppServiceComponent {
 
   }
 
+
+
+  commonRelativeColors(markers, filter) {
+    var values = [];
+    markers.map((item) => {
+      var keys = Object.keys(item);
+      if (keys.includes(filter.value)) {
+        values.push(item[`${filter.value}`]);
+      } else {
+        values.push(item[`total_schools_with_missing_data`]);
+      }
+    });
+    let uniqueItems = [...new Set(values)];
+    uniqueItems = uniqueItems.map((a) => {
+      if (typeof a == "object") {
+        return a["percentage"];
+      } else {
+        return a;
+      }
+    });
+    uniqueItems = uniqueItems.sort(function (a, b) {
+      return filter.report != "exception"
+        ? parseFloat(a) - parseFloat(b)
+        : parseFloat(b) - parseFloat(a);
+    });
+
+    let uniqueItems1 = []
+
+    const min = Math.min(...uniqueItems);
+    const max = Math.max(...uniqueItems);
+
+
+    const ranges = [];
+
+    const getRangeArray = (min, max, n) => {
+      const delta = (max - min) / n;
+      let range1 = min;
+      for (let i = 0; i < n; i += 1) {
+        const range2 = range1 + delta;
+        uniqueItems1.push(`${range2}`);
+
+        range1 = range2;
+      }
+
+      return ranges;
+    };
+
+    const rangeArrayIn5Parts = getRangeArray(min, max, 10);
+
+    var colorsArr = [
+      "#a50026",
+      "#d73027",
+      "#f46d43",
+      "#fdae61",
+      "#fee08b",
+      "#d9ef8b",
+      "#a6d96a",
+      "#66bd63",
+      "#1a9850",
+      "#006837",
+    ];
+    var colors = {};
+    uniqueItems.map((a, i) => {
+      if (a <= uniqueItems1[0]) {
+        colors[`${a}`] = colorsArr[0];
+      } else if (a > uniqueItems1[0] && a <= uniqueItems1[1]) {
+        colors[`${a}`] = colorsArr[1];
+      } else if (a > uniqueItems1[1] && a <= uniqueItems1[2]) {
+        colors[`${a}`] = colorsArr[2];
+      } else if (a > uniqueItems1[2] && a <= uniqueItems1[3]) {
+        colors[`${a}`] = colorsArr[3];
+      } else if (a > uniqueItems1[3] && a <= uniqueItems1[4]) {
+        colors[`${a}`] = colorsArr[4];
+      } else if (a > uniqueItems1[4] && a <= uniqueItems1[5]) {
+        colors[`${a}`] = colorsArr[5];
+      } else if (a > uniqueItems1[5] && a <= uniqueItems1[6]) {
+        colors[`${a}`] = colorsArr[6];
+      } else if (a > uniqueItems1[6] && a <= uniqueItems1[7]) {
+        colors[`${a}`] = colorsArr[7];
+      } else if (a > uniqueItems1[7] && a <= uniqueItems1[8]) {
+        colors[`${a}`] = colorsArr[8];
+      } else if (a > uniqueItems1[8] && a <= uniqueItems1[9]) {
+        colors[`${a}`] = colorsArr[9];
+      }
+
+    });
+    return colors;
+
+  }
+
   getTpdMapCapitaRelativeColors(markers, filter) {
     var values = [];
     var quartile1 = markers.filter((marker) => marker.quartile === 1);
@@ -487,6 +602,8 @@ export class AppServiceComponent {
     return colors;
   }
 
+
+
   colorGredientForDikshaMaps(data, filter, colors) {
 
     let keys = Object.keys(colors);
@@ -495,6 +612,23 @@ export class AppServiceComponent {
     for (let i = 0; i < keys.length; i++) {
       if (data[filter] == null) setColor = "red";
       if (parseFloat(data[filter]) == parseFloat(keys[i])) {
+
+        setColor = colors[keys[i]];
+
+        break;
+      }
+    }
+    return setColor;
+  }
+
+  commonColorGredientForMaps(data, filter, colors) {
+
+    let keys = Object.keys(colors);
+    let filter1 = "no_of_books_distributed"
+    let setColor = "";
+    for (let i = 0; i < keys.length; i++) {
+      if (data[filter1] == null) setColor = "red";
+      if (parseFloat(data[filter1]) == parseFloat(keys[i])) {
 
         setColor = colors[keys[i]];
 
@@ -700,6 +834,19 @@ export class AppServiceComponent {
       }
     );
   }
+
+  public commonColors: any = {
+    0: "#a50026",
+    1: "#d73027",
+    2: "#f46d43",
+    3: "#fdae61",
+    4: "#fee08b",
+    5: "#d9ef8b",
+    6: "#a6d96a",
+    7: "#66bd63",
+    8: "#1a9850",
+    9: "#006837",
+  };
 
   public colors = {
     10: "#a50026",
