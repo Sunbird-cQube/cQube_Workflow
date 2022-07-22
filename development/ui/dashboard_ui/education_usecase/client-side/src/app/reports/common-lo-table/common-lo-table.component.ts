@@ -671,7 +671,7 @@ export class CommonLoTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = false;
     this.clusterHidden = true;
-
+    this.blockNames = []
     this.commonService.errMsg();
 
     let a = {
