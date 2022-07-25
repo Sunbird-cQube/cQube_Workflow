@@ -838,7 +838,7 @@ def create_table_queries():
                     create_table_query = ' '
                     create_table_query = 'create table if not exists configurable_datasource_properties (report_name varchar(50),report_type varchar(20),description text,status boolean);'
                     create_table_query += 'alter table configurable_datasource_properties add column if not exists state varchar(15);'
-                    create_table_query += 'alter table configurable_datasource_properties add column if not exists datasource_name varchar(15);'
+                    create_table_query += 'alter table configurable_datasource_properties add column if not exists datasource_name varchar(50);'
                     insert_query = ''
                     for d, r, info in zip(datasourcenames, tmp_columns, description):
                         insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False,'STOPPED','" + file_name_sql + "') except(select report_name,report_type,description,status,state,datasource_name from configurable_datasource_properties) ;";
