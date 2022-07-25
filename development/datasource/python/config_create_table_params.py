@@ -24,7 +24,6 @@ def read_input():
         file_name_sql = file_name
         return file
 
-
 def create_parameters_queries():
     input_df = pd.read_csv(read_input())
     keywords = input_df['keywords'].dropna().tolist()
@@ -149,9 +148,7 @@ def create_parameters_queries():
                     # normalize
                     query_check1 = ''
                     for check_norm_col in raw_columns:
-
                         if ('year' in check_norm_col) or ('date' in check_norm_col) or ('month' in check_norm_col):
-                            print("check_norm_col", check_norm_col)
                             query_check1 += '"' + check_norm_col + '",'
                         else:
                             query_check1 += check_norm_col + ','
@@ -557,7 +554,6 @@ def create_parameters_queries():
         else:
             mycsv.append(row)
 
-
 def create_table_queries():
     input_df = pd.read_csv(read_input())
     keywords = input_df['keywords'].dropna().tolist()
@@ -841,9 +837,10 @@ def create_table_queries():
                     description = df_vis['description'].dropna().tolist()
                     create_table_query = ' '
                     create_table_query = 'create table if not exists configurable_datasource_properties (report_name varchar(50),report_type varchar(20),description text,status boolean);'
+                    create_table_query += 'alter table configurable_datasource_properties add column if not exists state varchar(15);'
                     insert_query = ''
                     for d, r, info in zip(datasourcenames, tmp_columns, description):
-                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False) except(select report_name,report_type,description,status from configurable_datasource_properties) ;";
+                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False,'STOPPED') except(select report_name,report_type,description,status,state from configurable_datasource_properties) ;";
                     all_queries = all_queries + '\n' + create_table_query + '\n' + insert_query
             key_index += 1
             del mycsv[:]
@@ -919,6 +916,7 @@ def create_dml_timeline_queries():
     to_sql = '\n'
     global dml_queries
     dml_queries = '[' + '\n'
+    dml_queries += '{"meta_tooltip":"select '+ "'" + result_col_op + "' as result_column;" + '"},'
     filters = ['school', 'cluster', 'block', 'district']
     filter_var = [school_, cluster_, block_, district_]
     filter_grp = [school_grp, cluster_grp, block_grp, district_grp]
