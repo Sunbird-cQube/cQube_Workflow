@@ -4,6 +4,9 @@ import time
 from update_nifi_parameters_main import *
 import properties_nifi_deploy as prop
 import update_nifi_params
+from yaml.loader import SafeLoader
+import yaml
+import psycopg2
 from update_nifi_parameters_main import get_parameter_context, update_parameter
 import ast
 
@@ -117,6 +120,21 @@ def parse_file(filename_path, key):
     date_columns = parameter_dict.get(key)
 
     return date_columns
+def execute_sql():
+    with open('../../conf/base_config.yml') as f:
+        data = yaml.load(f, Loader=SafeLoader)
+        db_user = 'postgres'
+        db_name = data['db_name']
+
+    # establishing the connection
+    conn = psycopg2.connect(
+        database=db_name, user=db_user, host='localhost', port='5432')
+    if conn:
+        # Creating a cursor object using the cursor() method
+        cursor = conn.cursor()
+        cursor.execute("update configurable_datasource_properties set state ='RUNNING'" )
+        conn.commit()
+        conn.close()
 
 
 if __name__ == '__main__':
@@ -128,7 +146,7 @@ if __name__ == '__main__':
     processor_group_name = ['validate_datasource', 'cQube_data_storage', 'transaction_and_aggregation']
     processor_name = ['config_listing_files_from_emission', "route_based_on_s3_input_dir", 'route_based_on_content',
                       'get_year_month_from_temp', 'config_datasource_delete_temp',
-                      'config_datasource_delete_staging_1_table',
+                      'config_datasourcedelete_staging_1_table',
                       'config_datasource_delete_staging_2_table', 'config_delete_staging_1_table',
                       'conf_delete_staging_1_table',
                       'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename',
@@ -199,37 +217,48 @@ if __name__ == '__main__':
     processor_properties11 = {
         conf_key3: conf_value8
     }
-    # Enable the validation template and update
-    time.sleep(5)
 
-    # Stops the processors
-    start_processor_group(processor_group_name[0], 'STOPPED')
-    start_processor_group(processor_group_name[1], 'STOPPED')
-    start_processor_group(processor_group_name[2], 'STOPPED')
-    start_processor_group(data_storage_processor, 'STOPPED')
+    stop_hour = int(sys.argv[2])
+    if stop_hour > 0 and stop_hour <= 24:
+        named_tuple = time.localtime()
+        process_start_time = time.strftime("%Y-%m-%d, %H:%M:%S", named_tuple)
+        stop_seconds = stop_hour * 60 * 60
 
-    # update processor property.
+        logging.info(f"Process start time: {process_start_time}")
 
-    nifi_update_processor_property(processor_group_name[0], processor_name[0], processor_properties1)
-    nifi_update_processor_property(processor_group_name[1], processor_name[1], processor_properties2)
-    nifi_update_processor_property(processor_group_name[1], processor_name[2], processor_properties9)
-    nifi_update_processor_property(processor_group_name[2], processor_name[3], processor_properties3)
-    nifi_update_processor_property(processor_group_name[2], processor_name[4], processor_properties4)
-    nifi_update_processor_property(processor_group_name[0], processor_name[5], processor_properties5)
-    nifi_update_processor_property(processor_group_name[0], processor_name[6], processor_properties6)
-    nifi_update_processor_property(processor_group_name[0], processor_name[7], processor_properties5)
-    nifi_update_processor_property(processor_group_name[0], processor_name[8], processor_properties5)
-    nifi_update_processor_property(processor_group_name[0], processor_name[9], processor_properties6)
-    nifi_update_processor_property(processor_group_name[1], processor_name[10], processor_properties2)
-    nifi_update_processor_property(processor_group_name[2], processor_name[11], processor_properties7)
-    nifi_update_processor_property(processor_group_name[0], processor_name[12], processor_properties_date)
-    nifi_update_processor_property(processor_group_name[2], processor_name[13], processor_properties_date)
-    nifi_update_processor_property(processor_group_name[2], processor_name[14], processor_properties_date)
-    nifi_update_processor_property(processor_group_name[2], processor_name[15], processor_properties8)
-    nifi_update_processor_property(processor_group_name[2], processor_name[16], processor_properties8)
-    nifi_update_processor_property(processor_group_name[1], processor_name[17], processor_properties10)
-    nifi_update_processor_property(processor_group_name[1], processor_name[18], processor_properties11)
+        time.sleep(5)
 
+        # Stops the processors
+        start_processor_group(processor_group_name[0], 'STOPPED')
+        start_processor_group(processor_group_name[1], 'STOPPED')
+        start_processor_group(processor_group_name[2], 'STOPPED')
+        start_processor_group(data_storage_processor, 'STOPPED')
+
+
+        # update processor property.
+        nifi_update_processor_property(processor_group_name[0], processor_name[0], processor_properties1)
+        nifi_update_processor_property(processor_group_name[1], processor_name[1], processor_properties2)
+        nifi_update_processor_property(processor_group_name[1], processor_name[2], processor_properties9)
+        nifi_update_processor_property(processor_group_name[2], processor_name[3], processor_properties3)
+        nifi_update_processor_property(processor_group_name[2], processor_name[4], processor_properties4)
+        nifi_update_processor_property(processor_group_name[0], processor_name[5], processor_properties5)
+        nifi_update_processor_property(processor_group_name[0], processor_name[6], processor_properties6)
+        nifi_update_processor_property(processor_group_name[0], processor_name[7], processor_properties5)
+        nifi_update_processor_property(processor_group_name[0], processor_name[8], processor_properties5)
+        nifi_update_processor_property(processor_group_name[0], processor_name[9], processor_properties6)
+        nifi_update_processor_property(processor_group_name[1], processor_name[10], processor_properties2)
+        nifi_update_processor_property(processor_group_name[2], processor_name[11], processor_properties7)
+        nifi_update_processor_property(processor_group_name[0], processor_name[12], processor_properties_date)
+        nifi_update_processor_property(processor_group_name[2], processor_name[13], processor_properties_date)
+        nifi_update_processor_property(processor_group_name[2], processor_name[14], processor_properties_date)
+        nifi_update_processor_property(processor_group_name[2], processor_name[15], processor_properties8)
+        nifi_update_processor_property(processor_group_name[2], processor_name[16], processor_properties8)
+        nifi_update_processor_property(processor_group_name[1], processor_name[17], processor_properties10)
+        nifi_update_processor_property(processor_group_name[1], processor_name[18], processor_properties11)
+        # Stop hour
+        time.sleep(stop_seconds)
+    else:
+        logging.warn(f"Stop hour should be greater than 0 and less than or equal to 24")
 
     parameter_context_names = ['validate_datasource_parameters', 'transaction_and_aggregation_parameters']
 
@@ -265,3 +294,6 @@ if __name__ == '__main__':
     start_processor_group(processor_group_name[2], 'RUNNING')
     start_processor_group(data_storage_processor, 'RUNNING')
     time.sleep(5)
+
+    #Executing the query to set the status "Running"
+    execute_sql()
