@@ -40,17 +40,17 @@ router.post('/scheduleProcessor', async function (req, res) {
     try {
         let dataSource = req.body.data.reportName
         let stoppingHour = req.body.data.stopTime
-
-        var pyth1 = shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${baseDir}/cqube/emission_app/python/configure_load_property_values.py ${dataSource.data.report_name} ${stoppingHour} `, function (stdout, stderr, code) {
+       
+        var pyth1 = shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${process.env.BASE_DIR}/cqube/emission_app/python/configure_load_property_values.py ${dataSource.data.report_name.toLowerCase()} ${stoppingHour} `, function (stdout, stderr, code) {
             if (code) {
                 logger.error("Something went wrong");
                 res.status(406).send({ errMsg: "Something went wrong" });
             } else {
                 logger.info('--- diksha TPD ETB method api response sent---');
-                res.status(200).send({ msg: `Successfully Changed the Diksha ${dataSet} Method to ${method}` });
+                res.status(200).send({ msg: `Successfully Changed` });
             }
         })
-
+       
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
