@@ -18,6 +18,5 @@ const pool = new Pool({
     port: port
 });
 
-console.log('pool', pool)
 
 module.exports = pool
