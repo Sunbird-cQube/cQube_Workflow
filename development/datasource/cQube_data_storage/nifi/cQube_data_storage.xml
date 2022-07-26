@@ -36674,8 +36674,9 @@ ${query_type:startsWith('district_grade_subject_overall'):ifElse(${datasource_na
 ${query_type:startsWith('cluster_grade_subject_overall'):ifElse(${datasource_name:append('/overall/cluster_subject_footer.json')},
 ${query_type:startsWith('school_grade_subject_overall'):ifElse(${datasource_name:append('/overall/school_subject_footer.json')},
 ${query_type:startsWith('meta'):ifElse(${datasource_name:append('/meta.json')},
-${query_type:startsWith('time_period_meta'):ifElse(${datasource_name:append('/time_period_meta.json')},'None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
-)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )} )} )} )} )})})})})})})}</value>
+${query_type:startsWith('time_period_meta'):ifElse(${datasource_name:append('/time_period_meta.json')},
+${query_type:startsWith('tooltip_meta'):ifElse(${datasource_name:append('/meta_tooltip.json')},'None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
+)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )} )} )} )} )})})})})})})})}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -48773,8 +48774,9 @@ ${query_type:startsWith('district_grade_subject_overall'):ifElse(${datasource_na
 ${query_type:startsWith('cluster_grade_subject_overall'):ifElse(${datasource_name:append('/overall/cluster_subject_footer.json')},
 ${query_type:startsWith('school_grade_subject_overall'):ifElse(${datasource_name:append('/overall/school_subject_footer.json')},
 ${query_type:startsWith('meta'):ifElse(${datasource_name:append('/meta.json')},
-${query_type:startsWith('time_period_meta'):ifElse(${datasource_name:append('/time_period_meta.json')},'None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
-)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )} )} )} )} )})})})})})})}</value>
+${query_type:startsWith('time_period_meta'):ifElse(${datasource_name:append('/time_period_meta.json')},
+${query_type:startsWith('tooltip_meta'):ifElse(${datasource_name:append('/meta_tooltip.json')},'None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
+)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )} )} )} )} )})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>azure-create-container</key>
@@ -75311,8 +75313,9 @@ ${query_type:startsWith('district_grade_subject_overall'):ifElse(${datasource_na
 ${query_type:startsWith('cluster_grade_subject_overall'):ifElse(${datasource_name:append('/overall/cluster_subject_footer.json')},
 ${query_type:startsWith('school_grade_subject_overall'):ifElse(${datasource_name:append('/overall/school_subject_footer.json')},
 ${query_type:startsWith('meta'):ifElse(${datasource_name:append('/meta.json')},
-${query_type:startsWith('time_period_meta'):ifElse(${datasource_name:append('/time_period_meta.json')},'None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
-)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )} )} )} )} )})})})})})})}</value>
+${query_type:startsWith('time_period_meta'):ifElse(${datasource_name:append('/time_period_meta.json')},
+${query_type:startsWith('tooltip_meta'):ifElse(${datasource_name:append('/meta_tooltip.json')},'None')} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )})} )} )} )} )} )} )}
+)} )} )} )} )} )} )} )} )}  )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})} )} )} )} )} )} )} )} )} )} )})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Bucket</key>
@@ -83176,5 +83179,5 @@ ${query_type:startsWith('stud_att_management_exception_school_overall'):ifElse('
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>07/22/2022 09:55:19 IST</timestamp>
+    <timestamp>07/26/2022 10:14:18 IST</timestamp>
 </template>
