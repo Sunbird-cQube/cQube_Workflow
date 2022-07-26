@@ -32,7 +32,7 @@ export class NifiShedularService {
     return this.http.get(`${this.baseUrl}/commonSchedular`);
   }
 
-  ScheduleProcessor(data) {
+  ScheduleProcessor(name, data) {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/scheduleProcessor`, { data });
   }

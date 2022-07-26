@@ -189,8 +189,6 @@ export class NifiShedularComponent implements OnInit {
           return a.name != "validate_datasource"
         })
 
-
-
         this.data = processors;
 
         for (let i = 0; i < this.result.length; i++) {
@@ -336,7 +334,7 @@ export class NifiShedularComponent implements OnInit {
     if (this.selectedDuration != '' && this.selectedShedule != '' && this.oneTimeRange == 'daily' || this.selectedDuration != '' && this.selectedShedule != '' && this.oneTimeRange != '' && this.day ||
       this.selectedDuration != '' && this.selectedShedule != '' && this.oneTimeRange != '' && this.date || this.selectedDuration != '' && this.selectedShedule != '' && this.oneTimeRange != '' && this.date && this.month) {
 
-      this.service.ScheduleProcessor({reportName:{data}, time: { day: this.day, date: this.date, month: this.month, hours: this.selectedShedule, minutes: this.selectMin }, stopTime: this.selectedDuration }
+      this.service.ScheduleProcessor(data.name,{ reportName: { data }, time: { day: this.day, date: this.date, month: this.month, hours: this.selectedShedule, minutes: this.selectMin }, stopTime: this.selectedDuration }
       ).subscribe(res => {
         if (res['msg']) {
           this.msg = res['msg'];
