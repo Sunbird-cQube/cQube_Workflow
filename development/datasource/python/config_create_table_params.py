@@ -917,7 +917,7 @@ def create_dml_timeline_queries():
     to_sql = '\n'
     global dml_queries
     dml_queries = '[' + '\n'
-    dml_queries += '{"meta_tooltip":"select '+ "'" + result_col_op + "' as result_column;" + '"},'
+    dml_queries += '{"tooltip_meta":"select '+ "'" + result_col_op + "' as result_column;" + '"},'
     filters = ['school', 'cluster', 'block', 'district']
     filter_var = [school_, cluster_, block_, district_]
     filter_grp = [school_grp, cluster_grp, block_grp, district_grp]
