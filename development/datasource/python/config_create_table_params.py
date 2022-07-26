@@ -905,7 +905,7 @@ def create_dml_timeline_queries():
     last_day_filter = ' where a.' + date_col + " in (select ((now()::date-'1day'::interval)::date) as day) "
 
     if student_id_exists is True:
-        school_ = 'cnt.school_id,school_name,school_latitude,school_longitude,cnt.cluster_id,cluster_name,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as student_count'
+        school_ = 'cnt.school_id,school_name,school_latitude,school_longitude,cnt.cluster_id,cluster_name,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as students_count'
         cluster_ = 'cnt.cluster_id,cluster_name,cluster_latitude,cluster_longitude,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as students_count'
         block_ = 'cnt.block_id,block_name,block_latitude,block_longitude,cnt.district_id,district_name,max(cnt.students_count) as students_count'
         district_ = ' cnt.district_id,district_name,district_latitude,district_longitude,max(cnt.students_count) as students_count'
