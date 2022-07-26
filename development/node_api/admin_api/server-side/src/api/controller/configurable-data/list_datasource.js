@@ -20,9 +20,9 @@ router.get('/', async function (req, res) {
             fileNames.forEach(filename => {
                 const ext = path.parse(filename).ext;
                 if (ext === ".sql") {
-                   
+
                     let name = filename.substr(0, filename.indexOf('.'))
-                  
+
                     jsonArray.push(name)
                 }
             }
@@ -43,7 +43,7 @@ router.post('/buildUI', async function (req, res) {
         logger.info('---buildUI ---');
         let UIpath = `${process.env.ANGULAR_DIRECTORY}`;
         shell.echo('--shell script started----')
-        
+
         var output = shell.exec(`fuser -n tcp -k 4200`, function (stdout, stderr, code) {
             var output1 = shell.exec(`cd  ${UIpath} && ng build --prod`, function (stdout, stderr, code) {
                 logger.info('---buildUI  success---');
@@ -51,7 +51,7 @@ router.post('/buildUI', async function (req, res) {
             })
         })
 
-        db.query('update configurable_datasource_properties set status=True where report_name=$1;', [req.body.dataSource], (error, results) => {
+        db.query('update configurable_datasource_properties set status=True where lower(report_name)=$1;', [req.body.dataSource.toLowerCase()], (error, results) => {
             if (error) {
                 throw error
             }
