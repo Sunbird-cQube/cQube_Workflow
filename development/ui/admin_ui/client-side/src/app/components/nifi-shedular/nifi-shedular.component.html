@@ -106,8 +106,8 @@
                         <td style="width: 250px;">
                             <select class="time" required id="role"
                                 style="float: left; padding: 9px;width: 48%; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: 0px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);"
-                                [(ngModel)]="selectedTimeRange[i]" (change)="onSelectTimeRange(i)">
-                                <option [value]="selectedTimeRange[i]" disabled selected> TimeRange
+                                [(ngModel)]="selectedTimeRange1[i]" (change)="onSelectTimeRange1(i)">
+                                <option [value]="selectedTimeRange1[i]" disabled selected> TimeRange
                                 </option>
                                 <option *ngFor="let time of timeRange" [(ngValue)]="time.key"
                                     style="text-align: center;">
@@ -116,8 +116,8 @@
                             </select>
                             <select [hidden]="showDay[i]" class="time" required id="role"
                                 style="padding: 9px;width: 48%; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: 0px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);"
-                                [(ngModel)]="selectedDay[i]" (change)="onSelectDay(i)">
-                                <option [value]="selectedDay[i]" disabled selected> Select Day
+                                [(ngModel)]="selectedDay1[i]" (change)="onSelectDay1(i)">
+                                <option [value]="selectedDay1[i]" disabled selected> Select Day
                                 </option>
                                 <option *ngFor="let day of allDays" [(ngValue)]="day.key" style="text-align: center;">
                                     {{day.name}}
@@ -125,7 +125,7 @@
                             </select>
 
                             <input [hidden]="showMonth[i]" type="text"
-                                (bsValueChange)="showDate[i] ?  onSelectMonth(myDateValue[i]): onSelectDate(myDateValue[i])"
+                                (bsValueChange)="showDate[i] ?  onSelectMonth1(myDateValue[i]): onSelectDate1(myDateValue[i])"
                                 style="width:48%; margin:0px auto; margin-left: 2px; float: left;"
                                 placeholder="{{placeHolder}}" class="form-control" #dp="bsDatepicker" bsDatepicker
                                 [(ngModel)]="myDateValue[i]"
@@ -134,8 +134,8 @@
                         <td>
                             <select class="time" required id="role"
                                 style="padding: 9px;width: 90%; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: 0px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);"
-                                [(ngModel)]="selectedTime[i]" (change)="onSelectTime(i)">
-                                <option [value]="selectedTime[i]" disabled selected> Choose Hours
+                                [(ngModel)]="selectedTime1[i]" (change)="onSelectTime1(i)">
+                                <option [value]="selectedTime1[i]" disabled selected> Choose Hours
                                 </option>
                                 <option *ngFor="let time of timeArr" [(ngValue)]="time.time"
                                     style="text-align: center;">
@@ -146,8 +146,8 @@
                         <td>
                             <select class="time" required id="role"
                                 style="padding: 9px;width: 90%; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: 0px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);"
-                                [(ngModel)]="selectedMinuts[i]" (change)="onSelectMinutes(i)">
-                                <option [value]="selectedMinuts[i]" disabled selected> Choose Minutes
+                                [(ngModel)]="selectedMinuts1[i]" (change)="onSelectMinutes1(i)">
+                                <option [value]="selectedMinuts1[i]" disabled selected> Choose Minutes
                                 </option>
                                 <option *ngFor="let min of minsArr" [(ngValue)]="min.mins">
                                     {{min.mins}}
@@ -157,8 +157,8 @@
                         <td>
                             <select class="time" required id="role"
                                 style="padding: 9px;width: 90%; color: rgb(2, 2, 2); border-radius: 4px;border: 1px solid rgb(199, 196, 196); margin: 0px 0px 2px 0px; font-size: 13px; background-color: rgb(255, 255, 255);"
-                                [(ngModel)]="selectedHour[i]" (change)="onSelectHour(i)">
-                                <option [value]="selectedHour[i]" disabled selected> Choose Duration
+                                [(ngModel)]="selectedHour1[i]" (change)="onSelectHour1(i)">
+                                <option [value]="selectedHour1[i]" disabled selected> Choose Duration
                                 </option>
                                 <option *ngFor="let hour of hoursArr" [(ngValue)]="hour.hours">
                                     {{hour.hours}}
