@@ -222,7 +222,6 @@ if __name__ == '__main__':
     processor_properties11 = {
         conf_key3: conf_value8
     }
-    time.sleep(5)
 
     # Stops the processors
     start_processor_group(processor_group_name[0], 'STOPPED')
@@ -282,8 +281,6 @@ if __name__ == '__main__':
     start_processor_group(processor_group_name[0], 'RUNNING')
     start_processor_group(processor_group_name[1], 'RUNNING')
     start_processor_group(processor_group_name[2], 'RUNNING')
-    start_processor_group(data_storage_processor, 'RUNNING')
-    time.sleep(5)
 
     # Executing the query to set the status "Running"
     execute_sql(state='RUNNING')
