@@ -11,7 +11,11 @@ exports.restartNifiProcess = async function () {
         var schedularData = []
         if (fs.existsSync(filePath)) {
             await changePermission();
-            schedularData = JSON.parse(fs.readFileSync(filePath));
+             schedularData = JSON.parse(fs.readFileSync(filePath));
+            
+            schedularData = schedularData.filter(schedular => schedular.groupName !== 'transaction_and_aggregation')
+            schedularData = schedularData.filter(schedular => schedular.groupName !== 'validate_datasource')
+
             schedularData.forEach(async (myJob, index) => {
 
                 if (myJob.groupId !== '') {
