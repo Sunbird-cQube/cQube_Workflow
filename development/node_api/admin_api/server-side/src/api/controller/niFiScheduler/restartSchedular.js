@@ -15,7 +15,7 @@ exports.restartNifiProcess = async function () {
             schedularData.forEach(async (myJob, index) => {
 
                 if (myJob.groupId !== '') {
-  
+
                     if (myJob.day && myJob.day != "*") {
                         schedulerTime = `${myJob.mins} ${myJob.hours} * * ${myJob.day}`;
                     } else if (myJob.date && myJob.date != "*") {
@@ -33,7 +33,7 @@ exports.restartNifiProcess = async function () {
                     await rescheduleJob(myJob, schedulerTime, schedularData);
                     await stoppingJob(myJob, schedularData);
                 } else {
-                    
+
                     if (myJob.day && myJob.day != "*") {
                         schedulerTime = `${myJob.mins} ${myJob.hours} * * ${myJob.day}`;
                     } else if (myJob.date && myJob.date != "*") {
@@ -156,7 +156,10 @@ const stoppingJob = (myJob, schedularData) => {
 const commonSchedular = (myJob, schedulerTime, schedularData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            
+         
+            let schedularData1 = schedularData
+            schedularData1 = schedularData1.filter(schedular => schedular.groupName !== 'transaction_and_aggregation')
+            schedularData1 = schedularData1.filter(schedular => schedular.groupName !== 'validate_datasource')
             await schedule.scheduleJob(myJob.groupName + '_start', schedulerTime, async function () {
                 var pyth1 = shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${process.env.BASE_DIR}/cqube/emission_app/python/configure_load_property_values.py ${myJob.groupName.toLowerCase()} ${myJob.timeToStop} `, function (stdout, stderr, code) {
                     if (code) {
@@ -166,7 +169,7 @@ const commonSchedular = (myJob, schedulerTime, schedularData) => {
                         logger.info('--- diksha TPD ETB method api response sent---');
                         myJob.state = "RUNNING";
                         myJob.scheduleUpdatedAt = `${new Date()}`;
-                        fs.writeFile(filePath, JSON.stringify(schedularData), function (err) {
+                        fs.writeFile(filePath, JSON.stringify(schedularData1), function (err) {
                             if (err) throw err;
                             logger.info('Restart process - Scheduled RUNNING Job - Restarted successfully');
                             resolve(true);
