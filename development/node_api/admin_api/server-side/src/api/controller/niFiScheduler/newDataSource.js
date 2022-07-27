@@ -119,6 +119,8 @@ router.post('/scheduleProcessor', async function (req, res) {
         } else {
             schedularData.push(obj);
         }
+        schedularData = schedularData.filter(schedular => schedular.groupName !== 'transaction_and_aggregation')
+        schedularData = schedularData.filter(schedular => schedular.groupName !== 'validate_datasource')
         fs.writeFile(filePath, JSON.stringify(schedularData), function (err) {
             if (err) throw err;
             logger.info('Scheduled RUNNING Job - Updated to file');
