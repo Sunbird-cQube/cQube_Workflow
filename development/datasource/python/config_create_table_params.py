@@ -24,7 +24,6 @@ def read_input():
         file_name_sql = file_name
         return file
 
-
 def create_parameters_queries():
     input_df = pd.read_csv(read_input())
     keywords = input_df['keywords'].dropna().tolist()
@@ -149,9 +148,7 @@ def create_parameters_queries():
                     # normalize
                     query_check1 = ''
                     for check_norm_col in raw_columns:
-
                         if ('year' in check_norm_col) or ('date' in check_norm_col) or ('month' in check_norm_col):
-                            print("check_norm_col", check_norm_col)
                             query_check1 += '"' + check_norm_col + '",'
                         else:
                             query_check1 += check_norm_col + ','
@@ -557,7 +554,6 @@ def create_parameters_queries():
         else:
             mycsv.append(row)
 
-
 def create_table_queries():
     input_df = pd.read_csv(read_input())
     keywords = input_df['keywords'].dropna().tolist()
@@ -841,9 +837,11 @@ def create_table_queries():
                     description = df_vis['description'].dropna().tolist()
                     create_table_query = ' '
                     create_table_query = 'create table if not exists configurable_datasource_properties (report_name varchar(50),report_type varchar(20),description text,status boolean);'
+                    create_table_query += 'alter table configurable_datasource_properties add column if not exists state varchar(15);'
+                    create_table_query += 'alter table configurable_datasource_properties add column if not exists datasource_name varchar(50);'
                     insert_query = ''
                     for d, r, info in zip(datasourcenames, tmp_columns, description):
-                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False) except(select report_name,report_type,description,status from configurable_datasource_properties) ;";
+                        insert_query = insert_query + "insert into configurable_datasource_properties values('" + d + "','" + r + "','" + info + "',False,'STOPPED','" + file_name_sql + "') except(select report_name,report_type,description,status,state,datasource_name from configurable_datasource_properties) ;";
                     all_queries = all_queries + '\n' + create_table_query + '\n' + insert_query
             key_index += 1
             del mycsv[:]
@@ -907,7 +905,7 @@ def create_dml_timeline_queries():
     last_day_filter = ' where a.' + date_col + " in (select ((now()::date-'1day'::interval)::date) as day) "
 
     if student_id_exists is True:
-        school_ = 'cnt.school_id,school_name,school_latitude,school_longitude,cnt.cluster_id,cluster_name,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as student_count'
+        school_ = 'cnt.school_id,school_name,school_latitude,school_longitude,cnt.cluster_id,cluster_name,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as students_count'
         cluster_ = 'cnt.cluster_id,cluster_name,cluster_latitude,cluster_longitude,cnt.block_id,block_name,cnt.district_id,district_name,max(cnt.students_count) as students_count'
         block_ = 'cnt.block_id,block_name,block_latitude,block_longitude,cnt.district_id,district_name,max(cnt.students_count) as students_count'
         district_ = ' cnt.district_id,district_name,district_latitude,district_longitude,max(cnt.students_count) as students_count'
@@ -919,6 +917,7 @@ def create_dml_timeline_queries():
     to_sql = '\n'
     global dml_queries
     dml_queries = '[' + '\n'
+    dml_queries += '{"tooltip_meta":"select '+ "'" + result_col_op + "' as result_column;" + '"},'
     filters = ['school', 'cluster', 'block', 'district']
     filter_var = [school_, cluster_, block_, district_]
     filter_grp = [school_grp, cluster_grp, block_grp, district_grp]
