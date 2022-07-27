@@ -15,21 +15,29 @@ router.get('/', async function (req, res) {
         let jsonArray = [];
         // read directory
 
-        fs.readdir(csvFilePath, (error, fileNames) => {
-            if (error) throw error;
-            fileNames.forEach(filename => {
-                const ext = path.parse(filename).ext;
-                if (ext === ".sql") {
-
-                    let name = filename.substr(0, filename.indexOf('.'))
-
-                    jsonArray.push(name)
-                }
+      
+        db.query('select distinct report_name,status,state from configurable_datasource_properties ;', (error, results) => {
+            if (error) {
+                logger.info('--- common schedular api failed ---')
+                throw error
             }
-            );
-            logger.info('---list new dataSource api response send---');
-            res.status(200).send(jsonArray);
-        });
+
+            if (results['rowCount']) {
+                logger.info('---common schedular api response sent ---')
+
+                let data = results['rows']
+
+                data = data.filter(program => program.status === false)
+                data.map(program => jsonArray.push(program.report_name))
+               
+                res.status(200).send(jsonArray);
+                logger.info('---list new dataSource api response send---');
+            } else {
+                res.send({ status: "401", err: "somthing went wrong" })
+            }
+
+        })
+
 
     } catch (e) {
         logger.error(`Error :: ${e}`)
