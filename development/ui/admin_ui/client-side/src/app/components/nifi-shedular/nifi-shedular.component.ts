@@ -10,6 +10,7 @@ declare const $;
 export class NifiShedularComponent implements OnInit {
   //Bootstrap Date picker
   myDateValue = [];
+  myDateValue1 = [];
   placeHolder;
   model = '';
 
@@ -55,6 +56,10 @@ export class NifiShedularComponent implements OnInit {
   showDay = [];
   showMonth = [];
   showDate = [];
+
+  showDay1 = [];
+  showMonth1 = [];
+  showDate1 = [];
 
   today = new Date();
   minDate = `${this.today.getFullYear()}-${("0" + (this.today.getMonth() + 1)).slice(-2)}-${("0" + (this.today.getDate())).slice(-2)}`;
@@ -195,6 +200,9 @@ export class NifiShedularComponent implements OnInit {
           this.showDay.push(true);
           this.showDate.push(true);
           this.showMonth.push(true);
+          this.showDay1.push(true);
+          this.showDate1.push(true);
+          this.showMonth1.push(true);
         }
 
         $(document).ready(function () {
@@ -269,35 +277,35 @@ export class NifiShedularComponent implements OnInit {
   onSelectTimeRange1(i) {
     this.oneTimeRange = this.selectedTimeRange1[i];
     if (this.selectedTimeRange1[i] == 'daily') {
-      this.showDay[i] = true;
-      this.showMonth[i] = true;
-      this.showDate[i] = true;
+      this.showDay1[i] = true;
+      this.showMonth1[i] = true;
+      this.showDate1[i] = true;
     }
     if (this.selectedTimeRange1[i] == 'weekly') {
-      this.showDay[i] = false;
-      this.showMonth[i] = true;
-      this.showDate[i] = true;
+      this.showDay1[i] = false;
+      this.showMonth1[i] = true;
+      this.showDate1[i] = true;
     }
     if (this.selectedTimeRange1[i] == 'monthly') {
-      this.showDay[i] = true;
-      this.showMonth[i] = false;
-      this.showDate[i] = true;
+      this.showDay1[i] = true;
+      this.showMonth1[i] = false;
+      this.showDate1[i] = true;
       this.placeHolder = "Select Date"
     }
     if (this.selectedTimeRange1[i] == 'yearly') {
-      this.showDay[i] = true;
-      this.showMonth[i] = false;
-      this.showDate[i] = false;
+      this.showDay1[i] = true;
+      this.showMonth1[i] = false;
+      this.showDate1[i] = false;
       this.placeHolder = "Select Date"
     }
   }
 
   onSelectDay1(i) {
-    this.myDateValue = [];
+    this.myDateValue1 = [];
     this.day = this.selectedDay1[i];
     this.month = undefined;
     this.date = undefined;
-    this.myDateValue = [];
+    this.myDateValue1 = [];
   }
 
   onSelectMonth1(event) {
@@ -351,10 +359,10 @@ export class NifiShedularComponent implements OnInit {
           this.month = undefined;
           this.selectedTimeRange1 = [];
           this.selectedDay1 = [];
-          this.myDateValue = [];
-          this.showDay[i] = true;
-          this.showMonth[i] = true;
-          this.showDate[i] = true;
+          this.myDateValue1 = [];
+          this.showDay1[i] = true;
+          this.showMonth1[i] = true;
+          this.showDate1[i] = true;
 
           setTimeout(() => {
             document.getElementById('success').style.display = "none";

@@ -15,5 +15,6 @@
 "stg_1_to_stg_2_qry":"""aa""",
 "save_to_dup_table":"""tablename""",
 "schema":"""Optional(parseLong())""",
-"datasource_name":"""name"""
+"datasource_name":"""name""",
+" save_null_tb_name":"""abc"""
 }
