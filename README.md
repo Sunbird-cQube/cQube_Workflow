@@ -21,7 +21,7 @@ git pull
 
 - Based on the number of udise attributes required by the state, configure the udise_config.csv file by filling the required fields in the file udise_config.csv:
 - ```cd /development/datasource/udise/postgres/udise_config.csv```
-- 
+
 - To edit below mentioned UDISE details ```nano udise_config.csv```
 
 - Save and Close the file
@@ -33,7 +33,7 @@ git pull
 -  ```cd /development/datasource/diksha/nifi/diksha_parameters.txt```
 
 - If you are opting for education_usecase. usecase_name as education_usecase Copy the config.yml.template to config.yml 
-- 
+
 - `cp config.yml.template to config.yml`
 
 - Edit using `nano config.yml`
