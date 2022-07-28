@@ -1,0 +1,179 @@
+<div class="container-fluid background" id="background">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="logo">
+                <img src="../../assets/img/GroupLogo.svg" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="logoText">
+                        <p>cQube</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card-pf">
+                        <div id="kc-content-wrapper">
+
+                            <div *ngIf="wrongCredintional" class="alert alert-error d-flex">
+                                <span class="pficon fa fa-times-circle fa-2x text-danger"></span>
+
+                                <span class="kc-feedback-text ml-2">{{errorMsg}}</span>
+                            </div>
+
+                            <div>
+                                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off"
+                                    id="kc-form-login1" class="form">
+                                    <label>User ID </label><br />
+                                    <input id="username1" (input)="myFun($event)" class="login-field"
+                                        formControlName="username" placeholder="Enter your user ID" type="text"
+                                        name="username" tabindex="1">
+                                    <br /><br />
+                                    <label>Password</label><br />
+                                    <input id="password1" class="login-field" (input)="myFun($event); onChange($event)"
+                                        formControlName="password" placeholder="Enter your password"
+                                        [type]="togglePassword ? 'text' : 'password'" name="password" tabindex="2">
+
+                                    <i class="fa fa-eye" id="togglePassword" (click)="test($event)"
+                                        style="display : none"></i>
+                                    <br /><br />
+                                    <input class="submit" [disabled]="!loginForm.valid" type="submit" id="login"
+                                        value="Login" tabindex="3"
+                                        [style.background-color]="loginForm.valid ? '#31d08c' : ''"
+                                        [style.color]="loginForm.valid ? '#fff' : ''">
+                                    <img src="../../assets/img/Shape1.svg" aria-hidden="true" id="signinSymbol">
+                                    <img src="../../assets/img/Shape.svg" aria-hidden="true" id="signinSymbolWithInput">
+                                </form>
+                            </div>
+
+
+                        </div>
+                        <div id="otp-container" style="display: none;">
+                            <div id="qr-code" *ngIf="userStatus === 'true' || userStatus === undefined">
+
+                                <ol id="kc-totp-settings">
+                                    <li>
+                                        <p>Install one of the following applications on your mobile</p>
+
+                                        <ul id="kc-totp-supported-apps">
+                                            <li>FreeOTP</li>
+                                            <li>Google Authenticator</li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <p>Open the application and scan the barcode</p>
+
+
+                                        <img id="kc-totp-secret-qr-code" [src]='qrcode' alt="Figure: Barcode"><br />
+
+                                    </li>
+                                    <li>
+                                        <p>Enter the one-time code provided by the application and click Submit to
+                                            finish
+                                            the setup</p>
+                                    </li>
+                                </ol>
+
+                            </div>
+                            <h4 class="ml-3"> Enter Otp</h4>
+
+                            <div *ngIf="wrongOtp" class="alert alert-error d-flex">
+                                <span class="pficon fa fa-times-circle fa-2x text-danger"></span>
+
+                                <span class="kc-feedback-text ml-2">{{errorMsg}}</span>
+                            </div>
+                            <form [formGroup]="otpForm" (ngSubmit)="verifyQRCOde()" class="form-horizontal"
+                                id="kc-totp-settings-form">
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <input type="text" id="totp" formControlName="otp" name="totp"
+                                            autocomplete="off" class="form-control" />
+                                    </div>
+
+                                    <input type="hidden" id="totpSecret" formControlName="secret" name="totpSecret"
+                                        [ngModel]="tempSecret" />
+
+                                </div>
+
+                                <input class="btn btn-primary btn-block btn-lg" type="submit" value="Submit" />
+                            </form>
+                        </div>
+                        <div id="updatePassword" style="display: none;">
+                            <div *ngIf="passwordMatch" class="alert alert-error d-flex">
+                                <span class="pficon fa fa-times-circle fa-2x text-danger"></span>
+
+                                <span class="kc-feedback-text ml-2">{{errorMsg}}</span>
+                            </div>
+                            <form id="kc-passwd-update-form" [formGroup]='passwordForm' (ngSubmit)="changePassword()"
+                                class="form-horizontal">
+                                <input type="text" id="username" name="username" formControlName="username"
+                                    [ngModel]="userName" autocomplete="username" readonly="readonly"
+                                    style="display:none;" />
+                                <input type="password" id="password" name="password" autocomplete="current-password"
+                                    style="display:none;" />
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <label for="password-new" class="control-label">New Password</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <input type="password" id="password-new" formControlName="newPassword"
+                                            name="password-new" class="form-control" autofocus
+                                            autocomplete="new-password" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <label for="password-confirm" class="control-label">Confirm password</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <input type="password" id="password-confirm" formControlName="cnfpass"
+                                            name="password-confirm" class="form-control" autocomplete="new-password" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div id="kc-form-options" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="">
+                                        </div>
+                                    </div>
+
+                                    <div id="kc-form-buttons" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <input class="btn btn-primary btn-block btn-lg" type="submit" value="Submit" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="infoText" style="color: white; padding: 0px 20px 0px 0px;">
+                        <h6
+                            style="color:white; font-size: 16px; font-weight: bold;line-height:1.4em; margin-top: 20px;">
+                            Utilizing
+                            data to drive action on the ground by enabling the
+                            ability to see, solve and act</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <div class="backImg">
+                <img src="./../../assets/img/back1.png">
+            </div>
+
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>

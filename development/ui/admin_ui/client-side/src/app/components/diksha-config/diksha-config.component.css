@@ -1,0 +1,23 @@
+.box{
+    /* width:250px; 
+    height:200px;  */
+    margin:auto; 
+    background-color: rgba(243, 241, 241, 0.2); 
+    position:relative; 
+    box-shadow: 0px 0px 4px 2px #1795e9;
+}
+
+#rangeType, #tpdMethod, #etbMethod, #time{
+    padding: 9px;
+    width: 180px; 
+    color: rgb(2, 2, 2); 
+    border-radius: 4px;
+    border: 1px solid rgb(199, 196, 196); 
+    /* margin: -10px 0px 2px 0px;  */
+    font-size: 13px; 
+    background-color: rgb(255, 255, 255);
+}
+
+#time:disabled {
+  background-color: rgb(223, 223, 223);
+}

@@ -1,0 +1,143 @@
+<div class="container-fluid">
+  <div class="row reportHeader">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="row" (window:resize)="onResize()">
+        <div class="col-lg-9 col-md-9 col-sm-12">
+
+          <div *ngIf='skul'>
+            <p id="block">
+              Report on Content Preference:
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{state}}</span>
+
+            </p>
+          </div>
+
+          <div *ngIf="dist">
+            <p id="block">
+              Report on Content Preference:
+              <span (click)="clickHome()" style="cursor: pointer; text-decoration: underline">{{ state }}</span>
+              <span> | </span><span style="cursor: pointer; text-decoration: underline" class="selected-level">
+              </span>
+            </p>
+          </div>
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="row">
+            <div class="col-sm-5">
+              <p id="errMsg" class="note"></p>
+            </div>
+            <div class="col-sm-7">
+              <button *ngIf="reportData.length > 0" class="btn btn-primary" title="Download Report" id="download1"
+                (click)="downloadReport()">
+                Download Report &nbsp;
+                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="note">
+            <strong> About the dashboard:</strong> The dashboard provides insights on user's preference (as measured by
+            total content play) by content type across districts for {{state}}
+
+          </p>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12 d-flex">
+
+          <select id="choose_district" [hidden]="!hideAccessBtn" [(ngModel)]="selectedDrop"
+            (change)="onStateDropSelected(selectedDrop)">
+            <option disabled selected="selected">
+              Choose a District
+            </option>
+            <option *ngFor="let dist of stateDropDown" [(ngValue)]="dist.key">
+              {{ dist.name }}
+            </option>
+          </select>
+
+          <div *ngIf="districtSelectBox">
+            <app-multi-select #multiSelect1 id="pieMultiSelector" style="float: left;width: auto; margin-right: 10px;"
+              [list]="distToDropDown" [text]="'district'"
+              [width1]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '200px':'130px'"
+              [width2]="height > 1780 ? '350px !important': height > 1160 && height < 1780 ? '300px': height > 667 && height < 1160 ? '220px':'130px'"
+              (shareCheckedList)="onSelectDistrict($event)" from="trendChart"
+              (clearSuccessors)="clearSuccessors($event)">
+            </app-multi-select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row reportContainer d-flex flex-wrap">
+    <div *ngIf='distToggle' class="col-lg-8">
+      <h5 style="text-align: center; font-weight: bold;" [ngStyle]="{
+          fontSize:
+            height > 1760
+              ? '32px'
+              : height > 1160 && height < 1760
+              ? '25px'
+              : height > 667 && height < 1160
+              ? '24px'
+              : '15px'
+        }">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
+      <div id="container" [ngStyle]="{
+          height:
+            height > 1760
+              ? '84vh'
+              : height > 1160 && height < 1760
+              ? '82vh'
+              : height > 667 && height < 1160
+              ? '78vh'
+              : '73vh'
+        }" class="active"></div>
+    </div>
+
+    <div *ngIf='!distToggle ' class="col-lg-12" style="height: 70vh">
+      <h5 style="text-align: center; font-weight: bold;" [ngStyle]="{
+          fontSize:
+            height > 1760
+              ? '50px'
+              : height > 1160 && height < 1760
+              ? '32px'
+              : height > 667 && height < 1160
+              ? '24px'
+              : '15px'
+        }">{{state}} Total Content Usage: {{stateContentUsage}}</h5>
+      <div id="container" [ngStyle]="{
+          height:
+            height > 1760
+              ? '84vh'
+              : height > 1160 && height < 1760
+              ? '82vh'
+              : height > 667 && height < 1160
+              ? '78vh'
+              : '73vh'
+        }" class="active"></div>
+    </div>
+
+    <div *ngIf='distToggle' class="col-lg-4 justify-content-center" id="container1"
+      style="max-height: 70vh; overflow-y: scroll; padding: 0;">
+      <h4>District Level Data</h4>
+
+    </div>
+
+    <div *ngIf="showError" style="position: absolute; left: 45%; top: 45%;color: red;">
+     Do not have permission to see this report
+    </div>
+
+  </div>
+
+
+  <div id="spinner" style="display:none;">
+    <div class="loading">Loading&#8230;</div>
+  </div>
+
+  <div *ngIf="waterMark === 'true'" id='demoLogoConatiner'>
+    <span><span>Test Data, Not Representative</span>
+      <span style="margin-left:50px">Test Data, Not Representative</span></span><br>
+
+  </div>
