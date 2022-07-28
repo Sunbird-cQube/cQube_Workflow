@@ -47,6 +47,10 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    sessionStorage.clear();
+    document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "block" : "";
+
     this.dataSource = this.sourceService.dataSources;
 
   }
