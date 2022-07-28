@@ -7,12 +7,35 @@
 - Navigate to the directory where cQube_Workflow has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.2
+git checkout main
+git pull
 ```
+### Configuration of infrastructure attributes and udise data indices, metrics:
 
-- Copy the config.yml.template to config.yml `cp config.yml.template config.yml`
-- If you are opting for education_usecase. usecase_name as education_usecase Copy the education_usecase_config.yml.template to education_usecase_config.yml `cp education_usecase_config.yml.template education_usecase_config.yml`
-- If you are opting for test_usecase. usecase_name as test_usecase Copy the test_usecase_config.yml.template to test_usecase_config.yml `cp test_usecase_config.yml.template test_usecase_config.yml`
+- Based on the number of infrastructure attributes required by the state, configure the infrastructure report by filling the required fields in the file infrastructure_master.csv:
+- ```cd /development/datasource/infra/postgres/infrastructure_master.csv```
+- To edit below mentioned infrastructure details
+- ```nano infrastructure_master.csv```
+
+- Save and Close the file
+
+- Based on the number of udise attributes required by the state, configure the udise_config.csv file by filling the required fields in the file udise_config.csv:
+- ```cd /development/datasource/udise/postgres/udise_config.csv```
+- 
+- To edit below mentioned UDISE details ```nano udise_config.csv```
+
+- Save and Close the file
+
+- For more information to configure the weights & columns for udise/infrastucture, please refer operational document.
+
+- Update the diksha parameters(api_url,token,encryption key,dataset name channel_id,org_id) in the file  diksha_parameters.txt file by filling the required fields in the file diksha_parameters.txt:
+
+-  ```cd /development/datasource/diksha/nifi/diksha_parameters.txt```
+
+- If you are opting for education_usecase. usecase_name as education_usecase Copy the config.yml.template to config.yml 
+- 
+- `cp config.yml.template to config.yml`
+
 - Edit using `nano config.yml`
 
 - Fill the configuration details for the below mentioned list in config.yml (* all the values are mandatory)
@@ -43,7 +66,8 @@ git checkout release-3.2
 
 ```sudo ./install.sh```
 
-- Once installation is completed without any errors, you will be prompted the following message. CQube installed successfully!!
+- Once installation is completed without any errors, you will be prompted the following message. 
+- ```CQube installed successfully!!```
 
 ## Steps Post Installation:
 
@@ -136,11 +160,12 @@ python3 client.py
 - Navigate to the directory where cQube has been downloaded or cloned
 ```
 cd cQube_Workflow/work_deploy/
-git checkout release-3.2
+git checkout main
+git pull
 ```
-- Copy the upgradation_config.yml.template to upgradation_config.yml `cp upgradation_config.yml.template upgradation_config.yml`
-- If you are opting for education_usecase. usecase_name as education_usecase Copy the education_usecase_upgradation_config.yml.template to education_usecase_upgradation_config.yml `cp education_usecase_upgradation_config.yml.template education_usecase_upgradation_config.yml`
-- If you are opting for test_usecase. usecase_name as test_usecase Copy the test_usecase_upgradation_config.yml.template to test_usecase_upgradation_config.yml `cp test_usecase_upgradation_config.yml.template test_usecase_upgradation_config.yml
+- If you are opting for education_usecase. usecase_name as education_usecase - Copy the config.yml.template to config.yml 
+- `cp config.yml.template to config.yml`
+
 - Edit using `nano config.yml`
 
 - This script will update the below cQube components:
@@ -150,20 +175,19 @@ git checkout release-3.2
   - Updates Angular and Chart JS client side code
   - Updates & configure Apache Nifi template
   - Updates & configure Keycloak
-- Fill the configuration details in upgradation_config.yml (* all the values are mandatory, make sure to fill the same configuration details which were used during installation)
-
-- Edit using `nano upgradation_config.yml`
+- Fill the configuration details in config.yml (* all the values are mandatory, make sure to fill the same configuration details which were used during installation)
 
 - Save and Close the file
 
 - Give the following permission to the upgrade.sh file
 
 `chmod u+x upgrade.sh`
+
 - Run the script to update cQube using the non-root user with sudo privilege
 Start the upgradation by running upgrade.sh shell script file as mentioned below:
 `sudo ./upgrade.sh`
 
-Configuration filled in upgradation_config.yml will be validated first. If there is any error during validation, you will be prompted with the appropriate error message and the upgradation will be aborted. Refer the error message and solve the errors appropriately. Restart the upgradation process `sudo ./upgrade.sh`
+Configuration filled in config.yml will be validated first. If there is any error during validation, you will be prompted with the appropriate error message and the upgradation will be aborted. Refer the error message and solve the errors appropriately. Restart the upgradation process `sudo ./upgrade.sh`
 
 Once upgradation is completed without any errors, you will be prompted the following message. 
 ```CQube upgraded successfully!!```
