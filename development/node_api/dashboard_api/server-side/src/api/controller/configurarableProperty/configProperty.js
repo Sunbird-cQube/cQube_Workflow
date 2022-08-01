@@ -10,7 +10,7 @@ router.post('/configProperties', auth.authController, async (req, res) => {
         let data = await s3File.readFileConfig(filename);
         const key = 'report_name';
 
-        const arrayUniqueByKey = [...new Map(data.map(item =>
+        let arrayUniqueByKey = [...new Map(data.map(item =>
             [item[key], item])).values()];
 
         arrayUniqueByKey.forEach(data => {

@@ -136,8 +136,6 @@ export class HomeComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/signin'])
       }
-
-
     }
 
   }
@@ -147,9 +145,11 @@ export class HomeComponent implements OnInit {
       if (res['data']) {
         document.getElementById('spinner').style.display = "none"
       }
-
       this.menuList = res['data']
-
+   
+      
+    },(err)=> {
+      this.menuList = []
     })
   }
 

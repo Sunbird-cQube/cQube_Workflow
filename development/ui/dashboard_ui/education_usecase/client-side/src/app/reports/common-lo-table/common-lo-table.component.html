@@ -153,7 +153,7 @@
         </div>
     </div>
     <div class="row" *ngIf="reportData.length > 0 && columns.length>0" style="padding-top: 2vh !important">
-        <div class="col-sm-9">
+        <div class="col-sm-10">
             <h5 id="legend" style="float: left;">Legend:&nbsp; &nbsp; </h5>
             <div *ngFor="let value of values; let i = index" style="float: left;">
                 <span class="legends" style="padding: 8px 15px 10px 15px;"
@@ -162,7 +162,7 @@
                     {{values[i]}} </span>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div style="position: relative; bottom: 0px; float: right; margin: 0px auto;">
                 <ngb-pagination *ngIf="showPagination" [collectionSize]="reportData.length" [maxSize]="10"
                     [(page)]="currentPage" [pageSize]="pageSize" (pageChange)="onChangePage()"></ngb-pagination>

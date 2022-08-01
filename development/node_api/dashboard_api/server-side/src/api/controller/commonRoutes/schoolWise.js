@@ -11,10 +11,10 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         let { year, month, dataSource, grade, subject_name, exam_date, week, period, blockId, clusterId, management, category, reportType } = req.body
         let fileName;
 
-        if (reportType == "loTable") {
+        if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-
+                    
                     fileName = `${dataSource}/overall/school_subject_footer.json`;
                 } else if (period == "year and month") {
 
@@ -35,7 +35,6 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
                     }
                 } else if (period == "last 7 days") {
@@ -112,7 +111,13 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
             }
         }
 
+        let sourceName = ""
+        let filename1 = `${dataSource}/meta_tooltip.json`
+        let metricValue = await s3File.readFileConfig(filename1);
+        metricValue.forEach(metric => sourceName = metric.result_column)
+
         let data = await s3File.readFileConfig(fileName);
+        console.log('data', data)
         if (clusterId) {
             footer = data['footer']
             footer = footer[clusterId.toString()]
@@ -133,7 +138,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 )
             })
         }
-
+        console.log('data', data)
         let schoolDetails = data.map(e => {
             return {
                 district_id: e.district_id,
@@ -171,7 +176,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 return val.distribution_date == exam_date
             })
         }
-
+        console.log('data', data)
         if (reportType == "Map") {
             data = data.map(({
                 school_latitude: lat,
@@ -185,7 +190,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
             res.status(200).send({ data, schoolDetails, footer })
         }
 
-        if (reportType == "loTable") {
+        if (reportType == "lotable") {
             Promise.all(data.map(item => {
 
                 if (week && !exam_date) {
@@ -219,7 +224,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     }
                     z.map(val1 => {
                         let y = {
-                            [`${val1.school_name}`]: { percentage: val1.no_of_books_distributed, mark: val1.marks }
+                            [`${val1.school_name}`]: { percentage: val1[`${sourceName.trim()}`] }
                         }
                         x = { ...x, ...y }
                     })
@@ -236,8 +241,9 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         return result1;
                     }, {});
                     tableData = val.map((item) => ({ ...def, ...item }));
+                    console.log('tableData', tableData)
                     logger.info('--- PAT LO table schoolWise response sent ---');
-                    res.status(200).send({ schoolDetails, tableData, data1 });
+                    res.status(200).send({ schoolDetails, tableData });
                 } else {
                     logger.info('--- PAT LO table schoolWise response sent ---');
                     res.status(500).send({ errMsg: "No record found" });
@@ -305,6 +311,7 @@ router.post('/AllSchoolWise', auth.authController, async (req, res) => {
             lat, long,
             ...rest
         }));
+
 
         res.status(200).send({ data, footer });
 
