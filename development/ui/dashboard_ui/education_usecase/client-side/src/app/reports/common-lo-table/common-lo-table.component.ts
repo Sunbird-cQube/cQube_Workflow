@@ -104,6 +104,7 @@ export class CommonLoTableComponent implements OnInit {
           for (let i = 0; i < this.metaData.length; i++) {
             this.years.push(this.metaData[i]["academic_year"]);
           }
+
           this.year = this.years[this.years.length - 1];
           let i;
           for (i = 0; i < this.metaData.length; i++) {
@@ -113,6 +114,7 @@ export class CommonLoTableComponent implements OnInit {
               break;
             }
           }
+
 
           this.grades = [
             { grade: "all" },
@@ -239,7 +241,8 @@ export class CommonLoTableComponent implements OnInit {
     this.hideMonth = true
     this.hideWeek = true
     this.hideDay = true
-    this.gradeSelected = false
+    this.gradeSelected = false;
+    this.dateSelected = false;
     this.month = ""
     this.period = "overall"
     this.grade = "all";
@@ -252,8 +255,7 @@ export class CommonLoTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
-
-    this.gradeSelected = false;
+    this.weekSeletced = false;
     if (this.hideAccessBtn) {
 
       this.commonFunc();
@@ -335,7 +337,8 @@ export class CommonLoTableComponent implements OnInit {
   columns = [];
   colorRange = []
   createTable(dataSet) {
-    let weekSelct = this.weekSeletced
+    let weekSelct = this.weekSeletced;
+    let dateSelct = this.dateSelected;
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
 
@@ -386,13 +389,17 @@ export class CommonLoTableComponent implements OnInit {
       let Arr1 = []
 
       $.each(dataSet, function (a, b) {
+
         $.each(b, function (key, value) {
+         
           if (key !== 'subject' && key !== 'grade') {
+          
             if (typeof (value.percentage) == "number") {
+   
               Arr1.push(value.percentage)
             }
-
           }
+
         });
       });
 
@@ -446,8 +453,31 @@ export class CommonLoTableComponent implements OnInit {
       }
 
       newArr.forEach((columns, i1) => {
+        if (weekSelct === true && dateSelct === false) {
 
-        if (weekSelct === true) {
+          body += "<tr>";
+          columns.forEach((column, i2) => {
+
+            if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
+              let title = `${level} Name: ${columns.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
+              body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+
+            }
+            else {
+              if (column.data == 'date') {
+                var date = column.value.split("-");
+                body += `<td>${date[0]}</td>`;
+              } else if (column.data == 'grade') {
+                body += `<td>${column.value[column.value.length - 1]}</td>`;
+              } else {
+                body += `<td>${column.value}</td>`;
+              }
+
+            }
+          });
+          body += "</tr>";
+        } if (weekSelct === true && dateSelct === true) {
+
           body += "<tr>";
           columns.forEach((column, i2) => {
 
@@ -563,9 +593,9 @@ export class CommonLoTableComponent implements OnInit {
     this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
-
+    this.hideDay = this.period === "year and month" ? false : true;
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-
+    this.week = this.period === "year and month" ? this.week : "";
 
     this.grade = "all";
     this.examDate = "all";
@@ -603,7 +633,8 @@ export class CommonLoTableComponent implements OnInit {
   }
   public weekSeletced = false
   selectedWeek() {
-    this.weekSeletced = true
+    this.weekSeletced = true;
+    this.dateSelected = false;
     this.hideDay = false;
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.date = this.weeks.find(a => { return a.week == this.week }).days;
@@ -648,8 +679,9 @@ export class CommonLoTableComponent implements OnInit {
     }
   }
 
+  public dateSelected = false
   selectedExamDate() {
-
+    this.dateSelected = true
     this.grade = "all";
     this.subject = "all";
     this.fileName = `${this.datasourse}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -805,9 +837,9 @@ export class CommonLoTableComponent implements OnInit {
       schoolId: Number(localStorage.getItem('schoolId'))
     };
 
-    this.service1.dynamicClusterData(a).subscribe(
+    this.service1.dynamicSchoolData(a).subscribe(
       (response) => {
-
+      
         this.updatedTable = this.reportData = response["tableData"];
         this.onChangePage();
 

@@ -126,7 +126,7 @@ router.post('/scheduleProcessor', async function (req, res) {
         fs.writeFile(filePath, JSON.stringify(schedularData), function (err) {
             if (err) throw err;
             logger.info('Scheduled RUNNING Job - Updated to file');
-            res.status(200).send({ msg: `Successfully Changed` });
+            res.status(200).send({ msg: `Job rescheduled successfully at ${hours}: ${mins} ${timePeriod}` });
         });
         var url = '';
         await schedule.scheduleJob(groupName + '_start', schedulerTime, async function () {
@@ -136,7 +136,7 @@ router.post('/scheduleProcessor', async function (req, res) {
                     res.status(406).send({ errMsg: "Something went wrong" });
                 } else {
                     logger.info('--- common  shecduler api response sent---');
-                    res.status(200).send({ msg: `Successfully Changed` });
+                    res.status(200).send({ msg: `Job rescheduled successfully at ${hours}: ${mins} ${timePeriod}` });
                 }
             })
 

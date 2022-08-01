@@ -9,6 +9,7 @@ router.post('/configCardProperties', auth.authController, async (req, res) => {
 
         let filename = `ui_configurable_property/ui_configurable_property.json`
         let data = await s3File.readFileConfig(filename);
+      
         const makeUnique = (array = [], keys = []) => {
             if (!keys.length || !array.length) return [];
 
