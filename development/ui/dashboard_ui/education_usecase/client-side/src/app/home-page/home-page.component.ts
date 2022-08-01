@@ -100,10 +100,7 @@ export class HomePageComponent implements OnInit {
 
     this.logInservice.postUserDetails(obj).subscribe(res => {
       try {
-
         window.location.href = `${environment.adminUrl}/#/admin-dashboard?userid=${obj.userid}`;
-
-
       } catch (error) {
         console.log(error)
       }

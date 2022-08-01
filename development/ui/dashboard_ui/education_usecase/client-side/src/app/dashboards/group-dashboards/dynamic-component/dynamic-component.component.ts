@@ -56,7 +56,7 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.sub.unsubscribe();
+   
   }
 
   navigate(data) {
@@ -70,13 +70,9 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
       this.cardList = res['data']
 
       this.cardList = this.cardList.filter(card => card.report_name.toLowerCase() == this.currentRoute[2].toLowerCase())
-
       this.cardList = this.cardList.filter(card => this.hideReport === "none" ? card.report_type !== 'map' : card);
 
-
     })
-
-
   }
 
 }

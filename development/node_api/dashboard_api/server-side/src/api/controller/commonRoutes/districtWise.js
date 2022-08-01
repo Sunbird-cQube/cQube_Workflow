@@ -119,12 +119,12 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/last_day/district.json`;
                     }
                 } else if (period === "year and month") {
-              
+
                     if (month && !week && !exam_date && !grade && !subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/district.json`
                     } else if (month && !week && !exam_date && grade && !subject_name) {
-                     
+
                         fileName = `${dataSource}/${year}/${month}/district/${grade}.json`
                     } else if (month && !week && !exam_date && grade && subject_name) {
 
@@ -133,7 +133,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/district.json`
                     } else if (month && week && exam_date && !grade && !subject_name) {
-
+         
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district.json`
                     } else if (month && week && !exam_date && grade && !subject_name) {
 
@@ -156,12 +156,17 @@ router.post('/distWise', auth.authController, async (req, res) => {
             }
         }
       
+        let sourceName = ""
+        let filename1 = `${dataSource}/meta_tooltip.json`
+        let metricValue = await s3File.readFileConfig(filename1);
+        metricValue.forEach(metric => sourceName = metric.result_column)
         let data = await s3File.readFileConfig(fileName);
+
 
         let footer = data['allDistrictsFooter']
 
         data = data['data']
- 
+
 
         let districtDetails = data.map(e => {
             return {
@@ -230,6 +235,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 }
             })).then(() => {
                 let keys = Object.keys(arr)
+                let sourceName1 = sourceName
                 let val = []
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.district_name) > (b.district_name) ? 1 : -1)
@@ -256,16 +262,15 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         }
                     }
 
-                    z.map(val1 => {
+                    z.map((val1) => {
+                      
                         let y = {
-                            [`${val1.district_name} `]: { percentage: val1.no_of_books_distributed },
+                            [`${val1.district_name} `]: { percentage: val1[`${sourceName.trim()}`] },
                         }
                         x = { ...x, ...y }
                     })
                     val.push(x);
                 }
-
-
 
                 var tableData = [];
                 // filling the missing key - value to make the object contains same data set

@@ -122,7 +122,10 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                 }
             }
         }
-
+        let sourceName = ""
+        let filename1 = `${dataSource}/meta_tooltip.json`
+        let metricValue = await s3File.readFileConfig(filename1);
+        metricValue.forEach(metric => sourceName = metric.result_column)
 
         let data = await s3File.readFileConfig(fileName);
         if (blockId) {
@@ -191,7 +194,6 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
             }));
             res.status(200).send({ data, clusterDetails, footer })
         }
-
         if (reportType == "lotable") {
             Promise.all(data.map(item => {
 
@@ -242,7 +244,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
                     }
                     z.map(val1 => {
                         let y = {
-                            [`${val1.cluster_name}`]: { percentage: val1.no_of_books_distributed, mark: val1.marks }
+                            [`${val1.cluster_name}`]: { percentage: val1[`${sourceName.trim()}`]}
                         }
                         x = { ...x, ...y }
                     })

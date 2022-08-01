@@ -66,6 +66,10 @@ export class dynamicReportService {
         this.service.logoutOnTokenExpire();
         return this.http.post(`${this.baseUrl}/timePeriod`, data);
     }
+    configurableMetricMeta(data) {
+        this.service.logoutOnTokenExpire();
+        return this.http.post(`${this.baseUrl}/metricname`, data);
+    }
 }
 
 
