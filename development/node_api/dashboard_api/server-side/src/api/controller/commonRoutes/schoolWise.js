@@ -117,7 +117,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         metricValue.forEach(metric => sourceName = metric.result_column)
 
         let data = await s3File.readFileConfig(fileName);
-        console.log('data', data)
+     
         if (clusterId) {
             footer = data['footer']
             footer = footer[clusterId.toString()]
@@ -138,7 +138,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 )
             })
         }
-        console.log('data', data)
+    
         let schoolDetails = data.map(e => {
             return {
                 district_id: e.district_id,
@@ -176,7 +176,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                 return val.distribution_date == exam_date
             })
         }
-        console.log('data', data)
+    
         if (reportType == "Map") {
             data = data.map(({
                 school_latitude: lat,
@@ -241,7 +241,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         return result1;
                     }, {});
                     tableData = val.map((item) => ({ ...def, ...item }));
-                    console.log('tableData', tableData)
+           
                     logger.info('--- PAT LO table schoolWise response sent ---');
                     res.status(200).send({ schoolDetails, tableData });
                 } else {
