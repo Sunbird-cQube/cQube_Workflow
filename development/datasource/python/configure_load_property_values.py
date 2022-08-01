@@ -1,3 +1,5 @@
+import logging
+
 import requests as rq
 import sys
 import time
@@ -54,6 +56,7 @@ def start_processor_group(processor_group_name, state):
         logging.info(f"Successfully {state} {pg_source['component']['name']} Processor Group.")
         return True
     else:
+        logging.error(f"Failed {state} {pg_source['component']['name']} Processor Group.")
         return start_response.text
 
 
@@ -80,6 +83,8 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
     pg_source = get_processor_group_ports(processor_group_name)
     if pg_source.status_code == 200:
         for i in pg_source.json()['processGroupFlow']['flow']['processors']:
+            logging.info(
+                f"Started updating the properties: {properties} in {i['component']['name']} processor")
             # Get the required processor details
             if i['component']['name'] == processor_name:
                 # Request body creation to update processor property.
@@ -109,6 +114,8 @@ def nifi_update_processor_property(processor_group_name, processor_name, propert
                     return True
 
                 else:
+                    logging.info(
+                        f"Failed to update the properties: {properties} in {i['component']['name']} processor")
                     return update_processor_res.text
 
 
@@ -224,6 +231,7 @@ if __name__ == '__main__':
     }
 
     # Stops the processors
+
     start_processor_group(processor_group_name[0], 'STOPPED')
     start_processor_group(processor_group_name[1], 'STOPPED')
     start_processor_group(processor_group_name[2], 'STOPPED')
