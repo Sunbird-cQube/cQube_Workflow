@@ -204,17 +204,21 @@ def create_parameters_queries():
                     datasource_name = '"datasource_name":"""' + table_names + '""",'
 
                     # count_null_value
-                    count_null_value = ''
+                    query4 = ''
+                    query5 = ''
+                    query6 = ''
+                    qur_null = ''
                     for num in (null_validation_columns):
-                        query4 = ''
                         if null_validation_columns.index(num) == 0:
-                            query4 = '"count_null_value":"""(select '
+                            query4 += '"count_null_value":"""(select '
+                            query6 += 'sum(case when '
                         if null_validation_columns.index(num) == len(null_validation_columns) - 1:
-                            query5 = 'SUM(CASE when ' + num + ' IS NULL THEN 1 ELSE 0 END) AS count_null_' + num + ' from ' + table_names + '_staging_1)""",'
+                            query5 += 'SUM(CASE when ' + num + ' IS NULL THEN 1 ELSE 0 END) AS count_null_' + num + ','
+                            qur_null += num + ' is null then 1 else 0 end ) as count_of_null_rows from ' + table_names + '_staging_1)""",'
                         else:
-                            query5 = 'SUM(CASE when ' + num + ' IS NULL THEN 1 ELSE 0 END) AS count_null_' + num + ','
-                        final = query4 + query5
-                        count_null_value = count_null_value + final
+                            query5 += 'SUM(CASE when ' + num + ' IS NULL THEN 1 ELSE 0 END) AS count_null_' + num + ','
+                            qur_null += num + ' is null or '
+                    count_null_value = query4 + query5 + query6 + qur_null
 
                     # date_column
                     date_column = ''
