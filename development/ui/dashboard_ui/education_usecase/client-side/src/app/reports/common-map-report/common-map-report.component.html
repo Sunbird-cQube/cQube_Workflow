@@ -84,7 +84,7 @@
                             {{periods.value}}
                         </option>
                     </select>
-                    <select *ngIf="!hideYear" [(ngModel)]="year" id="choose_infra" (change)="selectedYear()">
+                    <select *ngIf="!hideYear" [(ngModel)]="year" id="choose_infra" (change)="selectedYear($event)">
 
                         <option [value]="period" *ngFor="let year of years; let i =index" [ngValue]="year">
                             {{year}}
@@ -94,10 +94,10 @@
 
 
                     <select id="month" required class="select-control" *ngIf="!hideMonth" [(ngModel)]="month"
-                        (change)="selectedMonth()">
+                        (change)="selectedMonth($event)">
                         <option [value]="month" disabled selected="selected">choose month</option>
-                        <option *ngFor="let month of months; let i =index" [(ngValue)]="month.months">
-                            {{month.months}}
+                        <option *ngFor="let monthly of months; let i =index" [(ngValue)]="monthly.months">
+                            {{monthly.months}}
                         </option>
                     </select>
                     <select id="month" required class="select-control" *ngIf="!hideWeek" [(ngModel)]="week"

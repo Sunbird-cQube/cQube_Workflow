@@ -84,6 +84,7 @@ export class CommonLoTableComponent implements OnInit {
   updatedTable: any = [];
   gradeSelected: boolean;
   reportType = "lotable"
+  hideYear: boolean = true
   hideMonth: boolean = true
   hideWeek: boolean = true
   hideDay: boolean = true
@@ -238,6 +239,7 @@ export class CommonLoTableComponent implements OnInit {
     this.dist = false;
     this.blok = false;
     this.clust = false;
+    this.hideYear = true
     this.hideMonth = true
     this.hideWeek = true
     this.hideDay = true
@@ -257,7 +259,7 @@ export class CommonLoTableComponent implements OnInit {
     this.clusterHidden = true;
     this.weekSeletced = false;
     if (this.hideAccessBtn) {
-
+      document.getElementById("initTable").style.display = "block";
       this.commonFunc();
     } else {
       this.getView()
@@ -380,7 +382,7 @@ export class CommonLoTableComponent implements OnInit {
           let new_item = {};
           new_item["data"] = key;
           new_item["value"] = typeof (value) != 'object' ? value : value.percentage;
-          // new_item["mark"] = typeof (value) != 'object' ? '' : value.mark;
+        
           temp.push(new_item);
         });
         newArr.push(temp);
@@ -391,11 +393,11 @@ export class CommonLoTableComponent implements OnInit {
       $.each(dataSet, function (a, b) {
 
         $.each(b, function (key, value) {
-         
+
           if (key !== 'subject' && key !== 'grade') {
-          
+
             if (typeof (value.percentage) == "number") {
-   
+
               Arr1.push(value.percentage)
             }
           }
@@ -589,8 +591,10 @@ export class CommonLoTableComponent implements OnInit {
     this.showPagination = true;
   }
 
-  selectedYear() {
+  selectedTimeRange() {
+
     this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+    this.hideYear = this.period === "year and month" ? false : true;
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
     this.hideDay = this.period === "year and month" ? false : true;
@@ -609,16 +613,60 @@ export class CommonLoTableComponent implements OnInit {
     }
   }
 
-  selectedMonth() {
-    this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    // this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+  selectedYear(event) {
+    this.hideYear = this.period === "year and month" ? false : true;
     this.hideMonth = this.period === "year and month" ? false : true;
-    // this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
-    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
-    this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
-    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-    // this.weeks = this.months.find(a => { return a.month == this.month }).weeks;
+    this.hideDay = this.period === "year and month" ? true : false;
+    if (event) {
+      let i;
+      for (i = 0; i < this.metaData.length; i++) {
+        if (this.metaData[i]["academic_year"] == this.year) {
+          this.months = this.metaData[i].data["months"];
+          this.grades = this.metaData[i].data["grades"];
+          break;
+        }
+      }
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+
+    } else {
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+      this.week = this.period === "year and month" ? this.week : "";
+
+    }
+
+    this.grade = "all";
+    this.examDate = "all";
+    this.subject = "all";
+    this.week = "";
+    if (this.hideAccessBtn) {
+      this.levelWiseFilter();
+
+    } else {
+      this.getView()
+    }
+  }
+
+  selectedMonth(event) {
+    this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+
+    this.hideYear = this.period === "year and month" ? false : true;
+    this.hideMonth = this.period === "year and month" ? false : true;
+
+    this.hideWeek = this.period === "year and month" ? false : true;
+
+    if (event) {
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month })?.weeks : "";
+    } else {
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+    }
+
+
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -839,7 +887,7 @@ export class CommonLoTableComponent implements OnInit {
 
     this.service1.dynamicSchoolData(a).subscribe(
       (response) => {
-      
+
         this.updatedTable = this.reportData = response["tableData"];
         this.onChangePage();
 
@@ -1218,15 +1266,16 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   getRangeArray = (min, max, n) => {
-    const delta = (max - min) / n;
+    let delta = (max - min) / n;
+
     const ranges = [];
     let range1 = min;
     for (let i = 0; i < n; i += 1) {
       const range2 = range1 + delta;
       this.values.push(
-        `${Number(range1).toLocaleString("en-IN")}-${Number(
+        `${Math.round(Number(range1)).toLocaleString("en-IN")}-${Math.round(Number(
           range2
-        ).toLocaleString("en-IN")}`
+        )).toLocaleString("en-IN")}`
       );
       ranges.push([range1, range2]);
       range1 = range2;
