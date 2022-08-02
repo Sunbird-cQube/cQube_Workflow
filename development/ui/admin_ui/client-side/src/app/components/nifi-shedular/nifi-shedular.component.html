@@ -125,11 +125,11 @@
                             </select>
 
                             <input [hidden]="showMonth1[i]" type="text"
-                                (bsValueChange)="showDate1[i] ?  onSelectMonth1(myDateValue[i]): onSelectDate1(myDateValue[i])"
+                                (bsValueChange)="showDate1[i] ?  onSelectMonth1(myDateValue1[i]): onSelectDate1(myDateValue1[i])"
                                 style="width:48%; margin:0px auto; margin-left: 2px; float: left;"
                                 placeholder="{{placeHolder}}" class="form-control" #dp="bsDatepicker" bsDatepicker
                                 [(ngModel)]="myDateValue1[i]"
-                                [bsConfig]="{dateInputFormat: showDate[i] ? 'DD': 'DD/MM' , showWeekNumbers:false }">
+                                [bsConfig]="{dateInputFormat: showDate1[i] ? 'DD': 'DD/MM' , showWeekNumbers:false }">
                         </td>
                         <td>
                             <select class="time" required id="role"
