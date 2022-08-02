@@ -1435,6 +1435,7 @@
                     <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
                     <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
                     <name></name>
+                    <prioritizers>org.apache.nifi.prioritizer.FirstInFirstOutPrioritizer</prioritizers>
                     <selectedRelationships>Insert_query</selectedRelationships>
                     <source>
                         <groupId>9f2d0d8d-1c7c-30f5-0000-000000000000</groupId>
@@ -2288,7 +2289,7 @@
                         </entry>
                         <entry>
                             <key>Server Port</key>
-                            <value>4557</value>
+                            <value>4700</value>
                         </entry>
                         <entry>
                             <key>SSL Context Service</key>
@@ -8941,7 +8942,7 @@ ${query_type:startsWith('school_management_by_month_year')
                     <parentGroupId>9f2d0d8d-1c7c-30f5-0000-000000000000</parentGroupId>
                     <position>
                         <x>-1240.0</x>
-                        <y>-616.0</y>
+                        <y>-624.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -9900,7 +9901,7 @@ executesql.query.fetchtime =${executesql.query.fetchtime}
                     <id>bf198183-0bc8-3a7b-0000-000000000000</id>
                     <parentGroupId>9f2d0d8d-1c7c-30f5-0000-000000000000</parentGroupId>
                     <position>
-                        <x>-1016.0</x>
+                        <x>-1024.0</x>
                         <y>-376.0</y>
                     </position>
                     <bundle>
@@ -9998,7 +9999,7 @@ executesql.query.fetchtime =${executesql.query.fetchtime}
 <value>false</value>
                             </entry>
                         </properties>
-                        <runDurationMillis>0</runDurationMillis>
+                        <runDurationMillis>100</runDurationMillis>
                         <schedulingPeriod>0 sec</schedulingPeriod>
                         <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                         <yieldDuration>1 sec</yieldDuration>
@@ -11588,5 +11589,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>07/29/2022 21:44:19 IST</timestamp>
+    <timestamp>08/02/2022 17:51:32 IST</timestamp>
 </template>
