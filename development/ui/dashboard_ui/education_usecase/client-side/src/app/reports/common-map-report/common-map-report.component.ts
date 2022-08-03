@@ -198,8 +198,7 @@ export class CommonMapReportComponent implements OnInit {
           };
 
           this.districtId = data.id;
-          // this.getDistricts();
-          // this.onDistrictSelect(data.id);
+          
         } else if (params.level === "block") {
           this.districtHierarchy = {
             distId: data.districtId,
@@ -232,7 +231,7 @@ export class CommonMapReportComponent implements OnInit {
           this.districtId = data.blockHierarchy.distId;
           this.blockId = data.blockId;
           this.clusterId = data.id;
-     
+
         }
       } else {
         this.changeDetection.detectChanges();
@@ -276,10 +275,11 @@ export class CommonMapReportComponent implements OnInit {
 
     })
   }
+
   getMetaData() {
     this.service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(res => {
       this.metaData = res
-      
+
       for (let i = 0; i < this.metaData.length; i++) {
         this.years.push(this.metaData[i]["academic_year"]);
       }
@@ -344,7 +344,7 @@ export class CommonMapReportComponent implements OnInit {
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
     if (event) {
-    
+
       let i;
       for (i = 0; i < this.metaData.length; i++) {
         if (this.metaData[i]["academic_year"] == this.year) {
@@ -385,14 +385,14 @@ export class CommonMapReportComponent implements OnInit {
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
 
-   
+    this.week = ""
     if (event) {
-      
+
       this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month })?.weeks : "";
     } else {
       this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
-        this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
-       this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+      this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
     }
     this.grade = "all";
     this.examDate = "all";
@@ -440,7 +440,7 @@ export class CommonMapReportComponent implements OnInit {
     this.hideDay = false;
 
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-
+    this.examDate = ""
     this.date = this.weeks.find(a => { return a.week == this.week }).days;
     this.grade = "all";
     this.examDate = "all";
@@ -454,7 +454,7 @@ export class CommonMapReportComponent implements OnInit {
     }
   }
 
-  
+
 
   clickHome() {
     this.infraData = "infrastructure_score";
@@ -567,7 +567,7 @@ export class CommonMapReportComponent implements OnInit {
         if (res["data"]) {
           this.myDistData = res;
           this.markers = this.data = res["data"];
-        
+
           this.districtDropDown = res["districtDetails"];
           this.districtDropDown.sort((a, b) =>
             a.district_name > b.district_name
@@ -621,7 +621,7 @@ export class CommonMapReportComponent implements OnInit {
                 ? -1
                 : 0
           );
-        
+
 
           this.genericFun(this.districtMarkers, options, this.fileName);
 
@@ -1112,12 +1112,12 @@ export class CommonMapReportComponent implements OnInit {
               let result = this.data;
               this.clusterMarkers = [];
               this.clusterMarkers = result;
-             
+
               this.schoolCount = 0;
               if (this.clusterMarkers.length !== 0) {
                 for (let i = 0; i < this.clusterMarkers.length; i++) {
                   var color;
-                
+
                   // google map circle icon
 
                   if (this.mapName == "googlemap") {
@@ -1145,7 +1145,7 @@ export class CommonMapReportComponent implements OnInit {
                   this.getDownloadableData(this.clusterMarkers[i], options.level);
                 }
 
-             
+
 
                 this.globalService.restrictZoom(globalMap);
                 globalMap.setMaxBounds([
@@ -1416,7 +1416,7 @@ export class CommonMapReportComponent implements OnInit {
       this.districtId = undefined;
       this.blockId = undefined;
       this.clusterId = undefined;
-      this.level = "School";
+      this.level = "commonSchool";
       this.googleMapZoom = 7;
       this.fileName = `${this.datasourse}_allSchools_${this.commonService.dateAndTime}`;
 
@@ -1471,7 +1471,7 @@ export class CommonMapReportComponent implements OnInit {
                 mapZoom: this.globalService.zoomLevel,
                 centerLat: this.lat,
                 centerLng: this.lng,
-                level: "School",
+                level: "commonSchool",
               };
               this.dataOptions = options;
               this.schoolMarkers = [];
@@ -1559,7 +1559,7 @@ export class CommonMapReportComponent implements OnInit {
                 mapZoom: this.globalService.zoomLevel,
                 centerLat: this.lat,
                 centerLng: this.lng,
-                level: "School",
+                level: "commonSchool",
               };
               this.dataOptions = options;
               this.schoolMarkers = [];
@@ -1639,7 +1639,7 @@ export class CommonMapReportComponent implements OnInit {
                   mapZoom: this.globalService.zoomLevel,
                   centerLat: this.lat,
                   centerLng: this.lng,
-                  level: "School",
+                  level: "commonSchool",
                 };
                 this.dataOptions = options;
                 this.schoolMarkers = [];
@@ -1710,7 +1710,7 @@ export class CommonMapReportComponent implements OnInit {
                 mapZoom: this.globalService.zoomLevel,
                 centerLat: this.lat,
                 centerLng: this.lng,
-                level: "School",
+                level: "commonSchool",
               };
               this.dataOptions = options;
               this.schoolMarkers = [];
@@ -2368,7 +2368,7 @@ export class CommonMapReportComponent implements OnInit {
             //colors
           );
         } else {
-          color = this.commonService.colorGredientForDikshaMaps(
+          color = this.commonService.commonColorGredientForMaps(
             this.markers[i],
             this.selectedType,
             colors
@@ -2422,7 +2422,7 @@ export class CommonMapReportComponent implements OnInit {
 
   levelWiseFilter() {
     if (this.level == "District") {
-      
+
       this.districtWise();
     }
     if (this.level == "Block") {
@@ -2608,7 +2608,7 @@ export class CommonMapReportComponent implements OnInit {
         .join(" <br>");
     }
 
-
+    
     var toolTip = "<b><u>Details</u></b>" +
       "<br>" +
       yourData1
