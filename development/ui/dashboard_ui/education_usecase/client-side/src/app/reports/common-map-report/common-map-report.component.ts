@@ -135,7 +135,7 @@ export class CommonMapReportComponent implements OnInit {
     public globalService: MapService,) {
     this.datasourse = this.aRoute.snapshot.params.id
     this.getTimelineMeta()
-    this.getMetaData()
+
     this.getMetricMeta()
 
   }
@@ -186,6 +186,7 @@ export class CommonMapReportComponent implements OnInit {
     this.managementName = this.commonService.changeingStringCases(
       this.managementName.replace(/_/g, " ")
     );
+    this.getMetaData()
 
     let params = JSON.parse(sessionStorage.getItem("report-level-info"));
 
@@ -198,7 +199,7 @@ export class CommonMapReportComponent implements OnInit {
           };
 
           this.districtId = data.id;
-          
+
         } else if (params.level === "block") {
           this.districtHierarchy = {
             distId: data.districtId,
@@ -277,27 +278,41 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   getMetaData() {
+    this.years = []
+   
     this.service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(res => {
       this.metaData = res
+     
+      if (this.period === "year and month") {
 
-      for (let i = 0; i < this.metaData.length; i++) {
-        this.years.push(this.metaData[i]["academic_year"]);
-      }
-      this.year = this.years[this.years.length - 1];
-      let i;
-      for (i = 0; i < this.metaData.length; i++) {
-        if (this.metaData[i]["academic_year"] == this.year) {
-          this.months = this.metaData[i].data["months"];
-          this.grades = this.metaData[i].data["grades"];
-          break;
+        for (let i = 0; i < this.metaData.length; i++) {
+          if (this.metaData[i]["academic_year"] !== 'overall') {
+            this.years.push(this.metaData[i]["academic_year"]);
+          }
         }
+        this.year = this.years[this.years.length - 1];
+        let i;
+        for (i = 0; i < this.metaData.length; i++) {
+          if (this.metaData[i]["academic_year"] == this.year) {
+            this.months = this.metaData[i].data["months"];
+            this.grades = this.metaData[i].data["grades"];
+            break;
+          }
+        }
+      } else {
+        
+        this.grades = this.metaData.filter(meta => meta.academic_year === 'overall')
+        this.grades = this.grades[0].data['grades']
       }
+
 
       this.grades = [
         { grade: "all" },
         ...this.grades.filter((item) => item !== { grade: "all" }),
       ];
 
+    }, err => {
+      document.getElementById('spinner').style.display = "none"
     })
   }
 
@@ -316,26 +331,39 @@ export class CommonMapReportComponent implements OnInit {
       this.getView()
     }
   }
-  selectedTimePeriod() {
-
-    this.months = [...this.months.filter((item) => item)]
+  selectedTimePeriod = async () => {
+    document.getElementById('spinner').style.display = "block"
+    this.getMetaData()
+    globalMap.removeLayer(this.markersList);
+    this.layerMarkers.clearLayers();
 
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
     this.hideDay = this.period === "year and month" ? false : true;
-    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
-    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-    this.week = this.period === "year and month" ? this.week : "";
+    this.months = [...this.months.filter((item) => item)]
+
+    setTimeout(() => {
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+      this.week = this.period === "year and month" ? this.week : "";
+    }, 800);
+
+
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
 
     if (this.hideAccessBtn) {
-      this.levelWiseFilter();
-
+      setTimeout(() => {
+        document.getElementById('spinner').style.display = "none"
+        this.levelWiseFilter();
+      }, 1000);
     } else {
+      setTimeout(() => {
+      document.getElementById('spinner').style.display = "none"
       this.getView()
+      }, 1000);
     }
   }
 
@@ -408,7 +436,7 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   selectedGrade() {
-
+    this.subject = "all"
     this.gradeSelected = true
     this.dateSeleted = false
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -644,6 +672,7 @@ export class CommonMapReportComponent implements OnInit {
       (err) => {
         this.data = [];
         this.commonService.loaderAndErr(this.data);
+        this.level = "District"
         this.globalService.setZoomLevel(this.level)
       }
     );
@@ -2608,7 +2637,7 @@ export class CommonMapReportComponent implements OnInit {
         .join(" <br>");
     }
 
-    
+
     var toolTip = "<b><u>Details</u></b>" +
       "<br>" +
       yourData1

@@ -15,7 +15,6 @@ router.get('/', async function (req, res) {
         let jsonArray = [];
         // read directory
 
-      
         db.query('select distinct report_name,status,state from configurable_datasource_properties ;', (error, results) => {
             if (error) {
                 logger.info('--- common schedular api failed ---')
@@ -29,7 +28,7 @@ router.get('/', async function (req, res) {
 
                 data = data.filter(program => program.status === false)
                 data.map(program => jsonArray.push(program.report_name))
-               
+
                 res.status(200).send(jsonArray);
                 logger.info('---list new dataSource api response send---');
             } else {
@@ -51,24 +50,13 @@ router.post('/buildUI', async function (req, res) {
         logger.info('---buildUI ---');
         let UIpath = `${process.env.ANGULAR_DIRECTORY}`;
         shell.echo('--shell script started----')
-
-        var output = shell.exec(`fuser -n tcp -k 4200`, function (stdout, stderr, code) {
-            var output1 = shell.exec(`cd  ${UIpath} && ng build --prod`, function (stdout, stderr, code) {
-                logger.info('---buildUI  success---');
-
-            })
-        })
-
         db.query('update configurable_datasource_properties set status=True where lower(report_name)=$1;', [req.body.dataSource.toLowerCase()], (error, results) => {
             if (error) {
                 throw error
             }
             logger.info('---Data source  status changed---');
-            res.status(201).json({ msg: "Data source  status changed" });
-
+            res.status(201).json({ msg: "Data source  status changed" });        
         })
-
-
     } catch (e) {
         logger.error(`Error :: ${e}`)
         res.status(500).json({ errMessage: "Internal error. Please try again!!" });
