@@ -183,27 +183,43 @@ export class CommonLoTableComponent implements OnInit {
 
 
   getMetaData() {
+    this.years = []
+
     this.service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(res => {
+
       this.metaData = res
 
-      for (let i = 0; i < this.metaData.length; i++) {
-        this.years.push(this.metaData[i]["academic_year"]);
-      }
-      this.year = this.years[this.years.length - 1];
-      let i;
-      for (i = 0; i < this.metaData.length; i++) {
-        if (this.metaData[i]["academic_year"] == this.year) {
-          this.months = this.metaData[i].data["months"];
-          this.grades = this.metaData[i].data["grades"];
-          break;
+      if (this.period === "year and month") {
+
+        for (let i = 0; i < this.metaData.length; i++) {
+          if (this.metaData[i]["academic_year"] !== 'overall') {
+            this.years.push(this.metaData[i]["academic_year"]);
+          }
+
         }
+        this.year = this.years[this.years.length - 1];
+        let i;
+        for (i = 0; i < this.metaData.length; i++) {
+          if (this.metaData[i]["academic_year"] == this.year) {
+            this.months = this.metaData[i].data["months"];
+            this.grades = this.metaData[i].data["grades"];
+            break;
+          }
+        }
+
+      } else {
+        this.grades = this.metaData.filter(meta => meta.academic_year === 'overall')
+        this.grades = this.grades[0].data['grades']
+       
       }
+
 
       this.grades = [
         { grade: "all" },
         ...this.grades.filter((item) => item !== { grade: "all" }),
       ];
-
+    }, err => {
+      document.getElementById('spinner').style.display = "none"
     })
   }
   public timeRange
@@ -592,24 +608,34 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   selectedTimeRange() {
+    document.getElementById('spinner').style.display = "block"
+    this.getMetaData()
 
-    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
 
-    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-    this.week = this.period === "year and month" ? this.week : "";
+    setTimeout(() => {
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+      this.week = this.period === "year and month" ? this.week : "";
+    }, 1000);
 
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
     this.week = "";
     if (this.hideAccessBtn) {
-      this.levelWiseFilter();
-
+      setTimeout(() => {
+        document.getElementById('spinner').style.display = "none"
+        this.levelWiseFilter();
+      }, 1000);
     } else {
-      this.getView()
+      setTimeout(() => {
+        document.getElementById('spinner').style.display = "none"
+        this.getView()
+      }, 1000);
     }
   }
 
@@ -700,7 +726,7 @@ export class CommonLoTableComponent implements OnInit {
 
 
   selectedGrade() {
-
+    this.subject = "all"
     this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.grade !== "all") {
       this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
