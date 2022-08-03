@@ -382,7 +382,7 @@ export class CommonLoTableComponent implements OnInit {
           let new_item = {};
           new_item["data"] = key;
           new_item["value"] = typeof (value) != 'object' ? value : value.percentage;
-        
+
           temp.push(new_item);
         });
         newArr.push(temp);
@@ -597,7 +597,7 @@ export class CommonLoTableComponent implements OnInit {
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
-    this.hideDay = this.period === "year and month" ? false : true;
+
     this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
     this.week = this.period === "year and month" ? this.week : "";
 
@@ -654,9 +654,9 @@ export class CommonLoTableComponent implements OnInit {
 
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideMonth = this.period === "year and month" ? false : true;
-
+    this.hideDay = true
     this.hideWeek = this.period === "year and month" ? false : true;
-
+    this.week = ""
     if (event) {
       this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month })?.weeks : "";
     } else {

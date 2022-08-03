@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-md-12 " style="margin-bottom: 10px;">
 
-                    <select id="period" [(ngModel)]="period" (change)="  selectedTimeRange()">
+                    <select id="period" [(ngModel)]="period" (change)=" selectedTimeRange()">
                         <option [value]="period" disabled selected="selected">Choose TimeRange</option>
                         <option *ngFor="let periods of timeRange,  let i =index" style="width: 100px;"
                             [(ngValue)]="periods.value">
@@ -93,7 +93,7 @@
                         </option>
                     </select>
 
-                    <select id="examDate" class="select-control" *ngIf="hideDay" [(ngModel)]="examDate"
+                    <select id="examDate" class="select-control" *ngIf="!hideDay" [(ngModel)]="examDate"
                         (change)="selectedExamDate()">
                         <option [value]="examDate" disabled selected="selected">Choose an Date</option>
                         <option *ngFor="let day of date, let i =index" [ngValue]="day">
