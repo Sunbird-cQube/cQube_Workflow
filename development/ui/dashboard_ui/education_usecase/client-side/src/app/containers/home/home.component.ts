@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
- 
+
   logout() {
     if (environment.auth_api === 'cqube') {
       localStorage.clear();
@@ -146,10 +146,11 @@ export class HomeComponent implements OnInit {
         document.getElementById('spinner').style.display = "none"
       }
       this.menuList = res['data']
-   
-      
-    },(err)=> {
+      this.menuList = this.menuList.filter(menu => menu.status === true)
+
+    }, (err) => {
       this.menuList = []
+      document.getElementById('spinner').style.display = "none"
     })
   }
 
