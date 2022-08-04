@@ -279,10 +279,10 @@ export class CommonMapReportComponent implements OnInit {
 
   getMetaData() {
     this.years = []
-   
+
     this.service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(res => {
       this.metaData = res
-     
+
       if (this.period === "year and month") {
 
         for (let i = 0; i < this.metaData.length; i++) {
@@ -300,7 +300,6 @@ export class CommonMapReportComponent implements OnInit {
           }
         }
       } else {
-        
         this.grades = this.metaData.filter(meta => meta.academic_year === 'overall')
         this.grades = this.grades[0].data['grades']
       }
@@ -361,8 +360,8 @@ export class CommonMapReportComponent implements OnInit {
       }, 1000);
     } else {
       setTimeout(() => {
-      document.getElementById('spinner').style.display = "none"
-      this.getView()
+        document.getElementById('spinner').style.display = "none"
+        this.getView()
       }, 1000);
     }
   }
@@ -2370,7 +2369,6 @@ export class CommonMapReportComponent implements OnInit {
   }
 
 
-
   // common function for all the data to show in the map
   genericFun(data, options, fileName) {
     try {
@@ -2611,13 +2609,19 @@ export class CommonMapReportComponent implements OnInit {
     let colorText = `style='color:blue !important;'`;
     var details = {};
     var orgObject = {};
+    var orgObject1 = {};
     Object.keys(marker).forEach((key) => {
       if (key !== "lat" && key !== "long") {
         details[key] = marker[key];
       }
     });
     Object.keys(details).forEach((key) => {
-      if (key !== lng) {
+      if (key === "district_name" || key == "district_id" || key == "school_count") {
+        orgObject[key] = details[key];
+      }
+    });
+    Object.keys(details).forEach((key) => {
+      if (key !== lng && key !== "district_name" && key !== "district_id" && key !== "school_count") {
         orgObject[key] = details[key];
       }
     });
