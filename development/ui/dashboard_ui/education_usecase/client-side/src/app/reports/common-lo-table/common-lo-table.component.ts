@@ -342,7 +342,9 @@ export class CommonLoTableComponent implements OnInit {
 
         const min = Math.min(...Arr1);
         const max = Math.max(...Arr1);
-        this.getRangeArray(min, max, 10)
+        let n = max >= 10 ? 10 : max
+
+        n >= 10 ? this.getRangeArray(min, max, n) : this.generateArrayMinMax2(min, max, n)
 
         this.onChangePage();
       },
@@ -376,14 +378,14 @@ export class CommonLoTableComponent implements OnInit {
           if (i > 3) {
             headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
           } else {
-            headers += `<th>${col}</th>`;
+            headers += `<th style ="text-align: center" >${col}</th>`;
           }
 
         } else {
           if (i > 1) {
             headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
           } else {
-            headers += `<th>${col}</th>`;
+            headers += `<th style ="text-align: center">${col}</th>`;
           }
         }
 
@@ -427,6 +429,7 @@ export class CommonLoTableComponent implements OnInit {
 
       const min = Math.min(...Arr1);
       const max = Math.max(...Arr1);
+      let n = max >= 10 ? 10 : max
 
       function generateArrayMinMax(min, max, n) {
         let list = [min],
@@ -439,7 +442,24 @@ export class CommonLoTableComponent implements OnInit {
         return list;
       }
 
-      const rangeArrayIn10Parts = generateArrayMinMax(min, max, 10);
+
+      function generateArrayMinMax1(min, max, n) {
+        let list = [min]
+
+
+        if (max !== min) {
+          let interval = (max - min);
+          for (let i = 1; i < interval; i++) {
+            list.push(min + i);
+          }
+          list.push(max);
+        }
+
+
+        return list;
+      }
+
+      const rangeArrayIn10Parts = n >= 10 ? generateArrayMinMax(min, max, 10) : generateArrayMinMax1(min, max, n);
 
       function tableCellColor(data) {
         let colors = {}
@@ -494,7 +514,7 @@ export class CommonLoTableComponent implements OnInit {
             }
           });
           body += "</tr>";
-        } if (weekSelct === true && dateSelct === true) {
+        } else if (weekSelct === true && dateSelct === true) {
 
           body += "<tr>";
           columns.forEach((column, i2) => {
@@ -886,7 +906,7 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   selectedCluster(clusterId) {
-
+    this.weekSeletced = false
     this.resetTable();
     this.level = "school";
     this.fileName = `${this.datasourse}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -1308,6 +1328,21 @@ export class CommonLoTableComponent implements OnInit {
     }
 
     return ranges;
+  }
+
+  generateArrayMinMax2(min, max, n) {
+
+    this.values = [min]
+    if (max !== min) {
+      let interval = (max - min);
+
+      for (let i = 1; i < interval; i++) {
+        this.values.push(min + i);
+      }
+      this.values.push(max);
+    }
+
+    return this.values;
   }
 
   public legendColors: any = [
