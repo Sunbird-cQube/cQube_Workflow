@@ -13,69 +13,71 @@ router.post('/distWise', auth.authController, async (req, res) => {
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-                    fileName = `${dataSource}/overall/district_subject_footer.json`;
+                    fileName = `${dataSource}/overall/district_subject.json`;
                 } else if (period == "last 30 days") {
 
-                    fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_30_day/district_subject.json`;
                 } else if (period == "last 7 days") {
 
-                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_7_day/district_subject.json`;
                 } else if (period == "last 7 days") {
 
-                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_7_day/district_subject.json`;
                 } else if (period == "last day") {
 
-                    fileName = `${dataSource}/last_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_day/district_subject.json`;
                 } else if (period == "year and month") {
 
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/district_subject.json`
                     } if (month && !week && !exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/district_subject.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject.json`
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject.json`
                     } else if ((month && week && !exam_date && grade && !subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject.json`
+                    } else if ((month && !week && !exam_date && grade && subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/district_subject.json`
                     } else if ((month && week && !exam_date && grade && subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject.json`
                     } else if ((month && week && exam_date && grade && subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject.json`
                     }
                 }
             } else {
                 if (management == "govt" && period == "overall") {
 
-                    fileName = `${dataSource}/school_management_category/overall/${management}/district_subject_footer.json`;
+                    fileName = `${dataSource}/school_management_category/overall/${management}/district_subject.json`;
                 } else if (period == "last 30 days") {
 
-                    fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_30_day/district_subject.json`;
                 } else if (period == "last 7 days") {
 
-                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_7_day/district_subject.json`;
                 } else if (period == "last 7 days") {
 
-                    fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_7_day/district_subject.json`;
                 } else if (period == "last day") {
 
-                    fileName = `${dataSource}/last_day/district_subject_footer.json`;
+                    fileName = `${dataSource}/last_day/district_subject.json`;
                 } else if (period == "year and month") {
 
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/district_subject.json`
                     } if (month && !week && !exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/district_subject.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject.json`
                     } else if ((month && week && exam_date && !grade && !subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district/${grade}.json`
                     } else if ((month && week && exam_date && grade && subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject.json`
                     }
                 }
             }
@@ -87,7 +89,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/overall/district/${grade}.json`;
                     } else if (grade && subject_name) {
 
-                        fileName = `${dataSource}/overall/district_subject_footer.json`;
+                        fileName = `${dataSource}/overall/district_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/overall/district.json`;
                     }
@@ -96,7 +98,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/last_30_day/district/${grade}.json`;
                     } else if (grade && subject_name) {
 
-                        fileName = `${dataSource}/last_30_day/district_subject_footer.json`;
+                        fileName = `${dataSource}/last_30_day/district_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/district.json`;
                     }
@@ -105,7 +107,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/last_7_day/district/${grade}.json`;
                     } else if (grade && subject_name) {
 
-                        fileName = `${dataSource}/last_7_day/district_subject_footer.json`;
+                        fileName = `${dataSource}/last_7_day/district_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/district.json`;
                     }
@@ -114,7 +116,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/last_day/district/${grade}.json`;
                     } else if (grade && subject_name) {
 
-                        fileName = `${dataSource}/last_day/district_subject_footer.json`;
+                        fileName = `${dataSource}/last_day/district_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_day/district.json`;
                     }
@@ -127,24 +129,24 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
                         fileName = `${dataSource}/${year}/${month}/district/${grade}.json`
                     } else if (month && !week && !exam_date && grade && subject_name) {
-
-                        fileName = `${dataSource}/${year}/${month}/district_subject_footer.json`
+                        
+                        fileName = `${dataSource}/${year}/${month}/district_subject.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/district.json`
                     } else if (month && week && exam_date && !grade && !subject_name) {
-         
+
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district.json`
                     } else if (month && week && !exam_date && grade && !subject_name) {
 
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject.json`
                     } else if (month && week && !exam_date && grade && subject_name) {
 
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/district_subject.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district/${grade}.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/district_subject.json`
                     } else if (!month && !week && !exam_date && !grade && !subject_name) {
                         fileName = `${dataSource}/overall/district.json`;
                     }
@@ -155,11 +157,12 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
             }
         }
-      
+   
         let sourceName = ""
         let filename1 = `${dataSource}/meta_tooltip.json`
         let metricValue = await s3File.readFileConfig(filename1);
         metricValue.forEach(metric => sourceName = metric.result_column)
+
         let data = await s3File.readFileConfig(fileName);
 
 
@@ -263,7 +266,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
                     }
 
                     z.map((val1) => {
-                      
+
                         let y = {
                             [`${val1.district_name} `]: { percentage: val1[`${sourceName.trim()}`] },
                         }

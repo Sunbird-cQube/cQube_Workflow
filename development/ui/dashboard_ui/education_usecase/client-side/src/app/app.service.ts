@@ -529,9 +529,9 @@ export class AppServiceComponent {
 
     const getRangeArray = (min, max, n) => {
       const delta = (max - min) / n;
-      let range1 = min;
+      let range1 = Math.ceil(min);
       for (let i = 0; i < n; i += 1) {
-        const range2 = range1 + delta;
+        const range2 = Math.ceil(range1 + delta);
         uniqueItems1.push(`${range2}`);
 
         range1 = range2;
@@ -629,11 +629,11 @@ export class AppServiceComponent {
   commonColorGredientForMaps(data, filter, colors) {
 
     let keys = Object.keys(colors);
-    let filter1 = "no_of_books_distributed"
+
     let setColor = "";
     for (let i = 0; i < keys.length; i++) {
-      if (data[filter1] == null) setColor = "red";
-      if (parseFloat(data[filter1]) == parseFloat(keys[i])) {
+      if (data[filter] == null) setColor = "red";
+      if (parseFloat(data[filter]) == parseFloat(keys[i])) {
 
         setColor = colors[keys[i]];
 

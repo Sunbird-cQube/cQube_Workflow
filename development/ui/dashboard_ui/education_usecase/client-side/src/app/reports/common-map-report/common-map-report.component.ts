@@ -339,7 +339,6 @@ export class CommonMapReportComponent implements OnInit {
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
-    this.hideDay = this.period === "year and month" ? false : true;
     this.months = [...this.months.filter((item) => item)]
 
     setTimeout(() => {
@@ -484,6 +483,7 @@ export class CommonMapReportComponent implements OnInit {
 
 
   clickHome() {
+    document.getElementById('spinner').style.display = "block"
     this.infraData = "infrastructure_score";
     this.districtSelected = false;
     this.selectedCluster = false;
@@ -505,10 +505,14 @@ export class CommonMapReportComponent implements OnInit {
     this.grade = "all"
     this.examDate = "all"
     this.subject = "all"
-
+    this.getMetaData()
     this.period = "overall"
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
-      this.districtWise();
+      setTimeout(() => {
+        document.getElementById('spinner').style.display = "none"
+        this.districtWise();
+      }, 1000);
+
     } else {
       this.getView()
     }
@@ -618,10 +622,11 @@ export class CommonMapReportComponent implements OnInit {
           arr = arr.sort(function (a, b) {
             return parseFloat(a) - parseFloat(b);
           });
+          let uniqueArr = [...new Set(arr)]
           const min = Math.min(...arr);
           const max = Math.max(...arr);
 
-          this.getRangeArray(min, max, 10);
+          arr.length >= 10 ? min !== max ? this.getRangeArray(min, max, 10) : this.getRangeArray1(min, max, arr.length) : this.getRangeArray1(min, max, arr.length);
 
           // options to set for markers in the map
           let options = {
@@ -680,18 +685,41 @@ export class CommonMapReportComponent implements OnInit {
   }
 
   getRangeArray = (min, max, n) => {
+
     const delta = (max - min) / n;
     const ranges = [];
-    let range1 = Math.ceil(min);
+    if (delta > 1) {
+      let range1 = Math.round(min);
+      for (let i = 0; i < n; i += 1) {
+        const range2 = Math.round(range1 + delta);
+        this.values.push(
+          `${Number(range1).toLocaleString("en-IN")}-${Number(
+            range2
+          ).toLocaleString("en-IN")}`
+        );
+        ranges.push([range1, range2]);
+        range1 = range2;
+      }
+      return ranges;
+    } else {
+      this.getRangeArray1(min, max, n)
+    }
+  }
+
+
+  getRangeArray1 = (min, max, n) => {
+    const delta = (max - min) / n;
+    const ranges = [min];
+    let range1 = Math.round(min);
     for (let i = 0; i < n; i += 1) {
-      const range2 = Math.ceil(range1 + delta);
+      const range2 = Math.round(range1 + delta);
       this.values.push(
-        `${Number(range1).toLocaleString("en-IN")}-${Number(
+        `${Number(
           range2
         ).toLocaleString("en-IN")}`
       );
-      ranges.push([range1, range2]);
-      range1 = range2;
+      ranges.push([range2]);
+      range1 = range2 + 1;
     }
 
     return ranges;
@@ -1903,15 +1931,15 @@ export class CommonMapReportComponent implements OnInit {
 
           arr = arr.sort(function (a, b) {
             return parseFloat(a) - parseFloat(b);
-          });
+          })
 
 
           const min = Math.min(...arr);
           const max = Math.max(...arr);
 
-          this.getRangeArray(min, max, 10);
 
 
+          arr.length >= 10 ? this.getRangeArray(min, max, 10) : this.getRangeArray1(min, max, arr.length);
           // set hierarchy values
           this.districtHierarchy = {
             distId: this.data[0]?.district_id,
@@ -2070,7 +2098,7 @@ export class CommonMapReportComponent implements OnInit {
             const min = Math.min(...arr);
             const max = Math.max(...arr);
 
-            this.getRangeArray(min, max, 10);
+            arr.length >= 10 ? this.getRangeArray(min, max, 10) : this.getRangeArray1(min, max, arr.length);
             this.clusterMarkers = this.data;
 
             var myBlocks = [];
@@ -2253,7 +2281,7 @@ export class CommonMapReportComponent implements OnInit {
                 const min = Math.min(...arr);
                 const max = Math.max(...arr);
 
-                this.getRangeArray(min, max, 10);
+                arr.length >= 10 ? this.getRangeArray(min, max, 10) : this.getRangeArray1(min, max, arr.length);
                 this.schoolMarkers = this.data;
 
                 var markers = result["data"];
@@ -2382,7 +2410,6 @@ export class CommonMapReportComponent implements OnInit {
           report: "reports",
         }
       );
-
 
       // attach values to markers
       for (var i = 0; i < this.markers.length; i++) {
@@ -2616,12 +2643,31 @@ export class CommonMapReportComponent implements OnInit {
       }
     });
     Object.keys(details).forEach((key) => {
-      if (key === "district_name" || key == "district_id" || key == "school_count") {
+
+      if (key === "district_name" || key == "district_id") {
         orgObject[key] = details[key];
       }
     });
     Object.keys(details).forEach((key) => {
-      if (key !== lng && key !== "district_name" && key !== "district_id" && key !== "school_count") {
+
+      if (key == "block_id" || key == "block_name") {
+        orgObject[key] = details[key];
+      }
+    });
+    Object.keys(details).forEach((key) => {
+
+      if (key == "cluster_id" || key == "cluster_name") {
+        orgObject[key] = details[key];
+      }
+    });
+    Object.keys(details).forEach((key) => {
+
+      if (key == "school_id" || key == "school_name") {
+        orgObject[key] = details[key];
+      }
+    });
+    Object.keys(details).forEach((key) => {
+      if (key !== lng && key !== "district_name" && key !== "district_id" && key !== "block_id" && key !== "block_name" && key !== "cluster_id" && key !== "cluster_name") {
         orgObject[key] = details[key];
       }
     });
