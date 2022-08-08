@@ -4814,6 +4814,9 @@ ${query_type:startsWith('district_grade_weekly'):ifElse(#{transform_district_wis
 ${query_type:startsWith('district_grade_subject_by_month_year'):ifElse(#{transform_district_wise},
 ${query_type:startsWith('district_grade_subject_daily'):ifElse(#{transform_district_wise},
 ${query_type:startsWith('district_grade_subject_weekly'):ifElse(#{transform_district_wise},
+${query_type:startsWith('district_footer_grade_subject_by_month_year'):ifElse(#{transform_district_wise},
+${query_type:startsWith('district_footer_grade_subject_daily'):ifElse(#{transform_district_wise},
+${query_type:startsWith('district_footer_grade_subject_weekly'):ifElse(#{transform_district_wise},
 
 ${query_type:startsWith('block_by_month_year'):ifElse(#{transform_block_wise},
 ${query_type:startsWith('block_daily'):ifElse(#{transform_block_wise},
@@ -4826,6 +4829,9 @@ ${query_type:startsWith('block_grade_weekly'):ifElse(#{transform_block_wise},
 ${query_type:startsWith('block_grade_subject_by_month_year'):ifElse(#{transform_block_wise},
 ${query_type:startsWith('block_grade_subject_daily'):ifElse(#{transform_block_wise},
 ${query_type:startsWith('block_grade_subject_weekly'):ifElse(#{transform_block_wise},
+${query_type:startsWith('block_footer_grade_subject_by_month_year'):ifElse(#{transform_block_wise},
+${query_type:startsWith('block_footer_grade_subject_daily'):ifElse(#{transform_block_wise},
+${query_type:startsWith('block_footer_grade_subject_weekly'):ifElse(#{transform_block_wise},
 
 ${query_type:startsWith('cluster_by_month_year'):ifElse(#{transform_cluster_wise},
 ${query_type:startsWith('cluster_daily'):ifElse(#{transform_cluster_wise},
@@ -4838,6 +4844,9 @@ ${query_type:startsWith('cluster_grade_weekly'):ifElse(#{transform_cluster_wise}
 ${query_type:startsWith('cluster_grade_subject_by_month_year'):ifElse(#{transform_cluster_wise},
 ${query_type:startsWith('cluster_grade_subject_daily'):ifElse(#{transform_cluster_wise},
 ${query_type:startsWith('cluster_grade_subject_weekly'):ifElse(#{transform_cluster_wise},
+${query_type:startsWith('cluster_footer_grade_subject_by_month_year'):ifElse(#{transform_cluster_wise},
+${query_type:startsWith('cluster_footer_grade_subject_daily'):ifElse(#{transform_cluster_wise},
+${query_type:startsWith('cluster_footer_grade_subject_weekly'):ifElse(#{transform_cluster_wise},
 
 ${query_type:startsWith('school_by_month_year'):ifElse(#{transform_school_wise},
 ${query_type:startsWith('school_daily'):ifElse(#{transform_school_wise},
@@ -4850,31 +4859,37 @@ ${query_type:startsWith('school_grade_weekly'):ifElse(#{transform_school_wise},
 ${query_type:startsWith('school_grade_subject_by_month_year'):ifElse(#{transform_school_wise},
 ${query_type:startsWith('school_grade_subject_daily'):ifElse(#{transform_school_wise},
 ${query_type:startsWith('school_grade_subject_weekly'):ifElse(#{transform_school_wise},
+${query_type:startsWith('school_footer_grade_subject_by_month_year'):ifElse(#{transform_school_wise},
+${query_type:startsWith('school_footer_grade_subject_daily'):ifElse(#{transform_school_wise},
+${query_type:startsWith('school_footer_grade_subject_weekly'):ifElse(#{transform_school_wise},
 
 ${query_type:startsWith('district_last'):or(${query_type:startsWith('district_overall')}):ifElse(#{district_timeseries_jolt_spec},
 ${query_type:startsWith('district_grade_last'):or(${query_type:startsWith('district_grade_overall')}):ifElse(#{district_timeseries_jolt_spec},
 ${query_type:startsWith('district_grade_subject_last'):or(${query_type:startsWith('district_grade_subject_overall')}):ifElse(#{district_timeseries_jolt_spec},
+${query_type:startsWith('district_footer_grade_subject_last'):or(${query_type:startsWith('district_footer_grade_subject_overall')}):ifElse(#{district_timeseries_jolt_spec},
 
 
 ${query_type:startsWith('block_last'):or(${query_type:startsWith('block_overall')}):ifElse(#{block_timeseries_jolt_spec},
 ${query_type:startsWith('block_grade_last'):or(${query_type:startsWith('block_grade_overall')}):ifElse(#{block_timeseries_jolt_spec},
 ${query_type:startsWith('block_grade_subject_last'):or(${query_type:startsWith('block_grade_subject_overall')}):ifElse(#{block_timeseries_jolt_spec},
-
+${query_type:startsWith('block_footer_grade_subject_last'):or(${query_type:startsWith('block_footer_grade_subject_overall')}):ifElse(#{block_timeseries_jolt_spec},
 
 ${query_type:startsWith('cluster_last'):or(${query_type:startsWith('cluster_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
 ${query_type:startsWith('cluster_grade_last'):or(${query_type:startsWith('cluster_grade_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
 ${query_type:startsWith('cluster_grade_subject_last'):or(${query_type:startsWith('cluster_grade_subject_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
+${query_type:startsWith('cluster_footer_grade_subject_last'):or(${query_type:startsWith('cluster_footer_grade_subject_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
 
 ${query_type:startsWith('school_last'):or(${query_type:startsWith('school_overall')}):ifElse(#{school_timeseries_jolt_spec},
 ${query_type:startsWith('school_grade_last'):or(${query_type:startsWith('school_grade_overall')}):ifElse(#{school_timeseries_jolt_spec},
 ${query_type:startsWith('school_grade_subject_last'):or(${query_type:startsWith('school_grade_subject_overall')}):ifElse(#{school_timeseries_jolt_spec},
+${query_type:startsWith('school_footer_grade_subject_last'):or(${query_type:startsWith('school_footer_grade_subject_overall')}):ifElse(#{school_timeseries_jolt_spec},
 
 ${query_type:startsWith('district_management'):ifElse(#{jolt_spec_district},
 ${query_type:startsWith('block_management'):ifElse(#{jolt_spec_block},
 ${query_type:startsWith('cluster_management'):ifElse(#{jolt_spec_cluster},
 ${query_type:startsWith('school_management'):ifElse(#{jolt_spec_school},
 ${query_type:startsWith('meta'):ifElse(#{jolt_spec_school_management_category_meta},'None')}  )} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -6682,6 +6697,9 @@ ${query_type:startsWith('district_management_grade_weekly'):ifElse(#{transform_d
 ${query_type:startsWith('district_management_grade_subject_by_month_year'):ifElse(#{transform_district_wise},
 ${query_type:startsWith('district_management_grade_subject_daily'):ifElse(#{transform_district_wise},
 ${query_type:startsWith('district_management_grade_subject_weekly'):ifElse(#{transform_district_wise},
+${query_type:startsWith('district_management_footer_grade_subject_by_month_year'):ifElse(#{transform_district_wise},
+${query_type:startsWith('district_management_footer_grade_subject_daily'):ifElse(#{transform_district_wise},
+${query_type:startsWith('district_management_footer_grade_subject_weekly'):ifElse(#{transform_district_wise},
 
 ${query_type:startsWith('block_management_by_month_year'):ifElse(#{transform_block_wise},
 ${query_type:startsWith('block_management_daily'):ifElse(#{transform_block_wise},
@@ -6694,6 +6712,9 @@ ${query_type:startsWith('block_management_grade_weekly'):ifElse(#{transform_bloc
 ${query_type:startsWith('block_management_grade_subject_by_month_year'):ifElse(#{transform_block_wise},
 ${query_type:startsWith('block_management_grade_subject_daily'):ifElse(#{transform_block_wise},
 ${query_type:startsWith('block_management_grade_subject_weekly'):ifElse(#{transform_block_wise},
+${query_type:startsWith('block_management_footer_grade_subject_by_month_year'):ifElse(#{transform_block_wise},
+${query_type:startsWith('block_management_footer_grade_subject_daily'):ifElse(#{transform_block_wise},
+${query_type:startsWith('block_management_footer_grade_subject_weekly'):ifElse(#{transform_block_wise},
 
 ${query_type:startsWith('cluster_management_by_month_year'):ifElse(#{transform_cluster_wise},
 ${query_type:startsWith('cluster_management_daily'):ifElse(#{transform_cluster_wise},
@@ -6706,6 +6727,10 @@ ${query_type:startsWith('cluster_management_grade_weekly'):ifElse(#{transform_cl
 ${query_type:startsWith('cluster_management_grade_subject_by_month_year'):ifElse(#{transform_cluster_wise},
 ${query_type:startsWith('cluster_management_grade_subject_daily'):ifElse(#{transform_cluster_wise},
 ${query_type:startsWith('cluster_management_grade_subject_weekly'):ifElse(#{transform_cluster_wise},
+${query_type:startsWith('cluster_management_footer_grade_subject_by_month_year'):ifElse(#{transform_cluster_wise},
+${query_type:startsWith('cluster_management_footer_grade_subject_daily'):ifElse(#{transform_cluster_wise},
+${query_type:startsWith('cluster_management_footer_grade_subject_weekly'):ifElse(#{transform_cluster_wise},
+
 
 ${query_type:startsWith('school_management_by_month_year'):ifElse(#{transform_school_wise},
 ${query_type:startsWith('school_management_daily'):ifElse(#{transform_school_wise},
@@ -6718,25 +6743,32 @@ ${query_type:startsWith('school_management_grade_weekly'):ifElse(#{transform_sch
 ${query_type:startsWith('school_management_grade_subject_by_month_year'):ifElse(#{transform_school_wise},
 ${query_type:startsWith('school_management_grade_subject_daily'):ifElse(#{transform_school_wise},
 ${query_type:startsWith('school_management_grade_subject_weekly'):ifElse(#{transform_school_wise},
+${query_type:startsWith('school_management_footer_grade_subject_by_month_year'):ifElse(#{transform_school_wise},
+${query_type:startsWith('school_management_footer_grade_subject_daily'):ifElse(#{transform_school_wise},
+${query_type:startsWith('school_management_footer_grade_subject_weekly'):ifElse(#{transform_school_wise},
 
 ${query_type:startsWith('district_management_last'):or(${query_type:startsWith('district_management_overall')}):ifElse(#{district_timeseries_jolt_spec},
 ${query_type:startsWith('district_management_grade_last'):or(${query_type:startsWith('district_management_grade_overall')}):ifElse(#{district_timeseries_jolt_spec},
 ${query_type:startsWith('district_management_grade_subject_last'):or(${query_type:startsWith('district_management_grade_subject_overall')}):ifElse(#{district_timeseries_jolt_spec},
+${query_type:startsWith('district_management_footer_grade_subject_last'):or(${query_type:startsWith('district_management_footer_grade_subject_overall')}):ifElse(#{district_timeseries_jolt_spec},
 
 
 ${query_type:startsWith('block_management_last'):or(${query_type:startsWith('block_management_overall')}):ifElse(#{block_timeseries_jolt_spec},
 ${query_type:startsWith('block_management_grade_last'):or(${query_type:startsWith('block_management_grade_overall')}):ifElse(#{block_timeseries_jolt_spec},
 ${query_type:startsWith('block_management_grade_subject_last'):or(${query_type:startsWith('block_management_grade_subject_overall')}):ifElse(#{block_timeseries_jolt_spec},
+${query_type:startsWith('block_management_footer_grade_subject_last'):or(${query_type:startsWith('block_management_footer_grade_subject_overall')}):ifElse(#{block_timeseries_jolt_spec},
 
 
 ${query_type:startsWith('cluster_management_last'):or(${query_type:startsWith('cluster_management_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
 ${query_type:startsWith('cluster_management_grade_last'):or(${query_type:startsWith('cluster_management_grade_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
 ${query_type:startsWith('cluster_management_grade_subject_last'):or(${query_type:startsWith('cluster_management_grade_subject_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
+${query_type:startsWith('cluster_management_footer_grade_subject_last'):or(${query_type:startsWith('cluster_management_footer_grade_subject_overall')}):ifElse(#{cluster_timeseries_jolt_spec},
 
 ${query_type:startsWith('school_management_last'):or(${query_type:startsWith('school_management_overall')}):ifElse(#{school_timeseries_jolt_spec},
 ${query_type:startsWith('school_management_grade_last'):or(${query_type:startsWith('school_management_grade_overall')}):ifElse(#{school_timeseries_jolt_spec},
-${query_type:startsWith('school_management_grade_subject_last'):or(${query_type:startsWith('school_management_grade_subject_overall')}):ifElse(#{school_timeseries_jolt_spec},'None')}  )} 
-)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
+${query_type:startsWith('school_management_grade_subject_last'):or(${query_type:startsWith('school_management_grade_subject_overall')}):ifElse(#{school_timeseries_jolt_spec},
+${query_type:startsWith('school_management_footer_grade_subject_last'):or(${query_type:startsWith('school_management_footer_grade_subject_overall')}):ifElse(#{school_timeseries_jolt_spec},'None')}  )} 
+)} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )} )})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>Transform Cache Size</key>
@@ -9653,22 +9685,48 @@ ${query_type:startsWith('school_grade_subject_by_month_year'):or(
 ${query_type:startsWith('block_grade_subject_last'):or(
 ${query_type:startsWith('cluster_grade_subject_last'):or(
 ${query_type:startsWith('district_grade_subject_last'):or(
-${query_type:startsWith('school_grade_subject_last')
-})})})})})})})})})})})})})})})}</value>
+${query_type:startsWith('school_grade_subject_last'):or(
+${query_type:startsWith('block_footer_grade_subject_overall'):or(
+${query_type:startsWith('cluster_footer_grade_subject_overall'):or(
+${query_type:startsWith('district_footer_grade_subject_overall'):or(
+${query_type:startsWith('school_footer_grade_subject_overall'):or(
+${query_type:startsWith('block_footer_grade_subject_weekly'):or(
+${query_type:startsWith('district_footer_grade_subject_weekly'):or(
+${query_type:startsWith('cluster_footer_grade_subject_weekly'):or(
+${query_type:startsWith('school_footer_grade_subject_weekly'):or(
+${query_type:startsWith('block_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('district_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('cluster_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('school_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('block_footer_grade_subject_last'):or(
+${query_type:startsWith('cluster_footer_grade_subject_last'):or(
+${query_type:startsWith('district_footer_grade_subject_last'):or(
+${query_type:startsWith('school_footer_grade_subject_last')
+})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_daily</key>
 <value>${query_type:startsWith('block_grade_subject_daily'):or(
 ${query_type:startsWith('district_grade_subject_daily'):or(
 ${query_type:startsWith('cluster_grade_subject_daily'):or(
-${query_type:startsWith('school_grade_subject_daily')})})})}</value>
+${query_type:startsWith('school_grade_subject_daily'):or(
+${query_type:startsWith('block_footer_grade_subject_daily'):or(
+${query_type:startsWith('district_footer_grade_subject_daily'):or(
+${query_type:startsWith('cluster_footer_grade_subject_daily'):or(
+${query_type:startsWith('school_footer_grade_subject_daily')
+})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_management_daily</key>
 <value>${query_type:startsWith('block_management_grade_subject_daily'):or(
 ${query_type:startsWith('district_management_grade_subject_daily'):or(
 ${query_type:startsWith('cluster_management_grade_subject_daily'):or(
-${query_type:startsWith('school_management_grade_subject_daily')})})})}</value>
+${query_type:startsWith('school_management_grade_subject_daily'):or(
+${query_type:startsWith('block_management_footer_grade_subject_daily'):or(
+${query_type:startsWith('district_management_footer_grade_subject_daily'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_daily'):or(
+${query_type:startsWith('school_management_footer_grade_subject_daily')
+})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_management_time_range</key>
@@ -9679,24 +9737,40 @@ ${query_type:startsWith('cluster_management_grade_subject_overall'):or(
 ${query_type:startsWith('block_management_grade_subject_last'):or(
 ${query_type:startsWith('block_management_grade_subject_overall'):or(
 ${query_type:startsWith('district_management_grade_subject_overall'):or(
-${query_type:startsWith('district_management_grade_subject_last')
-})})})} )})})})}</value>
+${query_type:startsWith('district_management_grade_subject_last'):or(
+${query_type:startsWith('school_management_footer_grade_subject_last'):or(
+${query_type:startsWith('school_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_last'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('block_management_footer_grade_subject_last'):or(
+${query_type:startsWith('block_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('district_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('district_management_footer_grade_subject_last')
+})})})} )})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_management_weekly</key>
 <value>${query_type:startsWith('block_management_grade_subject_weekly'):or(
 ${query_type:startsWith('district_management_grade_subject_weekly'):or(
 ${query_type:startsWith('cluster_management_grade_subject_weekly'):or(
-${query_type:startsWith('school_management_grade_subject_weekly')
-})})})}</value>
+${query_type:startsWith('school_management_grade_subject_weekly'):or(
+${query_type:startsWith('block_management_footer_grade_subject_weekly'):or(
+${query_type:startsWith('district_management_footer_grade_subject_weekly'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_weekly'):or(
+${query_type:startsWith('school_management_footer_grade_subject_weekly')
+})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_management_year_month</key>
 <value>${query_type:startsWith('block_management_grade_subject_by_month_year'):or(
 ${query_type:startsWith('district_management_grade_subject_by_month_year'):or(
 ${query_type:startsWith('cluster_management_grade_subject_by_month_year'):or(
-${query_type:startsWith('school_management_grade_subject_by_month_year')
-})})})}</value>
+${query_type:startsWith('school_management_grade_subject_by_month_year'):or(
+${query_type:startsWith('block_management_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('district_management_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('school_management_footer_grade_subject_by_month_year')
+})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>management_daily</key>
@@ -10127,8 +10201,18 @@ ${query_type:startsWith('block_management_grade_subject_by_month_year'):or(
 ${query_type:startsWith('block_grade_subject_overall'):or(
 ${query_type:startsWith('block_grade_subject_last'):or(
 ${query_type:startsWith('block_management_grade_subject_overall'):or(
-${query_type:startsWith('block_management_grade_subject_last')
-})})})})})})})})})}</value>
+${query_type:startsWith('block_management_grade_subject_last'):or(
+${query_type:startsWith('block_footer_grade_subject_daily'):or(
+${query_type:startsWith('block_management_footer_grade_subject_daily'):or(
+${query_type:startsWith('block_footer_grade_subject_weekly'):or(
+${query_type:startsWith('block_management_footer_grade_subject_weekly'):or(
+${query_type:startsWith('block_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('block_management_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('block_footer_grade_subject_overall'):or(
+${query_type:startsWith('block_footer_grade_subject_last'):or(
+${query_type:startsWith('block_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('block_management_footer_grade_subject_last')
+})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_cluster</key>
@@ -10141,8 +10225,18 @@ ${query_type:startsWith('cluster_management_grade_subject_by_month_year'):or(
 ${query_type:startsWith('cluster_grade_subject_overall'):or(
 ${query_type:startsWith('cluster_grade_subject_last'):or(
 ${query_type:startsWith('cluster_management_grade_subject_overall'):or(
-${query_type:startsWith('cluster_management_grade_subject_last')
-})})})})})})})})})}</value>
+${query_type:startsWith('cluster_management_grade_subject_last'):or(
+${query_type:startsWith('cluster_footer_grade_subject_daily'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_daily'):or(
+${query_type:startsWith('cluster_footer_grade_subject_weekly'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_weekly'):or(
+${query_type:startsWith('cluster_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('cluster_footer_grade_subject_overall'):or(
+${query_type:startsWith('cluster_footer_grade_subject_last'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('cluster_management_footer_grade_subject_last')
+})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_district</key>
@@ -10155,8 +10249,18 @@ ${query_type:startsWith('district_management_grade_subject_by_month_year'):or(
 ${query_type:startsWith('district_grade_subject_overall'):or(
 ${query_type:startsWith('district_grade_subject_last'):or(
 ${query_type:startsWith('district_management_grade_subject_overall'):or(
-${query_type:startsWith('district_management_grade_subject_last')
-})})})})})})})})})}</value>
+${query_type:startsWith('district_management_grade_subject_last'):or(
+${query_type:startsWith('district_footer_grade_subject_daily'):or(
+${query_type:startsWith('district_management_footer_grade_subject_daily'):or(
+${query_type:startsWith('district_footer_grade_subject_weekly'):or(
+${query_type:startsWith('district_management_footer_grade_subject_weekly'):or(
+${query_type:startsWith('district_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('district_management_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('district_footer_grade_subject_overall'):or(
+${query_type:startsWith('district_footer_grade_subject_last'):or(
+${query_type:startsWith('district_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('district_management_footer_grade_subject_last')
+})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>grade_subject_school</key>
@@ -10169,8 +10273,18 @@ ${query_type:startsWith('school_management_grade_subject_by_month_year'):or(
 ${query_type:startsWith('school_grade_subject_overall'):or(
 ${query_type:startsWith('school_grade_subject_last'):or(
 ${query_type:startsWith('school_management_grade_subject_overall'):or(
-${query_type:startsWith('school_management_grade_subject_last')
-})})})})})})})})})}</value>
+${query_type:startsWith('school_management_grade_subject_last'):or(
+${query_type:startsWith('school_footer_grade_subject_daily'):or(
+${query_type:startsWith('school_management_footer_grade_subject_daily'):or(
+${query_type:startsWith('school_footer_grade_subject_weekly'):or(
+${query_type:startsWith('school_management_footer_grade_subject_weekly'):or(
+${query_type:startsWith('school_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('school_management_footer_grade_subject_by_month_year'):or(
+${query_type:startsWith('school_footer_grade_subject_overall'):or(
+${query_type:startsWith('school_footer_grade_subject_last'):or(
+${query_type:startsWith('school_management_footer_grade_subject_overall'):or(
+${query_type:startsWith('school_management_footer_grade_subject_last')
+})})})})})})})})})})})})})})})})})})})}</value>
                             </entry>
                             <entry>
 <key>meta</key>
@@ -11599,5 +11713,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>08/05/2022 18:07:38 IST</timestamp>
+    <timestamp>08/08/2022 11:02:39 IST</timestamp>
 </template>
