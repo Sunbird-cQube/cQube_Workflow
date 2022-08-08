@@ -133,7 +133,7 @@ def create_parameters_queries():
                         else:
                             query4 += num + '=' + table_names + '_null_col.count_null_' + num + ','
 
-                    query3 = ' from ' + table_names + '_null_col where ' + table_names + '_null_col.ff_uuid = log_summary.ff_uuid""",'
+                    query3 = ', count_of_null_rows = ' + table_names + '_null_col.count_of_null_rows from ' + table_names + '_null_col where ' + table_names + '_null_col.ff_uuid = log_summary.ff_uuid""",'
                     null_to_log_db = query1 + query4 + query2 + query3
 
                     # stg2 to temp query
