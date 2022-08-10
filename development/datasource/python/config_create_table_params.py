@@ -143,7 +143,7 @@ def create_parameters_queries():
                     stg_2_to_temp_query = q1 + clmn + ',ff_uuid) select ' + clmn + ',ff_uuid' ' from ' + table_names + '_staging_2 """,'
                     val_same_id = ''.join(check_same_id_columns)
                     # check_same_id
-                    check_same_id_qry = '"check_same_id_records":"""SELECT ' + same_id + 'b.ff_uuid,b.cnt num_of_times from (select sas.*,count(*) over (PARTITION by ' + val_same_id + 'ff_uuid) as cnt from ' + table_names + '_staging_2  sas ) b where cnt>1 group by ' + same_id + 'b.ff_uuid,b.cnt;""",'
+                    check_same_id_qry = '"check_same_id_records":"""SELECT ' + same_id + 'b.ff_uuid,count(*) num_of_times from (select sas.*,count(*) over (PARTITION by ' + val_same_id + 'ff_uuid) as cnt from ' + table_names + '_staging_2  sas ) b where cnt>1 group by ' + same_id + 'b.ff_uuid,b.cnt;""",'
 
                     # normalize
                     query_check1 = ''
