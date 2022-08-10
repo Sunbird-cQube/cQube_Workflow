@@ -917,11 +917,11 @@ def create_dml_timeline_queries():
         cluster_grp = ' cnt.cluster_id,cluster_name,cluster_latitude,cluster_longitude,cnt.block_id,block_name,cnt.district_id,district_name'
         block_grp = ' cnt.block_id,block_name,block_latitude,block_longitude,cnt.district_id,district_name'
         district_grp = ' cnt.district_id,district_name,district_latitude,district_longitude'
-    if student_id_exists is True:
-        school_var = 'school_id,cluster_id,block_id,district_id '
-        cluster_var = 'cluster_id,block_id,district_id '
-        block_var = 'block_id,district_id '
-        district_var = ' district_id '
+
+    school_var = 'school_id,cluster_id,block_id,district_id '
+    cluster_var = 'cluster_id,block_id,district_id '
+    block_var = 'block_id,district_id '
+    district_var = ' district_id '
 
     global to_sql
     to_sql = '\n'
