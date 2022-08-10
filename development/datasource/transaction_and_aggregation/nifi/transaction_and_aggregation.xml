@@ -585,6 +585,34 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>347134e9-90f4-3620-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>9920.0</x>
+                        <y>-872.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>7fd6581c-7b02-33b2-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>07296096-08ad-3d36-0000-000000000000</id>
+                        <type>FUNNEL</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>362e0ff3-3de9-3e30-0000-000000000000</id>
                     <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
@@ -770,6 +798,31 @@
                         <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
                         <id>61eccbcd-8547-3970-0000-000000000000</id>
                         <type>FUNNEL</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>46ffcf0e-ed16-3f96-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>a341fef1-967c-3a0a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>c1762163-adc8-32f1-0000-000000000000</id>
+                        <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -1547,6 +1600,31 @@
                     <zIndex>0</zIndex>
                 </connections>
                 <connections>
+                    <id>bfdad1c4-b241-3434-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>07296096-08ad-3d36-0000-000000000000</id>
+                        <type>FUNNEL</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>empty_query</selectedRelationships>
+                    <source>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>a341fef1-967c-3a0a-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
                     <id>c16411e3-0d11-36bb-0000-000000000000</id>
                     <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
                     <backPressureDataSizeThreshold>4 GB</backPressureDataSizeThreshold>
@@ -1624,6 +1702,34 @@
                         <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
                         <id>c91edd5a-0277-3dca-0000-000000000000</id>
                         <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>c7ed0939-95f4-30dc-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <bends>
+                        <x>5352.0</x>
+                        <y>64.0</y>
+                    </bends>
+                    <destination>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>2755b378-8ad9-3096-0000-000000000000</id>
+                        <type>OUTPUT_PORT</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>0</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <source>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>07296096-08ad-3d36-0000-000000000000</id>
+                        <type>FUNNEL</type>
                     </source>
                     <zIndex>0</zIndex>
                 </connections>
@@ -1926,6 +2032,31 @@
                     <source>
                         <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
                         <id>98c6fb46-5914-357c-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>e3b7cac8-c00b-333b-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>c4d9b55f-c7d3-35dc-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>empty_query</selectedRelationships>
+                    <source>
+                        <groupId>9893fd30-40cb-3524-0000-000000000000</groupId>
+                        <id>a341fef1-967c-3a0a-0000-000000000000</id>
                         <type>PROCESSOR</type>
                     </source>
                     <zIndex>0</zIndex>
@@ -3419,6 +3550,14 @@
                     <state>ENABLED</state>
                     <type>org.apache.nifi.json.JsonTreeReader</type>
                 </controllerServices>
+                <funnels>
+                    <id>07296096-08ad-3d36-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>5328.0</x>
+                        <y>-912.0</y>
+                    </position>
+                </funnels>
                 <funnels>
                     <id>61d34ff8-eb9f-3e49-0000-000000000000</id>
                     <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
@@ -9013,6 +9152,71 @@ ${query_type:startsWith('school_management_daily')
                     <type>org.apache.nifi.processors.standard.FetchFile</type>
                 </processors>
                 <processors>
+                    <id>a341fef1-967c-3a0a-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>4472.0</x>
+                        <y>-944.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Routing Strategy</key>
+<value>
+    <name>Routing Strategy</name>
+</value>
+                            </entry>
+                            <entry>
+<key>empty_query</key>
+<value>
+    <name>empty_query</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Routing Strategy</key>
+<value>Route to Property name</value>
+                            </entry>
+                            <entry>
+<key>empty_query</key>
+<value>${query_type:contains('last_7'):or(
+${query_type:contains('last_30'):or(
+${query_type:contains('last_day'):and(
+${executesql.row.count:equals(0)})})})}</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>returning_empty_file_for_0_records_query</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>empty_query</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+                </processors>
+                <processors>
                     <id>acb0fea0-dc74-37b8-0000-000000000000</id>
                     <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
                     <position>
@@ -9558,7 +9762,7 @@ ${query_type:startsWith('school_management_daily')
                     <id>c1762163-adc8-32f1-0000-000000000000</id>
                     <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
                     <position>
-                        <x>4440.0</x>
+                        <x>4456.0</x>
                         <y>-1392.0</y>
                     </position>
                     <bundle>
@@ -9704,6 +9908,74 @@ ${query_type:startsWith('school_management_daily')
                     <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.ExecuteSQLRecord</type>
+                </processors>
+                <processors>
+                    <id>c4d9b55f-c7d3-35dc-0000-000000000000</id>
+                    <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>4976.0</x>
+                        <y>-1080.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.12.1</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>log-level</key>
+<value>
+    <name>log-level</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>
+    <name>log-prefix</name>
+</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+<value>
+    <name>log-message</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>log-level</key>
+<value>info</value>
+                            </entry>
+                            <entry>
+<key>log-prefix</key>
+<value>***** Info *****</value>
+                            </entry>
+                            <entry>
+<key>log-message</key>
+<value>${query_type} is executed with zero records</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>LogMessage</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.LogMessage</type>
                 </processors>
                 <processors>
                     <id>c4f5797e-2813-3b49-0000-000000000000</id>
@@ -11673,8 +11945,8 @@ ${query_type:startsWith('school_management_last')
                     <id>ec647ec9-3fc1-3a69-0000-000000000000</id>
                     <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
                     <position>
-                        <x>4232.0</x>
-                        <y>-1096.0</y>
+                        <x>4088.0</x>
+                        <y>-1152.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12034,8 +12306,8 @@ executesql.query.fetchtime =${executesql.query.fetchtime}
                     <id>f945b17a-9097-374a-0000-000000000000</id>
                     <parentGroupId>9893fd30-40cb-3524-0000-000000000000</parentGroupId>
                     <position>
-                        <x>4656.0</x>
-                        <y>-1096.0</y>
+                        <x>4968.0</x>
+                        <y>-1224.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12269,5 +12541,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>08/10/2022 09:41:00 IST</timestamp>
+    <timestamp>08/10/2022 18:42:28 IST</timestamp>
 </template>
