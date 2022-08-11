@@ -7,11 +7,11 @@
   tags: install
 
 - name: checking the existing pm2 processes if running
+  become: yes
+  become_user: "{{ system_user_name }}"
   shell: sudo pm2 delete server_side
   when: pm2_output.stdout != "[]"
   ignore_errors: True
-  become: yes
-  become_user: "{{ system_user_name }}"
   tags: install
 
 - name: Starting NodeJS application
