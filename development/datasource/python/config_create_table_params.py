@@ -1364,8 +1364,8 @@ def create_dml_timeline_queries():
                     dml_queries += '{"' + filter + '_footer_grade_subject_last30":"select grade,subject,' + var + ',sum(total_schools) as total_schools,sum(students_count) as students_count from ' + table_names + '_grade_sub_sch_footer_last30 a  group by grade,subject,' + var + '"},'
                     dml_queries += '{"' + filter + '_management_footer_grade_subject_last30":"select grade,subject,' + var + ',school_management_type,sum(total_schools) as total_schools,sum(students_count) as students_count from ' + table_names + '_grade_sub_sch_footer_last30 a group by grade,subject,school_management_type,' + var + '"},'
                 else:
-                    dml_queries += '{"' + filter + '_footer_grade_subject_last30":"select grade,subject,' + var + ',sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last30 a  group by grade,subject,' + var + '"},'
-                    dml_queries += '{"' + filter + '_management_footer_grade_subject_last30":"select grade,subject,' + var + ',school_management_type,sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last30 a group by grade,subject,school_management_type,' + var + '"},'
+                    dml_queries += '{"' + filter + '_footer_grade_subject_last_30":"select grade,subject,' + var + ',sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last30 a  group by grade,subject,' + var + '"},'
+                    dml_queries += '{"' + filter + '_management_footer_grade_subject_last_30":"select grade,subject,' + var + ',school_management_type,sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last30 a group by grade,subject,school_management_type,' + var + '"},'
 
         if 'last_7_days' in df_time_sel:
             mv_queries += 'refresh materialized view ' + table_names + "_grade_sub_sch_footer_last7;"
@@ -1396,8 +1396,8 @@ def create_dml_timeline_queries():
                     dml_queries += '{"' + filter + '_footer_grade_subject_last7":"select grade,subject,' + var + ',sum(total_schools) as total_schools,sum(students_count) as students_count from ' + table_names + '_grade_sub_sch_footer_last7 a  group by grade,subject,' + var + '"},'
                     dml_queries += '{"' + filter + '_management_footer_grade_subject_last7":"select grade,subject,' + var + ',school_management_type,sum(total_schools) as total_schools,sum(students_count) as students_count from ' + table_names + '_grade_sub_sch_footer_last7 a group by grade,subject,school_management_type,' + var + '"},'
                 else:
-                    dml_queries += '{"' + filter + '_footer_grade_subject_last7":"select grade,subject,' + var + ',sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last7 a  group by grade,subject,' + var + '"},'
-                    dml_queries += '{"' + filter + '_management_footer_grade_subject_last7":"select grade,subject,' + var + ',school_management_type,sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last7 a group by grade,subject,school_management_type,' + var + '"},'
+                    dml_queries += '{"' + filter + '_footer_grade_subject_last_7":"select grade,subject,' + var + ',sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last7 a  group by grade,subject,' + var + '"},'
+                    dml_queries += '{"' + filter + '_management_footer_grade_subject_last_7":"select grade,subject,' + var + ',school_management_type,sum(total_schools) as total_schools from ' + table_names + '_grade_sub_sch_footer_last7 a group by grade,subject,school_management_type,' + var + '"},'
         if 'last_day' in df_time_sel:
             mv_queries += 'refresh materialized view ' + table_names + "_grade_sub_sch_footer_last_day;"
             if student_id_exists is True:
