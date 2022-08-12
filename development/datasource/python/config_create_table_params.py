@@ -1480,8 +1480,11 @@ def write_files():
     all_queries += to_sql
     query_file.write(all_queries)
     query_file.close()
-    to_insert_json1 = to_insert_json + mv_queries
-    print(to_insert_json1)
+    if 'subject' in df_filters_req:
+        to_insert_json1 = to_insert_json + mv_queries
+    else:
+        to_insert_json1 = to_insert_json[:-1]
+        to_insert_json1 += ']'
     to_insert_json_ = json.loads(to_insert_json1, strict=False)
 
     with open((path + '/{}/temp_trans_aggregation_queries.json'.format(file_name_sql)), 'w') as outfile:
