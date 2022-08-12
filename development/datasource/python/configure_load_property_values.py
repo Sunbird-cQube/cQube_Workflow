@@ -161,7 +161,7 @@ if __name__ == '__main__':
                       'conf_delete_staging_2_table', 'Route_on_zip', 'temp_trans_agg_add_qry_filename',
                       'add_ff_uuid_and_convert_date', 'convert_date_to_ist', 'convert_management_date_to_ist',
                       'partition_according_columns', 'partition_management', 'config_datasource_save_s3_log_summary',
-                      'config_datasource_update_filename_local']
+                      'config_datasource_update_filename_local','convert_date_to_ist1','convert_date_to_ist2','partition_according_year_month_week']
 
     data_storage_processor = 'cQube_data_storage'
     conf_key = "configure_file"
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     conf_value1 = '${' + "filename:startsWith('{0}')".format(
         filename) + ':and(${path:startsWith("config"):or(${filename:startsWith("config"):or(${azure.blobname:startsWith("config")})}):not()})}'
     conf_value7 = '${' + "emission_filename:startsWith('{0}')".format(filename) + '}'
-    conf_value2 = "select distinct year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
+    conf_value2 = "select distinct academic_year,month  from " + filename + "_temp where ff_uuid='${zip_identifier}'"
     conf_value3 = "delete from " + filename + "_temp where ff_uuid='${zip_identifier}';"
     conf_value4 = "truncate table " + filename + "_staging_1"
     conf_value5 = "truncate table " + filename + "_staging_2"
@@ -256,11 +256,14 @@ if __name__ == '__main__':
     nifi_update_processor_property(processor_group_name[2], processor_name[16], processor_properties8)
     nifi_update_processor_property(processor_group_name[1], processor_name[17], processor_properties10)
     nifi_update_processor_property(processor_group_name[1], processor_name[18], processor_properties11)
+    nifi_update_processor_property(processor_group_name[2], processor_name[19], processor_properties_date)
+    nifi_update_processor_property(processor_group_name[2], processor_name[20], processor_properties_date)
+    nifi_update_processor_property(processor_group_name[2], processor_name[21], processor_properties8)
 
     # Update the parameters to validate_datasource_parameters, transaction_and_aggregation_parameters
     parameter_context_names = ['validate_datasource_parameters', 'transaction_and_aggregation_parameters']
     for parameter_context_name in parameter_context_names:
-        # Load parameters from file to Nifi parameters
+        # Load parameters from file to Nifi parameterss
         parameter_body = {
             "revision": {
                 "clientId": "value",
