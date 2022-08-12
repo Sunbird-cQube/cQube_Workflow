@@ -493,6 +493,7 @@ export class AppServiceComponent {
 
 
   commonRelativeColors(markers, filter) {
+
     var values = [];
     markers.map((item) => {
       var keys = Object.keys(item);
@@ -502,7 +503,9 @@ export class AppServiceComponent {
         values.push(item[`total_schools_with_missing_data`]);
       }
     });
+
     let uniqueItems = [...new Set(values)];
+    console.log('value', uniqueItems)
     uniqueItems = uniqueItems.map((a) => {
       if (typeof a == "object") {
         return a["percentage"];
@@ -526,14 +529,13 @@ export class AppServiceComponent {
 
     const getRangeArray = (min, max, n) => {
       const delta = (max - min) / n;
-      let range1 = min;
+      let range1 = Math.ceil(min);
       for (let i = 0; i < n; i += 1) {
-        const range2 = range1 + delta;
+        const range2 = Math.ceil(range1 + delta);
         uniqueItems1.push(`${range2}`);
 
         range1 = range2;
       }
-
       return ranges;
     };
 
@@ -552,6 +554,7 @@ export class AppServiceComponent {
       "#006837",
     ];
     var colors = {};
+
     uniqueItems.map((a, i) => {
       if (a <= uniqueItems1[0]) {
         colors[`${a}`] = colorsArr[0];
@@ -573,9 +576,11 @@ export class AppServiceComponent {
         colors[`${a}`] = colorsArr[8];
       } else if (a > uniqueItems1[8] && a <= uniqueItems1[9]) {
         colors[`${a}`] = colorsArr[9];
+      } else {
+        colors[`${a}`] = colorsArr[9];
       }
 
-    });
+    })
     return colors;
 
   }
@@ -592,7 +597,7 @@ export class AppServiceComponent {
       colors[`${a.total_content_plays}`] = colorsArr[0];
     });
     quartile2.map((a, i) => {
-      // colors[`${a.total_content_plays}`] = colorsArr[1];
+     
       colors[`${a.total_content_plays}`] = colorsArr[1];
     });
     quartile3.map((a, i) => {
@@ -624,11 +629,11 @@ export class AppServiceComponent {
   commonColorGredientForMaps(data, filter, colors) {
 
     let keys = Object.keys(colors);
-    let filter1 = "no_of_books_distributed"
+
     let setColor = "";
     for (let i = 0; i < keys.length; i++) {
-      if (data[filter1] == null) setColor = "red";
-      if (parseFloat(data[filter1]) == parseFloat(keys[i])) {
+      if (data[filter] == null) setColor = "red";
+      if (parseFloat(data[filter]) == parseFloat(keys[i])) {
 
         setColor = colors[keys[i]];
 

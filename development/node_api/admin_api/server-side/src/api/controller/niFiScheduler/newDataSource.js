@@ -39,6 +39,8 @@ router.get('/commonSchedular', auth.authController, async (req, res) => {
 
 router.post('/scheduleProcessor', async function (req, res) {
     try {
+        logger.info('---common scheduler api start---');
+       
         let dataSource = req.body.data.reportName
         let stoppingHour = req.body.data.stopTime
 
@@ -46,13 +48,13 @@ router.post('/scheduleProcessor', async function (req, res) {
         var schedulerTime;
         var stopTime;
         var timePeriod = "";
-        
+
 
         let groupName = dataSource.data.report_name.toLowerCase();
         let state = dataSource.data.state
         let day = '*'
         if (req.body.data.time.day) {
-            day = req.data.body.time.day;
+            day = req.body.data.time.day;
         }
         let month = '*'
         if (req.body.data.time.month) {
@@ -111,9 +113,9 @@ router.post('/scheduleProcessor', async function (req, res) {
             await changePermission();
             schedularData = JSON.parse(fs.readFileSync(filePath));
         }
-       
+
         let foundIndex = schedularData.findIndex(x => x.groupName == obj.groupName);
-    
+
         if (foundIndex != -1) {
             schedularData[foundIndex] = obj;
         } else {
@@ -124,7 +126,7 @@ router.post('/scheduleProcessor', async function (req, res) {
         fs.writeFile(filePath, JSON.stringify(schedularData), function (err) {
             if (err) throw err;
             logger.info('Scheduled RUNNING Job - Updated to file');
-            res.status(200).send({ msg: `Successfully Changed` });
+            res.status(200).send({ msg: `Job rescheduled successfully at ${hours}: ${mins} ${timePeriod}` });
         });
         var url = '';
         await schedule.scheduleJob(groupName + '_start', schedulerTime, async function () {
@@ -133,13 +135,13 @@ router.post('/scheduleProcessor', async function (req, res) {
                     logger.error("Something went wrong");
                     res.status(406).send({ errMsg: "Something went wrong" });
                 } else {
-                    logger.info('--- diksha TPD ETB method api response sent---');
-                    res.status(200).send({ msg: `Successfully Changed` });
+                    logger.info('--- common  shecduler api response sent---');
+                    res.status(200).send({ msg: `Job rescheduled successfully at ${hours}: ${mins} ${timePeriod}` });
                 }
             })
-          
+
             logger.info(`--- ${groupName} - Nifi processor group scheduling completed ---`);
-          
+
         });
 
 

@@ -11,39 +11,40 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         let { year, month, dataSource, grade, subject_name, exam_date, week, period, blockId, clusterId, management, category, reportType } = req.body
         let fileName;
 
-        if (reportType == "loTable") {
+        if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
 
-                    fileName = `${dataSource}/overall/school_subject_footer.json`;
+                    fileName = `${dataSource}/overall/school_subject.json`;
                 } else if (period == "year and month") {
 
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/school_subject.json`
                     } else if (month && !week && !exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/school_subject.json`
                     } else if (month && !week && !exam_date && grade && subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/school_subject.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                     } else if (month && week && !exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                     } else if (month && week && !exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
+                    } else if ((month && !week && !exam_date && grade && subject_name)) {
+                        fileName = `${dataSource}/${year}/${month}/school_subject.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject.json`
                     } else if (month && week && exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject.json`
                     }
                 } else if (period == "last 7 days") {
-                    fileName = `${dataSource}/last_7_day/school_subject_footer.json`;
+                    fileName = `${dataSource}/last_7_day/school_subject.json`;
                 } else if (period == "last 30 days") {
-                    fileName = `${dataSource}/last_30_day/school_subject_footer.json`;
+                    fileName = `${dataSource}/last_30_day/school_subject.json`;
                 } else if (period == "last day") {
-                    fileName = `${dataSource}/last_day/school_subject_footer.json`;
+                    fileName = `${dataSource}/last_day/school_subject.json`;
                 }
             }
         } else {
@@ -52,7 +53,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/overall/school/${grade}.json`;
                     } else if (grade && subject_name) {
-                        fileName = `${dataSource}/overall/school_subject_footer.json`;
+                        fileName = `${dataSource}/overall/school_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/overall/school.json`;
                     }
@@ -60,7 +61,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/school/${grade}.json`;
                     } else if (grade && subject_name) {
-                        fileName = `${dataSource}/last_30_day/school_subject_footer.json`;
+                        fileName = `${dataSource}/last_30_day/school_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/school.json`;
                     }
@@ -68,7 +69,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/school/${grade}.json`;
                     } else if (grade && subject_name) {
-                        fileName = `${dataSource}/last_7_day/school_subject_footer.json`;
+                        fileName = `${dataSource}/last_7_day/school_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/school.json`;
                     }
@@ -76,7 +77,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     if (grade && !subject_name) {
                         fileName = `${dataSource}/last_day/school/${grade}.json`;
                     } else if (grade && subject_name) {
-                        fileName = `${dataSource}/last_day/school_subject_footer.json`;
+                        fileName = `${dataSource}/last_day/school_subject.json`;
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_day/school.json`;
                     }
@@ -89,7 +90,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/${year}/${month}/school/${grade}.json`
                     } else if (month && !week && !exam_date && grade && subject_name) {
 
-                        fileName = `${dataSource}/${year}/${month}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/school_subject.json`
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/school.json`
@@ -98,21 +99,27 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school.json`
                     } else if ((month && week && !exam_date && grade && !subject_name)) {
 
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                     } else if ((month && week && !exam_date && grade && subject_name)) {
 
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
                     } else if ((month && week && exam_date && grade && subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject_footer.json`
+                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject.json`
                     }
                 }
 
             }
         }
 
+        let sourceName = ""
+        let filename1 = `${dataSource}/meta_tooltip.json`
+        let metricValue = await s3File.readFileConfig(filename1);
+        metricValue.forEach(metric => sourceName = metric.result_column)
+
         let data = await s3File.readFileConfig(fileName);
+
         if (clusterId) {
             footer = data['footer']
             footer = footer[clusterId.toString()]
@@ -185,7 +192,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
             res.status(200).send({ data, schoolDetails, footer })
         }
 
-        if (reportType == "loTable") {
+        if (reportType == "lotable") {
             Promise.all(data.map(item => {
 
                 if (week && !exam_date) {
@@ -219,7 +226,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     }
                     z.map(val1 => {
                         let y = {
-                            [`${val1.school_name}`]: { percentage: val1.no_of_books_distributed, mark: val1.marks }
+                            [`${val1.school_name}`]: { percentage: val1[`${sourceName.trim()}`] }
                         }
                         x = { ...x, ...y }
                     })
@@ -236,8 +243,9 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         return result1;
                     }, {});
                     tableData = val.map((item) => ({ ...def, ...item }));
+
                     logger.info('--- PAT LO table schoolWise response sent ---');
-                    res.status(200).send({ schoolDetails, tableData, data1 });
+                    res.status(200).send({ schoolDetails, tableData });
                 } else {
                     logger.info('--- PAT LO table schoolWise response sent ---');
                     res.status(500).send({ errMsg: "No record found" });
@@ -259,15 +267,11 @@ router.post('/AllSchoolWise', auth.authController, async (req, res) => {
 
         let { year, grade, month, dataSource, subject_name, exam_date, viewBy, districtId, management, category, reportType } = req.body
         let fileName;
-        if (reportType == "loTable") {
-            if (category == 'overall') {
-                fileName = `${dataSource}/overall/school.json`;
-            }
-        } else {
-            if (category == 'overall') {
-                fileName = `${dataSource}/overall/cluster.json`;
-            }
+
+        if (category == 'overall') {
+            fileName = `${dataSource}/overall/school.json`;
         }
+
 
         let data = await s3File.readFileConfig(fileName);
         let footer = data['allDistrictsFooter']
@@ -297,14 +301,15 @@ router.post('/AllSchoolWise', auth.authController, async (req, res) => {
 
         let arr = {}
         data = data.map(({
-            cluster_latitude: lat,
-            cluster_longitude: long,
+            school_latitude: lat,
+            school_longitude: long,
 
             ...rest
         }) => ({
             lat, long,
             ...rest
         }));
+
 
         res.status(200).send({ data, footer });
 

@@ -84,6 +84,7 @@ export class CommonLoTableComponent implements OnInit {
   updatedTable: any = [];
   gradeSelected: boolean;
   reportType = "lotable"
+  hideYear: boolean = true
   hideMonth: boolean = true
   hideWeek: boolean = true
   hideDay: boolean = true
@@ -104,6 +105,7 @@ export class CommonLoTableComponent implements OnInit {
           for (let i = 0; i < this.metaData.length; i++) {
             this.years.push(this.metaData[i]["academic_year"]);
           }
+
           this.year = this.years[this.years.length - 1];
           let i;
           for (i = 0; i < this.metaData.length; i++) {
@@ -113,6 +115,7 @@ export class CommonLoTableComponent implements OnInit {
               break;
             }
           }
+
 
           this.grades = [
             { grade: "all" },
@@ -180,27 +183,43 @@ export class CommonLoTableComponent implements OnInit {
 
 
   getMetaData() {
+    this.years = []
+
     this.service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(res => {
+
       this.metaData = res
 
-      for (let i = 0; i < this.metaData.length; i++) {
-        this.years.push(this.metaData[i]["academic_year"]);
-      }
-      this.year = this.years[this.years.length - 1];
-      let i;
-      for (i = 0; i < this.metaData.length; i++) {
-        if (this.metaData[i]["academic_year"] == this.year) {
-          this.months = this.metaData[i].data["months"];
-          this.grades = this.metaData[i].data["grades"];
-          break;
+      if (this.period === "year and month") {
+
+        for (let i = 0; i < this.metaData.length; i++) {
+          if (this.metaData[i]["academic_year"] !== 'overall') {
+            this.years.push(this.metaData[i]["academic_year"]);
+          }
+
         }
+        this.year = this.years[this.years.length - 1];
+        let i;
+        for (i = 0; i < this.metaData.length; i++) {
+          if (this.metaData[i]["academic_year"] == this.year) {
+            this.months = this.metaData[i].data["months"];
+            this.grades = this.metaData[i].data["grades"];
+            break;
+          }
+        }
+
+      } else {
+        this.grades = this.metaData.filter(meta => meta.academic_year === 'overall')
+        this.grades = this.grades[0].data['grades']
+       
       }
+
 
       this.grades = [
         { grade: "all" },
         ...this.grades.filter((item) => item !== { grade: "all" }),
       ];
-
+    }, err => {
+      document.getElementById('spinner').style.display = "none"
     })
   }
   public timeRange
@@ -236,10 +255,12 @@ export class CommonLoTableComponent implements OnInit {
     this.dist = false;
     this.blok = false;
     this.clust = false;
+    this.hideYear = true
     this.hideMonth = true
     this.hideWeek = true
     this.hideDay = true
-    this.gradeSelected = false
+    this.gradeSelected = false;
+    this.dateSelected = false;
     this.month = ""
     this.period = "overall"
     this.grade = "all";
@@ -252,10 +273,9 @@ export class CommonLoTableComponent implements OnInit {
     this.cluster = undefined;
     this.blockHidden = true;
     this.clusterHidden = true;
-
-    this.gradeSelected = false;
+    this.weekSeletced = false;
     if (this.hideAccessBtn) {
-
+      document.getElementById("initTable").style.display = "block";
       this.commonFunc();
     } else {
       this.getView()
@@ -322,7 +342,9 @@ export class CommonLoTableComponent implements OnInit {
 
         const min = Math.min(...Arr1);
         const max = Math.max(...Arr1);
-        this.getRangeArray(min, max, 10)
+        let n = max >= 10 ? 10 : max
+
+        n >= 10 ? this.getRangeArray(min, max, n) : this.generateArrayMinMax2(min, max, n)
 
         this.onChangePage();
       },
@@ -335,7 +357,8 @@ export class CommonLoTableComponent implements OnInit {
   columns = [];
   colorRange = []
   createTable(dataSet) {
-    let weekSelct = this.weekSeletced
+    let weekSelct = this.weekSeletced;
+    let dateSelct = this.dateSelected;
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
 
@@ -355,14 +378,14 @@ export class CommonLoTableComponent implements OnInit {
           if (i > 3) {
             headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
           } else {
-            headers += `<th>${col}</th>`;
+            headers += `<th style ="text-align: center" >${col}</th>`;
           }
 
         } else {
           if (i > 1) {
             headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
           } else {
-            headers += `<th>${col}</th>`;
+            headers += `<th style ="text-align: center">${col}</th>`;
           }
         }
 
@@ -377,7 +400,7 @@ export class CommonLoTableComponent implements OnInit {
           let new_item = {};
           new_item["data"] = key;
           new_item["value"] = typeof (value) != 'object' ? value : value.percentage;
-          // new_item["mark"] = typeof (value) != 'object' ? '' : value.mark;
+
           temp.push(new_item);
         });
         newArr.push(temp);
@@ -386,13 +409,17 @@ export class CommonLoTableComponent implements OnInit {
       let Arr1 = []
 
       $.each(dataSet, function (a, b) {
+
         $.each(b, function (key, value) {
+
           if (key !== 'subject' && key !== 'grade') {
+
             if (typeof (value.percentage) == "number") {
+
               Arr1.push(value.percentage)
             }
-
           }
+
         });
       });
 
@@ -402,6 +429,7 @@ export class CommonLoTableComponent implements OnInit {
 
       const min = Math.min(...Arr1);
       const max = Math.max(...Arr1);
+      let n = max >= 10 ? 10 : max
 
       function generateArrayMinMax(min, max, n) {
         let list = [min],
@@ -414,7 +442,24 @@ export class CommonLoTableComponent implements OnInit {
         return list;
       }
 
-      const rangeArrayIn10Parts = generateArrayMinMax(min, max, 10);
+
+      function generateArrayMinMax1(min, max, n) {
+        let list = [min]
+
+
+        if (max !== min) {
+          let interval = (max - min);
+          for (let i = 1; i < interval; i++) {
+            list.push(min + i);
+          }
+          list.push(max);
+        }
+
+
+        return list;
+      }
+
+      const rangeArrayIn10Parts = n >= 10 ? generateArrayMinMax(min, max, 10) : generateArrayMinMax1(min, max, n);
 
       function tableCellColor(data) {
         let colors = {}
@@ -446,8 +491,31 @@ export class CommonLoTableComponent implements OnInit {
       }
 
       newArr.forEach((columns, i1) => {
+        if (weekSelct === true && dateSelct === false) {
 
-        if (weekSelct === true) {
+          body += "<tr>";
+          columns.forEach((column, i2) => {
+
+            if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
+              let title = `${level} Name: ${columns.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
+              body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
+
+            }
+            else {
+              if (column.data == 'date') {
+                var date = column.value.split("-");
+                body += `<td>${date[0]}</td>`;
+              } else if (column.data == 'grade') {
+                body += `<td>${column.value[column.value.length - 1]}</td>`;
+              } else {
+                body += `<td>${column.value}</td>`;
+              }
+
+            }
+          });
+          body += "</tr>";
+        } else if (weekSelct === true && dateSelct === true) {
+
           body += "<tr>";
           columns.forEach((column, i2) => {
 
@@ -559,13 +627,61 @@ export class CommonLoTableComponent implements OnInit {
     this.showPagination = true;
   }
 
-  selectedYear() {
-    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+  selectedTimeRange() {
+    document.getElementById('spinner').style.display = "block"
+    this.getMetaData()
+
+
+    this.hideYear = this.period === "year and month" ? false : true;
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
 
-    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+    setTimeout(() => {
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+      this.week = this.period === "year and month" ? this.week : "";
+    }, 1000);
 
+    this.grade = "all";
+    this.examDate = "all";
+    this.subject = "all";
+    this.week = "";
+    if (this.hideAccessBtn) {
+      setTimeout(() => {
+        document.getElementById('spinner').style.display = "none"
+        this.levelWiseFilter();
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        document.getElementById('spinner').style.display = "none"
+        this.getView()
+      }, 1000);
+    }
+  }
+
+  selectedYear(event) {
+    this.hideYear = this.period === "year and month" ? false : true;
+    this.hideMonth = this.period === "year and month" ? false : true;
+    this.hideWeek = this.period === "year and month" ? false : true;
+    this.hideDay = this.period === "year and month" ? true : false;
+    if (event) {
+      let i;
+      for (i = 0; i < this.metaData.length; i++) {
+        if (this.metaData[i]["academic_year"] == this.year) {
+          this.months = this.metaData[i].data["months"];
+          this.grades = this.metaData[i].data["grades"];
+          break;
+        }
+      }
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+
+    } else {
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+      this.week = this.period === "year and month" ? this.week : "";
+
+    }
 
     this.grade = "all";
     this.examDate = "all";
@@ -579,16 +695,24 @@ export class CommonLoTableComponent implements OnInit {
     }
   }
 
-  selectedMonth() {
+  selectedMonth(event) {
     this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
-    // this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
+
+    this.hideYear = this.period === "year and month" ? false : true;
     this.hideMonth = this.period === "year and month" ? false : true;
-    // this.hideYear = this.period === "year and month" ? false : true;
+    this.hideDay = true
     this.hideWeek = this.period === "year and month" ? false : true;
-    this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
-    this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
-    this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-    // this.weeks = this.months.find(a => { return a.month == this.month }).weeks;
+    this.week = ""
+    if (event) {
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month })?.weeks : "";
+    } else {
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+    }
+
+
     this.grade = "all";
     this.examDate = "all";
     this.subject = "all";
@@ -603,7 +727,8 @@ export class CommonLoTableComponent implements OnInit {
   }
   public weekSeletced = false
   selectedWeek() {
-    this.weekSeletced = true
+    this.weekSeletced = true;
+    this.dateSelected = false;
     this.hideDay = false;
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     this.date = this.weeks.find(a => { return a.week == this.week }).days;
@@ -621,7 +746,7 @@ export class CommonLoTableComponent implements OnInit {
 
 
   selectedGrade() {
-
+    this.subject = "all"
     this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.grade !== "all") {
       this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
@@ -648,8 +773,9 @@ export class CommonLoTableComponent implements OnInit {
     }
   }
 
+  public dateSelected = false
   selectedExamDate() {
-
+    this.dateSelected = true
     this.grade = "all";
     this.subject = "all";
     this.fileName = `${this.datasourse}_${this.grade}_${this.examDate}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -780,7 +906,7 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   selectedCluster(clusterId) {
-
+    this.weekSeletced = false
     this.resetTable();
     this.level = "school";
     this.fileName = `${this.datasourse}_${this.grade}_${this.level}s_of_cluster_${clusterId}_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
@@ -805,7 +931,7 @@ export class CommonLoTableComponent implements OnInit {
       schoolId: Number(localStorage.getItem('schoolId'))
     };
 
-    this.service1.dynamicClusterData(a).subscribe(
+    this.service1.dynamicSchoolData(a).subscribe(
       (response) => {
 
         this.updatedTable = this.reportData = response["tableData"];
@@ -1186,21 +1312,37 @@ export class CommonLoTableComponent implements OnInit {
   }
 
   getRangeArray = (min, max, n) => {
-    const delta = (max - min) / n;
+    let delta = (max - min) / n;
+
     const ranges = [];
     let range1 = min;
     for (let i = 0; i < n; i += 1) {
       const range2 = range1 + delta;
       this.values.push(
-        `${Number(range1).toLocaleString("en-IN")}-${Number(
+        `${Math.round(Number(range1)).toLocaleString("en-IN")}-${Math.round(Number(
           range2
-        ).toLocaleString("en-IN")}`
+        )).toLocaleString("en-IN")}`
       );
       ranges.push([range1, range2]);
       range1 = range2;
     }
 
     return ranges;
+  }
+
+  generateArrayMinMax2(min, max, n) {
+
+    this.values = [min]
+    if (max !== min) {
+      let interval = (max - min);
+
+      for (let i = 1; i < interval; i++) {
+        this.values.push(min + i);
+      }
+      this.values.push(max);
+    }
+
+    return this.values;
   }
 
   public legendColors: any = [
