@@ -1,0 +1,20 @@
+{
+"normalize":"""select * from flowfile""",
+"staging_1_tb_name":"""kk""",
+"check_if_null":"""kk""",
+"count_null_value":"""aa""",
+"null_to_log_db":"""aa""",
+"delete_null_values_qry":"""ssd""",
+"check_same_records":"""ssd""",
+"save-to-student_attendance_dup":"""sdas""",
+"sum_of_dup":"""select sum(num_of_times) from flowfile""",
+"check_same_id_records":"""aa""",
+"unique_record_same_id":"""AA""",
+"stg_2_to_temp_qry":"""aa""",
+"unique_records_same_records":"""aa""",
+"stg_1_to_stg_2_qry":"""aa""",
+"save_to_dup_table":"""tablename""",
+"schema":"""Optional(parseLong())""",
+"datasource_name":"""name""",
+" save_null_tb_name":"""abc"""
+}

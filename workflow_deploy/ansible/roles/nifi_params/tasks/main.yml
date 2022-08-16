@@ -19,4 +19,6 @@
     - teacher_attendance_parameters
     - data_replay_parameters
     - sat_parameters
+    - transaction_and_aggregation_parameters
+    - validate_datasource_parameters
   tags: [ install, update ]     

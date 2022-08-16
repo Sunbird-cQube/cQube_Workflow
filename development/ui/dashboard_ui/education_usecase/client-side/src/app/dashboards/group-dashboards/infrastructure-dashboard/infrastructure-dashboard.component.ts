@@ -28,7 +28,7 @@ export class InfrastructureDashboardComponent implements OnInit {
   crViews;
   udiseViews;
 
-
+reportType = "map"
   // diksha columns
   diksha_column =
     "diksha_columns" in environment ? environment["diksha_columns"] : true;

@@ -1,0 +1,91 @@
+{
+    "infra_transformer": [
+        "cQube_s3_infra",
+        "postgres_infra",
+        "cQube_azure_infra"
+    ],
+    "cQube_data_storage": [
+        "cQube_s3_static_raw",
+        "postgres_static_raw",
+        "cQube_azure_data_storage"
+    ],
+    "diksha_transformer": [
+        "cQube_s3_diksha",
+        "postgres_diksha",
+        "cQube_azure_diksha"
+    ],
+    "diksha_transformer_custom": [
+        "postgres_diksha"
+    ],
+    "static_data_transformer": [
+        "cQube_s3_static",
+        "postgres_static",
+        "cQube_azure_static"
+    ],
+    "crc_transformer": [
+        "cQube_s3_crc",
+        "postgres_crc",
+        "cQube_azure_crc"
+    ],
+    "student_attendance_transformer": [
+        "cQube_s3_stud_att",
+        "postgres_stud_att",
+        "cQube_azure_stud_att"
+    ],
+    "teacher_attendance_transformer": [
+        "cQube_s3_tch_att",
+        "postgres_tch_att",
+        "cQube_azure_tch_att"
+    ],
+    "sat_transformer": [
+        "cQube_s3_sat",
+        "postgres_sat",
+        "cQube_azure_sat"
+    ],
+    "cqube_telemetry_transformer": [
+        "cQube_s3_cqube_telemetry",
+        "postgres_cqube_telemetry",
+        "cQube_azure_cqube_telemetry"
+    ],
+    "udise_transformer": [
+        "cQube_s3_udise",
+        "postgres_udise",
+        "cQube_azure_udise"
+    ],
+    "composite_transformer": [
+        "cQube_s3_composite",
+        "postgres_composite"
+    ],
+    "pat_transformer": [
+        "cQube_s3_pat",
+        "postgres_pat",
+        "cQube_azure_pat"
+    ],
+    "data_replay_transformer": [
+        "cQube_s3_data_replay",
+        "postgres_data_replay",
+        "cQube_azure_data_replay"
+    ],
+    "progress_card_transformer": [
+        "postgres_progress_card"
+    ],
+    "configurable_datasource": [
+        "cQube_s3_configurable_datasource",
+        "postgres_configurable_datasource",
+        "cQube_azure_configurable_datasource"
+    ],
+    "validate_datasource": [
+        "cQube_s3_validate_datasource",
+        "postgres_validate_datasource",
+        "cQube_azure_validate_datasource"
+    ],
+    
+    "transaction_and_aggregation_template": [
+        "cQube_s3_transaction_and_aggregation_template",
+        "postgres_transaction_and_aggregation_template",
+        "cQube_azure_transaction_and_aggregation_template"
+    ]
+}
+
+
+

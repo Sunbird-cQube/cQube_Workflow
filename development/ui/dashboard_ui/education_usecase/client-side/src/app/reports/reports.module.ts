@@ -8,6 +8,12 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
+import { CommonMapReportComponent } from './common-map-report/common-map-report.component';
+import { CommonBarChartComponent } from './common-bar-chart/common-bar-chart.component';
+import { CommonLoTableComponent } from './common-lo-table/common-lo-table.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { DynamicBarChartComponent } from './dynamic-bar-chart/dynamic-bar-chart.component';
+
 
 const otherRoutes = [
   {
@@ -34,7 +40,19 @@ const otherRoutes = [
         path: 'composite-report', component: CompositReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
       }
     ]
-  }
+  },
+  {
+    path: '', canActivate: [AuthGuard], children: [
+      {
+        path: ':id/map', component: CommonMapReportComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      }]
+  },
+  {
+    path: '', canActivate: [AuthGuard], children: [
+      {
+        path: ':id/lo_table', component: CommonLoTableComponent, canActivateChild: [AuthGuard], data: ['admin', 'report_viewer']
+      }]
+  },
 ]
 
 
@@ -43,11 +61,16 @@ const otherRoutes = [
     CrcReportComponent,
     ChangePasswordComponent,
     TelemetryDataComponent,
-    CompositReportComponent
+    CompositReportComponent,
+    CommonBarChartComponent,
+    CommonMapReportComponent,
+    CommonLoTableComponent,
+    DynamicBarChartComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
+    NgbPaginationModule,
     RouterModule.forChild(otherRoutes),
     AgmCoreModule
   ]

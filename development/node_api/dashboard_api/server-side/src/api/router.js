@@ -369,4 +369,28 @@ router.use('/management-category-meta', management_category_meta);
 const getDefault = require('./lib/management_category_config');
 router.use('/getDefault', getDefault);
 
+
+
+// common api route
+const commonDist = require('./controller/commonRoutes/districtWise')
+router.use('/common', commonDist)
+
+const commonBlock = require('./controller/commonRoutes/blockWise')
+router.use('/common', commonBlock)
+
+
+const commonCluster = require('./controller/commonRoutes/clusterWise')
+router.use('/common', commonCluster)
+
+const commonAllSchool = require('./controller/commonRoutes/schoolWise')
+router.use('/common', commonAllSchool)
+//configurable property data
+const configProperties = require('./controller/configurarableProperty/configProperty');
+router.use('/', configProperties)
+
+const configCardProperties = require('./controller/configurarableProperty/configCardProperty');
+router.use('/', configCardProperties)
+
+const configMetaData = require('./controller/commonRoutes/dropDownMeta')
+router.use('/', configMetaData)
 module.exports = router;

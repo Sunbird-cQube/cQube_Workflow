@@ -26,4 +26,14 @@ export class NifiShedularService {
     this.service.logoutOnTokenExpire();
     return this.http.post(`${this.baseUrl}/nifi/scheduleProcessor/${id}/${name}`, data);
   }
+
+  commonScheduleProcessor() {
+    this.service.logoutOnTokenExpire();
+    return this.http.get(`${this.baseUrl}/commonSchedular`);
+  }
+
+  ScheduleProcessor(name, data) {
+    this.service.logoutOnTokenExpire();
+    return this.http.post(`${this.baseUrl}/scheduleProcessor`, { data });
+  }
 }

@@ -12,7 +12,7 @@ var routes: Routes = [
   {
     path: '', redirectTo: `home`, pathMatch: 'full'
   },
-  { 
+  {
     path: 'signin', component: SigninComponent,
   },
   {
@@ -46,6 +46,9 @@ var routes: Routes = [
       },
       {
         path: '', canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all'], loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
+      },
+      {
+        path: 'dashboard/:id',  canActivateChild: [AuthGuard], data: ['admin', 'report_viewer', 'all'], loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
       }
     ]
   },

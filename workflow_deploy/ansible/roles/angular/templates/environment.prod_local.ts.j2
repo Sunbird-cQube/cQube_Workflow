@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   apiEndpoint: "{{ protocol }}://{{ api_endpoint }}:3000/api",
   appUrl: "{{ protocol }}://{{ api_endpoint }}:4200",
-  adminUrl: "http://{{ local_ipv4_address }}:4201",
+  adminUrl: "http://{{ proxy_host }}:4201",
   keycloakUrl: "{{ protocol }}://{{ api_endpoint }}:8080/auth",
   realm: "{{ realm_name }}",
   clientId: "{{ angular_app_client_id }}",
@@ -15,6 +15,6 @@ export const environment = {
   progressCardConfig: ['{{ slab1 }}', '{{ slab2 }}', '{{ slab3 }}', '{{ slab4 }}'],
   auth_api: "{{ auth_api }}",
   keycloak_adm_user: "{{ keycloak_adm_user }}",
-  adminApiEndPoint: "https://{{ api_endpoint }}:3001/admin_api",
+  adminApiEndPoint: "http://{{ api_endpoint }}:3001/admin_api",
   water_mark: "false"
 };

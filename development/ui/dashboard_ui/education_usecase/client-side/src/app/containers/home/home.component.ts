@@ -8,6 +8,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
 import { LoginService } from '../../services/login.service'
+import { TelemetryService } from 'src/app/services/telemetry.service';
+import { dynamicReportService } from 'src/app/services/dynamic-report.service';
+
 
 @Component({
   selector: 'app-home',
@@ -28,7 +31,7 @@ export class HomeComponent implements OnInit {
   public hideReport: String = environment.mapName
 
   constructor(public http: HttpClient, public service: AppServiceComponent, public keyCloakService: KeycloakSecurityService,
-    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService, public logInservice: LoginService) {
+    private media: MediaMatcher, private changeDetectorRef: ChangeDetectorRef, public router: Router, private themeservice: ThemeService, public logInservice: LoginService, public Test: TelemetryService, public configServic: dynamicReportService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -51,11 +54,12 @@ export class HomeComponent implements OnInit {
   public userType = localStorage.getItem('roleName') === "admin";
   public roleName;
   mobileQuery: MediaQueryList;
-
+  menuList
   // diksha columns
   diksha_column = "diksha_columns" in environment ? environment["diksha_columns"] : true;
 
   ngOnInit() {
+
     this.toggleTheme('defaultTheme');
     this.email = localStorage.getItem('userName');
     this.email = this.email.charAt(0).toUpperCase() + this.email.substr(1).toLowerCase();
@@ -71,6 +75,8 @@ export class HomeComponent implements OnInit {
     } else {
       this.showBackBtn = false;
     }
+    this.fetchConfigProperty()
+
   }
 
   onClickToggleMenu() {
@@ -88,7 +94,6 @@ export class HomeComponent implements OnInit {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
         if (!this.router.url.includes('dashboard') || this.mobileQuery.matches) {
-          
           this.sidebar.close();
         }
       }, 1000);
@@ -105,6 +110,7 @@ export class HomeComponent implements OnInit {
       this.sidebar.close();
     }
   }
+
 
   logout() {
     if (environment.auth_api === 'cqube') {
@@ -130,12 +136,23 @@ export class HomeComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/signin'])
       }
-
-
     }
 
   }
 
+  fetchConfigProperty() {
+    this.configServic.configurableProperty().subscribe(res => {
+      if (res['data']) {
+        document.getElementById('spinner').style.display = "none"
+      }
+      this.menuList = res['data']
+      this.menuList = this.menuList.filter(menu => menu.status === true)
+
+    }, (err) => {
+      this.menuList = []
+      document.getElementById('spinner').style.display = "none"
+    })
+  }
 
   fetchTelemetry(event, report) {
     this.service.getTelemetryData(report, event.type);

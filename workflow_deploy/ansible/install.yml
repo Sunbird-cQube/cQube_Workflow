@@ -69,7 +69,16 @@
             tags: install
             when: progresscard
 
-          - role: dummy_connections  
+          - role: validate
+            tags: install
+
+          - role: configurable
+            tags: install
+
+          - role: transaction_and_aggregation
+            tags: install
+
+          - role: dummy_connections 
             tags: install
 
           - { role: nifi_scheduler, tags: install }

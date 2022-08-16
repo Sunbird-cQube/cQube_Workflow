@@ -180,9 +180,9 @@ export class SatReportComponent implements OnInit {
       this.managementName.replace(/_/g, " ")
     );
 
-   
+
     if (params && params.level) {
-      
+
       this.changeDetection.detectChanges();
       if (params.timePeriod == "overall") {
         params.timePeriod = "overall";
@@ -248,7 +248,6 @@ export class SatReportComponent implements OnInit {
         this.commonService.loaderAndErr([]);
       });
     } else {
-      
       this.service.getYears().subscribe(res => {
         try {
           res['data'].map(a => {
@@ -262,7 +261,7 @@ export class SatReportComponent implements OnInit {
       }, err => {
         this.commonService.loaderAndErr([]);
       });
-    
+
     }
     this.hideAccessBtn = (environment.auth_api === 'cqube' || this.userAccessLevel === "" || undefined) ? true : false;
     this.distHide = (environment.auth_api === 'cqube' || this.userAccessLevel === '' || undefined) ? false : true;
@@ -285,20 +284,20 @@ export class SatReportComponent implements OnInit {
       if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
         this.levelWiseFilter();
 
-      }else{
-       this.getView()
-      } 
-       this.changeDetection.detectChanges();
+      } else {
+        this.getView()
+      }
+      this.changeDetection.detectChanges();
     }
   }
 
   semSelect() {
     if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       this.levelWiseFilter();
-    }else{
+    } else {
       this.getView()
     }
-    
+
     this.changeDetection.detectChanges();
   }
 
@@ -388,9 +387,13 @@ export class SatReportComponent implements OnInit {
       }_all${this.level}_${this.commonService.dateAndTime}`;
     this.grade = data;
     this.subjectHidden = false;
-  
+    if (environment.auth_api === 'cqube' || this.userAccessLevel === "") {
       this.levelWiseFilter();
-  
+    } else {
+      this.getView()
+    }
+
+
   }
   onSubjectSelect(data) {
     if (this.semester == "") {
@@ -445,7 +448,7 @@ export class SatReportComponent implements OnInit {
     let districtid = localStorage.getItem("districtId");
     let schoolid = localStorage.getItem("schoolId");
     this.schoolLevel = level === "School" ? true : false
-    
+
     if (districtid) {
       this.districtId = districtid;
     }
@@ -2503,6 +2506,10 @@ export class SatReportComponent implements OnInit {
             districtName: this.data[0].Details.district_name,
           };
 
+          this.schoolCount = res['footer']?.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentCount = res['footer']?.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentAttended = res['footer']?.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+        
           // to show and hide the dropdowns
           this.blockHidden = false;
           this.clusterHidden = true;
@@ -2545,10 +2552,7 @@ export class SatReportComponent implements OnInit {
                 ? -1
                 : 0
           );
-
-          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+        
         },
         (err) => {
           this.errorHandling();
@@ -2648,7 +2652,7 @@ export class SatReportComponent implements OnInit {
 
           // to show and hide the dropdowns
           this.blockHidden = this.selBlock ? true : false;
-          this.clusterHidden =  false;
+          this.clusterHidden = false;
 
           this.districtId = this.data[0].Details.district_id;
           this.blockId = blockId;
@@ -2658,7 +2662,11 @@ export class SatReportComponent implements OnInit {
           this.dist = false;
           this.blok = true;
           this.clust = false;
+         // footer 
 
+          this.schoolCount = res['footer']?.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentCount = res['footer']?.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+          this.studentAttended = res['footer']?.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
           // options to set for markers in the map
           let options = {
             fillOpacity: 1,
@@ -2689,9 +2697,7 @@ export class SatReportComponent implements OnInit {
                 ? -1
                 : 0
           );
-          this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-          this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+        
         },
         (err) => {
           this.errorHandling();
@@ -2718,7 +2724,6 @@ export class SatReportComponent implements OnInit {
   public hideAllBlockBtn: boolean = false;
   public hideAllCLusterBtn: boolean = false
   public hideAllSchoolBtn: boolean = false;
-  
   onClusterSelect(clusterId) {
 
     this.hideAllBlockBtn = true;
@@ -2776,24 +2781,23 @@ export class SatReportComponent implements OnInit {
                   document.getElementById('errMsg').style.display = "block"
                   return;
                 }
+
                 if (this.schoolLevel) {
                   let schoolData = res['data']
                   let data = schoolData.filter(data => data.Details.school_id === Number(localStorage.getItem('schoolId')))
-                 
-                 if(data.length === 0){
-                   document.getElementById('loader').style.display = "none"
-                   document.getElementById('errMsg').style.display = "block"
-                   document.getElementById('errMsg').style.display = "block"
 
-                   return
-                 }else{
-                   this.markers = this.data = data
-                 }
-                 
+                  if (data.length === 0) {
+                    document.getElementById('loader').style.display = "none"
+                    document.getElementById('errMsg').style.display = "block"
+                    return
+                  } else {
+                    this.markers = this.data = data
+                  }
+
                 } else {
                   this.markers = this.data = res["data"];
                 }
-              
+
                 if (this.grade) {
                   this.allSubjects = this.allGrades.find(a => { return a.grade == this.grade }).subjects;
                 }
@@ -2832,7 +2836,7 @@ export class SatReportComponent implements OnInit {
                       ? -1
                       : 0
                 );
-                 
+
                 // set hierarchy values
                 this.clusterHierarchy = {
                   distId: this.data[0]?.Details.district_id,
@@ -2843,17 +2847,23 @@ export class SatReportComponent implements OnInit {
                   clusterName: this.data[0]?.Details.cluster_name,
                 };
 
-                this.blockHidden =  this.selBlock ? true : false;
+                this.blockHidden = this.selBlock ? true : false;
                 this.clusterHidden = this.selCluster ? true : false;
 
                 this.districtHierarchy = {
                   distId: this.data[0]?.Details.district_id,
                 };
-                
+
 
                 this.districtId = this.data[0]?.Details.district_id;
                 this.blockId = this.data[0]?.Details.block_id;
                 this.clusterId = clusterId;
+
+               //footer
+             
+                this.schoolCount = res['footer']?.total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+                this.studentCount = res['footer']?.total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+                this.studentAttended = res['footer']?.students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
 
                 // these are for showing the hierarchy names based on selection
                 this.skul = false;
@@ -2888,9 +2898,7 @@ export class SatReportComponent implements OnInit {
                 this.genericFun(this.data, options, this.fileName);
                 this.globalService.onResize(this.level);
 
-                this.schoolCount = res['footer'] && res['footer'].total_schools != null ? res['footer'].total_schools.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                this.studentCount = res['footer'] && res['footer'].total_students != null ? res['footer'].total_students.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
-                this.studentAttended = res['footer'] && res['footer'].students_attended != null ? res['footer'].students_attended.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") : null;
+             
               },
               (err) => {
                 this.errorHandling();
@@ -3300,16 +3308,20 @@ export class SatReportComponent implements OnInit {
         "<br>" +
         yourData;
       if (this.mapName != 'googlemap') {
-     
-        markerIcon.addTo(globalMap).bindTooltip(toolTip, {
-          direction: 'auto',
-          permanent: false,
+
+        const popup = R.responsivePopup({
           hasTip: false,
-          className: 'tooltip1',
           autoPan: false,
-          offset: [15, 10],
-          opacity: 1,
-        })
+          offset: [15, 20],
+        }).setContent(
+          "<b><u>Details</u></b>" +
+          "<br>" +
+          yourData1 +
+          "<br><br><b><u>Semester Exam Score (%)</u></b>" +
+          "<br>" +
+          yourData
+        );
+        markerIcon.addTo(globalMap).bindPopup(popup);
       } else {
         markers['label'] = toolTip;
       }

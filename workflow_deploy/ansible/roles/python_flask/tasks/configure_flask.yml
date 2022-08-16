@@ -111,7 +111,23 @@
     owner: "{{ system_user_name }}"
     group: "{{ system_user_name }}"
   tags: [ install, update ]
-  
+
+- name: Copy validate_datasource_parameters.txt files
+  copy:
+    src: "../../development/datasource/validate_datasource/nifi/validate_datasource_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+  tags: [ install, update ]
+
+- name: Copy transaction_and_aggregation.txt files
+  copy:
+    src: "../../development/datasource/transaction_and_aggregation/nifi/transaction_and_aggregation_parameters.txt"
+    dest: "{{ base_dir }}/cqube/emission_app/python/"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+  tags: [ install, update ]   
+
 - name: Delete env.py
   file:
     path: "{{ base_dir }}/cqube/emission_app/python/env.py"

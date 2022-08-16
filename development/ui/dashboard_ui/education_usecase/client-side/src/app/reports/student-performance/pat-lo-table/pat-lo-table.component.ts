@@ -277,10 +277,10 @@ export class PATLOTableComponent implements OnInit {
 
   columns = [];
   createTable(dataSet) {
- 
+
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
-    
+
     $(document).ready(function () {
       var headers = "<thead><tr>";
       var body = "<tbody>";
@@ -294,8 +294,8 @@ export class PATLOTableComponent implements OnInit {
           col = col.slice(0, 10) + "..."
         }
         if (i > 3) {
-          headers += `<th class="rank text-wrap"><div style="transform: rotate(270deg);">${col}</div></th>`;
-        }else {
+          headers += `<th class="rank text-wrap" style ="text-align: center" ><div style="transform: rotate(270deg); vertical-align: middle; text-align: center;">${col}</div></th>`;
+        } else {
           if (col == 'Indicator') {
             headers += `<th class="indicator">${col}</th>`;
           } else {
@@ -316,6 +316,7 @@ export class PATLOTableComponent implements OnInit {
         });
         newArr.push(temp);
       });
+
 
       function tableCellColor(data) {
         var colors = {
@@ -484,12 +485,12 @@ export class PATLOTableComponent implements OnInit {
         this.gradeSelected = true;
       } else {
         this.grade = "all";
-        
-          this.resetToInitPage();   
+
+        this.resetToInitPage();
       }
-      
-        this.levelWiseFilter();
-      
+
+      this.levelWiseFilter();
+
 
     }
   }
@@ -679,7 +680,7 @@ export class PATLOTableComponent implements OnInit {
     this.commonService.errMsg();
     let a = {
       year: this.year,
-       month: this.month,
+      month: this.month,
       grade: this.grade == "all" ? "" : this.grade,
       subject_name: this.subject == "all" ? "" : this.subject,
       exam_date: this.examDate == "all" ? "" : this.examDate,
@@ -716,7 +717,7 @@ export class PATLOTableComponent implements OnInit {
         this.blockHidden = this.selBlock ? true : false;
         this.clusterHidden = this.selCluster ? true : false;
       },
-      (err) => {        
+      (err) => {
         this.handleError();
       }
     );
@@ -758,6 +759,8 @@ export class PATLOTableComponent implements OnInit {
   schoolLevel = false
   hideFooter = false
   getView() {
+
+    document.getElementById("initTable").style.display = "block";
     let id = localStorage.getItem("userLocation");
     let level = localStorage.getItem("userLevel");
     let clusterid = localStorage.getItem("clusterId");
@@ -851,7 +854,7 @@ export class PATLOTableComponent implements OnInit {
                 : 0
           );
           this.selectedCluster(clusterid);
-        },(err)=>{
+        }, (err) => {
           this.handleError()
         })
 
@@ -885,6 +888,8 @@ export class PATLOTableComponent implements OnInit {
             a.block_name > b.block_name ? 1 : b.block_name > a.block_name ? -1 : 0
           );
           this.selectedBlock(blockid);
+        }, (err) => {
+          this.handleError()
         })
       this.selCluster = false;
       this.selBlock = true;
@@ -922,9 +927,9 @@ export class PATLOTableComponent implements OnInit {
           );
           this.selectedDistrict(districtid);
 
-        },
-
-      );
+        }, (err) => {
+          this.handleError()
+        });
 
       this.selCluster = false;
       this.selBlock = false;

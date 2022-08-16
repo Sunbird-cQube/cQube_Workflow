@@ -20,6 +20,11 @@ router.use('/', getMonthAndYear);
 const saveDataToS3 = require('./controller/data-replay/saveData');
 router.use('/savetoS3', saveDataToS3);
 
+// list new data source
+const listDataSource = require('./controller/configurable-data/list_datasource')
+router.use('/listDataSource', listDataSource);
+const buildAngular = require('./controller/configurable-data/list_datasource')
+router.use('/', buildAngular);
 
 
 // send user info
@@ -43,5 +48,16 @@ router.use('/dikshaTPD_ETB_data_input', dikshaTPD_ETB_data_input);
 
 const dikshaConfig = require('./controller/data-replay/dikshaConfig');
 router.use('/dikshaConfig', dikshaConfig);
+
+
+//common schedular route
+const commonSchedular = require('./controller/niFiScheduler/newDataSource')
+router.use("/", commonSchedular)
+
+const commonScheduleProcesson = require('./controller/niFiScheduler/newDataSource')
+router.use("/", commonScheduleProcesson)
+
+const ScheduleProcesson = require('./controller/niFiScheduler/newDataSource')
+router.use("/", ScheduleProcesson)
 
 module.exports = router;

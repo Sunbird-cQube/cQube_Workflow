@@ -101,8 +101,14 @@ export class MapService {
         if (level === "School") {
           markerIcon.setRadius(this.getMarkerRadius(3, 2.5, 2, 1));
         }
+        if (level === "commonSchool") {
+          markerIcon.setRadius(this.getMarkerRadius(10, 9, 6, 3));
+        }
         if (level === "blockPerDistrict" || level === "clusterPerBlock" || level === "schoolPerCluster") {
           markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 5));
+        }
+        if (level === "longSchoolPerCluster") {
+          markerIcon.setRadius(this.getMarkerRadius(18, 14, 10, 4));
         }
         if (level === "allCluster") {
           markerIcon.setRadius(this.getMarkerRadius(14, 11, 6, 3));
@@ -118,7 +124,7 @@ export class MapService {
 
   setZoomLevel(level) {
     var zoomLevel;
-    if (level === "District" || level === "Block" || level === "Cluster" || level === "School") {
+    if (level === "District" || level === "Block" || level === "Cluster" || level === "School" || level === "commonSchool") {
       zoomLevel = this.zoomLevel
     }
     if (level === "blockPerDistrict") {
@@ -129,6 +135,9 @@ export class MapService {
     }
     if (level === "schoolPerCluster") {
       zoomLevel = this.zoomLevel + 5;
+    }
+    if (level === "longSchoolPerCluster") {
+      zoomLevel = this.zoomLevel + 1;
     }
     if (level === "allCluster") {
       zoomLevel = this.zoomLevel + 2.3;

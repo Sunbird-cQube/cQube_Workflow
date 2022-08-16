@@ -377,5 +377,37 @@ router.post('/subjectDetails', auth.authController, async (req, res) => {
         res.status(500).json({ errMsg: "Internal error. Please try again!!" });
     }
 });
+router.post('/schoolDetails', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha subject details summary api ---');
+        var fileName = 'log_summary/static/log_summary_school.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha subject details summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
+router.post('/textBookDetails', auth.authController, async (req, res) => {
+    try {
+        logger.info('---diksha subject details summary api ---');
+        var fileName = 'log_summary/log_summary_textbook_distribution.json';
+        let summaryData = await s3File.readFileConfig(fileName);
+        logger.info('--- diksha subject details summary api response sent---');
+        if (summaryData == null || summaryData == '') {
+            res.send([]);
+        } else {
+            res.send(summaryData)
+        }
+    } catch (e) {
+        logger.error(`Error :: ${e}`);
+        res.status(500).json({ errMsg: "Internal error. Please try again!!" });
+    }
+});
 
 module.exports = router

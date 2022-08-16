@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { KeycloakSecurityService } from '../../../keycloak-security.service';
 import { environment } from 'src/environments/environment';
-import { HomeComponent } from "../../../home/home.component"
+import { HomeComponent } from "../../../home/home.component";
+import { CookieService } from 'ngx-cookie-service';
 
 declare const $;
 
@@ -24,15 +25,21 @@ export class ChangePasswordComponent implements OnInit {
 
   roleIds: any = [];
 
-  constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService) {
+  constructor(public service: UsersService, public router: Router, public keycloakService: KeycloakSecurityService, cookieService: CookieService) {
     this.changePasswdData['userName'] = localStorage.getItem('userName');
-    
+
   }
 
   ngOnInit() {
     document.getElementById('backBtn').style.display = "none";
     document.getElementById('homeBtn').style.display = "Block";
 
+  }
+  logout() {
+
+    localStorage.clear();
+
+    window.location.href = `${environment.appUrl}/#/signin`;
   }
 
   onSubmit(formData: NgForm) {
@@ -51,11 +58,12 @@ export class ChangePasswordComponent implements OnInit {
           document.getElementById('spinner').style.display = 'none';
           this.isDisabled = true;
           formData.resetForm();
-          if(environment.auth_api === 'state'){
-            localStorage.clear();
-            
-            window.location.href = `${environment.appUrl}/#/signin`;
-          }
+          setTimeout(() => {
+            if (environment.auth_api === 'state') {
+              this.logout()
+            }
+          }, 2000)
+
           setTimeout(() => {
             localStorage.clear();
             let options = {
@@ -68,6 +76,7 @@ export class ChangePasswordComponent implements OnInit {
           document.getElementById('spinner').style.display = 'none';
         })
       }
+
     } else {
       this.err = "Invalid User";
       document.getElementById('spinner').style.display = 'none';

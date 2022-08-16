@@ -26,10 +26,6 @@
     dest: "{{base_dir}}/cqube/dashboard/server_side"
   tags: [ install, update ] 
 
-  #- name: copying server-side script
-  #shell: "cp -R ../../development/node_api/dashboard_api/server-side/* {{base_dir}}/cqube/dashboard/server_side"
-  #tags: [ install, update ]
-
 - name: NodeJS dependencies install
   npm:
     path: "{{base_dir}}/cqube/dashboard/server_side"
@@ -70,10 +66,10 @@
       AZURE_EMISSION_STORAGE = "{{ azure_emission_container }}"
       AUTH_API = "{{ auth_api }}"
       DB_USER = "{{ db_user }}"
+      SYSTEM_USERNAME = "{{ system_user_name }}"
       DB_PASSWORD = "{{ db_password }}"
       DB_NAME = "{{ db_name }}"
       DB_PORT = "5432"
-
   when: mode_of_installation != "localhost"
   tags: [ install, update ]
 
@@ -101,6 +97,7 @@
       EMISSION_DIRECTORY= "{{ emission_directory }}"
       AUTH_API = "{{ auth_api }}"
       DB_USER = "{{ db_user }}"
+      SYSTEM_USERNAME = "{{ system_user_name }}"
       DB_PASSWORD = "{{ db_password }}"
       DB_NAME = "{{ db_name }}"
       DB_PORT = "5432"

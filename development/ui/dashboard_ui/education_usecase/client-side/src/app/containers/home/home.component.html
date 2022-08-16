@@ -25,6 +25,7 @@
           <div class="sideBarHeight">
             <div style="max-height:100%;overflow:auto;">
               <div class="sideScrollHeight">
+
                 <mat-list-item (click)="closeSidebar()" [routerLink]="['/dashboard/infrastructure-dashboard']"
                   (click)="setCurrentDashboardGroup('/dashboard/infrastructure-dashboard')" class="single-line">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
@@ -113,6 +114,23 @@
                     <span id="telemetry" class="groups">Telemetry</span>
                   </div>
                 </mat-list-item>
+
+                <!--Dynamic side menu Start-->
+                <ng-container *ngFor="let menu of menuList; index as i;">
+                  <ng-container [ngTemplateOutlet]="parentMenu" [ngTemplateOutletContext]="{menu:menu}">
+                  </ng-container>
+                </ng-container>
+                <ng-template #parentMenu let-menu="menu">
+                  <mat-list-item (click)="closeSidebar();" [routerLink]="['/dashboard',menu.routerLink]"
+                    class="single-line">
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="single-menu">
+                      <img class="cubeImg" src="assets/images/menu-icon.svg" alt="">
+                      <span id="exceptList" class="groups">{{menu.report_name}}</span>
+                    </div>
+                  </mat-list-item>
+                </ng-template>
+                <!--Dynamic side menu Ends-->
+
                 <mat-list-item class="user-logout">
                   <div fxLayout="row" fxLayoutAlign="space-between center" class="">
 
@@ -139,8 +157,8 @@
                       </div>
 
                       <div class="row versions">
-                        <span class="col-sm-6" style="opacity:0.5">Version : 3.6</span>
-                        <span class="col-sm-6" style="opacity:0.5">Date : 08/06/2022</span>
+                        <span class="col-sm-6" style="opacity:0.5">Version : 3.7</span>
+                        <span class="col-sm-6" style="opacity:0.5">Date : 20/07/2022</span>
                       </div>
                     </div>
                   </div>
@@ -167,4 +185,8 @@
       </mat-sidenav-content>
     </mat-sidenav-container>
   </div>
+</div>
+
+<div id="spinner" style="display: none;">
+  <div id="loader" class="loading">Loading&#8230;</div>
 </div>
