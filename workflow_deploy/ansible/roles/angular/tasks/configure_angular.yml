@@ -1,7 +1,8 @@
 ---
 - name: Stopping the client_side app
   become: yes
-  shell: pm2 stop client_side
+  become_user: "{{ system_user_name }}"
+  shell: sudo pm2 stop client_side
   tags: update
 
 - name: Delete client_side directory
