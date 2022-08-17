@@ -24,12 +24,28 @@ router.post('/meta', auth.authController, async (req, res) => {
 router.post('/timePeriod', auth.authController, async (req, res) => {
     let { dataSource } = req.body
     try {
-        logger.info('--- Meta file ---');
+        logger.info('--- Meta timeperiod file ---');
     
         let filename = `${dataSource}/time_period_meta.json`
         let data = await s3File.readFileConfig(filename);
 
         logger.info('--- Meta file  api response sent ---');
+        res.status(200).send(data);
+    } catch (e) {
+        logger.error(e);
+        res.status(500).json({ errMessage: "Internal error. Please try again!!" });
+    }
+})
+
+router.post('/metricname', auth.authController, async (req, res) => {
+    let { dataSource } = req.body
+    try {
+        logger.info('--- Meta metric name file ---');
+
+        let filename = `${dataSource}/meta_tooltip.json`
+        let data = await s3File.readFileConfig(filename);
+
+        logger.info('--- Meta metric name  api response sent ---');
         res.status(200).send(data);
     } catch (e) {
         logger.error(e);

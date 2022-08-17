@@ -96,30 +96,6 @@ if [[ $base_dir_status == 1 ]]; then
 fi
 }
 
-check_version(){
-if [[ ! "$base_dir" = /* ]] || [[ ! -d $base_dir ]]; then
-    echo "Error - Please enter the absolute path or make sure the directory is present.";
-    exit 1
-else
-   if [[ -e "$base_dir/cqube/.cqube_config" ]]; then   
-        installed_ver=$(cat $base_dir/cqube/.cqube_config | grep CQUBE_WORKFLOW_VERSION )
-        installed_version=$(cut -d "=" -f2 <<< "$installed_ver") 
-	if [[ ! $installed_version == "" ]]; then	
-            echo "Currently cQube $installed_version version is installed in this machine. Follow Upgradtion process if you want to upgrade."
-            echo "If you re-run the installation, all data will be lost"
-	    while true; do
-                read -p "Do you still want to re-run the installation (yes/no)? " yn
-                case $yn in
-                    yes) break;;
-                    no) exit;;
-                    * ) echo "Please answer yes or no.";;
-                esac
-            done
-    	fi   
-   fi
-fi
-}
-
 check_kc_config_otp(){
 if ! [[ $2 == "true" || $2 == "false" ]]; then
     echo "Error - Please enter either true or false for $1"; fail=1
@@ -157,26 +133,6 @@ else
 fi
 }
 
-check_postgres(){
-echo "Checking for Postgres ..."
-temp=$(psql -V > /dev/null 2>&1; echo $?)
-
-if [ $temp == 0 ]; then
-    version=`psql -V | head -n1 | cut -d" " -f3`
-    if [[ $(echo "$version >= 10.12" | bc) == 1 ]]
-    then
-        echo "WARNING: Postgres found."
-        echo "Removing Postgres..."
-        sudo systemctl stop kong.service > /dev/null 2>&1
-        sleep 5
-        sudo systemctl stop keycloak.service > /dev/null 2>&1
-        sleep 5
-        sudo systemctl stop postgresql
-        sudo apt-get --purge remove postgresql* -y
-        echo "Done"
-     fi
-fi
-}
 
 check_theme(){
 if ! [[ $2 == "theme1" || $2 == "theme2" || $2 == "theme3" ]]; then
@@ -243,11 +199,33 @@ else
 fi
 }
 
-check_host_ip(){
-if [[ ! $2 == "127.0.0.1" ]]; then
-        echo "Error - Please provide installation host ip as 127.0.0.1 for localhost installation"; fail=1
+check_host_ip()
+{
+    local ip=$2
+    ip_stat=1
+    ip_pass=0
+    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        OIFS=$IFS
+        IFS='.'
+        ip=($ip)
+        IFS=$OIFS
+        [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
+            && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+        ip_stat=$?
+        if [[ ! $ip_stat == 0 ]]; then
+            echo "Error - Invalid value for $key"; fail=1
+            ip_pass=0
+        fi
+    else
+        echo "Error - Invalid value for $key"; fail=1
     fi
+pub_ip=$(awk '{print $1}' hosts)
+
+ if [[ ! $2 == $pub_ip ]]; then
+     echo "Error - Invalid value for $key"; fail=1
+ fi
 }
+
 
 get_config_values(){
 key=$1
@@ -280,9 +258,7 @@ slab1=$(awk ''/^slab1:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab2=$(awk ''/^slab2:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab3=$(awk ''/^slab3:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 slab4=$(awk ''/^slab4:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
-
-#check_mem
-check_version 
+installation_host_ip=$(awk ''/^installation_host_ip:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 # Iterate the array and retrieve values for mandatory fields from config file
 for i 
@@ -390,10 +366,10 @@ case $key in
    installation_host_ip)
        if [[ $value == "" ]]; then
           echo "Error - in $key. Unable to get the value. Please check."; fail=1
-       else
+	   else
           check_host_ip $key $value
-       fi
-       ;;	   
+	   fi
+	   ;;
 	   
    *)
        if [[ $value == "" ]]; then
@@ -409,4 +385,3 @@ if [[ $fail -eq 1 ]]; then
 else
    echo -e "\e[0;32m${bold}Config file successfully validated${normal}"
 fi
-

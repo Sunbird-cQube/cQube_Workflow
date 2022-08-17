@@ -47,12 +47,16 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    sessionStorage.clear();
+    document.getElementById("accessProgressCard").style.display = "none";
+    document.getElementById("backBtn") ? document.getElementById("backBtn").style.display = "block" : "";
+
     this.dataSource = this.sourceService.dataSources;
 
   }
 
   ngOnDestroy() {
-    // this.sub.unsubscribe();
+   
   }
 
   navigate(data) {
@@ -66,13 +70,9 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
       this.cardList = res['data']
 
       this.cardList = this.cardList.filter(card => card.report_name.toLowerCase() == this.currentRoute[2].toLowerCase())
-
       this.cardList = this.cardList.filter(card => this.hideReport === "none" ? card.report_type !== 'map' : card);
 
-
     })
-
-
   }
 
 }

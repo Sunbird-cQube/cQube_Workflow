@@ -84,20 +84,20 @@
                             {{periods.value}}
                         </option>
                     </select>
-                    <select *ngIf="!hideYear" [(ngModel)]="year" id="choose_infra">
-                        <option [value]="year" disabled selected="selected">
-                            {{this.year}}
-                        </option>
-                        <option [value]="period" *ngFor="let year of years; let i =index" [(ngValue)]="year.year">
+                    <select *ngIf="!hideYear" [(ngModel)]="year" id="choose_infra" (change)="selectedYear($event)">
+
+                        <option [value]="period" *ngFor="let year of years; let i =index" [ngValue]="year">
                             {{year}}
                         </option>
 
                     </select>
+
+
                     <select id="month" required class="select-control" *ngIf="!hideMonth" [(ngModel)]="month"
-                        (change)="selectedMonth()">
-                        <option [value]="month" disabled selected="selected">{{month}}</option>
-                        <option *ngFor="let month of months; let i =index" [(ngValue)]="month.months">
-                            {{month.months}}
+                        (change)="selectedMonth($event)">
+                        <option [value]="month" disabled selected="selected">choose month</option>
+                        <option *ngFor="let monthly of months; let i =index" [(ngValue)]="monthly.months">
+                            {{monthly.months}}
                         </option>
                     </select>
                     <select id="month" required class="select-control" *ngIf="!hideWeek" [(ngModel)]="week"
@@ -166,7 +166,7 @@
                             Choose a Block
                         </option>
                         <option *ngFor="let block of blockDropDown" [(ngValue)]="block.block_id">
-                            {{ block.block_name }}
+                            {{ block.block_name | titlecase }}
                         </option>
 
                     </select>
@@ -180,7 +180,7 @@
                                         color:
                                           cluster.clusterName !== 'NO NAME FOUND' ? 'white' : '#ff3333'
                                       }">
-                            {{ cluster.cluster_name }}
+                            {{ cluster.cluster_name | titlecase}}
                         </option>
 
                     </select>
@@ -224,10 +224,10 @@
                 </agm-map>
             </div>
             <!--Marker legends ======================-->
-            <div style="float: right; width: 9%; margin-left: 1%; margin-top: 1%">
+            <div *ngIf="selected == 'absolute'" style="float: right; width: 9%; margin-left: 1%; margin-top: 1%">
                 <h5 id="legend" style="margin-left: 15%">
                     Legend
-                    <img *ngIf="valueRange && valueRange != '0-100'" id="resetImg"
+                    <img *ngIf="valueRange != -1 && valueRange !== undefined" id="resetImg"
                         src="../../../../assets/images/reset.png" alt="reset" title="Reset to all" style="
               cursor: pointer;
               height: 20px;
@@ -252,7 +252,7 @@
     </div>
     <div class="row" id="footer">
 
-   
+
         <div class="col-sm-4" *ngIf="!valueRange || valueRange == '0-100'">
             <span id="schools" class="note" style="text-align: center">Number of Schools: {{schoolCount}} </span>
         </div>

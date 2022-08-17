@@ -63,18 +63,25 @@
             <div class="row">
                 <div class="col-md-12 " style="margin-bottom: 10px;">
 
-                    <select id="period" [(ngModel)]="period" (change)="  selectedYear()">
+                    <select id="period" [(ngModel)]="period" (change)=" selectedTimeRange()">
                         <option [value]="period" disabled selected="selected">Choose TimeRange</option>
                         <option *ngFor="let periods of timeRange,  let i =index" style="width: 100px;"
                             [(ngValue)]="periods.value">
                             {{periods.value}}
                         </option>
                     </select>
+                    <select *ngIf="!hideYear" [(ngModel)]="year" id="choose_infra" (change)="selectedYear($event)">
+
+                        <option [value]="period" *ngFor="let year of years; let i =index" [ngValue]="year">
+                            {{year}}
+                        </option>
+
+                    </select>
                     <select id="month" required class="select-control" *ngIf="!hideMonth" [(ngModel)]="month"
-                        (change)="selectedMonth()">
-                        <option [value]="month" disabled selected="selected">{{month}}</option>
-                        <option *ngFor="let month of months; let i =index" [(ngValue)]="month.month">
-                            {{month.month}}
+                        (change)="selectedMonth($event)">
+                        <option [value]="month" disabled selected="selected">choose month</option>
+                        <option *ngFor="let month of months; let i =index" [(ngValue)]="month.months">
+                            {{month.months}}
                         </option>
                     </select>
 
@@ -153,7 +160,7 @@
         </div>
     </div>
     <div class="row" *ngIf="reportData.length > 0 && columns.length>0" style="padding-top: 2vh !important">
-        <div class="col-sm-9">
+        <div class="col-sm-10">
             <h5 id="legend" style="float: left;">Legend:&nbsp; &nbsp; </h5>
             <div *ngFor="let value of values; let i = index" style="float: left;">
                 <span class="legends" style="padding: 8px 15px 10px 15px;"
@@ -162,7 +169,7 @@
                     {{values[i]}} </span>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div style="position: relative; bottom: 0px; float: right; margin: 0px auto;">
                 <ngb-pagination *ngIf="showPagination" [collectionSize]="reportData.length" [maxSize]="10"
                     [(page)]="currentPage" [pageSize]="pageSize" (pageChange)="onChangePage()"></ngb-pagination>

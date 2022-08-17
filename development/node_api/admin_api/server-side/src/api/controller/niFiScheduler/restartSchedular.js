@@ -11,24 +11,47 @@ exports.restartNifiProcess = async function () {
         var schedularData = []
         if (fs.existsSync(filePath)) {
             await changePermission();
-            schedularData = JSON.parse(fs.readFileSync(filePath));
+             schedularData = JSON.parse(fs.readFileSync(filePath));
+            
+            schedularData = schedularData.filter(schedular => schedular.groupName !== 'transaction_and_aggregation')
+            schedularData = schedularData.filter(schedular => schedular.groupName !== 'validate_datasource')
+
             schedularData.forEach(async (myJob, index) => {
-                if (myJob.day && myJob.day != "*") {
-                    schedulerTime = `${myJob.mins} ${myJob.hours} * * ${myJob.day}`;
-                } else if (myJob.date && myJob.date != "*") {
-                    schedulerTime = `${myJob.mins} ${myJob.hours} ${myJob.date} * *`;
-                } else if (myJob.date && myJob.date != "*" && myJob.month && myJob.month != "*") {
-                    schedulerTime = `${myJob.mins} ${myJob.hours} ${myJob.date} ${myJob.month} *`;
+
+                if (myJob.groupId !== '') {
+
+                    if (myJob.day && myJob.day != "*") {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} * * ${myJob.day}`;
+                    } else if (myJob.date && myJob.date != "*") {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} ${myJob.date} * *`;
+                    } else if (myJob.date && myJob.date != "*" && myJob.month && myJob.month != "*") {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} ${myJob.date} ${myJob.month} *`;
+                    } else {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} * * *`;
+                    }
+
+                    logger.info('Rescheduling jobs due to nodejs restart');
+                    if (myJob.state == "RUNNING") {
+                        await stoppingJob(myJob, schedularData);
+                    }
+                    await rescheduleJob(myJob, schedulerTime, schedularData);
+                    await stoppingJob(myJob, schedularData);
                 } else {
-                    schedulerTime = `${myJob.mins} ${myJob.hours} * * *`;
+
+                    if (myJob.day && myJob.day != "*") {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} * * ${myJob.day}`;
+                    } else if (myJob.date && myJob.date != "*") {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} ${myJob.date} * *`;
+                    } else if (myJob.date && myJob.date != "*" && myJob.month && myJob.month != "*") {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} ${myJob.date} ${myJob.month} *`;
+                    } else {
+                        schedulerTime = `${myJob.mins} ${myJob.hours} * * *`;
+                    }
+
+                    logger.info('Rescheduling common jobs due to nodejs restart');
+                    await commonSchedular(myJob, schedulerTime, schedularData)
                 }
 
-                logger.info('Rescheduling jobs due to nodejs restart');
-                if (myJob.state == "RUNNING") {
-                    await stoppingJob(myJob, schedularData);
-                }
-                await rescheduleJob(myJob, schedulerTime, schedularData);
-                await stoppingJob(myJob, schedularData);
             });
         }
     } catch (e) {
@@ -39,6 +62,7 @@ exports.restartNifiProcess = async function () {
 const rescheduleJob = (myJob, schedulerTime, schedularData) => {
     return new Promise(async (resolve, reject) => {
         try {
+
             await schedule.scheduleJob(myJob.groupName + '_start', schedulerTime, async function () {
                 var processorsList = await axios.get(`${process.env.NIFI_URL}/process-groups/root/process-groups`);
                 let groupId1;
@@ -131,6 +155,41 @@ const stoppingJob = (myJob, schedularData) => {
             reject(e);
         }
     })
+}
+
+const commonSchedular = (myJob, schedulerTime, schedularData) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+         
+            let schedularData1 = schedularData
+            schedularData1 = schedularData1.filter(schedular => schedular.groupName !== 'transaction_and_aggregation')
+            schedularData1 = schedularData1.filter(schedular => schedular.groupName !== 'validate_datasource')
+            await schedule.scheduleJob(myJob.groupName + '_start', schedulerTime, async function () {
+                var pyth1 = shell.exec(`sudo ${process.env.BASE_DIR}/cqube/emission_app/flaskenv/bin/python ${process.env.BASE_DIR}/cqube/emission_app/python/configure_load_property_values.py ${myJob.groupName.toLowerCase()} ${myJob.timeToStop} `, function (stdout, stderr, code) {
+                    if (code) {
+                        logger.error("Something went wrong");
+                        res.status(406).send({ errMsg: "Something went wrong" });
+                    } else {
+                        logger.info('--- diksha TPD ETB method api response sent---');
+                        myJob.state = "RUNNING";
+                        myJob.scheduleUpdatedAt = `${new Date()}`;
+                        fs.writeFile(filePath, JSON.stringify(schedularData1), function (err) {
+                            if (err) throw err;
+                            logger.info('Restart process - Scheduled RUNNING Job - Restarted successfully');
+                            resolve(true);
+                        });
+                        res.status(200).send({ msg: `Successfully Changed` });
+                    }
+                })
+
+                logger.info(`--- ${myJob.groupName} - Nifi processor group scheduling completed ---`);
+                logger.info(`--- cQube_data_storage - Nifi processor group scheduling completed ---`);
+            });
+        } catch (e) {
+            reject(e);
+        }
+    })
+
 }
 
 const startFun = (url, groupId) => {

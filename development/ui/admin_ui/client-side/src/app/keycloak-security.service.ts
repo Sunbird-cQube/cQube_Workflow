@@ -37,7 +37,7 @@ export class KeycloakSecurityService {
          
          
           if (userifoResponse['status'] === 200 && userifoResponse['userObj']) {
-             localStorage.setItem('userId', userifoResponse['userObj'].userid);
+            localStorage.setItem('user_id', userifoResponse['userObj'].userid);
               localStorage.setItem('roleName', userifoResponse['userObj'].roleName);
               localStorage.setItem('userName', userifoResponse['userObj'].userName);
               localStorage.setItem('token', userifoResponse['userObj'].token);
