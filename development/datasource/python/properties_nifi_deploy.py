@@ -135,8 +135,8 @@ NIFI_INPUT_OUTPUT_PORTS = {
                             {'OUTPUT_PORT': 'split_success', 'INPUT_PORT': 'split_file_process_success'}
                             ],
 'transaction_and_aggregation': [
-    {'OUTPUT_PORT': 'S3-config_datasource_output_port','INPUT_PORT': 'config_datsource_S3_input_port'},
     {'OUTPUT_PORT': 'S3_on_premise-config_partition_output_port','INPUT_PORT': 'S3_on_premise-config_partition_input_port'},
+    {'OUTPUT_PORT': 'grade_config_output_port','INPUT_PORT': 'grade_config_input_port'},
     {'OUTPUT_PORT': 'Config_datasource_save-s3-log_summary_output_port','INPUT_PORT': 'config_datasource_save-s3-log_summary_input_port'},
     {'OUTPUT_PORT': 'config_datasource_management_output_port','INPUT_PORT': 'config_datasource_management_input_port'}],
 
