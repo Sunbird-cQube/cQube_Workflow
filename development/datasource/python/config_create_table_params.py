@@ -1757,7 +1757,7 @@ def create_dml_timeline_queries():
         return
     mv_queries += '"}]'
     dml_queries += '{"time_period_meta":"select distinct time_selections_required as value from configure_time_selections where trim(lower(datasource_name)) = ' + "'" + table_names + "' and trim(lower(time_selections_required)) not in ('daily','weekly')" + '"},'
-    dml_queries = dml_queries.rstrip(dml_queries[-1])
+    dml_queries = dml_queries[:-1]
     dml_queries = dml_queries + '\n' + ']'
 
 
