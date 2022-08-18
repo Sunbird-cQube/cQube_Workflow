@@ -941,7 +941,7 @@ def create_table_queries():
                     no_of_metrics = df_op1.metric_number.unique()
                     for i in no_of_metrics:
                         metric_df = df_op.loc[(df_op['metric_number'] == i)]
-                        ref_col_df = metric_df['ref_columns']
+                        ref_col_df = metric_df['ref_columns'].dropna()
                         metric_op = metric_df['metric_type'].dropna().to_string(index=False)
                         ref_col = metric_df['ref_columns'].dropna().to_string(index=False)
                         result_col_op = metric_df['result_metric'].dropna().to_string(index=False)
