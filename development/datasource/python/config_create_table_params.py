@@ -892,7 +892,9 @@ def create_table_queries():
                 ref_column_df = df_op['ref_columns'].dropna()
                 ref_op_column = df_op['ref_columns'].dropna().to_string(index=False)
                 global result_col_op
-                result_col_op = df_op['result_metric'].dropna()
+                result_col_op = df_op['result_metric'].dropna().to_string(index=False)
+                global result_col_op_report
+                result_col_op_report = result_col_op[1]
                 global result_cols
                 result_cols = ''
                 global metric_rep
@@ -1013,6 +1015,7 @@ def create_trans_to_aggregate_queries():
             select_cols_exclude += elem + ' = excluded.' + elem + ','
     for col in result_col_df:
         select_cols_exclude += col + ' = excluded.' + col + ','
+        result_col_insert = col + ','
     select_cols_exclude += 'school_name=excluded.school_name,school_latitude=excluded.school_latitude,school_longitude=excluded.school_longitude,district_id=excluded.district_id,district_name=excluded.district_name,district_latitude=excluded.district_latitude,district_longitude=excluded.district_longitude,block_id=excluded.block_id,block_name=excluded.block_name,block_latitude=excluded.block_latitude,block_longitude=excluded.block_longitude,cluster_id=excluded.cluster_id,cluster_name=excluded.cluster_name,cluster_latitude=excluded.cluster_latitude,cluster_longitude=excluded.cluster_longitude,school_management_type=excluded.school_management_type,month=excluded.month'
     select_col = ''
     group_col = ''
@@ -1032,9 +1035,9 @@ def create_trans_to_aggregate_queries():
         if elem != 'month':
             inner_query_cols = inner_query_cols + 'a.' + str(elem) + ','
 
-    inner_query_cols = inner_query_cols + 'month,' + result_col
+    inner_query_cols = inner_query_cols + 'month,' + result_col_insert
     static_query = '(select shd.school_id,initcap(school_name) as school_name,school_latitude,school_longitude,shd.cluster_id,initcap(cluster_name) as cluster_name,cluster_latitude,cluster_longitude,shd.block_id,initcap(block_name) as block_name,block_latitude,block_longitude,shd.district_id,initcap(district_name) as district_name,district_latitude,district_longitude,initcap(school_management_type) as school_management_type from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
-    stat = 'insert into ' + table_names + '_aggregation(' + group_col + ',month,' + result_col + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select ' + inner_query_cols + ',school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,now(),now()' + ' from ' + inner_query + ' join ' + static_query + ' on a.school_id=sch.school_id on conflict(' + agg_pk_columns + ') do update set ' + select_cols_exclude + 'updated_on=now();'
+    stat = 'insert into ' + table_names + '_aggregation(' + group_col + ',month,' + result_col_insert + 'school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select ' + inner_query_cols + 'school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,now(),now()' + ' from ' + inner_query + ' join ' + static_query + ' on a.school_id=sch.school_id on conflict(' + agg_pk_columns + ') do update set ' + select_cols_exclude + ',updated_on=now();'
     global to_insert_json
     to_insert_json = temp_to_trans
     to_insert_json += '{"trans_to_agg_insert":"' + stat + '"},'
@@ -1075,8 +1078,8 @@ def create_dml_timeline_queries():
     global to_sql
     to_sql = '\n'
     global dml_queries
-    dml_queries = '[' + '\n'
-    dml_queries += '{"tooltip_meta":"select '+ "'" + result_col_op + "' as result_column;" + '"},'
+    dml_queries = '['
+    dml_queries += '{"tooltip_meta":"select '+ "'" + result_col_op_report + "' as result_column;" + '"},'
     filters = ['school', 'cluster', 'block', 'district']
     filter_var = [school_, cluster_, block_, district_]
     filter_grp = [school_grp, cluster_grp, block_grp, district_grp]
