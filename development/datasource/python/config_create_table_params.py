@@ -893,8 +893,9 @@ def create_table_queries():
                 ref_op_column = df_op['ref_columns'].dropna().to_string(index=False)
                 global result_col_op
                 result_col_op = df_op['result_metric'].dropna().to_string(index=False)
+                result_col_op_df = df_op['result_metric'].dropna()
                 global result_col_op_report
-                result_col_op_report = result_col_op[1]
+                result_col_op_report = result_col_op_df[1]
                 global result_cols
                 result_cols = ''
                 global metric_rep
@@ -1037,6 +1038,7 @@ def create_trans_to_aggregate_queries():
             inner_query_cols = inner_query_cols + 'a.' + str(elem) + ','
 
     inner_query_cols = inner_query_cols + 'month,' + result_col_insert
+    print(result_col_insert)
     static_query = '(select shd.school_id,initcap(school_name) as school_name,school_latitude,school_longitude,shd.cluster_id,initcap(cluster_name) as cluster_name,cluster_latitude,cluster_longitude,shd.block_id,initcap(block_name) as block_name,block_latitude,block_longitude,shd.district_id,initcap(district_name) as district_name,district_latitude,district_longitude,initcap(school_management_type) as school_management_type from school_hierarchy_details shd inner join school_geo_master sgm  on shd.school_id=sgm.school_id)as sch'
     stat = 'insert into ' + table_names + '_aggregation(' + group_col + ',month,' + result_col_insert + 'school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,created_on,updated_on)' + 'select ' + inner_query_cols + 'school_name,school_latitude,school_longitude,cluster_id,cluster_name,cluster_latitude,cluster_longitude,block_id,block_name,block_latitude,block_longitude,district_id,district_name,district_latitude,district_longitude,school_management_type,now(),now()' + ' from ' + inner_query + ' join ' + static_query + ' on a.school_id=sch.school_id on conflict(' + agg_pk_columns + ') do update set ' + select_cols_exclude + ',updated_on=now();'
     global to_insert_json
