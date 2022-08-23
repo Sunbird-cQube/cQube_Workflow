@@ -43,6 +43,7 @@ exit
 fi
    
 base_dir=$(awk ''/^base_dir:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
+installation_host_ip=$(awk ''/^installation_host_ip:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
 installation_host_ip=$(awk ''/^installation_host_ip:' /{ if ($2 !~ /#.*/) {print $2}}' config.yml)
 
@@ -55,7 +56,7 @@ ansible-playbook ../ansible/install.yml -e "my_hosts=$installation_host_ip" --ta
                                                          --extra-vars "@$base_dir/cqube/conf/aws_s3_config.yml" \
 														 --extra-vars "@$base_dir/cqube/conf/azure_container_config.yml" \
                                                          --extra-vars "@$base_dir/cqube/conf/local_storage_config.yml" \
-							                            --extra-vars "@datasource_config.yml" \
+							                             --extra-vars "@datasource_config.yml" \
                                                          --extra-vars "usecase_name=education_usecase" \
                                                          --extra-vars "protocol=http"
 else
