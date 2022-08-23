@@ -11,43 +11,112 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         let { year, grade, month, dataSource, reportType, subject_name, exam_date, week, period, districtId, management, category } = req.body
 
 
+        let metaFile = `${dataSource}/meta.json`
+        let metaData = await s3File.readFileConfig(metaFile);
+        metaData = metaData[0]?.data?.grades[0]
+        let isSubjAvailable = metaData.hasOwnProperty('subjects')
+        
+        logger.info(`---subject ${isSubjAvailable}  ---`);
+
         let fileName;
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
+                    if (isSubjAvailable) {
+                        fileName = `${dataSource}/overall/block_subject.json`;
+                    } else {
+                        fileName = `${dataSource}/overall/block_grade.json`;
+                    }
 
-                    fileName = `${dataSource}/overall/block_subject.json`;
                 } else if (period == "last 30 days") {
-                    fileName = `${dataSource}/last_30_day/block_subject.json`;
+                    if (isSubjAvailable) {
+                        fileName = `${dataSource}/last_30_day/block_subject.json`;
+                    } else {
+                        fileName = `${dataSource}/last_30_day/block_grade.json`;
+                    }
                 } else if (period == "last 7 days") {
-
-                    fileName = `${dataSource}/last_7_day/block_subject.json`;
+                    if (isSubjAvailable) {
+                        fileName = `${dataSource}/last_7_day/block_subject.json`;
+                    } else {
+                        fileName = `${dataSource}/last_7_day/block_grade.json`;
+                    }
                 } else if (period == "last day") {
+                    if (isSubjAvailable) {
+                        fileName = `${dataSource}/last_day/block_subject.json`;
+                    } else {
+                        fileName = `${dataSource}/last_day/block_grade.json`;
+                    }
 
-                    fileName = `${dataSource}/last_day/block_subject.json`;
                 } else if (period == "year and month") {
 
                     if (month && !week && !exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/block_subject.json`
-                    } else if (month && !week && !exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/block_subject.json`
-                    } else if (month && !week && !exam_date && grade && subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/block_subject.json`
-                    } else if (month && week && !exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
-                    } else if (month && week && !exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
-                    } else if ((month && !week && !exam_date && grade && subject_name)) {
-                        fileName = `${dataSource}/${year}/${month}/block_subject.json`
-                    } else if (month && week && !exam_date && grade && subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
-                    } else if (month && week && exam_date && !grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
-                    } else if (month && week && exam_date && grade && !subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
-                    } else if (month && week && exam_date && grade && subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/block_grade.json`
+                        }
 
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
+                    } else if (month && !week && !exam_date && grade && !subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/block_grade.json`
+                        }
+
+                    } else if (month && !week && !exam_date && grade && subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/block_grade.json`
+                        }
+                    } else if (month && week && !exam_date && !grade && !subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_grade.json`
+                        }
+
+                    } else if (month && week && !exam_date && grade && !subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_grade.json`
+                        }
+                    } else if ((month && !week && !exam_date && grade && subject_name)) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/block_grade.json`
+                        }
+
+                    } else if (month && week && !exam_date && grade && subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_grade.json`
+                        }
+
+                    } else if (month && week && exam_date && !grade && !subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_grade.json`
+                        }
+
+                    } else if (month && week && exam_date && grade && !subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_grade.json`
+                        }
+
+                    } else if (month && week && exam_date && grade && subject_name) {
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_grade.json`
+                        }
+
                     }
                 }
             }
@@ -55,21 +124,29 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             if (category == 'overall') {
                 if (period === "overall") {
                     if (grade && !subject_name) {
-
+                      
                         fileName = `${dataSource}/overall/block/${grade}.json`;
                     } else if (grade && subject_name) {
-
-                        fileName = `${dataSource}/overall/block_subject.json`;
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/overall/block_subject.json`;
+                        } else {
+                            fileName = `${dataSource}/overall/block_grade.json`;
+                        }
+                       
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/overall/block.json`;
                     }
                 } else if (period === "last 30 days") {
                     if (grade && !subject_name) {
-
+                     
                         fileName = `${dataSource}/last_30_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
-
-                        fileName = `${dataSource}/last_30_day/block_subject.json`;
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/last_30_day/block_subject.json`;
+                        } else {
+                            fileName = `${dataSource}/last_30_day/block_grade.json`;
+                        }
+                       
                     } else if (!grade && !subject_name) {
 
                         fileName = `${dataSource}/last_30_day/block.json`;
@@ -79,8 +156,12 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
                         fileName = `${dataSource}/last_7_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
-
-                        fileName = `${dataSource}/last_7_day/block_subject.json`;
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/last_7_day/block_subject.json`;
+                        } else {
+                            fileName = `${dataSource}/last_7_day/block_grade.json`;
+                        }
+                       
                     } else if (!grade && !subject_name) {
 
                         fileName = `${dataSource}/last_7_day/block.json`;
@@ -90,8 +171,12 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
                         fileName = `${dataSource}/last_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
-
-                        fileName = `${dataSource}/last_day/block_subject.json`;
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/last_day/block_subject.json`;
+                        } else {
+                            fileName = `${dataSource}/last_day/block_grade.json`;
+                        }
+                       
                     } else if (!grade && !subject_name) {
 
                         fileName = `${dataSource}/last_day/block.json`;
@@ -104,8 +189,12 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
                         fileName = `${dataSource}/${year}/${month}/block/${grade}.json`
                     } else if (month && !week && !exam_date && grade && subject_name) {
-
-                        fileName = `${dataSource}/${year}/${month}/block_subject.json`
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/block_grade.json`
+                        }
+                        
                     } else if (month && week && !exam_date && !grade && !subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/block.json`
@@ -113,15 +202,28 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block.json`
                     } else if (month && week && !exam_date && grade && !subject_name) {
-
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_grade.json`
+                        }
+                        
                     } else if (month && week && !exam_date && grade && subject_name) {
-
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/block_grade.json`
+                        }
+                      
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
                     } else if (month && week && exam_date && grade && subject_name) {
-                        fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
+                        if (isSubjAvailable) {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_subject.json`
+                        } else {
+                            fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_grade.json`
+                        }
+                       
                     } else if (!month && !week && !exam_date && !grade && !subject_name) {
                         // if (grade) {
 

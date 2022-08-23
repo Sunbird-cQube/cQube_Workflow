@@ -7,7 +7,6 @@ router.post('/configCardProperties', auth.authController, async (req, res) => {
     try {
         logger.info('--- Configurable card properties ---');
 
-        let filename = `ui_configurable_property/ui_configurable_property.json`
        
         db.query('select distinct report_name,status,state, report_type, description from configurable_datasource_properties ;', (error, results) => {
             if (error) {

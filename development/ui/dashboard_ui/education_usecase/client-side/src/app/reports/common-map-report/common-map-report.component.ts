@@ -301,7 +301,7 @@ export class CommonMapReportComponent implements OnInit {
         }
       } else {
         this.grades = this.metaData.filter(meta => meta.academic_year === 'overall')
-        this.grades = this.grades[0].data['grades']
+        this.grades = this.grades[0]?.data['grades']
       }
 
 
