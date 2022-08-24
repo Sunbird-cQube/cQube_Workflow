@@ -9,13 +9,13 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         logger.info('---Common table schoolWise api ---');
         let schoolLevel = req.body.schoolLevel
         let { year, month, dataSource, grade, subject_name, exam_date, week, period, blockId, clusterId, management, category, reportType } = req.body
-      
+
         let metaFile = `${dataSource}/meta.json`
         let metaData = await s3File.readFileConfig(metaFile);
-        metaData = metaData[0]?.data?.grades[0]
+        metaData = metaData[0].data.grades[0]
         let isSubjAvailable = metaData.hasOwnProperty('subjects')
         logger.info(`---subject ${isSubjAvailable}  ---`);
-      
+
         let fileName;
 
         if (reportType == "lotable") {
@@ -31,70 +31,70 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/${year}/${month}/school_grade.json`
                         }
-                        
+
                     } else if (month && !week && !exam_date && grade && !subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/school_grade.json`
                         }
-                      
+
                     } else if (month && !week && !exam_date && grade && subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/school_grade.json`
                         }
-                       
+
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_grade.json`
                         }
-                       
+
                     } else if (month && week && !exam_date && grade && !subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_grade.json`
                         }
-                      
+
                     } else if (month && week && !exam_date && !grade && !subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_grade.json`
                         }
-                      
+
                     } else if ((month && !week && !exam_date && grade && subject_name)) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/school_grade.json`
                         }
-                       
+
                     } else if (month && week && exam_date && grade && subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_grade.json`
                         }
-                      
+
                     } else if (month && week && exam_date && grade && !subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_grade.json`
                         }
-                       
+
                     } else if (month && week && exam_date && grade && subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_grade.json`
                         }
-                      
+
                     }
                 } else if (period == "last 7 days") {
                     if (isSubjAvailable) {
@@ -102,7 +102,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                     } else {
                         fileName = `${dataSource}/last_7_day/school_grade.json`;
                     }
-                  
+
                 } else if (period == "last 30 days") {
                     fileName = `${dataSource}/last_30_day/school_subject.json`;
                 } else if (period == "last day") {
@@ -120,7 +120,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/overall/school_grade.json`;
                         }
-                       
+
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/overall/school.json`;
                     }
@@ -133,7 +133,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/last_30_day/school_grade.json`;
                         }
-                       
+
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_30_day/school.json`;
                     }
@@ -146,7 +146,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/last_7_day/school_grade.json`;
                         }
-                       
+
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_7_day/school.json`;
                     }
@@ -159,7 +159,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/last_day/school_grade.json`;
                         }
-                      
+
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/last_day/school.json`;
                     }
@@ -176,7 +176,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/${year}/${month}/school_grade.json`
                         }
-                       
+
                     } else if ((month && week && !exam_date && !grade && !subject_name)) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/school.json`
@@ -189,14 +189,14 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_grade.json`
                         }
-                       
+
                     } else if ((month && week && !exam_date && grade && subject_name)) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/school_grade.json`
                         }
-                     
+
                     } else if ((month && week && exam_date && grade && !subject_name)) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school/${grade}.json`
                     } else if ((month && week && exam_date && grade && subject_name)) {
@@ -205,7 +205,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/school_grade.json`
                         }
-                       
+
                     }
                 }
 
@@ -274,7 +274,7 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         }
         if (exam_date) {
             data = data.filter(val => {
-                return val.distribution_date == exam_date
+                return val.date == exam_date
             })
         }
 

@@ -11,11 +11,11 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
         let metaFile = `${dataSource}/meta.json`
         let metaData = await s3File.readFileConfig(metaFile);
-       
-        metaData = metaData[0]?.data?.grades[0]
+
+        metaData = metaData[0].data.grades[0]
 
         let isSubjAvailable = metaData.hasOwnProperty('subjects')
-        
+
         logger.info(`---subject ${isSubjAvailable}  ---`);
         let fileName
         if (reportType == "lotable") {
@@ -274,7 +274,7 @@ router.post('/distWise', auth.authController, async (req, res) => {
 
         if (exam_date) {
             data = data.filter(val => {
-                return val.distribution_date == exam_date
+                return val.date == exam_date
             })
         }
 
