@@ -239,6 +239,8 @@ router.post('/blockWise', auth.authController, async (req, res) => {
         let filename1 = `${dataSource}/meta_tooltip.json`
         let metricValue = await s3File.readFileConfig(filename1);
         metricValue.forEach(metric => sourceName = metric.result_column)
+        let date = ""
+        metricValue.forEach(metric => date = metric.date)
 
         let data = await s3File.readFileConfig(fileName);
         let footer
@@ -279,7 +281,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
         if (exam_date) {
             data = data.filter(val => {
-                return val.date == exam_date
+                return val[`${date.trim()}`] == exam_date
             })
         }
 
