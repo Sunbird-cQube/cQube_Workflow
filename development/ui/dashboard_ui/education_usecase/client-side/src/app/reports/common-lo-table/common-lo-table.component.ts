@@ -88,6 +88,7 @@ export class CommonLoTableComponent implements OnInit {
   hideMonth: boolean = true
   hideWeek: boolean = true
   hideDay: boolean = true
+  hideSubject: boolean
   constructor(public http: HttpClient,
     public service: PatReportService,
     public service1: dynamicReportService,
@@ -100,8 +101,8 @@ export class CommonLoTableComponent implements OnInit {
     service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(
       (res) => {
         try {
-          this.metaData = res
-
+          this.metaData = res['data']
+          this.hideSubject = res['isSubjAvailable']
           for (let i = 0; i < this.metaData.length; i++) {
             this.years.push(this.metaData[i]["academic_year"]);
           }
@@ -749,9 +750,12 @@ export class CommonLoTableComponent implements OnInit {
     this.subject = "all"
     this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.grade !== "all") {
-      this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
-      this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
-      this.gradeSelected = true;
+      if (this.hideSubject){
+        this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
+        this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
+        this.gradeSelected = true;
+      }
+     
     } else {
       this.grade = "all";
 
