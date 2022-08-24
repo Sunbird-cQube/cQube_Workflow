@@ -126,7 +126,7 @@
                         </option>
                     </select>
 
-                    <select *ngIf="gradeSelected" id="month" class="select-control" [(ngModel)]="subject"
+                    <select *ngIf="gradeSelected && hideSubject" id="month" class="select-control" [(ngModel)]="subject"
                         (change)="selectedSubject()">
                         <option [value]="subject" disabled selected="selected">Choose a Subject</option>
                         <option *ngFor="let subject of subjects, let i =index" [(ngValue)]="subjects[i]">

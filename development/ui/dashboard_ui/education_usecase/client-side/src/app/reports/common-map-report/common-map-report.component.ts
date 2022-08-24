@@ -277,12 +277,14 @@ export class CommonMapReportComponent implements OnInit {
     })
   }
 
+  public hideSubject: boolean
+
   getMetaData() {
     this.years = []
 
     this.service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(res => {
-      this.metaData = res
-
+      this.metaData = res["data"]
+      this.hideSubject = res['isSubjAvailable']
       if (this.period === "year and month") {
 
         for (let i = 0; i < this.metaData.length; i++) {
@@ -439,16 +441,15 @@ export class CommonMapReportComponent implements OnInit {
     this.dateSeleted = false
     this.fileName = `${this.reportName}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.grade !== "all") {
-      this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
-      this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
-
+      if (this.hideSubject) {
+        this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
+        this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
+      }
     } else {
       this.grade = "all";
     }
 
     this.levelWiseFilter();
-
-
   }
 
   selectedSubject() {

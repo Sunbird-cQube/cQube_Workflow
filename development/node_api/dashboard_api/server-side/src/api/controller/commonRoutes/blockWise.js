@@ -13,9 +13,9 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
         let metaFile = `${dataSource}/meta.json`
         let metaData = await s3File.readFileConfig(metaFile);
-        metaData = metaData[0]?.data?.grades[0]
+        metaData = metaData[0].data.grades[0]
         let isSubjAvailable = metaData.hasOwnProperty('subjects')
-        
+
         logger.info(`---subject ${isSubjAvailable}  ---`);
 
         let fileName;
@@ -124,7 +124,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
             if (category == 'overall') {
                 if (period === "overall") {
                     if (grade && !subject_name) {
-                      
+
                         fileName = `${dataSource}/overall/block/${grade}.json`;
                     } else if (grade && subject_name) {
                         if (isSubjAvailable) {
@@ -132,13 +132,13 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/overall/block_grade.json`;
                         }
-                       
+
                     } else if (!grade && !subject_name) {
                         fileName = `${dataSource}/overall/block.json`;
                     }
                 } else if (period === "last 30 days") {
                     if (grade && !subject_name) {
-                     
+
                         fileName = `${dataSource}/last_30_day/block/${grade}.json`;
                     } else if (grade && subject_name) {
                         if (isSubjAvailable) {
@@ -146,7 +146,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/last_30_day/block_grade.json`;
                         }
-                       
+
                     } else if (!grade && !subject_name) {
 
                         fileName = `${dataSource}/last_30_day/block.json`;
@@ -161,7 +161,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/last_7_day/block_grade.json`;
                         }
-                       
+
                     } else if (!grade && !subject_name) {
 
                         fileName = `${dataSource}/last_7_day/block.json`;
@@ -176,7 +176,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/last_day/block_grade.json`;
                         }
-                       
+
                     } else if (!grade && !subject_name) {
 
                         fileName = `${dataSource}/last_day/block.json`;
@@ -194,7 +194,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/${year}/${month}/block_grade.json`
                         }
-                        
+
                     } else if (month && week && !exam_date && !grade && !subject_name) {
 
                         fileName = `${dataSource}/${year}/${month}/week_${week}/block.json`
@@ -207,14 +207,14 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/block_grade.json`
                         }
-                        
+
                     } else if (month && week && !exam_date && grade && subject_name) {
                         if (isSubjAvailable) {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/block_subject.json`
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/block_grade.json`
                         }
-                      
+
                     } else if (month && week && exam_date && grade && !subject_name) {
                         fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block/${grade}.json`
                     } else if (month && week && exam_date && grade && subject_name) {
@@ -223,7 +223,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
                         } else {
                             fileName = `${dataSource}/${year}/${month}/week_${week}/${exam_date}/block_grade.json`
                         }
-                       
+
                     } else if (!month && !week && !exam_date && !grade && !subject_name) {
                         // if (grade) {
 
@@ -279,7 +279,7 @@ router.post('/blockWise', auth.authController, async (req, res) => {
 
         if (exam_date) {
             data = data.filter(val => {
-                return val.distribution_date == exam_date
+                return val.date == exam_date
             })
         }
 
