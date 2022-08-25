@@ -4091,13 +4091,34 @@
                     <width>312.0</width>
                 </labels>
                 <labels>
+                    <id>7161b1c2-5cc0-3e8b-0000-000000000000</id>
+                    <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>2720.0</x>
+                        <y>168.0</y>
+                    </position>
+                    <height>424.0</height>
+                    <label>Grade files</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#fad0c5</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>1128.0</width>
+                </labels>
+                <labels>
                     <id>7785524e-1b14-3c48-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3800.0</x>
-                        <y>-40.0</y>
+                        <x>3832.0</x>
+                        <y>-48.0</y>
                     </position>
-                    <height>224.0</height>
+                    <height>216.0</height>
                     <label>Output
 </label>
                     <style>
@@ -4110,7 +4131,7 @@
                             <value>24px</value>
                         </entry>
                     </style>
-                    <width>352.0</width>
+                    <width>304.0</width>
                 </labels>
                 <labels>
                     <id>7bda756b-35bc-3059-0000-000000000000</id>
@@ -4234,6 +4255,27 @@
                         </entry>
                     </style>
                     <width>2624.0</width>
+                </labels>
+                <labels>
+                    <id>de9d890a-8762-3bcf-0000-000000000000</id>
+                    <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>3512.0</x>
+                        <y>608.0</y>
+                    </position>
+                    <height>40.0</height>
+                    <label>Transformations(JOLT)</label>
+                    <style>
+                        <entry>
+                            <key>background-color</key>
+                            <value>#0d7cfc</value>
+                        </entry>
+                        <entry>
+                            <key>font-size</key>
+                            <value>24px</value>
+                        </entry>
+                    </style>
+                    <width>312.0</width>
                 </labels>
                 <labels>
                     <id>e4383a6b-17ff-3263-0000-000000000000</id>
@@ -4434,7 +4476,7 @@
                     <id>0ac81408-8342-3f45-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2800.0</x>
+                        <x>2808.0</x>
                         <y>208.0</y>
                     </position>
                     <bundle>
@@ -4511,7 +4553,7 @@
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>convert_date_to_ist2</name>
+                    <name>convert_date_to_ist3</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -4592,7 +4634,7 @@
                             </entry>
                             <entry>
 <key>filename</key>
-<value>#{base_dir}/cqube/emission_app/python/postgres/textbook_distribution/#{temp_trans_aggregation_queries}</value>
+<value>#{base_dir}/cqube/emission_app/python/postgres/book_distribution/#{temp_trans_aggregation_queries}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -4924,7 +4966,7 @@
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
                         <x>2808.0</x>
-                        <y>456.0</y>
+                        <y>448.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -5130,7 +5172,7 @@
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>partition_according_columns</name>
+                    <name>partition_according_columns_daily_queries</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -6063,7 +6105,7 @@ ${query_type:startsWith('school_management_last')
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>delete from textbook_distribution_temp where ff_uuid='${zip_identifier}';</value>
+<value>delete from book_distribution_temp where ff_uuid='${zip_identifier}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -6586,8 +6628,8 @@ file:${filename} aggregations started.</value>
                     <id>5a250099-d777-3915-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3464.0</x>
-                        <y>-808.0</y>
+                        <x>3432.0</x>
+                        <y>-760.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -8172,8 +8214,8 @@ executesql.query.fetchtime =${executesql.query.fetchtime}
                     <id>719422f2-a608-3f60-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3344.0</x>
-                        <y>-248.0</y>
+                        <x>2864.0</x>
+                        <y>-232.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -8914,8 +8956,8 @@ ${executesql.row.count:equals(0)})}</value>
                     <id>7e20dc15-1b13-3fd2-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2848.0</x>
-                        <y>-720.0</y>
+                        <x>2864.0</x>
+                        <y>-760.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -10025,8 +10067,8 @@ ${executesql.row.count:equals(0)})}</value>
                     <id>9e2ad0d7-fca4-3811-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>3464.0</x>
-                        <y>-568.0</y>
+                        <x>3432.0</x>
+                        <y>-504.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -10451,7 +10493,7 @@ ${executesql.row.count:equals(0)})}</value>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
                         <x>4040.0</x>
-                        <y>440.0</y>
+                        <y>448.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12701,7 +12743,7 @@ ${query_type:startsWith('school_management_footer_grade_subject_last'):or(${quer
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
                         <x>3496.0</x>
-                        <y>440.0</y>
+                        <y>448.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -12820,7 +12862,7 @@ ${query_type:startsWith('school_grade_last'):or(${query_type:startsWith('school_
                     <id>e8e60418-ce0c-302b-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>2848.0</x>
+                        <x>2864.0</x>
                         <y>-936.0</y>
                     </position>
                     <bundle>
@@ -13173,7 +13215,7 @@ ${query_type:startsWith('school_grade_last'):or(${query_type:startsWith('school_
                             </entry>
                             <entry>
 <key>SQL select query</key>
-<value>select distinct academic_year,month  from textbook_distribution_temp where ff_uuid='${zip_identifier}'</value>
+<value>select distinct academic_year,month  from book_distribution_temp where ff_uuid='${zip_identifier}'</value>
                             </entry>
                             <entry>
 <key>sql-post-query</key>
@@ -13807,5 +13849,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>08/17/2022 07:23:18 IST</timestamp>
+    <timestamp>08/25/2022 12:55:27 IST</timestamp>
 </template>
