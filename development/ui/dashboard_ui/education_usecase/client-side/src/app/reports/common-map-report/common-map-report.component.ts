@@ -385,7 +385,7 @@ export class CommonMapReportComponent implements OnInit {
       }
       this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
       this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
-      
+
       if (this.weeks[0].week === 0) {
         this.weeks = []
       }
@@ -1151,7 +1151,6 @@ export class CommonMapReportComponent implements OnInit {
               if (a.district_id === this.districtSlectedId) {
                 return a
               }
-
             })
 
             this.districtHierarchy = {
@@ -1180,7 +1179,7 @@ export class CommonMapReportComponent implements OnInit {
               this.clusterMarkers = [];
               this.clusterMarkers = result;
 
-              this.schoolCount = 0;
+
               if (this.clusterMarkers.length !== 0) {
                 for (let i = 0; i < this.clusterMarkers.length; i++) {
                   var color;
@@ -1226,6 +1225,9 @@ export class CommonMapReportComponent implements OnInit {
             }
           } else if (this.blockSelected) {
             let cluster = res['data']
+            this.schoolCount = res["footer"]['schools']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.studentCount = res["footer"]['students']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
             let marker = cluster.filter(a => {
               if (a.block_id === this.blockSelectedId) {
                 return a
@@ -1311,6 +1313,10 @@ export class CommonMapReportComponent implements OnInit {
             }
           } else if (this.selectedCluster) {
             let cluster = res['data']
+
+            this.schoolCount = res["footer"]['schools']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.studentCount = res["footer"]['students']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
             let marker = cluster.filter(a => {
               if (a.cluster_id === this.selectedCLusterId) {
                 return a
@@ -1397,6 +1403,10 @@ export class CommonMapReportComponent implements OnInit {
           } else {
             this.markers = this.data = res["data"];
 
+            this.schoolCount = res["footer"]['schools']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.studentCount = res["footer"]['students']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+
+
             let options = {
               radius: 2,
               mapZoom: this.globalService.zoomLevel,
@@ -1410,7 +1420,7 @@ export class CommonMapReportComponent implements OnInit {
               this.clusterMarkers = [];
               this.clusterMarkers = result;
 
-              this.schoolCount = 0;
+
               if (this.clusterMarkers.length !== 0) {
                 for (let i = 0; i < this.clusterMarkers.length; i++) {
 
@@ -1513,6 +1523,7 @@ export class CommonMapReportComponent implements OnInit {
             if (this.districtSelected) {
               this.districtId = this.districtSlectedId;
               let data = res["data"];
+
               let marker = data.filter(a => {
                 if (a.district_id === this.districtSlectedId) {
                   return a
