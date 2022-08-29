@@ -390,7 +390,7 @@ router.post('/clusterWise', auth.authController, async (req, res) => {
 
 router.post('/AllClusterWise', auth.authController, async (req, res) => {
     try {
-        logger.info('---Common table blockWise api ---');
+        logger.info('---Common table All cluster api ---');
 
         let { year, grade, month, dataSource, subject_name, exam_date, viewBy, districtId, management, category } = req.body
         let fileName;
@@ -400,6 +400,7 @@ router.post('/AllClusterWise', auth.authController, async (req, res) => {
         }
 
         let data = await s3File.readFileConfig(fileName);
+        footer = data['allClustersFooter']
         data = data['data']
 
         if (districtId) {
@@ -435,8 +436,7 @@ router.post('/AllClusterWise', auth.authController, async (req, res) => {
             ...rest
         }));
 
-        res.status(200).send({ data });
-
+        res.status(200).send({ data, footer });
 
     } catch (e) {
         logger.error(`Error :: ${e}`)

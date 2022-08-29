@@ -188,8 +188,8 @@ export class CommonLoTableComponent implements OnInit {
 
     this.service1.configurableMetaData({ dataSource: this.datasourse }).subscribe(res => {
 
-      this.metaData = res
-
+      this.metaData = res['data']
+    
       if (this.period === "year and month") {
 
         for (let i = 0; i < this.metaData.length; i++) {
@@ -199,6 +199,7 @@ export class CommonLoTableComponent implements OnInit {
 
         }
         this.year = this.years[this.years.length - 1];
+   
         let i;
         for (i = 0; i < this.metaData.length; i++) {
           if (this.metaData[i]["academic_year"] == this.year) {
@@ -211,7 +212,7 @@ export class CommonLoTableComponent implements OnInit {
       } else {
         this.grades = this.metaData.filter(meta => meta.academic_year === 'overall')
         this.grades = this.grades[0].data['grades']
-       
+
       }
 
 
@@ -360,6 +361,8 @@ export class CommonLoTableComponent implements OnInit {
   createTable(dataSet) {
     let weekSelct = this.weekSeletced;
     let dateSelct = this.dateSelected;
+
+    let subjectHide = this.hideSubject
     var level = this.level.charAt(0).toUpperCase() + this.level.substr(1);
     var my_columns = this.columns = this.commonService.getColumns(dataSet);
 
@@ -492,11 +495,11 @@ export class CommonLoTableComponent implements OnInit {
       }
 
       newArr.forEach((columns, i1) => {
+        
         if (weekSelct === true && dateSelct === false) {
 
           body += "<tr>";
           columns.forEach((column, i2) => {
-
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
               let title = `${level} Name: ${columns.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
@@ -521,7 +524,14 @@ export class CommonLoTableComponent implements OnInit {
           columns.forEach((column, i2) => {
 
             if (i2 > 2 && column.value || i2 > 2 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
+             
+              let title
+              if (subjectHide === false) {
+                title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]}  <br/> Total Count: ${column.value}`;
+              } else {
+                title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
+              }
+
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
 
             }
@@ -543,7 +553,13 @@ export class CommonLoTableComponent implements OnInit {
           columns.forEach((column, i2) => {
 
             if (i2 > 1 && column.value || i2 > 1 && String(column.value) == String(0)) {
-              let title = `${level} Name: ${column.data}<br/> Grade: ${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
+              
+              let title
+              if (subjectHide === false) {
+                title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]}  <br/> Total Count: ${column.value}`;
+              } else {
+                title = `${level} Name: ${column.data}<br/> Grade:${columns[0].value[columns[0].value.length - 1]} <br/> Subject: ${columns[1].value} <br/> Total Count: ${column.value}`;
+              }
               body += `<td class="numberData" data-toggle="tooltip" data-html="true" data-placement="auto" style='background-color: ${tableCellColor(column.value)}' title="${title}">${column.value}</td>`;
 
             }
@@ -639,6 +655,7 @@ export class CommonLoTableComponent implements OnInit {
 
     setTimeout(() => {
       this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+    
       this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
       this.week = this.period === "year and month" ? this.week : "";
     }, 1000);
@@ -665,6 +682,8 @@ export class CommonLoTableComponent implements OnInit {
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
     this.hideDay = this.period === "year and month" ? true : false;
+    this.week = ""
+    this.weeks = []
     if (event) {
       let i;
       for (i = 0; i < this.metaData.length; i++) {
@@ -675,6 +694,11 @@ export class CommonLoTableComponent implements OnInit {
         }
       }
       this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+    
+      if (this.weeks[0].week === 0) {
+        this.weeks = []
+      }
 
     } else {
       this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
@@ -750,12 +774,12 @@ export class CommonLoTableComponent implements OnInit {
     this.subject = "all"
     this.fileName = `${this.datasourse}_${this.grade}_allDistricts_${this.month}_${this.year}_${this.commonService.dateAndTime}`;
     if (this.grade !== "all") {
-      if (this.hideSubject){
+      if (this.hideSubject) {
         this.subjects = this.grades.find(a => { return a.grade == this.grade }).subjects;
         this.subjects = ["all", ...this.subjects.filter((item) => item !== "all")];
         this.gradeSelected = true;
       }
-     
+
     } else {
       this.grade = "all";
 
