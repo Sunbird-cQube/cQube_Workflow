@@ -343,6 +343,7 @@ export class CommonMapReportComponent implements OnInit {
     this.hideWeek = this.period === "year and month" ? false : true;
     this.months = [...this.months.filter((item) => item)]
 
+
     setTimeout(() => {
       this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
       this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
@@ -371,8 +372,9 @@ export class CommonMapReportComponent implements OnInit {
     this.hideMonth = this.period === "year and month" ? false : true;
     this.hideYear = this.period === "year and month" ? false : true;
     this.hideWeek = this.period === "year and month" ? false : true;
+    this.week = ""
+    this.weeks = []
     if (event) {
-
       let i;
       for (i = 0; i < this.metaData.length; i++) {
         if (this.metaData[i]["academic_year"] == this.year) {
@@ -382,6 +384,11 @@ export class CommonMapReportComponent implements OnInit {
         }
       }
       this.month = this.period === "year and month" ? this.months[this.months.length - 1]['months'] : '';
+      this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
+      
+      if (this.weeks[0].week === 0) {
+        this.weeks = []
+      }
 
     } else {
       this.months = [...this.months.filter((item) => item)]
@@ -392,7 +399,6 @@ export class CommonMapReportComponent implements OnInit {
       this.year = this.period === "year and month" ? this.year = this.years[this.years.length - 1] : "";
       this.weeks = this.period === "year and month" ? this.months.find(a => { return a.months == this.month }).weeks : "";
     }
-
 
     this.grade = "all";
     this.examDate = "all";
@@ -690,9 +696,9 @@ export class CommonMapReportComponent implements OnInit {
     const delta = (max - min) / n;
     const ranges = [];
     if (delta > 1) {
-      let range1 = Math.round(min);
+      let range1 = Math.ceil(min);
       for (let i = 0; i < n; i += 1) {
-        const range2 = Math.round(range1 + delta);
+        const range2 = Math.ceil(range1 + delta);
         this.values.push(
           `${Number(range1).toLocaleString("en-IN")}-${Number(
             range2
@@ -711,9 +717,9 @@ export class CommonMapReportComponent implements OnInit {
   getRangeArray1 = (min, max, n) => {
     const delta = (max - min) / n;
     const ranges = [min];
-    let range1 = Math.round(min);
+    let range1 = Math.ceil(min);
     for (let i = 0; i < n; i += 1) {
-      const range2 = Math.round(range1 + delta);
+      const range2 = Math.ceil(range1 + delta);
       this.values.push(
         `${Number(
           range2
@@ -1127,7 +1133,8 @@ export class CommonMapReportComponent implements OnInit {
       // to show and hide the dropdowns
       this.blockHidden = true;
       this.clusterHidden = true;
-
+      this.schoolCount = ""
+      this.studentCount = ""
       // api call to get the all clusters data
       if (this.myData) {
         this.myData.unsubscribe();
@@ -1136,6 +1143,9 @@ export class CommonMapReportComponent implements OnInit {
         (res) => {
           if (this.districtSelected) {
             let cluster = res['data']
+
+            this.schoolCount = res["footer"]['schools']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            this.studentCount = res["footer"]['students']?.toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 
             let marker = cluster.filter(a => {
               if (a.district_id === this.districtSlectedId) {
