@@ -21,8 +21,12 @@ router.post('/schoolWise', auth.authController, async (req, res) => {
         if (reportType == "lotable") {
             if (category == 'overall') {
                 if (period == "overall") {
-
-                    fileName = `${dataSource}/overall/school_subject.json`;
+                    
+                    if (isSubjAvailable) {
+                        fileName = `${dataSource}/overall/school_subject.json`;
+                    } else {
+                        fileName = `${dataSource}/overall/school_grade.json`;
+                    }
                 } else if (period == "year and month") {
 
                     if (month && !week && !exam_date && !grade && !subject_name) {
