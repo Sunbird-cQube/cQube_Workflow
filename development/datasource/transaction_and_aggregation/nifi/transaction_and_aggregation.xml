@@ -4634,7 +4634,7 @@
                             </entry>
                             <entry>
 <key>filename</key>
-<value>#{base_dir}/cqube/emission_app/python/postgres/book_distribution/#{temp_trans_aggregation_queries}</value>
+<value>#{base_dir}/cqube/emission_app/python/postgres/student_enrollment/#{temp_trans_aggregation_queries}</value>
                             </entry>
                         </properties>
                         <runDurationMillis>0</runDurationMillis>
@@ -5031,7 +5031,7 @@
                             </entry>
                             <entry>
 <key>day</key>
-<value>/distribution_date</value>
+<value>/enrollment_date</value>
                             </entry>
                             <entry>
 <key>month</key>
@@ -5053,7 +5053,7 @@
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>partition_according_year_month_week</name>
+                    <name>partition_according_year_month_week_grade_queries</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -5146,7 +5146,7 @@
                             </entry>
                             <entry>
 <key>day</key>
-<value>/distribution_date</value>
+<value>/enrollment_date</value>
                             </entry>
                             <entry>
 <key>grade</key>
@@ -6105,7 +6105,7 @@ ${query_type:startsWith('school_management_last')
                             </entry>
                             <entry>
 <key>putsql-sql-statement</key>
-<value>delete from book_distribution_temp where ff_uuid='${zip_identifier}';</value>
+<value>delete from student_enrollment_temp where ff_uuid='${zip_identifier}';</value>
                             </entry>
                             <entry>
 <key>Support Fragmented Transactions</key>
@@ -8139,8 +8139,8 @@ ${query_type:startsWith('meta'):ifElse(#{jolt_spec_school_management_category_me
                     <id>6f594d4a-5182-3b59-0000-000000000000</id>
                     <parentGroupId>69cb4952-7018-37ec-0000-000000000000</parentGroupId>
                     <position>
-                        <x>4088.0</x>
-                        <y>-1152.0</y>
+                        <x>4080.0</x>
+                        <y>-1160.0</y>
                     </position>
                     <bundle>
                         <artifact>nifi-standard-nar</artifact>
@@ -10133,7 +10133,7 @@ ${executesql.row.count:equals(0)})}</value>
                             </entry>
                             <entry>
 <key>day</key>
-<value>/distribution_date</value>
+<value>/enrollment_date</value>
                             </entry>
                             <entry>
 <key>month</key>
@@ -10155,7 +10155,7 @@ ${executesql.row.count:equals(0)})}</value>
                         <yieldDuration>1 sec</yieldDuration>
                     </config>
                     <executionNodeRestricted>false</executionNodeRestricted>
-                    <name>partition_according_year_month_week</name>
+                    <name>partition_according_year_month_week_subject_queries</name>
                     <relationships>
                         <autoTerminate>true</autoTerminate>
                         <name>failure</name>
@@ -11157,6 +11157,12 @@ ${executesql.row.count:equals(0)})}</value>
 </value>
                             </entry>
                             <entry>
+<key>day</key>
+<value>
+    <name>day</name>
+</value>
+                            </entry>
+                            <entry>
 <key>month</key>
 <value>
     <name>month</name>
@@ -11186,6 +11192,10 @@ ${executesql.row.count:equals(0)})}</value>
                             <entry>
 <key>record-writer</key>
 <value>61d2a752-945e-3243-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>day</key>
+<value>/distribution_date</value>
                             </entry>
                             <entry>
 <key>month</key>
@@ -11486,7 +11496,7 @@ ${executesql.row.count:equals(0)})}</value>
                             </entry>
                             <entry>
 <key>day</key>
-<value>/distribution_date</value>
+<value>/enrollment_date</value>
                             </entry>
                             <entry>
 <key>month</key>
@@ -13215,7 +13225,7 @@ ${query_type:startsWith('school_grade_last'):or(${query_type:startsWith('school_
                             </entry>
                             <entry>
 <key>SQL select query</key>
-<value>select distinct academic_year,month  from book_distribution_temp where ff_uuid='${zip_identifier}'</value>
+<value>select distinct academic_year,month  from student_enrollment_temp where ff_uuid='${zip_identifier}'</value>
                             </entry>
                             <entry>
 <key>sql-post-query</key>
@@ -13849,5 +13859,5 @@ from flowfile</value>
             </variables>
         </processGroups>
     </snippet>
-    <timestamp>08/25/2022 12:55:27 IST</timestamp>
+    <timestamp>08/29/2022 16:52:34 IST</timestamp>
 </template>
