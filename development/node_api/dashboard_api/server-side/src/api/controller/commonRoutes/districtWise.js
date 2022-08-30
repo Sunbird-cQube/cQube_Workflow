@@ -297,21 +297,39 @@ router.post('/distWise', auth.authController, async (req, res) => {
             Promise.all(data.map(item => {
 
                 let label
-                if (week && !exam_date) {
+                if (isSubjAvailable) {
 
-                    label =
-                        item.grade + "/" +
-                        item.subject + "/" + item.week.split("_")[1]
-                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
-                } else if (week && exam_date) {
-                    label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
-                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    if (week && !exam_date) {
+
+                        label =
+                            item.grade + "/" +
+                            item.subject + "/" + item.week.split("_")[1]
+                        arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    } else if (week && exam_date) {
+                        label = item.distribution_date + "/" + item.grade + "/" + item.subject + "/" + item.week.split("_")[1]
+                        arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    } else {
+                        label =
+                            item.grade + "/" +
+                            item.subject + "/" + item.week
+                        arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    }
                 } else {
-                    label =
-                        item.grade + "/" +
-                        item.subject + "/" + item.week
-                    arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    if (week && !exam_date) {
+
+                        label =
+                            item.grade + "/" + item.week.split("_")[1]
+                        arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    } else if (week && exam_date) {
+                        label = item.distribution_date + "/" + item.grade + "/" + item.week.split("_")[1]
+                        arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    } else {
+                        label =
+                            item.grade + "/" + item.week
+                        arr[label] = arr.hasOwnProperty(label) ? [...arr[label], ...[item]] : [item];
+                    }
                 }
+
             })).then(() => {
                 let keys = Object.keys(arr)
                 let sourceName1 = sourceName
@@ -319,25 +337,45 @@ router.post('/distWise', auth.authController, async (req, res) => {
                 for (let i = 0; i < keys.length; i++) {
                     let z = arr[keys[i]].sort((a, b) => (a.district_name) > (b.district_name) ? 1 : -1)
                     let splitVal = keys[i].split('/')
-                    if (week && !exam_date) {
-                        var x = {
-                            grade: splitVal[0],
-                            subject: splitVal[1],
-                            week: splitVal[3],
+                    console.log('splitV', splitVal)
+                    if (isSubjAvailable) {
+                        if (week && !exam_date) {
+                            var x = {
+                                grade: splitVal[0],
+                                subject: splitVal[1],
+                                week: splitVal[3],
 
-                        }
-                    } else if (week && exam_date) {
-                        var x = {
-                            grade: splitVal[1],
-                            subject: splitVal[2],
-                            week: splitVal[3],
-                            date: splitVal[0]
+                            }
+                        } else if (week && exam_date) {
+                            var x = {
+                                grade: splitVal[1],
+                                subject: splitVal[2],
+                                week: splitVal[3],
+                                date: splitVal[0]
 
+                            }
+                        } else {
+                            var x = {
+                                grade: splitVal[0],
+                                subject: splitVal[1],
+                            }
                         }
                     } else {
-                        var x = {
-                            grade: splitVal[0],
-                            subject: splitVal[1],
+                        if (week && !exam_date) {
+                            var x = {
+                                grade: splitVal[0],
+                                week: splitVal[1],
+                            }
+                        } else if (week && exam_date) {
+                            var x = {
+                                grade: splitVal[1],
+                                week: splitVal[2],
+                                date: splitVal[0]
+                            }
+                        } else {
+                            var x = {
+                                grade: splitVal[0]
+                            }
                         }
                     }
 

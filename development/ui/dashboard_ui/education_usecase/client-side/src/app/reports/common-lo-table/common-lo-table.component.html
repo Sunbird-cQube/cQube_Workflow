@@ -89,7 +89,7 @@
                         (change)="selectedWeek()">
                         <option [value]="week" disabled selected="selected">Choose a Week</option>
                         <option *ngFor="let week of weeks; let i =index" [(ngValue)]="week.week">
-                            {{week.week}}
+                            week_{{week.week}}
                         </option>
                     </select>
 
@@ -111,8 +111,8 @@
                         </option>
                     </select>
 
-                    <select *ngIf="gradeSelected && hideSubject" id="subject" class="select-control" [(ngModel)]="subject"
-                        (change)="selectedSubject()">
+                    <select *ngIf="gradeSelected && hideSubject" id="subject" class="select-control"
+                        [(ngModel)]="subject" (change)="selectedSubject()">
                         <option [value]="subject" disabled selected="selected">Choose a Subject</option>
                         <option *ngFor="let subject of subjects, let i =index" [(ngValue)]="subjects[i]">
                             <span *ngIf="subjects[i] == 'all'; else other_content">
